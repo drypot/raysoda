@@ -17,10 +17,6 @@
 
 2003.01.17 한 페이지만 덩그러니, 레이소다 오픈. ASP.NET.
 
-## Trademarks
-
-RaySoda, 레이소다는 (주)레이소다의 등록상표입니다. 
-
 ## License
 
 [MIT](LICENSE)
