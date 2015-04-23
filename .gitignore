@@ -1,0 +1,11 @@
+/.idea/
+
+*.sublime-workspace
+
+/node_modules/
+/bower_components/
+
+/config/*live*.json
+/tmp/
+/upload/
+/samples/untracked/

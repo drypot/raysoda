@@ -1,0 +1,39 @@
+{
+  "build_systems":
+  [
+  ],
+  "folders":
+  [
+    {
+      "folder_exclude_patterns":
+      [
+        "*"
+      ],
+      "follow_symlinks": true,
+      "path": "."
+    },
+    {
+      "follow_symlinks": true,
+      "path": "bin"
+    },
+    {
+      "follow_symlinks": true,
+      "path": "config"
+    },
+    {
+      "follow_symlinks": true,
+      "path": "samples"
+    },
+    {
+      "follow_symlinks": true,
+      "path": "public"
+    },
+    {
+      "follow_symlinks": true,
+      "path": "modules"
+    }
+  ],
+  "settings":
+  {
+  }
+}
