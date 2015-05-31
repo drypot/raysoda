@@ -1,0 +1,20 @@
+{
+  "appName": "RaySoda",
+  "appDesc": "사진가들의 달동네",
+
+  "mainSite": "http://raysoda.local:8080",
+
+  "appPort": 8051,
+  "cookieSecret": "o;iejf832ndvs",
+
+  "uploadSite": "http://file.raysoda.local:8080",
+  "uploadDir": "upload/test",
+
+  "mongodb": "raysoda-test",
+
+  "mailServer": "",
+
+  "ticketGenInterval": 18,
+  "ticketMax": 1
+}
+

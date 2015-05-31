@@ -1,0 +1,42 @@
+extends ../layout/layout
+
+block title
+  title Login - #{appName}
+
+block content
+  script.
+    $(function () {
+      userl.initLogin();
+    });
+
+  if query.hasOwnProperty('newuser')
+    .section.page-title
+      h1 Thank you
+
+    .section
+      | Thank you for registering.
+      br
+      | You can login with your email and password.
+
+  else
+    .section.page-title
+      h1 Login
+
+  .section
+    form.main
+      .sub-section
+        .form-group
+          label.control-label Email
+          input.form-control(name='email', type='text')
+        .form-group
+          label.control-label Password
+          input.form-control(name='password', type='password')
+        .form-group
+          label.control-label Remember
+          br
+          input(name='remember', type='checkbox') 
+      .sub-section
+        button.btn.btn-primary(name='send', data-loading-text='Sending') Login
+
+  .section
+    a(href='/users/reset-pass') Reset Password
