@@ -1,0 +1,39 @@
+extends ../layout/layout
+
+block title
+  title #{tuser.name} - #{appName}
+
+block content
+  script.
+    $(function () {
+      userl.initProfile();
+      imagel.initList();
+    });
+
+  .section.page-title
+    h1
+      a(href='/' + encodeURIComponent(tuser.home)) #{tuser.name}
+
+  .section
+    if !gt
+      #profile-text.sub-section.box
+        | !{jade.escape(tuser.profile).replace(/\n/g, '<br>')}
+
+      if updatable
+        .section.top-links
+          a(href='/users/' + tuser._id + '/update') Update Profile
+
+  if images.length
+    if gt
+      .section.pager-prev
+        a(href=gt) Previous
+
+    .section.images
+      for image in images
+        .box
+          a.image(href='/images/' + image._id)
+            img(src=image.dir + '/' + image._id + suffix)
+
+    if lt
+      .section.pager-next
+        a(href=lt) Next
