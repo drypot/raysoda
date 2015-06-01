@@ -29,6 +29,84 @@ exp.core.post('/api/users', function (req, res, done) {
       profile: form.profile
       // admin 플래그는 콘솔에서 수작업으로 삽입한다. api 로 넣을 수 없다.
     };
+    
+    /* TODO
+procedure UserInsert
+  @InviteID int
+  
+  ,@UserID  int output
+  ,@NickName  nvarchar(32) = ''
+  ,@RealName  nvarchar(32) = ''
+  ,@Password  nvarchar(16) = ''
+  ,@Email   nvarchar(64) = ''
+  ,@HomePage  varchar(256) = ''
+  ,@Tel   varchar(32) = ''
+  ,@Address nvarchar(64) = ''
+  ,@ZipCode char(6) = ''
+  ,@Comment ntext = ''
+  ,@Status  char(1) = 'C'
+  
+  ,@BoxSID    nvarchar(16) = ''
+  ,@BoxDesc nvarchar(32)
+
+  ,@Greeting  ntext
+  ,@Profile ntext
+  ,@Career  ntext
+  
+  ,@Result  nvarchar(64) output
+  as
+
+  set @Result = 'OK'    
+
+  begin transaction 
+    if ((select InviteeID from UserInvites where InviteID = @InviteID) != 0)
+      begin
+        set @Result = 'ALREADY'
+        goto ret
+      end
+      
+    if ((select Email from UserInvites where InviteID = @InviteID) != @Email)
+      begin
+        set @Result = 'ASSERTFAILED'
+        goto ret
+      end
+
+    if @NickName != '' and exists (select * from Users where NickName = @NickName)
+      begin
+        set @Result = 'NICKNAME'
+        goto ret
+      end
+
+    if @Email != '' and exists (select * from Users where Email = @Email)
+      begin
+        set @Result = 'EMAIL'
+        goto ret
+      end
+      
+    exec SeqNextValue 'user', @UserID output
+    
+    if (@BoxSID = '' or exists (select * from Users where BoxSID = @BoxSID))
+      select @BoxSID = 'home' + cast(@UserID as varchar);
+    
+    
+    insert 
+    into Users (UserID, NickName, RealName, Password, Email, HomePage, Tel, Address, ZipCode, Comment, Status, BoxSID, BoxDesc, Greeting, Profile, Career)  
+    values (@UserID, ltrim(rtrim(@NickName)), ltrim(rtrim(@RealName)), @Password, @Email, @HomePage, @Tel, @Address, @ZipCode, @Comment, @Status, @BoxSID, @BoxDesc, @Greeting, @Profile, @Career)
+    
+    update UserInvites
+    set InviteeID = @UserID
+    where InviteID = @InviteID
+    
+    declare @folderResult int
+    exec BBSFolderInsert @OwnerType = 'B', @OwnerID = @UserID, @Title = '방명록', @Result = @folderResult output
+
+    ret:      
+  if @Result = 'OK'
+    commit transaction
+  else 
+    rollback transaction
+    */
+
     userb.users.insertOne(user, function (err) {
       if (err) return done(err);
       res.json({
