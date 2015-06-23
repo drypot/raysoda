@@ -1,0 +1,51 @@
+
+table StgOrders -- 폐기
+table StgTickets -- 폐기
+
+table CardPhotos -- 폐기
+
+table GBThreads -- 폐기
+table GBArticles -- 폐기
+
+-----
+
+table Seqs ( 
+  SeqID varchar(16) not null
+  ,Value int not null default 0
+  ,primary key (SeqID)
+)
+
+    -- 각 컬렉션으로 기능 이전
+
+insert into Seqs(SeqID, Value) values('user', 1)
+insert into Seqs(SeqID, Value) values('photo', 1)
+insert into Seqs(SeqID, Value) values('bbs', 1)
+insert into Seqs(SeqID, Value) values('fa', 1) -- featured artist
+insert into Seqs(SeqID, Value) values('ubbs', 1) -- user bbs
+
+insert into Seqs(SeqID, Value) values('box', 1) -- user site
+
+insert into Seqs(SeqID, Value) values('boxfolder',1)
+insert into Seqs(SeqID, Value) values('boxphoto',1)
+insert into Seqs(SeqID, Value) values('boxfcmt',1) -- folder comment
+insert into Seqs(SeqID, Value) values('boxpcmt',1) -- photo comment
+
+insert into Seqs(SeqID, Value) values('bbsfolder',40000) -- box forum folder
+
+insert into Seqs(SeqID, Value) values('cardphoto', 1) -- card photo
+insert into Seqs(SeqID, Value) values('card', 1) -- card
+
+insert into Seqs(SeqID, Value) values('guestbook', 1) -- card
+
+insert into Seqs(SeqID, Value) values('userinvite', 1);
+
+insert into Seqs(SeqID, Value) values('stgorder', 1);-- storage ticket
+
+-----
+
+table FArtists -- Featured Artists -- 삭제
+table QFArtists -- Queued Featured Artists -- 삭제
+table FArtistsPhotos -- 삭제
+
+-----
+

@@ -1,0 +1,46 @@
+extends ../layout/layout
+
+block title
+  title #{appName}
+
+block content
+
+  script.
+    $(function() {
+      imagel.initList();
+    });
+
+  .section.site-title
+    h1
+      a(href='/') #{appName}
+    h3 #{appDesc}
+
+  if !gt
+    if locals.user
+      .section.top-links
+        a(href='/images/new') Upload
+        a(href='/users/' + user._id) Profile
+        a(href='#' onclick='javascript:userl.logout(); return false;') Logout
+    else
+      .section.top-links
+        a(href='/users/login') Login
+        a(href='/users/register') Register
+
+    //- .section.news
+        | Update: Can change user address at profile.
+
+  if gt
+    .section.pager-prev
+      a(href=gt) Previous
+
+  .section.images
+    for image in images
+      .box
+        a.image(href='/images/' + image._id)
+          img(src=image.dir + '/' + image._id + suffix)
+        if showName
+          a.uname(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
+
+  if lt
+    .section.pager-next
+      a(href=lt) Next

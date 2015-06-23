@@ -1,0 +1,53 @@
+extends ../layout/layout
+
+block title
+  title Upload - #{appName}
+
+block content
+
+  .section.page-title
+    h1 Upload
+
+  if !ticketCount
+    .section
+      | !{ticketMax} images a day.
+      br
+      | You can upload #{hours} hours later.
+
+  else
+    script.
+      $(function() {
+        imagel.initNew();
+      });
+
+    .section
+      form.main
+        .sub-section
+          .form-group
+            label.control-label Image
+            input.form-control(type='file', name='files', multiple='multiple')
+            p.help-block
+              | You can upload #{ticketCount} more images today.
+              br
+              if appType == 'drypot'
+                | Only SVG files.
+          .form-group
+            label.control-label Comment
+            textarea.form-control(name='comment', rows=7)
+        .sub-section
+          button.btn.btn-primary(name='send', data-loading-text='Sending') Upload
+
+    .section
+      | IE 10 or above required.
+      br
+      | You must be copyright owner.
+      br
+      if appType == 'rapixel'
+        | Image must be larger than 3840x2160 pixels.
+        br
+        | Image will be cropped to 16:9 automatically.
+        br
+        | Recommended sizes are 5120x2880 or 3840x2160.
+        br
+        | Max file size is 10MB.
+        br
