@@ -1,0 +1,175 @@
+/* thumb list */
+
+table.photo-l {
+	margin: 0 0 0 0;
+	width: 800px;
+}
+
+table.photo-l tr {
+	vertical-align: top;
+}
+
+table.photo-l td {
+	width:215px;
+	padding: 0 0 35 0;
+	font: 11/17px ±¼¸²;
+	color: #a0a0a0;
+}
+
+table.photo-l td div.cmt {
+	font: 11/17px ±¼¸²;
+	margin-top:5px;
+}
+
+table.photo-l img {
+	border: solid 1px black;
+	margin: 0 0 6 0;
+}
+
+
+/* crit list */
+
+div.photo-view-crit {
+	margin: 0 0 0 0;
+	width: 100%;
+}
+
+div.photo-view-crit div.set {
+	margin: 0 0 22 0;
+}
+
+div.photo-view-crit div.name {
+	margin: 0 0 0 0;
+}
+
+div.photo-view-crit div.comment {
+	margin: 0 0 22 0;
+}
+
+div.photo-view-crit div.more {
+	margin: 20 0 10 0;
+}
+
+
+/* photo list with crit*/
+
+table.photo-lc {
+	margin: 0 0 6 0;
+	width: 650px;
+}
+
+table.photo-lc td.p {
+	width:170px;
+	padding: 0 30 15 0;
+}
+
+table.photo-lc td.p img {
+	border: solid 1px black;
+	margin: 0 0 2 0;
+}
+
+table.photo-lc td.i {
+	width:100%;
+	padding: 0 0 15 0;
+	font: 11px/16px ±¼¸²;
+	color : #c6c6c6;
+}
+
+table.photo-lc td.i span.info {
+	font: 11/16px ±¼¸²;
+	color: #a0a0a0;
+}
+
+table.photo-lc a {
+	color: #e0e0e0;
+}
+
+
+/* category list */
+
+table.photo-c-l {
+	margin: 0 0 6 0;
+	width: 720px;
+}
+
+table.photo-c-l td {
+	padding: 0 0 10 0;
+	font: 12px ±¼¸²;
+	color: #c6c6c6;
+}
+
+table.photo-c-l tr.line div {
+	background-image: url(/App/I/GHDash.gif)
+}
+
+/* photo panel */
+
+div.photo-panel {
+	/*background-color:#404040; */
+	width:100%;
+	/*border-bottom: 1px solid #3b3b3b;*/
+}
+
+/* photo panel - pic */
+
+table.pp-pic {
+	margin: 40 0 0 0;
+}
+
+table.pp-pic td {
+	padding: 0 0 30 0;
+	font: 11/18px ±¼¸²;
+	color: #a0a0a0;
+}
+
+table.pp-pic a {
+	color: white;
+}
+
+table.pp-pic img {
+	border: solid 1px black;
+	margin: 0 0 2 0;
+}
+
+
+/* photo view */
+
+div.photo-view {
+	margin: 50 0 50 0;
+}
+
+div.photo-view div.title { 
+	margin: 0 0 45 0; 
+	font: bold 15px/21px ±¼¸² 
+}
+
+div.photo-view div.info {
+	margin: 0 0 45 0;
+	color: #a0a0a0;
+}
+
+div.photo-view div.comment { 
+	margin: 0 0 45 0; 
+}
+
+
+/* box folder list thumbs */
+
+table.pfolder-tl {
+	margin: 0 0 0 0;
+}
+
+table.pfolder-tl tr {
+	vertical-align: top;
+}
+
+table.pfolder-tl td {
+	padding: 0 20 30 0;
+	font: 11/17px ±¼¸²;
+	color: #a0a0a0;
+}
+
+table.pfolder-tl img {
+	border: solid 1px black;
+	margin: 0 0 6 0;
+}

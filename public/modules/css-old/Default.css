@@ -1,0 +1,512 @@
+/* body */
+
+body {
+	margin: 0 0 0 0;
+	background-color: #4e4e4e;
+}
+
+/* link */
+
+a {
+	color : #f0f0f0;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a.wholestate {
+	color : #c0c0c0;
+	text-decoration: none;
+}
+
+a.namebold {
+	color: #f0f0f0;
+	font-weight: bold;
+}
+
+a.cmd {
+	color: #a0a0a0;
+	text-decoration: none;
+}
+
+a:hover.cmd {
+	color: #e0e0e0;
+	text-decoration: none;
+}
+
+a.cur-cmd {
+	color: #f0f0f0;
+	text-decoration: none;
+}
+
+a:hover.cur-cmd {
+	color: #f0f0f0;
+	text-decoration: none;
+}
+
+a.bold-cmd {
+	color: #a0a0a0;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a:hover.bold-cmd {
+	color: #e0e0e0;
+	text-decoration: none;
+}
+
+a.icon {
+	padding: 2 4 0 4;
+	margin: 0 3 0 3;
+	color : #f0f0f0;
+	text-decoration: none;
+	font: 11px bold ±¼¸²; 
+	vertical-align: baseline; 
+	background-color: #707070;
+}
+
+a:hover.icon {
+	background-color: #a0a0a0;
+	text-decoration: none;
+}
+
+
+span.dim-cmd {
+	color: #707070;
+}
+
+div {
+	font: 12px/21px ±¼¸²;
+	color : #c6c6c6;
+}
+
+table td {
+	font: 12px/21px ±¼¸²;
+	color : #c6c6c6;
+}
+
+table tr {
+	vertical-align: top;
+}
+
+
+/* frame */
+
+div.fm {
+	margin: 0 20 0 20;
+	width: 800px;
+}
+
+div.fm-bbs {
+	width: 800px;
+}
+
+div.fm-f {
+	margin: 0 20 0 161;
+	/*width: 800px;*/
+}
+
+div.fm-sys-msg {
+	margin: 60 20 10 161;
+	width: 800px;
+}
+
+table.fm-f {
+	margin: 0 20 0 10;
+	width: 951px;
+}
+
+table.fm-f td.c1 {
+	padding: 0 15 10 0;
+	text-align: right;
+	vertical-align:top;
+	width: 131px;
+	word-break:normal; /*keep-all;*/
+}
+
+table.fm-f td.c1 div.title { 
+	text-align: right;
+	font: bold 13px/21px ±¼¸²;
+	color: #a0a0a0;
+}
+
+/*
+table.fm-f td.c1 a {
+	color : #b0b0b0;
+}
+
+table.fm-f td.c1 div.comment { 
+	margin: 0 0 10 0;
+	text-align:right;
+}
+
+*/
+
+
+table.fm-f td.c2 {
+	padding: 0 0 0 20;
+	vertical-align:top;
+	width: 820px;
+}
+
+/*
+table.fm-f td.c2 div.line {
+	background-image: url(/App/I/GHDash.gif)
+}
+
+table.fm-f td.line {
+	background-image: url(/App/I/GHDash.gif)
+}
+*/
+
+
+/* title */
+
+div.content-title {
+	margin-top:40px; margin-bottom:40px; 
+	font: bold 21px/21px ±¼¸²;
+	color: #c6c6c6;
+}
+
+div.section-title {
+	margin: 0 0 15 0;
+	font: bold 15px/21px ±¼¸²;
+	color: #c6c6c6;
+}
+
+
+/* text */
+
+div.text {
+	margin: 0 0 30 0;
+}
+
+div.text2 {
+	margin: 0 0 30 0;
+	line-height: 21px;
+}
+
+div.text3 {
+	margin: 0 0 30 0;
+	line-height: 33px;
+}
+
+div.text-err {
+	margin: 0 0 30 0;
+	color : #E71A1A;
+}
+
+
+/* spc panels */ 
+
+div.image-list {
+}
+
+div.image-list img {
+	border: solid 1px black;
+	/*margin: 0 0 15 0;*/
+}
+
+
+/* table */
+
+table.def {
+	margin: 0 0 20 0;
+}
+
+table.def td {
+	padding: 1 10 1 0;
+}
+
+
+/* deco */
+
+div.h-dash {
+	width:100%;
+	height:1px;
+	background-image: url(/App/I/GHDash.gif)
+}
+
+div.music {
+	margin: 25 0 0 0;
+}
+
+div.music object {
+	margin: 0 0 0 0;
+	border:solid 1px black;
+}
+
+div.ellipsis {
+	text-overflow:ellipsis; 
+	overflow:hidden; 
+	white-space: nowrap;
+}
+
+span.dim {
+	color: #808080;
+}
+
+span.less {
+	font: 11px/18px ±¼¸²;
+}
+
+
+
+/* form */
+
+form {
+	margin: 0 0 0 0;
+}
+
+div.vdsummary {
+	margin: 0 0 18 0;
+	font: 12px/21px ±¼¸²;
+	color : white;
+}
+
+table.form {
+	margin: 0 0 0 0;
+	width: 100%;
+	font: 12px/21px ±¼¸²;
+	color: #c0c0c0;
+}
+
+table.form td {
+	padding: 0 10 18 0;
+}
+
+table.form span.desc {
+	font: 12px/21px ±¼¸²;
+	color: #a0a0a0;
+}
+
+table.form span.error {
+	color : white;
+}
+
+div.form {
+	margin: 0 10 23 0;
+	padding: 0 0 0 0;
+	width: 800px;
+	font: 12px/21px ±¼¸²;
+}
+
+div.form div.desc {
+	margin: 3 0 0 0;
+	color: #c0c0c0;
+}
+
+div.form span.eng {
+	font: 11px/21px ±¼¸²;
+	color: #c0c0c0;
+}
+
+div.form-submit {
+	margin: 45 10 23 0;
+	padding: 0 0 0 0;
+	width: 800px;
+	font: 12px/21px ±¼¸²;
+}
+
+
+/* control */
+
+input.tb {
+	font: 12px/17px ±¼¸²;
+	color: black;
+	vertical-align:middle;
+	background-color:#e0e0e0;
+	border: solid 1px black;
+	height:20px;
+}
+
+input.tb-full {
+	width: 800px;
+	font: 12px/17px ±¼¸²;
+	color: black;
+	vertical-align:middle;
+	background-color:#e0e0e0;
+	border: solid 1px black;
+	height:20px;
+}
+
+input.btn {
+	font: 12px/16px;
+	color: #404040;
+	vertical-align:top;
+	height: 21px;
+}
+
+input.file {
+	width:100%;
+
+	font: 12px/17px verdana;
+	color: black;
+	vertical-align:middle;
+	background-color:#e0e0e0;
+	border: solid 1px black;
+	height:20px;
+}
+
+form label {
+	padding: 0 13 0 3;
+	/*height: 17px;*/
+}
+
+textarea {
+	width:800px;
+
+	font: 12px/20px ±¼¸²;
+	color: black;
+	background-color:#e0e0e0;
+	border: solid 1px black;
+}
+
+select {
+	font: 12px/17px ±¼¸²;
+	color: black;
+	background-color:#e0e0e0;
+	border: solid 1px black;
+}
+
+
+div.sort-key {
+	margin: 0 0 35 -5;
+	font: 12px/18px ±¼¸²;
+	color : #c6c6c6;
+}
+
+
+/* top  */
+
+div.sitelogo {
+	margin: 0 0 0 0;
+	padding: 3 0 0 0;
+	font: bold 14px ±¼¸²;
+	text-align:left;
+	color: #b0b0b0;
+}
+
+div.sitelogo a { color: #b0b0b0; }
+
+div.sectionlogo {
+	font: bold 12px ±¼¸²;
+	letter-spacing: 0px;
+	text-align:right;
+	word-break:keep-all;
+	letter-spacing: 0px;
+}
+
+div.sectionlogo a { color : #b0b0b0; }
+
+
+/* tm1  */
+
+table.tm1 {
+	margin: 0 0 0 0;
+}
+
+table.tm1 td.m {
+	padding: 0 30 2 0;
+	font: 12px ±¼¸²;
+	cursor:hand;
+}
+
+table.tm1 td.m a {
+	color: #B0B0B0;
+}
+
+table.tm1 td.m a.active {
+	color : white;
+}
+
+table.tm1 td.m a.dim {
+	color : #5e5e5e;
+}
+
+table.tm1 td.m a.dim:hover {
+	color : #a0a0a0;
+	text-decoration:none;
+}
+
+
+table.tm1 td.opt {
+	padding: 0 0 2 15;
+	font: 12px ±¼¸²;
+	cursor:hand;
+}
+
+table.tm1 td.opt a {
+	color: #b0b0b0;
+}
+
+table.tm1 td.opt a.active {
+	color : #707070;
+}
+
+
+/* tm2  */
+
+table.tm2 {
+	margin: 0 0 0 0;
+	width:805px;
+}
+
+table.tm2 td {
+	padding: 0 30 0 0;
+	font: 12px ±¼¸²;
+	cursor:hand;
+}
+
+table.tm2 a {
+	color: #b0b0b0;
+}
+
+table.tm2 a.active {
+	color : white;
+}
+
+/* tm3  */
+
+table.tm3 {
+	margin: 0 0 0 0;
+}
+
+table.tm3 td {
+	padding: 0 30 0 0;
+	font: 12px ±¼¸²;
+	cursor:hand;
+}
+
+table.tm3 a {
+	color: #b0b0b0;
+}
+
+table.tm3 a.active {
+	color : white;
+}
+
+/* lm3 */
+
+table.lm3 {
+	margin: 85 15 30 15;
+	width: 110;
+}
+
+table.lm3 td.menu {
+	padding: 0 0 7 0;
+	font: 12px ±¼¸²;
+	letter-spacing:0;
+	cursor:hand;
+	text-align: left;
+}
+
+table.lm3 td.menu a {
+	color: #c6c6c6;
+}
+
+table.lm3 td.menu a.active {
+	color : white;
+}

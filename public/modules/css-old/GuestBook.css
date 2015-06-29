@@ -1,0 +1,44 @@
+
+table.gb-l {
+	margin: 20 0 0 0;
+	width: 790px;
+	font: 12px/16px ±¼¸²;
+	color: #c6c6c6;
+}
+
+table.gb-l tr {
+	vertical-align:top;
+}
+
+table.gb-l tr.line td {
+	padding: 0 0 9 0;
+}
+
+table.gb-l tr.line td div {
+	background-image: url(/App/I/GHDash.gif)
+}
+
+table.gb-l tr.head td {
+	padding: 0 0 5 0;
+}
+
+table.gb-l tr.head span.date {
+	font: 10px verdana;
+	color: #c0c0c0;
+}
+
+table.gb-l tr.text {
+}
+
+table.gb-l tr.text td {
+	padding: 0 0 15 0;
+}
+
+table.gb-l tr.text a {
+	color: white;
+}
+
+table.gb-l tr.cp td {
+	padding: 3 0 3 8;
+	text-align: right;
+}

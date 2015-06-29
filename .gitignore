@@ -6,6 +6,7 @@
 /bower_components/
 
 /config/*live*.json
+/config/*raysoda1*.json
 /tmp/
 /upload/
 /samples/untracked/

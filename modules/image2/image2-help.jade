@@ -1,0 +1,45 @@
+<%@ Register TagPrefix="bah" NameSpace="Bah.Web.Controls" Assembly="Bah"%>
+<%@ Page language="c#" Codebehind="D.aspx.cs" AutoEventWireup="false" Inherits="WebSite.App.BoxPhoto.Help.D" %>
+
+<HTML>
+<%=LPContext.ClientInitScript%>
+
+<body>
+<form runat="server" ID="Form">
+<script>lpRenderBegin()</script>
+<div class=fm>
+<script>lpRenderTitle()</script>
+
+<div class="text">
+갤러리 아는 개인만의 독립된 전시공간입니다.<br>
+</div>
+
+<div class="section-title">사진 등록하는 법</div>
+<div class="text">
+[개인 공간 / 갤러리 아 / 기본 폴더] 에서 폴더를 추가해 주십시오.<br>
+폴더 목록에 추가하신 폴더가 표시되면 폴더명을 클릭해 주십시오.<br>
+폴더화면에서 [사진추가]를 클릭하셔서 사진을 등록합니다.<br>
+</div>
+
+<div class="section-title">기본폴더와 가상폴더의 차이</div>
+<div class="text">
+사진은 기본폴더에만 등록하실 수 있습니다.<br>
+기본폴더 외에 다른 형식으로 사진들을 구성하기 위해 가상폴더를 사용하실 수 있습니다.<br>
+먼저 가상폴더 목록에서 새로운 가상폴더를 추가해 주십시오.<br>
+가상폴더가 만들어진 후 기본폴더의 사진수정 화면을 보면 방금 추가한 가상폴더의 목록이 표시됩니다.<br>
+원하시는 가상폴더에 채크해 주십시오.<br>
+</div>
+
+<div class="section-title">추천 폴더 등록 방법</div>
+<div class="text">
+기본폴더나 가상폴더를 개인 일면에 표시하실 수 있습니다.<br>
+폴더 목록에서 폴더명을 클릭합니다.<br>
+폴더 보기 화면에서 [추천폴더지정] 을 클릭하십시오.
+</div>
+
+
+</div>
+<script>lpRenderEnd()</script>
+</form>
+</body>
+</HTML>

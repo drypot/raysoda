@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!DOCTYPE LPathConfig>
+
+<LPathConfig>
+	<account>
+		<pageLogin url="/App/Office/Auth/Login/D.aspx" />
+		<pageNotAllowed url="/App/Error/NotAllowed.aspx" />
+		<pageInvalid url="/App/Error/InvalidPage.aspx" />
+	</account>
+	<directoryDefinition>
+		<dir lid="" desc="">
+			<dir lid="App" desc="RaySoda">
+				<dir lid="Front" desc="일면" option="nopage">
+					<dir lid="Headline" desc="추천사진" url="/" option="hide"></dir>
+				</dir>
+				<dir lid="Photo" desc="갤러리 공" option="nopage">
+					<dir lid="A" desc="전체 목록" url="/Com/Photo/List.aspx?f=A"></dir>
+					<dir lid="D" desc="등록일별 목록" url="/Com/Photo/List.aspx?f=D&amp;s=DD"></dir>
+					<dir lid="C" desc="소재별 목록" url="/Com/Photo/CList.aspx?f=C"></dir>
+					<dir lid="S" desc="사진 등록" url="/Com/Photo/New.aspx?f=S"></dir>
+					<dir lid="Help" desc="사용 안내"></dir>
+				</dir>
+				<!--
+				<dir lid="BoxPhoto" desc="갤러리 아" option="nopage">
+					<dir lid="L" desc="전체 사진" url="/Com/BoxPhoto/PList.aspx?f=L&amp;s=CD"></dir>
+					<dir lid="Help" desc="사용 안내"></dir>
+				</dir>
+				-->
+				<!--
+				<dir lid="Card" desc="엽서" option="nopage">
+					<dir lid="A" desc="전체 목록" url="/Com/Card/List.aspx?f=A&amp;s=DD"></dir>
+					<dir lid="D" desc="등록일별 목록" url="/Com/Card/List.aspx?f=D&amp;s=UD"></dir>
+					<dir lid="S" desc="사진 등록" url="/Com/Card/New.aspx?f=S"></dir>
+				</dir>
+				-->
+				<dir lid="Note" desc="글" option="nopage">
+					<dir lid="F" desc="글" url="/Com/Note/View.aspx?f=A" option="hide"></dir>
+				</dir>
+				<dir lid="Office" desc="회원" option="nopage">
+					<dir lid="Search" desc="회원 검색"></dir>
+					<dir lid="List" desc="회원 목록" url="D.aspx"></dir>
+					<!--
+					<dir lid="List" desc="회원 목록" option="nopage">
+						<dir lid="P" desc="사진가 목록" url="D.aspx?f=P&amp;s=PD" option="sep"></dir>
+						<dir lid="A" desc="전체 회원 목록" url="D.aspx?f=A&amp;s=CD" option="sep"></dir>
+					</dir>
+					-->
+					<dir lid="Auth" desc="회원 인증" option="nopage">
+						<dir lid="Login" desc="로그인"></dir>
+						<dir lid="Logout" desc="로그아웃"></dir>
+						<dir lid="Password" desc="비밀번호 확인"></dir>
+					</dir>
+					<dir lid="Register" desc="가입 / 초청 / 해지" option="nopage">
+						<dir lid="Register" desc="회원 가입"></dir>
+						<dir lid="Invite" desc="신규 회원 초청"></dir>
+						<dir lid="Term" desc="서비스 해지"></dir>
+					</dir>
+				</dir>
+				
+				<dir lid="Box" desc="개인 일면" option="hide">
+					<!--
+					<dir lid="Front" desc="일면" option="nopage">
+						<dir lid="Headline" desc="일면" option="hide,noownerid"></dir>
+					</dir>
+					-->
+					<dir lid="Info" desc="일면" option="nopage">
+						<dir lid="News" desc="" option="noownerid"></dir>
+					</dir>
+					<dir lid="Photo" desc="갤러리 공" option="nopage">
+						<dir lid="U" desc="등록한 사진" url="/Com/Photo/List.aspx?f=U"></dir>
+						<dir lid="M" desc="추천한 사진" url="/Com/Photo/List.aspx?f=M"></dir>
+						<dir lid="Help" desc="사용 안내"></dir>
+					</dir>
+					<dir lid="BoxPhoto" desc="갤러리 아" option="nopage">
+						<!--
+						<dir lid="R" desc="추천 폴더" url="/Com/BoxPhoto/FList.aspx?f=R&amp;s=VD"></dir>
+						-->
+						<dir lid="S" desc="기본 폴더" url="/Com/BoxPhoto/FList.aspx?f=S&amp;s=VD"></dir>
+						<dir lid="C" desc="가상 폴더" url="/Com/BoxPhoto/FList.aspx?f=C&amp;s=VD"></dir>
+						<dir lid="P" desc="전체 사진" url="/Com/BoxPhoto/PList.aspx?f=P&amp;s=UD"></dir>
+						<dir lid="Help" desc="사용 안내"></dir>
+					</dir>
+					<!--
+					<dir lid="Card" desc="엽서" option="nopage">
+						<dir lid="U" desc="등록한 엽서" url="/Com/Card/List.aspx?f=U&amp;s=DD" option="hide"></dir>
+					</dir>
+					-->
+					<dir lid="Note" desc="글" option="nopage">
+						<dir lid="F" desc="글" url="/Com/Note/View.aspx?f=B"></dir>
+						<dir lid="U" desc="참여 글줄" url="/Com/Note/View.aspx?f=U&amp;v=S"></dir>
+					</dir>
+					<dir lid="Link" desc="즐겨 찾기" option="nopage">
+						<dir lid="Out" desc="즐겨 찾는 회원"></dir>
+						<dir lid="FavPP" desc="즐겨 찾는 공 사진" url="/Com/Photo/List.aspx?f=F"></dir>
+						<dir lid="FavBP" desc="즐겨 찾는 아 사진" url="/Com/BoxPhoto/PList.aspx?f=F&amp;s=CD"></dir>
+						<dir lid="In" desc="즐겨 찾아오는 회원"></dir>
+						<dir lid="Invite" desc="초청 회원"></dir>
+					</dir>
+					<!--
+					<dir lid="Owner" desc="프로필" option="nopage">
+						<dir lid="Profile" desc="소개"></dir>
+						<dir lid="Career" desc="약력"></dir>
+					</dir>
+					<dir lid="GuestBook" desc="방명록" url="/Com/GuestBook/View.aspx?f=A"></dir>
+					-->
+					<dir lid="Admin" desc="관리">
+						<dir lid="UserInfoEdit" desc="기본 정보"></dir>
+						<dir lid="UserEnvEdit" desc="환경 설정"></dir>
+						<dir lid="Storage" desc="개인 용량"></dir>
+						<!--<dir lid="SiteInfo" desc="갤러리 용량" allow="admin,owner"></dir>-->
+						<dir lid="AdminUser" desc="개인 관리" allow="admin"></dir>
+						<!--dir lid="AdminSite" desc="사이트 관리" allow="admin"></dir-->
+						<dir lid="AdminPassword" desc="인증정보" allow="admin"></dir>
+						<dir lid="AdminRole" desc="권한" allow="admin"></dir>
+					</dir>
+				</dir>
+				
+				<dir lid="Help" desc="도움말" option="hide">
+					<dir lid="Info" desc="문의하시기 전에"></dir>
+					<dir lid="Mail" desc="메일 문의"></dir>
+				</dir>
+
+				<dir lid="Admin" desc="관리" allow="admin,stgadmin" option="nopage">
+					<dir lid="Monitor" desc="모니터"></dir>
+					<dir lid="Trigger" allow="admin" desc="트리거"></dir>
+					<dir lid="Featured" allow="admin" desc="사진가 소개"></dir>
+					<dir lid="AdmSel" allow="admin" desc="운영자 추천 사진"></dir>
+					<dir lid="Storage" allow="admin,stgadmin" desc="개인 용량"></dir>
+				</dir>
+
+				<dir lid="About" desc="" option="hide">
+				</dir>
+
+				<dir lid="Error" desc="시스템 오류" option="hide"></dir>
+			</dir>
+		</dir>
+	</directoryDefinition>
+	<spAdv>
+		<ad id="adpennylane" url="http://www.pennylane.co.kr/board/fcboard_bbs.asp?BdCode=101&amp;mode=view&amp;idx=30&amp;seq=2&amp;page=1"></ad>
+		<ad id="adiphos" url="http://www.iphos.co.kr"></ad>
+		<ad id="adimgpress" url="http://www.imagepress.net"></ad>
+		<ad id="adbesunny" url="http://story.besunny.com/event/dummy/20050711/?src=text&amp;kw=000003"></ad>
+		<ad id="adhappyphoto" url="http://koreanewschannel.com/page_pose01.php"></ad>
+		<ad id="adngc" url="http://www.ngckorea.com/sony/infocus/index.html"></ad>
+		<ad id="adsangsangmadang" url="http://www.sangsangmadang.com/events/competition/photo_event.aspx?hit_log=HL616&amp;logger_kw=raysoda"></ad>
+		<ad id="adng" url="http://www.nationalgeographic.co.kr/view/RaySoda/RaySoda.asp"></ad>
+		<ad id="adzzixx" url="http://www.zzixx.com/big_event/index.html"></ad>
+		<ad id="ad11" url="http://www.intel.com/kr"></ad>
+		<ad id="ad12" url="http://dr.myfolder.net/Sweep"></ad>
+		<ad id="ad13" url="http://www.muzcast.com"></ad>
+		<ad id="ad14" url="http://www.nationalgeographic.co.kr"></ad>
+	</spAdv>
+</LPathConfig>

@@ -1,0 +1,19 @@
+{
+  "appName": "RaySoda",
+  "appDesc": "달동네 레이소다",
+  
+  "mainSite": "http://raysoda.local:8080",
+
+  "appPort": 8050,
+  "cookieSecret": "o;iejf832ndvs",
+  
+  "uploadSite": "http://file.raysoda.local:8080",
+  "uploadDir": "upload",
+
+  "mongodb": "raysoda",
+
+  "mailServer": "",
+
+  "ticketGenInterval": 18,
+  "ticketMax": 1
+}
