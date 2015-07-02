@@ -1,0 +1,96 @@
+<%@ Page language="c#" AutoEventWireup="false" Inherits="WebSite.Com.Note.TEdit" CodeBehind="TEdit.aspx.cs" %>
+<%@ Register TagPrefix="bah" NameSpace="Bah.Web.Controls" Assembly="Bah"%>
+<%@ Register tagprefix="app" tagname="TView" src="/Com/Note/Com/TView.ascx"%>
+<%@ Register tagprefix="app" tagname="Attach" src="/Com/Note/Com/Attach.ascx"%>
+
+<HTML>
+
+<%=LPContext.ClientInitScript%>
+<link rel='stylesheet' href='/App/Style/BBS.css'>
+<link rel='stylesheet' href='/App/Style/Photo.css'>
+<script src='/App/LP/BBS.js'></script>
+
+<%=NoteContext.RefPhotoScript%>
+
+<body>
+<form runat="server" ID="Form" enctype="multipart/form-data">
+<script>lpRenderBegin('F')</script>
+<script>lpRenderTitle('<%=NoteContext.PageTitle%>')</script>
+
+<app:TView runat="server" ID="TView" ShowCP="False" IncHit="False"></app:TView>
+
+<div class=fm-f>
+<div class=fm-bbs>
+<div id=formStartAnc></div>
+
+<asp:ValidationSummary Runat="server" ID="VdSummary" DisplayMode="List" ShowSummary="true" ShowMessageBox="false" CssClass="vdsummary"/>
+
+<div Runat=server ID=MsgTimeOutPanel Visible=False class=form>
+전체 노트에 게시된지 10 분이 지난 게시물은 수정하거나 삭제하실 수 없습니다.
+</div>
+
+<div Runat="server" ID="TitlePanel" Visible="False" class=form>
+제목
+<asp:RequiredFieldValidator Runat="server" ID="TitleTBVd" ControlToValidate="TitleTB" Text="*" ErrorMessage="제목을 입력해 주십시오." Display="Dynamic"/><br>
+<asp:TextBox Runat="server" ID="TitleTB" CssClass="tb-full" MaxLength="128"></asp:TextBox>
+</div>
+
+<div class=form>
+내용
+<%--<asp:RequiredFieldValidator Runat="server" ID="TextTBVd" ControlToValidate="TextTB" Text="*" ErrorMessage="내용을 입력해 주십시오." Display="Dynamic"/>--%><br>
+<asp:TextBox Runat="server" ID="TextTB" TextMode="MultiLine" Rows="30"></asp:TextBox><br>
+<div class=desc>HTML 태그는 사용하실 수 없습니다</div>
+</div>
+
+<app:Attach runat="server" ID="AttachUC"></app:Attach>
+
+<div Runat="server" ID="AttachDelPanel" Visible="False" class=form>
+삭제할 첨부 파일<br>
+<asp:CheckBoxList Runat="server" ID="AttachDelCBList" RepeatDirection="Vertical" RepeatLayout="Flow" DataTextField="FileName"></asp:CheckBoxList>
+</div>
+
+<div class=form>
+배경음악 링크<br>
+<asp:TextBox Runat="server" ID="MusicTB" CssClass="tb-full" MaxLength="1024"></asp:TextBox>
+<div class=desc>예: http://www.musicsite.com/dir/music.asf</div>
+</div>
+
+<div class=form runat=server id=FolderSelPanel>
+폴더변경<br>
+<asp:RadioButtonList Runat=server ID="FolderListRBL" RepeatDirection=Horizontal RepeatLayout=Flow DataTextField="Desc" DataValueField="ID"></asp:RadioButtonList>
+</div>
+
+<div class=form runat=server id=LockCBPanel>
+<asp:CheckBox Runat="server" ID="LockCB" Text="글줄에 추가 답글을 받지 않음"></asp:CheckBox>
+</div>
+
+<div class=form runat=server id=HiddenCBPanel>
+<asp:CheckBox Runat="server" ID="HiddenCB" Text="주인장과 글쓴이만 볼 수 있도록 비밀글로 등록"></asp:CheckBox>
+</div>
+
+<div class=form-submit>
+<asp:Button Runat="server" ID="Submit" Text="   수정 확인   " CssClass="btn"></asp:Button>
+</div>
+
+</div>
+</div>
+
+<script>
+var replyPrevWinOnLoad = window.onload;
+window.onload = function () {
+  var tb = document.forms(0).<%=TextTB.ClientID%>;
+  if (tb != null) {
+    window.scroll(0,domObjectTop(tb) - 120);
+    if (!tb.disabled) 
+      tb.focus();
+    if (replyPrevWinOnLoad != null) {
+      replyPrevWinOnLoad();
+    }
+  }
+}
+</script>
+
+<script>lpRenderEnd()</script>
+</form>
+</body>
+</html>

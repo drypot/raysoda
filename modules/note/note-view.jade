@@ -1,0 +1,100 @@
+/* TODO
+
+<div style="margin:0 0 0 0">
+
+<div class=fm-f>
+<div class="section-title" style="margin:60 0 60 0"><%=rvThreadTitle%></div>
+</div>
+
+<%=rvThreadViewScript%>
+
+<div class=fm-f style="margin-top:10px; margin-bottom:110px" runat=server id=CmdPanel>
+
+<div Runat="server" ID="ReplyDisabledPanel" EnableViewState="false" Visible=False style="margin-bottom:15px">
+<script>lpRenderCmdLink("[이 글줄에는 더 이상 답글을 작성하실 수 없습니다]", "", false, true, 0);</script>
+</div>
+
+<script>
+lpRenderCmdLink("[답글작성]", "<%=rvReplyLink%>", false, <%=!IsThreadLocked ? "true" : "false"%>, 12);
+lpRenderCmdLink("[참여글줄에서 제외]", "<%=rvUnsubscribeLink%>", false, <%=IsSubscribed ? "true" : "false"%>, 12);
+lpRenderCmdLink("[참여글줄에 등록]", "<%=rvSubscribeLink%>", false, <%=!IsSubscribed ? "true" : "false"%>, 12);
+</script>
+
+</div>
+
+<div id="DBCA"></div>
+
+
+reply
+
+<%@ Page language="c#" AutoEventWireup="false" Inherits="WebSite.Com.Note.TReply" CodeBehind="TReply.aspx.cs" %>
+<%@ Register TagPrefix="bah" NameSpace="Bah.Web.Controls" Assembly="Bah"%>
+<%@ Register tagprefix="app" tagname="TView" src="/Com/Note/Com/TView.ascx"%>
+<%@ Register tagprefix="app" tagname="Attach" src="/Com/Note/Com/Attach.ascx"%>
+<%@ Register tagprefix="app" tagname="Confirm" src="/Com/Note/Com/Confirm.ascx"%>
+
+<HTML>
+
+<%=LPContext.ClientInitScript%>
+<link rel='stylesheet' href='/App/Style/BBS.css'>
+<link rel='stylesheet' href='/App/Style/Photo.css'>
+<script src='/App/LP/BBS.js'></script>
+
+<%=NoteContext.RefPhotoScript%>
+
+<body>
+<form runat="server" ID="Form" enctype="multipart/form-data">
+<script>lpRenderBegin('F')</script>
+<script>lpRenderTitle('<%=NoteContext.PageTitle%>')</script>
+
+<app:TView runat="server" ID="TView" ShowCP="False" IncHit="False"></app:TView>
+
+<div class=fm-f>
+<div class=fm-bbs>
+<asp:ValidationSummary Runat="server" ID="VdSummary" DisplayMode="List" ShowSummary="true" ShowMessageBox="false" CssClass="vdsummary"/>
+
+<div class=form>
+답변 내용
+<%--<asp:RequiredFieldValidator Runat="server" ID="TextTBVd" ControlToValidate="TextTB" Text="*" ErrorMessage="내용을 입력해 주십시오." Display="Dynamic"/>--%>
+<br>
+<asp:TextBox Runat="server" ID="TextTB" TextMode="MultiLine" Rows="20"></asp:TextBox><br>
+<span class=desc>HTML 태그는 사용하실 수 없습니다</span>
+</div>
+
+<app:Attach runat="server" ID="AttachUC"></app:Attach>
+
+<div class=form>
+배경음악 링크<br>
+<asp:TextBox Runat="server" ID="MusicTB" CssClass="tb-full" MaxLength="1024"></asp:TextBox>
+<span class=desc>예: http://www.musicsite.com/dir/music.asf</span>
+</div>
+
+<app:Confirm runat="server" ID="ConfirmUC"></app:Confirm>
+
+<div class=form>
+<asp:Button Runat="server" ID="Submit" Text="답글등록" CssClass="btn"></asp:Button>
+</div>
+
+</div>
+</div>
+
+<script>
+var replyPrevWinOnLoad = window.onload;
+window.onload = function () {
+  var tb = document.forms(0).<%=TextTB.ClientID%>;
+  if (tb != null) {
+    window.scroll(0,domObjectTop(tb) - 120);
+    tb.focus();
+    if (replyPrevWinOnLoad != null) {
+      replyPrevWinOnLoad();
+    }
+  }
+}
+</script>
+
+<script>lpRenderEnd()</script>
+</form>
+</body>
+</html>
+
+*/

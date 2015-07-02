@@ -15,10 +15,10 @@ Tables
 
     Boxes
     BoxFavs
-    BoxFolderComments
+    BoxFolderComments -- drop
     BoxFolders
-    BoxFoldersPhotos
-    BoxFrontFolders
+    BoxFoldersPhotos -- BoxPhotos 에 머지
+    BoxFrontFolders -- drop
     BoxPhotoComments
     BoxPhotos
 
@@ -50,7 +50,7 @@ Tables to Drop
     FArtistsPhotos
 
     PhotoAdmQues
-    PhotoAdmSels
+    PhotoAdmSels -- 일면 사진
 
 
 Seq
@@ -133,7 +133,7 @@ RaySoda1 에서 사용하던 호환 매핑
 
     RewriteRule /([a-zA-Z][a-zA-Z0-9_\-\.]{2,14}) /App/Box/Front/Headline/Redirect.aspx\?sid=$1 [L]
 
-    
+
     # http://www.raysoda.com/App/Photo/LA/View.aspx?p=95531
     # http://www.raysoda.com/App/Photo/LC/View.aspx?pg=0&s=DD&c=111&p=95675
     # http://www.raysoda.com/App/Photo/LD/View.aspx?pg=0&d=&s=RD&c=0&p=95531

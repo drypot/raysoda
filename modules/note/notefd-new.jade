@@ -1,0 +1,87 @@
+<%@ Page language="c#" AutoEventWireup="false" Inherits="WebSite.Com.Note.FNew" CodeBehind="FNew.aspx.cs" %>
+<%@ Register TagPrefix="bah" NameSpace="Bah.Web.Controls" Assembly="Bah"%>
+
+<HTML>
+<head>
+<%=LPContext.ClientInitScript%>
+<link rel='stylesheet' href='/App/Style/BBS.css'>
+<script src='/App/LP/BBS.js'></script>
+</head>
+
+<%=NoteContext.RefPhotoScript%>
+
+<body>
+<form runat="server" ID="Form" enctype="multipart/form-data">
+<script>lpRenderBegin()</script>
+<div class=fm>
+<script>lpRenderTitle('노트 폴더 추가')</script>
+
+<asp:ValidationSummary Runat="server" ID="VdSummary" DisplayMode="List" ShowSummary="true" ShowMessageBox="false" CssClass="vdsummary"/>
+
+<div runat=server id=FormPanel>
+
+<div runat=server id=MsgModeBPanel class=form visible=false>
+폴더는 7 개까지 만드실 수 있습니다.
+</div>
+
+<div class=form>
+폴더이름
+<asp:RequiredFieldValidator Runat="server" ID="TitleTBVd" ControlToValidate="TitleTB" Text="*" ErrorMessage="폴더이름을 입력해 주십시오." Display="Dynamic"/>
+<br>
+<asp:TextBox Runat="server" ID="TitleTB" CssClass="tb" MaxLength="128" Width="240" TextMode=MultiLine Rows=4></asp:TextBox>
+</div>
+
+<div class=form runat=server id=AttachPanel>
+<asp:CheckBox Runat=server ID="ATTECB" Text="파일 첨부를 사용합니다." Checked=True></asp:CheckBox><br>
+<asp:CheckBox Runat=server ID="ATTRCB" Text="답글에도 파일 첨부를 사용합니다." Checked=True></asp:CheckBox><br>
+<asp:CheckBox Runat=server ID="ATTMCB" Text="여러 파일을 첨부합니다." Checked=True></asp:CheckBox><br>
+<asp:CheckBox Runat=server ID="ATTOCB" Text="관리자만 파일 첨부를 사용합니다." Checked=False></asp:CheckBox>
+<div class=desc>기본 값 권장</div>
+</div>
+
+<div class=form>
+<asp:CheckBox Runat=server ID="DisGuestNewCB" Text="관리자만 새글을 작성할 수 있습니다." Checked=False></asp:CheckBox><br>
+<asp:CheckBox Runat=server ID="DisGuestReplyCB" Text="관리자만 답글을 작성할 수 있습니다." Checked=False></asp:CheckBox>
+<div class=desc>기본 값 권장</div>
+</div>
+
+<div class=form runat=server id=OptPanel>
+<asp:CheckBox Runat=server ID="HiddenCB" Text="관리자에게만 폴더와 내용이 표시됩니다." Checked=False></asp:CheckBox><br>
+<asp:CheckBox Runat=server ID="PhotoCB" Text="사진 링크 폴더" Checked=False></asp:CheckBox>
+<div class=desc>기본 값 권장</div>
+</div>
+
+<div class=form>
+폴더 목록에 최근 n 일간 등록된 글을 표시
+<asp:RequiredFieldValidator Runat="server" ID="SampleDayTBReqVd" ControlToValidate="SampleDayTB" Text="*" ErrorMessage="표시일 수를 입력해 주십시오." Display="Dynamic"/>
+<asp:RegularExpressionValidator runat="server" id="SampleDayTBRegVd" ControlToValidate="SampleDayTB" ValidationExpression="[0-9]{1,2}" Text="*" ErrorMessage="표시일 수는 두자리 수치를 입력하셔야 합니다." display="Dynamic"/>
+<br>
+<asp:TextBox Runat="server" ID="SampleDayTB" CssClass="tb" MaxLength="10" Width="120">7</asp:TextBox>
+<div class=desc>기본 값 권장</div>
+</div>
+
+<div class=form>
+폴더 목록에 최소 n 개의 글을 표시
+<asp:RequiredFieldValidator Runat="server" ID="SampleMinTBReqVd" ControlToValidate="SampleMinTB" Text="*" ErrorMessage="글 수를 입력해 주십시오." Display="Dynamic"/>
+<asp:RegularExpressionValidator runat="server" id="SampleMinTBRegVd" ControlToValidate="SampleMinTB" ValidationExpression="[0-9]{1,2}" Text="*" ErrorMessage="글 수는 두자리 수치를 입력하셔야 합니다." display="Dynamic"/>
+<br>
+<asp:TextBox Runat="server" ID="SampleMinTB" CssClass="tb" MaxLength="10" Width="120">10</asp:TextBox>
+<div class=desc>기본 값 권장</div>
+</div>
+
+<div class=form>
+<br>
+<asp:Button Runat="server" ID="Submit" Text="폴더등록" CssClass="btn"></asp:Button>
+</div>
+
+</div>
+
+<div class=form runat=server id=MsgFull visible=false>
+더 이상 폴더를 추가하실 수 없습니다.
+</div>
+
+</div>
+<script>lpRenderEnd()</script>
+</form>
+</body>
+</html>

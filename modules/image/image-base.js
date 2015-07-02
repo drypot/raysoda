@@ -91,3 +91,228 @@ imageb.identify = function (fname, done) {
     done(null, meta);
   });
 };
+
+/* TODO
+
+public class PhotoContext {
+    public const char FuncAll = 'A';
+    public const char FuncCategory = 'C'; 
+    public const char FuncUser = 'U';
+    public const char FuncUserComment = 'M';
+    public const char FuncDay = 'D';
+    public const char FuncFav = 'F';
+
+    static Hashtable categories;
+    static ArrayList categoriesAry;
+
+    public char Function;
+    public int PhotoID;
+    public int CategoryID;
+    public string Sort;
+    public char SortKey;
+    public char SortDir;
+    public DateTime Day;
+    public int PageNumber;
+    public string SearchString;
+    public Bah.Web.Http.UrlMaker UrlMaker; 
+
+
+    private WebSite.Page Page; 
+
+    public static void InitStaticTables() {
+      SqlConnection conn;
+      SqlCommand cmd;
+      SqlDataReader reader;
+      using (conn = new SqlConnection(WebSite.Global.DSN)) {
+        conn.Open();
+        cmd = new SqlCommand("PhotoSelectCategoryConst", conn);
+        cmd.CommandType = CommandType.StoredProcedure;
+        reader = cmd.ExecuteReader();
+
+        Hashtable newCategories = new Hashtable(128);
+        ArrayList newCategoriesAry = new ArrayList(128);
+        while (reader.Read()) {
+          PhotoCategory category = new PhotoCategory();
+          category.LoadFromDataReader(reader);
+          newCategories.Add(category.ID, category);
+          newCategoriesAry.Add(category);
+        }
+        categories = newCategories;
+        categoriesAry = newCategoriesAry;
+        reader.Close();
+      }
+    }
+
+    public PhotoContext(WebSite.Page page) {
+      this.Page = page;
+
+      //function = LPContext.CurrentNode.AttrString("func")[0];  
+      Function = Page.SafeQueryChar("f",FuncAll); 
+      
+      PhotoID = Page.SafeQueryInt32("p", 0);
+      CategoryID = Page.SafeQueryInt32("c", 0);
+
+      Sort = Page.SafeQueryString("s", "DD");
+      switch (Function) {
+        case FuncAll:
+        case FuncCategory:
+        case FuncUser:
+          / * 추천수, 패널추천수 보기 삭제 * /
+          if (Sort == "RD" || Sort == "PD") {
+            Sort = "DD";
+          }
+          break;
+      }
+      SortKey = Sort[0];
+      SortDir = Sort[1];
+      PageNumber = Page.SafeQueryInt32("pg", 0);
+      
+      if (Function == FuncUser || Function == FuncUserComment) {
+        Page.Assert(Page.OwnerID > 0);
+      }
+
+      / *
+      if (LPContext.Dir.StartsWith("/App/PSN") && userID != UserID) {
+        Response.Redirect(new Regex("([^\\?]*)/([^\\?]*)/(.*)").Replace(LPContext.RawUrl,"/App/User/Info/$2/$3"));
+      }
+      * /
+      
+      / *
+      searchString = SafeQueryString("ss", "");
+      if (searchString.Length > 0) {
+        LPContext.UrlMaker.AddParam("ss", searchString);
+      }
+      * /
+
+      UrlMaker = Page.LPContext.UrlMaker.Clone();
+
+      UrlMaker.AddParam("f", Function);
+      if (CategoryID > 0) UrlMaker.AddParam("c", CategoryID);
+      if (Sort != "DD") UrlMaker.AddParam("s", Sort);
+      if (PageNumber > 0) UrlMaker.AddParam("pg",PageNumber);
+      
+      if (Function == 'D') {
+        string strDay = Page.SafeQueryString("d","");
+        if (strDay.Length > 0) {
+          Day = DateTime.ParseExact(strDay,"yyMMdd",null);
+          UrlMaker.AddParam("d", strDay);
+        } else {
+          Day = DateTime.Now.Date;
+        }
+      }
+    }
+
+    public static Hashtable Categories {
+      get {
+        return categories;
+      }
+    }
+
+    public static ArrayList CategoriesAry {
+      get {
+        return categoriesAry;
+      }
+    }
+
+    public PhotoCategory Category {
+      get {
+        return (PhotoCategory)categories[CategoryID];
+      }
+    }
+
+    / *
+    public void SaveAttachFiles() {
+      try {
+        //PDSManager pm = new PDSManager("P", PhotoID);
+        //PDSManager pmt = new PDSManager("T");
+        
+        //pm.FileSizeLimit = 500 * 1024;
+        pm.SaveFiles(true);
+
+        string[] files = Directory.GetFiles(pm.PhysicalDir);
+        Bah.Drawing.Util.MakeThumbnail(files[0], pmt.PhysicalDir + "\\" + PhotoID + ".jpg", 140, Bah.Drawing.Util.ThumbnailMold.Both, 90L);
+      } catch (System.IO.DirectoryNotFoundException) {
+      }
+    } 
+    * /
+
+    public void SaveAttachFiles(int userid, SqlConnection conn) {
+      BDSManager dsm = new BDSManager(userid, conn, "PP", PhotoID);
+      BDSManager dsmt = new BDSManager(userid, conn, "PT", 0);
+      dsm.SaveFiles(true);
+      dsmt.MakeThumbnail(dsm.GetFiles()[0], PhotoID, 140);
+    } 
+
+
+
+    static public void MakeCategoryCBList(SqlConnection conn, Control panel) {
+      SqlCommand cmd;
+      SqlDataReader reader;
+      int high = 0, prevHigh = 0;
+      int cid = 0;
+      foreach(PhotoCategory category in categoriesAry) {
+        CheckBox cb = new CheckBox();
+        cid = category.ID;
+        cb.Text = category.Desc;
+        cb.ID = cid.ToString();
+        high = cid / 100;
+        if (high != prevHigh && prevHigh > 0) {
+          panel.Controls.Add(new LiteralControl("<br>"));
+        }
+        / *
+        if (cid == 9010) {
+          cb.Text += " - 부분 채색이 있거나 채도가 높은 모노톤 이미지는 배제";
+        }* /
+        panel.Controls.Add(cb);
+        prevHigh = high;
+      }
+    }
+
+    public void InsertCategory(SqlConnection conn, Control panel) {
+      SqlCommand cmd = new SqlCommand("PhotoAddCategory", conn);
+      cmd.CommandType = CommandType.StoredProcedure;
+      cmd.Parameters.Add("@PhotoID", SqlDbType.Int).Value = PhotoID;
+      cmd.Parameters.Add("@CategoryID", SqlDbType.SmallInt);
+      CheckBox cb;
+      int cbCnt = 0;
+      foreach (Control c in panel.Controls) {
+        cb = c as CheckBox;
+        if (cb != null) {
+          if (cb.Checked) {
+            cmd.Parameters["@CategoryID"].Value = Int16.Parse(cb.ID);
+            cmd.ExecuteNonQuery();
+            if (++cbCnt == 3) {
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    public static string GetRefPhotoScript(int userid, int pid, int border, bool showLink) {
+      string path = new BDSManager(userid, null, "PP", pid).GetVirtualFilePath();
+
+      if (path != null) {
+        ScriptBuilder script = new ScriptBuilder(1024);
+
+        script.ScriptBegin();
+        script.Func("lpRPB");
+        script.FuncBegin("lpRP");
+        script.ParamEscaped(path);
+        script.Param(border);
+        script.FuncEnd();
+
+        if (showLink) {
+          script.FuncBegin("lpRPL").Param(pid).FuncEnd();
+        }
+
+        script.Func("lpRPE");
+        script.ScriptEnd();
+
+        return script.ToString();
+      }
+      return "";
+    }
+  }
+
+*/

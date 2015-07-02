@@ -1,0 +1,34 @@
+/* TODO
+
+<%=MultiViewScript%>
+
+<div runat=server id=SingleViewPanel>
+<div class=fm-f>
+<div class=sort-key>
+<asp:RadioButtonList Runat=server ID="SortList" RepeatDirection=Horizontal RepeatLayout=Flow AutoPostBack="True" Visible=False>
+<asp:ListItem Value="UD">갱신일순</asp:ListItem>
+<asp:ListItem Value="CD">작성일순</asp:ListItem>
+</asp:RadioButtonList>
+</div>
+</div>
+<%=SingleViewScript%>
+</div>
+
+<div class=fm-f>
+<div style="margin-bottom:30px;">
+<app:PageList runat="server" id="PageList" EnableViewState="false"></app:PageList>
+<div Runat=server ID="SearchHolder" Visible=False>
+<asp:textbox id="SearchTB" runat="server" CssClass="tb" Columns="24" MaxLength="64"></asp:textbox>
+</div>
+</div>
+
+<div>
+<a runat=server id="FListLink" href="" visible=false style="margin-right:10px" EnableViewState="false" class="cmd">[폴더목록]</a>
+<a runat=server id=AddFolderLink href="" visible=false style="margin-right:10px" EnableViewState="false" class="cmd">[폴더추가]</a>
+<a runat=server id="FEditLink"  href="" visible=false style="margin-right:10px" EnableViewState="false" class="cmd">[폴더수정]</a>
+<a runat=server id="NewArticleLink" href='' visible=false EnableViewState="false" class="cmd">[새글작성]</a>
+<span runat=server id="NewArticleDim" visible=false EnableViewState="false" class="dim-cmd">[새글작성]</span>
+</div>
+</div>
+
+*/

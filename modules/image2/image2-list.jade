@@ -1,0 +1,35 @@
+<%@ Register TagPrefix="bah" NameSpace="Bah.Web.Controls" Assembly="Bah"%>
+<%@ Page language="c#" Codebehind="PList.aspx.cs" AutoEventWireup="false" Inherits="WebSite.Com.BoxPhoto.PList" %>
+<%@ Register tagprefix="app" tagname="PageList" src="/Com/PageList/DefPageList.ascx"%>
+
+<HTML>
+<%=LPContext.ClientInitScript%>
+<link rel='stylesheet' href='/App/Style/Photo.css'>
+<script src='/App/LP/Photo.js'></script>
+
+<body>
+<form runat="server" ID="Form1">
+<script>lpRenderBegin('F')</script>
+<script>lpRenderTitle("")</script>
+
+<div class=fm-f style="margin-bottom:40px;">
+<div class=sort-key style="margin-bottom:20">
+<asp:RadioButtonList Runat=server ID="SortList" RepeatDirection=Horizontal RepeatLayout=Flow AutoPostBack="True">
+<asp:ListItem Value="CD">게시순</asp:ListItem>
+<asp:ListItem Value="UD">답글순</asp:ListItem>
+</asp:RadioButtonList>
+</div><div id="PageListDupe"></div>
+</div>
+
+<%=rvPhotoListScript%>
+
+<div class=fm-f>
+<div style="margin-top:5px">
+<app:PageList runat="server" id="PageList" EnableViewState="false" CheckAuthenticated="false"></app:PageList>
+</div>
+</div>
+
+<script>lpRenderEnd()</script>
+</form>
+</body>
+</HTML>

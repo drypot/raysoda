@@ -1,0 +1,38 @@
+<%@ Page language="c#" AutoEventWireup="false" Inherits="WebSite.Com.Note.TDelete" CodeBehind="TDelete.aspx.cs" %>
+<%@ Register TagPrefix="bah" NameSpace="Bah.Web.Controls" Assembly="Bah"%>
+<%@ Register tagprefix="app" tagname="Attach" src="/Com/Note/Com/Attach.ascx"%>
+
+<HTML>
+
+<%=LPContext.ClientInitScript%>
+<link rel='stylesheet' href='/App/Style/BBS.css'>
+<link rel='stylesheet' href='/App/Style/Photo.css'>
+<script src='/App/LP/BBS.js'></script>
+
+<%=NoteContext.RefPhotoScript%>
+
+<body>
+<form runat="server" ID="Form" enctype="multipart/form-data">
+<script>lpRenderBegin()</script>
+<div class=fm>
+<script>lpRenderTitle('<%=NoteContext.PageTitle%>')</script>
+
+<asp:ValidationSummary Runat="server" ID="VdSummary" DisplayMode="List" ShowSummary="true" ShowMessageBox="false" CssClass="vdsummary"/>
+
+<div Runat=server ID=MsgTimeOutPanel Visible=False class=form>
+전체 노트에 게시된지 10 분이 지난 게시물은 수정하거나 삭제하실 수 없습니다.
+</div>
+
+<div class=form>
+<asp:CheckBox Runat="server" ID="DeleteCB" Text="게시물을 삭제합니다."></asp:CheckBox>
+</div>
+
+<div class=form>
+<asp:Button Runat="server" ID="Submit" Text="  확인  " CssClass="btn"></asp:Button>
+</div>
+
+</div>
+<script>lpRenderEnd()</script>
+</form>
+</body>
+</html>
