@@ -1,6 +1,7 @@
 {
   "appName": "RaySoda",
-  "appDesc": "사진가들의 달동네",
+  "appNamel": "raysoda",
+  "appDesc": "달동네 레이소다",
 
   "mainSite": "http://raysoda.local:8080",
 
@@ -10,7 +11,7 @@
   "uploadSite": "http://file.raysoda.local:8080",
   "uploadDir": "upload/test",
 
-  "mongodb": "raysoda-test",
+  "mongodb": "raysoda3-test",
 
   "mailServer": "",
 

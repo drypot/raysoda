@@ -1,28 +1,18 @@
-<%@ Page inherits="WebSite.Page" Language="c#" AutoEventWireup="false" %>
+extends ../layout/layout
 
-<html>
-<%=LPContext.ClientInitScript%>
+block title
+  title Help - #{appName}
 
-<body>
-<script>lpRenderBegin()</script>
-<div class=fm>
-<script>lpRenderTitle("운영진")</script>
+block content
 
-<div class=text">
-기획 / 개발 / 관리 : <a href="/aki">AKI / 박규현</a><br><br>
+  .section.page-title
+    h1 Help
 
-시스템 운영에 관한 논의는 개발자 노트에서 이루어 지고 있습니다.
-<a href="/Com/Note/View.aspx?f=A&v=S&l=1090">[개발자 노트]</a><br><br>
-
-자주 질문되는 내용에 대해서는 FAQ 게시판에 답변을 정리하고 있습니다. 
-<a href="/Com/Note/View.aspx?f=A&v=S&l=1091">[FAQ 게시판]</a><br><br>
-
-기타 문의는 메일을 이용해 주십시오.
-<a href="/App/Help/Mail/D.aspx">[폼메일 문의]</a> 또는 <a href="mailto:support@raysoda.com">[support@raysoda.com]</a><br><br>
-
-</div>
-
-</div>
-<script>lpRenderEnd()</script>
-</body>
-</html>
+  .section
+    .sub-section
+      span Want to deactivate your account?&nbsp;
+      a(href='/users/deactivate') click
+    .sub-section
+      | support email:&nbsp;
+      -var email = 'support+' + appNamel + '@raysoda.com'
+      a(href='mailto:' + email)= email 

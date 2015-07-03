@@ -1,22 +1,44 @@
-<%@ Page inherits="WebSite.Page" Language="c#" AutoEventWireup="false" %>
+extends ../layout/layout
 
-<html>
-<%=LPContext.ClientInitScript%>
+block title
+  title Company - #{appName}
 
-<body>
-<script>lpRenderBegin()</script>
-<div class=fm>
-<script>lpRenderTitle("회사 소개")</script>
+block content
 
-<div class=text style="line-height:30px">
-법인명 : (주)레이소다<br>
-대표 : 이흥일<br>
-설립일 : 2003 년 3 월 1 일<br>
-주요서비스 : http://www.raysoda.com<br>
-사업자등록번호 : 211-87-29758<br>
-</div>
+    .section.page-title
+      h1 Company
 
-</div>
-<script>lpRenderEnd()</script>
-</body>
-</html>
+    .section
+      | RaySoda, Inc.
+      br
+      | Founded 2003.03.01
+      br
+      | Business Registration Number 211-87-29758
+      br
+      | Korea
+      br
+      br
+
+      |*
+      br
+      br
+      | Heung IL Lee, CEO
+      br
+      br
+      | Kyuhyun Park, Developer
+      br
+      a(href='https://github.com/drypot/about', target='_blank') https://github.com/drypot/about
+      br
+      br
+
+      |*
+      br
+      br
+      | Services
+      br
+      a(href='http://raysoda.com', target='_blank') http://raysoda.com
+      br
+      a(href='https://rapixel.com', target='_blank') https://rapixel.com
+      br
+      a(href='https://osoky.com', target='_blank') https://osoky.com
+      br

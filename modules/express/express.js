@@ -21,7 +21,7 @@ init.add(function () {
   exp.app.locals.pretty = true;
   exp.app.locals.appName = config.appName;
   exp.app.locals.appDesc = config.appDesc;
-  exp.app.locals.appType = config.appType;
+  exp.app.locals.appNamel = config.appNamel;
 
   exp.app.engine('jade', require('jade').renderFile);
   exp.app.set('view engine', 'jade');

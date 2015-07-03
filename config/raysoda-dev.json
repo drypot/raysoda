@@ -1,5 +1,6 @@
 {
   "appName": "RaySoda",
+  "appNamel": "raysoda",
   "appDesc": "달동네 레이소다",
   
   "mainSite": "http://raysoda.local:8080",
@@ -10,7 +11,7 @@
   "uploadSite": "http://file.raysoda.local:8080",
   "uploadDir": "upload",
 
-  "mongodb": "raysoda",
+  "mongodb": "raysoda3",
 
   "mailServer": "",
 

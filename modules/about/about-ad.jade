@@ -1,24 +1,27 @@
-<%@ Page inherits="WebSite.Page" Language="c#" AutoEventWireup="false" %>
+extends ../layout/layout
 
-<html>
-<%=LPContext.ClientInitScript%>
+block title
+  title Advertise - #{appName}
 
-<body>
-<script>lpRenderBegin()</script>
-<div class=fm>
-<script>lpRenderTitle("광고 문의")</script>
+block content
 
-<div class=text style="line-height:28px">
-레이소다에서는 일면 한 줄 텍스트 광고를 집행해 드립니다.<br>
-레이소다 광고는 집중도 높은 자리에 적은 수의 광고를 유지함으로서 큰 효과를 보여 드립니다.<br>
-자세한 내용은 <a href="mailto:support@raysoda.com">support@raysoda.com</a> 으로 문의 부탁드립니다.<br>
-*<br>
-사이트 운영 수치<br>
-일일 일면 노출 횟수 :  약 50,000 여 회<br>
-일일 전체 페이지 노출 횟 수 : 1,600,000 여 회 <br>
-</div>
+    .section.page-title
+      h1 Company
 
-</div>
-<script>lpRenderEnd()</script>
-</body>
-</html>
+    .section
+      | 레이소다는 일면에 한줄광고를 제공해 드리고 있습니다.
+      | 광고 텍스트는 ‘홍보 문구 / 업체명’ 형식으로 표시됩니다.
+      | 
+      | 광고 가격은 주당 88,000 원입니다. (부가세 포함)
+      | 소액이기 때문에 광고비는 집행전 선입금을 받고 있습니다.
+      | 
+      | 사업자등록증 사본을 팩스나 이메일로 보내주시고,
+      | 광고 텍스트, 링크, 기간, 전자세금계산서 받으실 이메일 주소를 아래 이메일로 보내 주십시오.
+      | 
+      | 감사합니다.
+      | 
+      | *
+      | 
+      | 광고 신청: support@raysoda.com
+      | 광고비 입금: 국민은행 09763704000776 (주)레이소다
+      | 사업자등록증 보내실 팩스: 02-508-0991
