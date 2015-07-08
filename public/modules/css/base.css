@@ -1,3 +1,177 @@
-.image-view img {
+body {
+  font-family: serif;
+  font-size: 16px;
+  color: #333333;
+}
+.ac-link a {
+  color: #333333;
+}
+.section {
+  max-width: 1080px;
+  margin-top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  padding: 0px 8px;
+  text-align: center;
+}
+.sub-section {
+  margin-bottom: 30px;
+}
+.page-title {
+  margin-top: 55px;
+}
+.page-title a {
+  color: #333333;
+}
+.page-title a:hover {
+  text-decoration: none;
+}
+.site-title {
+  margin-top: 55px;
+}
+.site-title a {
+  color: #333333;
+}
+.site-title a:hover {
+  text-decoration: none;
+}
+.site-title h1 {
+  font-size: 51.2px;
+  margin-bottom: 35px;
+}
+.page-footer {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+.page-footer a {
+  color: #333333;
+}
+.page-footer ul {
+  margin: 0px;
+}
+.page-footer ul li {
+  font-size: 16px;
+  padding: 0 5px;
+}
+.page-footer .home {
+  margin-top: 15px;
+}
+.page-footer .home a {
+  font-size: 32px;
+  font-weight: 500;
+  text-decoration: none;
+}
+pre.error-report {
+  margin: 0px;
+  padding: 0px;
+  padding-top: 5px;
+  border: 0;
+  border-top: 1px solid #eeeeee;
+  text-align: left;
+  font-family: monospace;
+  font-size: 14px;
+  background-color: white;
+  white-space: nowrap;
+}
+.modal-body p {
+  white-space: nowrap;
+  overflow: scroll;
+}
+form.main {
+  width: 648px;
+  margin: 0 auto;
+}
+form.main input[type=file] {
+  width: 100%;
+}
+@media (max-width: 480px) {
+  form {
+    width: 100%;
+  }
+}
+.top-links a {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.news {
+  margin-top: 50px 0.4;
+}
+.pager-prev {
+  line-height: 1;
+}
+.pager-next {
+  line-height: 1;
+}
+.images {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.images a {
+  color: #333333;
+}
+.images .box {
+  margin-bottom: 45px;
+}
+.images .box img {
   max-width: 100%;
+  max-height: 100%;
+  margin-bottom: 5px;
+}
+.images .box a {
+  display: block;
+}
+@media (max-width: 768px) {
+  .images .box {
+    margin-bottom: 20px;
+  }
+}
+.image-view {
+  text-align: center;
+}
+.image-view img {
+  cursor: pointer;
+  max-width: 100%;
+}
+:-webkit-full-screen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+:-moz-full-screen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+:-ms-fullscreen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+:fullscreen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+.image-info {
+  margin-top: 15px;
+}
+.image-info a {
+  color: #333333;
+}
+.image-info .uname {
+  margin-bottom: 20px;
+  font-size: 22.4px;
+}
+.image-info .comment {
+  margin-bottom: 20px;
+}
+.image-info .cdate {
+  margin-bottom: 5px;
+  font-size: 14.4px;
+}
+.image-info .fname {
+  margin-bottom: 5px;
+  font-size: 14.4px;
+  color: white;
 }

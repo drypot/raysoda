@@ -1,5 +1,220 @@
+@font-size: 16px;
+@color: #333;
+@dim-color: lighten(@color, 50%);
+@margin: 50px;
+@width: 1080px;
+
+// basic layout
+
+body {
+  font-family: serif;
+  font-size: @font-size;
+  color: @color; 
+}
+
+.ac-link { // achromatic color link
+  a {
+    color: @color;
+  }
+}
+
+.section {
+  max-width: @width; // for mobile. width 를 쓰면 작은 화면에서 화면 밖으로 나간다.
+  margin-top: 0px;
+  margin-left: auto; // auto 는 IE9 이상부터
+  margin-right: auto;
+  margin-bottom: @margin;
+  padding: 0px 8px;
+  text-align: center;
+}
+
+.sub-section {
+  margin-bottom: @margin * 0.6;
+}
+
+.page-title {
+  .ac-link;
+  margin-top: @margin * 1.1;
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+.site-title {
+  .page-title;
+  h1 {
+    font-size: @font-size * 3.2;
+    margin-bottom: @margin * 0.7;
+  }
+}
+
+.page-footer {
+  .ac-link;
+  margin-top: @margin * 1.6;
+  margin-bottom: @margin * 1.6;
+  ul {
+    margin: 0px;
+    li {
+      font-size: @font-size;
+      padding: 0 5px;
+    }
+  }
+  .home {
+    margin-top: @margin * 0.3;
+    a {
+      font-size: @font-size * 2;
+      font-weight: 500;
+      text-decoration: none;
+    }
+  }
+}
+
+// error
+
+pre.error-report {
+  margin: 0px;
+
+  padding: 0px;
+  padding-top: 5px;
+
+  border: 0;
+  border-top: 1px solid #eeeeee;
+
+  text-align: left;
+  font-family: monospace;
+  font-size: 14px;
+  background-color: white;
+  white-space: nowrap;
+}
+
+.modal-body {
+  p {
+    white-space: nowrap;
+    overflow: scroll;
+  }
+}
+
+// form
+
+form.main {
+  width: @width * 0.6;
+  margin: 0 auto;
+
+  input[type=file] {
+    width: 100%;
+  }
+  textarea {
+    //font-family: monospace;
+  }
+}
+
+@media (max-width: 480px) {
+  form {
+    width: 100%;
+  }
+}
+
+// home
+
+.top-links {
+  a {
+    padding-left:10px;
+    padding-right:10px;
+  }
+}
+
+.news {
+  margin-top: @margin 0.4;
+}
+
+// image list
+
+.pager-prev {
+  line-height: 1;
+}
+
+.pager-next {
+  .pager-prev;
+}
+
+.images {
+  .ac-link;
+  padding-left: 0px;
+  padding-right: 0px;
+  .box {
+    margin-bottom: @margin * 0.9;
+    img {
+      max-width: 100%; // for mobile
+      max-height: 100%; // for mobile
+      margin-bottom: @margin * 0.1;
+    }
+    a {
+      display: block;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .images {
+    .box {
+      margin-bottom: @margin * 0.4;
+    }
+  }
+}
+
+// image view
+
 .image-view {
+  text-align: center;
   img {
+    cursor:pointer;
     max-width: 100%;
+  }
+}
+
+:-webkit-full-screen {
+  background: black;
+  width: 100%;
+  height: 100%;
+} 
+
+:-moz-full-screen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+
+:-ms-fullscreen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+ 
+:fullscreen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+
+.image-info {
+  .ac-link;
+  margin-top: @margin * 0.3;
+  .uname {
+    margin-bottom: @margin * 0.4;
+    font-size: @font-size * 1.4;
+  }
+  .comment {
+    margin-bottom: @margin * 0.4;
+  }
+  .cdate {
+    margin-bottom: @margin * 0.1;
+    font-size: @font-size * 0.9;
+  }
+  .fname {
+    margin-bottom: @margin * 0.1;
+    font-size: @font-size * 0.9;
+    color: white;  
+  }
+  .commands {
   }
 }
