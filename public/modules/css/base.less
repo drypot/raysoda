@@ -12,6 +12,10 @@ body {
   color: @color; 
 }
 
+hr {
+  margin: @margin * 0.2 0px;
+}
+
 .ac-link { // achromatic color link
   a {
     color: @color;
@@ -32,40 +36,48 @@ body {
   margin-bottom: @margin * 0.6;
 }
 
-.page-title {
+.site-title {
   .ac-link;
-  margin-top: @margin * 1.1;
+  padding: 0px;
   a:hover {
     text-decoration: none;
   }
-}
-
-.site-title {
-  .page-title;
-  h1 {
-    font-size: @font-size * 3.2;
-    margin-bottom: @margin * 0.7;
-  }
+  margin-top: @margin * 0.2;
+  margin-bottom: @margin * 0.2;
+  font-size: @font-size * 1.5;
 }
 
 .page-footer {
   .ac-link;
   margin-top: @margin * 1.6;
   margin-bottom: @margin * 1.6;
-  ul {
-    margin: 0px;
-    li {
-      font-size: @font-size;
-      padding: 0 5px;
+  padding: 0px;
+  .about-list {
+    margin-bottom: @margin * 0.3;
+    ul {
+      margin: 0px;
+      li {
+        font-size: @font-size;
+        padding: 0 5px;
+      }
     }
   }
-  .home {
-    margin-top: @margin * 0.3;
-    a {
-      font-size: @font-size * 2;
-      font-weight: 500;
+  .site-title-bottom {
+    a:hover {
       text-decoration: none;
     }
+    font-size: @font-size * 1.5;
+  }
+}
+
+.page-title {
+  .ac-link;
+  a:hover {
+    text-decoration: none;
+  }
+  margin-top: @margin;
+  h1 {
+    font-size: @font-size * 3;
   }
 }
 
@@ -97,7 +109,7 @@ pre.error-report {
 // form
 
 form.main {
-  width: @width * 0.6;
+  max-width: @width * 0.6;
   margin: 0 auto;
 
   input[type=file] {
@@ -168,7 +180,6 @@ form.main {
   text-align: center;
   img {
     cursor:pointer;
-    max-width: 100%;
   }
 }
 
@@ -176,7 +187,7 @@ form.main {
   background: black;
   width: 100%;
   height: 100%;
-} 
+}
 
 :-moz-full-screen {
   background: black;
@@ -189,7 +200,7 @@ form.main {
   width: 100%;
   height: 100%;
 }
- 
+
 :fullscreen {
   background: black;
   width: 100%;

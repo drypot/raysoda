@@ -1,6 +1,6 @@
 extends ../layout/layout
 
-block title
+block head-title
   if svg
     meta(property='og:image', content=image.dir + '/' + image._id + '-org.svg')
   else
@@ -8,6 +8,8 @@ block title
   meta(property='og:title' content='Image ' + image._id)
   meta(property='og:description' content=image.comment)
   title Image !{image._id} - #{appName}
+
+block site-title
 
 block content
 
