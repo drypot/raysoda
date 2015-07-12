@@ -2,7 +2,7 @@
   "name": "raysoda",
   "version": "3.0.0",
   "description": "https://raysoda.com",
-  "main": "modules/main/main.js",
+  "main": "server/main/main.js",
   "scripts": {
     "test": "bin/test"
   },

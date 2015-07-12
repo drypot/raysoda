@@ -18,10 +18,10 @@ Mac 개발환경용 Nginx 설정 예
         proxy_set_header Host $http_host;
       }
 
-      location /modules/ {
+      location /static/ {
       }
 
-      location /modules/bower/ {
+      location /static/bower/ {
         alias /Users/drypot/projects/raysoda/website/bower_components/;
       }
     }
@@ -81,7 +81,7 @@ libpng 별도 설치 필요(?)
     Restart=always
     RestartSec=15
     WorkingDirectory=/data/web/raysoda
-    ExecStart=/usr/bin/node modules/main/main.js --config config/raysoda-live.json
+    ExecStart=/usr/bin/node server/main/main.js --config config/raysoda-live.json
     Environment=NODE_ENV=production
 
     [Install]
