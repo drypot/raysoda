@@ -128,7 +128,21 @@ describe('toDateTimeString', function () {
   it('should success', function () {
     var d = new Date(1974, 4, 16, 12, 0);
     expect(utilp.toDateTimeString(d)).equal('1974-05-16 12:00:00');
-  })
+  });
+});
+
+describe('toDateString', function () {
+  it('should success', function () {
+    var d = new Date(1974, 4, 16, 12, 0);
+    expect(utilp.toDateString(d)).equal('1974-05-16');
+  });
+});
+
+describe('toDateStringNoDash', function () {
+  it('should success', function () {
+    var d = new Date(1974, 4, 16, 12, 0);
+    expect(utilp.toDateStringNoDash(d)).equal('19740516');
+  });
 });
 
 describe('makeUrl', function () {

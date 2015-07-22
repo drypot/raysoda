@@ -82,6 +82,14 @@ utilp.toDateTimeString = function (d) {
     pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
 };
 
+utilp.toDateString = function (d) {
+  return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+};
+
+utilp.toDateStringNoDash = function (d) {
+  return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate());
+};
+
 // url
 
 utilp.makeUrl = function(url, params) {

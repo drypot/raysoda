@@ -53,3 +53,5 @@ table UserFavs (
   ,primary key (OwnerUserID, TargetUserID)
 
 -----
+
+*/
