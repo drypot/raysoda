@@ -13,10 +13,10 @@ table Users (
   ,FIcon    char(1) not null default 'N' -- 삭제
   ,FMusic   char(1) not null default 'N' -- 삭제
   ,FScore   char(1) not null default 'Y' -- 삭제
-  ,FGoC   char(1) not null default 'Y' -- 삭제
+  ,FGoC   char(1) not null default 'Y' -- 추천후 Go to Catalog -- 삭제 
   ,FPanel   char(1) not null default 'N' -- 삭제
   ,FDisWrite  char(1) not null default 'N' -- 삭제
-  ,FSeed    char(1) not null default 'Y' -- 초개 가능 여부, 삭제
+  ,FSeed    char(1) not null default 'Y' -- 초대 가능 여부, 삭제
 
   ,HomePubPhotoCount    int not null default '5' -- 삭제
   ,HomeBoxPhotoCount    int not null default '5' -- 삭제
@@ -25,10 +25,10 @@ table Users (
   
   ,BoxUsedSize  bigint not null default 0 -- 개인용량 사용량, 삭제
   ,BoxSID   nvarchar(16) not null default '' --> home, homel
-  ,BoxDesc  nvarchar(32) not null default '' --> AKI's home 등, 삭제 대상
+  ,BoxDesc  nvarchar(32) not null default '' --> AKI's home 등, 삭제
 
-  ,NickName nvarchar(32) not null상 -- AKI
-  ,RealName nvarchar(32) not null -- 박규현
+  ,NickName nvarchar(32) not null -- AKI
+  ,RealName nvarchar(32) not null -- 박규현 -- 삭제
   ,Password nvarchar(16) not null
   ,Email    nvarchar(64) not null
   ,HomePage varchar(256) not null default '' -- 삭제
@@ -44,6 +44,7 @@ table Users (
   ,Career   ntext not null default '' -- 삭제
   
   ,primary key (UserID)
+
 -----
 
 table UserFavs (
@@ -52,15 +53,3 @@ table UserFavs (
   ,primary key (OwnerUserID, TargetUserID)
 
 -----
-
-create table UserRoles ( -- 폐기
-  UserID    int not null,
-  Role    nvarchar(32) not null,
-  primary key (UserID, Role)
-);
-go
-
-insert into UserRoles(UserID, Role) values(1, 'admin')
-insert into UserRoles(UserID, Role) values(1, 'bbsadmin')
-
-*/

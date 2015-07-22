@@ -17,6 +17,10 @@ init.add(function (done) {
   resets.ensureIndex({ email: 1 }, done);
 });
 
+exp.core.get('/users/reset-pass', function (req, res, done) {
+  res.render('user/user-reset-pass');
+});
+
 exp.core.post('/api/reset-pass', function (req, res, done) {
   var form = {};
   form.email = String(req.body.email || '').trim();
@@ -99,6 +103,3 @@ exp.core.put('/api/reset-pass', function (req, res, done) {
   });
 });
 
-exp.core.get('/users/reset-pass', function (req, res, done) {
-  res.render('user/user-reset-pass');
-});

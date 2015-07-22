@@ -1,17 +1,21 @@
-Tables
+테이블
 
-    UserCandidMails
-    UserFavs
-    UserFreePosters
-    UserInvites
-    UserRoles
+    CountPerDays
+
     Users
-    UsersDeleted
+    UserFavs -- 보존
 
-    PhotoCategories
-    PhotoCrits
+    UserCandidMails -- 삭제
+    UserFreePosters -- 삭제
+    UserInvites -- 삭제
+    UserRoles -- 삭제
+    UsersDeleted -- 삭제
+
     Photos
-    CategoriesPhotos
+    PhotoCrits -- 보존
+
+    PhotoCategories -- 삭제
+    CategoriesPhotos -- 삭제
 
     Boxes
     BoxFavs
@@ -28,29 +32,25 @@ Tables
     BBSThreadsPhotos
     BBSUsersThreads
 
-    CountPerDays
+    Seqs -- 삭제
 
-    Seqs
+    StgOrders -- 삭제
+    StgTickets -- 삭제
 
-Tables to Drop
+    CardLogs -- 삭제
+    CardPhotos -- 삭제
 
-    StgOrders
-    StgTickets
+    GBArticles -- 삭제
+    GBThreads -- 삭제
 
-    CardLogs
-    CardPhotos
+    ZipCodes -- 삭제
 
-    GBArticles
-    GBThreads
+    FArtists -- Featured Artists -- 삭제
+    QFArtists -- Queued Featured Artists -- 삭제 
+    FArtistsPhotos -- 삭제
 
-    ZipCodes
-
-    FArtists -- Featured Artists
-    QFArtists -- Queued Featured Artists 
-    FArtistsPhotos
-
-    PhotoAdmQues
-    PhotoAdmSels -- 일면 사진
+    PhotoAdmQues -- 삭제
+    PhotoAdmSels -- 일면 사진 -- 삭제
 
 
 Seq
