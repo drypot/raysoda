@@ -1,10 +1,7 @@
 extends ../layout/layout
 
 block head-title
-  if svg
-    meta(property='og:image', content=image.dir + '/' + image._id + '-org.svg')
-  else
-    meta(property='og:image', content=image.dir + '/' + image._id + '-1440.jpg')
+  meta(property='og:image', content=image.dir + '/' + image._id + '-1440.jpg')
   meta(property='og:title' content='Image ' + image._id)
   meta(property='og:description' content=image.comment)
   title Image !{image._id} - #{appName}
@@ -19,10 +16,7 @@ block content
     });
 
   .image-view
-    if svg
-      img(src=image.dir + '/' + image._id + '-org.svg')
-    else
-      img(style='background: url(' + image.dir + '/' + image._id + '-640.jpg); background-size: cover;')
+    img(style='background: url(' + image.dir + '/' + image._id + '.jpg); background-size: cover;')
 
   .section.image-info
     .sub-section(style='display: none')

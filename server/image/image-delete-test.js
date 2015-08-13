@@ -21,7 +21,7 @@ before(function (done) {
   imageb.emptyDir(done);
 });
 
-var _f1 = 'samples/3840x2160-169.jpg';
+var _f1 = 'samples/3264x2448.jpg';
 var _id;
 
 describe('deleting', function () {
@@ -32,7 +32,6 @@ describe('deleting', function () {
     userf.login('user1', done);
   });
   it('given post', function (done) {
-    this.timeout(30000);
     local.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -49,7 +48,7 @@ describe('deleting', function () {
     });
   });
   it('can be checked', function (done) {
-    expect(new imageb.FilePath(_id).getVersion(3840)).not.pathExist;
+    expect(new imageb.FilePath(_id).path).not.pathExist;
     imageb.images.findOne({ _id: _id }, function (err, image) {
       expect(err).not.exist;
       expect(image).not.exist;
@@ -66,7 +65,6 @@ describe('deleting by admin', function () {
     userf.login('user1', done);
   });
   it('given post', function (done) {
-    this.timeout(30000);
     local.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -86,7 +84,7 @@ describe('deleting by admin', function () {
     });
   });
   it('can be checked', function (done) {
-    expect(new imageb.FilePath(_id).getVersion(3840)).not.pathExist;
+    expect(new imageb.FilePath(_id).path).not.pathExist;
     imageb.images.findOne({ _id: _id }, function (err, image) {
       expect(err).not.exist;
       expect(image).not.exist;
@@ -103,7 +101,6 @@ describe('deleting other\'s', function () {
     userf.login('user1', done);
   });
   it('given post', function (done) {
-    this.timeout(30000);
     local.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -124,7 +121,7 @@ describe('deleting other\'s', function () {
     });
   });
   it('can be checked', function (done) {
-    expect(new imageb.FilePath(_id).getVersion(3840)).pathExist;
+    expect(new imageb.FilePath(_id).path).pathExist;
     imageb.images.findOne({ _id: _id }, function (err, image) {
       expect(err).not.exist;
       expect(image).exist;

@@ -90,21 +90,57 @@ Seq
 
 URLs
 
-    사진
+    갤러리 공
 
-    전체 목록: /Com/Photo/List.aspx?f=A
-    등록일별 목록: /Com/Photo/List.aspx?f=D&amp;s=DD
-    소재별 목록: /Com/Photo/CList.aspx?f=C
+    public const char FuncAll = 'A';
+    public const char FuncCategory = 'C'; 
+    public const char FuncUser = 'U';
+    public const char FuncUserComment = 'M';
+    public const char FuncDay = 'D';
+    public const char FuncFav = 'F';
+    
     사진 등록: /Com/Photo/New.aspx?f=S
 
-    개인 등록한 사진: /Com/Photo/List.aspx?f=U
-    개인 추천한 사진: /Com/Photo/List.aspx?f=M
+    전체 사진 목록, 게시순: /Com/Photo/List.aspx?f=A&s=DD&pg=3 <-- s 기본값 DD
+    사진: /Com/Photo/View.aspx?f=A&pg=3&p=934834
 
-    개인 사진
+    전체 사진 목록, 게시순/전작: Com/Photo/List.aspx?f=A&s=HD&pg=1
+    사진: /Com/Photo/View.aspx?f=U&s=DD&u=1&p=934909
 
-    기본 폴더: /Com/BoxPhoto/FList.aspx?f=S&amp;s=VD
-    가상 폴더: /Com/BoxPhoto/FList.aspx?f=C&amp;s=VD
-    전체 사진: /Com/BoxPhoto/PList.aspx?f=P&amp;s=UD
+    등록일별 목록, 게시순: /Com/Photo/List.aspx?f=D&d=150724&s=DD
+    사진: /Com/Photo/View.aspx?f=D&d=150724&p=934916
+
+    등록일별 목록, 게시순/전작: /Com/Photo/List.aspx?f=D&d=150724&s=HD
+    사진: /Com/Photo/View.aspx?f=U&s=DD&u=125481&p=934918
+
+    소재 목록: /Com/Photo/CList.aspx?f=C
+    소재별 사진 목록: /Com/Photo/List.aspx?f=C&&s=HD&c=120
+
+    개인 등록 사진 목록: /Com/Photo/List.aspx?f=U&u=1
+    사진: /Com/Photo/View.aspx?f=U&s=DD&u=1&p=934909
+    
+    개인 추천 사진 목록: /Com/Photo/List.aspx?f=M&u=1
+    사진: /Com/Photo/View.aspx?u=1&f=M&p=678048
+
+    즐겨찾는 공 사진 목록: /Com/Photo/List.aspx?f=F&u=1
+    사진: /Com/Photo/View.aspx?u=1&f=F&p=934883
+
+
+    갤러리 아
+
+    기본 폴더: /Com/BoxPhoto/FList.aspx?f=S&s=VD&u=1
+    사진: /Com/BoxPhoto/PView.aspx?f=S&u=1&s=VD&l=56734&p=457745
+
+    폴더 뷰, 섬네일: /Com/BoxPhoto/FView.aspx?f=S&u=1&s=VD&l=56734
+    폴더 뷰, 원본: /Com/BoxPhoto/FView.aspx?f=S&u=1&s=VD&l=56734&v=N&pg=0
+
+    가상 폴더: /Com/BoxPhoto/FList.aspx?f=C&s=VD&u=1
+    
+    전체 사진: /Com/BoxPhoto/PList.aspx?f=P&s=UD&u=1
+    사진: /Com/BoxPhoto/PView.aspx?u=1&f=P&s=UD&p=231266
+
+    즐겨찾는 아 사진 목록: /Com/BoxPhoto/PList.aspx?f=F&s=CD&u=1
+    사진: /Com/BoxPhoto/PView.aspx?u=1&f=F&p=514463
 
 
     글

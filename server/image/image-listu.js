@@ -33,7 +33,7 @@ function profile(req, res, tuser) {
   var query = { uid: tuser.id };
   mongop.findPage(imageb.images, { uid: tuser._id }, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);
-    res.render('user-profile/user-profile', {
+    res.render('image/image-listu', {
       tuser: tuser,
       updatable: user && (user._id === tuser._id || user.admin),
       images: images,

@@ -57,7 +57,6 @@ describe('updating with text file', function () {
     imageb.images.insertOne(form, done);
   });
   it('should fail', function (done) {
-    this.timeout(30000);
     local.put('/api/images/' + _id).attach('files', 'server/express/upload-fixture1.txt').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).exist;

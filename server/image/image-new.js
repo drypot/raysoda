@@ -36,37 +36,31 @@ exp.core.post('/api/images', upload.handler(function (req, res, done) {
     var ids = [];
     (function create() {
       if (i < form.files.length) {
-        var file = form.files[i++];
+        var upload1 = form.files[i++];
         getTicketCount(form.now, user, function (err, count, hours) {
           if (err) return done(err);
           if (!count) {
             res.json({ ids: ids });
             return done();
           }
-          site.checkImageMeta(file.path, function (err, meta) {
+          site.checkImageMeta(upload1, function (err, meta) {
             if (err) return done(err);
             var id = imageb.getNewId();
-            var path = new imageb.FilePath(id, meta.format);
-            fsp.makeDir(path.dir, function (err) {
+            var save = new imageb.FilePath(id);
+            fsp.makeDir(save.dir, function (err) {
               if (err) return done(err);
-              fs.rename(file.path, path.original, function (err) {
+              site.makeVersions(upload1, save, meta, function (err, vers) {
                 if (err) return done(err);
-                site.makeVersions(path, meta, function (err, vers) {
+                var image = {
+                  _id: id,
+                  uid: user._id,
+                  cdate: form.now
+                };
+                site.fillFields(image, form, meta, vers);
+                imageb.images.insertOne(image, function (err) {
                   if (err) return done(err);
-                  var image = {
-                    _id: id,
-                    uid: user._id,
-                    hit: 0,
-                    fname: file.safeFilename,
-                    format: meta.format,
-                    cdate: form.now
-                  };
-                  site.fillFields(image, form, meta, vers);
-                  imageb.images.insertOne(image, function (err) {
-                    if (err) return done(err);
-                    ids.push(id);
-                    setImmediate(create);
-                  });
+                  ids.push(id);
+                  setImmediate(create);
                 });
               });
             });
@@ -79,52 +73,6 @@ exp.core.post('/api/images', upload.handler(function (req, res, done) {
     })();
   });
 }));
-
-/* TODO
-procedure PhotoInsert
-    @PhotoID int output
-    ,@UserID int
-    ,@Border tinyint
-    ,@Title nvarchar(128)
-    ,@Comment ntext
-    ,@Music varchar(1024)
-    ,@RowCount int output
-    as
-
-    declare @LeftMin int
-
-    declare @now datetime
-    declare @lastpost datetime
-
-    exec SeqNextValue 'photo', @PhotoID output
-
-    begin tran
-
-      exec PhotoCheckInsertPerm @UserID, @LeftMin output
-      
-      if (@LeftMin = 0)
-      begin
-        
-        select @lastpost = max(CDate) from Photos 
-        select @now = case when getdate()> @lastpost then getdate() else @lastpost + 0.000001 end
-
-        insert 
-        Photos(PhotoID, UserID, Border, Title, Comment, Music, CDate, UDate)
-        select @PhotoID, @UserID, @Border, @Title, @Comment, @Music, @now, @now
-
-        select @RowCount = @@rowcount
-      end
-      else
-        select @RowCount = 0
-
-    commit tran
-
-    if (@RowCount > 0)
-      update Users 
-      set PDate = @now
-      where UserID = @UserID
-  go
-*/
 
 var getForm = imagen.getForm = function (req) {
   var body = req.body;
