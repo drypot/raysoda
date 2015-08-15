@@ -3,15 +3,15 @@ var fs = require('fs');
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config');
-var fsp = require('../base/fs');
-var exp = require('../express/express');
-var upload = require('../express/upload');
+var fs2 = require('../base/fs2');
+var expb = require('../express/express-base');
+var expu = require('../express/express-upload');
 var userb = require('../user/user-base');
 var imageb = require('../image/image-base');
 var site = require('../image/image-site');
 var imagen = exports;
 
-exp.core.get('/images/new', function (req, res, done) {
+expb.core.get('/images/new', function (req, res, done) {
   userb.checkUser(res, function (err, user) {
     if (err) return done(err);
     var now = new Date();
@@ -25,7 +25,7 @@ exp.core.get('/images/new', function (req, res, done) {
   });
 });
 
-exp.core.post('/api/images', upload.handler(function (req, res, done) {
+expb.core.post('/api/images', expu.handler(function (req, res, done) {
   userb.checkUser(res, function (err, user) {
     if (err) return done(err);
     var form = getForm(req);
@@ -47,7 +47,7 @@ exp.core.post('/api/images', upload.handler(function (req, res, done) {
             if (err) return done(err);
             var id = imageb.getNewId();
             var save = new imageb.FilePath(id);
-            fsp.makeDir(save.dir, function (err) {
+            fs2.makeDir(save.dir, function (err) {
               if (err) return done(err);
               site.makeVersions(upload1, save, meta, function (err, vers) {
                 if (err) return done(err);

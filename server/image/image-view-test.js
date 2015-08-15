@@ -1,14 +1,14 @@
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config')({ path: 'config/test.json' });
-var mongop = require('../mongo/mongo')({ dropDatabase: true });
-var exp = require('../express/express');
-var upload = require('../express/upload');
+var mongob = require('../mongo/mongo-base')({ dropDatabase: true });
+var expb = require('../express/express-base');
+var expu = require('../express/express-upload');
 var userf = require('../user/user-fixture');
 var imagen = require('../image/image-new');
 var imagev = require('../image/image-view');
-var local = require('../express/local');
-var expect = require('../base/assert').expect;
+var expl = require('../express/express-local');
+var expect = require('../base/assert2').expect;
 
 before(function (done) {
   init.run(done);
@@ -23,7 +23,7 @@ describe('getting image', function () {
   var _id;
   var _files;
   it('given image', function (done) {
-    local.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
+    expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
       expect(res.body.ids).exist;
@@ -33,7 +33,7 @@ describe('getting image', function () {
     });
   });
   it('should success', function (done) {
-    local.get('/api/images/' + _id).end(function (err, res) {
+    expl.get('/api/images/' + _id).end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
       done();

@@ -2,16 +2,16 @@ var fs = require('fs');
 
 var init = require('../base/init');
 var error = require('../base/error');
-var fsp = require('../base/fs');
+var fs2 = require('../base/fs2');
 var config = require('../base/config')({ path: 'config/test.json' });
-var mongop = require('../mongo/mongo')({ dropDatabase: true });
-var exp = require('../express/express');
-var upload = require('../express/upload');
+var mongob = require('../mongo/mongo-base')({ dropDatabase: true });
+var expb = require('../express/express-base');
+var expu = require('../express/express-upload');
 var userf = require('../user/user-fixture');
 var imageb = require('../image/image-base');
 var imagen = require('../image/image-new');
-var local = require('../express/local');
-var expect = require('../base/assert').expect;
+var expl = require('../express/express-local');
+var expect = require('../base/assert2').expect;
 
 before(function (done) {
   init.run(done);
@@ -31,7 +31,7 @@ describe('posting horizonal image', function () {
     imageb.images.deleteMany(done);
   });
   it('should success', function (done) {
-    local.post('/api/images').field('comment', 'h image').attach('files', 'samples/3264x2448.jpg').end(function (err, res) {
+    expl.post('/api/images').field('comment', 'h image').attach('files', 'samples/3264x2448.jpg').end(function (err, res) {
       expect(err).not.exist;
       console.log(res.body.err);
       expect(res.body.err).not.exist;
@@ -65,7 +65,7 @@ describe('posting vertical image', function () {
     imageb.images.deleteMany(done);
   });
   it('should success', function (done) {
-    local.post('/api/images').field('comment', 'v image').attach('files', 'samples/2448x3264.jpg').end(function (err, res) {
+    expl.post('/api/images').field('comment', 'v image').attach('files', 'samples/2448x3264.jpg').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
       expect(res.body.ids).exist;
@@ -98,7 +98,7 @@ describe('posting small images', function () {
     imageb.images.deleteMany(done);
   });
   it('should success', function (done) {
-    local.post('/api/images').field('comment', 'small image').attach('files', 'samples/960x540.jpg').end(function (err, res) {
+    expl.post('/api/images').field('comment', 'small image').attach('files', 'samples/960x540.jpg').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
       expect(res.body.ids).exist;
@@ -131,7 +131,7 @@ describe('posting too small', function () {
     imageb.images.deleteMany(done);
   }); 
   it('should fail', function (done) {
-    local.post('/api/images').attach('files', 'samples/360x240.jpg').end(function (err, res) {
+    expl.post('/api/images').attach('files', 'samples/360x240.jpg').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).exist;
       expect(res.body.err).error('IMAGE_SIZE');

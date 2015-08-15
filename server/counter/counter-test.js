@@ -1,10 +1,10 @@
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config')({ path: 'config/test.json' });
-var mongop = require('../mongo/mongo')({ dropDatabase: true });
-var utilp = require('../base/util');
+var mongob = require('../mongo/mongo-base')({ dropDatabase: true });
+var util2 = require('../base/util2');
 var counter = require('../counter/counter');
-var expect = require('../base/assert').expect;
+var expect = require('../base/assert2').expect;
 
 before(function (done) {
   init.run(done);
@@ -42,7 +42,7 @@ describe('counter', function () {
 });
 
 describe('daily counter', function () {
-  var d = utilp.toDateStringNoDash(new Date());
+  var d = util2.toDateStringNoDash(new Date());
   it('creating should success', function (done) {
     counter.updateDaily('today', done);
   });

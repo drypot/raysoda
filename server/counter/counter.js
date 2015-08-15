@@ -1,12 +1,12 @@
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config');
-var utilp = require('../base/util');
-var mongop = require('../mongo/mongo');
+var util2 = require('../base/util2');
+var mongob = require('../mongo/mongo-base');
 var counter = exports;
 
 init.add(function (done) {
-  counter.counters = mongop.db.collection('counters');
+  counter.counters = mongob.db.collection('counters');
   done();
 });
 
@@ -16,6 +16,6 @@ counter.update = function (id, next) {
 };
 
 counter.updateDaily = function (id, next) {
-  var query = { _id: id + utilp.toDateStringNoDash(new Date()) };
+  var query = { _id: id + util2.toDateStringNoDash(new Date()) };
   counter.counters.updateOne(query, { $inc: { c: 1 }}, { upsert: true }, next);
 };
