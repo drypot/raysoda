@@ -1,6 +1,6 @@
 # RaySoda
 
-[RaySoda](http://www.raysoda.com) 3 번째 코드. 동작하려면 많이 멀었다.
+[RaySoda](http://www.raysoda.com) 2 번째 코드. 동작하려면 많이 멀었다.
 
 ## Install and Upgrade
 
@@ -9,9 +9,7 @@
 
 ## History
 
-2015.04. 레이소다 3.0 작업 시작. Linux/Node.js.
-
-2006.03. 레이소다 2.0 작업하다 중지.
+2015.04. 레이소다 2.0 작업 시작. Linux/Node.js.
 
 2003.02.03 첫 사진 등록.
 
