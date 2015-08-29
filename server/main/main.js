@@ -16,6 +16,6 @@ require('../user/user-update');
 require('../user/user-deactivate');
 require('../user/user-reset-pass');
 
-require('../about/about');
+require('../about/about-base');
 
 init.run();

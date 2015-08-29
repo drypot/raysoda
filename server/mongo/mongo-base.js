@@ -13,6 +13,8 @@ var mongob = exports = module.exports = function (_opt) {
   return mongob;
 };
 
+mongob.ObjectID = mongo.ObjectID;
+
 // db
 
 init.add(function (done) {
@@ -38,7 +40,23 @@ init.add(function (done) {
   }
 });
 
-mongob.ObjectID = mongo.ObjectID;
+// values
+
+init.add(function (done) {
+  mongob.values = mongob.db.collection('values');
+  done();
+});
+
+mongob.findValue = function (id, done) {
+  mongob.values.findOne({ _id: id }, function (err, doc) {
+    if (err) return done(err);
+    done(null, doc ? doc.v : null);
+  });
+};
+
+mongob.updateValue = function (id, value, done) {
+  mongob.values.updateOne({ _id: id }, { $set: { v: value } }, { upsert: true }, done);
+};
 
 // utilities
 

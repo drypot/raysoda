@@ -3,7 +3,7 @@ var error = require('../base/error');
 var config = require('../base/config')({ path: 'config/test.json' });
 var mongob = require('../mongo/mongo-base')({ dropDatabase: true });
 var util2 = require('../base/util2');
-var counter = require('../counter/counter');
+var counterb = require('../counter/counter-base');
 var expect = require('../base/assert2').expect;
 
 before(function (done) {
@@ -12,16 +12,16 @@ before(function (done) {
 
 describe('counters', function () {
   it('should exist', function () {
-    expect(counter.counters).exist;
+    expect(counterb.counters).exist;
   });
 });
 
 describe('counter', function () {
   it('creating should success', function (done) {
-    counter.update('nodate', done);
+    counterb.update('nodate', done);
   });
   it('can be checked', function (done) {
-    counter.counters.findOne({ _id: 'nodate' }, function (err, c) {
+    counterb.counters.findOne({ _id: 'nodate' }, function (err, c) {
       expect(err).not.exist;
       expect(c._id).equal('nodate');
       expect(c.c).equal(1);
@@ -29,10 +29,10 @@ describe('counter', function () {
     });
   });
   it('increasing should success', function (done) {
-    counter.update('nodate', done);
+    counterb.update('nodate', done);
   });
   it('can be checked', function (done) {
-    counter.counters.findOne({ _id: 'nodate' }, function (err, c) {
+    counterb.counters.findOne({ _id: 'nodate' }, function (err, c) {
       expect(err).not.exist;
       expect(c._id).equal('nodate');
       expect(c.c).equal(2);
@@ -44,10 +44,10 @@ describe('counter', function () {
 describe('daily counter', function () {
   var d = util2.toDateStringNoDash(new Date());
   it('creating should success', function (done) {
-    counter.updateDaily('today', done);
+    counterb.updateDaily('today', done);
   });
   it('can be checked', function (done) {
-    counter.counters.findOne({ _id: 'today' + d }, function (err, c) {
+    counterb.counters.findOne({ _id: 'today' + d }, function (err, c) {
       expect(err).not.exist;
       expect(c._id).equal('today' + d);
       expect(c.c).equal(1);
@@ -55,10 +55,10 @@ describe('daily counter', function () {
     });
   });
   it('increasing should success', function (done) {
-    counter.updateDaily('today', done);
+    counterb.updateDaily('today', done);
   });
   it('can be checked', function (done) {
-    counter.counters.findOne({ _id: 'today' + d }, function (err, c) {
+    counterb.counters.findOne({ _id: 'today' + d }, function (err, c) {
       expect(err).not.exist;
       expect(c._id).equal('today' + d);
       expect(c.c).equal(2);
