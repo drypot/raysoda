@@ -135,12 +135,6 @@ $(function() {
         $form['$' + name] = $(this);
       }
     });
-
-    // 무슨 의미인지 잊음;
-    // if ($form.$send) {
-    //   $form.$send.button();
-    // }
-    
     return $form;
   };
 

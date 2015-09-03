@@ -1,0 +1,23 @@
+extends ../layout/layout
+
+block head-title
+  title Update Banners - #{appName}
+
+block content
+
+  script.
+    $(function() {
+      extra.updateBanners();
+    });
+
+  .section.page-title
+    h1 Update Banners
+
+  .section
+    form.main
+      .sub-section
+        .form-group
+          label.control-label Banners
+          textarea.form-control(name='banners', rows=14) #{banners}
+      .sub-section
+        button.btn.btn-primary(name='send', data-loading-text='Sending') Update

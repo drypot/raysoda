@@ -18,4 +18,6 @@ require('../user/user-reset-pass');
 
 require('../about/about-base');
 
+require('../banner/banner-base');
+
 init.run();
