@@ -1,7 +1,7 @@
 var init = require('../base/init');
 var config = require('../base/config');
 var mongob = require('../mongo/mongo-base');
-var userb = require('../user/user-base');
+var usera = require('../user/user-auth');
 var expb = require('../express/express-base');
 var bannerb = exports;
 
