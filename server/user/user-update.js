@@ -2,13 +2,14 @@ var init = require('../base/init');
 var error = require('../base/error');
 var expb = require('../express/express-base');
 var userb = require('../user/user-base');
+var usera = require('../user/user-auth');
 var usern = require('../user/user-new');
 
 expb.core.get('/users/:id([0-9]+)/update', function (req, res, done) {
-  userb.checkUser(res, function (err, user) {
+  usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     var id = parseInt(req.params.id) || 0;
-    userb.checkUpdatable(user, id, function (err) {
+    usera.checkUpdatable(user, id, function (err) {
       if (err) return done(err);
       userb.getCached(id, function (err, tuser) {
         if (err) return done(err);
@@ -21,11 +22,11 @@ expb.core.get('/users/:id([0-9]+)/update', function (req, res, done) {
 });
 
 expb.core.put('/api/users/:id([0-9]+)', function (req, res, done) {
-  userb.checkUser(res, function (err, user) {
+  usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     var id = parseInt(req.params.id) || 0;
     var form = usern.getForm(req);
-    userb.checkUpdatable(user, id, function (err) {
+    usera.checkUpdatable(user, id, function (err) {
       if (err) return done(err);
       form.namel = form.name.toLowerCase();
       form.homel = form.home.toLowerCase();

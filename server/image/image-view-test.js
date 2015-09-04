@@ -19,7 +19,7 @@ before(function (done) {
 });
 
 describe('getting image', function () {
-  var _f1 = 'samples/3264x2448.jpg';
+  var _f1 = 'samples/960x540.jpg';
   var _id;
   var _files;
   it('given image', function (done) {

@@ -10,7 +10,7 @@ exports.showListName = true;
 exports.thumbnailSuffix = '.jpg';
 
 exports.checkImageMeta = function (upload, done) {
-  imageb.identify(expu.path, function (err, meta) {
+  imageb.identify(upload.path, function (err, meta) {
     if (err) {
       return done(error('IMAGE_TYPE'));
     }
@@ -22,7 +22,7 @@ exports.checkImageMeta = function (upload, done) {
 };
 
 exports.makeVersions = function (upload, save, meta, done) {
-  var cmd = 'convert ' + expu.path;
+  var cmd = 'convert ' + upload.path;
   cmd += ' -quality 92';
   cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>';
   cmd += ' ' + save.path;

@@ -8,13 +8,14 @@ var util2 = require('../base/util2');
 var expb = require('../express/express-base');
 var expu = require('../express/express-upload');
 var userb = require('../user/user-base');
+var usera = require('../user/user-auth');
 var imageb = require('../image/image-base');
 var imagen = require('../image/image-new');
 var site = require('../image/image-site');
 var imageu = exports;
 
 expb.core.get('/images/:id([0-9]+)/update', function (req, res, done) {
-  userb.checkUser(res, function (err, user) {
+  usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     var id = parseInt(req.params.id) || 0;
     imageu.checkUpdatable(user, id, function (err, image) {
@@ -27,7 +28,7 @@ expb.core.get('/images/:id([0-9]+)/update', function (req, res, done) {
 });
 
 expb.core.put('/api/images/:id([0-9]+)', expu.handler(function (req, res, done) {
-  userb.checkUser(res, function (err, user) {
+  usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     var id = parseInt(req.params.id) || 0;
     var form = imagen.getForm(req);

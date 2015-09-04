@@ -44,11 +44,11 @@ describe('identify', function () {
     })
   });
   it('jpeg should success', function (done) {
-    imageb.identify('samples/3264x2448.jpg', function (err, meta) {
+    imageb.identify('samples/960x540.jpg', function (err, meta) {
       expect(err).not.exist;
       expect(meta.format).equal('jpeg');
-      expect(meta.width).equal(3264);
-      expect(meta.height).equal(2448);
+      expect(meta.width).equal(960);
+      expect(meta.height).equal(540);
       done();
     });
   });
