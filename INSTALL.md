@@ -91,3 +91,10 @@ libpng 별도 설치 필요(?)
 * StandardOutput 을 지정하지 않으면 journal 을 사용.
 * syslog 를 지정하면 syslog 에도 쌓이고 journal 에도 쌓인다. journal 에는 기본적으로 쌓임.
 * [Install] 파트는 enable, disable 명령에서 사용한다.
+
+## 관리자 계정
+
+웹 페이지에서는 관리자 설정을 할 수 없다. 서버 콘솔에서 아래 코드를 실행한다.
+
+    $ node server/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'
+
