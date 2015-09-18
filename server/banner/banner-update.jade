@@ -18,6 +18,6 @@ block content
       .sub-section
         .form-group
           label.control-label Banners
-          textarea.form-control(name='banners', rows=14) #{banners}
+          textarea.form-control(name='banners', rows=14) #{JSON.stringify(banners, null, 2)}
       .sub-section
         button.btn.btn-primary(name='send', data-loading-text='Sending') Update

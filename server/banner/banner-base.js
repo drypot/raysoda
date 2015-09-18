@@ -36,7 +36,7 @@ expb.core.get('/api/banners', function (req, res, done) {
 expb.core.put('/api/banners', function (req, res, done) {
   usera.checkAdmin(res, function (err, user) {
     if (err) return done(err);
-    bannerb.banners = req.body.banners || [];
+    bannerb.banners = JSON.parse(req.body.banners);
     mongob.updateValue('banners', bannerb.banners, function (err) {
       if (err) return done(err);
       res.json({});

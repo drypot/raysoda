@@ -1,12 +1,12 @@
-if [ $# -lt 2 ]; then
-  echo 'run [raysoda|...] [dev|live]'
+if [ $# -lt 1 ]; then
+  echo 'run [raysoda-dev|raysoda-live|...]'
   exit 1
 fi
 
-if [ '$2' = 'live' ]; then
+if [[ "$1" =~ "live" ]]; then
   NODE_ENV=production
 else
   NODE_ENV=development
 fi
 
-node server/main/main.js -c config/$1-$2.json
+node server/main/main.js -c config/$1.json
