@@ -7,6 +7,7 @@ var expb = require('../express/express-base');
 var userb = require('../user/user-base');
 var imageb = require('../image/image-base');
 var site = require('../image/image-site');
+var bannerb = require('../banner/banner-base');
 var imagel = exports;
 
 expb.core.get('/', function (req, res, done) {
@@ -35,7 +36,8 @@ function list(req, res, api, done) {
        showName: site.showListName,
        suffix: site.thumbnailSuffix,
        gt: gt ? new util2.UrlMaker('/').add('gt', gt).add('ps', ps, 16).done() : undefined,
-       lt: lt ? new util2.UrlMaker('/').add('lt', lt).add('ps', ps, 16).done() : undefined
+       lt: lt ? new util2.UrlMaker('/').add('lt', lt).add('ps', ps, 16).done() : undefined,
+       banners: bannerb.banners
      });
     }
   });

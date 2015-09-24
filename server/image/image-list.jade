@@ -27,8 +27,10 @@ block content
         a(href='/users/login') Login
         a(href='/users/register') Register
 
-    //- .section.news
-        | Update: Can change user address at profile.
+    .section.news
+      for banner in banners
+        p
+          a(href=banner.url, target="_blank") #{banner.text}
 
   if gt
     .section.pager-prev
