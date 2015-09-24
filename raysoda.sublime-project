@@ -31,7 +31,12 @@
     {
       "follow_symlinks": true,
       "path": "server"
+    },
+    {
+      "follow_symlinks": true,
+      "path": "tmp"
     }
+
   ],
   "settings":
   {
