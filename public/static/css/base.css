@@ -22,6 +22,7 @@ hr {
   margin-bottom: 30px;
 }
 .site-title {
+  max-width: 648px;
   margin-top: 0px;
   padding: 10px 0px;
   border-bottom-color: #e5e5e5;
@@ -36,6 +37,7 @@ hr {
   text-decoration: none;
 }
 .page-footer {
+  max-width: 648px;
   margin-top: 75px;
   margin-bottom: 75px;
   padding: 10px 0px;
@@ -123,7 +125,7 @@ form.main input[type=file] {
   color: #333333;
 }
 .images .box {
-  margin-bottom: 45px;
+  margin-bottom: 50px;
 }
 .images .box img {
   max-width: 100%;

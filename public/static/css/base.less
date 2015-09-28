@@ -4,6 +4,8 @@
 @line-color: lighten(@color, 70%);
 @margin: 50px;
 @width: 1080px;
+@form-width: @width * 0.6;
+@site-title-width: @width * 0.6;
 
 // basic layout
 
@@ -38,6 +40,7 @@ hr {
 }
 
 .site-title {
+  max-width: @site-title-width;
   .ac-link;
   a:hover {
     text-decoration: none;
@@ -51,6 +54,7 @@ hr {
 }
 
 .page-footer {
+  max-width: @site-title-width;
   .ac-link;
   margin-top: @margin * 1.5;
   margin-bottom: @margin * 1.5;
@@ -115,7 +119,7 @@ pre.error-report {
 // form
 
 form.main {
-  max-width: @width * 0.6;
+  max-width: @form-width;
   margin: 0 auto;
 
   input[type=file] {
@@ -160,7 +164,7 @@ form.main {
   padding-left: 0px;
   padding-right: 0px;
   .box {
-    margin-bottom: @margin * 0.9;
+    margin-bottom: @margin;
     img {
       max-width: 100%; // for mobile
       max-height: 100%; // for mobile
