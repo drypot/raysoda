@@ -40,7 +40,7 @@ Arch 서비스 Fail 나면
 
 ## 테스트 런
 
-    node bin/run raysoda live
+    node bin/run raysoda-live
 
 ## 재부팅
 

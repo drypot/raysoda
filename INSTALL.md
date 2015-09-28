@@ -61,7 +61,7 @@ libpng 별도 설치 필요(?)
 
 실행.
 
-    bin/run raysoda live
+    bin/run raysoda-live
 
 
 ## 서비스로 등록
