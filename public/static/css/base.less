@@ -3,9 +3,10 @@
 @dim-color: lighten(@color, 50%);
 @line-color: lighten(@color, 70%);
 @margin: 50px;
-@width: 1080px;
+@sub-margin: @margin * 0.6;
+@width: 640px;
 @form-width: @width * 0.6;
-@site-title-width: @width * 0.6;
+@image-width: 1080px;
 
 // basic layout
 
@@ -36,11 +37,10 @@ hr {
 }
 
 .sub-section {
-  margin-bottom: @margin * 0.6;
+  margin-bottom: @sub-margin;
 }
 
 .site-title {
-  max-width: @site-title-width;
   .ac-link;
   a:hover {
     text-decoration: none;
@@ -54,7 +54,6 @@ hr {
 }
 
 .page-footer {
-  max-width: @site-title-width;
   .ac-link;
   margin-top: @margin * 1.5;
   margin-bottom: @margin * 1.5;
@@ -159,39 +158,44 @@ form.main {
   .pager-prev;
 }
 
-.images {
+.image-list {
+  max-width: @image-width;
   .ac-link;
   padding-left: 0px;
   padding-right: 0px;
   .box {
-    margin-bottom: @margin;
-    img {
-      max-width: 100%; // for mobile
-      max-height: 100%; // for mobile
-      margin-bottom: @margin * 0.1;
+    margin-bottom: @margin * 1.5; // 사진 비율이 다양해서 rapixel 보다 많이 띄워야 혼잡하지 않다.
+    .image {
+      img {
+        max-width: 100%; // for mobile
+        max-height: 100%; // for mobile
+      }
+      margin-bottom: @margin * 0.4;
     }
-    a {
-      display: block;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .images {
-    .box {
+    .comment {
+      max-width: @width;
+      margin-left: auto;
+      margin-right: auto;
       margin-bottom: @margin * 0.4;
     }
   }
 }
 
-// image view
-
-.image-view {
-  text-align: center;
-  img {
-    cursor:pointer;
+@media (max-width: 768px) {
+  .image-list {
+    .box {
+      margin-bottom: @margin * 1;
+      .image {
+        margin-bottom: @margin * 0.3;
+      }
+      .comment {
+        margin-bottom: @margin * 0.3;
+      }
+    }
   }
 }
+
+// image view
 
 :-webkit-full-screen {
   background: black;
@@ -217,25 +221,35 @@ form.main {
   height: 100%;
 }
 
-.image-info {
-  .ac-link;
-  margin-top: @margin * 0.3;
-  .uname {
-    margin-bottom: @margin * 0.4;
-    font-size: @font-size * 1.4;
+.image-view {
+  .image {
+    max-width: @image-width;
+    padding: 0px;
+    margin-bottom: @sub-margin;
+    text-align: center;
+    img {
+      cursor:pointer;
+    }
   }
-  .comment {
-    margin-bottom: @margin * 0.4;
-  }
-  .cdate {
-    margin-bottom: @margin * 0.1;
-    font-size: @font-size * 0.9;
-  }
-  .fname {
-    margin-bottom: @margin * 0.1;
-    font-size: @font-size * 0.9;
-    color: white;  
-  }
-  .commands {
+  .info {
+    .ac-link;
+    .comment {
+      margin-bottom: @margin * 0.8;
+    }
+    .cdate {
+      margin-bottom: @margin * 0.4;
+      font-size: @font-size * 0.8;
+    }
+    .uname {
+      margin-bottom: @margin * 1;
+      font-size: @font-size * 1.4;
+    }
+    .fname {
+      margin-bottom: @margin * 0.1;
+      //font-size: @font-size * 0.9;
+      color: white;  
+    }
+    .commands {
+    }
   }
 }

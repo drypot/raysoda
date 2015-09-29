@@ -6,7 +6,6 @@ var imageb = require('../image/image-base');
 
 var maxWidth = 1080;
 
-exports.showListName = true;
 exports.thumbnailSuffix = '.jpg';
 
 exports.checkImageMeta = function (upload, done) {

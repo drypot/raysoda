@@ -36,13 +36,16 @@ block content
     .section.pager-prev
       a(href=gt) Previous
 
-  .section.images
+  .section.image-list
     for image in images
       .box
-        a.image(href='/images/' + image._id)
-          img(src=image.dir + '/' + image._id + suffix)
-        if showName
-          a.uname(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
+        .image
+          a(href='/images/' + image._id)
+            img(src=image.dir + '/' + image._id + suffix)
+        if image.comment
+          .comment !{jade.escape(image.comment).replace(/\n/g, '<br>')}
+        .uname
+          a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
 
   if lt
     .section.pager-next

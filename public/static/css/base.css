@@ -10,7 +10,7 @@ hr {
   color: #333333;
 }
 .section {
-  max-width: 1080px;
+  max-width: 640px;
   margin-top: 0px;
   margin-left: auto;
   margin-right: auto;
@@ -22,7 +22,6 @@ hr {
   margin-bottom: 30px;
 }
 .site-title {
-  max-width: 648px;
   margin-top: 0px;
   padding: 10px 0px;
   border-bottom-color: #e5e5e5;
@@ -37,7 +36,6 @@ hr {
   text-decoration: none;
 }
 .page-footer {
-  max-width: 648px;
   margin-top: 75px;
   margin-bottom: 75px;
   padding: 10px 0px;
@@ -93,7 +91,7 @@ pre.error-report {
   overflow: scroll;
 }
 form.main {
-  max-width: 648px;
+  max-width: 384px;
   margin: 0 auto;
 }
 form.main input[type=file] {
@@ -117,34 +115,40 @@ form.main input[type=file] {
 .pager-next {
   line-height: 1;
 }
-.images {
+.image-list {
+  max-width: 1080px;
   padding-left: 0px;
   padding-right: 0px;
 }
-.images a {
+.image-list a {
   color: #333333;
 }
-.images .box {
-  margin-bottom: 50px;
+.image-list .box {
+  margin-bottom: 75px;
 }
-.images .box img {
+.image-list .box .image {
+  margin-bottom: 20px;
+}
+.image-list .box .image img {
   max-width: 100%;
   max-height: 100%;
-  margin-bottom: 5px;
 }
-.images .box a {
-  display: block;
+.image-list .box .comment {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
 }
 @media (max-width: 768px) {
-  .images .box {
-    margin-bottom: 20px;
+  .image-list .box {
+    margin-bottom: 50px;
   }
-}
-.image-view {
-  text-align: center;
-}
-.image-view img {
-  cursor: pointer;
+  .image-list .box .image {
+    margin-bottom: 15px;
+  }
+  .image-list .box .comment {
+    margin-bottom: 15px;
+  }
 }
 :-webkit-full-screen {
   background: black;
@@ -166,25 +170,30 @@ form.main input[type=file] {
   width: 100%;
   height: 100%;
 }
-.image-info {
-  margin-top: 15px;
+.image-view .image {
+  max-width: 1080px;
+  padding: 0px;
+  margin-bottom: 30px;
+  text-align: center;
 }
-.image-info a {
+.image-view .image img {
+  cursor: pointer;
+}
+.image-view .info a {
   color: #333333;
 }
-.image-info .uname {
+.image-view .info .comment {
+  margin-bottom: 40px;
+}
+.image-view .info .cdate {
   margin-bottom: 20px;
+  font-size: 12.8px;
+}
+.image-view .info .uname {
+  margin-bottom: 50px;
   font-size: 22.4px;
 }
-.image-info .comment {
-  margin-bottom: 20px;
-}
-.image-info .cdate {
+.image-view .info .fname {
   margin-bottom: 5px;
-  font-size: 14.4px;
-}
-.image-info .fname {
-  margin-bottom: 5px;
-  font-size: 14.4px;
   color: white;
 }

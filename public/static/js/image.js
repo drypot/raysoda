@@ -3,6 +3,10 @@ $(function () {
   window.imagel = {};
 
   imagel.initList = function () {
+    $('.image-list .comment').each(function () {
+      var $this = $(this);
+      $this.html(tagUpText($this.html()));
+    });
   };
 
   imagel.initNew = function () {
@@ -26,9 +30,9 @@ $(function () {
   };
 
   imagel.initView = function (image) {
-    var $view = $('.image-view');
-    var $img = $('.image-view img');
-    var $comment = $('.image-info .comment');
+    var $imgdiv = $('.image-view .image');
+    var $img = $('.image-view .image img');
+    var $comment = $('.image-view .info .comment');
 
     $img.click(function () {
       history.back();
