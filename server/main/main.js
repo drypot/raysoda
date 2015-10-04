@@ -17,7 +17,7 @@ require('../user/user-deactivate');
 require('../user/user-reset-pass');
 
 require('../about/about-base');
-
 require('../banner/banner-base');
+require('../redirect/redirect-base');
 
 init.run();
