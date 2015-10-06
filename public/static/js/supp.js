@@ -1,7 +1,7 @@
 $(function () {
-  window.extra = {};
+  window.supp = {};
 
-  window.extra.updateBanners = function () {
+  window.supp.updateBanners = function () {
     var $form = formty.getForm('form.main');
     $form.$send.click(function () {
       formty.put('/api/banners', $form, function () {

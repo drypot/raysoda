@@ -3,7 +3,7 @@ var error = require('../base/error');
 var config = require('../base/config')({ path: 'config/test.json' });
 var expb = require('../express/express-base');
 var expl = require('../express/express-local');
-var redirectb = require('../redirect/redirect-base');
+var redirecta = require('../redirect/redirect-all');
 var expect = require('../base/assert2').expect;
 
 before(function (done) {

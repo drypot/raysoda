@@ -5,7 +5,7 @@ var mongob = require('../mongo/mongo-base')({ dropDatabase: true });
 var expb = require('../express/express-base');
 var expl = require('../express/express-local');
 var userf = require('../user/user-fixture');
-var bannerb = require('../banner/banner-base');
+var bannera = require('../banner/banner-all');
 var expect = require('../base/assert2').expect;
 
 before(function (done) {
@@ -27,6 +27,7 @@ describe('banners', function () {
   it('putting should success', function (done) {
     expl.put('/api/banners').send({ banners: banners1 }).end(function (err, res) {
       expect(err).not.exist;
+      console.log(res.body.err);
       expect(res.body.err).not.exist;
       done();
     });
