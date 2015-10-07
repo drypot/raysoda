@@ -18,16 +18,12 @@ describe('banners', function () {
     { text: "text2", url: "http://url2" },
     { text: "text3", url: "http://url3" },
   ];
-  it('should exist', function () {
-    expect(bannerb.banners).deep.equal([]);
-  });
   it('given admin login', function (done) {
    userf.login('admin', done);
   });
   it('putting should success', function (done) {
     expl.put('/api/banners').send({ banners: banners1 }).end(function (err, res) {
       expect(err).not.exist;
-      console.log(res.body.err);
       expect(res.body.err).not.exist;
       done();
     });

@@ -138,60 +138,7 @@ $(function() {
     return $form;
   };
 
-  formty.initFileFieldAdder = function ($form) {
-    $form.find('.file-inputs').each(function () {
-      var $inputs = $(this);
-      var $input = $inputs.children().first();
-      var $adder =  $inputs.find('.adder');
-      var $adderBtn = $('<button>').addClass('btn btn-default glyphicon glyphicon-plus');
-      $adderBtn.click(function () {
-        $input.clone().insertBefore($adder);
-        return false;
-      });
-      $adderBtn.appendTo($adder);
-    });
-  };
-
-  ['post', 'put'].forEach(function (method) {
-    formty[method] = (function (method) {
-      return function (url, $form, obj, done) {
-        if (typeof obj == 'function') {
-          done = obj;
-          obj = null;
-        }
-        formty.clearAlerts($form);
-        formty.showSending($form);
-        var req = request[method].call(request, url);
-        if ($form.find('input[type="file"]').length) {
-          req.form($form).object(obj);
-        } else {
-          req.object(getObject($form, obj));
-        }
-        req.end(function (err, res) {
-          if (err) {
-            showError(err);
-            formty.hideSending($form);
-            return;
-          }
-          if (res.body.err) {
-            if (res.body.err.code === error.INVALID_FORM.code) {
-              formty.addAlerts($form, res.body.err.errors);
-              formty.hideSending($form);
-              return;
-            }
-            showError(res.body.err);
-            formty.hideSending($form);
-            return;
-          }
-          // formty.hideSending($form) 을 부르지 않는다.
-          // 보통 페이지 이동이 일어나므로 버튼을 바꿀 필요가 없다.
-          done(null, res);
-        });
-      };
-    })(method);
-  });
-
-  function getObject($form, _obj) {
+  formty.getObject = function ($form, _obj) {
     var obj = {};
     $form.find('input, textarea, select').each(function () {
       if (this.name && !this.disabled) {
@@ -223,6 +170,70 @@ $(function() {
     }
     return obj;
   }
+
+  formty.initFileFieldAdder = function ($form) {
+    $form.find('.file-inputs').each(function () {
+      var $inputs = $(this);
+      var $input = $inputs.children().first();
+      var $adder =  $inputs.find('.adder');
+      var $adderBtn = $('<button>').addClass('btn btn-default glyphicon glyphicon-plus');
+      $adderBtn.click(function () {
+        $input.clone().insertBefore($adder);
+        return false;
+      });
+      $adderBtn.appendTo($adder);
+    });
+  };
+
+/*
+  formty.post('/api/...', $form, obj, function done() {
+    formty.hideSending($form);
+    alert('done');
+  });
+
+  obj 생략 가능.
+  $form 에 file 필드 있으면 multipart/form-data 로 없으면 json 으로 보냄.
+  done 은 에러 없이 요청이 완료된 경우만 호출 된다.
+*/
+
+  ['post', 'put'].forEach(function (method) {
+    formty[method] = (function (method) {
+      return function (url, $form, obj, done) {
+        if (typeof obj == 'function') {
+          done = obj;
+          obj = null;
+        }
+        formty.clearAlerts($form);
+        formty.showSending($form);
+        var req = request[method].call(request, url);
+        if ($form.find('input[type="file"]').length) {
+          req.form($form).object(obj);
+        } else {
+          req.object(formty.getObject($form, obj));
+        }
+        req.end(function (err, res) {
+          if (err) {
+            showError(err);
+            formty.hideSending($form);
+            return;
+          }
+          if (res.body.err) {
+            if (res.body.err.code === error.INVALID_FORM.code) {
+              formty.addAlerts($form, res.body.err.errors);
+              formty.hideSending($form);
+              return;
+            }
+            showError(res.body.err);
+            formty.hideSending($form);
+            return;
+          }
+          // formty.hideSending($form) 을 부르지 않는다.
+          // 보통 페이지 이동이 일어나므로 버튼을 바꿀 필요가 없다.
+          done(null, res);
+        });
+      };
+    })(method);
+  });
 
   formty.showSending = function ($form) {
     if ($form.$send) {
