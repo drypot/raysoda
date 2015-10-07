@@ -42,20 +42,22 @@ init.add(function (done) {
 
 // values
 
+mongob.values = {};
+
 init.add(function (done) {
-  mongob.values = mongob.db.collection('values');
+  mongob._values = mongob.db.collection('values');
   done();
 });
 
-mongob.findValue = function (id, done) {
-  mongob.values.findOne({ _id: id }, function (err, doc) {
+mongob.values.find = function (id, done) {
+  mongob._values.findOne({ _id: id }, function (err, doc) {
     if (err) return done(err);
     done(null, doc ? doc.v : null);
   });
 };
 
-mongob.updateValue = function (id, value, done) {
-  mongob.values.updateOne({ _id: id }, { $set: { v: value } }, { upsert: true }, done);
+mongob.values.update = function (id, value, done) {
+  mongob._values.updateOne({ _id: id }, { $set: { v: value } }, { upsert: true }, done);
 };
 
 // utilities

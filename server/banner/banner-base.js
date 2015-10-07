@@ -6,7 +6,7 @@ var bannerb = exports;
 bannerb.banners = [];
 
 init.add(function (done) {
-  mongob.findValue('banners', function (err, value) {
+  mongob.values.find('banners', function (err, value) {
     if (err) return done(err);
     bannerb.banners = value || [];
     done();

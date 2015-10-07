@@ -29,7 +29,7 @@ describe('banners', function () {
     });
   });
   it('putting can be checked', function (done) {
-    mongob.findValue('banners', function (err, value) {
+    mongob.values.find('banners', function (err, value) {
       expect(err).not.exist;
       expect(value).deep.equal(banners1);
       done();

@@ -15,46 +15,46 @@ describe('db', function () {
 
 describe.only('values', function () {
   it('given string', function (done) {
-    mongob.updateValue('s1', 'value1', function (err) {
+    mongob.values.update('s1', 'value1', function (err) {
       expect(err).not.exist;
       done();
     });
   });
   it('should return value', function (done) {
-    mongob.findValue('s1', function (err, value) {
+    mongob.values.find('s1', function (err, value) {
       expect(err).not.exist;
       expect(value).equal('value1');
       done();
     });
   });
   it('given number', function (done) {
-    mongob.updateValue('n1', 123, function (err) {
+    mongob.values.update('n1', 123, function (err) {
       expect(err).not.exist;
       done();
     });
   });
   it('should return', function (done) {
-    mongob.findValue('n1', function (err, value) {
+    mongob.values.find('n1', function (err, value) {
       expect(err).not.exist;
       expect(value).equal(123);
       done();
     });
   });
   it('given object', function (done) {
-    mongob.updateValue('o1', { p1: 123, p2: 456 }, function (err) {
+    mongob.values.update('o1', { p1: 123, p2: 456 }, function (err) {
       expect(err).not.exist;
       done();
     });
   });
   it('should return', function (done) {
-    mongob.findValue('o1', function (err, value) {
+    mongob.values.find('o1', function (err, value) {
       expect(err).not.exist;
       expect(value).deep.equal({ p1: 123, p2: 456 });
       done();
     });
   });
   it('should return null for undefined', function (done) {
-    mongob.findValue('noname', function (err, value) {
+    mongob.values.find('noname', function (err, value) {
       expect(err).not.exist;
       expect(value).is.null;
       done();
