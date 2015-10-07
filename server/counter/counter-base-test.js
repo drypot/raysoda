@@ -10,7 +10,7 @@ before(function (done) {
   init.run(done);
 });
 
-describe('counters', function () {
+describe('counters collection', function () {
   it('should exist', function () {
     expect(counterb.counters).exist;
   });
@@ -21,10 +21,9 @@ describe('counter', function () {
     counterb.update('nodate', done);
   });
   it('can be checked', function (done) {
-    counterb.counters.findOne({ _id: 'nodate' }, function (err, c) {
+    counterb.find('nodate', function (err, c) {
       expect(err).not.exist;
-      expect(c._id).equal('nodate');
-      expect(c.c).equal(1);
+      expect(c).equal(1);
       done();
     });
   });
@@ -32,25 +31,22 @@ describe('counter', function () {
     counterb.update('nodate', done);
   });
   it('can be checked', function (done) {
-    counterb.counters.findOne({ _id: 'nodate' }, function (err, c) {
+    counterb.find('nodate', function (err, c) {
       expect(err).not.exist;
-      expect(c._id).equal('nodate');
-      expect(c.c).equal(2);
+      expect(c).equal(2);
       done();
     });
   });
 });
 
 describe('daily counter', function () {
-  var d = util2.toDateStringNoDash(new Date());
   it('creating should success', function (done) {
     counterb.updateDaily('today', done);
   });
   it('can be checked', function (done) {
-    counterb.counters.findOne({ _id: 'today' + d }, function (err, c) {
+    counterb.find('today', new Date(), function (err, c) {
       expect(err).not.exist;
-      expect(c._id).equal('today' + d);
-      expect(c.c).equal(1);
+      expect(c).equal(1);
       done();
     });
   });
@@ -58,10 +54,9 @@ describe('daily counter', function () {
     counterb.updateDaily('today', done);
   });
   it('can be checked', function (done) {
-    counterb.counters.findOne({ _id: 'today' + d }, function (err, c) {
+    counterb.find('today', new Date(), function (err, c) {
       expect(err).not.exist;
-      expect(c._id).equal('today' + d);
-      expect(c.c).equal(2);
+      expect(c).equal(2);
       done();
     });
   });

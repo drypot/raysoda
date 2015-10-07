@@ -10,12 +10,24 @@ init.add(function (done) {
   done();
 });
 
-counterb.update = function (id, next) {
-  var query = { _id: id };
-  counterb.counters.updateOne(query, { $inc: { c: 1 }}, { upsert: true }, next);
+counterb.find = function (id, date, done) {
+  if (done) {
+    id = id + util2.toDateStringNoDash(date);
+  } else {
+    done = date;
+  }
+  counterb.counters.findOne({ _id: id }, function (err, doc) {
+    done(err, doc ? doc.c : null);
+  });
 };
 
-counterb.updateDaily = function (id, next) {
-  var query = { _id: id + util2.toDateStringNoDash(new Date()) };
-  counterb.counters.updateOne(query, { $inc: { c: 1 }}, { upsert: true }, next);
+counterb.update = function (id, done) {
+  var query = { _id: id };
+  counterb.counters.updateOne(query, { $inc: { c: 1 }}, { upsert: true }, done);
 };
+
+counterb.updateDaily = function (id, done) {
+  var query = { _id: id + util2.toDateStringNoDash(new Date()) };
+  counterb.counters.updateOne(query, { $inc: { c: 1 }}, { upsert: true }, done);
+};
+
