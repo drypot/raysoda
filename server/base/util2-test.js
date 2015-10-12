@@ -124,6 +124,21 @@ describe('pass', function () {
   });
 });
 
+describe('today', function () {
+  it('should success', function (done) {
+    var now = new Date();
+    var today = util2.today();
+    expect(today.getFullYear()).equal(now.getFullYear());
+    expect(today.getMonth()).equal(now.getMonth());
+    expect(today.getDate()).equal(now.getDate());
+    expect(today.getHours()).equal(0);
+    expect(today.getMinutes()).equal(0);
+    expect(today.getSeconds()).equal(0);
+    expect(today.getMilliseconds()).equal(0);
+    done();
+  });
+});
+
 describe('toDateTimeString', function () {
   it('should success', function () {
     var d = new Date(1974, 4, 16, 12, 0);

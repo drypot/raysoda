@@ -69,6 +69,12 @@ util2.pass = function () {
 
 // datetime
 
+util2.today = function () {
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today;
+}
+
 function pad(number) {
   var r = String(number);
   if ( r.length === 1 ) {
