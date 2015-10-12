@@ -1,0 +1,30 @@
+extends ../layout/layout
+
+block head-title
+  title Counters - #{appName}
+
+block content
+
+  script.
+    $(function() {
+      supp.initCounterList();
+    });
+
+  .section.page-title
+    h1 Counters
+
+  .section
+    form.main
+      .form-group
+          label.control-label ID
+          input.form-control(name='id', type='text')
+        .form-group
+          label.control-label Begin Date
+          input.form-control(name='bdate', type='text')
+        .form-group
+          label.control-label End Date
+          input.form-control(name='edate', type='text')
+      .sub-section
+        button.btn.btn-primary(name='send') Submit
+
+  #result.section

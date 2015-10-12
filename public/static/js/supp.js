@@ -1,7 +1,7 @@
 $(function () {
   window.supp = {};
 
-  window.supp.updateBanners = function () {
+  supp.initUpdateBanners = function () {
     var $form = formty.getForm('form.main');
     $form.$send.click(function () {
       var obj = formty.getObject($form);
@@ -20,6 +20,10 @@ $(function () {
       }
       return false;
     });
+  };
+
+  supp.initCounterList = function () {
+
   };
   
 });

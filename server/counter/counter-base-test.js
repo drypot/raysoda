@@ -10,54 +10,63 @@ before(function (done) {
   init.run(done);
 });
 
-describe('counters collection', function () {
+describe('counterb.counters', function () {
   it('should exist', function () {
     expect(counterb.counters).exist;
   });
 });
 
-describe('counter', function () {
-  it('creating should success', function (done) {
-    counterb.update('nodate', done);
-  });
-  it('can be checked', function (done) {
-    counterb.find('nodate', function (err, c) {
+describe('.update(id)', function () {
+  it('should success for new', function (done) {
+    counterb.update('nodate', function (err) {
       expect(err).not.exist;
-      expect(c).equal(1);
-      done();
+      counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
+        expect(err).not.exist;
+        expect(c.id).equal('nodate');
+        expect(c.d).undefined;
+        expect(c.c).equal(1);
+        done();
+      });
     });
   });
-  it('increasing should success', function (done) {
-    counterb.update('nodate', done);
-  });
-  it('can be checked', function (done) {
-    counterb.find('nodate', function (err, c) {
+  it('should success for existing', function (done) {
+    counterb.update('nodate', function (err) {
       expect(err).not.exist;
-      expect(c).equal(2);
-      done();
+      counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
+        expect(err).not.exist;
+        expect(c.id).equal('nodate');
+        expect(c.d).undefined;
+        expect(c.c).equal(2);
+        done();
+      });
     });
   });
 });
 
-describe('daily counter', function () {
-  it('creating should success', function (done) {
-    counterb.updateDaily('today', done);
-  });
-  it('can be checked', function (done) {
-    counterb.find('today', new Date(), function (err, c) {
+describe('.update(id, date)', function () {
+  var today = util2.today();
+  it('should success for new', function (done) {
+    counterb.update('today', today, function (err) {
       expect(err).not.exist;
-      expect(c).equal(1);
-      done();
+      counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
+        expect(err).not.exist;
+        expect(c.id).equal('today');
+        expect(c.d).deep.equal(today);
+        expect(c.c).equal(1);
+        done();
+      });
     });
   });
-  it('increasing should success', function (done) {
-    counterb.updateDaily('today', done);
-  });
-  it('can be checked', function (done) {
-    counterb.find('today', new Date(), function (err, c) {
+  it('should success for existing', function (done) {
+    counterb.update('today', today, function (err) {
       expect(err).not.exist;
-      expect(c).equal(2);
-      done();
+      counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
+        expect(err).not.exist;
+        expect(c.id).equal('today');
+        expect(c.d).deep.equal(today);
+        expect(c.c).equal(2);
+        done();
+      });
     });
   });
 });

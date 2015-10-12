@@ -7,27 +7,15 @@ var counterb = exports;
 
 init.add(function (done) {
   counterb.counters = mongob.db.collection('counters');
-  done();
+  counterb.counters.createIndex({ id: 1, d: 1 }, done);
 });
 
-counterb.find = function (id, date, done) {
+counterb.update = function (id, date, done) {
+  var query = { id: id };
   if (done) {
-    id = id + util2.toDateStringNoDash(date);
+    query.d = date;
   } else {
     done = date;
   }
-  counterb.counters.findOne({ _id: id }, function (err, doc) {
-    done(err, doc ? doc.c : null);
-  });
-};
-
-counterb.update = function (id, done) {
-  var query = { _id: id };
   counterb.counters.updateOne(query, { $inc: { c: 1 }}, { upsert: true }, done);
 };
-
-counterb.updateDaily = function (id, done) {
-  var query = { _id: id + util2.toDateStringNoDash(new Date()) };
-  counterb.counters.updateOne(query, { $inc: { c: 1 }}, { upsert: true }, done);
-};
-
