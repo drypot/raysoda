@@ -75,6 +75,12 @@ util2.today = function () {
   return today;
 }
 
+util2.parseDate = function (s) {
+  var d = new Date(s);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
 function pad(number) {
   var r = String(number);
   if ( r.length === 1 ) {

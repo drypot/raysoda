@@ -139,6 +139,20 @@ describe('today', function () {
   });
 });
 
+describe('parseDate', function () {
+  it('should success', function (done) {
+    var d = util2.parseDate('1974-05-16');
+    expect(d.getFullYear()).equal(1974);
+    expect(d.getMonth()).equal(4);
+    expect(d.getDate()).equal(16);
+    expect(d.getHours()).equal(0);
+    expect(d.getMinutes()).equal(0);
+    expect(d.getSeconds()).equal(0);
+    expect(d.getMilliseconds()).equal(0);
+    done();
+  });
+});
+
 describe('toDateTimeString', function () {
   it('should success', function () {
     var d = new Date(1974, 4, 16, 12, 0);
