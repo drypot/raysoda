@@ -5,6 +5,27 @@ if (!window.console) {
 }
 
 $(function () {
+  window.util2 = {};
+
+  function pad(number) {
+    var r = String(number);
+    if ( r.length === 1 ) {
+      r = '0' + r;
+    }
+    return r;
+  }
+
+  util2.dateTimeString = function (d) {
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
+      pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  };
+
+  util2.dateString = function (d) {
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  };
+});
+
+$(function () {
   window.error = {};
 
   function define(code, msg) {

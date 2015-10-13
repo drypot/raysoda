@@ -23,7 +23,23 @@ $(function () {
   };
 
   supp.initCounterList = function () {
-
+    var $form = formty.getForm('form.main');
+    var $result = $('#result');
+    $form.$send.click(function () {
+      var obj = formty.getObject($form);
+      request.get('/api/counters/' + $form.$id.val() + '?b=' + $form.$b.val() + '&e=' + $form.$e.val()).end(function (err, res) {
+        err = err || res.body.err;
+        if (err) return showError(err);
+        var c = res.body.counters;
+        var html = '<table>';
+        for (var i = 0; i < c.length; i++) {
+          html += '<tr><td>' + util2.dateString(new Date(c[i].d)) + '</td><td>' + c[i].c + '</td></tr>'; 
+        }
+        html += '</table>';
+        $result.html(html);
+      });
+      return false;
+    });
   };
   
 });

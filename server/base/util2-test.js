@@ -139,9 +139,9 @@ describe('today', function () {
   });
 });
 
-describe('parseDate', function () {
+describe('dateFromString', function () {
   it('should success', function (done) {
-    var d = util2.parseDate('1974-05-16');
+    var d = util2.dateFromString('1974-05-16');
     expect(d.getFullYear()).equal(1974);
     expect(d.getMonth()).equal(4);
     expect(d.getDate()).equal(16);
@@ -153,24 +153,24 @@ describe('parseDate', function () {
   });
 });
 
-describe('toDateTimeString', function () {
+describe('dateTimeString', function () {
   it('should success', function () {
     var d = new Date(1974, 4, 16, 12, 0);
-    expect(util2.toDateTimeString(d)).equal('1974-05-16 12:00:00');
+    expect(util2.dateTimeString(d)).equal('1974-05-16 12:00:00');
   });
 });
 
-describe('toDateString', function () {
+describe('dateString', function () {
   it('should success', function () {
     var d = new Date(1974, 4, 16, 12, 0);
-    expect(util2.toDateString(d)).equal('1974-05-16');
+    expect(util2.dateString(d)).equal('1974-05-16');
   });
 });
 
-describe('toDateStringNoDash', function () {
+describe('dateStringNoDash', function () {
   it('should success', function () {
     var d = new Date(1974, 4, 16, 12, 0);
-    expect(util2.toDateStringNoDash(d)).equal('19740516');
+    expect(util2.dateStringNoDash(d)).equal('19740516');
   });
 });
 

@@ -24,10 +24,11 @@ expb.core.get('/api/counters/:id', function (req, res, done) {
     if (err) return done(err);
     var q = { id: req.params.id };
     if (req.query.b && req.query.e) {
-      q.d = { $gte : util2.parseDate(req.query.b), $lte: util2.parseDate(req.query.e) };
+      q.d = { $gte : util2.dateFromString(req.query.b), $lte: util2.dateFromString(req.query.e) };
     }
     counterb.counters.find(q, { _id: 0 }).toArray(function (err, counters) {
       if (err) return done(err);
+      console.log(counters);
       res.json( { counters: counters })
     });
   });

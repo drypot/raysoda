@@ -17,6 +17,7 @@ require('../user/user-deactivate');
 require('../user/user-reset-pass');
 
 require('../about/about-all');
+require('../counter/counter-all');
 require('../banner/banner-all');
 require('../redirect/redirect-all');
 
