@@ -178,9 +178,9 @@ describe('makeUrl', function () {
   it('should success', function () {
     var params = { a: 10 };
     var params2 = { a: 10, b: 'big'};
-    expect(util2.makeUrl('http://localhost/test')).equal('http://localhost/test');
-    expect(util2.makeUrl('http://localhost/test', params)).equal('http://localhost/test?a=10');
-    expect(util2.makeUrl('http://localhost/test', params2)).equal('http://localhost/test?a=10&b=big');
+    expect(util2.url('http://localhost/test')).equal('http://localhost/test');
+    expect(util2.url('http://localhost/test', params)).equal('http://localhost/test?a=10');
+    expect(util2.url('http://localhost/test', params2)).equal('http://localhost/test?a=10&b=big');
   });
 });
 

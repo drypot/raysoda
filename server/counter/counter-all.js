@@ -28,7 +28,6 @@ expb.core.get('/api/counters/:id', function (req, res, done) {
     }
     counterb.counters.find(q, { _id: 0 }).toArray(function (err, counters) {
       if (err) return done(err);
-      console.log(counters);
       res.json( { counters: counters })
     });
   });

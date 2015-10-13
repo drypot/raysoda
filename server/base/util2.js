@@ -104,9 +104,8 @@ util2.dateStringNoDash = function (d) {
 
 // url
 
-util2.makeUrl = function(url, params) {
+util2.url = function(url, params) {
   var qm;
-
   for(var p in params) {
     if (qm) {
       url += '&';
@@ -118,7 +117,6 @@ util2.makeUrl = function(url, params) {
     url += '=';
     url += params[p];
   }
-
   return url;
 };
 

@@ -27,7 +27,8 @@ $(function () {
     var $result = $('#result');
     $form.$send.click(function () {
       var obj = formty.getObject($form);
-      request.get('/api/counters/' + $form.$id.val() + '?b=' + $form.$b.val() + '&e=' + $form.$e.val()).end(function (err, res) {
+      var url = util2.url('/api/counters/' + $form.$id.val(), { b: $form.$b.val(), e: $form.$e.val()});
+      request.get(url).end(function (err, res) {
         err = err || res.body.err;
         if (err) return showError(err);
         var c = res.body.counters;
