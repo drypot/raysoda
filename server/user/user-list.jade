@@ -5,8 +5,23 @@ block head-title
 
 block content
 
+  script.
+    $(function() {
+      userl.initUserList();
+    });
+
   .section.page-title
     h1 Users
 
   .section
-    | #{count}
+    form.main
+      .form-group
+        .form-group
+          label.control-label Search
+          input.form-control(name='q', type='text')
+      .sub-section
+        button.btn.btn-primary(name='send') Send
+
+  .section
+    #result.basic-table
+      | Total #{count} users.

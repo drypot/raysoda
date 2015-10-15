@@ -10,3 +10,15 @@ expb.core.get('/users', function (req, res, done) {
     res.render('user/user-list', { count: count });
   });
 });
+
+expb.core.get('/api/users', function (req, res, done) {
+  var users = [];
+  userb.users.find({ namel: new RegExp('^' + req.query.q)}).limit(45).each(function (err, u) {
+    if (err) return done(err);
+    if (u) {
+      users.push({ _id: u._id, name: u.name, home: u.home });
+    } else {
+      res.json( { users: users });
+    }
+  });
+});

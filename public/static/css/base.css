@@ -197,10 +197,9 @@ form.main input[type=file] {
   margin-bottom: 5px;
   color: white;
 }
-.counter-list table {
-  max-width: 384px;
+.basic-table table {
   margin: 0 auto;
 }
-.counter-list table td {
+.basic-table table td {
   padding: 0 24px;
 }

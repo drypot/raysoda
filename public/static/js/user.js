@@ -87,4 +87,38 @@ $(function () {
       return false;
     });
   };
+
+  userl.initUserList = function () {
+    var $form = formty.getForm('form.main');
+    var $result = $('#result');
+    $form.$send.click(function () {
+      var obj = formty.getObject($form);
+      var url = util2.url('/api/users', { q: $form.$q.val() });
+      request.get(url).end(function (err, res) {
+        err = err || res.body.err;
+        if (err) return showError(err);
+        var r = res.body.users;
+        if (r.length) {
+          var html = '<table>';
+          for (var i = 0; i < r.length; i++) {
+            if (i % 3 == 0) {
+              html += '<tr>';
+            } 
+            html += '<td><a href="/' + encodeURIComponent(r[i].home) + '">' + r[i].name + '</a></td>'; 
+            if (i % 3 == 2) {
+              html += '</tr>';
+            }
+          }
+          if (i % 3 != 0) {
+            html += '</tr>';
+          }
+          html += '</table>';
+          $result.html(html);
+        } else {
+          $result.html('No Users');
+        }
+      });
+      return false;
+    });
+  };
 });
