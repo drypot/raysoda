@@ -64,30 +64,21 @@ mongob.values.update = function (id, value, done) {
 
 // _id 를 숫자로 쓰는 컬렉션만 페이징할 수 있다.
 
-mongob.findPage = function (col, query, gt, lt, ps, filter, done) {
+mongob.findPage = function (col, query, opt, gt, lt, ps, filter, done) {
   
   readPage(getCursor());
 
   function getCursor() {
-    var opt;
     if (lt) {
       query._id = { $lt: lt };
-      opt = {
-        sort: { _id: -1 },
-        limit: ps + 1
-      };
+      opt.sort = { _id: -1 };
     } else if (gt) {
       query._id = { $gt: gt };
-      opt = {
-        sort: { _id: 1 },
-        limit: ps + 1
-      };
+      opt.sort = { _id: 1 };
     } else {
-      opt = {
-        sort: { _id: -1 },
-        limit: ps + 1
-      };
+      opt.sort = { _id: -1 };
     }
+    opt.limit = ps + 1;
     return col.find(query, opt);
   }
 
