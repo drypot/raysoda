@@ -177,6 +177,12 @@ form.main {
       margin-left: auto;
       margin-right: auto;
       margin-bottom: @margin * 0.4;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
     }
   }
 }

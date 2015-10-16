@@ -22,7 +22,7 @@ function list(req, res, api, done) {
   var lt = parseInt(req.query.lt) || 0;
   var gt = lt ? 0 : parseInt(req.query.gt) || 0;
   var ps = parseInt(req.query.ps) || 16;
-  mongob.findPage(imageb.images, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
+  mongob.findPage(imageb.images, {}, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);
     if (api) {
       res.json({

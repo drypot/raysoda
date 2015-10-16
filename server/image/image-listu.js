@@ -31,7 +31,7 @@ function profile(req, res, tuser) {
   var gt = lt ? 0 : parseInt(req.query.gt) || 0;
   var ps = parseInt(req.query.ps) || 16;
   var query = { uid: tuser.id };
-  mongob.findPage(imageb.images, { uid: tuser._id }, gt, lt, ps, filter, function (err, images, gt, lt) {
+  mongob.findPage(imageb.images, { uid: tuser._id }, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);
     res.render('image/image-listu', {
       tuser: tuser,
