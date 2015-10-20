@@ -52,7 +52,7 @@ describe('updating with image', function () {
       });
     });
   });
-  it('updating should success', function (done) {
+  it('updating should succeed', function (done) {
     expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/2448x3264.jpg').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;

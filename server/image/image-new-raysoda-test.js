@@ -30,7 +30,7 @@ describe('posting horizonal image', function () {
   before(function (done) {
     imageb.images.deleteMany(done);
   });
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     expl.post('/api/images').field('comment', 'h image').attach('files', 'samples/3264x2448.jpg').end(function (err, res) {
       expect(err).not.exist;
       console.log(res.body.err);
@@ -64,7 +64,7 @@ describe('posting vertical image', function () {
   before(function (done) {
     imageb.images.deleteMany(done);
   });
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     expl.post('/api/images').field('comment', 'v image').attach('files', 'samples/2448x3264.jpg').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -97,7 +97,7 @@ describe('posting small images', function () {
   before(function (done) {
     imageb.images.deleteMany(done);
   });
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     expl.post('/api/images').field('comment', 'small image').attach('files', 'samples/960x540.jpg').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;

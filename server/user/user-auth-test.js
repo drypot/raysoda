@@ -40,7 +40,7 @@ describe('login', function () {
       done();
     });
   });
-  it('login should success', function (done) {
+  it('login should succeed', function (done) {
     userf.login('user1', function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -57,7 +57,7 @@ describe('login', function () {
       done();
     });
   });
-  it('logout should success', function (done) {
+  it('logout should succeed', function (done) {
     userf.logout(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -96,7 +96,7 @@ describe('accessing user resource', function () {
   it('given user session', function (done) {
     userf.login('user1', done);
   });
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     expl.get('/api/test/user').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -120,7 +120,7 @@ describe('accessing admin resource', function () {
   it('given admin session', function (done) {
     userf.login('admin', done);
   });
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     expl.get('/api/test/admin').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -165,7 +165,7 @@ describe('auto login', function () {
   it('given login with auto login', function (done) {
     userf.login('user1', true, done);
   });
-  it('access should success', function (done) {
+  it('access should succeed', function (done) {
     expl.get('/api/test/user').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -179,7 +179,7 @@ describe('auto login', function () {
       done();
     });
   });
-  it('access should success', function (done) {
+  it('access should succeed', function (done) {
     expl.get('/api/test/user').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -212,7 +212,7 @@ describe('auto login with invalid email', function () {
   it('given login with auto login', function (done) {
     userf.login('user1', true, done);
   });
-  it('access should success', function (done) {
+  it('access should succeed', function (done) {
     expl.get('/api/test/user').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -274,14 +274,14 @@ describe('redirecting to login page', function () {
     });
     done();
   });
-  it('public should success', function (done) {
+  it('public should succeed', function (done) {
     expl.get('/test/public').end(function (err, res) {
       expect(err).not.exist;
       expect(res.text).equal('public');
       done();
     });
   });
-  it('private should success', function (done) {
+  it('private should succeed', function (done) {
     expl.get('/test/private').redirects(0).end(function (err, res) {
       expect(err).exist;
       expect(res).status(302); // Moved Temporarily 

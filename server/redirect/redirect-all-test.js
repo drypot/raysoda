@@ -11,7 +11,7 @@ before(function (done) {
 });
 
 describe('redirecting /Com/Photo/View.aspx', function () {
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     expl.get('/Com/Photo/View.aspx?f=A&pg=3&p=937928').redirects(0).end(function (err, res) {
       expect(err).exist;
       expect(res).redirectTo('/images/937928');
@@ -21,7 +21,7 @@ describe('redirecting /Com/Photo/View.aspx', function () {
 });
 
 describe('redirecting /Com/Photo/List.aspx', function () {
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     expl.get('/Com/Photo/List.aspx?f=A&s=DD&pg=3').redirects(0).end(function (err, res) {
       expect(err).exist;
       expect(res).redirectTo('/');
@@ -31,7 +31,7 @@ describe('redirecting /Com/Photo/List.aspx', function () {
 });
 
 describe('redirecting /Com/Photo/CList.aspx', function () {
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     expl.get('/Com/Photo/CList.aspx?f=C').redirects(0).end(function (err, res) {
       expect(err).exist;
       expect(res).redirectTo('/');
@@ -41,7 +41,7 @@ describe('redirecting /Com/Photo/CList.aspx', function () {
 });
 
 describe('redirecting /user', function () {
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     expl.get('/user/1').redirects(0).end(function (err, res) {
       expect(err).exist;
       expect(res).redirectTo('/users/1');

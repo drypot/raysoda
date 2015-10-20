@@ -17,7 +17,7 @@ describe('counterb.counters', function () {
 });
 
 describe('.update(id)', function () {
-  it('should success for new', function (done) {
+  it('should succeed for new', function (done) {
     counterb.update('nodate', function (err) {
       expect(err).not.exist;
       counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
@@ -29,7 +29,7 @@ describe('.update(id)', function () {
       });
     });
   });
-  it('should success for existing', function (done) {
+  it('should succeed for existing', function (done) {
     counterb.update('nodate', function (err) {
       expect(err).not.exist;
       counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
@@ -45,7 +45,7 @@ describe('.update(id)', function () {
 
 describe('.update(id, date)', function () {
   var today = util2.today();
-  it('should success for new', function (done) {
+  it('should succeed for new', function (done) {
     counterb.update('today', today, function (err) {
       expect(err).not.exist;
       counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
@@ -57,7 +57,7 @@ describe('.update(id, date)', function () {
       });
     });
   });
-  it('should success for existing', function (done) {
+  it('should succeed for existing', function (done) {
     counterb.update('today', today, function (err) {
       expect(err).not.exist;
       counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {

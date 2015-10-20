@@ -15,7 +15,7 @@ before(function (done) {
 
 describe('/api/counters/:id/inc', function () {
   var today = util2.today();
-  it('should success for new', function (done) {
+  it('should succeed for new', function (done) {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       expect(res).redirectTo('http://hello.world');
       counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
@@ -27,7 +27,7 @@ describe('/api/counters/:id/inc', function () {
       });
     });
   });
-  it('should success for existing', function (done) {
+  it('should succeed for existing', function (done) {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       expect(res).redirectTo('http://hello.world');
       counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
@@ -56,7 +56,7 @@ describe('/api/counters/:id', function () {
       done();
     });
   });
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     userf.login('admin', function (err) {
       expect(err).not.exist;
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {

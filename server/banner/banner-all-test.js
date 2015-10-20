@@ -20,7 +20,7 @@ describe('banners', function () {
   it('given admin login', function (done) {
    userf.login('admin', done);
   });
-  it('putting should success', function (done) {
+  it('putting should succeed', function (done) {
     expl.put('/api/banners').send({ banners: banners1 }).end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -34,7 +34,7 @@ describe('banners', function () {
       done();
     });
   });
-  it('getting should success', function (done) {
+  it('getting should succeed', function (done) {
     expl.get('/api/banners').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;

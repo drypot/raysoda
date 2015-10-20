@@ -32,7 +32,7 @@ describe('getting image', function () {
       done();
     });
   });
-  it('should success', function (done) {
+  it('should succeed', function (done) {
     expl.get('/api/images/' + _id).end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;

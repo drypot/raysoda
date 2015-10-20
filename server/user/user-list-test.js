@@ -13,7 +13,7 @@ before(function (done) {
 });
 
 describe('/api/users?q=', function () {
-  it('should success for user1', function (done) {
+  it('should succeed for user1', function (done) {
     expl.get('/api/users?q=user1', function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -25,7 +25,7 @@ describe('/api/users?q=', function () {
       done();
     });
   });
-  it('should success for us', function (done) {
+  it('should succeed for us', function (done) {
     expl.get('/api/users?q=us', function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
