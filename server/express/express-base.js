@@ -12,7 +12,7 @@ var expb = exports;
 
 expb.core = express.Router();
 
-init.add(function () {
+init.add(function (done) {
   expb.app = express();
 
   // Set Middlewares
@@ -134,6 +134,7 @@ init.add(function () {
     }
   });
 
+  done();
 });
 
 init.tail(function () {

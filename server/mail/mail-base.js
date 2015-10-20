@@ -6,7 +6,7 @@ var mailb = exports;
 
 var transport;
 
-init.add(function () {
+init.add(function (done) {
   
   // 일단은 postfix 통해서 메일 보내는 것으로 유지
 
@@ -18,6 +18,8 @@ init.add(function () {
       port: 25
     });
   }
+
+  done();
 });
 
 mailb.send = function (opt, done) {

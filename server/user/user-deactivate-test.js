@@ -10,13 +10,14 @@ var userf = require('../user/user-fixture');
 var userd = require('../user/user-deactivate');
 var expect = require('../base/assert2').expect;
 
-init.add(function () {
+init.add(function (done) {
   expb.core.get('/api/test/user', function (req, res, done) {
     usera.checkUser(res, function (err, user) {
       if (err) return done(err);
       res.json({});
     });
   });
+  done();
 });
 
 before(function (done) {

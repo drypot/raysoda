@@ -22,4 +22,6 @@ require('../redirect/redirect-all');
 
 require('../image/image-listu'); // url 유저명 대조는 맨 마지막에
 
-init.run();
+init.run(function (err) {
+  if (err) throw err;
+});
