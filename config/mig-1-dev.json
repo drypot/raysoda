@@ -1,0 +1,13 @@
+{
+  "mssql": {
+    "server": "10.0.2.15",
+    "user": "raysoda",
+    "password": "abcd",
+    "database": "raysodaphoto"
+  },
+
+  "mongodb": "raysoda",
+
+  "pdsDir": "E:/RaySoda/Data/PDS",
+  "bdsDir": "E:/RaySoda/Data/BDS"
+}
