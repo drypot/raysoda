@@ -35,19 +35,6 @@ imageb.getNewId = function () {
   return ++imageId;
 };
 
-/*
-  이미지 파일 관리
-
-  원본과 버젼이 같은 디렉토리에 저장된다는 것을 전제로 작명하였다.
-  원본과 버젼이 같은 디렉토리에 있는 것이 좋을 것 같다.
-  같은 형태끼리 모으지 말고 관련된 것 끼리 모아 놓는다.
-  스토리지가 부족하면 원본/버젼을 분리할 것이 아니라
-  id 영역별로 나누는 방안을 고려하면 된다.
-
-  원본 파일에 -org 를 붙여 놓는다.
-  DB 없이 파일명으로 검색이 가능.
-*/
-
 var uploadDir;
 
 init.add(function (done) {
@@ -69,12 +56,12 @@ init.add(function (done) {
 
 imageb.FilePath = function (id) {
   this.id = id;
-  this.dir = uploadDir + '/' + fs2.makeDeepPath(id, 3);
+  this.dir = uploadDir + '/' + fs2.makeDeepPath((id / 1000) >> 0, 2);
   this.path = this.dir + '/' + id + '.jpg';
 }
 
 imageb.getUrlBase = function (id) {
-  return config.uploadSite + '/images/' + fs2.makeDeepPath(id, 3)
+  return config.uploadSite + '/images/' + fs2.makeDeepPath((id / 1000) >> 0, 2)
 }
 
 imageb.identify = function (fname, done) {

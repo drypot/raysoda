@@ -7,43 +7,42 @@ before(function (done) {
   init.run(done);
 });
 
-describe('images', function () {
+describe('imageb.images', function () {
   it('should exist', function () {
     expect(imageb.images).exist;
   });
-  it('getNewId should succeed', function () {
+});
+
+describe('getNewId()', function () {
+  it('should work', function () {
     expect(imageb.getNewId() < imageb.getNewId()).true;
   });
 });
 
-describe('FilePath', function () {
-  it('should succeed', function () {
+describe('new FilePath()', function () {
+  it('should work with id 1', function () {
     var path = new imageb.FilePath(1);
-    expect(path.dir).equals(config.uploadDir + '/public/images/0/0/1');
-    expect(path.path).equals(config.uploadDir + '/public/images/0/0/1/1.jpg');
+    expect(path.dir).equals(config.uploadDir + '/public/images/0/0');
+    expect(path.path).equals(config.uploadDir + '/public/images/0/0/1.jpg');
+  });
+  it('should work with id 1 234 567', function () {
+    var path = new imageb.FilePath(1234567);
+    expect(path.dir).equals(config.uploadDir + '/public/images/1/234');
+    expect(path.path).equals(config.uploadDir + '/public/images/1/234/1234567.jpg');
   });
 });
 
-describe('getUrlBase', function () {
-  it('should succeed', function () {
-    expect(imageb.getUrlBase(1)).equals(config.uploadSite + '/images/0/0/1');
+describe('getUrlBase()', function () {
+  it('should work with id 1', function () {
+    expect(imageb.getUrlBase(1)).equals(config.uploadSite + '/images/0/0');
+  });
+  it('should work with id 1 234 567', function () {
+    expect(imageb.getUrlBase(1234567)).equals(config.uploadSite + '/images/1/234');
   });
 });
 
-describe('identify', function () {
-  it('invalid path should fail', function (done) {
-    imageb.identify('xxxx', function (err, meta) {
-      expect(err).exist;
-      done();
-    })
-  });
-  it('non image should fail', function (done) {
-    imageb.identify('README.md', function (err, meta) {
-      expect(err).exist;
-      done();
-    })
-  });
-  it('jpeg should succeed', function (done) {
+describe('identify()', function () {
+  it('should work with jpeg', function (done) {
     imageb.identify('samples/960x540.jpg', function (err, meta) {
       expect(err).not.exist;
       expect(meta.format).equal('jpeg');
@@ -51,5 +50,17 @@ describe('identify', function () {
       expect(meta.height).equal(540);
       done();
     });
+  });
+  it('should fail with invalid path', function (done) {
+    imageb.identify('xxxx', function (err, meta) {
+      expect(err).exist;
+      done();
+    })
+  });
+  it('should fail with non-image', function (done) {
+    imageb.identify('README.md', function (err, meta) {
+      expect(err).exist;
+      done();
+    })
   });
 });

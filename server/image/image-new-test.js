@@ -23,10 +23,6 @@ before(function (done) {
 var _now = new Date();
 
 function genImage(hours, count, done) {
-  if (typeof count == 'function') {
-    done = count;
-    count = 1;
-  }
   var images = [];
   for (var i = 0; i < count; i++) {
     var image = {
@@ -40,77 +36,74 @@ function genImage(hours, count, done) {
 }
 
 describe('getTicketCount', function () {
-  it('given emtpy images', function (done) {
+  before(function (done) {
     imageb.images.deleteMany(done);
   });
-  it('should return ticketMax', function (done) {
+  it('should return ticketMax when clean', function (done) {
     imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
       expect(err).not.exist;
       expect(count).equal(config.ticketMax);
       done();
     });
   });
-  it('given a image out of time', function (done) {
-    genImage(config.ticketGenInterval + 1, done);
-  });
-  it('should return ticketMax', function (done) {
-    imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
+  it('should return ticketMax when the last image aged', function (done) {
+    genImage(config.ticketGenInterval + 1, 1, function (err) {
       expect(err).not.exist;
-      expect(count).equal(config.ticketMax);
-      done();
+      imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
+        expect(err).not.exist;
+        expect(count).equal(config.ticketMax);
+        done();
+      });
     });
   });
-  it('given a image in time', function (done) {
-    genImage(config.ticketGenInterval - 1, done);
-  });
-  it('should return (ticketMax - 1)', function (done) {
-    imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
+  it('should return (ticketMax - 1) when an image uploaded', function (done) {
+    genImage(config.ticketGenInterval - 1, 1, function (err) {
       expect(err).not.exist;
-      expect(count).equal(config.ticketMax - 1);
-      done();
+      imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
+        expect(err).not.exist;
+        expect(count).equal(config.ticketMax - 1);
+        done();
+      });
     });
   });
-  it('given emtpy images', function (done) {
-    imageb.images.deleteMany(done);
-  });
-  it('given ticketMax images in time', function (done) {
-    genImage(config.ticketGenInterval - 3, config.ticketMax, done);
-  });
-  it('should return 0 and hours', function (done) {
-    imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
+  it('should return 0 with left hours when ticketMax images uploaded', function (done) {
+    imageb.images.deleteMany(function (err) {
       expect(err).not.exist;
-      expect(count).equal(0);
-      expect(hours).equal(3);
-      done();
-    });
-  });
-});
-
-describe('posting text', function () {
-  before(function (done) {
-    imageb.images.deleteMany(done);
-  });
-  it('should fail', function (done) {
-    expl.post('/api/images').attach('files', 'server/express/express-upload-f1.txt').end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).exist;
-      expect(res.body.err).error('IMAGE_TYPE');
-      done();
+      genImage(config.ticketGenInterval - 3, config.ticketMax, function (err) {
+        expect(err).not.exist;
+        imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
+          expect(err).not.exist;
+          expect(count).equal(0);
+          expect(hours).equal(3);
+          done();
+        });
+      });
     });
   });
 });
 
-describe('posting no file', function () {
-  before(function (done) {
-    imageb.images.deleteMany(done);
-  }); 
-  it('should fail', function (done) {
+describe('post /api/images', function () {
+  it('should fail with plain text file', function (done) {
+    imageb.images.deleteMany(function (err) {
+      expect(err).not.exist;
+      expl.post('/api/images').attach('files', 'server/express/express-upload-f1.txt').end(function (err, res) {
+        expect(err).not.exist;
+        expect(res.body.err).exist;
+        expect(res.body.err).error('IMAGE_TYPE');
+        done();
+      });
+    });
+  });
+  it('should fail with no file', function (done) {
     var form = { };
-    expl.post('/api/images').send(form).end(function (err, res) {
+    imageb.images.deleteMany(function (err) {
       expect(err).not.exist;
-      expect(res.body.err).exist;
-      expect(res.body.err).error('IMAGE_NO_FILE');
-      done();
+      expl.post('/api/images').send(form).end(function (err, res) {
+        expect(err).not.exist;
+        expect(res.body.err).exist;
+        expect(res.body.err).error('IMAGE_NO_FILE');
+        done();
+      });
     });
   });
 });

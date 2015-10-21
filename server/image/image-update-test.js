@@ -17,73 +17,75 @@ before(function (done) {
   init.run(done);
 });
 
-before(function (done) {
-  userf.login('user1', done);
+describe('put /api/images/id', function () {
+  describe('updating with no file', function () {
+    before(function (done) {
+      userf.login('user1', done);
+    });
+    it('should succeed', function (done) {
+      var _id = _id = imageb.getNewId();
+      var form = {
+        _id: _id,
+        uid: userf.user1._id
+      };
+      imageb.images.insertOne(form, function (err) {
+        expect(err).not.exist;
+        expl.put('/api/images/' + _id).field('comment', 'updated with no file').end(function (err, res) {
+          expect(err).not.exist;
+          expect(res.body.err).not.exist;
+          imageb.images.findOne({ _id: _id }, function (err, image) {
+            expect(err).not.exist;
+            expect(image).exist;
+            expect(image.comment).equal('updated with no file');
+            done();
+          });
+        });
+      });
+    });
+  });
+  describe('updating with text file', function () {
+    before(function (done) {
+      userf.login('user1', done);
+    });
+    it('should fail', function (done) {
+      var _id = _id = imageb.getNewId();
+      var form = {
+        _id: _id,
+        uid: userf.user1._id
+      };
+      imageb.images.insertOne(form, function (err) {
+        expect(err).not.exist;
+        expl.put('/api/images/' + _id).attach('files', 'server/express/express-upload-f1.txt').end(function (err, res) {
+          expect(err).not.exist;
+          expect(res.body.err).exist;
+          expect(res.body.err).error('IMAGE_TYPE');
+          done();
+        });
+      });
+    });
+  });
+  describe('updating other\'s', function () {
+    before(function (done) {
+      userf.login('user2', done);
+    });
+    it('should fail', function (done) {
+      var _id = _id = imageb.getNewId();
+      var form = {
+        _id: _id,
+        uid: userf.user1._id
+      };
+      imageb.images.insertOne(form, function (err) {
+        expect(err).not.exist;
+        expl.put('/api/images/' + _id).field('comment', 'xxx').end(function (err, res) {
+          expect(err).not.exist;
+          expect(res.body.err).exist;
+          expect(res.body.err).error('NOT_AUTHORIZED');
+          done();
+        });
+      });
+    });
+  });
 });
 
-describe('updating with no file', function () {
-  var _id;
-  it('given post', function (done) {
-    var form = {
-      _id: _id = imageb.getNewId(),
-      uid: userf.user1._id
-    };
-    imageb.images.insertOne(form, done);
-  });
-  it('should succeed', function (done) {
-    expl.put('/api/images/' + _id).field('comment', 'updated with no file').end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      done();
-    });
-  });
-  it('can be checked', function (done) {
-    imageb.images.findOne({ _id: _id }, function (err, image) {
-      expect(err).not.exist;
-      expect(image).exist;
-      expect(image.comment).equal('updated with no file');
-      done();
-    });
-  });
-});
 
-describe('updating with text file', function () {
-  var _id;
-  it('given post', function (done) {
-    var form = {
-      _id: _id = imageb.getNewId(),
-      uid: userf.user1._id
-    };
-    imageb.images.insertOne(form, done);
-  });
-  it('should fail', function (done) {
-    expl.put('/api/images/' + _id).attach('files', 'server/express/express-upload-f1.txt').end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).exist;
-      expect(res.body.err).error('IMAGE_TYPE');
-      done();
-    });
-  });
-});
 
-describe('updating other\'s', function () {
-  var _id;
-  it('given user1 post', function (done) {
-    var form = {
-      _id: _id = imageb.getNewId(),
-      uid: userf.user1._id
-    };
-    imageb.images.insertOne(form, done);
-  });
-  it('given user2 login', function (done) {
-    userf.login('user2', done);
-  });
-  it('should fail', function (done) {
-    expl.put('/api/images/' + _id).field('comment', 'xxx').end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).exist;
-      expect(res.body.err).error('NOT_AUTHORIZED');
-      done();
-    });
-  });
-});

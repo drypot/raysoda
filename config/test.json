@@ -16,6 +16,6 @@
   "mailServer": "",
 
   "ticketGenInterval": 18,
-  "ticketMax": 1
+  "ticketMax": 3
 }
 

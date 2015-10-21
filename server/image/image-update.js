@@ -41,15 +41,9 @@ expb.core.put('/api/images/:id([0-9]+)', expu.handler(function (req, res, done) 
         site.checkImageMeta(upload1, function (err, meta) {
           if (err) return done(err);
           var save = new imageb.FilePath(id);
-          fs2.removeDir(save.dir, function (err) {
+          site.makeVersions(upload1, save, meta, function (err, vers) {
             if (err) return done(err);
-            fs2.makeDir(save.dir, function (err) {
-              if (err) return done(err);
-              site.makeVersions(upload1, save, meta, function (err, vers) {
-                if (err) return done(err);
-                next({}, meta, vers);
-              });
-            });
+            next({}, meta, vers);
           });
         });
       }, function (image, meta, vers) {

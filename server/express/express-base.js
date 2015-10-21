@@ -137,7 +137,8 @@ init.add(function (done) {
   done();
 });
 
-init.tail(function () {
+init.tail(function (done) {
   expb.app.listen(config.appPort);
   console.log('express: listening ' + config.appPort);
+  done();
 });
