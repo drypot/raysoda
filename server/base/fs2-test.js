@@ -14,13 +14,6 @@ before(function (done) {
   });
 });
 
-describe('pathExist', function () {
-  it('should succeed', function () {
-    expect('server/base/fs2-test.js').pathExist;
-    expect('server/base/fs2-test-xx.js').not.pathExist;
-  });
-});
-
 describe('removeDir', function () {
   beforeEach(function (done) {
     fs.mkdir(testdir + '/sub1', 0755, function (err) {
@@ -34,7 +27,7 @@ describe('removeDir', function () {
       });
     });
   });
-  it('can remove one file', function (done) {
+  it('should work for one file', function (done) {
     expect(testdir + '/sub1').pathExist;
     expect(testdir + '/sub2').pathExist;
     expect(testdir + '/sub2/sub3').pathExist;
@@ -42,7 +35,7 @@ describe('removeDir', function () {
     expect(testdir + '/sub2/f2.txt').pathExist;
     expect(testdir + '/sub2/sub3/f3.txt').pathExist;
     fs2.removeDir(testdir + '/sub2/f2.txt', function (err) {
-      if (err) return done(err);
+      expect(err).not.exist;
       expect(testdir + '/sub1').pathExist;
       expect(testdir + '/sub2').pathExist;
       expect(testdir + '/sub2/sub3').pathExist;
@@ -52,7 +45,7 @@ describe('removeDir', function () {
       done();
     })
   });
-  it('can remove one dir', function (done) {
+  it('should work for one dir', function (done) {
     expect(testdir + '/sub1').pathExist;
     expect(testdir + '/sub2').pathExist;
     expect(testdir + '/sub2/sub3').pathExist;
@@ -60,7 +53,7 @@ describe('removeDir', function () {
     expect(testdir + '/sub2/f2.txt').pathExist;
     expect(testdir + '/sub2/sub3/f3.txt').pathExist;
     fs2.removeDir(testdir + '/sub1', function (err) {
-      if (err) return done(err);
+      expect(err).not.exist;
       expect(testdir + '/sub1').not.pathExist;
       expect(testdir + '/sub2').pathExist;
       expect(testdir + '/sub2/sub3').pathExist;
@@ -70,7 +63,7 @@ describe('removeDir', function () {
       done();
     })
   });
-  it('can remove recursive', function (done) {
+  it('should work recursively', function (done) {
     expect(testdir + '/sub1').pathExist;
     expect(testdir + '/sub2').pathExist;
     expect(testdir + '/sub2/sub3').pathExist;
@@ -78,7 +71,7 @@ describe('removeDir', function () {
     expect(testdir + '/sub2/f2.txt').pathExist;
     expect(testdir + '/sub2/sub3/f3.txt').pathExist;
     fs2.removeDir(testdir + '/sub2', function (err) {
-      if (err) return done(err);
+      expect(err).not.exist;
       expect(testdir + '/sub1').pathExist;
       expect(testdir + '/sub2').not.pathExist;
       expect(testdir + '/sub2/sub3').not.pathExist;
@@ -105,7 +98,7 @@ describe('emtpyDir', function () {
   });
   it('should succeed', function (done) {
     fs2.emptyDir(testdir, function (err) {
-      if (err) return done(err);
+      expect(err).not.exist;
       fs.readdir(testdir, function (err, files) {
         if (err) return done(err);
         expect(files).length(0);
@@ -119,21 +112,22 @@ describe('makeDir', function () {
   before(function (done) {
     fs2.emptyDir(testdir, done);
   });
-  it('can make dir', function (done) {
+  it('should succeed for first dir', function (done) {
     expect(testdir + '/sub1').not.pathExist;
     fs2.makeDir(testdir + '/sub1', function (err, dir) {
       expect(err).not.exist;
       expect(dir).equal(testdir + '/sub1');
-      expect(testdir + '/sub1').pathExist;
+      expect(dir).pathExist;
       done();
     });
   });
-  it('can make dir in existing dir', function (done) {
+  it('should succeed for nested dirs', function (done) {
+    expect(testdir + '/sub1').pathExist;
     expect(testdir + '/sub1/sub2/sub3').not.pathExist;
     fs2.makeDir(testdir + '/sub1/sub2/sub3', function (err, dir) {
       expect(err).not.exist;
       expect(dir).equal(testdir + '/sub1/sub2/sub3');
-      expect(testdir + '/sub1/sub2/sub3').pathExist;
+      expect(dir).pathExist;
       done();
     });
   });
@@ -172,5 +166,31 @@ describe('makeDeepPath', function () {
     expect(fs2.makeDeepPath(1999999, 3)).equal('1/999/999');
     expect(fs2.makeDeepPath(999999999, 3)).equal('999/999/999');
     expect(fs2.makeDeepPath(9999999999, 3)).equal('9999/999/999');
+  });
+});
+
+describe.only('copy', function () {
+  before(function (done) {
+    fs2.emptyDir(testdir, done);
+  });
+  it('should succeed', function (done) {
+    var t = testdir + '/fs2-dummy-copy.txt';
+    expect(t).not.pathExist;
+    fs2.copy('server/base/fs2-dummy.txt', t, function (err) {
+      expect(err).not.exist;
+      expect(t).pathExist;
+      expect(fs.readFileSync(t, 'utf8')).equal('fs2 test dummy');
+      done();
+    });
+  });
+  it('should fail when source not exist', function (done) {
+    var t = testdir + '/fs2-not-exist-copy.txt';
+    expect(t).not.pathExist;
+    fs2.copy('server/base/fs2-not-exist.txt', t, function (err) {
+      expect(err).exist;
+      expect(err.code).equal('ENOENT');
+      expect(t).not.pathExist;
+      done();
+    });
   });
 });
