@@ -1,6 +1,6 @@
 {
   "mssql": {
-    "server": "10.0.2.15",
+    "server": "10.0.1.9",
     "user": "raysoda",
     "password": "abcd",
     "database": "raysodaphoto"

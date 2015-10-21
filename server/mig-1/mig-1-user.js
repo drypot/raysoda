@@ -1,29 +1,27 @@
 var init = require('../base/init');
 var config = require('../base/config');
-var sql = require("seriate");
+var sql = require('mssql');
 
 init.run(function (err) {
   if (err) throw err;
+  main(function (err) {
+    if (err) throw err;
+  });
 });
 
-// Change the config settings to match your 
-// SQL Server and database
-var config = {  
-    "server": "127.0.0.1",
-    "user": "nodejs",
-    "password": "mypassword",
-    "database": "mydatabase"
-};
-
-sql.setDefaultConfig( config );
-
-sql.execute( {  
-        query: "SELECT * FROM INFORMATION_SCHEMA.TABLES"
-    } ).then( function( results ) {
-        console.log( results );
-    }, function( err ) {
-        console.log( "Something bad happened:", err );
-    } );
+function main(done) {
+  sql.connect(config.mssql, function(err) {
+    if (err) return done(err);;
+    var request = new sql.Request();
+    request.query('SELECT TOP 1 * FROM USERS', function(err, r) {
+      if (err) return done(err);;
+      console.dir(r);
+    });
+  });
+  sql.on('error', function(err) {
+    done(err);
+  });
+}
 
 /* TODO
 

@@ -18,9 +18,9 @@
     "jade": "^1.11.0",
     "minimist": "^1.2.0",
     "mongodb": "^2.0.45",
+    "mssql": "^2.3.1",
     "multiparty": "^4.1.2",
     "nodemailer": "^1.5.0",
-    "seriate": "^0.5.3",
     "superagent": "^1.4.0"
   },
   "repository": {
