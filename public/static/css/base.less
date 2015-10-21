@@ -164,7 +164,8 @@ form.main {
   padding-left: 0px;
   padding-right: 0px;
   .box {
-    margin-bottom: @margin * 1.5; // 사진 비율이 다양해서 rapixel 보다 많이 띄워야 혼잡하지 않다.
+    margin-top: @margin * 1.5;
+    margin-bottom: @margin * 2; // 사진 비율이 다양해서 rapixel 보다 많이 띄워야 혼잡하지 않다.
     .image {
       img {
         max-width: 100%; // for mobile
@@ -190,7 +191,8 @@ form.main {
 @media (max-width: 768px) {
   .image-list {
     .box {
-      margin-bottom: @margin * 1;
+      margin-top: @margin * 1;
+      margin-bottom: @margin * 1.5;
       .image {
         margin-bottom: @margin * 0.3;
       }
