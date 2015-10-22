@@ -1,13 +1,20 @@
 {
-  "mssql": {
+  "sql": {
     "server": "10.0.1.9",
     "user": "raysoda",
     "password": "abcd",
-    "database": "raysodaphoto"
+    "database": "RaySodaPhoto"
+  },
+
+  "sqlTemp": {
+    "server": "10.0.1.9",
+    "user": "raysoda",
+    "password": "abcd",
+    "database": "RaySodaTemp"
   },
 
   "mongodb": "raysoda",
 
-  "pdsDir": "E:/RaySoda/Data/PDS",
-  "bdsDir": "E:/RaySoda/Data/BDS"
+  "srcDir": "../website-1/Files",
+  "tarDir": "upload/mig-test"
 }

@@ -45,3 +45,12 @@ init.run = function (done) {
     });
   })();
 };
+
+init.main = function (main) {
+  init.run(function (err) {
+    if (err) throw err;
+    main(function (err) {
+      if (err) throw err;
+    });
+  })
+};

@@ -1,7 +1,7 @@
 var init = require('../base/init');
 var expect = require('../base/assert2').expect;
 
-describe('init.run()', function () {
+describe('init.run', function () {
   it('should work', function (done) {
     var a = [];
     init.reset();
@@ -20,7 +20,7 @@ describe('init.run()', function () {
       done();
     });
   });
-  it('can pass an error', function (done) {
+  it('should pass an error', function (done) {
     var a = [];
     init.reset();
     init.add(function (done) {
@@ -44,7 +44,7 @@ describe('init.run()', function () {
   });
 });
 
-describe('init.tail()', function () {
+describe('init.tail', function () {
   it('should work', function (done) {
     var a = [];
     init.reset();
