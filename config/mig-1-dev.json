@@ -1,20 +1,24 @@
 {
   "sql": {
     "server": "10.0.1.9",
-    "user": "raysoda",
+    "userName": "raysoda",
     "password": "abcd",
-    "database": "RaySodaPhoto"
+    "options": {
+      "database": "RaySodaPhoto"
+    }
   },
 
   "sqlTemp": {
     "server": "10.0.1.9",
-    "user": "raysoda",
+    "userName": "raysoda",
     "password": "abcd",
-    "database": "RaySodaTemp"
+    "options": {
+      "database": "RaySodaTemp"
+    }
   },
 
   "mongodb": "raysoda",
 
   "srcDir": "../website-1/Files",
-  "tarDir": "upload/mig-test"
+  "uploadDir": "upload/mig-test"
 }

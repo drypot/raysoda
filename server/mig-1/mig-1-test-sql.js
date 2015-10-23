@@ -1,27 +1,25 @@
 var init = require('../base/init');
 var config = require('../base/config');
-var sql = require('mssql');
+var tds = require('tedious')
 
 /* 
-
-  command example:
-
   $ node server/mig-1/mig-1-test-sql.js -c config/mig-1-dev.json 
-
 */
 
 init.main(function (done) {
-  sql.connect(config.sql, function(err) {
+  var conn = new tds.Connection(config.sql);
+  conn.on('connect', function (err) {
     if (err) return done(err);
-    var request = new sql.Request();
-    request.query('SELECT TOP 1 * FROM USERS', function(err, r) {
+    var req = new tds.Request('select top 1 * from users', function (err, c) {
       if (err) return done(err);
-      console.dir(r);
-      sql.close();
+      console.log(c + ' rows');
+      done();
     });
-  });
-  sql.on('error', function(err) {
-    sql.close();
-    done(err);
+    req.on('row', function (cs) {
+      cs.forEach(function(c) {
+        console.log(c.value);
+      });;
+    });
+    conn.execSql(req);
   });
 });
