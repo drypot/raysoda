@@ -4,16 +4,9 @@
     "userName": "raysoda",
     "password": "abcd",
     "options": {
-      "database": "RaySodaPhoto"
-    }
-  },
-
-  "sqlTemp": {
-    "server": "10.0.1.9",
-    "userName": "raysoda",
-    "password": "abcd",
-    "options": {
-      "database": "RaySodaTemp"
+      "database": "RaySodaPhoto",
+      "isolationLevel": "READ_UNCOMMITTED",
+      "connectionIsolationLevel": "READ_UNCOMMITTED"
     }
   },
 
