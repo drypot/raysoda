@@ -1,6 +1,6 @@
 # RaySoda
 
-[RaySoda](http://www.raysoda.com) 2 번째 코드. 동작하려면 많이 멀었다.
+[RaySoda](http://www.raysoda.com) 2 번째 코드
 
 ## Install and Upgrade
 
@@ -8,6 +8,8 @@
 * [Upgrade](UPGRADE.md)
 
 ## History
+
+2015.10. 레이소다 2.0 오픈
 
 2015.04. 레이소다 2.0 작업 시작. Linux/Node.js.
 
