@@ -18,17 +18,36 @@ init.main(function (done) {
   var conn = new tds.Connection(config.sql);
   conn.on('connect', function (err) {
     if (err) return done(err);
+    var photos = [];
+    var s = config.argv._[0];
+    var e = config.argv._[1];
     var req = new tds.Request('select photoid, userid from photos where photoid between @s and @e order by photoid', function (err, c) {
       if (err) return done(err);
       console.log(c + ' sql rows read');
-      done();
+      console.log('file copy starts');
+      var i = s;
+      (function loop() {
+        if (i > e) {
+          console.log('file copy done');
+          return done();
+        }
+        var pid = i;
+        var uid = photos[i];
+        i++;
+        if (uid) {
+          copyFile(pid, uid, function (err) {
+            if (err) return done(err);
+            setImmediate(loop);
+          });
+        } else {
+          setImmediate(loop);
+        }
+      })();
     });
-    req.addParameter('s', types.Int, config.argv._[0]);
-    req.addParameter('e', types.Int, config.argv._[1]);
+    req.addParameter('s', types.Int, s);
+    req.addParameter('e', types.Int, e);
     req.on('row', function (cs) {
-      copyFile(cs[0].value, cs[1].value, function (err) {
-        if (err) return done(err);
-      });
+      photos[cs[0].value] = cs[1].value;
     });
     conn.execSql(req);
   });
