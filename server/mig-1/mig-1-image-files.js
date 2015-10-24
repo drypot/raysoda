@@ -1,10 +1,11 @@
+var fs = require('fs');
+var tds = require('tedious');
+var types = tds.TYPES;
+
 var init = require('../base/init');
 var config = require('../base/config');
 var imageb = require('../image/image-base');
-var fs = require('fs');
 var fs2 = require('../base/fs2');
-var tds = require('tedious');
-var types = tds.TYPES;
 
 /* 
   $ node server/mig-1/mig-1-image-files.js -c config/mig-1-dev.json 1 10
@@ -12,7 +13,7 @@ var types = tds.TYPES;
 
 init.main(function (done) {
   if (config.argv._.length != 2) {
-    console.log('Start and end PhotoIDs should be specified.');
+    console.log('Start and end ids should be specified.');
     return done();
   }
   var conn = new tds.Connection(config.sql);

@@ -6,7 +6,9 @@
     "options": {
       "database": "RaySodaPhoto",
       "isolationLevel": "READ_UNCOMMITTED",
-      "connectionIsolationLevel": "READ_UNCOMMITTED"
+      "connectionIsolationLevel": "READ_UNCOMMITTED",
+      "requestTimeout": 0,
+      "useUTC": false
     }
   },
 

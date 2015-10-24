@@ -1,6 +1,7 @@
+var tds = require('tedious');
+
 var init = require('../base/init');
 var config = require('../base/config');
-var tds = require('tedious');
 
 /* 
   $ node server/mig-1/mig-1-test-sql.js -c config/mig-1-dev.json 
