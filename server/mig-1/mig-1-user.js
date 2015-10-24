@@ -76,7 +76,7 @@ init.main(function (done) {
     var s = config.argv._[0];
     var e = config.argv._[1];
     var cnt = 0;
-    var req = new tds.Request('select UserID, NickName, BoxSID, Email, Password, Status, CDate, ADate, Comment from Users where UserID between @s and @e order by UserID', function (err, c) {
+    var req = new tds.Request('select UserID, NickName, BoxSID, Email, Password, Status, CDate, ADate, Comment, HomePage from Users where UserID between @s and @e order by UserID', function (err, c) {
       if (err) return done(err);
       console.log(c + ' sql rows read');
       done();
@@ -87,6 +87,7 @@ init.main(function (done) {
       var _id = cs[0].value;
       userb.makeHash(cs[4].value, function (err, hash) {
         if (err) return done(err);
+        var homepage = cs[9].value ? cs[9].value + '\n\n' : '';
         var user = {
           _id: _id,
           name: cs[1].value,
@@ -98,7 +99,7 @@ init.main(function (done) {
           status: cs[5].value == 'T' ? 'd' : 'v',
           cdate: cs[6].value,
           adate: cs[7].value,
-          profile: cs[8].value
+          profile: homepage + cs[8].value
         };
         userb.users.updateOne({ _id: _id }, user, { upsert: true}, function (err) {
           expect(err).not.exist;
