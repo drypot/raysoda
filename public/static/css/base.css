@@ -183,12 +183,13 @@ pre.sample {
   height: 100%;
 }
 .image-view .image {
-  max-width: 1080px;
+  max-width: 100%;
   padding: 0px;
   margin-bottom: 30px;
   text-align: center;
 }
 .image-view .image img {
+  max-width: 100%;
   cursor: pointer;
 }
 .image-view .info a {

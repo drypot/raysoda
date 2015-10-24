@@ -87,6 +87,12 @@ libpng 별도 설치 필요(?)
     [Install]
     WantedBy=multi-user.target
 
+설치
+
+    $ sudo systemctl status raysoda
+    $ sudo systemctl enable raysoda
+    $ sudo systemctl start raysoda
+
 * Group 을 지정하지 않으면 유저 기본 그룹을 사용.
 * StandardOutput 을 지정하지 않으면 journal 을 사용.
 * syslog 를 지정하면 syslog 에도 쌓이고 journal 에도 쌓인다. journal 에는 기본적으로 쌓임.
