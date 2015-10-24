@@ -23,6 +23,10 @@ block content
         .section.top-links
           a(href='/users/' + tuser._id + '/update') Update Profile
 
+      if tuser.status == 'd'
+        .section
+          | Deactivated Account
+
   if images.length
     if gt
       .section.pager-prev
