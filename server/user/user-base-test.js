@@ -11,7 +11,7 @@ before(function (done) {
   init.run(done);
 });
 
-describe('users', function () {
+describe('userb.users', function () {
   it('should exist', function () {
     expect(userb.users).exist;
   });

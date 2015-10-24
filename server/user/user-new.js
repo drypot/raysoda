@@ -15,24 +15,27 @@ expb.core.post('/api/users', function (req, res, done) {
   checkForm(form, 0, function (err) {
     if (err) return done(err);
     var now = new Date();
-    var user = {
-      _id: userb.getNewId(),
-      name: form.name,
-      namel: form.namel,
-      home: form.home,
-      homel: form.homel,
-      email: form.email,
-      hash: userb.makeHash(form.password),
-      status: 'v', // 'v': valid, 'd': deactivated
-      cdate: now,
-      adate: now,
-      profile: form.profile
-      // admin 플래그는 콘솔에서 수작업으로 삽입한다. api 로 넣을 수 없다.
-    };
-    userb.users.insertOne(user, function (err) {
+    userb.makeHash(form.password, function (err, hash) {
       if (err) return done(err);
-      res.json({
-        id: user._id
+      var user = {
+        _id: userb.getNewId(),
+        name: form.name,
+        namel: form.namel,
+        home: form.home,
+        homel: form.homel,
+        email: form.email,
+        hash: hash,
+        status: 'v', // 'v': valid, 'd': deactivated
+        cdate: now,
+        adate: now,
+        profile: form.profile
+        // admin 플래그는 콘솔에서 수작업으로 삽입한다. api 로 넣을 수 없다.
+      };
+      userb.users.insertOne(user, function (err) {
+        if (err) return done(err);
+        res.json({
+          id: user._id
+        });
       });
     });
   });

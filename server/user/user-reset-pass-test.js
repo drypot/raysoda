@@ -24,8 +24,11 @@ describe('resetting user', function () {
   it('old password should be ok', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
       expect(err).not.exist;
-      expect(userb.checkPassword(_user.password, user.hash)).true;
-      done();
+      userb.checkPassword(_user.password, user.hash, function (err, matched) {
+        expect(err).not.exist;
+        expect(matched).true;
+        done();
+      });
     });
   });
   it('reset request should succeed', function (done) {
@@ -108,15 +111,21 @@ describe('resetting user', function () {
   it('old password should fail', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
       expect(err).not.exist;
-      expect(userb.checkPassword(_user.password, user.hash)).false;
-      done();
+      userb.checkPassword(_user.password, user.hash, function (err, matched) {
+        expect(err).not.exist;
+        expect(matched).false;
+        done();
+      });
     });
   });
   it('new password should succeed', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
       expect(err).not.exist;
-      expect(userb.checkPassword('new-pass', user.hash)).true;
-      done();
+      userb.checkPassword('new-pass', user.hash, function (err, matched) {
+        expect(err).not.exist;
+        expect(matched).true;
+        done();
+      });
     });
   });
 });
@@ -130,8 +139,11 @@ describe('resetting admin', function () {
   it('old password should succeed', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
       expect(err).not.exist;
-      expect(userb.checkPassword(_user.password, user.hash)).true;
-      done();
+      userb.checkPassword(_user.password, user.hash, function (err, matched) {
+        expect(err).not.exist;
+        expect(matched).true;
+        done();
+      });
     });
   });
   it('given reset request', function (done) {
@@ -163,15 +175,21 @@ describe('resetting admin', function () {
   it('old password should succeed', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
       expect(err).not.exist;
-      expect(userb.checkPassword(_user.password, user.hash)).true;
-      done();
+      userb.checkPassword(_user.password, user.hash, function (err, matched) {
+        expect(err).not.exist;
+        expect(matched).true;
+        done();
+      });
     });
   });
   it('new password should fail', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
       expect(err).not.exist;
-      expect(userb.checkPassword('new-pass', user.hash)).false;
-      done();
+      userb.checkPassword('new-pass', user.hash, function (err, matched) {
+        expect(err).not.exist;
+        expect(matched).false;
+        done();
+      });
     });
   });
 });

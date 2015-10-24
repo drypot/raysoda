@@ -49,9 +49,13 @@ describe('creating user', function () {
       expect(user.home).equal('Name');
       expect(user.homel).equal('name');
       expect(user.email).equal('name@mail.com');
-      expect(userb.checkPassword('1234', user.hash)).true;
-      expect(userb.checkPassword('4444', user.hash)).false;
-      done();
+      userb.checkPassword('1234', user.hash, function (err, matched) {
+        expect(matched).true;
+        userb.checkPassword('4444', user.hash, function (err, matched) {
+          expect(matched).false;
+          done();
+        });
+      });
     });
   });
 });

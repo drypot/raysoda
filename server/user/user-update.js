@@ -1,5 +1,6 @@
 var init = require('../base/init');
 var error = require('../base/error');
+var util2 = require('../base/util2');
 var expb = require('../express/express-base');
 var userb = require('../user/user-base');
 var usera = require('../user/user-auth');
@@ -40,16 +41,20 @@ expb.core.put('/api/users/:id([0-9]+)', function (req, res, done) {
           email: form.email,
           profile: form.profile
         };
-        if (form.password.length) {
-          fields.hash = userb.makeHash(form.password);
-        }
-        userb.users.updateOne({ _id: id }, { $set: fields }, function (err, r) {
-          if (err) return done(err);
-          if (!r.matchedCount) {
-            return done(error('USER_NOT_FOUND'));
+        util2.fif(form.password.length, function (next) {
+          userb.makeHash(form.password, next)
+        }, function (err, hash) {
+          if (hash) {
+            fields.hash = hash;
           }
-          userb.deleteCache(id);
-          res.json({});
+          userb.users.updateOne({ _id: id }, { $set: fields }, function (err, r) {
+            if (err) return done(err);
+            if (!r.matchedCount) {
+              return done(error('USER_NOT_FOUND'));
+            }
+            userb.deleteCache(id);
+            res.json({});
+          });
         });
       });
     });

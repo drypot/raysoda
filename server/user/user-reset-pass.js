@@ -92,12 +92,14 @@ expb.core.put('/api/reset-pass', function (req, res, done) {
       email: reset.email,
       admin: { $exists: false } // admin password can not be changed by web api for security.
     };
-    var hash = userb.makeHash(form.password);
-    userb.users.updateOne(query, { $set: { hash: hash } }, function (err) {
+    userb.makeHash(form.password, function (err, hash) {
       if (err) return done(err);
-      resets.deleteOne({ _id: reset._id }, function (err) {
+      userb.users.updateOne(query, { $set: { hash: hash } }, function (err) {
         if (err) return done(err);
-        res.json({});
+        resets.deleteOne({ _id: reset._id }, function (err) {
+          if (err) return done(err);
+          res.json({});
+        });
       });
     });
   });

@@ -50,10 +50,16 @@ describe('updating user', function () {
       expect(user.home).equal('NewHome');
       expect(user.homel).equal('newhome');
       expect(user.email).equal('new.name@mail.com');
-      expect(userb.checkPassword('1234', user.hash)).false;
-      expect(userb.checkPassword('5678', user.hash)).true;
-      expect(user.profile).equal('new profile');
-      done();
+      userb.checkPassword('1234', user.hash, function (err, matched) {
+        expect(err).not.exist;
+        expect(matched).false;
+        userb.checkPassword('5678', user.hash, function (err, matched) {
+          expect(err).not.exist;
+          expect(matched).true;
+          expect(user.profile).equal('new profile');
+          done();
+        });
+      });
     });
   });
 });

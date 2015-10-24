@@ -126,11 +126,13 @@ function findUser(email, password, done) {
     if (user.status == 'd') {
       return done(error('ACCOUNT_DEACTIVATED'));
     }    
-    if (!userb.checkPassword(password, user.hash)) {      
-      return done(error('PASSWORD_WRONG'));
-    }
-    userb.cache(user);    
-    done(null, user);
+    userb.checkPassword(password, user.hash, function (err, matched) {
+      if (!matched) {      
+        return done(error('PASSWORD_WRONG'));
+      }
+      userb.cache(user);    
+      done(null, user);
+    });
   });
 };
 

@@ -17,9 +17,13 @@ init.add(exports.recreate = function (done) {
     ];
     var i = 0;
     (function create() {
-      if (i < forms.length) {
-        var form = forms[i++];
-        var now = new Date();
+      if (i == forms.length) {
+        return done();
+      }
+      var form = forms[i++];
+      var now = new Date();
+      userb.makeHash(form.password, function (err, hash) {
+        expect(err).not.exist;
         var user = {
           _id: userb.getNewId(),
           name: form.name,
@@ -27,7 +31,7 @@ init.add(exports.recreate = function (done) {
           home: form.name,
           homel: form.name,
           email: form.email,
-          hash: userb.makeHash(form.password),
+          hash: hash,
           status: 'v',
           cdate: now,
           adate: now,
@@ -42,9 +46,7 @@ init.add(exports.recreate = function (done) {
           exports[user.name] = user;
           setImmediate(create);
         });
-        return;        
-      }
-      done();
+      });
     })();
   });
 });

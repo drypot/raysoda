@@ -63,12 +63,12 @@ userb.getNewId = function () {
 
 // bcrypt hash
 
-userb.makeHash = function (password) {
-  return bcrypt.hashSync(password, 10);
+userb.makeHash = function (pw, cb) {
+  bcrypt.hash(pw, 10, cb);
 }
 
-userb.checkPassword = function (password, hash) {
-  return bcrypt.compareSync(password, hash);
+userb.checkPassword = function (pw, hash, cb) {
+  return bcrypt.compare(pw, hash, cb);
 }
 
 // user cache
