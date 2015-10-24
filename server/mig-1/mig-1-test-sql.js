@@ -18,7 +18,7 @@ init.main(function (done) {
     req.on('row', function (cs) {
       cs.forEach(function(c) {
         console.log(c.value);
-      });;
+      });
     });
     conn.execSql(req);
   });
