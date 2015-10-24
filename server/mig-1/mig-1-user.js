@@ -104,7 +104,7 @@ init.main(function (done) {
         userb.users.updateOne({ _id: _id }, user, { upsert: true}, function (err) {
           expect(err).not.exist;
           cnt++;
-          if (cnt % 5 == 0) {
+          if (cnt % 100 == 0) {
             console.log(_id);
           }
         });
