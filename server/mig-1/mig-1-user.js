@@ -5,7 +5,6 @@ var init = require('../base/init');
 var config = require('../base/config');
 var mongob = require('../mongo/mongo-base');
 var userb = require('../user/user-base');
-var expect = require('../base/assert2').expect;
 
 /* 
   $ node server/mig-1/mig-1-user.js -c config/mig-1-dev.json 1 10
@@ -101,8 +100,8 @@ init.main(function (done) {
           adate: cs[7].value,
           profile: homepage + cs[8].value
         };
-        userb.users.updateOne({ _id: _id }, user, { upsert: true}, function (err) {
-          expect(err).not.exist;
+        userb.users.updateOne({ _id: _id }, user, { upsert: true }, function (err) {
+          if (err) return done(err);
           cnt++;
           if (cnt % 100 == 0) {
             console.log(_id);
