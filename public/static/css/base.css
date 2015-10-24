@@ -102,6 +102,11 @@ form.main input[type=file] {
     width: 100%;
   }
 }
+pre.sample {
+  max-width: 384px;
+  margin: 0 auto;
+  text-align: left;
+}
 .top-links a {
   padding-left: 10px;
   padding-right: 10px;

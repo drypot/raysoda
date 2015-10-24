@@ -4,6 +4,10 @@ var config = require('../base/config');
 var mongob = require('../mongo/mongo-base');
 var userb = require('../user/user-base');
 
+/*
+  $ node server/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'
+*/
+
 init.add(function (done) {
   if (config.argv._.length < 1) {
     console.log('\nspecify email.');
