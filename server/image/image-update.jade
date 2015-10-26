@@ -20,7 +20,7 @@ block content
           label.control-label Image
           .panel.panel-default
             .panel-body
-              input(type='file', name='files', multiple='multiple')
+              input(type='file', name='files', accept='image/*', multiple='multiple')
           if appNamel == 'drypot'
             p.help-block
               | Only SVG files.
