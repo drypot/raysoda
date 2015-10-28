@@ -137,16 +137,8 @@ describe('updating name', function () {
       done();
     });
   });
-  it('short name should fail', function (done) {
+  it('length 1 naem should succeed', function (done) {
     var form = { name: 'u', home: 'NameTest', email: 'nametest@mail.com', password: '1234' };
-    expl.put('/api/users/' + userf.user1._id).send(form).end(function (err,res) {
-      expect(err).not.exist;
-      expect(res.body.err).error('NAME_RANGE');
-      done();
-    });
-  });
-  it('length 2 naem should succeed', function (done) {
-    var form = { name: 'uu', home: 'NameTest', email: 'nametest@mail.com', password: '1234' };
     expl.put('/api/users/' + userf.user1._id).send(form).end(function (err,res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -209,16 +201,8 @@ describe('updating home', function () {
       done();
     });
   });
-  it('short home should fail', function (done) {
-    var form = { name: 'Name4', home: 'h', email: 'name4@mail.com', password: '1234' };
-    expl.put('/api/users/' + userf.user1._id).send(form).end(function (err,res) {
-      expect(err).not.exist;
-      expect(res.body.err).error('HOME_RANGE');
-      done();
-    });
-  });
-  it('length 2 home should succeed', function (done) {
-    var form = { name: 'Name5', home: 'hh', email: 'name5@mail.com', password: '1234' };
+  it('length 1 home should succeed', function (done) {
+    var form = { name: 'Name5', home: 'h', email: 'name5@mail.com', password: '1234' };
     expl.put('/api/users/' + userf.user1._id).send(form).end(function (err,res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;

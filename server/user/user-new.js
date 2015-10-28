@@ -60,13 +60,13 @@ var checkForm = usern.checkForm = function (form, id, done) {
 
   if (!form.name.length) {
     errors.push(error.NAME_EMPTY);
-  } else if (form.name.length > 32 || form.name.length < 2) {
+  } else if (form.name.length > 32) {
     errors.push(error.NAME_RANGE);
   }
 
   if (!form.home.length) {
     errors.push(error.HOME_EMPTY);
-  } else if (form.home.length > 32 || form.home.length < 2) {
+  } else if (form.home.length > 32) {
     errors.push(error.HOME_RANGE);
   }
 

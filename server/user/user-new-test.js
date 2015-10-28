@@ -86,8 +86,8 @@ describe('name check', function () {
       done();
     });
   });
-  it('length 2 name should succeed', function (done) {
-    var form = { name: '12', email: 'mail3@mail.com', password: '1234' };
+  it('length 1 name should succeed', function (done) {
+    var form = { name: '1', email: 'mail3@mail.com', password: '1234' };
     expl.post('/api/users').send(form).end(function (err,res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
@@ -107,15 +107,6 @@ describe('name check', function () {
     expl.post('/api/users').send(form).end(function (err,res) {
       expect(err).not.exist;
       expect(res.body.err).error('NAME_EMPTY');
-      done();
-    });
-  });
-  it('length 1 name should fail', function (done) {
-    var form = { name: 'a', email: 'mail6@mail.com', password: '1234' };
-    expl.post('/api/users').send(form).end(function (err,res) {
-      expect(err).not.exist;
-      expect(res.body.err).exist;
-      expect(res.body.err).error('NAME_RANGE');
       done();
     });
   });
