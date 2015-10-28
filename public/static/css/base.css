@@ -140,15 +140,11 @@ pre.sample {
   max-height: 100%;
 }
 .image-list .box .comment {
-  max-width: 640px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
+  display: block;
   overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
+  line-height: 1.5;
+  height: 120px;
+  margin-bottom: 20px;
 }
 @media (max-width: 768px) {
   .image-list .box {
