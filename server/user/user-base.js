@@ -15,11 +15,11 @@ error.define('ACCOUNT_DEACTIVATED', '사용중지된 계정입니다.', 'email')
 error.define('PASSWORD_WRONG', '비밀번호가 틀렸습니다.', 'password');
 
 error.define('NAME_EMPTY', '이름을 입력해 주십시오.', 'name');
-error.define('NAME_RANGE', '이름 길이는 2 ~ 32 글자입니다.', 'name');
+error.define('NAME_RANGE', '이름 길이는 1 ~ 32 글자입니다.', 'name');
 error.define('NAME_DUPE', '이미 등록되어 있는 이름입니다.', 'name');
 
 error.define('HOME_EMPTY', '개인 주소를 입력해 주십시오.', 'home');
-error.define('HOME_RANGE', '개인 주소 길이는 2 ~ 32 글자입니다.', 'home');
+error.define('HOME_RANGE', '개인 주소 길이는 1 ~ 32 글자입니다.', 'home');
 error.define('HOME_DUPE', '이미 등록되어 있는 개인 주소입니다.', 'home');
 
 error.define('EMAIL_EMPTY', '이메일 주소를 입력해 주십시오.', 'email');
