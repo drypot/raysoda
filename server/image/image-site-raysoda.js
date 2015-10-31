@@ -23,6 +23,7 @@ exports.checkImageMeta = function (upload, done) {
 exports.makeVersions = function (upload, save, meta, done) {
   var cmd = 'convert ' + upload.path;
   cmd += ' -quality 92';
+  cmd += ' -auto-orient';
   cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>';
   cmd += ' ' + save.path;
   exec(cmd, function (err) {
