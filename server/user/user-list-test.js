@@ -42,4 +42,12 @@ describe('/api/users?q=', function () {
       done();
     });
   });
+  it('should succeed for [빈칸 which including RegExp character', function (done) {
+    expl.get('/api/users?q=[빈칸', function (err, res) {
+      expect(err).not.exist;
+      expect(res.body.err).not.exist;
+      expect(res.body.users).length(0);
+      done();
+    });
+  });
 });
