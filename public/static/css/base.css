@@ -130,7 +130,7 @@ pre.sample {
 }
 .image-list .box {
   margin-top: 75px;
-  margin-bottom: 100px;
+  margin-bottom: 150px;
 }
 .image-list .box .image {
   margin-bottom: 20px;
@@ -149,7 +149,7 @@ pre.sample {
 @media (max-width: 768px) {
   .image-list .box {
     margin-top: 50px;
-    margin-bottom: 75px;
+    margin-bottom: 100px;
   }
   .image-list .box .image {
     margin-bottom: 15px;
