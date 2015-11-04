@@ -44,7 +44,10 @@ block content
           a(href='/images/' + image._id)
             img(src=image.dir + '/' + image._id + suffix)
         if image.comment
-          .comment !{jade.escape(image.comment).replace(/\n/g, '<br>')}
+          -var cmt
+          -cmt = (image.comment.match(/^(?:.*(\r\n|\n)){1,5}/m) || [''])[0];
+          -cmt = cmt.trim()
+          .comment !{jade.escape(cmt).replace(/(\r\n|\n)/g, '<br>')}
         .uname
           a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
 
