@@ -44,8 +44,8 @@ block content
           a(href='/images/' + image._id)
             img(src=image.dir + '/' + image._id + suffix)
         if image.comment
-          -var cmt
-          -cmt = (image.comment.match(/^(?:.*(\r\n|\n)){1,5}/m) || [''])[0];
+          -var m = image.comment.match(/^(?:.*(\r\n|\n)){1,5}/m)
+          -var cmt = m ? m[0] : image.comment
           -cmt = cmt.trim()
           .comment !{jade.escape(cmt).replace(/(\r\n|\n)/g, '<br>')}
         .uname
