@@ -23,7 +23,8 @@ $(function () {
     var $form = formty.getForm('form.main');
     $form.$send.click(function (err, res) {
       formty.put('/api/images/' + image._id, $form, function () {
-        location = '/images/' + image._id;
+        location = '/';
+        //location = '/images/' + image._id;
       });
       return false;
     });
