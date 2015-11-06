@@ -27,18 +27,20 @@ hr {
 .sub-section {
   margin-bottom: 30px;
 }
-.site-title {
-  margin-top: 0px;
-  padding: 10px 0px;
+.page-header {
   border-bottom-color: #e5e5e5;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  font-size: 150%;
 }
-.site-title a {
+.page-header a {
   color: #333333;
 }
-.site-title a:hover {
+.page-header .site-title {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 150%;
+}
+.page-header .site-title a:hover {
   text-decoration: none;
 }
 .page-footer {
@@ -61,10 +63,10 @@ hr {
 .page-footer .about-list ul li {
   padding: 0 5px;
 }
-.page-footer .site-title-bottom {
+.page-footer .site-title {
   font-size: 150%;
 }
-.page-footer .site-title-bottom a:hover {
+.page-footer .site-title a:hover {
   text-decoration: none;
 }
 .page-title {
