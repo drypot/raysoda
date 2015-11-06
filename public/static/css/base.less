@@ -1,4 +1,3 @@
-@font-size: 16px;
 @color: #333;
 @dim-color: lighten(@color, 50%);
 @line-color: lighten(@color, 70%);
@@ -7,13 +6,23 @@
 @width: 640px;
 @form-width: @width * 0.6;
 @image-width: 1080px;
+@mid-screen: 1080px;
+@small-screen: 768px;
 
 // basic layout
 
 body {
   font-family: serif;
-  font-size: @font-size;
+  font-size: 16px;
   color: @color; 
+}
+
+@media (max-width: @small-screen) {
+  body {
+    font-family: serif;
+    font-size: 14px;
+    color: @color; 
+  }
 }
 
 hr {
@@ -50,7 +59,7 @@ hr {
   border-bottom-color: @line-color;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  font-size: @font-size * 1.5;
+  font-size: 150%;
 }
 
 .page-footer {
@@ -66,7 +75,6 @@ hr {
     ul {
       margin: 0px;
       li {
-        font-size: @font-size;
         padding: 0 5px;
       }
     }
@@ -75,7 +83,7 @@ hr {
     a:hover {
       text-decoration: none;
     }
-    font-size: @font-size * 1.5;
+    font-size: 150%;
   }
 }
 
@@ -86,7 +94,7 @@ hr {
   }
   margin-top: @margin;
   h1 {
-    font-size: @font-size * 3;
+    font-size: 300%;
   }
 }
 
@@ -103,7 +111,7 @@ pre.error-report {
 
   text-align: left;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 80%;
   background-color: white;
   white-space: nowrap;
 }
@@ -180,35 +188,37 @@ pre.sample {
       margin-bottom: @margin * 0.4;
     }
     .comment {
-      display: block;
-      overflow: hidden;
-      line-height: 1.5;
-      max-height: @font-size * 1.5 * 5;
       margin-bottom: @margin * 0.4;
     }
   }
 }
 
-@media (max-width: 1080px) {
+@media (max-width: @mid-screen) {
   .image-list {
     .box {
       margin-top: @margin * 1.5;
       margin-bottom: @margin * 2.0;
       .image {
-        margin-bottom: @margin * 0.3;
+        margin-bottom: @margin * 0.2;
       }
       .comment {
-        margin-bottom: @margin * 0.3;
+        margin-bottom: @margin * 0.2;
       }
     }
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: @small-screen) {
   .image-list {
     .box {
       margin-top: @margin * 1;
       margin-bottom: @margin * 1.5;
+      .image {
+        margin-bottom: @margin * 0.15;
+      }
+      .comment {
+        margin-bottom: @margin * 0.15;
+      }
     }
   }
 }
@@ -257,15 +267,15 @@ pre.sample {
     }
     .cdate {
       margin-bottom: @margin * 0.4;
-      font-size: @font-size * 0.8;
+      font-size: 80%;
     }
     .uname {
       margin-bottom: @margin * 1;
-      font-size: @font-size * 1.4;
+      font-size: 140%;
     }
     .fname {
       margin-bottom: @margin * 0.1;
-      //font-size: @font-size * 0.9;
+      //font-size: 80%;
       color: white;  
     }
     .commands {
@@ -280,7 +290,7 @@ pre.sample {
     margin: 0 auto;
   
     td {
-      padding: 0 @font-size * 1.5;
+      padding: 0px 20px;
     }
   }
 }

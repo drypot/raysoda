@@ -3,6 +3,13 @@ body {
   font-size: 16px;
   color: #333333;
 }
+@media (max-width: 768px) {
+  body {
+    font-family: serif;
+    font-size: 14px;
+    color: #333333;
+  }
+}
 hr {
   margin: 10px 0px;
 }
@@ -27,7 +34,7 @@ hr {
   border-bottom-color: #e5e5e5;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  font-size: 24px;
+  font-size: 150%;
 }
 .site-title a {
   color: #333333;
@@ -53,11 +60,10 @@ hr {
   margin: 0px;
 }
 .page-footer .about-list ul li {
-  font-size: 16px;
   padding: 0 5px;
 }
 .page-footer .site-title-bottom {
-  font-size: 24px;
+  font-size: 150%;
 }
 .page-footer .site-title-bottom a:hover {
   text-decoration: none;
@@ -72,7 +78,7 @@ hr {
   text-decoration: none;
 }
 .page-title h1 {
-  font-size: 48px;
+  font-size: 300%;
 }
 pre.error-report {
   margin: 0px;
@@ -82,7 +88,7 @@ pre.error-report {
   border-top: 1px solid #eeeeee;
   text-align: left;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 80%;
   background-color: white;
   white-space: nowrap;
 }
@@ -140,10 +146,6 @@ pre.sample {
   max-height: 100%;
 }
 .image-list .box .comment {
-  display: block;
-  overflow: hidden;
-  line-height: 1.5;
-  max-height: 120px;
   margin-bottom: 20px;
 }
 @media (max-width: 1080px) {
@@ -152,16 +154,22 @@ pre.sample {
     margin-bottom: 100px;
   }
   .image-list .box .image {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
   .image-list .box .comment {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 }
 @media (max-width: 768px) {
   .image-list .box {
     margin-top: 50px;
     margin-bottom: 75px;
+  }
+  .image-list .box .image {
+    margin-bottom: 7.5px;
+  }
+  .image-list .box .comment {
+    margin-bottom: 7.5px;
   }
 }
 :-webkit-full-screen {
@@ -202,11 +210,11 @@ pre.sample {
 }
 .image-view .info .cdate {
   margin-bottom: 20px;
-  font-size: 12.8px;
+  font-size: 80%;
 }
 .image-view .info .uname {
   margin-bottom: 50px;
-  font-size: 22.4px;
+  font-size: 140%;
 }
 .image-view .info .fname {
   margin-bottom: 5px;
@@ -216,5 +224,5 @@ pre.sample {
   margin: 0 auto;
 }
 .basic-table table td {
-  padding: 0 24px;
+  padding: 0px 20px;
 }
