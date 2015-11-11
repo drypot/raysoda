@@ -210,33 +210,43 @@ pre.sample {
   width: 100%;
   height: 100%;
 }
-.image-view .image {
+.image-full {
   max-width: 100%;
+  margin: 75px auto;
   padding: 0px;
-  margin-bottom: 30px;
   text-align: center;
 }
-.image-view .image img {
+.image-full img {
   max-width: 100%;
   cursor: pointer;
 }
-.image-view .info a {
+.image-info a {
   color: #333333;
 }
-.image-view .info .comment {
+.image-info .comment {
   margin-bottom: 40px;
 }
-.image-view .info .cdate {
+.image-info .cdate {
   margin-bottom: 20px;
   font-size: 80%;
 }
-.image-view .info .uname {
+.image-info .uname {
   margin-bottom: 50px;
   font-size: 140%;
 }
-.image-view .info .fname {
+.image-info .fname {
   margin-bottom: 5px;
   color: white;
+}
+@media (max-width: 1080px) {
+  .image-full {
+    margin: 35px auto;
+  }
+}
+@media (max-width: 768px) {
+  .image-full {
+    margin: 0px auto;
+  }
 }
 .basic-table table {
   margin: 0 auto;

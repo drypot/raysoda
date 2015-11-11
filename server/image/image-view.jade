@@ -15,25 +15,24 @@ block content
       imagel.initView(!{JSON.stringify(image)});
     });
 
-  .image-view
-    .section.image
-      img(src=image.dir + '/' + image._id + '.jpg')
+  .section.image-full
+    img(src=image.dir + '/' + image._id + '.jpg')
 
-    .section.info
-      .sub-section(style='display: none')
-        a#fs(href='')
-          span.glyphicon.glyphicon-fullscreen
+  .section.image-info
+    .sub-section(style='display: none')
+      a#fs(href='')
+        span.glyphicon.glyphicon-fullscreen
 
+    .sub-section
+      .comment !{jade.escape(image.comment).replace(/\n/g, '<br>')}
+      .cdate !{image.cdateStr.slice(0,16)}
+      .uname
+        a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
+      //-.fname #{image.fname}
+
+    if updatable
       .sub-section
-        .comment !{jade.escape(image.comment).replace(/\n/g, '<br>')}
-        .cdate !{image.cdateStr.slice(0,16)}
-        .uname
-          a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
-        //-.fname #{image.fname}
-
-      if updatable
-        .sub-section
-          .commands
-            button#update-btn.btn.btn-success.btn-xs Update
-            button#del-btn.btn.btn-danger.btn-xs Delete
-            button#del-confirm-btn.btn.btn-danger.btn-xs.hide Yes, Delete
+        .commands
+          button#update-btn.btn.btn-success.btn-xs Update
+          button#del-btn.btn.btn-danger.btn-xs Delete
+          button#del-confirm-btn.btn.btn-danger.btn-xs.hide Yes, Delete

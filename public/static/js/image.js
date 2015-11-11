@@ -31,9 +31,8 @@ $(function () {
   };
 
   imagel.initView = function (image) {
-    var $imgdiv = $('.image-view .image');
-    var $img = $('.image-view .image img');
-    var $comment = $('.image-view .info .comment');
+    var $img = $('.image-full img');
+    var $comment = $('.image-info .comment');
 
     $img.click(function () {
       history.back();
