@@ -30,25 +30,25 @@ block content
 
     .section.news
       for banner in banners
-        p
-          a(href=banner.url, target="_blank") #{banner.text}
+        a(href=banner.url, target="_blank") #{banner.text}
+        br
 
   if gt
     .section.pager-prev
       a(href=gt) Previous
 
-  .section.image-list
-    for image in images
-      .box
-        .image
-          a(href='/images/' + image._id)
-            img(src=image.dir + '/' + image._id + suffix)
-        if image.comment
-          .comment !{jade.escape(image.comment.split('\r\n', 1)[0])}
-          //-.comment ...
-          //-.comment !{jade.escape(image.comment).replace(/(\r\n|\n)/g, '<br>')}
-        .uname
-          a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
+  
+  for image in images
+    .section.image-thumb
+      .image
+        a(href='/images/' + image._id)
+          img(src=image.dir + '/' + image._id + suffix)
+      if image.comment
+        .comment !{jade.escape(image.comment.split('\r\n', 1)[0])}
+        //-.comment ...
+        //-.comment !{jade.escape(image.comment).replace(/(\r\n|\n)/g, '<br>')}
+      .uname
+        a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
 
   if lt
     .section.pager-next

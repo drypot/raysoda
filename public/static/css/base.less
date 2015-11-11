@@ -2,7 +2,6 @@
 @dim-color: lighten(@color, 50%);
 @line-color: lighten(@color, 70%);
 @margin: 50px;
-@sub-margin: @margin * 0.6;
 @width: 640px;
 @form-width: @width * 0.6;
 @image-width: 1080px;
@@ -25,7 +24,8 @@ body {
 }
 
 hr {
-  margin: @margin * 0.2 0px;
+  //margin: @margin * 0.2 0px;
+  margin: 0px;
 }
 
 .ac-link { // achromatic color link
@@ -35,86 +35,45 @@ hr {
 }
 
 .section {
+  margin: @margin auto; // auto 는 IE9 이상부터
   max-width: @width; // for mobile. width 를 쓰면 작은 화면에서 화면 밖으로 나간다.
-  margin-top: 0px;
-  margin-left: auto; // auto 는 IE9 이상부터
-  margin-right: auto;
-  margin-bottom: @margin;
   padding: 0px 8px;
   text-align: center;
 }
 
 .sub-section {
-  margin-bottom: @sub-margin;
+  margin: @margin * 0.6 auto;
 }
 
-.page-header {
-  .ac-link;
-  border-bottom-color: @line-color;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  .site-title {
-    a:hover {
-      text-decoration: none;
-    }
-    margin-top: @margin * 0.4;
-    margin-bottom: @margin * 0.4;
-    font-size: 150%;
+@media (max-width: @mid-screen) {
+  .section {
+    margin: @margin * 0.8 auto;
+  }
+  .sub-section {
+    margin: @margin * 0.4 auto;
   }
 }
 
-.page-footer {
-  .ac-link;
-  margin-top: @margin * 1.5;
-  margin-bottom: @margin * 1.5;
-  padding: @margin * 0.2 0px;
-  border-top-color: @line-color;
-  border-top-style: solid;
-  border-top-width: 1px;
-  .about-list {
-    margin-bottom: @margin * 0.3;
-    ul {
-      margin: 0px;
-      li {
-        padding: 0 5px;
-      }
-    }
+@media (max-width: @small-screen) {
+  .section {
+    margin: @margin * 0.5 auto;
   }
-  .site-title {
-    a:hover {
-      text-decoration: none;
-    }
-    font-size: 150%;
-  }
-}
-
-.page-title {
-  .ac-link;
-  a:hover {
-    text-decoration: none;
-  }
-  margin-top: @margin;
-  h1 {
-    font-size: 300%;
+  .sub-section {
+    margin: @margin * 0.3 auto;
   }
 }
 
 // error
 
-pre.error-report {
-  margin: 0px;
-
+.error-report {
   padding: 0px;
-  padding-top: 5px;
-
-  border: 0;
-  border-top: 1px solid #eeeeee;
-
-  text-align: left;
-  font-family: monospace;
-  font-size: 80%;
-  background-color: white;
-  white-space: nowrap;
+  pre {
+    text-align: left;
+    font-family: monospace;
+    font-size: 80%;
+    background-color: white;
+    white-space: nowrap;
+  }
 }
 
 .modal-body {
@@ -152,15 +111,86 @@ pre.sample {
 
 // home
 
+.site-name {
+  margin: @margin * 0.4 auto;
+  a:hover {
+    text-decoration: none;
+  }
+  font-size: 150%;
+}
+
+.page-header {
+  .ac-link;
+  margin-top: 0px;
+  border-bottom-color: @line-color;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.page-title {
+  .ac-link;
+  a:hover {
+    text-decoration: none;
+  }
+  h1 {
+    font-size: 300%;
+  }
+}
+
 .top-links {
   a {
-    padding-left:10px;
-    padding-right:10px;
+    padding-left:8px;
+    padding-right:8px;
   }
 }
 
 .news {
-  margin-top: @margin 0.4;
+}
+
+.page-footer {
+  .ac-link;
+  border-top-color: @line-color;
+  border-top-style: solid;
+  border-top-width: 1px;
+  .about-list {
+    margin: @margin * 0.2 auto;
+    ul {
+      margin: 0px;
+      li {
+        padding: 0 5px;
+      }
+    }
+  }
+}
+
+@media (max-width: @mid-screen) {
+  .site-name {
+    margin: @margin * 0.3 auto;
+    a:hover {
+      text-decoration: none;
+    }
+    font-size: 140%;
+  }
+  .page-title {
+    h1 {
+      font-size: 250%;
+    }
+  }
+}
+
+@media (max-width: @small-screen) {
+  .site-name {
+    margin: @margin * 0.2 auto;
+    a:hover {
+      text-decoration: none;
+    }
+    font-size: 130%;
+  }
+  .page-title {
+    h1 {
+      font-size: 200%;
+    }
+  }
 }
 
 // image list
@@ -173,53 +203,46 @@ pre.sample {
   .pager-prev;
 }
 
-.image-list {
-  max-width: @image-width;
+.image-thumb {
   .ac-link;
-  padding-left: 0px;
-  padding-right: 0px;
-  .box {
-    margin-top: @margin * 2;
-    margin-bottom: @margin * 2.5; // 사진 비율이 다양해서 rapixel 보다 많이 띄워야 혼잡하지 않다.
-    .image {
-      img {
-        max-width: 100%; // for mobile
-        max-height: 100%; // for mobile
-      }
-      margin-bottom: @margin * 0.4;
+  max-width: @image-width;
+  padding: 0px;
+  margin-top: @margin * 1.5;
+  margin-bottom: @margin * 2.0; // 사진 비율이 다양해서 rapixel 보다 많이 띄워야 혼잡하지 않다.
+  .image {
+    img {
+      max-width: 100%; // for mobile
+      max-height: 100%; // for mobile
     }
-    .comment {
-      margin-bottom: @margin * 0.2;
-    }
+    margin-bottom: @margin * 0.4;
+  }
+  .comment {
+    margin-bottom: @margin * 0.2;
   }
 }
 
 @media (max-width: @mid-screen) {
-  .image-list {
-    .box {
-      margin-top: @margin * 1.5;
-      margin-bottom: @margin * 2.0;
-      .image {
-        margin-bottom: @margin * 0.3;
-      }
-      .comment {
-        margin-bottom: @margin * 0.1;
-      }
+  .image-thumb {
+    margin-top: @margin * 1.3;
+    margin-bottom: @margin * 1.5;
+    .image {
+      margin-bottom: @margin * 0.3;
+    }
+    .comment {
+      margin-bottom: @margin * 0.1;
     }
   }
 }
 
 @media (max-width: @small-screen) {
-  .image-list {
-    .box {
-      margin-top: @margin * 1;
-      margin-bottom: @margin * 1.3;
-      .image {
-        margin-bottom: @margin * 0.3;
-      }
-      .comment {
-        margin-bottom: @margin * 0.1;
-      }
+  .image-thumb {
+    margin-top: @margin * 1.0;
+    margin-bottom: @margin * 1.0;
+    .image {
+      margin-bottom: @margin * 0.3;
+    }
+    .comment {
+      margin-bottom: @margin * 0.1;
     }
   }
 }
@@ -254,7 +277,7 @@ pre.sample {
   .image {
     max-width: 100%;
     padding: 0px;
-    margin-bottom: @sub-margin;
+    margin-bottom: @margin * 0.6;
     text-align: center;
     img {
       max-width: 100%; // for mobile

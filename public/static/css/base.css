@@ -10,83 +10,40 @@ body {
   }
 }
 hr {
-  margin: 10px 0px;
+  margin: 0px;
 }
 .ac-link a {
   color: #333333;
 }
 .section {
+  margin: 50px auto;
   max-width: 640px;
-  margin-top: 0px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 50px;
   padding: 0px 8px;
   text-align: center;
 }
 .sub-section {
-  margin-bottom: 30px;
+  margin: 30px auto;
 }
-.page-header {
-  border-bottom-color: #e5e5e5;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
+@media (max-width: 1080px) {
+  .section {
+    margin: 40px auto;
+  }
+  .sub-section {
+    margin: 20px auto;
+  }
 }
-.page-header a {
-  color: #333333;
+@media (max-width: 768px) {
+  .section {
+    margin: 25px auto;
+  }
+  .sub-section {
+    margin: 15px auto;
+  }
 }
-.page-header .site-title {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 150%;
-}
-.page-header .site-title a:hover {
-  text-decoration: none;
-}
-.page-footer {
-  margin-top: 75px;
-  margin-bottom: 75px;
-  padding: 10px 0px;
-  border-top-color: #e5e5e5;
-  border-top-style: solid;
-  border-top-width: 1px;
-}
-.page-footer a {
-  color: #333333;
-}
-.page-footer .about-list {
-  margin-bottom: 15px;
-}
-.page-footer .about-list ul {
-  margin: 0px;
-}
-.page-footer .about-list ul li {
-  padding: 0 5px;
-}
-.page-footer .site-title {
-  font-size: 150%;
-}
-.page-footer .site-title a:hover {
-  text-decoration: none;
-}
-.page-title {
-  margin-top: 50px;
-}
-.page-title a {
-  color: #333333;
-}
-.page-title a:hover {
-  text-decoration: none;
-}
-.page-title h1 {
-  font-size: 300%;
-}
-pre.error-report {
-  margin: 0px;
+.error-report {
   padding: 0px;
-  padding-top: 5px;
-  border: 0;
-  border-top: 1px solid #eeeeee;
+}
+.error-report pre {
   text-align: left;
   font-family: monospace;
   font-size: 80%;
@@ -114,12 +71,75 @@ pre.sample {
   margin: 0 auto;
   text-align: left;
 }
-.top-links a {
-  padding-left: 10px;
-  padding-right: 10px;
+.site-name {
+  margin: 20px auto;
+  font-size: 150%;
 }
-.news {
-  margin-top: 50px 0.4;
+.site-name a:hover {
+  text-decoration: none;
+}
+.page-header {
+  margin-top: 0px;
+  border-bottom-color: #e5e5e5;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+.page-header a {
+  color: #333333;
+}
+.page-title a {
+  color: #333333;
+}
+.page-title a:hover {
+  text-decoration: none;
+}
+.page-title h1 {
+  font-size: 300%;
+}
+.top-links a {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.page-footer {
+  border-top-color: #e5e5e5;
+  border-top-style: solid;
+  border-top-width: 1px;
+}
+.page-footer a {
+  color: #333333;
+}
+.page-footer .about-list {
+  margin: 10px auto;
+}
+.page-footer .about-list ul {
+  margin: 0px;
+}
+.page-footer .about-list ul li {
+  padding: 0 5px;
+}
+@media (max-width: 1080px) {
+  .site-name {
+    margin: 15px auto;
+    font-size: 140%;
+  }
+  .site-name a:hover {
+    text-decoration: none;
+  }
+  .page-title h1 {
+    font-size: 250%;
+  }
+}
+@media (max-width: 768px) {
+  .site-name {
+    margin: 10px auto;
+    font-size: 130%;
+  }
+  .site-name a:hover {
+    text-decoration: none;
+  }
+  .page-title h1 {
+    font-size: 200%;
+  }
 }
 .pager-prev {
   line-height: 1;
@@ -127,49 +147,46 @@ pre.sample {
 .pager-next {
   line-height: 1;
 }
-.image-list {
+.image-thumb {
   max-width: 1080px;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding: 0px;
+  margin-top: 75px;
+  margin-bottom: 100px;
 }
-.image-list a {
+.image-thumb a {
   color: #333333;
 }
-.image-list .box {
-  margin-top: 100px;
-  margin-bottom: 125px;
-}
-.image-list .box .image {
+.image-thumb .image {
   margin-bottom: 20px;
 }
-.image-list .box .image img {
+.image-thumb .image img {
   max-width: 100%;
   max-height: 100%;
 }
-.image-list .box .comment {
+.image-thumb .comment {
   margin-bottom: 10px;
 }
 @media (max-width: 1080px) {
-  .image-list .box {
-    margin-top: 75px;
-    margin-bottom: 100px;
+  .image-thumb {
+    margin-top: 65px;
+    margin-bottom: 75px;
   }
-  .image-list .box .image {
+  .image-thumb .image {
     margin-bottom: 15px;
   }
-  .image-list .box .comment {
+  .image-thumb .comment {
     margin-bottom: 5px;
   }
 }
 @media (max-width: 768px) {
-  .image-list .box {
+  .image-thumb {
     margin-top: 50px;
-    margin-bottom: 65px;
+    margin-bottom: 50px;
   }
-  .image-list .box .image {
+  .image-thumb .image {
     margin-bottom: 15px;
   }
-  .image-list .box .comment {
+  .image-thumb .comment {
     margin-bottom: 5px;
   }
 }
