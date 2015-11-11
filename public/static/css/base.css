@@ -168,7 +168,7 @@ pre.sample {
 }
 @media (max-width: 1080px) {
   .image-thumb {
-    margin-top: 65px;
+    margin-top: 55px;
     margin-bottom: 75px;
   }
   .image-thumb .image {
@@ -180,8 +180,8 @@ pre.sample {
 }
 @media (max-width: 768px) {
   .image-thumb {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 40px;
+    margin-bottom: 55px;
   }
   .image-thumb .image {
     margin-bottom: 15px;
