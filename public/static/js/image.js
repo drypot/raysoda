@@ -3,6 +3,7 @@ $(function () {
   window.imagel = {};
 
   imagel.initList = function () {
+    sessionStorage.setItem('last-list-url', location);
     $('.image-list .comment').each(function () {
       var $this = $(this);
       $this.html(tagUpText($this.html()));
@@ -23,7 +24,9 @@ $(function () {
     var $form = formty.getForm('form.main');
     $form.$send.click(function (err, res) {
       formty.put('/api/images/' + image._id, $form, function () {
-        location = '/';
+        location = sessionStorage.getItem('last-list-url') || '/';
+        //history.go(-2);
+        //location = '/';
         //location = '/images/' + image._id;
       });
       return false;
