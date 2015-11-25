@@ -169,7 +169,7 @@ describe('makeDeepPath', function () {
   });
 });
 
-describe.only('copy', function () {
+describe('copy', function () {
   before(function (done) {
     fs2.emptyDir(testdir, done);
   });

@@ -3,6 +3,8 @@ var error = require('../base/error');
 var config = require('../base/config');
 var expb = require('../express/express-base');
 
+/* redirects for raysoda v1 */
+
 expb.core.get('/Com/Photo/View.aspx', function (req, res, done) {
   res.redirect('/images/' + req.query.p);
 });

@@ -174,7 +174,7 @@ describe('dateStringNoDash', function () {
   });
 });
 
-describe('makeUrl', function () {
+describe('url', function () {
   it('should succeed', function () {
     var params = { a: 10 };
     var params2 = { a: 10, b: 'big'};
