@@ -15,5 +15,5 @@
   "mongodb": "raysoda",
 
   "srcDir": "../website-1/Files",
-  "uploadDir": "upload/mig-test"
+  "uploadDir": "upload/raysoda-mig-test"
 }
