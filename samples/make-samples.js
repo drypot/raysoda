@@ -1,16 +1,29 @@
 var exec = require('child_process').exec;
 var util = require('util');
 
+/* 
+  $ node samples/make-samples.js
+*/
+
 process.on('uncaughtException', function (err) {
   console.error(err.stack);
   process.exit(1);
 });
 
 var _vers = [
-  { width: 3264, height: 2448 },
-  { width: 2448, height: 3264 },
+  { width: 5120, height: 2880 },
+  { width: 4800, height: 2700 },
+  { width: 3840, height: 2160 },
+  { width: 2880, height: 1620 },
+  { width: 1440, height: 810 },
+  { width: 1280, height: 720 },
+  { width: 1136, height: 640 },
   { width: 960 , height: 540 },
-  { width: 360 , height: 240 }
+  { width: 640 , height: 360 },
+  { width: 360 , height: 240 },
+
+  { width: 3264, height: 2448 },
+  { width: 2448, height: 3264 }
 ];
 
 function makeVersions(next) {
@@ -33,7 +46,7 @@ function makeVersions(next) {
       cmd += ' -draw "circle ' + w / 2 + ', ' + h / 2 + ', ' + w / 4 + ', ' + h / 2 + '"';
     }
     cmd += ' -draw "line 0,0 ' + (w - 1) + ',' + (h - 1) + ' line 0,' + (h - 1) + ' ' + (w - 1) + ',0"';
-    cmd += ' -quality 92 ' + w + 'x' + h + '.jpg';
+    cmd += ' -quality 92 samples/' + w + 'x' + h + '.jpg';
     console.log(cmd);
     exec(cmd, function (err) {
       if (err) return next(err);
@@ -43,5 +56,5 @@ function makeVersions(next) {
 }
 
 makeVersions(function (err) {
-  console.log(err || 'done');
+  if (err) throw err;
 });
