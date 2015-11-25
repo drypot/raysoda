@@ -1,0 +1,22 @@
+.images .box {
+  margin-bottom: 25px;
+}
+.images .box img {
+  margin-top: -5px;
+  margin-bottom: -5px;
+}
+.image-view img {
+  max-width: 100%;
+}
+:-webkit-full-screen {
+  background: white;
+}
+:-moz-full-screen {
+  background: white;
+}
+:-ms-fullscreen {
+  background: white;
+}
+:fullscreen {
+  background: white;
+}
