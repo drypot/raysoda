@@ -1,0 +1,21 @@
+{
+  "appName": "RaySoda",
+  "appNamel": "raysoda",
+  "appDesc": "One day, one photo.",
+
+  "mainSite": "http://raysoda.local:8080",
+
+  "appPort": 8051,
+  "cookieSecret": "o;iejf832ndvs",
+
+  "uploadSite": "http://file.raysoda.local:8080",
+  "uploadDir": "upload/raysoda-test",
+
+  "mongodb": "raysoda-test",
+
+  "mailServer": "",
+
+  "ticketGenInterval": 18,
+  "ticketMax": 3
+}
+

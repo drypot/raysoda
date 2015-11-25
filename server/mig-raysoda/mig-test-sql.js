@@ -4,7 +4,7 @@ var init = require('../base/init');
 var config = require('../base/config');
 
 /* 
-  $ node server/mig-1/mig-1-test-sql.js -c config/mig-1-dev.json 
+  $ node server/mig-raysoda/mig-test-sql.js -c config/mig-1-dev.json 
 */
 
 init.main(function (done) {

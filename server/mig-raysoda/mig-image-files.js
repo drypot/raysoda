@@ -8,7 +8,7 @@ var imageb = require('../image/image-base');
 var fs2 = require('../base/fs2');
 
 /* 
-  $ node server/mig-1/mig-1-image-files.js -c config/mig-1-dev.json 1 10
+  $ node server/mig-raysoda/mig-image-files.js -c config/mig-1-dev.json 1 10
 */
 
 init.main(function (done) {

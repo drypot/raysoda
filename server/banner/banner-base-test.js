@@ -1,7 +1,7 @@
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config')({ path: 'config/test.json' });
-var mongob = require('../mongo/mongo-base')({ dropDatabase: true });
+var mongob = require('../base/mongo-base')({ dropDatabase: true });
 var bannerb = require('../banner/banner-base');
 var expect = require('../base/assert2').expect;
 

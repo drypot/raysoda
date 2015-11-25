@@ -4,7 +4,7 @@ var init = require('../base/init');
 var error = require('../base/error');
 var fs2 = require('../base/fs2');
 var config = require('../base/config');
-var mongob = require('../mongo/mongo-base');
+var mongob = require('../base/mongo-base');
 var imageb = exports;
 
 error.define('IMAGE_NOT_EXIST', '파일이 없습니다.');

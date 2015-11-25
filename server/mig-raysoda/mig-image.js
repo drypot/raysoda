@@ -3,11 +3,11 @@ var types = tds.TYPES;
 
 var init = require('../base/init');
 var config = require('../base/config');
-var mongob = require('../mongo/mongo-base');
+var mongob = require('../base/mongo-base');
 var imageb = require('../image/image-base');
 
 /* 
-  $ node server/mig-1/mig-1-image.js -c config/mig-1-dev.json 1 10
+  $ node server/mig-raysoda/mig-image.js -c config/mig-1-dev.json 1 10
 */
  
 /* 

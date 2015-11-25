@@ -2,7 +2,7 @@ var fs = require('fs');
 
 var init = require('../base/init');
 var config = require('../base/config')({ parseArg: true });
-var mongob = require('../mongo/mongo-base');
+var mongob = require('../base/mongo-base');
 var imageb = require('../image/image-base');
 
 init.run(function (err) {
