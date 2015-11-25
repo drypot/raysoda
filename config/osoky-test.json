@@ -1,0 +1,21 @@
+{
+  "appName": "Osoky",
+  "appNamel": "osoky",
+  "appDesc": "Your randos",
+
+  "mainSite": "http://osoky.local:8080",
+
+  "appPort": 8031,
+  "cookieSecret": "o;iejf832ndvs",
+
+  "uploadSite": "http://file.osoky.local:8080",
+  "uploadDir": "upload/osoky-test",
+
+  "mongodb": "osoky-test",
+
+  "mailServer": "",
+
+  "ticketGenInterval": 18,
+  "ticketMax": 3
+}
+

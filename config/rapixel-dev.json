@@ -1,0 +1,20 @@
+{
+  "appName": "Rapixel",
+  "appNamel": "rapixel",
+  "appDesc": "4K images",
+  
+  "mainSite": "http://rapixel.local:8080",
+
+  "appPort": 8020,
+  "cookieSecret": "o;iejf832ndvs",
+  
+  "uploadSite": "http://file.rapixel.local:8080",
+  "uploadDir": "upload/rapixel",
+
+  "mongodb": "rapixel",
+
+  "mailServer": "",
+
+  "ticketGenInterval": 18,
+  "ticketMax": 99
+}

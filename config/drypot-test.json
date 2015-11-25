@@ -1,0 +1,21 @@
+{
+  "appName": "Drypot",
+  "appNamel": "drypot",
+  "appDesc": "Simply vectors",
+
+  "mainSite": "http://drypot.local:8080",
+
+  "appPort": 8041,
+  "cookieSecret": "o;iejf832ndvs",
+
+  "uploadSite": "http://file.drypot.local:8080",
+  "uploadDir": "upload/drypot-test",
+
+  "mongodb": "drypot-test",
+
+  "mailServer": "",
+
+  "ticketGenInterval": 18,
+  "ticketMax": 3
+}
+
