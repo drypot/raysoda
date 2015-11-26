@@ -9,7 +9,6 @@ var expu = require('../express/express-upload');
 var userb = require('../user/user-base');
 var usera = require('../user/user-auth');
 var imageb = require('../image/image-base');
-var site = require('../image/image-site');
 var imagen = exports;
 
 expb.core.get('/images/new', function (req, res, done) {
@@ -37,27 +36,26 @@ expb.core.post('/api/images', expu.handler(function (req, res, done) {
     var ids = [];
     (function create() {
       if (i < form.files.length) {
-        var upload1 = form.files[i++];
+        var upload = form.files[i++];
         getTicketCount(form.now, user, function (err, count, hours) {
           if (err) return done(err);
           if (!count) {
             res.json({ ids: ids });
             return done();
           }
-          site.checkImageMeta(upload1, function (err, meta) {
+          imageb.checkImageMeta(upload, function (err, meta) {
             if (err) return done(err);
             var id = imageb.getNewId();
-            var save = new imageb.FilePath(id);
-            fs2.makeDir(save.dir, function (err) {
+            fs2.makeDir(imageb.getDir(id), function (err) {
               if (err) return done(err);
-              site.makeVersions(upload1, save, meta, function (err, vers) {
+              imageb.saveImage(id, upload, meta, function (err, vers) {
                 if (err) return done(err);
                 var image = {
                   _id: id,
                   uid: user._id,
                   cdate: form.now
                 };
-                site.fillFields(image, form, meta, vers);
+                imageb.fillImageDoc(image, form, meta, vers);
                 imageb.images.insertOne(image, function (err) {
                   if (err) return done(err);
                   ids.push(id);

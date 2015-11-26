@@ -11,7 +11,7 @@
   "uploadSite": "http://file.osoky.local:8080",
   "uploadDir": "upload/osoky-test",
 
-  "mongodb": "osoky-test",
+  "mongodb": "raysoda-test",
 
   "mailServer": "",
 

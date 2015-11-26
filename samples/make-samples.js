@@ -11,22 +11,21 @@ process.on('uncaughtException', function (err) {
 });
 
 var _vers = [
-  { width: 5120, height: 2880 },
-  { width: 4800, height: 2700 },
-  { width: 3840, height: 2160 },
-  { width: 2880, height: 1620 },
-  { width: 1440, height: 810 },
-  { width: 1280, height: 720 },
-  { width: 1136, height: 640 },
-  { width: 960 , height: 540 },
-  { width: 640 , height: 360 },
-  { width: 360 , height: 240 },
+  { width: 5120, height: 2880 }, // rapixel
+  { width: 4096, height: 2304 },
+  // { width: 3840, height: 2160 },
+   { width: 2560, height: 1440 }, // osoky, raysoda
+  //{ width: 1440, height: 810 }, 
+  { width: 1280, height: 720 }, // osoky
+  //{ width: 1136, height: 640 },
+  // { width: 960 , height: 540 }, 
+  { width: 640 , height: 360 }, // osoky
+  { width: 360 , height: 240 }, // raysoda
 
-  { width: 3264, height: 2448 },
-  { width: 2448, height: 3264 }
+  { width: 1440, height: 2560 } // raysoda
 ];
 
-function makeVersions(next) {
+function saveImage(next) {
   var i = 0;
   (function make() {
     if (i == _vers.length) {
@@ -55,6 +54,6 @@ function makeVersions(next) {
   })();
 }
 
-makeVersions(function (err) {
+saveImage(function (err) {
   if (err) throw err;
 });

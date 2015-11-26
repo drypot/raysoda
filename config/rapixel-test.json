@@ -11,7 +11,7 @@
   "uploadSite": "http://file.rapixel.local:8080",
   "uploadDir": "upload/rapixel-test",
 
-  "mongodb": "rapixel-test",
+  "mongodb": "raysoda-test",
 
   "mailServer": "",
 

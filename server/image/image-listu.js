@@ -37,7 +37,7 @@ function profile(req, res, tuser) {
       tuser: tuser,
       updatable: user && (user._id === tuser._id || user.admin),
       images: images,
-      suffix: site.thumbnailSuffix,
+      suffix: imageb.thumbnailSuffix,
       gt: gt ? new util2.UrlMaker(req.path).add('gt', gt).add('ps', ps, 16).done() : undefined,
       lt: lt ? new util2.UrlMaker(req.path).add('lt', lt).add('ps', ps, 16).done() : undefined
     });
@@ -52,7 +52,7 @@ function filter(image, done) {
       name: user.name,
       home: user.home
     };
-    image.dir = imageb.getUrlBase(image._id);
+    image.dir = imageb.getDirUrl(image._id);
     image.cdateStr = util2.dateTimeString(image.cdate);
     done(null, image);
   });

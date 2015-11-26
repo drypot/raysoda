@@ -1,14 +1,33 @@
 var exec = require('child_process').exec;
 
 var error = require('../base/error');
+var fs2 = require('../base/fs2');
 var config = require('../base/config');
 var imageb = require('../image/image-base');
 
 var maxWidth = 1080;
 
-exports.thumbnailSuffix = '.jpg';
+function getDepth(id) {
+  return fs2.makeDeepPath((id / 1000) >> 0, 2);
+};
 
-exports.checkImageMeta = function (upload, done) {
+imageb.getDir = function (id) {
+  return imageb.imageDir + '/' + getDepth(id);
+};
+
+imageb.getPath = function (id) {
+  return imageb.imageDir + '/' + getDepth(id) + '/' + id + '.jpg';
+};
+
+imageb.getDirUrl = function (id) {
+  return imageb.imageUrl + '/' + getDepth(id);
+};
+
+imageb.getThumbUrl = function (id) {
+  return imageb.imageUrl + '/' + getDepth(id) + '/' + id + '.jpg';
+};
+
+imageb.checkImageMeta = function (upload, done) {
   imageb.identify(upload.path, function (err, meta) {
     if (err) {
       return done(error('IMAGE_TYPE'));
@@ -20,18 +39,18 @@ exports.checkImageMeta = function (upload, done) {
   });
 };
 
-exports.makeVersions = function (upload, save, meta, done) {
+imageb.saveImage = function (id, upload, meta, done) {
   var cmd = 'convert ' + upload.path;
   cmd += ' -quality 92';
   cmd += ' -auto-orient';
   cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>';
-  cmd += ' ' + save.path;
+  cmd += ' ' + imageb.getPath(id);
   exec(cmd, function (err) {
     done(err, null);
   });
 };
 
-exports.fillFields = function (image, form, meta, vers) {
+imageb.fillImageDoc = function (image, form, meta, vers) {
   if (form) {
     image.comment = form.comment;
   }

@@ -45,8 +45,8 @@ describe('del /api/images/[_id]', function () {
           expl.del('/api/images/' + _id2, function (err, res) {
             expect(err).not.exist;
             expect(res.body.err).not.exist;
-            expect(new imageb.FilePath(_id1).path).pathExist;
-            expect(new imageb.FilePath(_id2).path).not.pathExist;
+            expect(imageb.getPath(_id1)).pathExist;
+            expect(imageb.getPath(_id2)).not.pathExist;
             imageb.images.findOne({ _id: _id1 }, function (err, image) {
               expect(err).not.exist;
               expect(image).exist;
@@ -78,7 +78,7 @@ describe('del /api/images/[_id]', function () {
             expl.del('/api/images/' + _id, function (err, res) {
               expect(err).not.exist;
               expect(res.body.err).not.exist;
-              expect(new imageb.FilePath(_id).path).not.pathExist;
+              expect(imageb.getPath(_id)).not.pathExist;
               imageb.images.findOne({ _id: _id }, function (err, image) {
                 expect(err).not.exist;
                 expect(image).not.exist;
@@ -108,7 +108,7 @@ describe('del /api/images/[_id]', function () {
               expect(err).not.exist;
               expect(res.body.err).exist;
               expect(res.body.err).error('NOT_AUTHORIZED');
-              expect(new imageb.FilePath(_id).path).pathExist;
+              expect(imageb.getPath(_id)).pathExist;
               imageb.images.findOne({ _id: _id }, function (err, image) {
                 expect(err).not.exist;
                 expect(image).exist;

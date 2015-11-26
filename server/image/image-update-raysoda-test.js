@@ -36,8 +36,7 @@ describe('put /api/images/id', function () {
         expect(image).exist;
         expect(image.cdate).exist;
         expect(image.comment).equal('image1');
-        var save = new imageb.FilePath(_id);
-        imageb.identify(save.path, function (err, meta) {
+        imageb.identify(imageb.getPath(_id), function (err, meta) {
           expect(err).not.exist;
           expect(meta.width).equal(1080);
           expect(meta.height).equal(810);
@@ -49,8 +48,7 @@ describe('put /api/images/id', function () {
               expect(image).exist;
               expect(image.cdate).exist;
               expect(image.comment).equal('image2');
-              var save = new imageb.FilePath(_id);
-              imageb.identify(save.path, function (err, meta) {
+              imageb.identify(imageb.getPath(_id), function (err, meta) {
                 expect(err).not.exist;
                 expect(meta.width).equal(810);
                 expect(meta.height).equal(1080);

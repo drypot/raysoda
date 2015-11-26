@@ -35,12 +35,24 @@ imageb.getNewId = function () {
   return ++imageId;
 };
 
-var uploadDir;
+/*
+  이미지 파일 관리
+
+  원본과 버젼이 같은 디렉토리에 저장된다는 것을 전제로 작명하였다.
+  원본과 버젼이 같은 디렉토리에 있는 것이 좋을 것 같다.
+  같은 형태끼리 모으지 말고 관련된 것 끼리 모아 놓는다.
+  스토리지가 부족하면 원본/버젼을 분리할 것이 아니라
+  id 영역별로 나누는 방안을 고려하면 된다.
+
+  원본을 저장하는 경우 파일에 -org 를 붙여 놓는다.
+  DB 없이 파일명으로 검색이 가능.
+*/
 
 init.add(function (done) {
   fs2.makeDir(config.uploadDir + '/public/images', function (err, dir) {
     if (err) return done(err);
-    uploadDir = dir;
+    imageb.imageDir = dir;
+    imageb.imageUrl = config.uploadSite + '/images';
     done();
   });
 });
@@ -48,21 +60,16 @@ init.add(function (done) {
 init.add(function (done) {
   if (config.dev) {
     imageb.emptyDir = function (done) {
-      fs2.emptyDir(uploadDir, done);
+      fs2.emptyDir(imageb.imageDir, done);
     }
   }
   done();
 });
 
-imageb.FilePath = function (id) {
-  this.id = id;
-  this.dir = uploadDir + '/' + fs2.makeDeepPath((id / 1000) >> 0, 2);
-  this.path = this.dir + '/' + id + '.jpg';
-}
-
-imageb.getUrlBase = function (id) {
-  return config.uploadSite + '/images/' + fs2.makeDeepPath((id / 1000) >> 0, 2)
-}
+init.add(function (done) {
+  require('./image-base-' + config.appNamel);
+  done();
+});
 
 imageb.identify = function (fname, done) {
   exec('identify -format "%m %w %h" ' + fname, function (err, stdout, stderr) {

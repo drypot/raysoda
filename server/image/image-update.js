@@ -37,17 +37,16 @@ expb.core.put('/api/images/:id([0-9]+)', expu.handler(function (req, res, done) 
       util2.fif(!form.files, function (next) {
         next({}, null, null);
       }, function (next) {
-        var upload1 = form.files[0];
-        site.checkImageMeta(upload1, function (err, meta) {
+        var upload = form.files[0];
+        imageb.checkImageMeta(upload, function (err, meta) {
           if (err) return done(err);
-          var save = new imageb.FilePath(id);
-          site.makeVersions(upload1, save, meta, function (err, vers) {
+          imageb.saveImage(id, upload, meta, function (err, vers) {
             if (err) return done(err);
             next({}, meta, vers);
           });
         });
       }, function (image, meta, vers) {
-        site.fillFields(image, form, meta, vers);
+        imageb.fillImageDoc(image, form, meta, vers);
         imageb.images.updateOne({ _id: id }, { $set: image }, function (err) {
           if (err) return done(err);
           res.json({});

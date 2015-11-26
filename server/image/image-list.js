@@ -33,7 +33,7 @@ function list(req, res, api, done) {
     } else {
      res.render('image/image-list', {
        images: images,
-       suffix: site.thumbnailSuffix,
+       suffix: imageb.thumbnailSuffix,
        gt: gt ? new util2.UrlMaker('/').add('gt', gt).add('ps', ps, 16).done() : undefined,
        lt: lt ? new util2.UrlMaker('/').add('lt', lt).add('ps', ps, 16).done() : undefined,
        banners: bannerb.banners
@@ -50,7 +50,8 @@ function filter(image, done) {
       name: user.name,
       home: user.home
     };
-    image.dir = imageb.getUrlBase(image._id);
+    //image.dir = imageb.getDirUrl(image._id);
+    image.tn = + '/' + image._id + suffix
     image.cdateStr = util2.dateTimeString(image.cdate);
     done(null, image);
   });

@@ -11,7 +11,7 @@
   "uploadSite": "http://file.drypot.local:8080",
   "uploadDir": "upload/drypot-test",
 
-  "mongodb": "drypot-test",
+  "mongodb": "raysoda-test",
 
   "mailServer": "",
 

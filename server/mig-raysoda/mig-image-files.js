@@ -74,14 +74,13 @@ function copyFile(pid, uid, done) {
       return done();
     }
     var spath = sdir + '/' + files[0];
-    var tar = new imageb.FilePath(pid);
     // console.log('src: ' + spath);
-    // console.log('tar: ' + tar.path);
-    fs2.makeDir(tar.dir, function (err) {
+    // console.log('tar: ' + imageb.getPath(pid));
+    fs2.makeDir(imageb.getDir(pid), function (err) {
       if (err) return done(err);
-      fs2.copy(spath, tar.path, function (err) {
+      fs2.copy(spath, imageb.getPath(pid), function (err) {
         if (err) {
-          console.log('copy err: cp ' + spath + ' ' + tar.path);
+          console.log('copy err: cp ' + spath + ' ' + imageb.getPath(pid));
         }
         cpcnt++;
         if (cpcnt % 100 == 0) {
