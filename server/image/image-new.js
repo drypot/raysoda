@@ -6,7 +6,6 @@ var config = require('../base/config');
 var fs2 = require('../base/fs2');
 var expb = require('../express/express-base');
 var expu = require('../express/express-upload');
-var userb = require('../user/user-base');
 var usera = require('../user/user-auth');
 var imageb = require('../image/image-base');
 var imagen = exports;

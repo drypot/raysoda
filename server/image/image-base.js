@@ -86,3 +86,16 @@ imageb.identify = function (fname, done) {
     done(null, meta);
   });
 };
+
+imageb.checkUpdatable = function (user, id, done) {
+  imageb.images.findOne({ _id: id }, function (err, image) {
+    if (err) return done(err);
+    if (!image) {
+      return done(error('IMAGE_NOT_EXIST'));
+    }
+    if (image.uid != user._id && !user.admin) {
+      return done(error('NOT_AUTHORIZED'));
+    }
+    done(null, image);
+  });
+}

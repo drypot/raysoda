@@ -3,13 +3,14 @@ var fs = require('fs');
 var init = require('../base/init');
 var error = require('../base/error');
 var fs2 = require('../base/fs2');
-var config = require('../base/config')({ path: 'config/test.json' });
+var config = require('../base/config')({ path: 'config/raysoda-test.json' });
 var mongob = require('../base/mongo-base')({ dropDatabase: true });
 var expb = require('../express/express-base');
 var expu = require('../express/express-upload');
 var expl = require('../express/express-local');
 var userf = require('../user/user-fixture');
 var imageb = require('../image/image-base');
+var imagen = require('../image/image-new');
 var imaged = require('../image/image-delete');
 var expect = require('../base/assert2').expect;
 
@@ -21,7 +22,7 @@ before(function (done) {
   imageb.emptyDir(done);
 });
 
-var _f1 = 'samples/960x540.jpg';
+var _f1 = 'samples/640x360.jpg';
 
 describe('del /api/images/[_id]', function () {
   describe('deleting mine', function () {
@@ -42,17 +43,17 @@ describe('del /api/images/[_id]', function () {
           expect(res.body.err).not.exist;
           expect(res.body.ids).exist;
           var _id2 = res.body.ids[0];
-          expl.del('/api/images/' + _id2, function (err, res) {
+          expl.del('/api/images/' + _id1, function (err, res) {
             expect(err).not.exist;
             expect(res.body.err).not.exist;
-            expect(imageb.getPath(_id1)).pathExist;
-            expect(imageb.getPath(_id2)).not.pathExist;
+            expect(imageb.getPath(_id1)).not.pathExist;
+            expect(imageb.getPath(_id2)).pathExist;
             imageb.images.findOne({ _id: _id1 }, function (err, image) {
               expect(err).not.exist;
-              expect(image).exist;
+              expect(image).not.exist;
               imageb.images.findOne({ _id: _id2 }, function (err, image) {
                 expect(err).not.exist;
-                expect(image).not.exist;
+                expect(image).exist;
                 done();
               });
             });

@@ -1,4 +1,5 @@
 var exec = require('child_process').exec;
+var fs = require('fs');
 
 var error = require('../base/error');
 var fs2 = require('../base/fs2');
@@ -54,4 +55,8 @@ imageb.fillImageDoc = function (image, form, meta, vers) {
   if (form) {
     image.comment = form.comment;
   }
+};
+
+imageb.deleteImage = function (id, done) {
+  fs.unlink(imageb.getPath(id), done);
 };

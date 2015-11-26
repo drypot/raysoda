@@ -2,7 +2,7 @@ var expect = require('../base/assert2').expect;;
 
 var init = require('../base/init');
 var error = require('../base/error');
-var config = require('../base/config')({ path: 'config/test.json' });
+var config = require('../base/config')({ path: 'config/raysoda-test.json' });
 var mongob = require('../base/mongo-base')({ dropDatabase: true });
 var expb = require('../express/express-base');
 var expl = require('../express/express-local');

@@ -95,3 +95,7 @@ imageb.fillImageDoc = function (image, form, meta, vers) {
     image.comment = form.comment;
   }
 };
+
+imageb.deleteImage = function (id, done) {
+  fs2.removeDir(imageb.getDir(id), done);
+};
