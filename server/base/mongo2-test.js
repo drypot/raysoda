@@ -1,6 +1,6 @@
 var init = require('../base/init');
 var config = require('../base/config')({ path: 'config/test.json' });
-var mongob = require('../base/mongo-base')({ dropDatabase: true });
+var mongo2 = require('../base/mongo2')({ dropDatabase: true });
 var expect = require('../base/assert2').expect;
 
 before(function (done) {
@@ -9,16 +9,16 @@ before(function (done) {
 
 describe('db', function () {
   it('should be opened.', function () {
-    expect(mongob.db.databaseName).equal(config.mongodb);
+    expect(mongo2.db.databaseName).equal(config.mongodb);
   });
 });
 
 describe('values', function () {
   describe('.update(id, string)', function () {
     it('should succeed', function (done) {
-      mongob.values.update('s1', 'value1', function (err) {
+      mongo2.values.update('s1', 'value1', function (err) {
         expect(err).not.exist;
-        mongob.values.find('s1', function (err, value) {
+        mongo2.values.find('s1', function (err, value) {
           expect(err).not.exist;
           expect(value).equal('value1');
           done();
@@ -28,9 +28,9 @@ describe('values', function () {
   });
   describe('.update(id, number)', function () {
     it('should succeed', function (done) {
-      mongob.values.update('n1', 123, function (err) {
+      mongo2.values.update('n1', 123, function (err) {
         expect(err).not.exist;
-        mongob.values.find('n1', function (err, value) {
+        mongo2.values.find('n1', function (err, value) {
           expect(err).not.exist;
           expect(value).equal(123);
           done();
@@ -40,9 +40,9 @@ describe('values', function () {
   });
   describe('.update(id, obj)', function () {
     it('should succeed', function (done) {
-      mongob.values.update('o1', { p1: 123, p2: 456 }, function (err) {
+      mongo2.values.update('o1', { p1: 123, p2: 456 }, function (err) {
         expect(err).not.exist;
-        mongob.values.find('o1', function (err, value) {
+        mongo2.values.find('o1', function (err, value) {
           expect(err).not.exist;
           expect(value).deep.equal({ p1: 123, p2: 456 });
           done();
@@ -52,7 +52,7 @@ describe('values', function () {
   });
   describe('.find()', function () {
     it('should return null for undefined', function (done) {
-      mongob.values.find('noname', function (err, value) {
+      mongo2.values.find('noname', function (err, value) {
         expect(err).not.exist;
         expect(value).is.null;
         done();
@@ -64,7 +64,7 @@ describe('values', function () {
 describe('.findPage', function () {
   var col;
   before(function (done) {
-    col = mongob.db.collection('testpaging');
+    col = mongo2.db.collection('testpaging');
     var list = [];
     for (var i = 0; i < 10; i++) {
       list.push({ _id: i + 1, f1: 'f1', f2: 'f2' });
@@ -72,7 +72,7 @@ describe('.findPage', function () {
     col.insertMany(list, done);    
   });
   it('should succeed for page size 99', function (done) {
-    mongob.findPage(col, {}, {}, 0, 0, 99, null, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, {}, 0, 0, 99, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r.length).equal(10);
       expect(r[0]._id).equal(10);
@@ -85,7 +85,7 @@ describe('.findPage', function () {
     });
   });
   it('should succeed for page 1', function (done) {
-    mongob.findPage(col, {}, {}, 0, 0, 4, null, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, {}, 0, 0, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(4);
       expect(r[0]._id).equal(10);
@@ -96,7 +96,7 @@ describe('.findPage', function () {
     });
   });
   it('should succeed with lt ', function (done) {
-    mongob.findPage(col, {}, {}, 0, 7, 4, null, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, {}, 0, 7, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(4);
       expect(r[0]._id).equal(6);
@@ -107,7 +107,7 @@ describe('.findPage', function () {
     });
   });
   it('should succeed for last page ', function (done) {
-    mongob.findPage(col, {}, {}, 0, 3, 4, null, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, {}, 0, 3, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(2);
       expect(r[0]._id).equal(2);
@@ -118,7 +118,7 @@ describe('.findPage', function () {
     });
   });
   it('should succeed with gt ', function (done) {
-    mongob.findPage(col, {}, {}, 2, 0, 4, null, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, {}, 2, 0, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(4);
       expect(r[0]._id).equal(6);
@@ -129,7 +129,7 @@ describe('.findPage', function () {
     });
   });
   it('should succeed for first page', function (done) {
-    mongob.findPage(col, {}, {}, 6, 0, 4, null, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, {}, 6, 0, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(4);
       expect(r[0]._id).equal(10);
@@ -140,7 +140,7 @@ describe('.findPage', function () {
     });
   });
   it('should succeed with filter', function (done) {
-    mongob.findPage(col, {}, {}, 0, 0, 5, filter, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, {}, 0, 0, 5, filter, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(2);
       expect(r[0]._id).equal(9);
@@ -154,7 +154,7 @@ describe('.findPage', function () {
     }
   });
   it('should succeed with opt', function (done) {
-    mongob.findPage(col, {}, { fields: { _id: 1, f1: 1} }, 0, 0, 4, null, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, { fields: { _id: 1, f1: 1} }, 0, 0, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(4);
       expect(r[0]._id).exist;
@@ -170,10 +170,10 @@ describe('.findPage', function () {
 describe('.getLastId', function () {
   var col;
   before(function () {
-    col = mongob.db.collection('testlastid');
+    col = mongo2.db.collection('testlastid');
   });
   it('should succeed for empty collection', function (done) {
-    mongob.getLastId(col, function (err, id) {
+    mongo2.getLastId(col, function (err, id) {
       expect(err).not.exist;
       expect(id).equal(0);
       done();
@@ -186,7 +186,7 @@ describe('.getLastId', function () {
     };
     col.insertMany(list, function (err) {
       expect(err).not.exist;
-      mongob.getLastId(col, function (err, id) {
+      mongo2.getLastId(col, function (err, id) {
         expect(err).not.exist;
         expect(id).equal(10);
         done();

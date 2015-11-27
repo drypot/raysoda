@@ -1,7 +1,7 @@
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config');
-var mongob = require('../base/mongo-base');
+var mongo2 = require('../base/mongo2');
 var userb = require('../user/user-base');
 
 /*
@@ -24,6 +24,6 @@ init.add(function (done) {
 });
 
 init.run(function (err) {
-  mongob.db.close();
+  mongo2.db.close();
   if (err) throw err;
 });

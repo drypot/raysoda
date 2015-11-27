@@ -1,12 +1,12 @@
 var init = require('../base/init');
 var config = require('../base/config');
-var mongob = require('../base/mongo-base');
+var mongo2 = require('../base/mongo2');
 var bannerb = exports;
 
 bannerb.banners = [];
 
 init.add(function (done) {
-  mongob.values.find('banners', function (err, value) {
+  mongo2.values.find('banners', function (err, value) {
     if (err) return done(err);
     bannerb.banners = value || [];
     done();

@@ -2,7 +2,7 @@ var init = require('../base/init');
 var util2 = require('../base/util2');
 var error = require('../base/error');
 var config = require('../base/config');
-var mongob = require('../base/mongo-base');
+var mongo2 = require('../base/mongo2');
 var expb = require('../express/express-base');
 var userb = require('../user/user-base');
 var imageb = require('../image/image-base');
@@ -22,7 +22,7 @@ function list(req, res, api, done) {
   var lt = parseInt(req.query.lt) || 0;
   var gt = lt ? 0 : parseInt(req.query.gt) || 0;
   var ps = parseInt(req.query.ps) || 16;
-  mongob.findPage(imageb.images, {}, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
+  mongo2.findPage(imageb.images, {}, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);
     if (api) {
       res.json({

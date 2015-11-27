@@ -1,6 +1,6 @@
 var init = require('../base/init');
 var config = require('../base/config');
-var mongob = require('../base/mongo-base');
+var mongo2 = require('../base/mongo2');
 var expb = require('../express/express-base');
 var usera = require('../user/user-auth');
 var bannerb = require('../banner/banner-base');
@@ -27,7 +27,7 @@ expb.core.put('/api/banners', function (req, res, done) {
   usera.checkAdmin(res, function (err, user) {
     if (err) return done(err);
     bannerb.banners = req.body.banners;
-    mongob.values.update('banners', bannerb.banners, function (err) {
+    mongo2.values.update('banners', bannerb.banners, function (err) {
       if (err) return done(err);
       res.json({});
     });

@@ -1,7 +1,7 @@
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config')({ path: 'config/test.json' });
-var mongob = require('../base/mongo-base')({ dropDatabase: true });
+var mongo2 = require('../base/mongo2')({ dropDatabase: true });
 var expl = require('../express/express-local');
 var userf = require('../user/user-fixture');
 var bannera = require('../banner/banner-all');
@@ -28,7 +28,7 @@ describe('banners', function () {
     });
   });
   it('putting can be checked', function (done) {
-    mongob.values.find('banners', function (err, value) {
+    mongo2.values.find('banners', function (err, value) {
       expect(err).not.exist;
       expect(value).deep.equal(banners1);
       done();

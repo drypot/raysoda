@@ -4,7 +4,7 @@ var init = require('../base/init');
 var error = require('../base/error');
 var fs2 = require('../base/fs2');
 var config = require('../base/config');
-var mongob = require('../base/mongo-base');
+var mongo2 = require('../base/mongo2');
 var imageb = exports;
 
 error.define('IMAGE_NOT_EXIST', '파일이 없습니다.');
@@ -18,12 +18,12 @@ error.define('IMAGE_TYPE', '인식할 수 없는 파일입니다.', 'files');
 var imageId;
 
 init.add(function (done) {
-  imageb.images = mongob.db.collection('images');
+  imageb.images = mongo2.db.collection('images');
   imageb.images.createIndex({ uid: 1, _id: -1 }, done);
 });
 
 init.add(function (done) {
-  mongob.getLastId(imageb.images, function (err, id) {
+  mongo2.getLastId(imageb.images, function (err, id) {
     if (err) return done(err);
     imageId = id;
     console.log('image-base: image id = ' + imageId);

@@ -3,7 +3,7 @@ var types = tds.TYPES;
 
 var init = require('../base/init');
 var config = require('../base/config');
-var mongob = require('../base/mongo-base');
+var mongo2 = require('../base/mongo2');
 var imageb = require('../image/image-base');
 
 /* 

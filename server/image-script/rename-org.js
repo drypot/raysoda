@@ -2,7 +2,7 @@ var fs = require('fs');
 
 var init = require('../base/init');
 var config = require('../base/config')({ parseArg: true });
-var mongob = require('../base/mongo-base');
+var mongo2 = require('../base/mongo2');
 var imageb = require('../image/image-base');
 
 init.run(function (err) {
@@ -23,7 +23,7 @@ init.run(function (err) {
   }
   function done() {
     console.log('done.');
-    mongob.db.close();
+    mongo2.db.close();
   }
   read();
 });

@@ -4,7 +4,7 @@ var crypto = require('crypto');
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config');
-var mongob = require('../base/mongo-base');
+var mongo2 = require('../base/mongo2');
 var userb = exports;
 
 error.define('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.');
@@ -38,7 +38,7 @@ error.define('RESET_TIMEOUT', '비밀번호 초기화 토큰 유효시간이 지
 var userId;
 
 init.add(function (done) {
-  userb.users = mongob.db.collection('users');
+  userb.users = mongo2.db.collection('users');
   userb.users.createIndex({ email: 1 }, function (err) {
     if (err) return done(err);
     userb.users.createIndex({ namel: 1 }, function (err) {
@@ -49,7 +49,7 @@ init.add(function (done) {
 });
 
 init.add(function (done) {
-  mongob.getLastId(userb.users, function (err, id) {
+  mongo2.getLastId(userb.users, function (err, id) {
     if (err) return done(err);
     userId = id;
     console.log('user-base: user id = ' + userId);

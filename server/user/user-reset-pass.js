@@ -3,9 +3,9 @@ var crypto = require('crypto');
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config');
-var mongob = require('../base/mongo-base');
+var mongo2 = require('../base/mongo2');
 var expb = require('../express/express-base');
-var mailb = require('../base/mail-base');
+var mail2 = require('../base/mail2');
 var userb = require('../user/user-base');
 var usern = require('../user/user-new');
 var userp = exports;
@@ -13,7 +13,7 @@ var userp = exports;
 var resets;
 
 init.add(function (done) {
-  resets = exports.resets = mongob.db.collection('resets');
+  resets = exports.resets = mongo2.db.collection('resets');
   resets.createIndex({ email: 1 }, done);
 });
 
@@ -56,7 +56,7 @@ expb.core.post('/api/reset-pass', function (req, res, done) {
               config.mainSite + '/users/reset-pass?step=3&id=' + reset._id + '&t=' + reset.token + '\n\n' +
               config.appName
           };
-          mailb.send(mail, function (err) {
+          mail2.send(mail, function (err) {
             if (err) return done(err);
             res.json({});
           });
@@ -77,7 +77,7 @@ expb.core.put('/api/reset-pass', function (req, res, done) {
   if (errors.length) {
     return done(error(errors));
   }
-  resets.findOne({ _id: new mongob.ObjectID(form.id) }, function (err, reset) {
+  resets.findOne({ _id: new mongo2.ObjectID(form.id) }, function (err, reset) {
     if (err) return done(err);
     if (!reset) {
       return done(error('INVALID_DATA'));
