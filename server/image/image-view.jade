@@ -27,7 +27,7 @@ block content
       .comment !{jade.escape(image.comment).replace(/\n/g, '<br>')}
       .cdate !{image.cdateStr.slice(0,16)}
       .uname
-        a(href='/' + image.user.home) #{image.user.name}
+        a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
 
     if updatable
       .sub-section

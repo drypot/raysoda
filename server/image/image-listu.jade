@@ -12,7 +12,8 @@ block content
 
   .section.page-title
     h1
-      a(href='/' + tuser.home) #{tuser.name}
+      //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
+      a(href='/' + encodeURIComponent(tuser.home)) #{tuser.name}
 
   .section
     if !gt

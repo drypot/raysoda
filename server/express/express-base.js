@@ -52,7 +52,7 @@ init.add(function (done) {
     //   그렇게 한다 하여도 Content-Length: 0 인 GET 을 type-is 가 제대로 처리하지 못하고 null 을 리턴한다. Fail.
     //
     // 위와 같이 클라이언트에서 보내주는 정보에 의존하는 것은 불안정하다.
-    // 해서 /api/* 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
+    // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
     // json 이외의 결과 타입을 원하는 클라이언트에서도 json 타입 에러를 처리하는 것은 크게 어려워보이지 않는다.
 
     res.locals.api = /^\/api\//.test(req.path);  

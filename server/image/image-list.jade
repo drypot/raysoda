@@ -47,7 +47,8 @@ block content
       if c
         .comment= c
       .uname
-        a(href='/' + image.user.home) #{image.user.name}
+        //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
+        a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
 
   if lt
     .section.pager-next
