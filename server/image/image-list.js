@@ -6,7 +6,6 @@ var mongo2 = require('../base/mongo2');
 var expb = require('../express/express-base');
 var userb = require('../user/user-base');
 var imageb = require('../image/image-base');
-var site = require('../image/image-site');
 var bannerb = require('../banner/banner-base');
 var imagel = exports;
 
@@ -33,7 +32,6 @@ function list(req, res, api, done) {
     } else {
      res.render('image/image-list', {
        images: images,
-       suffix: imageb.thumbnailSuffix,
        gt: gt ? new util2.UrlMaker('/').add('gt', gt).add('ps', ps, 16).done() : undefined,
        lt: lt ? new util2.UrlMaker('/').add('lt', lt).add('ps', ps, 16).done() : undefined,
        banners: bannerb.banners
@@ -50,8 +48,7 @@ function filter(image, done) {
       name: user.name,
       home: user.home
     };
-    //image.dir = imageb.getDirUrl(image._id);
-    image.tn = + '/' + image._id + suffix
+    image.thumb = imageb.getThumbUrl(image._id);
     image.cdateStr = util2.dateTimeString(image.cdate);
     done(null, image);
   });

@@ -18,8 +18,9 @@ before(function (done) {
   userf.login('user1', done);
 });
 
-describe('listing', function (done) {
-  it('given 10 images', function (done) {
+describe('get /api/images', function (done) {
+  before(function (done) {
+    // given 10 images
     var images = [];
     for (var i = 0; i < 10; i++) {
       var image = {
@@ -32,7 +33,7 @@ describe('listing', function (done) {
     };
     imageb.images.insertMany(images, done);    
   });
-  it('page size 99 should succeed', function (done) {
+  it('should succeed for page size 99', function (done) {
     var query = {
       ps: 99
     }
@@ -49,7 +50,7 @@ describe('listing', function (done) {
       done();
     });
   });
-  it('page 1 should succeed', function (done) {
+  it('should succeed for page 1', function (done) {
     var query = {
       ps: 4
     };
@@ -64,7 +65,7 @@ describe('listing', function (done) {
       done();
     });
   });
-  it('page 2 with lt should succeed', function (done) {
+  it('should succeed for page 2 by lt', function (done) {
     var query = {
       lt:7, ps: 4
     }
@@ -79,7 +80,7 @@ describe('listing', function (done) {
       done();
     });
   });
-  it('last page should succeed', function (done) {
+  it('should succeed for last page', function (done) {
     var query = {
       lt: 3, ps: 4
     }
@@ -94,7 +95,7 @@ describe('listing', function (done) {
       done();
     });
   });
-  it('page 2 with gt should succeed', function (done) {
+  it('should succeed for page 2 by gt ', function (done) {
     var query = {
       gt:2, ps: 4
     }
@@ -109,7 +110,7 @@ describe('listing', function (done) {
       done();
     });
   });
-  it('first page should succeed', function (done) {
+  it('should succeed for first page ', function (done) {
     var query = {
       gt: 6, ps: 4
     };

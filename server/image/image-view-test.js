@@ -18,25 +18,21 @@ before(function (done) {
   userf.login('user1', done);
 });
 
-describe('getting image', function () {
-  var _f1 = 'samples/960x540.jpg';
-  var _id;
-  var _files;
-  it('given image', function (done) {
-    expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.ids).exist;
-      expect(res.body.ids.length).equal(1);
-      _id = res.body.ids[0];
-      done();
-    });
-  });
-  it('should succeed', function (done) {
-    expl.get('/api/images/' + _id).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      done();
+describe('get /api/images/:id([0-9]+)', function () {
+  describe('getting image', function () {
+    it('should succeed', function (done) {
+      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
+        expect(err).not.exist;
+        expect(res.body.err).not.exist;
+        expect(res.body.ids).exist;
+        expect(res.body.ids.length).equal(1);
+        var _id = res.body.ids[0];
+        expl.get('/api/images/' + _id).end(function (err, res) {
+          expect(err).not.exist;
+          expect(res.body.err).not.exist;
+          done();
+        });
+      });
     });
   });
 });

@@ -6,7 +6,6 @@ var expb = require('../express/express-base');
 var expu = require('../express/express-upload');
 var userb = require('../user/user-base');
 var imageb = require('../image/image-base');
-var site = require('../image/image-site');
 
 expb.core.get('/api/images/:id([0-9]+)', function (req, res, done) {
   view(req, res, true, done);
@@ -38,7 +37,6 @@ function view(req, res, api, done) {
         res.render('image/image-view', {
           image: image,
           updatable: cuser && (image.user._id == cuser._id || cuser.admin),
-          imageView: true
         });
       }
     });

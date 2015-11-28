@@ -71,7 +71,7 @@ describe('post /api/images', function () {
       imageb.images.deleteMany(done);
     });
     it('should fail', function (done) {
-      expl.post('/api/images').attach('files', 'samples/1136x640.jpg').end(function (err, res) {
+      expl.post('/api/images').attach('files', 'samples/640x360.jpg').end(function (err, res) {
         expect(err).not.exist;
         expect(res.body.err).exist;
         expect(res.body.err).error('IMAGE_TYPE');

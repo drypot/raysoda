@@ -21,11 +21,11 @@ describe('getNewId()', function () {
 
 describe('identify()', function () {
   it('should work with jpeg', function (done) {
-    imageb.identify('samples/960x540.jpg', function (err, meta) {
+    imageb.identify('samples/1280x720.jpg', function (err, meta) {
       expect(err).not.exist;
       expect(meta.format).equal('jpeg');
-      expect(meta.width).equal(960);
-      expect(meta.height).equal(540);
+      expect(meta.width).equal(1280);
+      expect(meta.height).equal(720);
       done();
     });
   });

@@ -25,70 +25,60 @@ before(function (done) {
   imageb.emptyDir(done);
 });
 
-describe('updating with image', function () {
-  var _id;
-  it('given post', function (done) {
-    expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/1280x720.jpg').end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.ids).exist;
-      expect(res.body.ids.length).equal(1);
-      _id = res.body.ids[0];
-      done();
+describe('put /api/images/id', function () {
+  describe('updating with image', function () {
+    it('should succeed', function (done) {
+      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/1280x720.jpg').end(function (err, res) {
+        expect(err).not.exist;
+        expect(res.body.err).not.exist;
+        expect(res.body.ids).exist;
+        expect(res.body.ids.length).equal(1);
+        var _id = res.body.ids[0];
+        imageb.images.findOne({ _id: _id }, function (err, image) {
+          expect(err).not.exist;
+          expect(image).exist;
+          expect(image.cdate).exist;
+          expect(image.comment).equal('image1');
+          imageb.identify(imageb.getPath(_id), function (err, meta) {
+            expect(err).not.exist;
+            expect(meta.width).equal(720);
+            expect(meta.height).equal(720);
+            expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/1440x2560.jpg').end(function (err, res) {
+              expect(err).not.exist;
+              expect(res.body.err).not.exist;
+              imageb.images.findOne({ _id: _id }, function (err, image) {
+                expect(err).not.exist;
+                expect(image).exist;
+                expect(image.cdate).exist;
+                expect(image.comment).equal('image2');
+                imageb.identify(imageb.getPath(_id), function (err, meta) {
+                  expect(err).not.exist;
+                  expect(meta.width).equal(1080);
+                  expect(meta.height).equal(1080);
+                  done();
+                });
+              });
+            });
+          });
+        });
+      });
     });
   });
-  it('can be checked', function (done) {
-    imageb.images.findOne({ _id: _id }, function (err, image) {
-      expect(err).not.exist;
-      expect(image).exist;
-      expect(image.fname).equal('1280x720.jpg');
-      expect(image.format).equal('jpeg');
-      expect(image.width).equal(1280);
-      expect(image.vers).eql([ 720, 640 ]);
-      expect(image.cdate).exist;
-      expect(image.comment).equal('image1');
-      expect(imageb.getPath(_id)).pathExist;
-      done();
-    });
-  });
-  it('should succeed', function (done) {
-    expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/1136x640.jpg').end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      done();
-    });
-  });
-  it('can be checked', function (done) {
-    imageb.images.findOne({ _id: _id }, function (err, image) {
-      expect(err).not.exist;
-      expect(image).exist;
-      expect(image.fname).equal('1136x640.jpg');
-      expect(image.format).equal('jpeg');
-      expect(image.width).equal(1136);
-      expect(image.vers).eql([ 640 ]);
-      expect(image.cdate).exist;
-      expect(image.comment).equal('image2');
-      expect(imageb.getPath(_id)).pathExist;
-      done();
-    });
-  });
-});
-
-describe('updating with small image', function () {
-  var _id;
-  it('given post', function (done) {
-    var form = {
-      _id: _id = imageb.getNewId(),
-      uid: userf.user1._id
-    };
-    imageb.images.insertOne(form, done);
-  });
-  it('should fail', function (done) {
-    expl.put('/api/images/' + _id).attach('files', 'samples/640x360.jpg').end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).exist;
-      expect(res.body.err).error('IMAGE_SIZE');
-      done();
+  describe('updating with small image', function () {
+    it('should fail', function (done) {
+      var form = {
+        _id: _id = imageb.getNewId(),
+        uid: userf.user1._id
+      };
+      imageb.images.insertOne(form, function (err) {
+        expect(err).not.exist;
+        expl.put('/api/images/' + _id).attach('files', 'samples/640x360.jpg').end(function (err, res) {
+          expect(err).not.exist;
+          expect(res.body.err).exist;
+          expect(res.body.err).error('IMAGE_SIZE');
+          done();
+        });
+      });
     });
   });
 });

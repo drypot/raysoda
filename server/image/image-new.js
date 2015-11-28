@@ -42,24 +42,21 @@ expb.core.post('/api/images', expu.handler(function (req, res, done) {
             res.json({ ids: ids });
             return done();
           }
-          imageb.checkImageMeta(upload, function (err, meta) {
+          imageb.checkImageMeta(upload.path, function (err, meta) {
             if (err) return done(err);
             var id = imageb.getNewId();
-            fs2.makeDir(imageb.getDir(id), function (err) {
+            imageb.saveImage(id, upload, meta, function (err, vers) {
               if (err) return done(err);
-              imageb.saveImage(id, upload, meta, function (err, vers) {
+              var image = {
+                _id: id,
+                uid: user._id,
+                cdate: form.now
+              };
+              imageb.fillImageDoc(image, form, meta, vers);
+              imageb.images.insertOne(image, function (err) {
                 if (err) return done(err);
-                var image = {
-                  _id: id,
-                  uid: user._id,
-                  cdate: form.now
-                };
-                imageb.fillImageDoc(image, form, meta, vers);
-                imageb.images.insertOne(image, function (err) {
-                  if (err) return done(err);
-                  ids.push(id);
-                  setImmediate(create);
-                });
+                ids.push(id);
+                setImmediate(create);
               });
             });
           });

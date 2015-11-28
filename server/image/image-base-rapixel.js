@@ -46,8 +46,8 @@ imageb.getThumbUrl = function (id) {
   return imageb.imageUrl + '/' + getDepth(id) + '/' + id + '-640.jpg';
 };
 
-imageb.checkImageMeta = function (upload, done) {
-  imageb.identify(upload.path, function (err, meta) {
+imageb.checkImageMeta = function (path, done) {
+  imageb.identify(path, function (err, meta) {
     if (err) {
       return done(error('IMAGE_TYPE'));
     }
@@ -59,31 +59,34 @@ imageb.checkImageMeta = function (upload, done) {
 };
 
 imageb.saveImage = function (id, upload, meta, done) {
-  var cmd = 'convert ' + upload.path;
-  cmd += ' -quality 92';
-  cmd += ' -gravity center';
+  fs2.makeDir(imageb.getDir(id), function (err) {
+    if (err) return done(err);
+    var cmd = 'convert ' + upload.path;
+    cmd += ' -quality 92';
+    cmd += ' -gravity center';
 
-  var i = 0;
-  var vers = [];
-  for (; i < _vers.length; i++) {
-    if (_vers[i].width < meta.width + (5120 - 3840) / 2) {
-      break;
+    var i = 0;
+    var vers = [];
+    for (; i < _vers.length; i++) {
+      if (_vers[i].width < meta.width + (5120 - 3840) / 2) {
+        break;
+      }
     }
-  }
-  for (; i < _vers.length; i++) {
-    var ver = _vers[i];
-    vers.push(ver.width);
-    cmd += ' -resize ' + ver.width + 'x' + ver.height + '^' // '^' means these are minimum values.
-    cmd += ' -crop ' + ver.width + 'x' + ver.height + '+0+0'
-    cmd += ' +repage'
-    if (i == _vers.length - 1) {
-      cmd += ' ' + imageb.getPath(id, ver.width);
-    } else {
-      cmd += ' -write ' + imageb.getPath(id, ver.width);
+    for (; i < _vers.length; i++) {
+      var ver = _vers[i];
+      vers.push(ver.width);
+      cmd += ' -resize ' + ver.width + 'x' + ver.height + '^' // '^' means these are minimum values.
+      cmd += ' -crop ' + ver.width + 'x' + ver.height + '+0+0'
+      cmd += ' +repage'
+      if (i == _vers.length - 1) {
+        cmd += ' ' + imageb.getPath(id, ver.width);
+      } else {
+        cmd += ' -write ' + imageb.getPath(id, ver.width);
+      }
     }
-  }
-  exec(cmd, function (err) {
-    done(err, vers);
+    exec(cmd, function (err) {
+      done(err, vers);
+    });
   });
 };
 

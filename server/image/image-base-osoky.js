@@ -28,8 +28,8 @@ imageb.getThumbUrl = function (id) {
   return imageb.imageUrl + '/' + getDepth(id) + '/' + id + '.jpg';
 };
 
-imageb.checkImageMeta = function (upload, done) {
-  imageb.identify(upload.path, function (err, meta) {
+imageb.checkImageMeta = function (path, done) {
+  imageb.identify(path, function (err, meta) {
     if (err) {
       return done(error('IMAGE_TYPE'));
     }
@@ -41,24 +41,27 @@ imageb.checkImageMeta = function (upload, done) {
 };
 
 imageb.saveImage = function (id, upload, meta, done) {
-  var shorter = meta.shorter;
-  var max = shorter < maxWidth ? shorter : maxWidth;
-  var r = (max / 2) >> 0;
-  var cmd = 'convert ' + upload.path;
-  cmd += ' -quality 92';
-  cmd += ' -gravity center';
-  cmd += ' -auto-orient';
-  cmd += ' -crop ' + shorter + 'x' + shorter + '+0+0';
-  //cmd += ' +repage'
-  cmd += ' -resize ' + max + 'x' + max + '\\>';
-  cmd += ' \\( -size ' + max + 'x' + max + ' xc:black -fill white -draw "circle ' + r + ',' + r + ' ' + r + ',1" \\)'
-  cmd += ' -alpha off -compose CopyOpacity -composite'
-  //cmd += ' \\( +clone -alpha opaque -fill white -colorize 100% \\)'
-  //cmd += ' +swap -geometry +0+0 -compose Over -composite -alpha off'
-  cmd += ' -background white -alpha remove -alpha off'; // alpha remove need IM 6.7.5 or above
-  cmd += ' ' + imageb.getPath(id);
-  exec(cmd, function (err) {
-    done(err, null);
+  fs2.makeDir(imageb.getDir(id), function (err) {
+    if (err) return done(err);
+    var shorter = meta.shorter;
+    var max = shorter < maxWidth ? shorter : maxWidth;
+    var r = (max / 2) >> 0;
+    var cmd = 'convert ' + upload.path;
+    cmd += ' -quality 92';
+    cmd += ' -gravity center';
+    cmd += ' -auto-orient';
+    cmd += ' -crop ' + shorter + 'x' + shorter + '+0+0';
+    //cmd += ' +repage'
+    cmd += ' -resize ' + max + 'x' + max + '\\>';
+    cmd += ' \\( -size ' + max + 'x' + max + ' xc:black -fill white -draw "circle ' + r + ',' + r + ' ' + r + ',1" \\)'
+    cmd += ' -alpha off -compose CopyOpacity -composite'
+    //cmd += ' \\( +clone -alpha opaque -fill white -colorize 100% \\)'
+    //cmd += ' +swap -geometry +0+0 -compose Over -composite -alpha off'
+    cmd += ' -background white -alpha remove -alpha off'; // alpha remove need IM 6.7.5 or above
+    cmd += ' ' + imageb.getPath(id);
+    exec(cmd, function (err) {
+      done(err, null);
+    });
   });
 };
 

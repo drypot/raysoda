@@ -28,8 +28,8 @@ imageb.getThumbUrl = function (id) {
   return imageb.imageUrl + '/' + getDepth(id) + '/' + id + '.jpg';
 };
 
-imageb.checkImageMeta = function (upload, done) {
-  imageb.identify(upload.path, function (err, meta) {
+imageb.checkImageMeta = function (path, done) {
+  imageb.identify(path, function (err, meta) {
     if (err) {
       return done(error('IMAGE_TYPE'));
     }
@@ -41,13 +41,16 @@ imageb.checkImageMeta = function (upload, done) {
 };
 
 imageb.saveImage = function (id, upload, meta, done) {
-  var cmd = 'convert ' + upload.path;
-  cmd += ' -quality 92';
-  cmd += ' -auto-orient';
-  cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>';
-  cmd += ' ' + imageb.getPath(id);
-  exec(cmd, function (err) {
-    done(err, null);
+  fs2.makeDir(imageb.getDir(id), function (err) {
+    if (err) return done(err);
+    var cmd = 'convert ' + upload.path;
+    cmd += ' -quality 92';
+    cmd += ' -auto-orient';
+    cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>';
+    cmd += ' ' + imageb.getPath(id);
+    exec(cmd, function (err) {
+      done(err, null);
+    });
   });
 };
 

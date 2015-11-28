@@ -36,11 +36,14 @@ expb.core.put('/api/images/:id([0-9]+)', expu.handler(function (req, res, done) 
         next({}, null, null);
       }, function (next) {
         var upload = form.files[0];
-        imageb.checkImageMeta(upload, function (err, meta) {
+        imageb.checkImageMeta(upload.path, function (err, meta) {
           if (err) return done(err);
-          imageb.saveImage(id, upload, meta, function (err, vers) {
+          imageb.deleteImage(id, function (err) {
             if (err) return done(err);
-            next({}, meta, vers);
+            imageb.saveImage(id, upload, meta, function (err, vers) {
+              if (err) return done(err);
+              next({}, meta, vers);
+            });
           });
         });
       }, function (image, meta, vers) {

@@ -26,8 +26,8 @@ imageb.getThumbUrl = function (id) {
   return imageb.imageUrl + '/' + getDepth(id) + '/' + id + '.svg';
 };
 
-imageb.checkImageMeta = function (upload, done) {
-  imageb.identify(upload.path, function (err, meta) {
+imageb.checkImageMeta = function (path, done) {
+  imageb.identify(path, function (err, meta) {
     if (err) {
       return done(error('IMAGE_TYPE'));
     }
@@ -39,8 +39,11 @@ imageb.checkImageMeta = function (upload, done) {
 };
 
 imageb.saveImage = function (id, upload, meta, done) {
-  fs.rename(upload.path, imageb.getPath(id), function (err) {
-    done(err, null);
+  fs2.makeDir(imageb.getDir(id), function (err) {
+    if (err) return done(err);
+    fs.rename(upload.path, imageb.getPath(id), function (err) {
+      done(err, null);
+    });
   });
 };
 
