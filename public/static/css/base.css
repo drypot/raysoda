@@ -47,8 +47,8 @@ hr {
   background-color: white;
   white-space: pre;
 }
-.modal-body p {
-  white-space: nowrap;
+.modal-body {
+  white-space: pre;
   overflow: scroll;
 }
 form.main {

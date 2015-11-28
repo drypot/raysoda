@@ -94,28 +94,24 @@ init.add(function (done) {
 
   // for test
 
-  expb.app.get('/api/error', function (req, res, done) {
+  expb.app.get('/test/error-sample', function (req, res, done) {
     var err = new Error('Error Sample');
     err.code = 999;
     done(err);
   });
 
-  expb.app.get('/test/error', function (req, res, done) {
-    var err = new Error('Error Sample Page');
+  expb.app.get('/api/error-sample', function (req, res, done) {
+    var err = new Error('Error Sample');
     err.code = 999;
     done(err);
   });
 
-  expb.app.get('/test/api-error', function (req, res, done) {
-    res.render('express/')
-  });
-
-  expb.core.post('/api/test/destroy-session', function (req, res, done) {
+  expb.core.post('/api/destroy-session', function (req, res, done) {
     req.session.destroy();
     res.json({});
   });
 
-  expb.core.get('/api/test/cookies', function (req, res, done) {
+  expb.core.get('/api/cookies', function (req, res, done) {
     res.json(req.cookies);
   });
 

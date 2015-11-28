@@ -228,7 +228,7 @@ describe('session', function () {
     });
   });
   it('given session destroied', function (done) {
-    expl.post('/api/test/destroy-session').end(function (err, res) {
+    expl.post('/api/destroy-session').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
       done();

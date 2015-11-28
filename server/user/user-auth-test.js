@@ -173,7 +173,7 @@ describe('auto login', function () {
     });
   });
   it('given new session', function (done) {
-    expl.post('/api/test/destroy-session').end(function (err, res) {
+    expl.post('/api/destroy-session').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
       done();
@@ -220,7 +220,7 @@ describe('auto login with invalid email', function () {
     });
   });
   it('cookie should be filled', function (done) {
-    expl.get('/api/test/cookies').end(function (err, res) {
+    expl.get('/api/cookies').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
       expect(res.body.email).equal(userf.user1.email);
@@ -238,7 +238,7 @@ describe('auto login with invalid email', function () {
     });
   });
   it('given new session', function (done) {
-    expl.post('/api/test/destroy-session').end(function (err, res) {
+    expl.post('/api/destroy-session').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
       done();
@@ -252,7 +252,7 @@ describe('auto login with invalid email', function () {
     });
   });
   it('cookie should be destroied', function (done) {
-    expl.get('/api/test/cookies').end(function (err, res) {
+    expl.get('/api/cookies').end(function (err, res) {
       expect(err).not.exist;
       expect(res.body.err).not.exist;
       expect(res.body.email).not.exist;

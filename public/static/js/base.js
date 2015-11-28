@@ -77,30 +77,6 @@ $(function () {
   })();
 });
 
-$(function() {
-  var $modal = $('#error-modal');
-  var $title = $modal.find('.modal-title');
-  var $body = $modal.find('.modal-body');
-
-  window.showError = function (err, done) {
-    $title.text(err.message);
-    var body = '';
-    if (err.stack) {
-      body += '<p>' + err.stack.replace(/Error:.+\n/, '').replace(/\n/g, '<br>') + '</p>';
-    }
-    if (err.detail) {
-      body += '<pre>' + err.detail.replace(/\n/g, '<br>') + '</pre>';
-    }
-    console.log(body);
-    $body.html(body);
-    $modal.off('hidden.bs.modal');
-    if (done) {
-      $modal.on('hidden.bs.modal', done);
-    }
-    $modal.modal('show');
-  };
-});
-
 $(function () {
   window.request = {};
   ['post', 'put', 'get', 'del'].forEach(function (method) {
@@ -155,6 +131,45 @@ $(function () {
         done(new Error(xhr.statusText));
       }
     }
+  };
+});
+
+$(function() {
+  var $modal = $('#error-modal');
+  var $title = $modal.find('.modal-title');
+  var $body = $modal.find('.modal-body');
+
+  window.showError = function (err, done) {
+    $title.text(err.message);
+    var body = '';
+    // if (err.stack) {
+    //   console.log(err.stack);
+    //   body += '<p>' + err.stack.replace(/Error:.+\n/, '').replace(/\n/g, '<br>') + '</p>';
+    // }
+    // if (err.detail) {
+    //   console.log(err.detail);
+    //   body += '<pre>' + err.detail.replace(/\n/g, '<br>') + '</pre>';
+    // }
+    if (err.stack) {
+      console.log('stack:\n' + err.stack);
+      body += err.stack.replace(/Error:.+\n/, '') + '\n';
+    }
+    if (err.detail) {
+      console.log('detail:\n' + err.detail);
+      body += err.detail;
+    }
+    $body.html(body);
+    $modal.off('hidden.bs.modal');
+    if (done) {
+      $modal.on('hidden.bs.modal', done);
+    }
+    $modal.modal('show');
+  };
+
+  window.showErrorSample= function () {
+    request.get('/api/error-sample').end(function (err, res) {
+      showError(res.body.err);
+    });
   };
 });
 
