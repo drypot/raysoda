@@ -17,8 +17,8 @@ block content
 
   .section
     if !gt
-      #profile-text.sub-section.box
-        | !{jade.escape(tuser.profile).replace(/\n/g, '<br>')}
+      #profile-text.sub-section
+        | #{tuser.profile}
 
       if updatable
         .section.top-links
@@ -39,7 +39,6 @@ block content
           a(href='/images/' + image._id)
             img(src=image.thumb)
         if image.comment
-          //-.comment !{jade.escape(image.comment).replace(/\n/g, '<br>')}
           .comment= image.comment
 
     if lt

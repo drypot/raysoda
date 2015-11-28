@@ -1,0 +1,254 @@
+$tablet-width: 768px;
+$desktop-width: 1280px;
+
+$color: #333;
+$dim-color: lighten($color, 50%);
+$line-color: lighten($color, 70%);
+
+$margin: 3em;
+$width: 640px;
+
+$form-width: 480px;
+$image-width: 1080px;
+
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+// basic layout
+
+html {
+  font-size: 14px;
+  @include tablet {
+    font-size: 16px;
+  }
+  @include desktop {
+    font-size: 18px;
+  }
+}
+
+body {
+  font-size: 1em;
+  font-family: serif;
+  line-height: 160%;
+  color: $color;
+}
+
+hr {
+  margin: 0px;
+}
+
+@mixin ac-link { // achromatic color link
+  a {
+    color: $color;
+  }
+}
+
+.section {
+  margin: $margin auto; // auto 는 IE9 이상부터
+  max-width: $width; // for mobile. width 를 쓰면 작은 화면에서 화면 밖으로 나간다.
+  padding: 0px 8px;
+  text-align: center;
+}
+
+.sub-section {
+  margin: $margin * 0.6 auto;
+}
+
+// error
+
+.error-report {
+  //padding: 0px;
+  text-align: left;
+  font-family: monospace;
+  font-size: 80%;
+  background-color: white;
+  white-space: pre;
+}
+
+.modal-body {
+  white-space: pre;
+  overflow: scroll;
+}
+
+// form
+
+form.main {
+  max-width: $form-width;
+  margin: 0 auto;
+  input[type=file] {
+    width: 100%;
+  }
+  textarea {
+    //font-family: monospace;
+  }
+}
+
+pre.sample {
+  max-width: $form-width;
+  margin: 0 auto;
+  text-align: left;
+}
+
+// home
+
+.site-name {
+  margin: $margin * 0.2 auto;
+  a:hover {
+    text-decoration: none;
+  }
+  font-size: 1.3em;
+}
+
+.page-header {
+  @include ac-link;
+  margin-top: 0px;
+  border-bottom-color: $line-color;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.page-title {
+  @include ac-link;
+  a:hover {
+    text-decoration: none;
+  }
+  h1 {
+    font-size: 2.5em;
+  }
+}
+
+.top-links {
+  a {
+    padding-left:8px;
+    padding-right:8px;
+  }
+}
+
+.news {
+}
+
+.page-footer {
+  @include ac-link;
+  border-top-color: $line-color;
+  border-top-style: solid;
+  border-top-width: 1px;
+  .about-list {
+    margin: $margin * 0.1 auto;
+    ul {
+      margin: 0px;
+      li {
+        padding: 0 5px;
+      }
+    }
+  }
+}
+
+// image list
+
+.pager-prev {
+}
+
+.pager-next {
+}
+
+.image-thumb {
+  @include ac-link;
+  max-width: $image-width;
+  padding: 0px;
+  margin: $margin * 1.6 auto;
+  .image {
+    img {
+      max-width: 100%; // for mobile
+      max-height: 100%; // for mobile, 크롬에서는 작동하지 않음
+    }
+    margin-bottom: $margin * 0.2;
+  }
+  .comment {
+    white-space: pre-line;
+  }
+}
+
+// image view
+
+:-webkit-full-screen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+
+:-moz-full-screen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+
+:-ms-fullscreen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+
+:fullscreen {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+
+.image-full {
+  max-width: 100%;
+  margin: 0px auto;
+  padding: 0px;
+  text-align: center;
+  img {
+    max-width: 100%; // for mobile
+    cursor:pointer;
+  }
+  @include desktop {
+    margin: $margin * 1.5 auto;
+  }
+}
+
+.image-info {
+  @include ac-link;
+  .comment {
+    margin-bottom: 1.8em;
+    white-space: pre-line;
+  }
+  .cdate {
+    margin-bottom: 1em;
+    font-size: 0.8em;
+  }
+  .uname {
+    margin-bottom: 2em;
+    font-size: 1.4em;
+  }
+  .commands {
+  }
+}
+
+// profile
+
+#profile-text {
+  white-space: pre-line;
+}
+
+// table
+
+.basic-table {
+  table {
+    margin: 0 auto;
+    td {
+      padding: 0px 20px;
+    }
+  }
+}
+

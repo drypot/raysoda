@@ -24,7 +24,7 @@ block content
         span.glyphicon.glyphicon-fullscreen
 
     .sub-section
-      .comment !{jade.escape(image.comment).replace(/\n/g, '<br>')}
+      .comment #{image.comment}
       .cdate !{image.cdateStr.slice(0,16)}
       .uname
         a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
