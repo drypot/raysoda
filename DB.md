@@ -5,8 +5,14 @@
 이름 변경
 
     db.users.find({ homel : 'admin'})
-
     db.users.update({ _id: 18060 }, { $set : { name: '...', namel: '...' }})
+
+계정 복구
+
+    db.users.find({ homel: '...' })
+    db.users.update({ homel: '...' }, { $set : { status: 'v' }})
+
+    현재는 서버 재가동해야함; 수정 해야;
 
 사진 코멘트 변경
 

@@ -12,7 +12,7 @@ block content
 
   .section.page-title
     h1
-      a(href='/' + encodeURIComponent(tuser.home)) #{tuser.name}
+      a(href='/' + tuser.home) #{tuser.name}
 
   .section
     if !gt
@@ -36,9 +36,10 @@ block content
       .section.image-thumb
         .image
           a(href='/images/' + image._id)
-            img(src=image.dir + '/' + image._id + suffix)
+            img(src=image.thumb)
         if image.comment
-          .comment !{jade.escape(image.comment).replace(/\n/g, '<br>')}
+          //-.comment !{jade.escape(image.comment).replace(/\n/g, '<br>')}
+          .comment= image.comment
 
     if lt
       .section.pager-next

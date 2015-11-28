@@ -10,9 +10,9 @@ block content
 
   .section
     .sub-section
-      span Want to deactivate your account?&nbsp;
-      a(href='/users/deactivate') click
-    .sub-section
       | support email:&nbsp;
       -var email = 'support+' + appNamel + '@raysoda.com'
       a(href='mailto:' + email)= email 
+    .sub-section
+      span Want to deactivate your account?&nbsp;
+      a(href='/users/deactivate') click

@@ -4,7 +4,7 @@ $(function () {
 
   imagel.initList = function () {
     sessionStorage.setItem('last-list-url', location);
-    $('.image-list .comment').each(function () {
+    $('.image-thumb .comment').each(function () {
       var $this = $(this);
       $this.html(tagUpText($this.html()));
     });

@@ -42,13 +42,12 @@ block content
     .section.image-thumb
       .image
         a(href='/images/' + image._id)
-          img(src=image.tn)
-      if image.comment
-        .comment !{jade.escape(image.comment.split('\r\n', 1)[0])}
-        //-.comment ...
-        //-.comment !{jade.escape(image.comment).replace(/(\r\n|\n)/g, '<br>')}
+          img(src=image.thumb)
+      - var c = image.comment.split('\r\n', 1)[0]
+      if c
+        .comment= c
       .uname
-        a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
+        a(href='/' + image.user.home) #{image.user.name}
 
   if lt
     .section.pager-next

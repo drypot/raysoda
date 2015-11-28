@@ -1,12 +1,12 @@
 @color: #333;
 @dim-color: lighten(@color, 50%);
 @line-color: lighten(@color, 70%);
-@margin: 50px;
+@margin: 60px;
 @width: 640px;
 @form-width: @width * 0.6;
 @image-width: 1080px;
-@mid-screen: 1080px;
-@small-screen: 768px;
+@mid-screen-max: 1279px;
+@small-screen-max: 767px;
 
 // basic layout
 
@@ -17,7 +17,7 @@ body {
   color: @color; 
 }
 
-@media (max-width: @small-screen) {
+@media (max-width: @small-screen-max) {
   body {
     font-size: 14px;
   }
@@ -45,7 +45,7 @@ hr {
   margin: @margin * 0.6 auto;
 }
 
-@media (max-width: @mid-screen) {
+@media (max-width: @mid-screen-max) {
   .section {
     margin: @margin * 0.8 auto;
   }
@@ -54,9 +54,9 @@ hr {
   }
 }
 
-@media (max-width: @small-screen) {
+@media (max-width: @small-screen-max) {
   .section {
-    margin: @margin * 0.5 auto;
+    margin: @margin * 0.6 auto;
   }
   .sub-section {
     margin: @margin * 0.3 auto;
@@ -66,14 +66,12 @@ hr {
 // error
 
 .error-report {
-  padding: 0px;
-  pre {
-    text-align: left;
-    font-family: monospace;
-    font-size: 80%;
-    background-color: white;
-    white-space: nowrap;
-  }
+  //padding: 0px;
+  text-align: left;
+  font-family: monospace;
+  font-size: 80%;
+  background-color: white;
+  white-space: pre;
 }
 
 .modal-body {
@@ -163,7 +161,7 @@ pre.sample {
   }
 }
 
-@media (max-width: @mid-screen) {
+@media (max-width: @mid-screen-max) {
   .site-name {
     margin: @margin * 0.3 auto;
     a:hover {
@@ -178,7 +176,7 @@ pre.sample {
   }
 }
 
-@media (max-width: @small-screen) {
+@media (max-width: @small-screen-max) {
   .site-name {
     margin: @margin * 0.2 auto;
     a:hover {
@@ -196,7 +194,6 @@ pre.sample {
 // image list
 
 .pager-prev {
-  line-height: 1;
 }
 
 .pager-next {
@@ -207,41 +204,32 @@ pre.sample {
   .ac-link;
   max-width: @image-width;
   padding: 0px;
-  margin-top: @margin * 1.5;
-  margin-bottom: @margin * 2.0; // 사진 비율이 다양해서 rapixel 보다 많이 띄워야 혼잡하지 않다.
+  margin: @margin * 1.5 auto;
   .image {
     img {
       max-width: 100%; // for mobile
-      max-height: 100%; // for mobile
+      max-height: 100%; // for mobile, 크롬에서는 작동하지 않음
     }
-    margin-bottom: @margin * 0.4;
+    margin-bottom: @margin * 0.3;
   }
   .comment {
-    margin-bottom: @margin * 0.2;
+    white-space: pre-line;
   }
 }
 
-@media (max-width: @mid-screen) {
+@media (max-width: @mid-screen-max) {
   .image-thumb {
-    margin-top: @margin * 1.1;
-    margin-bottom: @margin * 1.5;
+    margin: @margin * 1.3 auto;
     .image {
-      margin-bottom: @margin * 0.3;
-    }
-    .comment {
-      margin-bottom: @margin * 0.1;
+      margin-bottom: @margin * 0.2;
     }
   }
 }
 
-@media (max-width: @small-screen) {
+@media (max-width: @small-screen-max) {
   .image-thumb {
-    margin-top: @margin * 0.8;
-    margin-bottom: @margin * 1.1;
+    margin: @margin * 1.0 auto;
     .image {
-      margin-bottom: @margin * 0.3;
-    }
-    .comment {
       margin-bottom: @margin * 0.1;
     }
   }
@@ -306,13 +294,13 @@ pre.sample {
   }
 }
 
-@media (max-width: @mid-screen) {
+@media (max-width: @mid-screen-max) {
   .image-full {
     margin: @margin * 0.7 auto;
   }
 }
 
-@media (max-width: @small-screen) {
+@media (max-width: @small-screen-max) {
   .image-full {
     margin: 0px auto;
   }

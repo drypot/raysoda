@@ -92,12 +92,22 @@ init.add(function (done) {
     });
   });
 
+  // for test
+
+  expb.app.get('/api/error', function (req, res, done) {
+    var err = new Error('Error Sample');
+    err.code = 999;
+    done(err);
+  });
+
   expb.app.get('/test/error', function (req, res, done) {
     var err = new Error('Error Sample Page');
     err.code = 999;
-    res.render('express/express-error', {
-      err: err
-    });
+    done(err);
+  });
+
+  expb.app.get('/test/api-error', function (req, res, done) {
+    res.render('express/')
   });
 
   expb.core.post('/api/test/destroy-session', function (req, res, done) {
