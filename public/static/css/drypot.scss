@@ -1,0 +1,18 @@
+@import "_common";
+
+.image-thumb {
+  .image {
+    img {
+      width: 100%; // for svg on safari
+      max-width: 100%; // for mobile
+      max-height: none; // 걍 넓게 보자;
+    }
+  }
+}
+
+.image-full {
+  img {
+    width: 100%;
+    max-width: 100%;
+  }
+}

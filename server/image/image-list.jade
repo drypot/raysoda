@@ -37,13 +37,12 @@ block content
     .section.pager-prev
       a(href=gt) Previous
 
-  
   for image in images
     .section.image-thumb
       .image
         a(href='/images/' + image._id)
           img(src=image.thumb)
-      - var c = image.comment.split('\r\n', 1)[0]
+      - var c = image.comment.split('\n', 1)[0]
       if c
         .comment= c
       .uname

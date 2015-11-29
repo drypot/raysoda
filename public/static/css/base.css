@@ -91,7 +91,8 @@ pre.sample {
         padding: 0 5px; }
 
 .image-thumb {
-  max-width: 1080px;
+  max-width: 100%;
+  max-height: 100%;
   padding: 0px;
   margin: 4.8em auto; }
   .image-thumb a {
@@ -99,28 +100,14 @@ pre.sample {
   .image-thumb .image {
     margin-bottom: 0.6em; }
     .image-thumb .image img {
-      max-width: 100%;
-      max-height: 100%; }
+      max-width: 100%; }
   .image-thumb .comment {
+    max-width: 640px;
+    margin: 0 auto;
     white-space: pre-line; }
 
-:-webkit-full-screen {
-  background: black;
-  width: 100%;
-  height: 100%; }
-
-:-moz-full-screen {
-  background: black;
-  width: 100%;
-  height: 100%; }
-
-:-ms-fullscreen {
-  background: black;
-  width: 100%;
-  height: 100%; }
-
-:fullscreen {
-  background: black;
+:-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
+  background: white;
   width: 100%;
   height: 100%; }
 
@@ -132,9 +119,6 @@ pre.sample {
   .image-full img {
     max-width: 100%;
     cursor: pointer; }
-  @media (min-width: 1280px) {
-    .image-full {
-      margin: 4.5em auto; } }
 
 .image-info a {
   color: #333333; }

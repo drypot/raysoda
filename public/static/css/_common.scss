@@ -1,0 +1,23 @@
+$tablet-width: 768px;
+$desktop-width: 1280px;
+
+$color: #333;
+$dim-color: lighten($color, 50%);
+$line-color: lighten($color, 70%);
+
+$margin: 3em;
+$width: 640px;
+
+$form-width: 480px;
+
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}

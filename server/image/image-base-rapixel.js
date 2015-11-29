@@ -43,7 +43,7 @@ imageb.getDirUrl = function (id) {
 };
 
 imageb.getThumbUrl = function (id) {
-  return imageb.imageUrl + '/' + getDepth(id) + '/' + id + '-640.jpg';
+  return imageb.imageUrl + '/' + getDepth(id) + '/' + id + '-1280.jpg';
 };
 
 imageb.checkImageMeta = function (path, done) {
@@ -68,7 +68,7 @@ imageb.saveImage = function (id, src, meta, done) {
     var i = 0;
     var vers = [];
     for (; i < _vers.length; i++) {
-      if (_vers[i].width < meta.width + (5120 - 3840) / 2) {
+      if (_vers[i].width < meta.width + (_vers[i].width - _vers[i+1].width) / 2) {
         break;
       }
     }

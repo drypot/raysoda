@@ -1,27 +1,4 @@
-$tablet-width: 768px;
-$desktop-width: 1280px;
-
-$color: #333;
-$dim-color: lighten($color, 50%);
-$line-color: lighten($color, 70%);
-
-$margin: 3em;
-$width: 640px;
-
-$form-width: 480px;
-$image-width: 1080px;
-
-@mixin tablet {
-  @media (min-width: #{$tablet-width}) {
-    @content;
-  }
-}
-
-@mixin desktop {
-  @media (min-width: #{$desktop-width}) {
-    @content;
-  }
-}
+@import "_common";
 
 // basic layout
 
@@ -54,7 +31,7 @@ hr {
 
 .section {
   margin: $margin auto; // auto 는 IE9 이상부터
-  max-width: $width; // for mobile. width 를 쓰면 작은 화면에서 화면 밖으로 나간다.
+  max-width: $width; // 작은화면에서 width 를 쓰면 화면 밖으로 나간다.
   padding: 0px 8px;
   text-align: center;
 }
@@ -173,43 +150,28 @@ pre.sample {
 
 .image-thumb {
   @include ac-link;
-  max-width: $image-width;
+  max-width: 100%;
+  max-height: 100%;
   padding: 0px;
   margin: $margin * 1.6 auto;
   .image {
     img {
-      max-width: 100%; // for mobile
-      max-height: 100%; // for mobile, 크롬에서는 작동하지 않음
+      max-width: 100%; // inherit 안 됨. img 태그에 적용해야 화면 밖으로 나가지 않는다.
+      //max-height: 100%; // 크롬에서는 작동하지 않음
     }
-    margin-bottom: $margin * 0.2;
+    margin-bottom: 0.6em;
   }
   .comment {
+    max-width: $width;
+    margin: 0 auto;
     white-space: pre-line;
   }
 }
 
 // image view
 
-:-webkit-full-screen {
-  background: black;
-  width: 100%;
-  height: 100%;
-}
-
-:-moz-full-screen {
-  background: black;
-  width: 100%;
-  height: 100%;
-}
-
-:-ms-fullscreen {
-  background: black;
-  width: 100%;
-  height: 100%;
-}
-
-:fullscreen {
-  background: black;
+:-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
+  background: white;
   width: 100%;
   height: 100%;
 }
@@ -220,11 +182,8 @@ pre.sample {
   padding: 0px;
   text-align: center;
   img {
-    max-width: 100%; // for mobile
+    max-width: 100%;
     cursor:pointer;
-  }
-  @include desktop {
-    margin: $margin * 1.5 auto;
   }
 }
 

@@ -1,0 +1,7 @@
+@import "_common";
+
+.image-full {
+  @include desktop {
+    margin: $margin * 1.5 auto;
+  }
+}
