@@ -156,7 +156,6 @@ pre.sample {
 .image-thumb {
   @include ac-link;
   max-width: 100%;
-  max-height: 100%;
   padding: 0px;
   margin: $margin * 1.5 auto;
   @include tablet {
@@ -169,6 +168,7 @@ pre.sample {
     margin: $margin * 2.5 auto;
   }
   .image {
+    max-width: 100%; // ie 는 중간 모든 div 에 max-width 가 있어야한다.
     display: inline-block; // 자식 이미지 사이즈와 동일한 크기가 된다.
     position: relative; // fs-mark 를 절대 위치에 표시하려면 부모 엘리먼트가 relative position 이어야 한다.
     margin-bottom: 0.6em;
@@ -203,6 +203,7 @@ pre.sample {
   padding: 0px;
   text-align: center;
   .image {
+    max-width: 100%;
     display: inline-block;
     position: relative;
     img {

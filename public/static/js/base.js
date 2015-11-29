@@ -389,7 +389,7 @@ $(function () {
     $document.on('fullscreenchange', handler);
     $document.on('mozfullscreenchange', handler);
     $document.on('webkitfullscreenchange', handler);
-    $document.on('msfullscreenchange', handler);
+    $document.on('MSFullscreenChange', handler);
   }
 
   fullscreen.inFullscreen = function () {
