@@ -29,7 +29,7 @@ Mac 개발환경용 Nginx 설정 예
     server {
       listen 8080;
       server_name file.raysoda.local;
-      root /Users/drypot/projects/raysoda/website/upload/public;
+      root /Users/drypot/projects/raysoda/website/upload/raysoda-dev/public;
     }
 
 ## Requirements

@@ -1,6 +1,13 @@
 # RaySoda
 
-[RaySoda](http://www.raysoda.com) 2 번째 코드
+[RaySoda](https://raysoda.com) Version 2.
+
+Running following sites.
+
+* [https://raysoda.com](https://raysoda.com)
+* [https://rapixel.com](https://rapixel.com)
+* [https://osoky.com](https://osoky.com)
+* [https://drypot.com](https://drypot.com)
 
 ## Install and Upgrade
 
@@ -9,9 +16,11 @@
 
 ## History
 
-2015.10. 레이소다 2.0 오픈
+2015.11.00 Rapixel 코드 머지
 
-2015.04. 레이소다 2.0 작업 시작. Linux/Node.js.
+2015.10.00 레이소다 2.0 오픈
+
+2015.04.00 레이소다 2.0 작업 시작. Linux/Node.js.
 
 2003.02.03 첫 사진 등록.
 
