@@ -16,7 +16,8 @@ block content
     });
 
   .section.image-full
-    img(src=image.thumb)
+    .image
+      img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
 
   .section.image-info
     .sub-section(style='display: none')

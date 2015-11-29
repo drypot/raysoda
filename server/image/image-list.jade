@@ -41,7 +41,7 @@ block content
     .section.image-thumb
       .image
         a(href='/images/' + image._id)
-          img(src=image.thumb)
+          img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
       - var c = image.comment.split('\n', 1)[0]
       if c
         .comment= c

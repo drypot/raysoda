@@ -19,16 +19,6 @@ body {
   color: $color;
 }
 
-hr {
-  margin: 0px;
-}
-
-@mixin ac-link { // achromatic color link
-  a {
-    color: $color;
-  }
-}
-
 .section {
   margin: $margin auto; // auto 는 IE9 이상부터
   max-width: $width; // 작은화면에서 width 를 쓰면 화면 밖으로 나간다.
@@ -38,6 +28,21 @@ hr {
 
 .sub-section {
   margin: $margin * 0.6 auto;
+}
+
+hr {
+  margin: 0px;
+}
+
+// fullscreen
+
+:-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
+  background: white;
+  width: 100%;
+  height: 100%;
+}
+
+#fullscreen {
 }
 
 // error
@@ -155,11 +160,13 @@ pre.sample {
   padding: 0px;
   margin: $margin * 1.6 auto;
   .image {
+    display: inline-block; // 자식 이미지 사이즈와 동일한 크기가 된다.
+    position: relative; // fs-mark 를 절대 위치에 표시하려면 부모 엘리먼트가 relative position 이어야 한다.
+    margin-bottom: 0.6em;
     img {
       max-width: 100%; // inherit 안 됨. img 태그에 적용해야 화면 밖으로 나가지 않는다.
       //max-height: 100%; // 크롬에서는 작동하지 않음
     }
-    margin-bottom: 0.6em;
   }
   .comment {
     max-width: $width;
@@ -168,22 +175,31 @@ pre.sample {
   }
 }
 
-// image view
-
-:-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
-  background: white;
-  width: 100%;
-  height: 100%;
+.fs-icon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 10;
+  font-size: 1.8em;
+  padding: 0.2em;
+  color: white;
+  opacity: 0.6;
 }
+
+// image view
 
 .image-full {
   max-width: 100%;
   margin: 0px auto;
   padding: 0px;
   text-align: center;
-  img {
-    max-width: 100%;
-    cursor:pointer;
+  .image {
+    display: inline-block;
+    position: relative;
+    img {
+      max-width: 100%;
+      cursor:pointer;
+    }
   }
 }
 

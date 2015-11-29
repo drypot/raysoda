@@ -8,7 +8,7 @@ Mac 개발환경용 Nginx 설정 예
 
     server {
       listen 8080;
-      server_name raysoda.local;
+      server_name raysoda.localhost;
       root /Users/drypot/projects/raysoda/website/public;
 
       client_max_body_size 10m;
@@ -28,9 +28,10 @@ Mac 개발환경용 Nginx 설정 예
 
     server {
       listen 8080;
-      server_name file.raysoda.local;
+      server_name file.raysoda.localhost;
       root /Users/drypot/projects/raysoda/website/upload/raysoda-dev/public;
     }
+
 
 ## Requirements
 

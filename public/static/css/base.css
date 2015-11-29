@@ -13,9 +13,6 @@ body {
   line-height: 160%;
   color: #333333; }
 
-hr {
-  margin: 0px; }
-
 .section {
   margin: 3em auto;
   max-width: 640px;
@@ -24,6 +21,14 @@ hr {
 
 .sub-section {
   margin: 1.8em auto; }
+
+hr {
+  margin: 0px; }
+
+:-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
+  background: white;
+  width: 100%;
+  height: 100%; }
 
 .error-report {
   text-align: left;
@@ -98,6 +103,8 @@ pre.sample {
   .image-thumb a {
     color: #333333; }
   .image-thumb .image {
+    display: inline-block;
+    position: relative;
     margin-bottom: 0.6em; }
     .image-thumb .image img {
       max-width: 100%; }
@@ -106,19 +113,27 @@ pre.sample {
     margin: 0 auto;
     white-space: pre-line; }
 
-:-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
-  background: white;
-  width: 100%;
-  height: 100%; }
+.fs-icon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 10;
+  font-size: 1.8em;
+  padding: 0.2em;
+  color: white;
+  opacity: 0.6; }
 
 .image-full {
   max-width: 100%;
   margin: 0px auto;
   padding: 0px;
   text-align: center; }
-  .image-full img {
-    max-width: 100%;
-    cursor: pointer; }
+  .image-full .image {
+    display: inline-block;
+    position: relative; }
+    .image-full .image img {
+      max-width: 100%;
+      cursor: pointer; }
 
 .image-info a {
   color: #333333; }

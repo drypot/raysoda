@@ -3,12 +3,12 @@
   "appNamel": "osoky",
   "appDesc": "Your randos",
 
-  "mainSite": "http://osoky.local:8080",
+  "mainSite": "http://osoky.localhost:8080",
 
   "appPort": 8031,
   "cookieSecret": "o;iejf832ndvs",
 
-  "uploadSite": "http://file.osoky.local:8080",
+  "uploadSite": "http://file.osoky.localhost:8080",
   "uploadDir": "upload/osoky-test",
 
   "mongodb": "raysoda-test",
