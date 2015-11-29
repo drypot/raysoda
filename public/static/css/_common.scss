@@ -11,13 +11,19 @@ $width: 640px;
 $form-width: 480px;
 
 @mixin tablet {
-  @media (min-width: #{$tablet-width}) {
+  @media (min-width: 768px) {
     @content;
   }
 }
 
 @mixin desktop {
-  @media (min-width: #{$desktop-width}) {
+  @media (min-width: 1280px) {
+    @content;
+  }
+}
+
+@mixin wide-desktop {
+  @media (min-width: 1600px) {
     @content;
   }
 }

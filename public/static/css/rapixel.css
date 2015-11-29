@@ -1,6 +1,2 @@
-@media (min-width: 1280px) {
-  .image-thumb {
-    margin: 6em auto; } }
-
 :-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
   background: black; }

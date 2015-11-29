@@ -99,9 +99,18 @@ pre.sample {
   max-width: 100%;
   max-height: 100%;
   padding: 0px;
-  margin: 4.8em auto; }
+  margin: 4.5em auto; }
   .image-thumb a {
     color: #333333; }
+  @media (min-width: 768px) {
+    .image-thumb {
+      margin: 5.1em auto; } }
+  @media (min-width: 1280px) {
+    .image-thumb {
+      margin: 6em auto; } }
+  @media (min-width: 1600px) {
+    .image-thumb {
+      margin: 7.5em auto; } }
   .image-thumb .image {
     display: inline-block;
     position: relative;

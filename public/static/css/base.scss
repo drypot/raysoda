@@ -158,7 +158,16 @@ pre.sample {
   max-width: 100%;
   max-height: 100%;
   padding: 0px;
-  margin: $margin * 1.6 auto;
+  margin: $margin * 1.5 auto;
+  @include tablet {
+    margin: $margin * 1.7 auto;
+  }
+  @include desktop {
+    margin: $margin * 2 auto;
+  }
+  @include wide-desktop {
+    margin: $margin * 2.5 auto;
+  }
   .image {
     display: inline-block; // 자식 이미지 사이즈와 동일한 크기가 된다.
     position: relative; // fs-mark 를 절대 위치에 표시하려면 부모 엘리먼트가 relative position 이어야 한다.
