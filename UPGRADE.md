@@ -21,6 +21,10 @@
     sudo systemctl stop osoky
     sudo systemctl stop drypot
 
+혹시 systemd 설정 변경했으면
+
+    sudo systemctl daemon-reload
+
 ### 디비 백업
 
     sudo systemctl stop mongodb

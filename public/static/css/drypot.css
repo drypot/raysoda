@@ -1,8 +1,12 @@
-.image-thumb .image img {
-  width: 100%;
-  max-width: 100%;
-  max-height: none; }
+.image-thumb .image {
+  display: block; }
+  .image-thumb .image img {
+    width: 100%;
+    max-width: 100%;
+    max-height: none; }
 
-.image-full img {
-  width: 100%;
-  max-width: 100%; }
+.image-full .image {
+  display: block; }
+  .image-full .image img {
+    width: 100%;
+    max-width: 100%; }

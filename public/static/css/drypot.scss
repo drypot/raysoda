@@ -2,6 +2,7 @@
 
 .image-thumb {
   .image {
+    display: block;
     img {
       width: 100%; // for svg on safari
       max-width: 100%; // for mobile
@@ -11,8 +12,11 @@
 }
 
 .image-full {
-  img {
-    width: 100%;
-    max-width: 100%;
+  .image {
+    display: block;
+    img {
+      width: 100%;
+      max-width: 100%;
+    }
   }
 }
