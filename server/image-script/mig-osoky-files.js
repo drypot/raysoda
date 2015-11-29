@@ -1,7 +1,5 @@
 var exec = require('child_process').exec;
 var fs = require('fs');
-var tds = require('tedious');
-var types = tds.TYPES;
 
 var init = require('../base/init');
 var config = require('../base/config');
@@ -40,14 +38,14 @@ var maxWidth = 1080;
 
 function doIt(id, done) {
   var src = config.uploadDir + '/public-old/images/' + fs2.makeDeepPath(id, 3) + '/' + id + '-org.jpeg';
-  console.log(src);
   fs.access(src, function (err) {
     if (err) return done();
+    console.log(src);
     imageb.checkImageMeta(src, function (err, meta) {
       if (err) return done(err);
       fs2.makeDir(imageb.getDir(id), function (err) {
         if (err) return done(err);
-        var shorter = meta.shorter * 299 / 320;
+        var shorter = meta.shorter * 299 / 320; // 구 버젼에선 (20 / 320) % 만큼 여백이 있었다. 이것을 깍아 삭제. 
         var max = shorter < maxWidth ? shorter : maxWidth;
         var r = (max - 1) / 2;
         var cmd = 'convert ' + src;
