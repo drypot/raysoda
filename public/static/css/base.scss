@@ -98,6 +98,17 @@ pre.sample {
   text-align: left;
 }
 
+// table
+
+.basic-table {
+  table {
+    margin: 0 auto;
+    td {
+      padding: 0px 20px;
+    }
+  }
+}
+
 // home
 
 .site-name {
@@ -240,15 +251,3 @@ pre.sample {
 #profile-text {
   white-space: pre-line;
 }
-
-// table
-
-.basic-table {
-  table {
-    margin: 0 auto;
-    td {
-      padding: 0px 20px;
-    }
-  }
-}
-

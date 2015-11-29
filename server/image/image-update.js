@@ -40,7 +40,7 @@ expb.core.put('/api/images/:id([0-9]+)', expu.handler(function (req, res, done) 
           if (err) return done(err);
           // 파일, 디렉토리 삭제는 하지 않고 그냥 덮어쓴다.
           // 삭제할 때 파일 없을 경우 에러나는 등 부작용 가능성.
-          imageb.saveImage(id, upload, meta, function (err, vers) {
+          imageb.saveImage(id, upload.path, meta, function (err, vers) {
             if (err) return done(err);
             next({}, meta, vers);
           });

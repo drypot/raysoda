@@ -40,20 +40,20 @@ imageb.checkImageMeta = function (path, done) {
   });
 };
 
-imageb.saveImage = function (id, upload, meta, done) {
+imageb.saveImage = function (id, src, meta, done) {
   fs2.makeDir(imageb.getDir(id), function (err) {
     if (err) return done(err);
     var shorter = meta.shorter;
     var max = shorter < maxWidth ? shorter : maxWidth;
-    var r = (max / 2) >> 0;
-    var cmd = 'convert ' + upload.path;
+    var r = (max - 1) / 2;
+    var cmd = 'convert ' + src;
     cmd += ' -quality 92';
     cmd += ' -gravity center';
     cmd += ' -auto-orient';
     cmd += ' -crop ' + shorter + 'x' + shorter + '+0+0';
-    //cmd += ' +repage'
+    cmd += ' +repage'; // gif 등에 버추얼 캔버스 개념이 있는데 jpeg 으로 출력하더라고 메타 데이터 소거를 위해 crop 후 repage 하는 것이 좋다.
     cmd += ' -resize ' + max + 'x' + max + '\\>';
-    cmd += ' \\( -size ' + max + 'x' + max + ' xc:black -fill white -draw "circle ' + r + ',' + r + ' ' + r + ',1" \\)'
+    cmd += ' \\( -size ' + max + 'x' + max + ' xc:black -fill white -draw "circle ' + r + ',' + r + ' ' + r + ',0" \\)'
     cmd += ' -alpha off -compose CopyOpacity -composite'
     //cmd += ' \\( +clone -alpha opaque -fill white -colorize 100% \\)'
     //cmd += ' +swap -geometry +0+0 -compose Over -composite -alpha off'

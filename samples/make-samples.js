@@ -34,17 +34,19 @@ function saveImage(next) {
     var v = _vers[i++];
     var w = v.width;
     var h = v.height;
+    var lx = w - 1;
+    var ly = h - 1;
     var cmd = '';
     cmd += 'convert -size ' + w + 'x' + h + ' xc:#c0c0c0';
     cmd += ' -fill "#c0c0c0" -stroke "#303030" '
     if (w > h) {
-      cmd += ' -draw "circle ' + w / 2 + ', ' + h / 2 + ', ' + w / 2 + ', 0"';
-      cmd += ' -draw "circle ' + w / 2 + ', ' + h / 2 + ', ' + w / 2 + ', ' + h / 4 + '"';
+      cmd += ' -draw "circle ' + lx / 2 + ', ' + ly / 2 + ', ' + lx / 2 + ', 0"';
+      cmd += ' -draw "circle ' + lx / 2 + ', ' + ly / 2 + ', ' + lx / 2 + ', ' + ly / 4 + '"';
     } else {
-      cmd += ' -draw "circle ' + w / 2 + ', ' + h / 2 + ', ' + '0, ' + h / 2 + '"';
-      cmd += ' -draw "circle ' + w / 2 + ', ' + h / 2 + ', ' + w / 4 + ', ' + h / 2 + '"';
+      cmd += ' -draw "circle ' + lx / 2 + ', ' + ly / 2 + ', ' + '0, ' + ly / 2 + '"';
+      cmd += ' -draw "circle ' + lx / 2 + ', ' + ly / 2 + ', ' + lx / 4 + ', ' + ly / 2 + '"';
     }
-    cmd += ' -draw "line 0,0 ' + (w - 1) + ',' + (h - 1) + ' line 0,' + (h - 1) + ' ' + (w - 1) + ',0"';
+    cmd += ' -draw "line 0,0 ' + lx + ',' + ly + ' line 0,' + ly + ' ' + lx + ',0"';
     cmd += ' -quality 92 samples/' + w + 'x' + h + '.jpg';
     console.log(cmd);
     exec(cmd, function (err) {

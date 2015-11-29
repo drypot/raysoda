@@ -45,7 +45,7 @@ expb.core.post('/api/images', expu.handler(function (req, res, done) {
           imageb.checkImageMeta(upload.path, function (err, meta) {
             if (err) return done(err);
             var id = imageb.getNewId();
-            imageb.saveImage(id, upload, meta, function (err, vers) {
+            imageb.saveImage(id, upload.path, meta, function (err, vers) {
               if (err) return done(err);
               var image = {
                 _id: id,

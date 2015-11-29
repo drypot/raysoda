@@ -6,7 +6,9 @@ var config = require('../base/config');
 var mongo2 = require('../base/mongo2');
 var imageb = require('../image/image-base');
 
-/* 
+/*
+  사진 코멘트 부분을 추가적으로 변경하는 것이 좋겠다.
+
   $ node server/mig-raysoda/mig-image-comment.js -c config/mig-1-dev.json 1 10
 */
 

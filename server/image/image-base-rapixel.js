@@ -58,10 +58,10 @@ imageb.checkImageMeta = function (path, done) {
   });
 };
 
-imageb.saveImage = function (id, upload, meta, done) {
+imageb.saveImage = function (id, src, meta, done) {
   fs2.makeDir(imageb.getDir(id), function (err) {
     if (err) return done(err);
-    var cmd = 'convert ' + upload.path;
+    var cmd = 'convert ' + src;
     cmd += ' -quality 92';
     cmd += ' -gravity center';
 

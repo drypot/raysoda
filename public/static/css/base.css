@@ -47,6 +47,11 @@ pre.sample {
   margin: 0 auto;
   text-align: left; }
 
+.basic-table table {
+  margin: 0 auto; }
+  .basic-table table td {
+    padding: 0px 20px; }
+
 .site-name {
   margin: 0.6em auto;
   font-size: 1.3em; }
@@ -145,8 +150,3 @@ pre.sample {
 
 #profile-text {
   white-space: pre-line; }
-
-.basic-table table {
-  margin: 0 auto; }
-  .basic-table table td {
-    padding: 0px 20px; }
