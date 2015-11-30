@@ -42,7 +42,7 @@ block content
       .image
         a(href='/images/' + image._id)
           img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
-      - var c = image.comment.split('\n', 1)[0].trim(); // trim 해야 \r 이 날아간다.
+      - var c = image.comment.split(/\r\n|\n/, 1)[0];
       if c
         .comment= c
       .uname
