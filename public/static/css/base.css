@@ -133,7 +133,8 @@ pre.sample {
   font-size: 1.8em;
   padding: 0.2em;
   color: white;
-  opacity: 0.6; }
+  opacity: 0.6;
+  cursor: pointer; }
 
 .image-full {
   max-width: 100%;
