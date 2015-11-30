@@ -8,7 +8,8 @@ $(function () {
   function addFsHandler($list) {
     $list.each(function () {
       var $image = $(this);
-      var $fs = $('<i class="fa fa-expand fs-icon"></i>').click(function () {
+      var $fs = $('<i class="fa fa-expand fs-icon"></i>');
+      $fs.click(function () {
         var $img = $image.find('img').eq(0); 
         var baseUrl = $img.attr('src').split('-',1)[0];
         var vers = $img.attr('data-vers').split(',');

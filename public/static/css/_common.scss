@@ -1,6 +1,3 @@
-$tablet-width: 768px;
-$desktop-width: 1280px;
-
 $color: #333;
 $dim-color: lighten($color, 50%);
 $line-color: lighten($color, 70%);
@@ -17,13 +14,13 @@ $form-width: 480px;
 }
 
 @mixin desktop {
-  @media (min-width: 1280px) {
+  @media (min-width: 1024px) {
     @content;
   }
 }
 
 @mixin wide-desktop {
-  @media (min-width: 1600px) {
+  @media (min-width: 1400px) {
     @content;
   }
 }

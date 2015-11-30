@@ -10,6 +10,9 @@ html {
   @include desktop {
     font-size: 18px;
   }
+  @include wide-desktop {
+    font-size: 20px;
+  }
 }
 
 body {
@@ -165,7 +168,7 @@ pre.sample {
     margin: $margin * 2 auto;
   }
   @include wide-desktop {
-    margin: $margin * 2.5 auto;
+    margin: $margin * 2.3 auto;
   }
   .image {
     max-width: 100%; // ie 는 중간 모든 div 에 max-width 가 있어야한다.
