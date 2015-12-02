@@ -1,6 +1,6 @@
 
 $(function () {
-  window.imagel = {};
+  window.cimage = {};
 
   var fs = appNamel == 'rapixel' && fullscreen.enabled;
   var screenWidth = window.screen.width * (window.devicePixelRatio || 1);
@@ -38,7 +38,7 @@ $(function () {
     }
   });
 
-  imagel.initList = function () {
+  cimage.initList = function () {
     sessionStorage.setItem('last-list-url', location);
     $('.image-thumb .comment').each(function () {
       var $this = $(this);
@@ -49,7 +49,7 @@ $(function () {
     }
   };
 
-  imagel.initNew = function () {
+  cimage.initNew = function () {
     var $form = formty.getForm('form.main');
     $form.$send.click(function (err, res) {
       formty.post('/api/images', $form, function () {
@@ -59,7 +59,7 @@ $(function () {
     });
   };
 
-  imagel.initUpdate = function (image) {
+  cimage.initUpdate = function (image) {
     var $form = formty.getForm('form.main');
     $form.$send.click(function (err, res) {
       formty.put('/api/images/' + image._id, $form, function () {
@@ -72,7 +72,7 @@ $(function () {
     });
   };
 
-  imagel.initView = function (image) {
+  cimage.initView = function (image) {
     $('.image-full img').click(function () {
       history.back();
       return false;

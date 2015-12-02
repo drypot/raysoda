@@ -1,7 +1,7 @@
 $(function () {
-  window.userl = {};
+  window.cuser = {};
 
-  userl.initLogin = function () {
+  cuser.initLogin = function () {
     var $form = formty.getForm('form.main');
     $form.$email.focus();
     $form.$send.click(function () {
@@ -13,7 +13,7 @@ $(function () {
     });
   };
 
-  userl.logout = function () {
+  cuser.logout = function () {
     request.post('/api/users/logout').end(function (err, res) {
       err = err || res.body.err;
       if (err) return showError(err);
@@ -22,7 +22,7 @@ $(function () {
     });
   };
 
-  userl.initRegister = function () {
+  cuser.initRegister = function () {
     var $form = formty.getForm('form.main');
     $form.$send.click(function () {
       formty.post('/api/users', $form, function () {
@@ -32,7 +32,7 @@ $(function () {
     });
   };
 
-  userl.initResetPassStep1 = function () {
+  cuser.initResetPassStep1 = function () {
     var $form = formty.getForm('form.main');
     $form.$email.focus();
     $form.$send.click(function () {
@@ -43,7 +43,7 @@ $(function () {
     });
   };
 
-  userl.initResetPassStep3 = function () {
+  cuser.initResetPassStep3 = function () {
     var $form = formty.getForm('form.main');
     $form.$password.focus();
     $form.$send.click(function () {
@@ -54,14 +54,14 @@ $(function () {
     });
   };
 
-  userl.initProfile = function () {
+  cuser.initProfile = function () {
     var $profile = $('#profile-text');
     if ($profile.length) {
       $profile.html(tagUpText($profile.html()));
     }
   };
 
-  userl.initUpdateProfileForm = function () {
+  cuser.initUpdateProfileForm = function () {
     var $form = formty.getForm('form.main');
     var uid = url.pathnames[1];
     $('#domain-url').text(location.origin + '/');
@@ -73,7 +73,7 @@ $(function () {
     });
   };
 
-  userl.initDeactivate = function () {
+  cuser.initDeactivate = function () {
     $('#dea-btn').click(function () {
       $('#dea-confirm-btn').removeClass('hide');
       return false;
@@ -88,7 +88,7 @@ $(function () {
     });
   };
 
-  userl.initUserList = function () {
+  cuser.initUserList = function () {
     var $form = formty.getForm('form.main');
     var $result = $('#result');
     $form.$send.click(function () {
