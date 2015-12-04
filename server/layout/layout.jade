@@ -43,6 +43,9 @@ html
           li: a(href='/about/ad') Advertise
           li: a(href='/about/privacy') Privacy
           li: a(href='/about/help') Help
+      if appNamel == 'raysoda'
+        .sponsor
+          a(href='/api/counters/adng/inc?r=http://www.nationalgeographic.co.kr' target='_blank') National Geographic
       .site-name
         a(href='/') #{appName}
 

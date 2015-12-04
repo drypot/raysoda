@@ -97,6 +97,9 @@ pre.sample {
       margin: 0px; }
       .page-footer .about-list ul li {
         padding: 0 5px; }
+  .page-footer .sponsor {
+    margin: 0.6em auto;
+    font-size: 1.1em; }
 
 .image-thumb {
   max-width: 100%;

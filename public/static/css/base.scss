@@ -97,11 +97,11 @@ pre.sample {
 // home
 
 .site-name {
-  margin: $margin * 0.2 auto;
+  margin: 0.6em auto;
+  font-size: 1.3em;
   a:hover {
     text-decoration: none;
   }
-  font-size: 1.3em;
 }
 
 .page-header {
@@ -138,13 +138,17 @@ pre.sample {
   border-top-style: solid;
   border-top-width: 1px;
   .about-list {
-    margin: $margin * 0.1 auto;
+    margin: 0.3em auto;
     ul {
       margin: 0px;
       li {
         padding: 0 5px;
       }
     }
+  }
+  .sponsor {
+    margin: 0.6em auto;
+    font-size: 1.1em;
   }
 }
 
