@@ -1,5 +1,13 @@
 @import "_common";
 
+.image-thumb {
+  .image {
+    img {
+      max-height: 100vh;
+    }
+  }
+}
+
 //.image-full {
 //  @media (min-width: 2160px) {
 //    margin: $margin * 1.5 auto;
