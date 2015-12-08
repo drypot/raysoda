@@ -122,8 +122,8 @@ describe('post /api/images', function () {
           expect(image.comment).equal('h image');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
             expect(err).not.exist;
-            expect(meta.width <= 1080).true;
-            expect(meta.height <= 1080).true;
+            expect(meta.width <= imageb.maxWidth).true;
+            expect(meta.height <= imageb.maxWidth).true;
             done();
           });
         });
@@ -149,8 +149,8 @@ describe('post /api/images', function () {
           expect(image.comment).equal('v image');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
             expect(err).not.exist;
-            expect(meta.width <= 1080).true;
-            expect(meta.height <= 1080).true;
+            expect(meta.width <= imageb.maxWidth).true;
+            expect(meta.height <= imageb.maxWidth).true;
             done();
           });
         });

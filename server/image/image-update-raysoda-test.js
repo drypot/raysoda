@@ -40,8 +40,8 @@ describe('put /api/images/id', function () {
           expect(image.comment).equal('image1');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
             expect(err).not.exist;
-            expect(meta.width).equal(1080);
-            expect(meta.height).equal(608);
+            expect(meta.width).equal(imageb.maxWidth);
+            expect(meta.height).below(imageb.maxWidth);
             expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/1440x2560.jpg').end(function (err, res) {
               expect(err).not.exist;
               expect(res.body.err).not.exist;
@@ -52,8 +52,8 @@ describe('put /api/images/id', function () {
                 expect(image.comment).equal('image2');
                 imageb.identify(imageb.getPath(_id), function (err, meta) {
                   expect(err).not.exist;
-                  expect(meta.width).equal(608);
-                  expect(meta.height).equal(1080);
+                  expect(meta.width).below(imageb.maxWidth);
+                  expect(meta.height).equal(imageb.maxWidth);
                   done();
                 });
               });

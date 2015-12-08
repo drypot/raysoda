@@ -6,7 +6,7 @@ var fs2 = require('../base/fs2');
 var config = require('../base/config');
 var imageb = require('../image/image-base');
 
-var maxWidth = 1080;
+imageb.maxWidth = 2160;
 
 function getDepth(id) {
   return fs2.makeDeepPath((id / 1000) >> 0, 2);
@@ -46,7 +46,7 @@ imageb.saveImage = function (id, src, meta, done) {
     var cmd = 'convert ' + src;
     cmd += ' -quality 92';
     cmd += ' -auto-orient';
-    cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>';
+    cmd += ' -resize ' + imageb.maxWidth + 'x' + imageb.maxWidth + '\\>';
     cmd += ' ' + imageb.getPath(id);
     exec(cmd, function (err) {
       done(err, null);
