@@ -15,10 +15,11 @@ $(function () {
         var vers = $img.attr('data-vers').split(',');
         var ver;
         var i = 0;
+        var minWidth = Math.max(screenWidth, 2560); // rapixel 섬네일 사이즈가 2560
         do {
           ver = vers[i];
           i++;
-        } while (i < vers.length && vers[i] >= screenWidth);
+        } while (i < vers.length && vers[i] >= minWidth);
         var $fsImg = $('<img>').attr('src', baseUrl + '-' + ver + '.jpg');
         var $fs = $('#fullscreen');
         $fsImg.click(function () {
