@@ -182,7 +182,7 @@ pre.sample {
     img {
       max-width: 100%; // inherit 안 됨. img 태그에 적용해야 화면 밖으로 나가지 않는다.
       //max-height: 100%; // 크롬에서는 작동하지 않음
-      max-height: 100vh;
+      //max-height: 100vh; // rapixel 에서 풀스크린했다가 돌아오면 부작용. 사이트별 css 로 옮긴다.
     }
   }
   .comment {

@@ -122,8 +122,7 @@ pre.sample {
     position: relative;
     margin-bottom: 0.6em; }
     .image-thumb .image img {
-      max-width: 100%;
-      max-height: 100vh; }
+      max-width: 100%; }
   .image-thumb .comment {
     max-width: 640px;
     margin: 0 auto;
