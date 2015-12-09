@@ -182,7 +182,7 @@ pre.sample {
     img {
       max-width: 100%; // inherit 안 됨. img 태그에 적용해야 화면 밖으로 나가지 않는다.
       //max-height: 100%; // 크롬에서는 작동하지 않음
-      //max-height: 100vh; // IE 11, 크롬에서 모두 작동하는데 디자인상 일단 유보
+      max-height: 100vh;
     }
   }
   .comment {

@@ -6,7 +6,7 @@ var fs2 = require('../base/fs2');
 var config = require('../base/config');
 var imageb = require('../image/image-base');
 
-imageb.maxWidth = 2160;
+imageb.maxWidth = 2048;
 
 function getDepth(id) {
   return fs2.makeDeepPath((id / 1000) >> 0, 2);

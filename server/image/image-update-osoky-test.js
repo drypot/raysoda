@@ -43,7 +43,7 @@ describe('put /api/images/id', function () {
             expect(err).not.exist;
             expect(meta.width).equal(720);
             expect(meta.height).equal(720);
-            expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/1440x2560.jpg').end(function (err, res) {
+            expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/4096x2304.jpg').end(function (err, res) {
               expect(err).not.exist;
               expect(res.body.err).not.exist;
               imageb.images.findOne({ _id: _id }, function (err, image) {
@@ -53,8 +53,8 @@ describe('put /api/images/id', function () {
                 expect(image.comment).equal('image2');
                 imageb.identify(imageb.getPath(_id), function (err, meta) {
                   expect(err).not.exist;
-                  expect(meta.width).equal(1080);
-                  expect(meta.height).equal(1080);
+                  expect(meta.width).equal(imageb.maxWidth);
+                  expect(meta.height).equal(imageb.maxWidth);
                   done();
                 });
               });

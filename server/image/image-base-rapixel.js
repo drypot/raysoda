@@ -43,7 +43,7 @@ imageb.getDirUrl = function (id) {
 };
 
 imageb.getThumbUrl = function (id) {
-  return imageb.imageUrl + '/' + getDepth(id) + '/' + id + '-1280.jpg';
+  return imageb.imageUrl + '/' + getDepth(id) + '/' + id + '-2560.jpg';
 };
 
 imageb.checkImageMeta = function (path, done) {

@@ -46,7 +46,7 @@ describe('post /api/images', function () {
       imageb.images.deleteMany(done);
     });
     it('should succeed', function (done) {
-      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/2560x1440.jpg').end(function (err, res) {
+      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/4096x2304.jpg').end(function (err, res) {
         expect(err).not.exist;
         expect(res.body.err).not.exist;
         expect(res.body.ids).exist;
@@ -60,8 +60,8 @@ describe('post /api/images', function () {
           expect(image.comment).equal('image1');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
             expect(err).not.exist;
-            expect(meta.width).equal(1080);
-            expect(meta.height).equal(1080);
+            expect(meta.width).equal(imageb.maxWidth);
+            expect(meta.height).equal(imageb.maxWidth);
             done();
           });
         });
