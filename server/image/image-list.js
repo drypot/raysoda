@@ -78,12 +78,11 @@ function getDeep(images, done) {
   } else {
     var opt = { 
       sort: { cdate: 1 }, 
-      limit: 1, 
-      fields: { _id: 1 }
+      limit: 1
     };
     imageb.images.findOne({ cdate: { $gte : dndate }}, opt, function (err, doc) {
       if (err) return done(err);
-      if (doc) {
+      if (doc && doc.cdate.getFullYear() == dyear) {
         dlt = doc._id;
         dltMap.set(ddateStr, dlt);
       }
