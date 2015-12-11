@@ -19,7 +19,10 @@ var imageId;
 
 init.add(function (done) {
   imageb.images = mongo2.db.collection('images');
-  imageb.images.createIndex({ uid: 1, _id: -1 }, done);
+  imageb.images.createIndex({ uid: 1, _id: -1 }, function (err) {
+    if (err) return done(err);
+    imageb.images.createIndex({ cdate: 1 }, done);
+  });
 });
 
 init.add(function (done) {

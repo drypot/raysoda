@@ -23,20 +23,27 @@ function list(req, res, api, done) {
   var ps = parseInt(req.query.ps) || 16;
   mongo2.findPage(imageb.images, {}, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);
-    if (api) {
-      res.json({
-        images: images,
-        gt: gt,
-        lt: lt
-      });
-    } else {
-     res.render('image/image-list', {
-       images: images,
-       gt: gt ? new util2.UrlMaker('/').add('gt', gt).add('ps', ps, 16).done() : undefined,
-       lt: lt ? new util2.UrlMaker('/').add('lt', lt).add('ps', ps, 16).done() : undefined,
-       banners: bannerb.banners
-     });
-    }
+    getDeep(images, function (err, dyear, dlt) {
+      if (err) return done(err);
+      if (api) {
+        res.json({
+          images: images,
+          gt: gt,
+          lt: lt,
+          dyear, dyear,
+          dlt: dlt
+        });
+      } else {
+        res.render('image/image-list', {
+          images: images,
+          gt: gt ? new util2.UrlMaker('/').add('gt', gt).add('ps', ps, 16).done() : undefined,
+          lt: lt ? new util2.UrlMaker('/').add('lt', lt).add('ps', ps, 16).done() : undefined,
+          dyear: dyear,
+          dlt: dlt ? new util2.UrlMaker('/').add('lt', dlt).add('ps', ps, 16).done() : undefined,
+          banners: bannerb.banners
+        });
+      }
+    });
   });
 }
 
@@ -52,4 +59,35 @@ function filter(image, done) {
     image.cdateStr = util2.dateTimeString(image.cdate);
     done(null, image);
   });
+}
+
+var dltMap = new Map();
+
+function getDeep(images, done) {
+  if (!images.length) {
+    return done(null, undefined, undefined);
+  }
+  var now = new Date();
+  var dyear = images[0].cdate.getFullYear() - 1;
+  var ddate = new Date(ddate, now.getMonth(), now.getDate());
+  var dndate = new Date(ddate, now.getMonth(), now.getDate() + 1);
+  var ddateStr = util2.dateStringNoDash(ddate);
+  var dlt = dltMap.get(ddateStr);
+  if (dlt) {
+    done(null, dyear, dlt);
+  } else {
+    var opt = { 
+      sort: { cdate: 1 }, 
+      limit: 1, 
+      fields: { _id: 1 }
+    };
+    imageb.images.findOne({ cdate: { $gte : dndate }}, opt, function (err, doc) {
+      if (err) return done(err);
+      if (doc) {
+        dlt = doc._id;
+        dltMap.set(ddateStr, dlt);
+      }
+      done(null, dyear, dlt);
+    });
+  }
 }
