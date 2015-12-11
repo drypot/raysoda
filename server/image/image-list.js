@@ -69,8 +69,8 @@ function getDeep(images, done) {
   }
   var now = new Date();
   var dyear = images[0].cdate.getFullYear() - 1;
-  var ddate = new Date(ddate, now.getMonth(), now.getDate());
-  var dndate = new Date(ddate, now.getMonth(), now.getDate() + 1);
+  var ddate = new Date(dyear, now.getMonth(), now.getDate());
+  var dndate = new Date(dyear, now.getMonth(), now.getDate() + 1);
   var ddateStr = util2.dateStringNoDash(ddate);
   var dlt = dltMap.get(ddateStr);
   if (dlt) {
