@@ -1,8 +1,9 @@
 var mongo = require('mongodb');
-var expect = require('../base/assert2').expect;
 
 var init = require('../base/init');
 var config = require('../base/config');
+var util2 = require('../base/util2');
+var expect = require('../base/assert2').expect;
 
 var opt = {};
 
@@ -66,7 +67,7 @@ mongo2.values.update = function (id, value, done) {
 
 mongo2.findPage = function (col, query, opt, gt, lt, ps, filter, done) {
   
-  readPage(getCursor());
+  readDocs(getCursor());
 
   function getCursor() {
     if (lt) {
@@ -82,44 +83,43 @@ mongo2.findPage = function (col, query, opt, gt, lt, ps, filter, done) {
     return col.find(query, opt);
   }
 
-  function readPage(cursor) {
+  function readDocs(cursor) {
     var results = [];
     var count = 0, first = 0, last = 0;
 
     (function read() {
-      cursor.nextObject(function (err, result) {
+      cursor.nextObject(function (err, doc) {
         if (err) return done(err);
-        if (result) {
+        if (doc) {
           count++;
           if (count > ps) {
             return returnPage(true);
           }
-          if (!first) first = result._id;
-          last = result._id;
-          if (filter) {
-            filter(result, function (err, result) {
+          if (!first) first = doc._id;
+          last = doc._id;
+          util2.fif(filter, function (next) {
+            filter(doc, function (err, doc) {
               if (err) return done(err);
-              if (result) fillResults(result);
-              setImmediate(read);
+              next(doc);
             });
-          } else {
-            fillResults(result);
+          }, function (next) {
+            next(doc);
+          }, function (doc) {
+            if (doc) {
+              if (gt) {
+                results.unshift(doc);
+              } else {
+                results.push(doc);
+              }
+            }
             setImmediate(read);
-          }
-          return;
+          });
+        } else {
+          returnPage(false);
         }
-        returnPage(false);
       });
     })();
 
-    function fillResults(result) {
-      if (gt) {
-        results.unshift(result);
-      } else {
-        results.push(result);
-      }
-    }
-    
     function returnPage(more) {
       if (gt) {
         gt = more ? last : 0;
@@ -134,7 +134,6 @@ mongo2.findPage = function (col, query, opt, gt, lt, ps, filter, done) {
       done(null, results, gt, lt);
     }
   }
-
 };
 
 mongo2.forEach = function (col, doit, done) {
