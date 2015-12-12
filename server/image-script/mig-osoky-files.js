@@ -37,7 +37,7 @@ init.main(function (done) {
 var maxWidth = 1080;
 
 function doIt(id, done) {
-  var src = config.uploadDir + '/public-old/images/' + fs2.makeDeepPath(id, 3) + '/' + id + '-org.jpeg';
+  var src = config.uploadDir + '/public-old/images/' + fs2.makeDeepPath(id, 3) + '/' + id + '-org.png';
   fs.access(src, function (err) {
     if (err) return done();
     console.log(src);
