@@ -25,8 +25,8 @@ expb.core.get('/:name([^/]+)', function (req, res, done) {
 
 function profile(req, res, tuser) {
   var user = res.locals.user;
-  var lt = parseInt(req.query.lt) || 0;
-  var gt = lt ? 0 : parseInt(req.query.gt) || 0;
+  var lt = parseInt(req.query.lt);
+  var gt = parseInt(req.query.gt);
   var ps = parseInt(req.query.ps) || 16;
   var query = { uid: tuser.id };
   mongo2.findPage(imageb.images, { uid: tuser._id }, {}, gt, lt, ps, filter, function (err, images, gt, lt) {

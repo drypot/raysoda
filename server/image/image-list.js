@@ -18,8 +18,8 @@ expb.core.get('/api/images', function (req, res, done) {
 });
 
 function list(req, res, api, done) {
-  var lt = parseInt(req.query.lt) || 0;
-  var gt = lt ? 0 : parseInt(req.query.gt) || 0;
+  var lt = parseInt(req.query.lt);
+  var gt = parseInt(req.query.gt);
   var ps = parseInt(req.query.ps) || 16;
   mongo2.findPage(imageb.images, {}, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);

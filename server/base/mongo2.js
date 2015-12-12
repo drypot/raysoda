@@ -1,3 +1,5 @@
+'use strict';
+
 var mongo = require('mongodb');
 
 var init = require('../base/init');
@@ -66,74 +68,63 @@ mongo2.values.update = function (id, value, done) {
 // _id 를 숫자로 쓰는 컬렉션만 페이징할 수 있다.
 
 mongo2.findPage = function (col, query, opt, gt, lt, ps, filter, done) {
-  
-  readDocs(getCursor());
-
-  function getCursor() {
-    if (lt) {
+  let gtPage = !isNaN(gt);
+  let ltPage = !gtPage && !isNaN(lt);
+  if (gtPage) {
+    query._id = { $gt: gt };
+    opt.sort = { _id: 1 };
+  } else {
+    opt.sort = { _id: -1 };
+    if (ltPage) {
       query._id = { $lt: lt };
-      opt.sort = { _id: -1 };
-    } else if (gt) {
-      query._id = { $gt: gt };
-      opt.sort = { _id: 1 };
-    } else {
-      opt.sort = { _id: -1 };
     }
-    opt.limit = ps + 1;
-    return col.find(query, opt);
   }
-
-  function readDocs(cursor) {
-    var results = [];
-    var count = 0, first = 0, last = 0;
-
-    (function read() {
-      cursor.nextObject(function (err, doc) {
-        if (err) return done(err);
-        if (doc) {
-          count++;
-          if (count > ps) {
-            return returnPage(true);
-          }
-          if (!first) first = doc._id;
-          last = doc._id;
-          util2.fif(filter, function (next) {
-            filter(doc, function (err, doc) {
-              if (err) return done(err);
-              next(doc);
-            });
-          }, function (next) {
-            next(doc);
-          }, function (doc) {
-            if (doc) {
-              if (gt) {
-                results.unshift(doc);
-              } else {
-                results.push(doc);
-              }
-            }
-            setImmediate(read);
-          });
+  opt.limit = ps + 1;
+  let cursor = col.find(query, opt);
+  let results = [];
+  let count = 0, first, last;
+  (function read() {
+    cursor.nextObject(function (err, doc) {
+      if (err) return done(err);
+      let full = count == ps;
+      if (!doc || full) {
+        let more = full && !!doc;
+        let rgt, rlt;
+        if (gtPage) {
+          rgt = more ? last : undefined;
+          rlt = gt !== 0 ? first : undefined;
+        } else if (ltPage) {
+          rgt = first;
+          rlt = more ? last : undefined;
         } else {
-          returnPage(false);
+          rgt = undefined;
+          rlt = more ? last : undefined;
         }
-      });
-    })();
-
-    function returnPage(more) {
-      if (gt) {
-        gt = more ? last : 0;
-        lt = first;
-      } else if (lt) {
-        gt = first;
-        lt = more ? last : 0;
+        done(null, results, rgt, rlt);
       } else {
-        gt = 0;
-        lt = more ? last : 0;
+        count++;
+        if (!first) first = doc._id;
+        last = doc._id;
+        util2.fif(filter, function (next) {
+          filter(doc, function (err, doc) {
+            if (err) return done(err);
+            next(doc);
+          });
+        }, function (next) {
+          next(doc);
+        }, function (doc) {
+          if (doc) {
+            if (gtPage) {
+              results.unshift(doc);
+            } else {
+              results.push(doc);
+            }
+          }
+          setImmediate(read);
+        });
       }
-      done(null, results, gt, lt);
-    }
-  }
+    });
+  })();
 };
 
 mongo2.forEach = function (col, doit, done) {

@@ -65,38 +65,46 @@ describe('.findPage', function () {
   var col;
   before(function (done) {
     col = mongo2.db.collection('testpaging');
-    var list = [];
-    for (var i = 0; i < 10; i++) {
-      list.push({ _id: i + 1, f1: 'f1', f2: 'f2' });
-    };
+    var list = [
+      { _id: 1,  a: 'a', b: 'b' },
+      { _id: 2,  a: 'a', b: 'b' },
+      { _id: 3,  a: 'a', b: 'b' },
+      { _id: 4,  a: 'a', b: 'b' },
+      { _id: 5,  a: 'a', b: 'b' },
+      { _id: 6,  a: 'a', b: 'b' },
+      { _id: 7,  a: 'a', b: 'b' },
+      { _id: 8,  a: 'a', b: 'b' },
+      { _id: 9,  a: 'a', b: 'b' },
+      { _id: 10, a: 'a', b: 'b' }
+    ];
     col.insertMany(list, done);    
   });
   it('should succeed for page size 99', function (done) {
-    mongo2.findPage(col, {}, {}, 0, 0, 99, null, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, {}, undefined, undefined, 99, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r.length).equal(10);
       expect(r[0]._id).equal(10);
       expect(r[1]._id).equal(9);
       expect(r[2]._id).equal(8);
       expect(r[9]._id).equal(1);
-      expect(gt).equal(0);
-      expect(lt).equal(0);
+      expect(gt).undefined;
+      expect(lt).undefined;
       done();
     });
   });
   it('should succeed for page 1', function (done) {
-    mongo2.findPage(col, {}, {}, 0, 0, 4, null, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, {}, undefined, undefined, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(4);
       expect(r[0]._id).equal(10);
       expect(r[3]._id).equal(7);
-      expect(gt).equal(0);
+      expect(gt).undefined;
       expect(lt).equal(7);
       done();
     });
   });
-  it('should succeed with lt ', function (done) {
-    mongo2.findPage(col, {}, {}, 0, 7, 4, null, function (err, r, gt, lt) {
+  it('should succeed for next page ', function (done) {
+    mongo2.findPage(col, {}, {}, undefined, 7, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(4);
       expect(r[0]._id).equal(6);
@@ -106,19 +114,34 @@ describe('.findPage', function () {
       done();
     });
   });
-  it('should succeed for last page ', function (done) {
-    mongo2.findPage(col, {}, {}, 0, 3, 4, null, function (err, r, gt, lt) {
+  it('should succeed for next page (last page)', function (done) {
+    mongo2.findPage(col, {}, {}, undefined, 5, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
-      expect(r).length(2);
-      expect(r[0]._id).equal(2);
-      expect(r[1]._id).equal(1);
-      expect(gt).equal(2);
-      expect(lt).equal(0);
+      expect(r).length(4);
+      expect(r[0]._id).equal(4);
+      expect(r[1]._id).equal(3);
+      expect(r[2]._id).equal(2);
+      expect(r[3]._id).equal(1);
+      expect(gt).equal(4);
+      expect(lt).undefined;
       done();
     });
   });
-  it('should succeed with gt ', function (done) {
-    mongo2.findPage(col, {}, {}, 2, 0, 4, null, function (err, r, gt, lt) {
+  it('should succeed for last page (gt = 0)', function (done) {
+    mongo2.findPage(col, {}, {}, 0, undefined, 4, null, function (err, r, gt, lt) {
+      expect(err).not.exist;
+      expect(r).length(4);
+      expect(r[0]._id).equal(4);
+      expect(r[1]._id).equal(3);
+      expect(r[2]._id).equal(2);
+      expect(r[3]._id).equal(1);
+      expect(gt).equal(4);
+      expect(lt).undefined;
+      done();
+    });
+  });
+  it('should succeed for previous page', function (done) {
+    mongo2.findPage(col, {}, {}, 2, undefined, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(4);
       expect(r[0]._id).equal(6);
@@ -128,24 +151,24 @@ describe('.findPage', function () {
       done();
     });
   });
-  it('should succeed for first page', function (done) {
-    mongo2.findPage(col, {}, {}, 6, 0, 4, null, function (err, r, gt, lt) {
+  it('should succeed for previous page (first page)', function (done) {
+    mongo2.findPage(col, {}, {}, 6, undefined, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(4);
       expect(r[0]._id).equal(10);
       expect(r[3]._id).equal(7);
-      expect(gt).equal(0);
+      expect(gt).undefined;
       expect(lt).equal(7);
       done();
     });
   });
   it('should succeed with filter', function (done) {
-    mongo2.findPage(col, {}, {}, 0, 0, 5, filter, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, {}, undefined, undefined, 5, filter, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(2);
       expect(r[0]._id).equal(9);
       expect(r[1]._id).equal(7);
-      expect(gt).equal(0);
+      expect(gt).undefined;
       expect(lt).equal(6);
       done();
     });
@@ -154,13 +177,13 @@ describe('.findPage', function () {
     }
   });
   it('should succeed with opt', function (done) {
-    mongo2.findPage(col, {}, { fields: { _id: 1, f1: 1} }, 0, 0, 4, null, function (err, r, gt, lt) {
+    mongo2.findPage(col, {}, { fields: { _id: 1, a: 1} }, undefined, undefined, 4, null, function (err, r, gt, lt) {
       expect(err).not.exist;
       expect(r).length(4);
       expect(r[0]._id).exist;
-      expect(r[0].f1).exist;
-      expect(r[0].f2).not.exist;
-      expect(gt).equal(0);
+      expect(r[0].a).exist;
+      expect(r[0].b).not.exist;
+      expect(gt).undefined;
       expect(lt).equal(7);
       done();
     });
