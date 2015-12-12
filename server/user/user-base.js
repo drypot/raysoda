@@ -73,16 +73,16 @@ userb.checkPassword = function (pw, hash, cb) {
 
 // user cache
 
-var usersById = [];
-var usersByHome = {};
+var usersById = new Map;
+var usersByHome = new Map;
 
 userb.cache = function (user) {
-  usersById[user._id] = user;
-  usersByHome[user.homel] = user;
+  usersById.set(user._id, user);
+  usersByHome.set(user.homel, user);
 }
 
 userb.getCached = function (id, done) {
-  var user = usersById[id];
+  var user = usersById.get(id);
   if (user) {
     return done(null, user);
   }
@@ -95,7 +95,7 @@ userb.getCached = function (id, done) {
 };
 
 userb.getCachedByHome = function (homel, done) {
-  var user = usersByHome[homel];
+  var user = usersByHome.get(homel);
   if (user) {
     return done(null, user);
   }
@@ -111,15 +111,15 @@ userb.getCachedByHome = function (homel, done) {
 };
 
 userb.deleteCache = function (id) {
-  var user = usersById[id];
+  var user = usersById.get(id);
   if (user) {
-    delete usersById[id];
-    delete usersByHome[user.homel];
+    usersById.delete(id);
+    usersByHome.delete(user.homel);
   }
 }
 
 userb.resetCache = function () {
-  usersById = [];
-  usersByHome = {};
+  usersById = new Map;
+  usersByHome = new Map;
 }
 
