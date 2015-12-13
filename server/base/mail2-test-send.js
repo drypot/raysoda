@@ -1,3 +1,5 @@
+'use strict';
+
 var nodemailer = require('nodemailer');
 
 var transport = nodemailer.createTransport();

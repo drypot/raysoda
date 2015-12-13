@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 
 var init = require('../base/init');
@@ -66,12 +68,10 @@ describe('put /api/images/id', function () {
   });
   describe('updating with small image', function () {
     it('should fail', function (done) {
-      var form = {
-        _id: _id = imageb.getNewId(),
-        uid: userf.user1._id
-      };
-      imageb.images.insertOne(form, function (err) {
+      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/1280x720.jpg').end(function (err, res) {
         expect(err).not.exist;
+        expect(res.body.err).not.exist;
+        var _id = res.body.ids[0];
         expl.put('/api/images/' + _id).attach('files', 'samples/640x360.jpg').end(function (err, res) {
           expect(err).not.exist;
           expect(res.body.err).exist;

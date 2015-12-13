@@ -1,3 +1,5 @@
+'use strict';
+
 var init = require('../base/init');
 var expect = require('../base/assert2').expect;
 

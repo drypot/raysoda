@@ -1,3 +1,5 @@
+'use strict';
+
 var tds = require('tedious');
 
 var init = require('../base/init');

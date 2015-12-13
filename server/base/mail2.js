@@ -1,3 +1,5 @@
+'use strict';
+
 var nodemailer = require('nodemailer');
 
 var init = require('../base/init');

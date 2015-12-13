@@ -1,3 +1,5 @@
+'use strict';
+
 var init = require('../base/init');
 var config = require('../base/config');
 var mongo2 = require('../base/mongo2');

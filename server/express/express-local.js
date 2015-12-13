@@ -1,3 +1,5 @@
+'use strict';
+
 var superagent = require('superagent');
 
 var config = require('../base/config');

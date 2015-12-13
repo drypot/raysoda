@@ -1,3 +1,5 @@
+'use strict';
+
 var init = require('../base/init');
 var util2 = require('../base/util2');
 var error = require('../base/error');

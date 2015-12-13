@@ -1,3 +1,5 @@
+'use strict';
+
 var tokenize = require('../base/util2').tokenize;
 var expect = require('../base/assert2').expect;
 

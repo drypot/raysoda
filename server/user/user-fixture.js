@@ -1,3 +1,5 @@
+'use strict';
+
 var init = require('../base/init');
 var userb = require('../user/user-base');
 var usera = require('../user/user-auth');

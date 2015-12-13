@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 
 var init = require('../base/init');
@@ -31,32 +33,32 @@ describe('put /api/images/id', function () {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/5120x2880.jpg').end(function (err, res) {
         expect(err).not.exist;
         expect(res.body.err).not.exist;
-        expect(res.body.ids).exist;
-        expect(res.body.ids.length).equal(1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
           expect(err).not.exist;
           expect(image).exist;
-          expect(image.vers).eql([ 5120, 4096, 2560, 1920, 1280 ]);
-          expect(image.cdate).exist;
+          //expect(image.vers).eql([ 5120, 4096, 2560, 1920, 1280 ]);
+          expect(image.vers).eql([ 5120, 4096, 2560]);
           expect(image.comment).equal('image1');
-          expect(image.cdate).exist;
           expect(imageb.getPath(_id, 5120)).pathExist;
           expect(imageb.getPath(_id, 4096)).pathExist;
-          expect(imageb.getPath(_id, 1280)).pathExist;
-          expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/4096x2304.jpg').end(function (err, res) {
-            expect(err).not.exist;
-            expect(res.body.err).not.exist;
-            imageb.images.findOne({ _id: _id }, function (err, image) {
+          expect(imageb.getPath(_id, 2560)).pathExist;
+          fs2.emptyDir(imageb.getDir(_id), function (err) {
+            if (err) return done(err);
+            expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/4096x2304.jpg').end(function (err, res) {
               expect(err).not.exist;
-              expect(image).exist;
-              expect(image.vers).eql([ 4096, 2560, 1920, 1280 ]);
-              expect(image.cdate).exist;
-              expect(image.comment).equal('image2');
-              expect(imageb.getPath(_id, 5120)).not.pathExist;
-              expect(imageb.getPath(_id, 4096)).pathExist;
-              expect(imageb.getPath(_id, 1280)).pathExist;
-              done();
+              expect(res.body.err).not.exist;
+              imageb.images.findOne({ _id: _id }, function (err, image) {
+                expect(err).not.exist;
+                expect(image).exist;
+                //expect(image.vers).eql([ 4096, 2560, 1920, 1280 ]);
+                expect(image.vers).eql([ 4096, 2560 ]);
+                expect(image.comment).equal('image2');
+                expect(imageb.getPath(_id, 5120)).not.pathExist;
+                expect(imageb.getPath(_id, 4096)).pathExist;
+                expect(imageb.getPath(_id, 2560)).pathExist;
+                done();
+              });
             });
           });
         });
@@ -65,12 +67,10 @@ describe('put /api/images/id', function () {
   });
   describe('updating with small image', function () {
     it('should fail', function (done) {
-      var form = {
-        _id: _id = imageb.getNewId(),
-        uid: userf.user1._id
-      };
-      imageb.images.insertOne(form, function (err) {
+      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/5120x2880.jpg').end(function (err, res) {
         expect(err).not.exist;
+        expect(res.body.err).not.exist;
+        var _id = res.body.ids[0];
         expl.put('/api/images/' + _id).attach('files', 'samples/2560x1440.jpg').end(function (err, res) {
           expect(err).not.exist;
           expect(res.body.err).exist;

@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 
 var init = require('../base/init');
@@ -30,13 +32,13 @@ describe('getDir()', function () {
     expect(imageb.getDir(1)).equals(config.uploadDir + '/public/images/0/0/1');
     expect(imageb.getPath(1, 640)).equals(config.uploadDir + '/public/images/0/0/1/1-640.jpg');
     expect(imageb.getDirUrl(1)).equals(config.uploadSite + '/images/0/0/1');
-    expect(imageb.getThumbUrl(1)).equals(config.uploadSite + '/images/0/0/1/1-640.jpg');
+    expect(imageb.getThumbUrl(1)).equals(config.uploadSite + '/images/0/0/1/1-2560.jpg');
   });
   it('should work for id 1 234 567', function () {
     expect(imageb.getDir(1234567)).equals(config.uploadDir + '/public/images/1/234/567');
     expect(imageb.getPath(1234567, 640)).equals(config.uploadDir + '/public/images/1/234/567/1234567-640.jpg');
     expect(imageb.getDirUrl(1234567)).equals(config.uploadSite + '/images/1/234/567');
-    expect(imageb.getThumbUrl(1234567)).equals(config.uploadSite + '/images/1/234/567/1234567-640.jpg');
+    expect(imageb.getThumbUrl(1234567)).equals(config.uploadSite + '/images/1/234/567/1234567-2560.jpg');
   });
 });
 
@@ -56,12 +58,13 @@ describe('post /api/images', function () {
           expect(err).not.exist;
           expect(image._id).equal(_id);
           expect(image.uid).equal(userf.user1._id);
-          expect(image.vers).eql([ 5120, 4096, 2560, 1920, 1280 ]);
+          //expect(image.vers).eql([ 5120, 4096, 2560, 1920, 1280 ]);
+          expect(image.vers).eql([ 5120, 4096, 2560]);
           expect(image.cdate).exist;
           expect(image.comment).equal('image1');
           expect(imageb.getPath(_id, 5120)).pathExist;
           expect(imageb.getPath(_id, 4096)).pathExist;
-          expect(imageb.getPath(_id, 1280)).pathExist;
+          expect(imageb.getPath(_id, 2560)).pathExist;
           expect(imageb.getPath(_id, 640)).not.pathExist;
           done();
         });

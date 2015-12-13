@@ -1,3 +1,5 @@
+'use strict';
+
 var init = require('../base/init');
 var expb = require('../express/express-base');
 

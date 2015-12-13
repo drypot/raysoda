@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 
 var init = require('../base/init');
@@ -24,14 +26,15 @@ before(function (done) {
 describe('put /api/images/id', function () {
   describe('updating with image', function () {
     before(function (done) {
+      imageb.images.deleteMany(done);
+    });
+    before(function (done) {
       userf.login('user1', done);
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/2560x1440.jpg').end(function (err, res) {
         expect(err).not.exist;
         expect(res.body.err).not.exist;
-        expect(res.body.ids).exist;
-        expect(res.body.ids.length).equal(1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
           expect(err).not.exist;
@@ -64,13 +67,17 @@ describe('put /api/images/id', function () {
     });
   });
   describe('updating with small image', function () {
+    before(function (done) {
+      imageb.images.deleteMany(done);
+    });
+    before(function (done) {
+      userf.login('user1', done);
+    });
     it('should fail', function (done) {
-      var form = {
-        _id: _id = imageb.getNewId(),
-        uid: userf.user1._id
-      };
-      imageb.images.insertOne(form, function (err) {
+      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
         expect(err).not.exist;
+        expect(res.body.err).not.exist;
+        var _id = res.body.ids[0];
         expl.put('/api/images/' + _id).attach('files', 'samples/360x240.jpg').end(function (err, res) {
           expect(err).not.exist;
           expect(res.body.err).exist;
@@ -82,16 +89,16 @@ describe('put /api/images/id', function () {
   });
   describe('updating with no file', function () {
     before(function (done) {
+      imageb.images.deleteMany(done);
+    });
+    before(function (done) {
       userf.login('user1', done);
     });
     it('should succeed', function (done) {
-      var _id = _id = imageb.getNewId();
-      var form = {
-        _id: _id,
-        uid: userf.user1._id
-      };
-      imageb.images.insertOne(form, function (err) {
+      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
         expect(err).not.exist;
+        expect(res.body.err).not.exist;
+        var _id = res.body.ids[0];
         expl.put('/api/images/' + _id).field('comment', 'updated with no file').end(function (err, res) {
           expect(err).not.exist;
           expect(res.body.err).not.exist;
@@ -107,16 +114,16 @@ describe('put /api/images/id', function () {
   });
   describe('updating with text file', function () {
     before(function (done) {
+      imageb.images.deleteMany(done);
+    });
+    before(function (done) {
       userf.login('user1', done);
     });
     it('should fail', function (done) {
-      var _id = _id = imageb.getNewId();
-      var form = {
-        _id: _id,
-        uid: userf.user1._id
-      };
-      imageb.images.insertOne(form, function (err) {
+      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
         expect(err).not.exist;
+        expect(res.body.err).not.exist;
+        var _id = res.body.ids[0];
         expl.put('/api/images/' + _id).attach('files', 'server/express/express-upload-f1.txt').end(function (err, res) {
           expect(err).not.exist;
           expect(res.body.err).exist;
@@ -128,21 +135,24 @@ describe('put /api/images/id', function () {
   });
   describe('updating other\'s', function () {
     before(function (done) {
-      userf.login('user2', done);
+      imageb.images.deleteMany(done);
     });
     it('should fail', function (done) {
-      var _id = _id = imageb.getNewId();
-      var form = {
-        _id: _id,
-        uid: userf.user1._id
-      };
-      imageb.images.insertOne(form, function (err) {
-        expect(err).not.exist;
-        expl.put('/api/images/' + _id).field('comment', 'xxx').end(function (err, res) {
+      userf.login('user1', function (err) {
+        if (err) return done(err);
+        expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
           expect(err).not.exist;
-          expect(res.body.err).exist;
-          expect(res.body.err).error('NOT_AUTHORIZED');
-          done();
+          expect(res.body.err).not.exist;
+          var _id = res.body.ids[0];
+          userf.login('user2', function (err) {
+            if (err) return done(err);
+            expl.put('/api/images/' + _id).field('comment', 'xxx').end(function (err, res) {
+              expect(err).not.exist;
+              expect(res.body.err).exist;
+              expect(res.body.err).error('NOT_AUTHORIZED');
+              done();
+            });
+          });
         });
       });
     });

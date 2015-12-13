@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 
 var init = require('../base/init');
@@ -31,28 +33,20 @@ describe('put /api/images/id', function () {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/svg-sample.svg').end(function (err, res) {
         expect(err).not.exist;
         expect(res.body.err).not.exist;
-        expect(res.body.ids).exist;
-        expect(res.body.ids.length).equal(1);
         var _id = res.body.ids[0];
-        imageb.images.findOne({ _id: _id }, function (err, image) {
+        imageb.identify(imageb.getPath(_id), function (err, meta) {
           expect(err).not.exist;
-          expect(image).exist;
-          expect(image.cdate).exist;
-          expect(image.comment).equal('image1');
-          imageb.identify(imageb.getPath(_id), function (err, meta) {
+          expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/svg-sample-2.svg').end(function (err, res) {
             expect(err).not.exist;
-            expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/svg-sample-2.svg').end(function (err, res) {
+            expect(res.body.err).not.exist;
+            imageb.images.findOne({ _id: _id }, function (err, image) {
               expect(err).not.exist;
-              expect(res.body.err).not.exist;
-              imageb.images.findOne({ _id: _id }, function (err, image) {
+              expect(image).exist;
+              expect(image.cdate).exist;
+              expect(image.comment).equal('image2');
+              imageb.identify(imageb.getPath(_id), function (err, meta) {
                 expect(err).not.exist;
-                expect(image).exist;
-                expect(image.cdate).exist;
-                expect(image.comment).equal('image2');
-                imageb.identify(imageb.getPath(_id), function (err, meta) {
-                  expect(err).not.exist;
-                  done();
-                });
+                done();
               });
             });
           });
@@ -62,12 +56,10 @@ describe('put /api/images/id', function () {
   });
   describe('updating with jpg', function () {
     it('should fail', function (done) {
-      var form = {
-        _id: _id = imageb.getNewId(),
-        uid: userf.user1._id
-      };
-      imageb.images.insertOne(form, function (err) {
+      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/svg-sample.svg').end(function (err, res) {
         expect(err).not.exist;
+        expect(res.body.err).not.exist;
+        var _id = res.body.ids[0];
         expl.put('/api/images/' + _id).attach('files', 'samples/640x360.jpg').end(function (err, res) {
           expect(err).not.exist;
           expect(res.body.err).exist;

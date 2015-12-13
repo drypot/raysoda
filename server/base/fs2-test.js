@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 
 var fs2 = require('../base/fs2');
@@ -6,9 +8,9 @@ var expect = require('../base/assert2').expect;
 var testdir = 'tmp/fs-test';
 
 before(function (done) {
-  fs.mkdir('tmp', 0755, function (err) {
+  fs.mkdir('tmp', 0o755, function (err) {
     if (err && err.code !== 'EEXIST') return done(err);
-    fs.mkdir('tmp/fs-test', 0755, function (err) {
+    fs.mkdir('tmp/fs-test', 0o755, function (err) {
       done();
     });
   });
@@ -16,9 +18,9 @@ before(function (done) {
 
 describe('removeDir', function () {
   beforeEach(function (done) {
-    fs.mkdir(testdir + '/sub1', 0755, function (err) {
-      fs.mkdir(testdir + '/sub2', 0755, function (err) {
-        fs.mkdir(testdir + '/sub2/sub3', 0755, function (err) {
+    fs.mkdir(testdir + '/sub1', 0o755, function (err) {
+      fs.mkdir(testdir + '/sub2', 0o755, function (err) {
+        fs.mkdir(testdir + '/sub2/sub3', 0o755, function (err) {
           fs.writeFileSync(testdir + '/sub1/f1.txt', 'abc');
           fs.writeFileSync(testdir + '/sub2/f2.txt', 'abc');
           fs.writeFileSync(testdir + '/sub2/sub3/f3.txt', 'abc');
@@ -85,9 +87,9 @@ describe('removeDir', function () {
 
 describe('emtpyDir', function () {
   before(function (done) {
-    fs.mkdir(testdir + '/sub1', 0755, function (err) {
-      fs.mkdir(testdir + '/sub2', 0755, function (err) {
-        fs.mkdir(testdir + '/sub2/sub3', 0755, function (err) {
+    fs.mkdir(testdir + '/sub1', 0o755, function (err) {
+      fs.mkdir(testdir + '/sub2', 0o755, function (err) {
+        fs.mkdir(testdir + '/sub2/sub3', 0o755, function (err) {
           fs.writeFileSync(testdir + '/sub1/f1.txt', 'abc');
           fs.writeFileSync(testdir + '/sub2/f2.txt', 'abc');
           fs.writeFileSync(testdir + '/sub2/sub3/f3.txt', 'abc');

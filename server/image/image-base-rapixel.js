@@ -1,3 +1,5 @@
+'use strict';
+
 var exec = require('child_process').exec;
 
 var error = require('../base/error');
@@ -15,11 +17,11 @@ var _vers = [
   //{ width: 2880, height: 1620 }, // MacBook Retina 15
   { width: 2560, height: 1440 }, // iMac 27, MacBook Retina 13
   //{ width: 2048, height: 1152 }, // iPad mini 2
-  { width: 1920, height: 1080 }, // iMac 21, Full HD TV
+  //{ width: 1920, height: 1080 }, // iMac 21, Full HD TV
   //{ width: 1680, height: 945 }, // MacBook Pro 15
   //{ width: 1440, height: 810 }, // MacBook Air 13
   //{ width: 1366, height: 768 }, // MacBook Air 11
-  { width: 1280, height: 720 }  // HD TV
+  //{ width: 1280, height: 720 }  // HD TV
   //{ width: 1136, height: 640 },
   //{ width: 1024, height: 576 },
   //{ width: 960 , height: 540 },

@@ -1,3 +1,5 @@
+'use strict';
+
 var init = require('../base/init');
 var config = require('../base/config')({ path: 'config/test.json' });
 var expect = require('../base/assert2').expect;

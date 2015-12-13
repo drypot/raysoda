@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 
 var util2 = require('../base/util2');

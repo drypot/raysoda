@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 var path = require('path');
 var fs2 = exports;
@@ -52,7 +54,7 @@ fs2.emptyDir = function (p, done) {
 };
 
 fs2.makeDir = function (p, done) {
-  fs.mkdir(p, 0755, function(err) {
+  fs.mkdir(p, 0o755, function(err) {
     if (err && err.code === 'ENOENT') {
       fs2.makeDir(path.dirname(p), function (err) {
         if (err) return done(err);

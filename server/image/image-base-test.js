@@ -1,3 +1,5 @@
+'use strict';
+
 var init = require('../base/init');
 var config = require('../base/config')({ path: 'config/raysoda-test.json' });
 var imageb = require('../image/image-base');

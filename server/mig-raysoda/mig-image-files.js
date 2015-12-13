@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 var tds = require('tedious');
 var types = tds.TYPES;
