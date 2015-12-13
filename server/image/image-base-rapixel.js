@@ -21,7 +21,7 @@ var _vers = [
   //{ width: 1680, height: 945 }, // MacBook Pro 15
   //{ width: 1440, height: 810 }, // MacBook Air 13
   //{ width: 1366, height: 768 }, // MacBook Air 11
-  //{ width: 1280, height: 720 }  // HD TV
+  { width: 1280, height: 720 },  // HD TV // 혹시 미래에 작은 섬네일이 필요할지 모르니 만들어 둔다.
   //{ width: 1136, height: 640 },
   //{ width: 1024, height: 576 },
   //{ width: 960 , height: 540 },

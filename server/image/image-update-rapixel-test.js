@@ -38,11 +38,12 @@ describe('put /api/images/id', function () {
           expect(err).not.exist;
           expect(image).exist;
           //expect(image.vers).eql([ 5120, 4096, 2560, 1920, 1280 ]);
-          expect(image.vers).eql([ 5120, 4096, 2560]);
+          expect(image.vers).eql([ 5120, 4096, 2560, 1280]);
           expect(image.comment).equal('image1');
           expect(imageb.getPath(_id, 5120)).pathExist;
           expect(imageb.getPath(_id, 4096)).pathExist;
           expect(imageb.getPath(_id, 2560)).pathExist;
+          expect(imageb.getPath(_id, 1280)).pathExist;
           fs2.emptyDir(imageb.getDir(_id), function (err) {
             if (err) return done(err);
             expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/4096x2304.jpg').end(function (err, res) {
@@ -52,11 +53,12 @@ describe('put /api/images/id', function () {
                 expect(err).not.exist;
                 expect(image).exist;
                 //expect(image.vers).eql([ 4096, 2560, 1920, 1280 ]);
-                expect(image.vers).eql([ 4096, 2560 ]);
+                expect(image.vers).eql([ 4096, 2560, 1280 ]);
                 expect(image.comment).equal('image2');
                 expect(imageb.getPath(_id, 5120)).not.pathExist;
                 expect(imageb.getPath(_id, 4096)).pathExist;
                 expect(imageb.getPath(_id, 2560)).pathExist;
+                expect(imageb.getPath(_id, 1280)).pathExist;
                 done();
               });
             });

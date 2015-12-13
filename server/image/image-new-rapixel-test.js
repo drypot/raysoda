@@ -59,12 +59,13 @@ describe('post /api/images', function () {
           expect(image._id).equal(_id);
           expect(image.uid).equal(userf.user1._id);
           //expect(image.vers).eql([ 5120, 4096, 2560, 1920, 1280 ]);
-          expect(image.vers).eql([ 5120, 4096, 2560]);
+          expect(image.vers).eql([ 5120, 4096, 2560, 1280]);
           expect(image.cdate).exist;
           expect(image.comment).equal('image1');
           expect(imageb.getPath(_id, 5120)).pathExist;
           expect(imageb.getPath(_id, 4096)).pathExist;
           expect(imageb.getPath(_id, 2560)).pathExist;
+          expect(imageb.getPath(_id, 1280)).pathExist;
           expect(imageb.getPath(_id, 640)).not.pathExist;
           done();
         });
