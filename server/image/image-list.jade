@@ -12,11 +12,13 @@ block content
       cimage.initList();
     });
 
-  .section.page-title
+  //-
+    .section.page-title
     h1
       a(href='/') #{appName}
 
-  if !gt
+  //-
+    if !gt
     if locals.user
       .section.top-links
         a(href='/images/new') Upload
@@ -33,7 +35,8 @@ block content
         a(href=banner.url, target="_blank") #{banner.text}
         br
 
-  if gt
+  //-
+    if gt
     .section.pager-prev
       a(href=gt) Previous
 
@@ -59,3 +62,22 @@ block content
     else
       .section.pager-next
         a(href='/?gt=0') Go to the beginning
+
+  //if !gt
+  .section.news
+    for banner in banners
+      a(href=banner.url, target="_blank") #{banner.text}
+      br
+
+  if locals.user
+    .section.top-links
+      a(href='/images/new') Upload
+      a(href='/users/' + user._id) Profile
+      a(href='/users') Users
+      a(href='#' onclick='javascript:cuser.logout(); return false;') Logout
+  else
+    .section.top-links
+      a(href='/users/login') Login
+      a(href='/users/register') Register
+
+

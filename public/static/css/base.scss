@@ -164,15 +164,15 @@ pre.sample {
   @include ac-link;
   max-width: 100%;
   padding: 0px;
-  margin: $margin * 1.5 auto;
+  margin: 0 auto $margin * 1.5;
   @include tablet {
-    margin: $margin * 1.7 auto;
+    margin-bottom: $margin * 1.7;
   }
   @include desktop {
-    margin: $margin * 2 auto;
+    margin-bottom: $margin * 2;
   }
   @include wide-desktop {
-    margin: $margin * 2.3 auto;
+    margin-bottom: $margin * 2.3;
   }
   .image {
     max-width: 100%; // ie 는 중간 모든 div 에 max-width 가 있어야한다.

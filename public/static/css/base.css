@@ -104,18 +104,18 @@ pre.sample {
 .image-thumb {
   max-width: 100%;
   padding: 0px;
-  margin: 4.5em auto; }
+  margin: 0 auto 4.5em; }
   .image-thumb a {
     color: #333333; }
   @media (min-width: 768px) {
     .image-thumb {
-      margin: 5.1em auto; } }
+      margin-bottom: 5.1em; } }
   @media (min-width: 1024px) {
     .image-thumb {
-      margin: 6em auto; } }
+      margin-bottom: 6em; } }
   @media (min-width: 1400px) {
     .image-thumb {
-      margin: 6.9em auto; } }
+      margin-bottom: 6.9em; } }
   .image-thumb .image {
     max-width: 100%;
     display: inline-block;
