@@ -101,15 +101,20 @@ pre.sample {
     margin: 0.6em auto;
     font-size: 1.1em; }
 
+.pager-prev {
+  margin: 4.5em auto; }
+
+.pager-next {
+  margin: 4.5em auto; }
+
 .image-thumb-list {
   max-width: 100%;
-  margin-top: 4.5em;
   padding: 0px; }
-  .image-thumb-list a {
-    color: #333333; }
   .image-thumb-list .image-thumb {
     max-width: 100%;
     margin: 0 auto 4.5em; }
+    .image-thumb-list .image-thumb a {
+      color: #333333; }
     @media (min-width: 768px) {
       .image-thumb-list .image-thumb {
         margin-bottom: 5.1em; } }
@@ -130,6 +135,8 @@ pre.sample {
       max-width: 640px;
       margin: 0 auto;
       white-space: pre-line; }
+  .image-thumb-list .image-thumb:last-child {
+    margin-bottom: 3em; }
 
 .fs-icon {
   position: absolute;

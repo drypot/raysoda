@@ -155,17 +155,19 @@ pre.sample {
 // image list
 
 .pager-prev {
+  margin: $margin * 1.5 auto;
 }
 
 .pager-next {
+  margin: $margin * 1.5 auto;
 }
 
 .image-thumb-list {
-  @include ac-link;
   max-width: 100%;
-  margin-top: $margin * 1.5;
+  //margin-top: $margin * 1.5;
   padding: 0px;
   .image-thumb {
+    @include ac-link;
     max-width: 100%;
     margin: 0 auto $margin * 1.5;
     @include tablet {
@@ -193,6 +195,9 @@ pre.sample {
       margin: 0 auto;
       white-space: pre-line;
     }
+  }
+  .image-thumb:last-child {
+    margin-bottom: $margin;
   }
 }
 

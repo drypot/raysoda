@@ -29,9 +29,8 @@ block content
           | Deactivated Account
 
   if images.length
-    //-
+    .section.pager-prev
       if gt
-      .section.pager-prev
         a(href=gt) Previous
 
     .section.image-thumb-list
@@ -43,6 +42,6 @@ block content
           if image.comment
             .comment= image.comment
 
-    if lt
-      .section.pager-next
+    .section.pager-next
+      if lt
         a(href=lt) Next
