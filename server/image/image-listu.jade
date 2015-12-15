@@ -29,17 +29,19 @@ block content
           | Deactivated Account
 
   if images.length
-    if gt
+    //-
+      if gt
       .section.pager-prev
         a(href=gt) Previous
 
-    for image in images
-      .section.image-thumb
-        .image
-          a(href='/images/' + image._id)
-            img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
-        if image.comment
-          .comment= image.comment
+    .section.image-thumb-list
+      for image in images
+        .image-thumb
+          .image
+            a(href='/images/' + image._id)
+              img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
+          if image.comment
+            .comment= image.comment
 
     if lt
       .section.pager-next

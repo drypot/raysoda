@@ -12,8 +12,7 @@ block content
       cimage.initList();
     });
 
-  //-
-    .section.page-title
+  .section.page-title
     h1
       a(href='/') #{appName}
 
@@ -40,17 +39,18 @@ block content
     .section.pager-prev
       a(href=gt) Previous
 
-  for image in images
-    .section.image-thumb
-      .image
-        a(href='/images/' + image._id)
-          img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
-      - var c = image.comment.split(/\r\n|\n/, 1)[0];
-      if c
-        .comment= c
-      .uname
-        //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
-        a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
+  .section.image-thumb-list
+    for image in images
+      .image-thumb
+        .image
+          a(href='/images/' + image._id)
+            img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
+        - var c = image.comment.split(/\r\n|\n/, 1)[0];
+        if c
+          .comment= c
+        .uname
+          //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
+          a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
 
   if lt
     .section.pager-next

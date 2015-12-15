@@ -101,32 +101,35 @@ pre.sample {
     margin: 0.6em auto;
     font-size: 1.1em; }
 
-.image-thumb {
+.image-thumb-list {
   max-width: 100%;
-  padding: 0px;
-  margin: 0 auto 4.5em; }
-  .image-thumb a {
+  margin-top: 4.5em;
+  padding: 0px; }
+  .image-thumb-list a {
     color: #333333; }
-  @media (min-width: 768px) {
-    .image-thumb {
-      margin-bottom: 5.1em; } }
-  @media (min-width: 1024px) {
-    .image-thumb {
-      margin-bottom: 6em; } }
-  @media (min-width: 1400px) {
-    .image-thumb {
-      margin-bottom: 6.9em; } }
-  .image-thumb .image {
+  .image-thumb-list .image-thumb {
     max-width: 100%;
-    display: inline-block;
-    position: relative;
-    margin-bottom: 0.6em; }
-    .image-thumb .image img {
-      max-width: 100%; }
-  .image-thumb .comment {
-    max-width: 640px;
-    margin: 0 auto;
-    white-space: pre-line; }
+    margin: 0 auto 4.5em; }
+    @media (min-width: 768px) {
+      .image-thumb-list .image-thumb {
+        margin-bottom: 5.1em; } }
+    @media (min-width: 1024px) {
+      .image-thumb-list .image-thumb {
+        margin-bottom: 6em; } }
+    @media (min-width: 1400px) {
+      .image-thumb-list .image-thumb {
+        margin-bottom: 6.9em; } }
+    .image-thumb-list .image-thumb .image {
+      max-width: 100%;
+      display: inline-block;
+      position: relative;
+      margin-bottom: 0.6em; }
+      .image-thumb-list .image-thumb .image img {
+        max-width: 100%; }
+    .image-thumb-list .image-thumb .comment {
+      max-width: 640px;
+      margin: 0 auto;
+      white-space: pre-line; }
 
 .fs-icon {
   position: absolute;
