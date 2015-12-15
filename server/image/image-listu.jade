@@ -15,17 +15,17 @@ block content
       //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
       a(href='/' + encodeURIComponent(tuser.home)) #{tuser.name}
 
-  .section
-    if !gt
+  if !gt
+    .section
       #profile-text.sub-section
         | #{tuser.profile}
 
       if updatable
-        .section.top-links
+        .sub-section.top-links
           a(href='/users/' + tuser._id + '/update') Update Profile
 
       if tuser.status == 'd'
-        .section
+        .sub-section
           | Deactivated Account
 
   if images.length
@@ -33,9 +33,9 @@ block content
       if gt
         a(href=gt) Previous
 
-    .section.image-thumb-list
+    .image-thumb-list
       for image in images
-        .image-thumb
+        .section.image-thumb
           .image
             a(href='/images/' + image._id)
               img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)

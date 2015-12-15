@@ -38,10 +38,9 @@ block content
     if gt
       a(href=gt) Previous
 
-  .section.image-thumb-list
-
+  .image-thumb-list
     for image in images
-      .image-thumb
+      .section.image-thumb
         .image
           a(href='/images/' + image._id)
             img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
@@ -64,20 +63,19 @@ block content
           a(href='/?gt=0') Go to the beginning
 
   //if !gt
-  .section.news
-    for banner in banners
-      a(href=banner.url, target="_blank") #{banner.text}
-      br
+  .section
+    .sub-section.news
+      for banner in banners
+        a(href=banner.url, target="_blank") #{banner.text}
+        br
 
-  if locals.user
-    .section.top-links
-      a(href='/images/new') Upload
-      a(href='/users/' + user._id) Profile
-      a(href='/users') Users
-      a(href='#' onclick='javascript:cuser.logout(); return false;') Logout
-  else
-    .section.top-links
-      a(href='/users/login') Login
-      a(href='/users/register') Register
-
+    .sub-section.top-links
+      if locals.user
+          a(href='/images/new') Upload
+          a(href='/users/' + user._id) Profile
+          a(href='/users') Users
+          a(href='#' onclick='javascript:cuser.logout(); return false;') Logout
+      else
+          a(href='/users/login') Login
+          a(href='/users/register') Register
 

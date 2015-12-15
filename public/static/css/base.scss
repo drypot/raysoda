@@ -23,14 +23,23 @@ body {
 }
 
 .section {
-  margin: $margin auto; // auto 는 IE9 이상부터
+  margin: $margin * 1.5 auto; // auto 는 IE9 이상부터
+  @include tablet {
+    margin: $margin * 1.7 auto;
+  }
+  @include desktop {
+    margin: $margin * 2 auto;
+  }
+  @include wide-desktop {
+    margin: $margin * 2.3 auto;
+  }
   max-width: $width; // 작은화면에서 width 를 쓰면 화면 밖으로 나간다.
-  padding: 0px 8px;
+  padding: 0px;
   text-align: center;
 }
 
 .sub-section {
-  margin: $margin * 0.6 auto;
+  margin: $margin auto;
 }
 
 hr {
@@ -51,7 +60,6 @@ hr {
 // error
 
 .error-report {
-  //padding: 0px;
   text-align: left;
   font-family: monospace;
   font-size: 80%;
@@ -155,30 +163,16 @@ pre.sample {
 // image list
 
 .pager-prev {
-  margin: $margin * 1.5 auto;
 }
 
 .pager-next {
-  margin: $margin * 1.5 auto;
 }
 
 .image-thumb-list {
   max-width: 100%;
-  //margin-top: $margin * 1.5;
-  padding: 0px;
   .image-thumb {
     @include ac-link;
     max-width: 100%;
-    margin: 0 auto $margin * 1.5;
-    @include tablet {
-      margin-bottom: $margin * 1.7;
-    }
-    @include desktop {
-      margin-bottom: $margin * 2;
-    }
-    @include wide-desktop {
-      margin-bottom: $margin * 2.3;
-    }
     .image {
       max-width: 100%; // ie 는 중간 모든 div 에 max-width 가 있어야한다.
       display: inline-block; // 자식 이미지 사이즈와 동일한 크기가 된다.
@@ -218,7 +212,6 @@ pre.sample {
 .image-full {
   max-width: 100%;
   margin: 0px auto;
-  padding: 0px;
   text-align: center;
   .image {
     max-width: 100%;
