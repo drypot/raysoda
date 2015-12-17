@@ -25,14 +25,21 @@ function list(req, res, api, done) {
   var ps = parseInt(req.query.ps) || 16;
   mongo2.findPage(imageb.images, {}, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);
-    getDeep(images, function (err, dyear, dlt) {
+    util2.fif(images.length, function (next) {
+      let cdate = images[images.length - 1].cdate;
+      var now = new Date();
+      var ddate = new Date(cdate.getFullYear() - 1, now.getMonth(), now.getDate() + 1);
+      mongo2.findDeepDoc(imageb.images, {}, {}, ddate, next);
+    }, function (next) {
+      next(null, undefined, undefined);
+    }, function (err, dyear, dlt) {
       if (err) return done(err);
       if (api) {
         res.json({
           images: images,
           gt: gt,
           lt: lt,
-          dyear, dyear,
+          dyear: dyear,
           dlt: dlt
         });
       } else {
@@ -62,8 +69,6 @@ function filter(image, done) {
     done(null, image);
   });
 }
-
-var dltMap = new Map();
 
 function getDeep(images, done) {
   if (!images.length) {

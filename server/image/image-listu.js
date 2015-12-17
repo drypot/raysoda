@@ -33,12 +33,24 @@ function profile(req, res, tuser) {
   var query = { uid: tuser.id };
   mongo2.findPage(imageb.images, { uid: tuser._id }, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);
-    res.render('image/image-listu', {
-      tuser: tuser,
-      updatable: user && (user._id === tuser._id || user.admin),
-      images: images,
-      gt: gt ? new util2.UrlMaker(req.path).add('gt', gt).add('ps', ps, 16).done() : undefined,
-      lt: lt ? new util2.UrlMaker(req.path).add('lt', lt).add('ps', ps, 16).done() : undefined
+    util2.fif(images.length, function (next) {
+      let cdate = images[images.length - 1].cdate;
+      var now = new Date();
+      var ddate = new Date(cdate.getFullYear() - 1, now.getMonth(), now.getDate() + 1);
+      mongo2.findDeepDoc(imageb.images, { uid: tuser._id }, {}, ddate, next);
+    }, function (next) {
+      next(null, undefined, undefined);
+    }, function (err, dyear, dlt) {
+      res.render('image/image-listu', {
+        tuser: tuser,
+        updatable: user && (user._id === tuser._id || user.admin),
+        images: images,
+        gt: gt ? new util2.UrlMaker(req.path).add('gt', gt).add('ps', ps, 16).done() : undefined,
+        lt: lt ? new util2.UrlMaker(req.path).add('lt', lt).add('ps', ps, 16).done() : undefined,
+        dyear: dyear,
+        dlt: dlt ? new util2.UrlMaker(req.path).add('lt', dlt).add('ps', ps, 16).done() : undefined,
+        path: req.path
+      });
     });
   });
 }

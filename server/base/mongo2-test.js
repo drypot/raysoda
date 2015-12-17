@@ -192,6 +192,49 @@ describe('.findPage', function () {
   });
 });
 
+describe('.findDeepDoc', function () {
+  var col;
+  before(function (done) {
+    col = mongo2.db.collection('testdeepdoc');
+    var list = [
+      { _id: 2,  a: 'a', b: 'b', cdate: new Date(2003, 3, 3, 10) },
+      { _id: 3,  a: 'a', b: 'b', cdate: new Date(2003, 3, 3, 10) },
+      { _id: 4,  a: 'a', b: 'b', cdate: new Date(2003, 3, 3, 10) },
+      { _id: 21, a: 'a', b: 'b', cdate: new Date(2012, 3, 7, 10) },
+      { _id: 24, a: 'a', b: 'b', cdate: new Date(2012, 3, 8, 11) },
+      { _id: 27, a: 'a', b: 'b', cdate: new Date(2012, 3, 9, 12) },
+      { _id: 37, a: 'a', b: 'b', cdate: new Date(2013, 3, 7, 10) },
+      { _id: 38, a: 'a', b: 'b', cdate: new Date(2013, 3, 8, 11) },
+      { _id: 39, a: 'a', b: 'b', cdate: new Date(2013, 3, 9, 12) },
+    ];
+    col.insertMany(list, done);    
+  });
+  it('should succeed', function (done) {
+    mongo2.findDeepDoc(col, {}, {}, new Date(2013, 3, 8), function (err, dyear, dlt) {
+      expect(err).not.exist;
+      expect(dyear).equal(2013);
+      expect(dlt).equal(38);
+      done();
+    });
+  });
+  it('should succeed', function (done) {
+    mongo2.findDeepDoc(col, {}, {}, new Date(2012, 12, 12), function (err, dyear, dlt) {
+      expect(err).not.exist;
+      expect(dyear).equal(2012);
+      expect(dlt).equal(28);
+      done();
+    });
+  });
+  it('should succeed', function (done) {
+    mongo2.findDeepDoc(col, {}, {}, new Date(2001, 1, 1), function (err, dyear, dlt) {
+      expect(err).not.exist;
+      expect(dyear).equal(undefined);
+      expect(dlt).equal(undefined);
+      done();
+    });
+  });
+});
+
 describe('.getLastId', function () {
   var col;
   before(function () {

@@ -44,4 +44,12 @@ block content
 
     .section.pager-next
       if lt
-        a(href=lt) Next
+        .sub-section
+          a(href=lt) Next
+
+        .sub-section
+          if dlt
+            a(href=dlt) Go to !{dyear}
+          else
+            a(href=path + '?gt=0') Go to the beginning
+

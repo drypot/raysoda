@@ -22,7 +22,6 @@ before(function (done) {
 
 describe('get /api/images', function (done) {
   before(function (done) {
-    // given 10 images
     var now = new Date();
     var images = [
       { _id: 1,  uid: userf.user1._id, cdate: now, comment: '1' },
@@ -127,6 +126,63 @@ describe('get /api/images', function (done) {
       expect(res.body.images).length(4);
       expect(res.body.images[0]._id).equal(10);
       expect(res.body.images[3]._id).equal(7);
+      done();
+    });
+  });
+});
+
+describe('get /api/images deep', function (done) {
+  before(function (done) {
+    imageb.images.deleteMany(done);
+  });
+  before(function (done) {
+    var images = [
+      { _id: 11, uid: userf.user1._id, cdate: new Date(2003, 3, 3), comment: '' },
+      { _id: 13, uid: userf.user2._id, cdate: new Date(2003, 6, 7), comment: '' },
+      { _id: 15, uid: userf.user2._id, cdate: new Date(2005, 9, 1), comment: '' },
+      { _id: 18, uid: userf.user2._id, cdate: new Date(2007, 9, 1), comment: '' },
+      { _id: 27, uid: userf.user1._id, cdate: new Date(2009, 5, 4), comment: '' },
+      { _id: 36, uid: userf.user2._id, cdate: new Date(2009, 8, 2), comment: '' },
+      { _id: 49, uid: userf.user1._id, cdate: new Date(2010, 1, 9), comment: '' },
+      { _id: 67, uid: userf.user2._id, cdate: new Date(2011, 7, 6), comment: '' },
+      { _id: 82, uid: userf.user2._id, cdate: new Date(2013, 2, 3), comment: '' },
+      { _id: 98, uid: userf.user1._id, cdate: new Date(2014, 4, 9), comment: '' },
+    ];
+    imageb.images.insertMany(images, done);    
+  });
+  it('should succeed', function (done) {
+    var query = {
+      ps: 3
+    }
+    expl.get('/api/images').query(query).end(function (err, res) {
+      expect(err).not.exist;
+      expect(res.body.err).not.exist;
+      expect(res.body.dyear).equal(2010);
+      expect(res.body.dlt).equal(50);
+      done();
+    });
+  });
+  it('should succeed', function (done) {
+    var query = {
+      lt: 49, ps: 3
+    }
+    expl.get('/api/images').query(query).end(function (err, res) {
+      expect(err).not.exist;
+      expect(res.body.err).not.exist;
+      expect(res.body.dyear).equal(2005);
+      expect(res.body.dlt).equal(16);
+      done();
+    });
+  });
+  it('should succeed', function (done) {
+    var query = {
+      lt: 18, ps: 3
+    }
+    expl.get('/api/images').query(query).end(function (err, res) {
+      expect(err).not.exist;
+      expect(res.body.err).not.exist;
+      expect(res.body.dyear).equal(undefined);
+      expect(res.body.dlt).equal(undefined);
       done();
     });
   });

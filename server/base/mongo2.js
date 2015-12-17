@@ -127,6 +127,20 @@ mongo2.findPage = function (col, query, opt, gt, lt, ps, filter, done) {
   })();
 };
 
+mongo2.findDeepDoc = function (col, query, opt, date, done) {
+  query.cdate = { $lt : date };
+  opt.sort = { cdate: -1 }; 
+  opt.limit = 1;
+  col.findOne(query, opt, function (err, ddoc) {
+    if (err) return done(err);
+    if (ddoc) {
+      done(null, ddoc.cdate.getFullYear(), ddoc._id + 1);
+    } else {
+      done(null);
+    }
+  });
+}
+
 mongo2.forEach = function (col, doit, done) {
   var cursor = col.find();
   (function read() {
