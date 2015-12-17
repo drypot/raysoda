@@ -64,11 +64,6 @@ block content
 
   //if !gt
   .section
-    .sub-section.news
-      for banner in banners
-        a(href=banner.url, target="_blank") #{banner.text}
-        br
-
     .sub-section.top-links
       if locals.user
           a(href='/images/new') Upload
@@ -78,4 +73,9 @@ block content
       else
           a(href='/users/login') Login
           a(href='/users/register') Register
+
+    .sub-section.news
+      for banner in banners
+        a(href=banner.url, target="_blank") #{banner.text}
+        br
 
