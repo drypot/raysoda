@@ -22,7 +22,7 @@ body {
   color: $color;
 }
 
-.section {
+@mixin section {
   margin: $margin * 1.5 auto; // auto 는 IE9 이상부터
   @include tablet {
     margin: $margin * 1.7 auto;
@@ -33,9 +33,12 @@ body {
   @include wide-desktop {
     margin: $margin * 2.3 auto;
   }
-  max-width: $width; // 작은화면에서 width 를 쓰면 화면 밖으로 나간다.
-  padding: 0px;
   text-align: center;
+}
+
+.section {
+  @include section;
+  max-width: $width; // 작은화면에서 width 를 쓰면 화면 밖으로 나간다.
 }
 
 .sub-section {
@@ -77,6 +80,7 @@ hr {
 form.main {
   max-width: $form-width;
   margin: 0 auto;
+  padding: 0em 1em;
   input[type=file] {
     width: 100%;
   }
@@ -112,12 +116,12 @@ pre.sample {
   }
 }
 
-.page-header {
+.page-header { // bootstrap 에 같은 이름 클래스가 정의되어 있다;
   @include ac-link;
   margin-top: 0px;
-  border-bottom-color: $line-color;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
+  padding: 0px; // overriding bootstrap
+  border-bottom: 1px solid $line-color;
+  //border-bottom: 0px;
 }
 
 .page-title {
@@ -142,9 +146,9 @@ pre.sample {
 
 .page-footer {
   @include ac-link;
-  border-top-color: $line-color;
-  border-top-style: solid;
-  border-top-width: 1px;
+  padding: 0px; // overriding bootstrap
+  border-top: 1px solid $line-color;
+  //border-top: 0px;
   .about-list {
     margin: 0.3em auto;
     ul {
@@ -162,15 +166,10 @@ pre.sample {
 
 // image list
 
-.pager-prev {
-}
-
-.pager-next {
-}
-
 .image-thumb-list {
   max-width: 100%;
   .image-thumb {
+    @include section;
     @include ac-link;
     max-width: 100%;
     .image {
@@ -189,9 +188,6 @@ pre.sample {
       margin: 0 auto;
       white-space: pre-line;
     }
-  }
-  .image-thumb:last-child {
-    margin-bottom: $margin;
   }
 }
 

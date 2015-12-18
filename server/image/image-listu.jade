@@ -29,21 +29,21 @@ block content
           | Deactivated Account
 
   if images.length
-    .section.pager-prev
-      if gt
+    if gt
+      .section
         a(href=gt) Previous
 
-    .image-thumb-list
+    .section.image-thumb-list
       for image in images
-        .section.image-thumb
+        .image-thumb
           .image
             a(href='/images/' + image._id)
               img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
           if image.comment
             .comment= image.comment
 
-    .section.pager-next
-      if lt
+    if lt
+      .section
         .sub-section
           a(href=lt) Next
 
