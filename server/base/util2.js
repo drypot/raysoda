@@ -16,16 +16,6 @@ util2.find = function (a, fn) {
   return null;
 };
 
-util2.mergeObject = function () {
-  var tar = arguments[0];
-  for (var i = 1; i < arguments.length; i++) {
-    var src = arguments[i];
-    for (var p in src) {
-      tar[p] = src[p];
-    }
-  }
-}
-
 util2.mergeArray = function () {
   var tar = arguments[0];
   var fn = arguments[arguments.length -1];

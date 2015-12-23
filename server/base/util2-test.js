@@ -18,22 +18,6 @@ describe('find', function () {
   });
 });
 
-describe('mergeObject', function () {
-  it('should succeed', function () {
-    var obj1 = { a: 1 };
-    var obj2 = { b: 2 };
-    util2.mergeObject(obj1, obj2);
-    expect(obj1).eql({ a: 1, b: 2 });
-  });
-  it('should succeed', function () {
-    var obj1 = { };
-    var obj2 = { a: 1 };
-    var obj3 = { b: 2 };
-    util2.mergeObject(obj1, obj2, obj3);
-    expect(obj1).eql({ a: 1, b: 2 });
-  });
-});
-
 describe('mergeArray', function () {
   function eq(item1, item2) {
     return item1.name === item2.name;
