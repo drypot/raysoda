@@ -6,7 +6,7 @@ var crypto = require('crypto');
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config');
-var mongo2 = require('../base/mongo2');
+var mongo2 = require('../mongo/mongo2');
 var userb = exports;
 
 error.define('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.');

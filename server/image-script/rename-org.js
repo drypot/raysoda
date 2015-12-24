@@ -4,7 +4,7 @@ var fs = require('fs');
 
 var init = require('../base/init');
 var config = require('../base/config')({ parseArg: true });
-var mongo2 = require('../base/mongo2');
+var mongo2 = require('../mongo/mongo2');
 var imageb = require('../image/image-base');
 
 init.run(function (err) {

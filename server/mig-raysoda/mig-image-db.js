@@ -5,7 +5,7 @@ var types = tds.TYPES;
 
 var init = require('../base/init');
 var config = require('../base/config');
-var mongo2 = require('../base/mongo2');
+var mongo2 = require('../mongo/mongo2');
 var imageb = require('../image/image-base');
 
 /* 

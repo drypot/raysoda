@@ -2,7 +2,7 @@
 
 var init = require('../base/init');
 var config = require('../base/config');
-var mongo2 = require('../base/mongo2');
+var mongo2 = require('../mongo/mongo2');
 var expb = require('../express/express-base');
 var usera = require('../user/user-auth');
 var bannerb = require('../banner/banner-base');

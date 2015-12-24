@@ -2,7 +2,7 @@
 
 var init = require('../base/init');
 var config = require('../base/config')({ path: 'config/test.json' });
-var mongo2 = require('../base/mongo2')({ dropDatabase: true });
+var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
 var expect = require('../base/assert2').expect;
 
 before(function (done) {

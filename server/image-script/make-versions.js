@@ -4,7 +4,7 @@ var fs = require('fs');
 
 var init = require('../base/init');
 var config = require('../base/config')({ parseArg: true });
-var mongo2 = require('../base/mongo2');
+var mongo2 = require('../mongo/mongo2');
 var imageb = require('../image/image-base');
 
 // TODO: 만든지 오래되었다. 누더기 상태. 다시 만들어야한다.

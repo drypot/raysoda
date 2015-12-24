@@ -3,7 +3,7 @@
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config')({ path: 'config/test.json' });
-var mongo2 = require('../base/mongo2')({ dropDatabase: true });
+var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
 var util2 = require('../base/util2');
 var counterb = require('../counter/counter-base');
 var expect = require('../base/assert2').expect;
