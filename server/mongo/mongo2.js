@@ -5,7 +5,8 @@ var mongo = require('mongodb');
 var init = require('../base/init');
 var config = require('../base/config');
 var util2 = require('../base/util2');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 
 var opt = {};
 
@@ -21,7 +22,7 @@ mongo2.ObjectID = mongo.ObjectID;
 // db
 
 init.add(function (done) {
-  expect(config.mongodb).exist;
+  assert2.ne(config.mongodb, undefined);
   mongo.MongoClient.connect('mongodb://localhost:27017/' + config.mongodb, function(err, db) {
     if (err) return done(err);
     mongo2.db = db;

@@ -3,7 +3,8 @@
 var init = require('../base/init');
 var config = require('../base/config')({ path: 'config/test.json' });
 var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 
 before(function (done) {
   init.run(done);
@@ -11,7 +12,7 @@ before(function (done) {
 
 describe('db', function () {
   it('should be opened.', function () {
-    expect(mongo2.db.databaseName).equal(config.mongodb);
+    assert2.e(mongo2.db.databaseName, config.mongodb);
   });
 });
 
@@ -19,10 +20,10 @@ describe('values', function () {
   describe('.update(id, string)', function () {
     it('should succeed', function (done) {
       mongo2.values.update('s1', 'value1', function (err) {
-        expect(err).not.exist;
+        assert.ifError(err);
         mongo2.values.find('s1', function (err, value) {
-          expect(err).not.exist;
-          expect(value).equal('value1');
+          assert.ifError(err);
+          assert2.e(value, 'value1');
           done();
         });
       });
@@ -31,10 +32,10 @@ describe('values', function () {
   describe('.update(id, number)', function () {
     it('should succeed', function (done) {
       mongo2.values.update('n1', 123, function (err) {
-        expect(err).not.exist;
+        assert.ifError(err);
         mongo2.values.find('n1', function (err, value) {
-          expect(err).not.exist;
-          expect(value).equal(123);
+          assert.ifError(err);
+          assert2.e(value, 123);
           done();
         });
       });
@@ -43,10 +44,10 @@ describe('values', function () {
   describe('.update(id, obj)', function () {
     it('should succeed', function (done) {
       mongo2.values.update('o1', { p1: 123, p2: 456 }, function (err) {
-        expect(err).not.exist;
+        assert.ifError(err);
         mongo2.values.find('o1', function (err, value) {
-          expect(err).not.exist;
-          expect(value).deep.equal({ p1: 123, p2: 456 });
+          assert.ifError(err);
+          assert2.de(value, { p1: 123, p2: 456 });
           done();
         });
       });
@@ -55,8 +56,8 @@ describe('values', function () {
   describe('.find()', function () {
     it('should return null for undefined', function (done) {
       mongo2.values.find('noname', function (err, value) {
-        expect(err).not.exist;
-        expect(value).is.null;
+        assert.ifError(err);
+        assert2.e(value, null);
         done();
       });
     });  
@@ -83,95 +84,95 @@ describe('.findPage', function () {
   });
   it('should succeed for page size 99', function (done) {
     mongo2.findPage(col, {}, {}, undefined, undefined, 99, null, function (err, r, gt, lt) {
-      expect(err).not.exist;
-      expect(r.length).equal(10);
-      expect(r[0]._id).equal(10);
-      expect(r[1]._id).equal(9);
-      expect(r[2]._id).equal(8);
-      expect(r[9]._id).equal(1);
-      expect(gt).undefined;
-      expect(lt).undefined;
+      assert.ifError(err);
+      assert2.e(r.length, 10);
+      assert2.e(r[0]._id, 10);
+      assert2.e(r[1]._id, 9);
+      assert2.e(r[2]._id, 8);
+      assert2.e(r[9]._id, 1);
+      assert2.e(gt, undefined);
+      assert2.e(lt, undefined);
       done();
     });
   });
   it('should succeed for page 1', function (done) {
     mongo2.findPage(col, {}, {}, undefined, undefined, 4, null, function (err, r, gt, lt) {
-      expect(err).not.exist;
-      expect(r).length(4);
-      expect(r[0]._id).equal(10);
-      expect(r[3]._id).equal(7);
-      expect(gt).undefined;
-      expect(lt).equal(7);
+      assert.ifError(err);
+      assert2.e(r.length, 4);
+      assert2.e(r[0]._id, 10);
+      assert2.e(r[3]._id, 7);
+      assert2.e(gt, undefined);
+      assert2.e(lt, 7);
       done();
     });
   });
   it('should succeed for next page ', function (done) {
     mongo2.findPage(col, {}, {}, undefined, 7, 4, null, function (err, r, gt, lt) {
-      expect(err).not.exist;
-      expect(r).length(4);
-      expect(r[0]._id).equal(6);
-      expect(r[3]._id).equal(3);
-      expect(gt).equal(6);
-      expect(lt).equal(3);
+      assert.ifError(err);
+      assert2.e(r.length, 4);
+      assert2.e(r[0]._id, 6);
+      assert2.e(r[3]._id, 3);
+      assert2.e(gt, 6);
+      assert2.e(lt, 3);
       done();
     });
   });
   it('should succeed for next page (last page)', function (done) {
     mongo2.findPage(col, {}, {}, undefined, 5, 4, null, function (err, r, gt, lt) {
-      expect(err).not.exist;
-      expect(r).length(4);
-      expect(r[0]._id).equal(4);
-      expect(r[1]._id).equal(3);
-      expect(r[2]._id).equal(2);
-      expect(r[3]._id).equal(1);
-      expect(gt).equal(4);
-      expect(lt).undefined;
+      assert.ifError(err);
+      assert2.e(r.length, 4);
+      assert2.e(r[0]._id, 4);
+      assert2.e(r[1]._id, 3);
+      assert2.e(r[2]._id, 2);
+      assert2.e(r[3]._id, 1);
+      assert2.e(gt, 4);
+      assert2.e(lt, undefined);
       done();
     });
   });
   it('should succeed for last page (gt = 0)', function (done) {
     mongo2.findPage(col, {}, {}, 0, undefined, 4, null, function (err, r, gt, lt) {
-      expect(err).not.exist;
-      expect(r).length(4);
-      expect(r[0]._id).equal(4);
-      expect(r[1]._id).equal(3);
-      expect(r[2]._id).equal(2);
-      expect(r[3]._id).equal(1);
-      expect(gt).equal(4);
-      expect(lt).undefined;
+      assert.ifError(err);
+      assert2.e(r.length, 4);
+      assert2.e(r[0]._id, 4);
+      assert2.e(r[1]._id, 3);
+      assert2.e(r[2]._id, 2);
+      assert2.e(r[3]._id, 1);
+      assert2.e(gt, 4);
+      assert2.e(lt, undefined);
       done();
     });
   });
   it('should succeed for previous page', function (done) {
     mongo2.findPage(col, {}, {}, 2, undefined, 4, null, function (err, r, gt, lt) {
-      expect(err).not.exist;
-      expect(r).length(4);
-      expect(r[0]._id).equal(6);
-      expect(r[3]._id).equal(3);
-      expect(gt).equal(6);
-      expect(lt).equal(3);
+      assert.ifError(err);
+      assert2.e(r.length, 4);
+      assert2.e(r[0]._id, 6);
+      assert2.e(r[3]._id, 3);
+      assert2.e(gt, 6);
+      assert2.e(lt, 3);
       done();
     });
   });
   it('should succeed for previous page (first page)', function (done) {
     mongo2.findPage(col, {}, {}, 6, undefined, 4, null, function (err, r, gt, lt) {
-      expect(err).not.exist;
-      expect(r).length(4);
-      expect(r[0]._id).equal(10);
-      expect(r[3]._id).equal(7);
-      expect(gt).undefined;
-      expect(lt).equal(7);
+      assert.ifError(err);
+      assert2.e(r.length, 4);
+      assert2.e(r[0]._id, 10);
+      assert2.e(r[3]._id, 7);
+      assert2.e(gt, undefined);
+      assert2.e(lt, 7);
       done();
     });
   });
   it('should succeed with filter', function (done) {
     mongo2.findPage(col, {}, {}, undefined, undefined, 5, filter, function (err, r, gt, lt) {
-      expect(err).not.exist;
-      expect(r).length(2);
-      expect(r[0]._id).equal(9);
-      expect(r[1]._id).equal(7);
-      expect(gt).undefined;
-      expect(lt).equal(6);
+      assert.ifError(err);
+      assert2.e(r.length, 2);
+      assert2.e(r[0]._id, 9);
+      assert2.e(r[1]._id, 7);
+      assert2.e(gt, undefined);
+      assert2.e(lt, 6);
       done();
     });
     function filter(result, done) {
@@ -180,13 +181,13 @@ describe('.findPage', function () {
   });
   it('should succeed with opt', function (done) {
     mongo2.findPage(col, {}, { fields: { _id: 1, a: 1} }, undefined, undefined, 4, null, function (err, r, gt, lt) {
-      expect(err).not.exist;
-      expect(r).length(4);
-      expect(r[0]._id).exist;
-      expect(r[0].a).exist;
-      expect(r[0].b).not.exist;
-      expect(gt).undefined;
-      expect(lt).equal(7);
+      assert.ifError(err);
+      assert2.e(r.length, 4);
+      assert2.ne(r[0]._id, undefined);
+      assert2.ne(r[0].a, undefined);
+      assert2.e(r[0].b, undefined);
+      assert2.e(gt, undefined);
+      assert2.e(lt, 7);
       done();
     });
   });
@@ -211,25 +212,25 @@ describe('.findDeepDoc', function () {
   });
   it('should succeed', function (done) {
     mongo2.findDeepDoc(col, {}, {}, new Date(2013, 3, 8), function (err, dyear, dlt) {
-      expect(err).not.exist;
-      expect(dyear).equal(2013);
-      expect(dlt).equal(38);
+      assert.ifError(err);
+      assert2.e(dyear, 2013);
+      assert2.e(dlt, 38);
       done();
     });
   });
   it('should succeed', function (done) {
     mongo2.findDeepDoc(col, {}, {}, new Date(2012, 12, 12), function (err, dyear, dlt) {
-      expect(err).not.exist;
-      expect(dyear).equal(2012);
-      expect(dlt).equal(28);
+      assert.ifError(err);
+      assert2.e(dyear, 2012);
+      assert2.e(dlt, 28);
       done();
     });
   });
   it('should succeed', function (done) {
     mongo2.findDeepDoc(col, {}, {}, new Date(2001, 1, 1), function (err, dyear, dlt) {
-      expect(err).not.exist;
-      expect(dyear).equal(undefined);
-      expect(dlt).equal(undefined);
+      assert.ifError(err);
+      assert2.e(dyear, undefined);
+      assert2.e(dlt, undefined);
       done();
     });
   });
@@ -242,8 +243,8 @@ describe('.getLastId', function () {
   });
   it('should succeed for empty collection', function (done) {
     mongo2.getLastId(col, function (err, id) {
-      expect(err).not.exist;
-      expect(id).equal(0);
+      assert.ifError(err);
+      assert2.e(id, 0);
       done();
     });
   });
@@ -253,10 +254,10 @@ describe('.getLastId', function () {
       list.push({ _id: i + 1});
     };
     col.insertMany(list, function (err) {
-      expect(err).not.exist;
+      assert.ifError(err);
       mongo2.getLastId(col, function (err, id) {
-        expect(err).not.exist;
-        expect(id).equal(10);
+        assert.ifError(err);
+        assert2.e(id, 10);
         done();
       });     
     });    

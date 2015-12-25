@@ -10,7 +10,8 @@ var expl = require('../express/express-local');
 var userf = require('../user/user-fixture');
 var imageb = require('../image/image-base');
 var imagel = require('../image/image-list');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 
 before(function (done) {
   init.run(done);
@@ -42,15 +43,15 @@ describe('get /api/images', function (done) {
       ps: 99
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.gt).undefined;
-      expect(res.body.lt).undefined;
-      expect(res.body.images.length).equal(10);
-      expect(res.body.images[0]._id).equal(10);
-      expect(res.body.images[1]._id).equal(9);
-      expect(res.body.images[2]._id).equal(8);
-      expect(res.body.images[9]._id).equal(1);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.gt, undefined);
+      assert2.e(res.body.lt, undefined);
+      assert2.e(res.body.images.length, 10);
+      assert2.e(res.body.images[0]._id, 10);
+      assert2.e(res.body.images[1]._id, 9);
+      assert2.e(res.body.images[2]._id, 8);
+      assert2.e(res.body.images[9]._id, 1);
       done();
     });
   });
@@ -59,13 +60,13 @@ describe('get /api/images', function (done) {
       ps: 4
     };
     expl.get('/api/images').query(query).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.gt).undefined;
-      expect(res.body.lt).equal(7);
-      expect(res.body.images).length(4);
-      expect(res.body.images[0]._id).equal(10);
-      expect(res.body.images[3]._id).equal(7);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.gt, undefined);
+      assert2.e(res.body.lt, 7);
+      assert2.e(res.body.images.length, 4);
+      assert2.e(res.body.images[0]._id, 10);
+      assert2.e(res.body.images[3]._id, 7);
       done();
     });
   });
@@ -74,13 +75,13 @@ describe('get /api/images', function (done) {
       lt:7, ps: 4
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.gt).equal(6);
-      expect(res.body.lt).equal(3);
-      expect(res.body.images).length(4);
-      expect(res.body.images[0]._id).equal(6);
-      expect(res.body.images[3]._id).equal(3);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.gt, 6);
+      assert2.e(res.body.lt, 3);
+      assert2.e(res.body.images.length, 4);
+      assert2.e(res.body.images[0]._id, 6);
+      assert2.e(res.body.images[3]._id, 3);
       done();
     });
   });
@@ -89,13 +90,13 @@ describe('get /api/images', function (done) {
       lt: 3, ps: 4
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.gt).equal(2);
-      expect(res.body.lt).undefined;
-      expect(res.body.images).length(2);
-      expect(res.body.images[0]._id).equal(2);
-      expect(res.body.images[1]._id).equal(1);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.gt, 2);
+      assert2.e(res.body.lt, undefined);
+      assert2.e(res.body.images.length, 2);
+      assert2.e(res.body.images[0]._id, 2);
+      assert2.e(res.body.images[1]._id, 1);
       done();
     });
   });
@@ -104,13 +105,13 @@ describe('get /api/images', function (done) {
       gt:2, ps: 4
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.gt).equal(6);
-      expect(res.body.lt).equal(3);
-      expect(res.body.images).length(4);
-      expect(res.body.images[0]._id).equal(6);
-      expect(res.body.images[3]._id).equal(3);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.gt, 6);
+      assert2.e(res.body.lt, 3);
+      assert2.e(res.body.images.length, 4);
+      assert2.e(res.body.images[0]._id, 6);
+      assert2.e(res.body.images[3]._id, 3);
       done();
     });
   });
@@ -119,13 +120,13 @@ describe('get /api/images', function (done) {
       gt: 6, ps: 4
     };
     expl.get('/api/images').query(query).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.gt).undefined;
-      expect(res.body.lt).equal(7);
-      expect(res.body.images).length(4);
-      expect(res.body.images[0]._id).equal(10);
-      expect(res.body.images[3]._id).equal(7);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.gt, undefined);
+      assert2.e(res.body.lt, 7);
+      assert2.e(res.body.images.length, 4);
+      assert2.e(res.body.images[0]._id, 10);
+      assert2.e(res.body.images[3]._id, 7);
       done();
     });
   });
@@ -155,10 +156,10 @@ describe('get /api/images deep', function (done) {
       ps: 3
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.dyear).equal(2010);
-      expect(res.body.dlt).equal(50);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.dyear, 2010);
+      assert2.e(res.body.dlt, 50);
       done();
     });
   });
@@ -167,10 +168,10 @@ describe('get /api/images deep', function (done) {
       lt: 49, ps: 3
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.dyear).equal(2005);
-      expect(res.body.dlt).equal(16);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.dyear, 2005);
+      assert2.e(res.body.dlt, 16);
       done();
     });
   });
@@ -179,10 +180,10 @@ describe('get /api/images deep', function (done) {
       lt: 18, ps: 3
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.dyear).equal(undefined);
-      expect(res.body.dlt).equal(undefined);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.dyear, undefined);
+      assert2.e(res.body.dlt, undefined);
       done();
     });
   });

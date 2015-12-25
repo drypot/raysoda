@@ -10,7 +10,8 @@ var expl = require('../express/express-local');
 var userf = require('../user/user-fixture');
 var imagen = require('../image/image-new');
 var imagev = require('../image/image-view');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 
 before(function (done) {
   init.run(done);
@@ -24,14 +25,14 @@ describe('get /api/images/:id([0-9]+)', function () {
   describe('getting image', function () {
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        expect(err).not.exist;
-        expect(res.body.err).not.exist;
-        expect(res.body.ids).exist;
-        expect(res.body.ids.length).equal(1);
+        assert.ifError(err);
+        assert.ifError(res.body.err);
+        assert2.ne(res.body.ids, undefined);
+        assert2.e(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         expl.get('/api/images/' + _id).end(function (err, res) {
-          expect(err).not.exist;
-          expect(res.body.err).not.exist;
+          assert.ifError(err);
+          assert.ifError(res.body.err);
           done();
         });
       });

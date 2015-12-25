@@ -8,7 +8,8 @@ var expl = require('../express/express-local');
 var userb = require('../user/user-base');
 var userf = require('../user/user-fixture');
 var userl = require('../user/user-list');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 
 before(function (done) {
   init.run(done);
@@ -17,38 +18,38 @@ before(function (done) {
 describe('/api/users?q=', function () {
   it('should succeed for user1', function (done) {
     expl.get('/api/users?q=user1', function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.users).length(1);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.users.length, 1);
       var u = res.body.users[0];
-      expect(u._id).equal(1);
-      expect(u.name).equal('user1');
-      expect(u.home).equal('user1');
+      assert2.e(u._id, 1);
+      assert2.e(u.name, 'user1');
+      assert2.e(u.home, 'user1');
       done();
     });
   });
   it('should succeed for us', function (done) {
     expl.get('/api/users?q=us', function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.users).length(3);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.users.length, 3);
       var u;
       u = res.body.users[0];
-      expect(u._id).equal(1);
-      expect(u.name).equal('user1');
-      expect(u.home).equal('user1');
+      assert2.e(u._id, 1);
+      assert2.e(u.name, 'user1');
+      assert2.e(u.home, 'user1');
       u = res.body.users[2];
-      expect(u._id).equal(3);
-      expect(u.name).equal('user3');
-      expect(u.home).equal('user3');
+      assert2.e(u._id, 3);
+      assert2.e(u.name, 'user3');
+      assert2.e(u.home, 'user3');
       done();
     });
   });
   it('should succeed for [빈칸 which including RegExp character', function (done) {
     expl.get('/api/users?q=[빈칸', function (err, res) {
-      expect(err).not.exist;
-      expect(res.body.err).not.exist;
-      expect(res.body.users).length(0);
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.users.length, 0);
       done();
     });
   });

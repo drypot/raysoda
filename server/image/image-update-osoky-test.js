@@ -13,7 +13,8 @@ var expl = require('../express/express-local');
 var userf = require('../user/user-fixture');
 var imageb = require('../image/image-base');
 var imageu = require('../image/image-update');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 
 before(function (done) {
   init.run(done);
@@ -31,32 +32,32 @@ describe('put /api/images/id', function () {
   describe('updating with image', function () {
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/1280x720.jpg').end(function (err, res) {
-        expect(err).not.exist;
-        expect(res.body.err).not.exist;
-        expect(res.body.ids).exist;
-        expect(res.body.ids.length).equal(1);
+        assert.ifError(err);
+        assert.ifError(res.body.err);
+        assert2.ne(res.body.ids, undefined);
+        assert2.e(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
-          expect(err).not.exist;
-          expect(image).exist;
-          expect(image.cdate).exist;
-          expect(image.comment).equal('image1');
+          assert.ifError(err);
+          assert2.ne(image, undefined);
+          assert2.ne(image.cdate, undefined);
+          assert2.e(image.comment, 'image1');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
-            expect(err).not.exist;
-            expect(meta.width).equal(720);
-            expect(meta.height).equal(720);
+            assert.ifError(err);
+            assert2.e(meta.width, 720);
+            assert2.e(meta.height, 720);
             expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/4096x2304.jpg').end(function (err, res) {
-              expect(err).not.exist;
-              expect(res.body.err).not.exist;
+              assert.ifError(err);
+              assert.ifError(res.body.err);
               imageb.images.findOne({ _id: _id }, function (err, image) {
-                expect(err).not.exist;
-                expect(image).exist;
-                expect(image.cdate).exist;
-                expect(image.comment).equal('image2');
+                assert.ifError(err);
+                assert2.ne(image, undefined);
+                assert2.ne(image.cdate, undefined);
+                assert2.e(image.comment, 'image2');
                 imageb.identify(imageb.getPath(_id), function (err, meta) {
-                  expect(err).not.exist;
-                  expect(meta.width).equal(imageb.maxWidth);
-                  expect(meta.height).equal(imageb.maxWidth);
+                  assert.ifError(err);
+                  assert2.e(meta.width, imageb.maxWidth);
+                  assert2.e(meta.height, imageb.maxWidth);
                   done();
                 });
               });
@@ -69,13 +70,13 @@ describe('put /api/images/id', function () {
   describe('updating with small image', function () {
     it('should fail', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/1280x720.jpg').end(function (err, res) {
-        expect(err).not.exist;
-        expect(res.body.err).not.exist;
+        assert.ifError(err);
+        assert.ifError(res.body.err);
         var _id = res.body.ids[0];
         expl.put('/api/images/' + _id).attach('files', 'samples/640x360.jpg').end(function (err, res) {
-          expect(err).not.exist;
-          expect(res.body.err).exist;
-          expect(res.body.err).error('IMAGE_SIZE');
+          assert.ifError(err);
+          assert2.ne(res.body.err, undefined);
+          assert(error.find(res.body.err, 'IMAGE_SIZE'));
           done();
         });
       });

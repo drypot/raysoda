@@ -14,7 +14,8 @@ var userf = require('../user/user-fixture');
 var imageb = require('../image/image-base');
 var imagen = require('../image/image-new');
 var imaged = require('../image/image-delete');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 
 before(function (done) {
   init.run(done);
@@ -36,26 +37,26 @@ describe('del /api/images/[_id]', function () {
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
-        expect(err).not.exist;
-        expect(res.body.err).not.exist;
-        expect(res.body.ids).exist;
+        assert.ifError(err);
+        assert.ifError(res.body.err);
+        assert2.ne(res.body.ids, undefined);
         var _id1 = res.body.ids[0];
         expl.post('/api/images').field('comment', 'image2').attach('files', _f1).end(function (err, res) {
-          expect(err).not.exist;
-          expect(res.body.err).not.exist;
-          expect(res.body.ids).exist;
+          assert.ifError(err);
+          assert.ifError(res.body.err);
+          assert2.ne(res.body.ids, undefined);
           var _id2 = res.body.ids[0];
           expl.del('/api/images/' + _id1, function (err, res) {
-            expect(err).not.exist;
-            expect(res.body.err).not.exist;
-            expect(imageb.getPath(_id1)).not.pathExist;
-            expect(imageb.getPath(_id2)).pathExist;
+            assert.ifError(err);
+            assert.ifError(res.body.err);
+            assert2.path(imageb.getPath(_id1), false);
+            assert2.path(imageb.getPath(_id2));
             imageb.images.findOne({ _id: _id1 }, function (err, image) {
-              expect(err).not.exist;
-              expect(image).not.exist;
+              assert.ifError(err);
+              assert2.e(image, null);
               imageb.images.findOne({ _id: _id2 }, function (err, image) {
-                expect(err).not.exist;
-                expect(image).exist;
+                assert.ifError(err);
+                assert2.ne(image, undefined);
                 done();
               });
             });
@@ -70,21 +71,21 @@ describe('del /api/images/[_id]', function () {
     });
     it('should succeed', function (done) {
       userf.login('user1', function (err) {
-        expect(err).not.exist;
+        assert.ifError(err);
         expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
-          expect(err).not.exist;
-          expect(res.body.err).not.exist;
-          expect(res.body.ids).exist;
+          assert.ifError(err);
+          assert.ifError(res.body.err);
+          assert2.ne(res.body.ids, undefined);
           var _id = res.body.ids[0];
           userf.login('admin', function (err) {
-            expect(err).not.exist;
+            assert.ifError(err);
             expl.del('/api/images/' + _id, function (err, res) {
-              expect(err).not.exist;
-              expect(res.body.err).not.exist;
-              expect(imageb.getPath(_id)).not.pathExist;
+              assert.ifError(err);
+              assert.ifError(res.body.err);
+              assert2.path(imageb.getPath(_id), false);
               imageb.images.findOne({ _id: _id }, function (err, image) {
-                expect(err).not.exist;
-                expect(image).not.exist;
+                assert.ifError(err);
+                assert2.e(image, null);
                 done();
               });
             });
@@ -99,22 +100,22 @@ describe('del /api/images/[_id]', function () {
     });
     it('should fail', function (done) {
       userf.login('user1', function (err) {
-        expect(err).not.exist;
+        assert.ifError(err);
         expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
-          expect(err).not.exist;
-          expect(res.body.err).not.exist;
-          expect(res.body.ids).exist;
+          assert.ifError(err);
+          assert.ifError(res.body.err);
+          assert2.ne(res.body.ids, undefined);
           var _id = res.body.ids[0];
           userf.login('user2', function (err) {
-            expect(err).not.exist;
+            assert.ifError(err);
             expl.del('/api/images/' + _id, function (err, res) {
-              expect(err).not.exist;
-              expect(res.body.err).exist;
-              expect(res.body.err).error('NOT_AUTHORIZED');
-              expect(imageb.getPath(_id)).pathExist;
+              assert.ifError(err);
+              assert2.ne(res.body.err, undefined);
+              assert(error.find(res.body.err, 'NOT_AUTHORIZED'));
+              assert2.path(imageb.getPath(_id));
               imageb.images.findOne({ _id: _id }, function (err, image) {
-                expect(err).not.exist;
-                expect(image).exist;
+                assert.ifError(err);
+                assert2.ne(image, undefined);
                 done();
               });
             });

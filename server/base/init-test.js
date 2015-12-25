@@ -1,7 +1,8 @@
 'use strict';
 
 var init = require('../base/init');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 
 describe('init.run', function () {
   it('should work', function (done) {
@@ -16,9 +17,9 @@ describe('init.run', function () {
       done();
     });
     init.run(function () {
-      expect(a).length(2);
-      expect(a[0]).equal(33);
-      expect(a[1]).equal(77);
+      assert2.e(a.length, 2);
+      assert2.e(a[0], 33);
+      assert2.e(a[1], 77);
       done();
     });
   });
@@ -38,9 +39,9 @@ describe('init.run', function () {
       }
     });
     init.run(function (err) {
-      expect(a).length(1);
-      expect(a[0]).equal(3);
-      expect(err).exist;
+      assert2.e(a.length, 1);
+      assert2.e(a[0], 3);
+      assert(err !== null);
       done();
     });
   });
@@ -63,10 +64,10 @@ describe('init.tail', function () {
       done();
     });
     init.run(function () {
-      expect(a).length(3);
-      expect(a[0]).equal(3);
-      expect(a[1]).equal(7);
-      expect(a[2]).equal(10);
+      assert2.e(a.length, 3);
+      assert2.e(a[0], 3);
+      assert2.e(a[1], 7);
+      assert2.e(a[2], 10);
       done();
     });
   });

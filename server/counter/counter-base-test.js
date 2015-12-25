@@ -6,7 +6,8 @@ var config = require('../base/config')({ path: 'config/test.json' });
 var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
 var util2 = require('../base/util2');
 var counterb = require('../counter/counter-base');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 
 before(function (done) {
   init.run(done);
@@ -14,31 +15,31 @@ before(function (done) {
 
 describe('counterb.counters', function () {
   it('should exist', function () {
-    expect(counterb.counters).exist;
+    assert2.ne(counterb.counters, undefined);
   });
 });
 
 describe('.update(id)', function () {
   it('should succeed for new', function (done) {
     counterb.update('nodate', function (err) {
-      expect(err).not.exist;
+      assert.ifError(err);
       counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
-        expect(err).not.exist;
-        expect(c.id).equal('nodate');
-        expect(c.d).undefined;
-        expect(c.c).equal(1);
+        assert.ifError(err);
+        assert2.e(c.id, 'nodate');
+        assert2.e(c.d, undefined);
+        assert2.e(c.c, 1);
         done();
       });
     });
   });
   it('should succeed for existing', function (done) {
     counterb.update('nodate', function (err) {
-      expect(err).not.exist;
+      assert.ifError(err);
       counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
-        expect(err).not.exist;
-        expect(c.id).equal('nodate');
-        expect(c.d).undefined;
-        expect(c.c).equal(2);
+        assert.ifError(err);
+        assert2.e(c.id, 'nodate');
+        assert2.e(c.d, undefined);
+        assert2.e(c.c, 2);
         done();
       });
     });
@@ -49,24 +50,24 @@ describe('.update(id, date)', function () {
   var today = util2.today();
   it('should succeed for new', function (done) {
     counterb.update('today', today, function (err) {
-      expect(err).not.exist;
+      assert.ifError(err);
       counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
-        expect(err).not.exist;
-        expect(c.id).equal('today');
-        expect(c.d).deep.equal(today);
-        expect(c.c).equal(1);
+        assert.ifError(err);
+        assert2.e(c.id, 'today');
+        assert2.de(c.d, today);
+        assert2.e(c.c, 1);
         done();
       });
     });
   });
   it('should succeed for existing', function (done) {
     counterb.update('today', today, function (err) {
-      expect(err).not.exist;
+      assert.ifError(err);
       counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
-        expect(err).not.exist;
-        expect(c.id).equal('today');
-        expect(c.d).deep.equal(today);
-        expect(c.c).equal(2);
+        assert.ifError(err);
+        assert2.e(c.id, 'today');
+        assert2.de(c.d, today);
+        assert2.e(c.c, 2);
         done();
       });
     });

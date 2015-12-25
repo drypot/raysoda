@@ -9,7 +9,8 @@ var expl = require('../express/express-local');
 var userf = require('../user/user-fixture');
 var counterb = require('../counter/counter-base');
 var countera = require('../counter/counter-all');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 
 before(function (done) {
   init.run(done);
@@ -19,24 +20,24 @@ describe('/api/counters/:id/inc', function () {
   var today = util2.today();
   it('should succeed for new', function (done) {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
-      expect(res).redirectTo('http://hello.world');
+      assert2.redirect(res, 'http://hello.world');
       counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
-        expect(err).not.exist;
-        expect(c.id).equal('abc');
-        expect(c.d).deep.equal(today);
-        expect(c.c).equal(1);
+        assert.ifError(err);
+        assert2.e(c.id, 'abc');
+        assert2.de(c.d, today);
+        assert2.e(c.c, 1);
         done();
       });
     });
   });
   it('should succeed for existing', function (done) {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
-      expect(res).redirectTo('http://hello.world');
+      assert2.redirect(res, 'http://hello.world');
       counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
-        expect(err).not.exist;
-        expect(c.id).equal('abc');
-        expect(c.d).deep.equal(today);
-        expect(c.c).equal(2);
+        assert.ifError(err);
+        assert2.e(c.id, 'abc');
+        assert2.de(c.d, today);
+        assert2.e(c.c, 2);
         done();
       });
     });
@@ -54,34 +55,34 @@ describe('/api/counters/:id', function () {
       { id: 'dc', d: new Date('2015-10-10 0:0'), c: 6 }
     ];
     counterb.counters.insertMany(t, function (err) {
-      expect(err).not.exist;
+      assert.ifError(err);
       done();
     });
   });
   it('should succeed', function (done) {
     userf.login('admin', function (err) {
-      expect(err).not.exist;
+      assert.ifError(err);
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
-        expect(err).not.exist;
-        expect(res.body.err).not.exist;
+        assert.ifError(err);
+        assert.ifError(res.body.err);
         var cs = res.body.counters;
-        expect(cs.length).equal(3);
-        expect(cs[0].id).equal('dc');
-        expect(new Date(cs[0].d)).deep.equal(new Date('2015-10-07 0:0'));
-        expect(cs[0].c).equal(3);
-        expect(cs[2].id).equal('dc');
-        expect(new Date(cs[2].d)).deep.equal(new Date('2015-10-09 0:0'));
-        expect(cs[2].c).equal(5);
+        assert2.e(cs.length, 3);
+        assert2.e(cs[0].id, 'dc');
+        assert2.de(new Date(cs[0].d), new Date('2015-10-07 0:0'));
+        assert2.e(cs[0].c, 3);
+        assert2.e(cs[2].id, 'dc');
+        assert2.de(new Date(cs[2].d), new Date('2015-10-09 0:0'));
+        assert2.e(cs[2].c, 5);
         done();
       });
     });
   });
   it('should fail if not admin', function (done) {
     userf.login('user1', function (err) {
-      expect(err).not.exist;
+      assert.ifError(err);
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
-        expect(err).not.exist;
-        expect(res.body.err).error('NOT_AUTHORIZED');
+        assert.ifError(err);
+        assert(error.find(res.body.err, 'NOT_AUTHORIZED'));
         done();
       });
     });

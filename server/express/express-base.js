@@ -9,7 +9,8 @@ var redisStore = require('connect-redis')(session);
 var init = require('../base/init');
 var error = require('../base/error');
 var config = require('../base/config');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 var expb = exports;
 
 expb.core = express.Router();

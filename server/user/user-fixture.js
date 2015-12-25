@@ -4,7 +4,8 @@ var init = require('../base/init');
 var userb = require('../user/user-base');
 var usera = require('../user/user-auth');
 var expl = require('../express/express-local');
-var expect = require('../base/assert2').expect;
+var assert = require('assert');
+var assert2 = require('../base/assert2');
 var userf = exports;
 
 init.add(exports.recreate = function (done) {
@@ -25,7 +26,7 @@ init.add(exports.recreate = function (done) {
       var form = forms[i++];
       var now = new Date();
       userb.makeHash(form.password, function (err, hash) {
-        expect(err).not.exist;
+        assert.ifError(err);
         var user = {
           _id: userb.getNewId(),
           name: form.name,
@@ -43,7 +44,7 @@ init.add(exports.recreate = function (done) {
           user.admin = true;
         }
         userb.users.insertOne(user, function (err) {
-          expect(err).not.exist;
+          assert.ifError(err);
           user.password = form.password;
           exports[user.name] = user;
           setImmediate(create);
