@@ -1,15 +1,16 @@
 @import "_common";
 
-.image-thumb {
-  .image {
-    img {
-      max-height: 100vh;
+.image-thumb-list {
+  .image-thumb {
+    .image {
+      img {
+      }
     }
   }
 }
 
 .image-full {
   @include desktop {
-    margin: $margin * 1.5 auto;
+    //margin: $margin * 1.5 auto; // 원이 클 때는 사위 마진이 있으면 더 이상해 보인다.
   }
 }

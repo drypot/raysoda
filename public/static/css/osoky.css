@@ -1,6 +1,0 @@
-.image-thumb .image img {
-  max-height: 100vh; }
-
-@media (min-width: 1024px) {
-  .image-full {
-    margin: 4.5em auto; } }

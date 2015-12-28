@@ -1,12 +1,12 @@
 @import "_common";
 
-.image-thumb {
-  .image {
-    display: block;
-    img {
-      width: 100%; // for svg on safari
-      max-width: 100%; // for mobile
-      max-height: none; // 걍 넓게 보자;
+.image-thumb-list {
+  .image-thumb {
+    .image {
+      img {
+        width: 100vw; // width 를 지정해야 svg 가 늘어난다.
+        height: 100vh; // height 100vh 를 지정해 놓지 않으면 ie 에서 찌그러진다.
+      }
     }
   }
 }

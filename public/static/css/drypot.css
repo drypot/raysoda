@@ -1,9 +1,6 @@
-.image-thumb .image {
-  display: block; }
-  .image-thumb .image img {
-    width: 100%;
-    max-width: 100%;
-    max-height: none; }
+.image-thumb-list .image-thumb .image img {
+  width: 100vw;
+  height: 100vh; }
 
 .image-full .image {
   display: block; }
