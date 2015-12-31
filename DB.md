@@ -11,8 +11,9 @@
 
     db.users.find({ homel: '...' })
     db.users.update({ homel: '...' }, { $set : { status: 'v' }})
+    db.users.update({ _id: 0 }, { $set : { status: 'v' }})
 
-    현재는 서버 재가동해야함; 수정 해야;
+    디비 수정하고 웹 페이지에서 Profile Update 한번 해야한다.
 
 사진 코멘트 변경
 

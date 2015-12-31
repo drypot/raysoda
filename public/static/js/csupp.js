@@ -32,11 +32,14 @@ $(function () {
         err = err || res.body.err;
         if (err) return showError(err);
         var c = res.body.counters;
+        var sum = 0;
         var html = '<table>';
         for (var i = 0; i < c.length; i++) {
           html += '<tr><td>' + util2.dateString(new Date(c[i].d)) + '</td><td>' + c[i].c + '</td></tr>'; 
+          sum += c[i].c;
         }
         html += '</table>';
+        html += '<div class="sub-section">' + sum + '</div>';
         $result.html(html);
       });
       return false;
