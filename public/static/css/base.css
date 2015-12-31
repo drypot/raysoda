@@ -33,6 +33,13 @@ body {
 .sub-section {
   margin: 3em auto; }
 
+pre.clean {
+  margin: 3em auto;
+  padding: 0px;
+  border: 0px;
+  background-color: inherit;
+  font-size: inherit; }
+
 hr {
   margin: 0px; }
 

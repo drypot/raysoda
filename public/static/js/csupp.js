@@ -25,6 +25,7 @@ $(function () {
   csupp.initCounterList = function () {
     var $form = formty.getForm('form.main');
     var $result = $('#result');
+    $form.find('input[name=id]').val('adng'); // for test
     $form.$send.click(function () {
       var obj = formty.getObject($form);
       var url = util2.url('/api/counters/' + $form.$id.val(), { b: $form.$b.val(), e: $form.$e.val()});
@@ -33,13 +34,13 @@ $(function () {
         if (err) return showError(err);
         var c = res.body.counters;
         var sum = 0;
-        var html = '<table>';
+        var html = '<pre class="clean">';
         for (var i = 0; i < c.length; i++) {
-          html += '<tr><td>' + util2.dateString(new Date(c[i].d)) + '</td><td>' + c[i].c + '</td></tr>'; 
+          html += '' + util2.dateString(new Date(c[i].d)) + '\t' + c[i].c + '<br>'; 
           sum += c[i].c;
         }
-        html += '</table>';
-        html += '<div class="sub-section">' + sum + '</div>';
+        html += '<br>' + sum + '<br>';
+        html += '</pre>';
         $result.html(html);
       });
       return false;
