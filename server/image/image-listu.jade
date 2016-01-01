@@ -29,9 +29,6 @@ block content
           | Deactivated Account
 
   if images.length
-    if gt
-      .section
-        a(href=gt) Previous
 
     .section.image-thumb-list
       for image in images
@@ -41,12 +38,14 @@ block content
               img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
           if image.comment
             .comment= image.comment
-
-    if lt
-      .section
-        .sub-section
-          a(href=lt) Next
-
+    .section
+      if gt || lt
+        .sub-section.prev-next
+          if gt
+              a(href=gt) Back
+          if lt
+              a(href=lt) More
+      if lt
         .sub-section
           if dlt
             a(href=dlt) Go to !{dyear}
