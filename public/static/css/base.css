@@ -33,6 +33,9 @@ body {
 .sub-section {
   margin: 3em auto; }
 
+.mini-section {
+  margin: 2.4em auto; }
+
 pre.clean {
   margin: 3em auto;
   padding: 0px;

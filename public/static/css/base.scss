@@ -45,6 +45,10 @@ body {
   margin: $margin auto;
 }
 
+.mini-section {
+  margin: $margin * 0.8 auto;
+}
+
 pre.clean {
   margin: $margin auto;
   padding: 0px;
@@ -211,7 +215,7 @@ pre.sample {
   cursor: pointer;
 }
 
-.prev-next {
+.prev-next { // 삭제 가능
   a {
     padding: 0em 1em;
   }

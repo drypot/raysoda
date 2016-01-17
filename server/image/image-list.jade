@@ -47,26 +47,26 @@ block content
           a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
 
   .section
-    if gt || lt
-      .sub-section.prev-next
-        if gt
-            a(href=gt) Back
-        if lt
-            a(href=lt) More
     if lt
-      .sub-section
+      .mini-section
+        a(href=lt) More
+    if gt
+      .mini-section
+        a(href=gt) Back
+    if lt
+      .mini-section
         if dlt
-          a(href=dlt) Go to !{dyear}
+          a(href=dlt) !{dyear}
         else
-          a(href='/?gt=0') Go to the beginning
+          a(href='/?gt=0') First
   
   .section
     if appNamel != 'raysoda'
-      .sub-section
-        a(href='https://raysoda.com', target='_blank') Open RaySoda
+      .mini-section
+        a(href='https://raysoda.com', target='_blank') RaySoda
     if appNamel != 'rapixel'
-      .sub-section
-        a(href='https://rapixel.com', target='_blank') Open Rapixel
+      .mini-section
+        a(href='https://rapixel.com', target='_blank') Rapixel
     if appNamel != 'osoky'
-      .sub-section
-        a(href='https://osoky.com', target='_blank') Open Osoky
+      .mini-section
+        a(href='https://osoky.com', target='_blank') Osoky

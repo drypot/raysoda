@@ -39,16 +39,16 @@ block content
           if image.comment
             .comment= image.comment
     .section
-      if gt || lt
-        .sub-section.prev-next
-          if gt
-              a(href=gt) Back
-          if lt
-              a(href=lt) More
       if lt
-        .sub-section
+        .mini-section
+          a(href=lt) More
+      if gt
+        .mini-section
+          a(href=gt) Back
+      if lt
+        .mini-section
           if dlt
-            a(href=dlt) Go to !{dyear}
+            a(href=dlt) !{dyear}
           else
-            a(href=path + '?gt=0') Go to the beginning
+            a(href=path + '?gt=0') First
 
