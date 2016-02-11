@@ -12,6 +12,7 @@
     db.users.find({ homel: '...' })
     db.users.update({ homel: '...' }, { $set : { status: 'v' }})
     db.users.update({ _id: 0 }, { $set : { status: 'v' }})
+    db.users.update({ homel: '...' }, { $set : { status: 'v' }})
 
     디비 수정하고 웹 페이지에서 Profile Update 한번 해야한다.
 
