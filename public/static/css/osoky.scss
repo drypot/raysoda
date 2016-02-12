@@ -10,7 +10,7 @@
 }
 
 .image-full {
-  @include desktop {
+  @include normal {
     //margin: $margin * 1.5 auto; // 원이 클 때는 사위 마진이 있으면 더 이상해 보인다.
   }
 }

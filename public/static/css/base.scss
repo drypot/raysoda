@@ -4,13 +4,13 @@
 
 html {
   font-size: 14px;
-  @include tablet {
+  @include narrow {
     font-size: 16px;
   }
-  @include desktop {
+  @include normal {
     font-size: 18px;
   }
-  @include wide-desktop {
+  @include wide {
     font-size: 20px;
   }
 }
@@ -24,13 +24,13 @@ body {
 
 @mixin section {
   margin: $margin * 1.5 auto; // auto 는 IE9 이상부터
-  @include tablet {
+  @include narrow {
     margin: $margin * 1.7 auto;
   }
-  @include desktop {
+  @include normal {
     margin: $margin * 2 auto;
   }
-  @include wide-desktop {
+  @include wide {
     margin: $margin * 2.3 auto;
   }
   text-align: center;

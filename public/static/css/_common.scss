@@ -7,19 +7,19 @@ $width: 640px;
 
 $form-width: 480px;
 
-@mixin tablet {
+@mixin narrow {
   @media (min-width: 768px) {
     @content;
   }
 }
 
-@mixin desktop {
+@mixin normal {
   @media (min-width: 1024px) {
     @content;
   }
 }
 
-@mixin wide-desktop {
+@mixin wide {
   @media (min-width: 1400px) {
     @content;
   }
