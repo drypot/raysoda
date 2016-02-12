@@ -14,15 +14,16 @@ Mac 개발환경용 Nginx 설정 예
       client_max_body_size 10m;
 
       location / {
-        proxy_pass http://localhost:8050;
-        proxy_set_header Host $http_host;
-      }
-
-      location /static/ {
+        try_files $uri @app;
       }
 
       location /static/bower/ {
         alias /Users/drypot/projects/raysoda/website/bower_components/;
+      }
+
+      location @app {
+        proxy_pass http://localhost:8050;
+        proxy_set_header Host $http_host;
       }
     }
 
@@ -31,7 +32,6 @@ Mac 개발환경용 Nginx 설정 예
       server_name file.raysoda.localhost;
       root /Users/drypot/projects/raysoda/website/upload/raysoda-dev/public;
     }
-
 
 ## Requirements
 
