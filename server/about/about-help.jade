@@ -10,9 +10,14 @@ block content
 
   .section
     .sub-section
-      | support email:&nbsp;
+      | facebook:&nbsp;
+      a(href='https://www.facebook.com/raysoda.news', target='_blank') https://www.facebook.com/raysoda.news
+      br
+
+      | email:&nbsp;
       -var email = 'support+' + appNamel + '@raysoda.com'
       a(href='mailto:' + email)= email 
+
     .sub-section
       span Want to deactivate your account?&nbsp;
       a(href='/users/deactivate') click
