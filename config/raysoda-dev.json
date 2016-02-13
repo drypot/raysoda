@@ -9,7 +9,7 @@
   "cookieSecret": "o;iejf832ndvs",
   
   "uploadSite": "http://file.raysoda.localhost:8080",
-  "uploadDir": "upload/raysoda-dev",
+  "uploadDir": "upload/raysoda",
 
   "mongodb": "raysoda",
 

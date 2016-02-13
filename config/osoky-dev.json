@@ -9,7 +9,7 @@
   "cookieSecret": "o;iejf832ndvs",
 
   "uploadSite": "http://file.osoky.localhost:8080",
-  "uploadDir": "upload/osoky-dev",
+  "uploadDir": "upload/osoky",
 
   "mongodb": "osoky",
 

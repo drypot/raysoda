@@ -9,7 +9,7 @@
   "cookieSecret": "o;iejf832ndvs",
   
   "uploadSite": "http://file.rapixel.localhost:8080",
-  "uploadDir": "upload/rapixel-dev",
+  "uploadDir": "upload/rapixel",
 
   "mongodb": "rapixel",
 

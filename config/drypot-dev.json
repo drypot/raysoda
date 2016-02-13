@@ -9,7 +9,7 @@
   "cookieSecret": "o;iejf832ndvs",
 
   "uploadSite": "http://file.drypot.localhost:8080",
-  "uploadDir": "upload/drypot-dev",
+  "uploadDir": "upload/drypot",
 
   "mongodb": "drypot",
 
