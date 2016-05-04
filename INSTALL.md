@@ -84,6 +84,7 @@ libpng 별도 설치 필요(?)
     WorkingDirectory=/data/web/raysoda
     ExecStart=/usr/bin/node server/main/main.js --config config/raysoda-live.json
     Environment=NODE_ENV=production
+    Environment=MAGICK_CONFIGURE_PATH=/data/im
 
     [Install]
     WantedBy=multi-user.target
@@ -98,6 +99,20 @@ libpng 별도 설치 필요(?)
 * StandardOutput 을 지정하지 않으면 journal 을 사용.
 * syslog 를 지정하면 syslog 에도 쌓이고 journal 에도 쌓인다. journal 에는 기본적으로 쌓임.
 * [Install] 파트는 enable, disable 명령에서 사용한다.
+
+
+## ImageImagick
+
+'convert -list configure' 명령으로 CONFIGURE_PATH 확인한 후 policy.xml 에 다음을 추가한다.
+
+    <policymap>
+      <policy domain="coder" rights="none" pattern="EPHEMERAL" />
+      <policy domain="coder" rights="none" pattern="URL" />
+      <policy domain="coder" rights="none" pattern="HTTPS" />
+      <policy domain="coder" rights="none" pattern="MVG" />
+      <policy domain="coder" rights="none" pattern="MSL" />
+    </policymap>
+
 
 ## 관리자 계정
 
