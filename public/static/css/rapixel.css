@@ -1,3 +1,6 @@
+.image-thumb-list .image-thumb .image img {
+  max-height: none; }
+
 :-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
   background: black; }
 
