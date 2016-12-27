@@ -21,7 +21,9 @@ block content
       .sub-section.top-links
         if locals.user
             a(href='/images/new') Upload
-            a(href='/users/' + user._id) Profile
+            //- a(href='/users/' + user._id) My Photos
+            //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
+            a(href='/' + encodeURIComponent(user.home)) My Photos
             a(href='/users') Users
             a(href='#' onclick='javascript:cuser.logout(); return false;') Logout
         else
