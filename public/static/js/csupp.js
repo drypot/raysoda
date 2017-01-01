@@ -15,7 +15,8 @@ $(function () {
       if (!e) {
         formty.put('/api/banners', $form, obj, function () {
           formty.hideSending($form);
-          alert('done');
+          //alert('done');
+          location = '/';
         });
       }
       return false;
