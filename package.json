@@ -13,11 +13,11 @@
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "jade": "^1.11.0",
     "minimist": "^1.2.0",
     "mongodb": "^2.1.18",
     "multiparty": "^4.1.2",
     "nodemailer": "^2.4.0",
+    "pug": "^2.0.0-beta6",
     "superagent": "^1.8.3",
     "tedious": "^1.14.0"
   },

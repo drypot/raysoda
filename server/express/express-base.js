@@ -26,8 +26,7 @@ init.add(function (done) {
   expb.app.locals.appNamel = config.appNamel;
   expb.app.locals.appDesc = config.appDesc;
 
-  expb.app.engine('jade', require('jade').renderFile);
-  expb.app.set('view engine', 'jade');
+  expb.app.set('view engine', 'pug');
   expb.app.set('views', 'server');
 
   expb.app.use(cookieParser());
