@@ -145,7 +145,7 @@ describe('get /api/images deep', function (done) {
       { _id: 27, uid: userf.user1._id, cdate: new Date(2009, 5, 4), comment: '' },
       { _id: 36, uid: userf.user2._id, cdate: new Date(2009, 8, 2), comment: '' },
       { _id: 49, uid: userf.user1._id, cdate: new Date(2010, 1, 9), comment: '' },
-      { _id: 67, uid: userf.user2._id, cdate: new Date(2011, 7, 6), comment: '' },
+      { _id: 67, uid: userf.user2._id, cdate: new Date(2012, 7, 6), comment: '' },
       { _id: 82, uid: userf.user2._id, cdate: new Date(2013, 2, 3), comment: '' },
       { _id: 98, uid: userf.user1._id, cdate: new Date(2014, 4, 9), comment: '' },
     ];
