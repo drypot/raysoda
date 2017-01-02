@@ -43,7 +43,7 @@ describe('getPath', function () {
   });
 });
 
-describe('getTicketCount', function () {
+describe.only('getTicketCount', function () {
   var _now = new Date();
 
   function genImage(hours, count, done) {
@@ -59,19 +59,11 @@ describe('getTicketCount', function () {
     imageb.images.insertMany(images, done);
   }
 
-  before(function (done) {
-    imageb.images.deleteMany(done);
-  });
-  it('should return ticketMax when clean', function (done) {
-    imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
-      assert.ifError(err);
-      assert2.e(count, config.ticketMax);
-      done();
+  describe('when no image', function () {
+    before(function (done) {
+      imageb.images.deleteMany(done);
     });
-  });
-  it('should return ticketMax when the last image aged', function (done) {
-    genImage(config.ticketGenInterval + 1, 1, function (err) {
-      assert.ifError(err);
+    it('should return ticketMax', function (done) {
       imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
         assert.ifError(err);
         assert2.e(count, config.ticketMax);
@@ -79,9 +71,29 @@ describe('getTicketCount', function () {
       });
     });
   });
-  it('should return (ticketMax - 1) when an image uploaded', function (done) {
-    genImage(config.ticketGenInterval - 1, 1, function (err) {
-      assert.ifError(err);
+  describe('when the last image aged', function () {
+    before(function (done) {
+      imageb.images.deleteMany(done);
+    });
+    before(function (done) {
+      genImage(config.ticketGenInterval + 1, 1, done);
+    });
+    it('should return ticketMax', function (done) {
+      imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
+        assert.ifError(err);
+        assert2.e(count, config.ticketMax);
+        done();
+      });
+    });
+  });
+  describe('when recent image exists', function () {
+    before(function (done) {
+      imageb.images.deleteMany(done);
+    });
+    before(function (done) {
+      genImage(config.ticketGenInterval - 1, 1, done);
+    });
+    it('should return (ticketMax - 1)', function (done) {
       imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
         assert.ifError(err);
         assert2.e(count, config.ticketMax - 1);
@@ -89,17 +101,19 @@ describe('getTicketCount', function () {
       });
     });
   });
-  it('should return 0 with left hours when ticketMax images uploaded', function (done) {
-    imageb.images.deleteMany(function (err) {
-      assert.ifError(err);
-      genImage(config.ticketGenInterval - 3, config.ticketMax, function (err) {
+  describe('when ticketMax images uploaded', function () {
+    before(function (done) {
+      imageb.images.deleteMany(done);
+    });
+    before(function (done) {
+      genImage(config.ticketGenInterval - 3, config.ticketMax, done);
+    });
+    it('should return 0 with left hours', function (done) {
+      imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
         assert.ifError(err);
-        imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
-          assert.ifError(err);
-          assert2.e(count, 0);
-          assert2.e(hours, 3);
-          done();
-        });
+        assert2.e(count, 0);
+        assert2.e(hours, 3);
+        done();
       });
     });
   });
