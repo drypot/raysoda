@@ -43,7 +43,7 @@ describe('getPath', function () {
   });
 });
 
-describe.only('getTicketCount', function () {
+describe('getTicketCount', function () {
   var _now = new Date();
 
   function genImage(hours, count, done) {
