@@ -69,31 +69,3 @@ function filter(image, done) {
     done(null, image);
   });
 }
-
-function getDeep(images, done) {
-  if (!images.length) {
-    return done(null, undefined, undefined);
-  }
-  var now = new Date();
-  var dyear = images[0].cdate.getFullYear() - 1;
-  var ddate = new Date(dyear, now.getMonth(), now.getDate());
-  var dndate = new Date(dyear, now.getMonth(), now.getDate() + 1);
-  var ddateStr = util2.dateStringNoDash(ddate);
-  var dlt = dltMap.get(ddateStr);
-  if (dlt) {
-    done(null, dyear, dlt);
-  } else {
-    var opt = { 
-      sort: { cdate: 1 }, 
-      limit: 1
-    };
-    imageb.images.findOne({ cdate: { $gte : dndate }}, opt, function (err, doc) {
-      if (err) return done(err);
-      if (doc && doc.cdate.getFullYear() == dyear) {
-        dlt = doc._id;
-        dltMap.set(ddateStr, dlt);
-      }
-      done(null, dyear, dlt);
-    });
-  }
-}
