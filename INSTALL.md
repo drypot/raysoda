@@ -70,7 +70,7 @@ libpng 별도 설치 필요(?)
 /usr/lib/systemd 디렉토리는 패키지의 유닛 파일들만 들어간다.
 사용자 추가 유닛들은 /etc/systemd/system 에 생성.
 
-    /etc/systemd/system/raysoda.serivce
+    /etc/systemd/system/raysoda.service
 
     [Unit]
     Description=Rapixel
@@ -91,6 +91,7 @@ libpng 별도 설치 필요(?)
 
 설치
 
+    $ sudo systemctl daemon-reload
     $ sudo systemctl status raysoda
     $ sudo systemctl enable raysoda
     $ sudo systemctl start raysoda
