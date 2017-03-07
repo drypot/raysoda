@@ -181,7 +181,18 @@ pre.sample {
 .image-thumb-list {
   max-width: 100%; // section 의 max-width 오버라이딩.
   .image-thumb {
-    @include section;
+    //@include section;
+    margin: $margin * 2.5 auto; // auto 는 IE9 이상부터
+    @include narrow {
+      margin: $margin * 2.7 auto;
+    }
+    @include normal {
+      margin: $margin * 3 auto;
+    }
+    @include wide {
+      margin: $margin * 3.3 auto;
+    }
+    text-align: center;
     @include ac-link;
     max-width: 100%; // for ie
     .image {
