@@ -9,6 +9,9 @@
 
 계정 복구
 
+    db.users.find({ email: '...' })
+    db.users.update({ email: '...' }, { $set : { status: 'v' }})
+
     db.users.find({ namel: '...' })
     db.users.update({ namel: '...' }, { $set : { status: 'v' }})
 
