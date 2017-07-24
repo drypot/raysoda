@@ -22,7 +22,7 @@ require('../counter/counter-all');
 require('../banner/banner-all');
 require('../redirect/redirect-all');
 
-require('../image/image-listu'); // url 유저명 대조는 맨 마지막에
+require('../userx-image/userx-image-view'); // url 유저명 대조는 맨 마지막에
 
 init.run(function (err) {
   if (err) throw err;

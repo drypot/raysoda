@@ -41,7 +41,7 @@ function profile(req, res, tuser) {
     }, function (next) {
       next(null, undefined, undefined);
     }, function (err, dyear, dlt) {
-      res.render('image/image-listu', {
+      res.render('userx-image/userx-image-view', {
         tuser: tuser,
         updatable: user && (user._id === tuser._id || user.admin),
         images: images,
