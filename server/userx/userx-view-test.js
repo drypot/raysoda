@@ -8,7 +8,7 @@ var expb = require('../express/express-base');
 var expl = require('../express/express-local');
 var userb = require('../user/user-base');
 var userf = require('../user/user-fixture');
-var userxv = require('../userx-image/userx-image-view');
+var userxv = require('../userx/userx-view');
 var assert = require('assert');
 var assert2 = require('../base/assert2');
 
