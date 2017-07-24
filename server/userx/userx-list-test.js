@@ -7,7 +7,7 @@ var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
 var expl = require('../express/express-local');
 var userb = require('../user/user-base');
 var userf = require('../user/user-fixture');
-var userl = require('../user/user-list');
+var userxl = require('../userx/userx-list');
 var assert = require('assert');
 var assert2 = require('../base/assert2');
 

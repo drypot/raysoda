@@ -9,7 +9,7 @@ var userb = require('../user/user-base');
 expb.core.get('/users', function (req, res, done) {
   userb.users.count(function (err, count) {
     if (err) return done(err);
-    res.render('user/user-list', { count: count });
+    res.render('userx/userx-list', { count: count });
   });
 });
 
