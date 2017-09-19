@@ -3,12 +3,12 @@
   "appNamel": "raysoda",
   "appDesc": "One day, one photo.",
 
-  "mainSite": "http://raysoda.localhost:8080",
+  "mainSite": "http://raysoda.dev:8080",
 
   "appPort": 8051,
   "cookieSecret": "o;iejf832ndvs",
 
-  "uploadSite": "http://file.raysoda.localhost:8080",
+  "uploadSite": "http://file.raysoda.dev:8080",
   "uploadDir": "upload/raysoda-test",
 
   "mongodb": "raysoda-test",
