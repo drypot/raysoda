@@ -1,12 +1,12 @@
 extends ../layout/layout
 
-block head-title
+block head-opt
   meta(property='og:image', content=image.thumb)
   meta(property='og:title' content=image.user.name)
   meta(property='og:description' content=image.comment)
   title Image !{image._id} - #{appName}
 
-block site-title
+block header
 
 block content
 
