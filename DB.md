@@ -23,3 +23,11 @@
 
     db.images.update( { uid: 125613, "comment" : "ShinjukuNoir\n\n#新&#40658;宿#" }, { $set: { "comment" : "ShinjukuNoir\r\n\r\n#新黒宿#" }}, { multi: true})
 
+사용 정지
+
+    db.users.find({ name : ''})
+    db.users.update({ name : '' }, { $set: { status: 'd' } })
+
+이메일 검색
+
+    db.users.find({ email: new RegExp('^abc') })
