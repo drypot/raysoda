@@ -126,7 +126,7 @@ function countUsersByName(namel, id, done) {
     { namel: namel, _id : { $ne: id } },
     { homel: namel, _id : { $ne: id } }
   ]};
-  userb.users.count(q, done);
+  userb.users.countDocuments(q, done);
 };
 
 function countUsersByHome(namel, id, done) {
@@ -135,12 +135,12 @@ function countUsersByHome(namel, id, done) {
     { namel: namel, _id : { $ne: id } },
     { homel: namel, _id : { $ne: id } }
   ]};
-  userb.users.count(q, done);
+  userb.users.countDocuments(q, done);
 };
 
 function countUsersByEmail(email, id, done) {
   var q = { 
     email: email, _id: { $ne: id } 
   };
-  userb.users.count(q, done);
+  userb.users.countDocuments(q, done);
 };

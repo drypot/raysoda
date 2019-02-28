@@ -9,6 +9,25 @@ assert2.ne = assert.notStrictEqual;
 assert2.de = assert.deepStrictEqual;
 assert2.nde = assert.notDeepStrictEqual;
 
+assert2.noError = assert.ifError;
+
+function isEmpty(obj) {
+  return typeof obj === 'undefined' || obj === null ||
+    (Object.keys(obj).length === 0 && obj.constructor === Object);
+}
+
+assert2.empty = function (obj) {
+  if (!isEmpty(obj)) {
+    assert.fail(obj + ' should be empty');
+  }
+}
+
+assert2.notEmpty = function (obj) {
+  if (isEmpty(obj)) {
+    assert.fail(obj + ' should not be empty');
+  }
+}
+
 assert2.path = function (path, shouldExist)  {
   if (shouldExist === undefined) {
     shouldExist = true;

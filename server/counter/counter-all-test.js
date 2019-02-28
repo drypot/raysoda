@@ -22,7 +22,7 @@ describe('/api/counters/:id/inc', function () {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');
       counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(c.id, 'abc');
         assert2.de(c.d, today);
         assert2.e(c.c, 1);
@@ -34,7 +34,7 @@ describe('/api/counters/:id/inc', function () {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');
       counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(c.id, 'abc');
         assert2.de(c.d, today);
         assert2.e(c.c, 2);
@@ -55,16 +55,16 @@ describe('/api/counters/:id', function () {
       { id: 'dc', d: new Date('2015-10-10 0:0'), c: 6 }
     ];
     counterb.counters.insertMany(t, function (err) {
-      assert.ifError(err);
+      assert2.noError(err);
       done();
     });
   });
   it('should succeed', function (done) {
     userf.login('admin', function (err) {
-      assert.ifError(err);
+      assert2.noError(err);
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
-        assert.ifError(err);
-        assert.ifError(res.body.err);
+        assert2.noError(err);
+        assert2.empty(res.body.err);
         var cs = res.body.counters;
         assert2.e(cs.length, 3);
         assert2.e(cs[0].id, 'dc');
@@ -79,9 +79,9 @@ describe('/api/counters/:id', function () {
   });
   it('should fail if not admin', function (done) {
     userf.login('user1', function (err) {
-      assert.ifError(err);
+      assert2.noError(err);
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert(error.find(res.body.err, 'NOT_AUTHORIZED'));
         done();
       });

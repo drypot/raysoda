@@ -18,8 +18,8 @@ before(function (done) {
 describe('/api/users?q=', function () {
   it('should succeed for user1', function (done) {
     expl.get('/api/users?q=user1', function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.users.length, 1);
       var u = res.body.users[0];
       assert2.e(u._id, 1);
@@ -30,8 +30,8 @@ describe('/api/users?q=', function () {
   });
   it('should succeed for us', function (done) {
     expl.get('/api/users?q=us', function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.users.length, 3);
       var u;
       u = res.body.users[0];
@@ -46,9 +46,9 @@ describe('/api/users?q=', function () {
     });
   });
   it('should succeed for [빈칸 which including RegExp character', function (done) {
-    expl.get('/api/users?q=[빈칸', function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+    expl.get('/api/users?q=' + encodeURIComponent('[빈칸'), function (err, res) {
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.users.length, 0);
       done();
     });

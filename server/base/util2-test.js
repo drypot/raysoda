@@ -99,13 +99,13 @@ describe('fif', function () {
 describe('pass', function () {
   it('should succeed', function (done) {
     util2.pass(function (err) {
-      assert.ifError(err);
+      assert2.noError(err);
       done();
     });
   });
   it('should succeed', function (done) {
     util2.pass(1, 2, 3, function (err) {
-      assert.ifError(err);
+      assert2.noError(err);
       done();
     });
   });

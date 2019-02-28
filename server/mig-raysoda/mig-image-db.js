@@ -8,11 +8,11 @@ var config = require('../base/config');
 var mongo2 = require('../mongo/mongo2');
 var imageb = require('../image/image-base');
 
-/* 
+/*
   $ node server/mig-raysoda/mig-image-db.js -c config/mig-1-dev.json 1 10
 */
- 
-/* 
+
+/*
   SQL Server
 
   table Photos (
@@ -108,7 +108,7 @@ init.main(function (done) {
       } else {
         image.comment = comment;
       }
-      imageb.images.updateOne({ _id: _id }, image, { upsert: true }, function (err) {
+      imageb.images.updateOne({ _id: _id }, { $set: image }, { upsert: true }, function (err) {
         if (err) return done(err);
         cnt++;
         if (cnt % 100 == 0) {

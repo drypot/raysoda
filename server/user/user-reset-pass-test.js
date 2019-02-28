@@ -26,9 +26,9 @@ describe('resetting user', function () {
   });
   it('old password should be ok', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
-      assert.ifError(err);
+      assert2.noError(err);
       userb.checkPassword(_user.password, user.hash, function (err, matched) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(matched, true);
         done();
       });
@@ -36,14 +36,14 @@ describe('resetting user', function () {
   });
   it('reset request should succeed', function (done) {
     expl.post('/api/reset-pass').send({ email: _user.email }).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       done();
     });
   });
   it('can be checked', function (done) {
     userp.resets.findOne({ email: _user.email }, function (err, reset) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(reset._id, undefined);
       assert2.ne(reset.token, undefined);
       assert2.e(reset.email, _user.email);
@@ -53,7 +53,7 @@ describe('resetting user', function () {
   });
   it('invalid email should fail', function (done) {
     expl.post('/api/reset-pass').send({ email: 'abc.def.xyz' }).end(function (err, res) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(res.body.err, undefined);
       assert(error.find(res.body.err, 'EMAIL_PATTERN'));
       done();
@@ -61,7 +61,7 @@ describe('resetting user', function () {
   });
   it('unregistered email should fail', function (done) {
     expl.post('/api/reset-pass').send({ email: 'non-exist@xyz.com' }).end(function (err, res) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(res.body.err, undefined);
       assert(error.find(res.body.err, 'EMAIL_NOT_EXIST'));
       done();
@@ -70,7 +70,7 @@ describe('resetting user', function () {
   it('invalid id should fail', function (done) {
     var form = { id: '012345678901234567890123', token: _reset.token, password: '4567' };
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(res.body.err, undefined);
       assert(error.find(res.body.err, 'INVALID_DATA'));
       done();
@@ -79,7 +79,7 @@ describe('resetting user', function () {
   it('invalid token should fail', function (done) {
     var form = { id: _reset._id, token: 'xxxxx', password: '4567' };
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(res.body.err, undefined);
       assert(error.find(res.body.err, 'INVALID_DATA'));
       done();
@@ -88,7 +88,7 @@ describe('resetting user', function () {
   it('invalid password should fail', function (done) {
     var form = { id: _reset._id, token: _reset.token, password: '' };
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(res.body.err, undefined);
       assert(error.find(res.body.err, 'PASSWORD_EMPTY'));
       done();
@@ -97,7 +97,7 @@ describe('resetting user', function () {
   it('invalid password should fail', function (done) {
     var form = { id: _reset._id, token: _reset.token, password: 'xx' };
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(res.body.err, undefined);
       assert(error.find(res.body.err, 'PASSWORD_RANGE'));
       done();
@@ -106,16 +106,16 @@ describe('resetting user', function () {
   it('should succeed', function (done) {
     var form = { id: _reset._id, token: _reset.token, password: 'new-pass' };
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       done();
     });
   });
   it('old password should fail', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
-      assert.ifError(err);
+      assert2.noError(err);
       userb.checkPassword(_user.password, user.hash, function (err, matched) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(matched, false);
         done();
       });
@@ -123,9 +123,9 @@ describe('resetting user', function () {
   });
   it('new password should succeed', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
-      assert.ifError(err);
+      assert2.noError(err);
       userb.checkPassword('new-pass', user.hash, function (err, matched) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(matched, true);
         done();
       });
@@ -141,9 +141,9 @@ describe('resetting admin', function () {
   });
   it('old password should succeed', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
-      assert.ifError(err);
+      assert2.noError(err);
       userb.checkPassword(_user.password, user.hash, function (err, matched) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(matched, true);
         done();
       });
@@ -152,14 +152,14 @@ describe('resetting admin', function () {
   it('given reset request', function (done) {
     var form = { email: _user.email };
     expl.post('/api/reset-pass').send(form).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       done();
     });
   });
   it('can be checked', function (done) {
     userp.resets.findOne({ email: _user.email }, function (err, reset) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(reset._id, undefined);
       assert2.ne(reset.token, undefined);
       assert2.e((reset.email == _user.email), true);
@@ -170,16 +170,16 @@ describe('resetting admin', function () {
   it('should succeed', function (done) {
     var form = { id: _reset._id, token: _reset.token, password: 'new-pass' };
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       done();
     });
   });
   it('old password should succeed', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
-      assert.ifError(err);
+      assert2.noError(err);
       userb.checkPassword(_user.password, user.hash, function (err, matched) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(matched, true);
         done();
       });
@@ -187,9 +187,9 @@ describe('resetting admin', function () {
   });
   it('new password should fail', function (done) {
     userb.users.findOne({ email: _user.email }, function (err, user) {
-      assert.ifError(err);
+      assert2.noError(err);
       userb.checkPassword('new-pass', user.hash, function (err, matched) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(matched, false);
         done();
       });

@@ -8,11 +8,11 @@ var config = require('../base/config');
 var mongo2 = require('../mongo/mongo2');
 var userb = require('../user/user-base');
 
-/* 
+/*
   $ node server/mig-raysoda/mig-user.js -c config/mig-1-dev.json 1 10
 */
 
-/* 
+/*
   SQL Server
 
   table Users (
@@ -24,11 +24,11 @@ var userb = require('../user/user-base');
     ,PhotoCnt int not null default 0 -- 삭제
     ,Rating   int not null default 0 -- 삭제
     ,FavCnt   int not null default 0 -- 삭제
-    
+
     ,FIcon    char(1) not null default 'N' -- 삭제
     ,FMusic   char(1) not null default 'N' -- 삭제
     ,FScore   char(1) not null default 'Y' -- 삭제
-    ,FGoC   char(1) not null default 'Y' -- 추천후 Go to Catalog -- 삭제 
+    ,FGoC   char(1) not null default 'Y' -- 추천후 Go to Catalog -- 삭제
     ,FPanel   char(1) not null default 'N' -- 삭제
     ,FDisWrite  char(1) not null default 'N' -- 삭제
     ,FSeed    char(1) not null default 'Y' -- 초대 가능 여부, 삭제
@@ -37,7 +37,7 @@ var userb = require('../user/user-base');
     ,HomeBoxPhotoCount    int not null default '5' -- 삭제
     ,HomeBoxPhotoFeaturedOn char(1) not null default 'N' -- 삭제
     ,HomeNoteOn         char(1) not null default 'Y' -- 삭제
-    
+
     ,BoxUsedSize  bigint not null default 0 -- 개인용량 사용량, 삭제
     ,BoxSID   nvarchar(16) not null default '' --> home, homel
     ,BoxDesc  nvarchar(32) not null default '' --> AKI's home 등, 삭제
@@ -51,13 +51,13 @@ var userb = require('../user/user-base');
     ,Tel    varchar(32) not null -- 삭제
     ,Address  nvarchar(64) not null -- 삭제
     ,ZipCode  char(6) not null -- 삭제
-    
+
     ,Comment  ntext not null제 --> profile
-    
+
     ,Greeting ntext not null default '' -- 삭제
     ,Profile  ntext not null default '' -- 삭제
     ,Career   ntext not null default '' -- 삭제
-    
+
     ,primary key (UserID)
 
   table UserFavs (
@@ -102,7 +102,7 @@ init.main(function (done) {
           adate: cs[7].value,
           profile: homepage + cs[8].value
         };
-        userb.users.updateOne({ _id: _id }, user, { upsert: true }, function (err) {
+        userb.users.updateOne({ _id: _id }, { $set: user }, { upsert: true }, function (err) {
           if (err) return done(err);
           cnt++;
           if (cnt % 100 == 0) {

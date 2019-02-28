@@ -26,7 +26,7 @@ init.add(exports.recreate = function (done) {
       var form = forms[i++];
       var now = new Date();
       userb.makeHash(form.password, function (err, hash) {
-        assert.ifError(err);
+        assert2.noError(err);
         var user = {
           _id: userb.getNewId(),
           name: form.name,
@@ -44,7 +44,7 @@ init.add(exports.recreate = function (done) {
           user.admin = true;
         }
         userb.users.insertOne(user, function (err) {
-          assert.ifError(err);
+          assert2.noError(err);
           user.password = form.password;
           exports[user.name] = user;
           setImmediate(create);

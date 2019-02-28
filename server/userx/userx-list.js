@@ -16,12 +16,12 @@ expb.core.get('/users', function (req, res, done) {
 expb.core.get('/api/users', function (req, res, done) {
   var users = [];
   var q = (req.query.q + '').replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&");
-  userb.users.find({ namel: new RegExp('^' + q) }).limit(45).each(function (err, u) {
-    if (err) return done(err);
-    if (u) {
+  userb.users.find({ namel: new RegExp('^' + q) }).limit(45).forEach(
+    function (u) {
       users.push({ _id: u._id, name: u.name, home: u.home });
-    } else {
+    },
+    function (err) {
+      if (err) return done(err);
       res.json( { users: users });
-    }
   });
 });

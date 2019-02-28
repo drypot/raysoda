@@ -50,13 +50,13 @@ describe('post /api/images', function () {
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/svg-sample.svg').end(function (err, res) {
-        assert.ifError(err);
-        assert.ifError(res.body.err);
+        assert2.noError(err);
+        assert2.empty(res.body.err);
         assert2.ne(res.body.ids, undefined);
         assert2.e(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
-          assert.ifError(err);
+          assert2.noError(err);
           assert2.e(image._id, _id);
           assert2.e(image.uid, userf.user1._id);
           assert2.e(image.width, undefined);
@@ -75,7 +75,7 @@ describe('post /api/images', function () {
     });
     it('should fail', function (done) {
       expl.post('/api/images').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.ne(res.body.err, undefined);
         assert(error.find(res.body.err, 'IMAGE_TYPE'));
         done();

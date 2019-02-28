@@ -13,6 +13,28 @@ describe('aliases', function () {
   });
 });
 
+describe('emtpy', function () {
+  it('should succeed', function (done) {
+    assert2.empty(undefined);
+    assert2.empty(null);
+    assert2.empty({});
+    assert.throws(function () {
+      assert2.empty({ a: 1 });
+    });
+    done();
+  });
+});
+
+describe('notEmtpy', function () {
+  it('should succeed', function (done) {
+    assert2.notEmpty({ a: 1 });
+    assert.throws(function () {
+      assert2.notEmpty({});
+    });
+    done();
+  });
+});
+
 describe('path', function () {
   it('should succeed', function (done) {
     assert2.path('server/base/assert2.js');

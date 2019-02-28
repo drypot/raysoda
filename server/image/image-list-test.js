@@ -36,15 +36,15 @@ describe('get /api/images', function (done) {
       { _id: 9,  uid: userf.user1._id, cdate: now, comment: '9' },
       { _id: 10, uid: userf.user1._id, cdate: now, comment: '10' },
     ];
-    imageb.images.insertMany(images, done);    
+    imageb.images.insertMany(images, done);
   });
   it('should succeed for page size 99', function (done) {
     var query = {
       ps: 99
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.gt, undefined);
       assert2.e(res.body.lt, undefined);
       assert2.e(res.body.images.length, 10);
@@ -60,8 +60,8 @@ describe('get /api/images', function (done) {
       ps: 4
     };
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.gt, undefined);
       assert2.e(res.body.lt, 7);
       assert2.e(res.body.images.length, 4);
@@ -75,8 +75,8 @@ describe('get /api/images', function (done) {
       lt:7, ps: 4
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.gt, 6);
       assert2.e(res.body.lt, 3);
       assert2.e(res.body.images.length, 4);
@@ -90,8 +90,8 @@ describe('get /api/images', function (done) {
       lt: 3, ps: 4
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.gt, 2);
       assert2.e(res.body.lt, undefined);
       assert2.e(res.body.images.length, 2);
@@ -105,8 +105,8 @@ describe('get /api/images', function (done) {
       gt:2, ps: 4
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.gt, 6);
       assert2.e(res.body.lt, 3);
       assert2.e(res.body.images.length, 4);
@@ -120,8 +120,8 @@ describe('get /api/images', function (done) {
       gt: 6, ps: 4
     };
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.gt, undefined);
       assert2.e(res.body.lt, 7);
       assert2.e(res.body.images.length, 4);
@@ -149,15 +149,15 @@ describe('get /api/images deep', function (done) {
       { _id: 82, uid: userf.user2._id, cdate: new Date(2013, 2, 3), comment: '' },
       { _id: 98, uid: userf.user1._id, cdate: new Date(2014, 4, 9), comment: '' },
     ];
-    imageb.images.insertMany(images, done);    
+    imageb.images.insertMany(images, done);
   });
   it('should succeed', function (done) {
     var query = {
       ps: 3
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.dyear, 2010);
       assert2.e(res.body.dlt, 50);
       done();
@@ -168,8 +168,8 @@ describe('get /api/images deep', function (done) {
       lt: 49, ps: 3
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.dyear, 2005);
       assert2.e(res.body.dlt, 16);
       done();
@@ -180,8 +180,8 @@ describe('get /api/images deep', function (done) {
       lt: 18, ps: 3
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       assert2.e(res.body.dyear, undefined);
       assert2.e(res.body.dlt, undefined);
       done();

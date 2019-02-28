@@ -33,28 +33,28 @@ describe('deactivating self', function () {
   });
   it('checkUser should succeed', function (done) {
     expl.get('/api/test/user').end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       done();
     })
   });
   it('should succeed', function (done) {
     expl.del('/api/users/' + userf.user1._id).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       done();
     });
   });
   it('can be checked', function (done) {
     userb.users.findOne({ _id: userf.user1._id }, function (err, user) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(user.status == 'd', true);
       done();
     });
   });
   it('checkUser should fail (because logged off)', function (done) {
     expl.get('/api/test/user').end(function (err, res) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(res.body.err, undefined);
       assert(error.find(res.body.err, 'NOT_AUTHENTICATED'));
       done();
@@ -68,7 +68,7 @@ describe('deactivating with no login', function () {
   });
   it('should fail', function (done) {
     expl.del('/api/users/' + userf.user2._id).end(function (err, res) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(res.body.err, undefined);
       assert(error.find(res.body.err, 'NOT_AUTHENTICATED'));
       done();
@@ -82,7 +82,7 @@ describe('deactivating other', function () {
   });
   it('deactivating other should fail', function (done) {
     expl.del('/api/users/' + userf.user3._id).end(function (err, res) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.ne(res.body.err, undefined);
       assert(error.find(res.body.err, 'NOT_AUTHORIZED'));
       done();
@@ -96,8 +96,8 @@ describe('deactivating other by admin', function () {
   });
   it('should succeed', function (done) {
     expl.del('/api/users/' + userf.user3._id).end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       done();
     });
   });

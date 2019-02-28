@@ -23,16 +23,20 @@ mongo2.ObjectID = mongo.ObjectID;
 
 init.add(function (done) {
   assert2.ne(config.mongodb, undefined);
-  mongo.MongoClient.connect('mongodb://localhost:27017/' + config.mongodb, function(err, db) {
-    if (err) return done(err);
-    mongo2.db = db;
-    console.log('mongo: ' + mongo2.db.databaseName);
-    if (config.mongoUser) {
-      mongo2.db.authenticate(config.mongoUser, config.mongoPassword, done);
-    } else {
-      done();
-    }    
-  });
+  mongo.MongoClient.connect(
+    'mongodb://localhost:27017',
+    { useNewUrlParser: true },
+    function(err, client) {
+      if (err) return done(err);
+      mongo2.db = client.db(config.mongodb);
+      console.log('mongo: ' + mongo2.db.databaseName);
+      if (config.mongoUser) {
+        mongo2.db.authenticate(config.mongoUser, config.mongoPassword, done);
+      } else {
+        done();
+      }
+    }
+  );
 });
 
 init.add(function (done) {
@@ -85,7 +89,7 @@ mongo2.findPage = function (col, query, opt, gt, lt, ps, filter, done) {
   let results = [];
   let count = 0, first, last;
   (function read() {
-    cursor.nextObject(function (err, doc) {
+    cursor.next(function (err, doc) {
       if (err) return done(err);
       let full = count == ps;
       if (!doc || full) {
@@ -130,7 +134,7 @@ mongo2.findPage = function (col, query, opt, gt, lt, ps, filter, done) {
 
 mongo2.findDeepDoc = function (col, query, opt, date, done) {
   query.cdate = { $lt : date };
-  opt.sort = { cdate: -1 }; 
+  opt.sort = { cdate: -1 };
   opt.limit = 1;
   col.findOne(query, opt, function (err, ddoc) {
     if (err) return done(err);
@@ -145,12 +149,12 @@ mongo2.findDeepDoc = function (col, query, opt, date, done) {
 mongo2.forEach = function (col, doit, done) {
   var cursor = col.find();
   (function read() {
-    cursor.nextObject(function (err, obj) {
+    cursor.next(function (err, obj) {
       if (err) return done(err);
       if (obj) {
         doit(obj, function (err) {
           if (err) return done(err);
-          setImmediate(read);         
+          setImmediate(read);
         });
         return;
       }
@@ -160,8 +164,8 @@ mongo2.forEach = function (col, doit, done) {
 };
 
 mongo2.getLastId = function (col, done) {
-  var opt = { fields: { _id: 1 }, sort: { _id: -1 }, limit: 1 };
-  col.find({}, opt).nextObject(function (err, obj) {
+  var opt = { projection: { _id: 1 }, sort: { _id: -1 }, limit: 1 };
+  col.find({}, opt).next(function (err, obj) {
     done(err, obj ? obj._id : 0);
   });
 };

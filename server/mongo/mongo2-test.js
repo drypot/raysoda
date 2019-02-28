@@ -20,9 +20,9 @@ describe('values', function () {
   describe('.update(id, string)', function () {
     it('should succeed', function (done) {
       mongo2.values.update('s1', 'value1', function (err) {
-        assert.ifError(err);
+        assert2.noError(err);
         mongo2.values.find('s1', function (err, value) {
-          assert.ifError(err);
+          assert2.noError(err);
           assert2.e(value, 'value1');
           done();
         });
@@ -32,9 +32,9 @@ describe('values', function () {
   describe('.update(id, number)', function () {
     it('should succeed', function (done) {
       mongo2.values.update('n1', 123, function (err) {
-        assert.ifError(err);
+        assert2.noError(err);
         mongo2.values.find('n1', function (err, value) {
-          assert.ifError(err);
+          assert2.noError(err);
           assert2.e(value, 123);
           done();
         });
@@ -44,9 +44,9 @@ describe('values', function () {
   describe('.update(id, obj)', function () {
     it('should succeed', function (done) {
       mongo2.values.update('o1', { p1: 123, p2: 456 }, function (err) {
-        assert.ifError(err);
+        assert2.noError(err);
         mongo2.values.find('o1', function (err, value) {
-          assert.ifError(err);
+          assert2.noError(err);
           assert2.de(value, { p1: 123, p2: 456 });
           done();
         });
@@ -56,11 +56,11 @@ describe('values', function () {
   describe('.find()', function () {
     it('should return null for undefined', function (done) {
       mongo2.values.find('noname', function (err, value) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(value, null);
         done();
       });
-    });  
+    });
   });
 });
 
@@ -80,11 +80,11 @@ describe('.findPage', function () {
       { _id: 9,  a: 'a', b: 'b' },
       { _id: 10, a: 'a', b: 'b' }
     ];
-    col.insertMany(list, done);    
+    col.insertMany(list, done);
   });
   it('should succeed for page size 99', function (done) {
     mongo2.findPage(col, {}, {}, undefined, undefined, 99, null, function (err, r, gt, lt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(r.length, 10);
       assert2.e(r[0]._id, 10);
       assert2.e(r[1]._id, 9);
@@ -97,7 +97,7 @@ describe('.findPage', function () {
   });
   it('should succeed for page 1', function (done) {
     mongo2.findPage(col, {}, {}, undefined, undefined, 4, null, function (err, r, gt, lt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(r.length, 4);
       assert2.e(r[0]._id, 10);
       assert2.e(r[3]._id, 7);
@@ -108,7 +108,7 @@ describe('.findPage', function () {
   });
   it('should succeed for next page ', function (done) {
     mongo2.findPage(col, {}, {}, undefined, 7, 4, null, function (err, r, gt, lt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(r.length, 4);
       assert2.e(r[0]._id, 6);
       assert2.e(r[3]._id, 3);
@@ -119,7 +119,7 @@ describe('.findPage', function () {
   });
   it('should succeed for next page (last page)', function (done) {
     mongo2.findPage(col, {}, {}, undefined, 5, 4, null, function (err, r, gt, lt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(r.length, 4);
       assert2.e(r[0]._id, 4);
       assert2.e(r[1]._id, 3);
@@ -132,7 +132,7 @@ describe('.findPage', function () {
   });
   it('should succeed for last page (gt = 0)', function (done) {
     mongo2.findPage(col, {}, {}, 0, undefined, 4, null, function (err, r, gt, lt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(r.length, 4);
       assert2.e(r[0]._id, 4);
       assert2.e(r[1]._id, 3);
@@ -145,7 +145,7 @@ describe('.findPage', function () {
   });
   it('should succeed for previous page', function (done) {
     mongo2.findPage(col, {}, {}, 2, undefined, 4, null, function (err, r, gt, lt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(r.length, 4);
       assert2.e(r[0]._id, 6);
       assert2.e(r[3]._id, 3);
@@ -156,7 +156,7 @@ describe('.findPage', function () {
   });
   it('should succeed for previous page (first page)', function (done) {
     mongo2.findPage(col, {}, {}, 6, undefined, 4, null, function (err, r, gt, lt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(r.length, 4);
       assert2.e(r[0]._id, 10);
       assert2.e(r[3]._id, 7);
@@ -167,7 +167,7 @@ describe('.findPage', function () {
   });
   it('should succeed with filter', function (done) {
     mongo2.findPage(col, {}, {}, undefined, undefined, 5, filter, function (err, r, gt, lt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(r.length, 2);
       assert2.e(r[0]._id, 9);
       assert2.e(r[1]._id, 7);
@@ -180,8 +180,8 @@ describe('.findPage', function () {
     }
   });
   it('should succeed with opt', function (done) {
-    mongo2.findPage(col, {}, { fields: { _id: 1, a: 1} }, undefined, undefined, 4, null, function (err, r, gt, lt) {
-      assert.ifError(err);
+    mongo2.findPage(col, {}, { projection: { _id: 1, a: 1} }, undefined, undefined, 4, null, function (err, r, gt, lt) {
+      assert2.noError(err);
       assert2.e(r.length, 4);
       assert2.ne(r[0]._id, undefined);
       assert2.ne(r[0].a, undefined);
@@ -208,11 +208,11 @@ describe('.findDeepDoc', function () {
       { _id: 38, a: 'a', b: 'b', cdate: new Date(2013, 3, 8, 11) },
       { _id: 39, a: 'a', b: 'b', cdate: new Date(2013, 3, 9, 12) },
     ];
-    col.insertMany(list, done);    
+    col.insertMany(list, done);
   });
   it('should succeed', function (done) {
     mongo2.findDeepDoc(col, {}, {}, new Date(2013, 3, 8), function (err, dyear, dlt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(dyear, 2013);
       assert2.e(dlt, 38);
       done();
@@ -220,7 +220,7 @@ describe('.findDeepDoc', function () {
   });
   it('should succeed', function (done) {
     mongo2.findDeepDoc(col, {}, {}, new Date(2012, 12, 12), function (err, dyear, dlt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(dyear, 2012);
       assert2.e(dlt, 28);
       done();
@@ -228,7 +228,7 @@ describe('.findDeepDoc', function () {
   });
   it('should succeed', function (done) {
     mongo2.findDeepDoc(col, {}, {}, new Date(2001, 1, 1), function (err, dyear, dlt) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(dyear, undefined);
       assert2.e(dlt, undefined);
       done();
@@ -243,7 +243,7 @@ describe('.getLastId', function () {
   });
   it('should succeed for empty collection', function (done) {
     mongo2.getLastId(col, function (err, id) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(id, 0);
       done();
     });
@@ -254,12 +254,12 @@ describe('.getLastId', function () {
       list.push({ _id: i + 1});
     };
     col.insertMany(list, function (err) {
-      assert.ifError(err);
+      assert2.noError(err);
       mongo2.getLastId(col, function (err, id) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(id, 10);
         done();
-      });     
-    });    
+      });
+    });
   });
 });

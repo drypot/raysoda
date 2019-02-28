@@ -34,28 +34,28 @@ describe('put /api/images/id', function () {
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/2560x1440.jpg').end(function (err, res) {
-        assert.ifError(err);
-        assert.ifError(res.body.err);
+        assert2.noError(err);
+        assert2.empty(res.body.err);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
-          assert.ifError(err);
+          assert2.noError(err);
           assert2.ne(image, undefined);
           assert2.ne(image.cdate, undefined);
           assert2.e(image.comment, 'image1');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
-            assert.ifError(err);
+            assert2.noError(err);
             assert2.e(meta.width, imageb.maxWidth);
             assert(meta.height <imageb.maxWidth);
             expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/1440x2560.jpg').end(function (err, res) {
-              assert.ifError(err);
-              assert.ifError(res.body.err);
+              assert2.noError(err);
+              assert2.empty(res.body.err);
               imageb.images.findOne({ _id: _id }, function (err, image) {
-                assert.ifError(err);
+                assert2.noError(err);
                 assert2.ne(image, undefined);
                 assert2.ne(image.cdate, undefined);
                 assert2.e(image.comment, 'image2');
                 imageb.identify(imageb.getPath(_id), function (err, meta) {
-                  assert.ifError(err);
+                  assert2.noError(err);
                   assert(meta.width < imageb.maxWidth);
                   assert2.e(meta.height, imageb.maxWidth);
                   done();
@@ -76,11 +76,11 @@ describe('put /api/images/id', function () {
     });
     it('should fail', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert.ifError(err);
-        assert.ifError(res.body.err);
+        assert2.noError(err);
+        assert2.empty(res.body.err);
         var _id = res.body.ids[0];
         expl.put('/api/images/' + _id).attach('files', 'samples/360x240.jpg').end(function (err, res) {
-          assert.ifError(err);
+          assert2.noError(err);
           assert2.ne(res.body.err, undefined);
           assert(error.find(res.body.err, 'IMAGE_SIZE'));
           done();
@@ -97,14 +97,14 @@ describe('put /api/images/id', function () {
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert.ifError(err);
-        assert.ifError(res.body.err);
+        assert2.noError(err);
+        assert2.empty(res.body.err);
         var _id = res.body.ids[0];
         expl.put('/api/images/' + _id).field('comment', 'updated with no file').end(function (err, res) {
-          assert.ifError(err);
-          assert.ifError(res.body.err);
+          assert2.noError(err);
+          assert2.empty(res.body.err);
           imageb.images.findOne({ _id: _id }, function (err, image) {
-            assert.ifError(err);
+            assert2.noError(err);
             assert2.ne(image, undefined);
             assert2.e(image.comment, 'updated with no file');
             done();
@@ -122,11 +122,11 @@ describe('put /api/images/id', function () {
     });
     it('should fail', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert.ifError(err);
-        assert.ifError(res.body.err);
+        assert2.noError(err);
+        assert2.empty(res.body.err);
         var _id = res.body.ids[0];
         expl.put('/api/images/' + _id).attach('files', 'server/express/express-upload-f1.txt').end(function (err, res) {
-          assert.ifError(err);
+          assert2.noError(err);
           assert2.ne(res.body.err, undefined);
           assert(error.find(res.body.err, 'IMAGE_TYPE'));
           done();
@@ -142,13 +142,13 @@ describe('put /api/images/id', function () {
       userf.login('user1', function (err) {
         if (err) return done(err);
         expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-          assert.ifError(err);
-          assert.ifError(res.body.err);
+          assert2.noError(err);
+          assert2.empty(res.body.err);
           var _id = res.body.ids[0];
           userf.login('user2', function (err) {
             if (err) return done(err);
             expl.put('/api/images/' + _id).field('comment', 'xxx').end(function (err, res) {
-              assert.ifError(err);
+              assert2.noError(err);
               assert2.ne(res.body.err, undefined);
               assert(error.find(res.body.err, 'NOT_AUTHORIZED'));
               done();

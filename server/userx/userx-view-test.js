@@ -19,8 +19,8 @@ before(function (done) {
 describe('get /users/:id([0-9]+)', function () {
   it('should succeed', function (done) {
     expl.get('/users/1').end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       done();
     });
   });
@@ -29,15 +29,15 @@ describe('get /users/:id([0-9]+)', function () {
 describe('get /:name([^/]+)', function () {
   it('should succeed for /user1', function (done) {
     expl.get('/user1').end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       done();
     });
   });
   it('should succeed for /USER1', function (done) {
     expl.get('/USER1').end(function (err, res) {
-      assert.ifError(err);
-      assert.ifError(res.body.err);
+      assert2.noError(err);
+      assert2.empty(res.body.err);
       done();
     });
   });

@@ -25,7 +25,7 @@ describe('getNewId()', function () {
 describe('identify()', function () {
   it('should work with jpeg', function (done) {
     imageb.identify('samples/1280x720.jpg', function (err, meta) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(meta.format, 'jpeg');
       assert2.e(meta.width, 1280);
       assert2.e(meta.height, 720);
@@ -34,7 +34,7 @@ describe('identify()', function () {
   });
   it('should work with svg', function (done) {
     imageb.identify('samples/svg-sample.svg', function (err, meta) {
-      assert.ifError(err);
+      assert2.noError(err);
       assert2.e(meta.format, 'svg');
       assert2.e(meta.width, 1000);
       assert2.e(meta.height, 1000);

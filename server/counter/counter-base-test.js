@@ -22,9 +22,9 @@ describe('counterb.counters', function () {
 describe('.update(id)', function () {
   it('should succeed for new', function (done) {
     counterb.update('nodate', function (err) {
-      assert.ifError(err);
+      assert2.noError(err);
       counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(c.id, 'nodate');
         assert2.e(c.d, undefined);
         assert2.e(c.c, 1);
@@ -34,9 +34,9 @@ describe('.update(id)', function () {
   });
   it('should succeed for existing', function (done) {
     counterb.update('nodate', function (err) {
-      assert.ifError(err);
+      assert2.noError(err);
       counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(c.id, 'nodate');
         assert2.e(c.d, undefined);
         assert2.e(c.c, 2);
@@ -50,9 +50,9 @@ describe('.update(id, date)', function () {
   var today = util2.today();
   it('should succeed for new', function (done) {
     counterb.update('today', today, function (err) {
-      assert.ifError(err);
+      assert2.noError(err);
       counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(c.id, 'today');
         assert2.de(c.d, today);
         assert2.e(c.c, 1);
@@ -62,9 +62,9 @@ describe('.update(id, date)', function () {
   });
   it('should succeed for existing', function (done) {
     counterb.update('today', today, function (err) {
-      assert.ifError(err);
+      assert2.noError(err);
       counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
-        assert.ifError(err);
+        assert2.noError(err);
         assert2.e(c.id, 'today');
         assert2.de(c.d, today);
         assert2.e(c.c, 2);

@@ -84,7 +84,7 @@ var getTicketCount = imagen.getTicketCount = function(now, user, done) {
   var count = config.ticketMax;
   var hours;
   var opt = {
-    fields: { cdate: 1 },
+    projection: { cdate: 1 },
     sort: { uid: 1, _id: -1 },
     limit: config.ticketMax
   }
