@@ -7,19 +7,19 @@
     "test": "bin/test"
   },
   "dependencies": {
-    "bcrypt": "^0.8.6",
-    "body-parser": "^1.15.1",
-    "connect-redis": "^3.0.2",
-    "cookie-parser": "^1.4.1",
-    "express": "^4.13.4",
-    "express-session": "^1.13.0",
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "connect-redis": "^3.4.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "minimist": "^1.2.0",
-    "mongodb": "^2.1.18",
-    "multiparty": "^4.1.2",
-    "nodemailer": "^2.4.0",
-    "pug": "^2.0.0-beta6",
-    "superagent": "^1.8.3",
-    "tedious": "^1.14.0"
+    "mongodb": "^3.1.13",
+    "multiparty": "^4.2.1",
+    "nodemailer": "^5.1.1",
+    "pug": "^2.0.3",
+    "superagent": "^4.1.0",
+    "tedious": "^5.0.3"
   },
   "repository": {
     "type": "git",
