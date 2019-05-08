@@ -62,7 +62,7 @@ libpng 별도 설치 필요(?)
 
 실행.
 
-    node server/main/main.js -c config/raysoda-live.json
+    node app/main/main.js -c config/raysoda-live.json
 
 
 ## 서비스로 등록
@@ -82,7 +82,7 @@ libpng 별도 설치 필요(?)
     Restart=always
     RestartSec=15
     WorkingDirectory=/data/web/raysoda
-    ExecStart=/usr/bin/node server/main/main.js -c config/raysoda-live.json
+    ExecStart=/usr/bin/node app/main/main.js -c config/raysoda-live.json
     Environment=NODE_ENV=production
     Environment=MAGICK_CONFIGURE_PATH=/data/im
 
@@ -123,5 +123,5 @@ libpng 별도 설치 필요(?)
 
 웹 페이지에서는 관리자 설정을 할 수 없다. 서버 콘솔에서 아래 코드를 실행한다.
 
-    $ node server/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'
+    $ node app/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'
 

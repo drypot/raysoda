@@ -16,15 +16,17 @@ Running following sites.
 
 ## History
 
-2015.11.00 Rapixel 코드 머지
+2019.05.00 MongoDB 에서 MySQL 로 이사.
 
-2015.10.00 레이소다 2.0 오픈
+2015.11.00 Rapixel 코드 머지.
 
-2015.04.00 레이소다 2.0 작업 시작. Linux/Node.js.
+2015.10.00 레이소다 2.0 오픈.
+
+2015.04.00 레이소다 2.0 작업 시작. Linux + Node.js + MongoDB.
 
 2003.02.03 첫 사진 등록.
 
-2003.01.17 한 페이지만 덩그러니, 레이소다 오픈. ASP.NET.
+2003.01.17 한 페이지만 덩그러니, 레이소다 오픈. Windows + C# + ASP.NET + MS SQL.
 
 ## License
 

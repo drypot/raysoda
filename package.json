@@ -2,7 +2,7 @@
   "name": "raysoda",
   "version": "3.0.0",
   "description": "https://raysoda.com",
-  "main": "server/main/main.js",
+  "main": "app/main/main.js",
   "scripts": {
     "test": "bin/test"
   },
@@ -16,6 +16,7 @@
     "minimist": "^1.2.0",
     "mongodb": "^3.1.13",
     "multiparty": "^4.2.1",
+    "mysql": "^2.17.1",
     "nodemailer": "^5.1.1",
     "pug": "^2.0.3",
     "superagent": "^4.1.0",

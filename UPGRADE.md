@@ -59,7 +59,7 @@ Arch 서비스 Fail 나면
 
 ### 테스트 런
 
-    $ node server/main/main.js -c config/raysoda-live.json
+    $ node app/main/main.js -c config/raysoda-live.json
 
 이상 없으면
 
