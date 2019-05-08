@@ -2,24 +2,23 @@
   "appName": "RaySoda",
   "appNamel": "raysoda",
   "appDesc": "One day, one photo.",
-
+  
   "mainSite": "http://raysoda.test:8080",
 
-  "appPort": 8051,
+  "appPort": 8050,
   "cookieSecret": "o;iejf832ndvs",
-
+  
   "uploadSite": "http://file.raysoda.test:8080",
-  "uploadDir": "upload/raysoda-test",
+  "uploadDir": "upload/raysoda",
 
-  "mongodb": "raysoda-test",
+  "mongodb": "raysoda",
 
-  "mysqlDatabase": "raysoda_test",
+  "mysqlDatabase": "raysoda",
   "mysqlUser": "drypot",
   "mysqlPassword": "",
 
   "mailServer": "",
 
   "ticketGenInterval": 18,
-  "ticketMax": 3
+  "ticketMax": 99
 }
-

@@ -1,15 +1,15 @@
 'use strict';
 
-var fs = require('fs');
+const fs = require('fs');
 
-var init = require('../base/init');
-var error = require('../base/error');
-var config = require('../base/config');
-var fs2 = require('../base/fs2');
-var expb = require('../express/express-base');
-var expu = require('../express/express-upload');
-var usera = require('../user/user-auth');
-var imageb = require('../image/image-base');
+const init = require('../base/init');
+const error = require('../base/error');
+const config = require('../base/config');
+const fs2 = require('../base/fs2');
+const expb = require('../express/express-base');
+const expu = require('../express/express-upload');
+const usera = require('../user/user-auth');
+const imageb = require('../image/image-base');
 
 expb.core.delete('/api/images/:id([0-9]+)', function (req, res, done) {
   usera.checkUser(res, function (err, user) {

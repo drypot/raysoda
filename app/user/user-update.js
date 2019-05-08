@@ -1,12 +1,12 @@
 'use strict';
 
-var init = require('../base/init');
-var error = require('../base/error');
-var util2 = require('../base/util2');
-var expb = require('../express/express-base');
-var userb = require('../user/user-base');
-var usera = require('../user/user-auth');
-var usern = require('../user/user-new');
+const init = require('../base/init');
+const error = require('../base/error');
+const async2 = require('../base/async2');
+const expb = require('../express/express-base');
+const userb = require('../user/user-base');
+const usera = require('../user/user-auth');
+const usern = require('../user/user-new');
 
 expb.core.get('/users/:id([0-9]+)/update', function (req, res, done) {
   usera.checkUser(res, function (err, user) {
@@ -43,21 +43,28 @@ expb.core.put('/api/users/:id([0-9]+)', function (req, res, done) {
           email: form.email,
           profile: form.profile
         };
-        util2.fif(form.password.length, function (next) {
-          userb.makeHash(form.password, next)
-        }, function (err, hash) {
-          if (hash) {
-            fields.hash = hash;
-          }
-          userb.users.updateOne({ _id: id }, { $set: fields }, function (err, r) {
-            if (err) return done(err);
-            if (!r.matchedCount) {
-              return done(error('USER_NOT_FOUND'));
+        async2.waterfall(
+          (done) => {
+            if (form.password.length) {
+              userb.makeHash(form.password, done)
+            } else {
+              done();
             }
-            userb.deleteCache(id);
-            res.json({});
-          });
-        });
+          },
+          (err, hash) => {
+            if (hash) {
+              fields.hash = hash;
+            }
+            userb.users.updateOne({ _id: id }, { $set: fields }, function (err, r) {
+              if (err) return done(err);
+              if (!r.matchedCount) {
+                return done(error('USER_NOT_FOUND'));
+              }
+              userb.deleteCache(id);
+              res.json({});
+            });            
+          }
+        );
       });
     });
   });

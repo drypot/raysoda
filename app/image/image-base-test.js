@@ -1,13 +1,22 @@
 'use strict';
 
-var init = require('../base/init');
-var config = require('../base/config')({ path: 'config/raysoda-test.json' });
-var imageb = require('../image/image-base');
-var assert = require('assert');
-var assert2 = require('../base/assert2');
+const init = require('../base/init');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
+const expb = require('../express/express-base');
+const imageb = require('../image/image-base');
+const assert = require('assert');
+const assert2 = require('../base/assert2');
 
 before(function (done) {
+  config.path = 'config/raysoda-test.json';
+  mongo2.dropDatabase = true;
   init.run(done);
+});
+
+before((done) => {
+  expb.start();
+  done();
 });
 
 describe('imageb.images', function () {
@@ -25,7 +34,7 @@ describe('getNewId()', function () {
 describe('identify()', function () {
   it('should work with jpeg', function (done) {
     imageb.identify('samples/1280x720.jpg', function (err, meta) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.e(meta.format, 'jpeg');
       assert2.e(meta.width, 1280);
       assert2.e(meta.height, 720);
@@ -34,7 +43,7 @@ describe('identify()', function () {
   });
   it('should work with svg', function (done) {
     imageb.identify('samples/svg-sample.svg', function (err, meta) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.e(meta.format, 'svg');
       assert2.e(meta.width, 1000);
       assert2.e(meta.height, 1000);

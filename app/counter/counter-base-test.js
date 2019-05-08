@@ -1,16 +1,24 @@
 'use strict';
 
-var init = require('../base/init');
-var error = require('../base/error');
-var config = require('../base/config')({ path: 'config/test.json' });
-var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
-var util2 = require('../base/util2');
-var counterb = require('../counter/counter-base');
-var assert = require('assert');
-var assert2 = require('../base/assert2');
+const init = require('../base/init');
+const error = require('../base/error');
+const config = require('../base/config');
+const date2 = require('../base/date2');
+const mongo2 = require('../mongo/mongo2');
+const expb = require('../express/express-base');
+const counterb = require('../counter/counter-base');
+const assert = require('assert');
+const assert2 = require('../base/assert2');
 
 before(function (done) {
+  config.path = 'config/test.json';
+  mongo2.dropDatabase = true;
   init.run(done);
+});
+
+before((done) => {
+  expb.start();
+  done();
 });
 
 describe('counterb.counters', function () {
@@ -22,9 +30,9 @@ describe('counterb.counters', function () {
 describe('.update(id)', function () {
   it('should succeed for new', function (done) {
     counterb.update('nodate', function (err) {
-      assert2.noError(err);
+      assert.ifError(err);
       counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.e(c.id, 'nodate');
         assert2.e(c.d, undefined);
         assert2.e(c.c, 1);
@@ -34,9 +42,9 @@ describe('.update(id)', function () {
   });
   it('should succeed for existing', function (done) {
     counterb.update('nodate', function (err) {
-      assert2.noError(err);
+      assert.ifError(err);
       counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.e(c.id, 'nodate');
         assert2.e(c.d, undefined);
         assert2.e(c.c, 2);
@@ -47,12 +55,12 @@ describe('.update(id)', function () {
 });
 
 describe('.update(id, date)', function () {
-  var today = util2.today();
+  var today = date2.today();
   it('should succeed for new', function (done) {
     counterb.update('today', today, function (err) {
-      assert2.noError(err);
+      assert.ifError(err);
       counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.e(c.id, 'today');
         assert2.de(c.d, today);
         assert2.e(c.c, 1);
@@ -62,9 +70,9 @@ describe('.update(id, date)', function () {
   });
   it('should succeed for existing', function (done) {
     counterb.update('today', today, function (err) {
-      assert2.noError(err);
+      assert.ifError(err);
       counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.e(c.id, 'today');
         assert2.de(c.d, today);
         assert2.e(c.c, 2);

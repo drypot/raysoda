@@ -1,11 +1,11 @@
 'use strict';
 
-var exec = require('child_process').exec;
+const exec = require('child_process').exec;
 
-var error = require('../base/error');
-var fs2 = require('../base/fs2');
-var config = require('../base/config');
-var imageb = require('../image/image-base');
+const error = require('../base/error');
+const fs2 = require('../base/fs2');
+const config = require('../base/config');
+const imageb = require('../image/image-base');
 
 var _minWidth = 4096;
 var _minHeight = 2304;

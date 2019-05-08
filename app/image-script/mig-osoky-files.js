@@ -1,13 +1,13 @@
 'use strict';
 
-var exec = require('child_process').exec;
-var fs = require('fs');
+const exec = require('child_process').exec;
+const fs = require('fs');
 
-var init = require('../base/init');
-var config = require('../base/config');
-var fs2 = require('../base/fs2');
-var mongo2 = require('../mongo/mongo2');
-var imageb = require('../image/image-base');
+const init = require('../base/init');
+const config = require('../base/config');
+const fs2 = require('../base/fs2');
+const mongo2 = require('../mongo/mongo2');
+const imageb = require('../image/image-base');
 
 /* 
   먼저 public 디렉토리를 public-old 로 변경해 놓는다.

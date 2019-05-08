@@ -1,12 +1,13 @@
 'use strict';
 
-var exec = require('child_process').exec;
-var fs = require('fs');
+const exec = require('child_process').exec;
+const fs = require('fs');
 
-var error = require('../base/error');
-var fs2 = require('../base/fs2');
-var config = require('../base/config');
-var imageb = require('../image/image-base');
+const error = require('../base/error');
+const fs2 = require('../base/fs2');
+const config = require('../base/config');
+
+const imageb = require('../image/image-base');
 
 imageb.maxWidth = 2048;
 

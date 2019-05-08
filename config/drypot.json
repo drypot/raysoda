@@ -5,21 +5,21 @@
 
   "mainSite": "http://drypot.test:8080",
 
-  "appPort": 8041,
+  "appPort": 8040,
   "cookieSecret": "o;iejf832ndvs",
 
   "uploadSite": "http://file.drypot.test:8080",
-  "uploadDir": "upload/drypot-test",
+  "uploadDir": "upload/drypot",
 
-  "mongodb": "raysoda-test",
+  "mongodb": "drypot",
 
-  "mysqlDatabase": "raysoda_test",
+  "mysqlDatabase": "drypot",
   "mysqlUser": "drypot",
   "mysqlPassword": "",
 
   "mailServer": "",
 
   "ticketGenInterval": 18,
-  "ticketMax": 3
+  "ticketMax": 99
 }
 

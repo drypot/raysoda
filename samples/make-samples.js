@@ -1,5 +1,5 @@
-var exec = require('child_process').exec;
-var util = require('util');
+const exec = require('child_process').exec;
+const util = require('util');
 
 /* 
   $ node samples/make-samples.js

@@ -1,11 +1,11 @@
 'use strict';
 
-var fs = require('fs');
+const fs = require('fs');
 
-var init = require('../base/init');
-var config = require('../base/config')({ parseArg: true });
-var mongo2 = require('../mongo/mongo2');
-var imageb = require('../image/image-base');
+const init = require('../base/init');
+const config = require('../base/config')({ parseArg: true });
+const mongo2 = require('../mongo/mongo2');
+const imageb = require('../image/image-base');
 
 init.run(function (err) {
   if (err) throw err;

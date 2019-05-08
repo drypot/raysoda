@@ -1,23 +1,30 @@
 'use strict';
 
-var fs = require('fs');
+const fs = require('fs');
 
-var init = require('../base/init');
-var error = require('../base/error');
-var fs2 = require('../base/fs2');
-var config = require('../base/config')({ path: 'config/drypot-test.json' });
-var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
-var expb = require('../express/express-base');
-var expu = require('../express/express-upload');
-var expl = require('../express/express-local');
-var userf = require('../user/user-fixture');
-var imageb = require('../image/image-base');
-var imagen = require('../image/image-new');
-var assert = require('assert');
-var assert2 = require('../base/assert2');
+const init = require('../base/init');
+const error = require('../base/error');
+const fs2 = require('../base/fs2');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
+const expb = require('../express/express-base');
+const expu = require('../express/express-upload');
+const expl = require('../express/express-local');
+const userf = require('../user/user-fixture');
+const imageb = require('../image/image-base');
+const imagen = require('../image/image-new');
+const assert = require('assert');
+const assert2 = require('../base/assert2');
 
 before(function (done) {
+  config.path = 'config/drypot-test.json';
+  mongo2.dropDatabase = true;
   init.run(done);
+});
+
+before((done) => {
+  expb.start();
+  done();
 });
 
 before(function (done) {
@@ -50,13 +57,13 @@ describe('post /api/images', function () {
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/svg-sample.svg').end(function (err, res) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.empty(res.body.err);
         assert2.ne(res.body.ids, undefined);
         assert2.e(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
-          assert2.noError(err);
+          assert.ifError(err);
           assert2.e(image._id, _id);
           assert2.e(image.uid, userf.user1._id);
           assert2.e(image.width, undefined);
@@ -75,7 +82,7 @@ describe('post /api/images', function () {
     });
     it('should fail', function (done) {
       expl.post('/api/images').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.ne(res.body.err, undefined);
         assert(error.find(res.body.err, 'IMAGE_TYPE'));
         done();

@@ -1,23 +1,30 @@
 'use strict';
 
-var fs = require('fs');
+const fs = require('fs');
 
-var init = require('../base/init');
-var error = require('../base/error');
-var fs2 = require('../base/fs2');
-var config = require('../base/config')({ path: 'config/raysoda-test.json' });
-var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
-var expb = require('../express/express-base');
-var expu = require('../express/express-upload');
-var expl = require('../express/express-local');
-var userf = require('../user/user-fixture');
-var imageb = require('../image/image-base');
-var imagen = require('../image/image-new');
-var assert = require('assert');
-var assert2 = require('../base/assert2');
+const init = require('../base/init');
+const error = require('../base/error');
+const fs2 = require('../base/fs2');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
+const expb = require('../express/express-base');
+const expu = require('../express/express-upload');
+const expl = require('../express/express-local');
+const userf = require('../user/user-fixture');
+const imageb = require('../image/image-base');
+const imagen = require('../image/image-new');
+const assert = require('assert');
+const assert2 = require('../base/assert2');
 
 before(function (done) {
+  config.path = 'config/raysoda-test.json';
+  mongo2.dropDatabase = true;
   init.run(done);
+});
+
+before((done) => {
+  expb.start();
+  done();
 });
 
 before(function (done) {
@@ -65,7 +72,7 @@ describe('getTicketCount', function () {
     });
     it('should return ticketMax', function (done) {
       imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.e(count, config.ticketMax);
         done();
       });
@@ -80,7 +87,7 @@ describe('getTicketCount', function () {
     });
     it('should return ticketMax', function (done) {
       imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.e(count, config.ticketMax);
         done();
       });
@@ -95,7 +102,7 @@ describe('getTicketCount', function () {
     });
     it('should return (ticketMax - 1)', function (done) {
       imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.e(count, config.ticketMax - 1);
         done();
       });
@@ -110,7 +117,7 @@ describe('getTicketCount', function () {
     });
     it('should return 0 with left hours', function (done) {
       imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.e(count, 0);
         assert2.e(hours, 3);
         done();
@@ -126,19 +133,19 @@ describe('post /api/images', function () {
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'h image').attach('files', 'samples/2560x1440.jpg').end(function (err, res) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.empty(res.body.err);
         assert2.ne(res.body.ids, undefined);
         assert2.e(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
-          assert2.noError(err);
+          assert.ifError(err);
           assert2.e(image._id, _id);
           assert2.e(image.uid, userf.user1._id);
           assert2.ne(image.cdate, undefined);
           assert2.e(image.comment, 'h image');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
-            assert2.noError(err);
+            assert.ifError(err);
             assert2.e(meta.width <= imageb.maxWidth, true);
             assert2.e(meta.height <= imageb.maxWidth, true);
             done();
@@ -153,19 +160,19 @@ describe('post /api/images', function () {
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'v image').attach('files', 'samples/1440x2560.jpg').end(function (err, res) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.empty(res.body.err);
         assert2.ne(res.body.ids, undefined);
         assert2.e(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
-          assert2.noError(err);
+          assert.ifError(err);
           assert2.e(image._id, _id);
           assert2.e(image.uid, userf.user1._id);
           assert2.ne(image.cdate, undefined);
           assert2.e(image.comment, 'v image');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
-            assert2.noError(err);
+            assert.ifError(err);
             assert2.e(meta.width <= imageb.maxWidth, true);
             assert2.e(meta.height <= imageb.maxWidth, true);
             done();
@@ -180,19 +187,19 @@ describe('post /api/images', function () {
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'small image').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.empty(res.body.err);
         assert2.ne(res.body.ids, undefined);
         assert2.e(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
-          assert2.noError(err);
+          assert.ifError(err);
           assert2.e(image._id, _id);
           assert2.e(image.uid, userf.user1._id);
           assert2.ne(image.cdate, undefined);
           assert2.e(image.comment, 'small image');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
-            assert2.noError(err);
+            assert.ifError(err);
             assert2.e(meta.width, 640);
             assert2.e(meta.height, 360);
             done();
@@ -205,7 +212,7 @@ describe('post /api/images', function () {
   describe('posting too small', function () {
     it('should fail', function (done) {
       expl.post('/api/images').attach('files', 'samples/360x240.jpg').end(function (err, res) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.ne(res.body.err, undefined);
         assert(error.find(res.body.err, 'IMAGE_SIZE'));
         done();
@@ -222,7 +229,7 @@ describe('post /api/images', function () {
         post.attach('files', 'samples/640x360.jpg');
       }
       post.end(function (err, res) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.empty(res.body.err);
         assert2.ne(res.body.ids, undefined);
         assert2.e(res.body.ids.length, config.ticketMax);
@@ -231,7 +238,7 @@ describe('post /api/images', function () {
         // first image should exist
         _id = ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
-          assert2.noError(err);
+          assert.ifError(err);
           assert2.e(image._id, _id);
           assert2.e(image.uid, userf.user1._id);
           assert2.e(image.comment, 'max images');
@@ -239,7 +246,7 @@ describe('post /api/images', function () {
           // third versions should exist
           _id = ids[2];
           imageb.images.findOne({ _id: _id }, function (err, image) {
-            assert2.noError(err);
+            assert.ifError(err);
             assert2.e(image._id, _id);
             assert2.e(image.uid, userf.user1._id);
             assert2.e(image.comment, 'max images');
@@ -251,7 +258,7 @@ describe('post /api/images', function () {
     });
     it('should fail when posting one more', function (done) {
       expl.post('/api/images').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.empty(res.body.err);
         assert2.ne(res.body.ids, undefined);
         assert2.e(res.body.ids.length, 0);
@@ -265,9 +272,9 @@ describe('post /api/images', function () {
     });
     it('should fail', function (done) {
       imageb.images.deleteMany(function (err) {
-        assert2.noError(err);
+        assert.ifError(err);
         expl.post('/api/images').attach('files', 'app/express/express-upload-f1.txt').end(function (err, res) {
-          assert2.noError(err);
+          assert.ifError(err);
           assert2.ne(res.body.err, undefined);
           assert(error.find(res.body.err, 'IMAGE_TYPE'));
           done();
@@ -282,9 +289,9 @@ describe('post /api/images', function () {
     it('should fail', function (done) {
       var form = { };
       imageb.images.deleteMany(function (err) {
-        assert2.noError(err);
+        assert.ifError(err);
         expl.post('/api/images').send(form).end(function (err, res) {
-          assert2.noError(err);
+          assert.ifError(err);
           assert2.ne(res.body.err, undefined);
           assert(error.find(res.body.err, 'IMAGE_NO_FILE'));
           done();

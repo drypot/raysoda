@@ -93,7 +93,7 @@ $(function () {
     var $result = $('#result');
     $form.$send.click(function () {
       var obj = formty.getObject($form);
-      var url = util2.url('/api/users', { q: $form.$q.val() });
+      var url = url2.url('/api/users', { q: $form.$q.val() });
       request.get(url).end(function (err, res) {
         err = err || res.body.err;
         if (err) return showError(err);

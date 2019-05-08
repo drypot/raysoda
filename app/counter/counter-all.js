@@ -1,14 +1,14 @@
 'use strict';
 
-var init = require('../base/init');
-var config = require('../base/config');
-var util2 = require('../base/util2');
-var expb = require('../express/express-base');
-var usera = require('../user/user-auth');
-var counterb = require('../counter/counter-base');
+const init = require('../base/init');
+const config = require('../base/config');
+const date2 = require('../base/date2');
+const expb = require('../express/express-base');
+const usera = require('../user/user-auth');
+const counterb = require('../counter/counter-base');
 
 expb.core.get('/api/counters/:id/inc', function (req, res, done) {
-  counterb.update(req.params.id, util2.today(), function (err) {
+  counterb.update(req.params.id, date2.today(), function (err) {
     if (err) return done(err);
     res.redirect(req.query.r);
   })
@@ -26,7 +26,7 @@ expb.core.get('/api/counters/:id', function (req, res, done) {
     if (err) return done(err);
     var q = { id: req.params.id };
     if (req.query.b && req.query.e) {
-      q.d = { $gte : util2.dateFromString(req.query.b), $lte: util2.dateFromString(req.query.e) };
+      q.d = { $gte : date2.dateFromString(req.query.b), $lte: date2.dateFromString(req.query.e) };
     }
     counterb.counters.find(q, { _id: 0 }).toArray(function (err, counters) {
       if (err) return done(err);

@@ -1,9 +1,9 @@
 'use strict';
 
-var init = require('../base/init');
-var error = require('../base/error');
-var expb = require('../express/express-base');
-var userb = require('../user/user-base');
+const init = require('../base/init');
+const error = require('../base/error');
+const expb = require('../express/express-base');
+const userb = require('../user/user-base');
 
 expb.core.get('/api/users/:id([0-9]+)', function (req, res, done) {
   var id = parseInt(req.params.id) || 0;

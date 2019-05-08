@@ -29,7 +29,7 @@ $(function () {
     $form.find('input[name=id]').val('adng'); // for test
     $form.$send.click(function () {
       var obj = formty.getObject($form);
-      var url = util2.url('/api/counters/' + $form.$id.val(), { b: $form.$b.val(), e: $form.$e.val()});
+      var url = url2.url('/api/counters/' + $form.$id.val(), { b: $form.$b.val(), e: $form.$e.val()});
       request.get(url).end(function (err, res) {
         err = err || res.body.err;
         if (err) return showError(err);
@@ -37,7 +37,7 @@ $(function () {
         var sum = 0;
         var html = '<pre class="clean">';
         for (var i = 0; i < c.length; i++) {
-          html += '' + util2.dateString(new Date(c[i].d)) + '\t' + c[i].c + '<br>'; 
+          html += '' + date2.dateString(new Date(c[i].d)) + '\t' + c[i].c + '<br>'; 
           sum += c[i].c;
         }
         html += '<br>' + sum + '<br>';

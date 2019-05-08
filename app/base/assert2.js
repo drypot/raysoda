@@ -1,7 +1,7 @@
 'use strict';
 
-var fs = require('fs');
-var assert = require('assert');
+const fs = require('fs');
+const assert = require('assert');
 var assert2 = exports;
 
 assert2.e = assert.strictEqual;

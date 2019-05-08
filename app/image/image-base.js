@@ -1,12 +1,12 @@
 'use strict';
 
-var exec = require('child_process').exec;
+const exec = require('child_process').exec;
 
-var init = require('../base/init');
-var error = require('../base/error');
-var fs2 = require('../base/fs2');
-var config = require('../base/config');
-var mongo2 = require('../mongo/mongo2');
+const init = require('../base/init');
+const error = require('../base/error');
+const fs2 = require('../base/fs2');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
 var imageb = exports;
 
 error.define('IMAGE_NOT_EXIST', '파일이 없습니다.');

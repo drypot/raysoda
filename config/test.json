@@ -10,5 +10,9 @@
 
   "mongodb": "test",
 
+  "mysqlDatabase": "test",
+  "mysqlUser": "drypot",
+  "mysqlPassword": "",
+
   "mailServer": ""
  }

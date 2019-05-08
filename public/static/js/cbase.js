@@ -5,8 +5,9 @@ if (!window.console) {
 }
 
 $(function () {
-  window.util2 = {};
-
+  window.date2 = {};
+  window.url2 = {};
+  
   function pad(number) {
     var r = String(number);
     if ( r.length === 1 ) {
@@ -15,16 +16,16 @@ $(function () {
     return r;
   }
 
-  util2.dateTimeString = function (d) {
+  date2.dateTimeString = function (d) {
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
       pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
   };
 
-  util2.dateString = function (d) {
+  date2.dateString = function (d) {
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
   };
 
-  util2.url = function(url, params) {
+  url2.url = function(url, params) {
     var qm;
     for(var p in params) {
       if (qm) {

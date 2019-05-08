@@ -1,11 +1,11 @@
 'use strict';
 
-var init = require('../base/init');
-var config = require('../base/config');
-var mongo2 = require('../mongo/mongo2');
-var expb = require('../express/express-base');
-var usera = require('../user/user-auth');
-var bannerb = require('../banner/banner-base');
+const init = require('../base/init');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
+const expb = require('../express/express-base');
+const usera = require('../user/user-auth');
+const bannerb = require('../banner/banner-base');
 
 expb.core.get('/supp/banners', function (req, res, done) {
   usera.checkAdmin(res, function (err, user) {

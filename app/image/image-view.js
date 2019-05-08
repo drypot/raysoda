@@ -1,13 +1,13 @@
 'use strict';
 
-var init = require('../base/init');
-var error = require('../base/error');
-var config = require('../base/config');
-var util2 = require('../base/util2');
-var expb = require('../express/express-base');
-var expu = require('../express/express-upload');
-var userb = require('../user/user-base');
-var imageb = require('../image/image-base');
+const init = require('../base/init');
+const error = require('../base/error');
+const config = require('../base/config');
+const date2 = require('../base/date2');
+const expb = require('../express/express-base');
+const expu = require('../express/express-upload');
+const userb = require('../user/user-base');
+const imageb = require('../image/image-base');
 
 expb.core.get('/api/images/:id([0-9]+)', function (req, res, done) {
   view(req, res, true, done);
@@ -31,7 +31,7 @@ function view(req, res, api, done) {
       };
       image.dir = imageb.getDirUrl(image._id);
       image.thumb = imageb.getThumbUrl(image._id);
-      image.cdateStr = util2.dateTimeString(image.cdate);
+      image.cdateStr = date2.dateTimeString(image.cdate);
       image.cdate = image.cdate.getTime();
       if (api) {
         res.json(image);

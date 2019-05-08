@@ -1,9 +1,9 @@
 'use strict';
 
-var init = require('../base/init');
-var error = require('../base/error');
-var expb = require('../express/express-base');
-var userb = require('../user/user-base');
+const init = require('../base/init');
+const error = require('../base/error');
+const expb = require('../express/express-base');
+const userb = require('../user/user-base');
 var usern = exports;
 
 expb.core.get('/users/register', function (req, res, done) {

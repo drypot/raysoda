@@ -1,13 +1,13 @@
 'use strict';
 
-var fs = require('fs');
-var tds = require('tedious');
+const fs = require('fs');
+const tds = require('tedious');
 var types = tds.TYPES;
 
-var init = require('../base/init');
-var config = require('../base/config');
-var imageb = require('../image/image-base');
-var fs2 = require('../base/fs2');
+const init = require('../base/init');
+const config = require('../base/config');
+const imageb = require('../image/image-base');
+const fs2 = require('../base/fs2');
 
 /* 
   $ node app/mig-raysoda/mig-image-files.js -c config/mig-1-dev.json 1 10

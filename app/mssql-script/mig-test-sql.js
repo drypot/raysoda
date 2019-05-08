@@ -1,9 +1,9 @@
 'use strict';
 
-var tds = require('tedious');
+const tds = require('tedious');
 
-var init = require('../base/init');
-var config = require('../base/config');
+const init = require('../base/init');
+const config = require('../base/config');
 
 /* 
   $ node app/mig-raysoda/mig-test-sql.js -c config/mig-1-dev.json 

@@ -3,12 +3,12 @@
   "appNamel": "drypot",
   "appDesc": "Simply vectors",
 
-  "mainSite": "http://drypot.dev:8080",
+  "mainSite": "http://drypot.test:8080",
 
   "appPort": 8040,
   "cookieSecret": "o;iejf832ndvs",
 
-  "uploadSite": "http://file.drypot.dev:8080",
+  "uploadSite": "http://file.drypot.test:8080",
   "uploadDir": "upload/drypot",
 
   "mongodb": "drypot",

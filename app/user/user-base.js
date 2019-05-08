@@ -1,12 +1,12 @@
 'use strict';
 
-var bcrypt = require('bcrypt');
-var crypto = require('crypto');
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
-var init = require('../base/init');
-var error = require('../base/error');
-var config = require('../base/config');
-var mongo2 = require('../mongo/mongo2');
+const init = require('../base/init');
+const error = require('../base/error');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
 var userb = exports;
 
 error.define('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.');

@@ -1,12 +1,12 @@
 'use strict';
 
-var tds = require('tedious');
+const tds = require('tedious');
 var types = tds.TYPES;
 
-var init = require('../base/init');
-var config = require('../base/config');
-var mongo2 = require('../mongo/mongo2');
-var imageb = require('../image/image-base');
+const init = require('../base/init');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
+const imageb = require('../image/image-base');
 
 /*
   사진 코멘트 부분을 추가적으로 변경하는 것이 좋겠다.

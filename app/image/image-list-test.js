@@ -1,20 +1,27 @@
 'use strict';
 
-var init = require('../base/init');
-var error = require('../base/error');
-var config = require('../base/config')({ path: 'config/raysoda-test.json' });
-var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
-var expb = require('../express/express-base');
-var expu = require('../express/express-upload');
-var expl = require('../express/express-local');
-var userf = require('../user/user-fixture');
-var imageb = require('../image/image-base');
-var imagel = require('../image/image-list');
-var assert = require('assert');
-var assert2 = require('../base/assert2');
+const init = require('../base/init');
+const error = require('../base/error');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
+const expb = require('../express/express-base');
+const expu = require('../express/express-upload');
+const expl = require('../express/express-local');
+const userf = require('../user/user-fixture');
+const imageb = require('../image/image-base');
+const imagel = require('../image/image-list');
+const assert = require('assert');
+const assert2 = require('../base/assert2');
 
 before(function (done) {
+  config.path = 'config/raysoda-test.json';
+  mongo2.dropDatabase = true;
   init.run(done);
+});
+
+before((done) => {
+  expb.start();
+  done();
 });
 
 before(function (done) {
@@ -43,7 +50,7 @@ describe('get /api/images', function (done) {
       ps: 99
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.empty(res.body.err);
       assert2.e(res.body.gt, undefined);
       assert2.e(res.body.lt, undefined);
@@ -60,7 +67,7 @@ describe('get /api/images', function (done) {
       ps: 4
     };
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.empty(res.body.err);
       assert2.e(res.body.gt, undefined);
       assert2.e(res.body.lt, 7);
@@ -75,7 +82,7 @@ describe('get /api/images', function (done) {
       lt:7, ps: 4
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.empty(res.body.err);
       assert2.e(res.body.gt, 6);
       assert2.e(res.body.lt, 3);
@@ -90,7 +97,7 @@ describe('get /api/images', function (done) {
       lt: 3, ps: 4
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.empty(res.body.err);
       assert2.e(res.body.gt, 2);
       assert2.e(res.body.lt, undefined);
@@ -105,7 +112,7 @@ describe('get /api/images', function (done) {
       gt:2, ps: 4
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.empty(res.body.err);
       assert2.e(res.body.gt, 6);
       assert2.e(res.body.lt, 3);
@@ -120,7 +127,7 @@ describe('get /api/images', function (done) {
       gt: 6, ps: 4
     };
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.empty(res.body.err);
       assert2.e(res.body.gt, undefined);
       assert2.e(res.body.lt, 7);
@@ -156,7 +163,7 @@ describe('get /api/images deep', function (done) {
       ps: 3
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.empty(res.body.err);
       assert2.e(res.body.dyear, 2010);
       assert2.e(res.body.dlt, 50);
@@ -168,7 +175,7 @@ describe('get /api/images deep', function (done) {
       lt: 49, ps: 3
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.empty(res.body.err);
       assert2.e(res.body.dyear, 2005);
       assert2.e(res.body.dlt, 16);
@@ -180,7 +187,7 @@ describe('get /api/images deep', function (done) {
       lt: 18, ps: 3
     }
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert2.noError(err);
+      assert.ifError(err);
       assert2.empty(res.body.err);
       assert2.e(res.body.dyear, undefined);
       assert2.e(res.body.dlt, undefined);

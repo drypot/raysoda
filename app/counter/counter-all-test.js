@@ -1,28 +1,36 @@
 'use strict';
 
-var init = require('../base/init');
-var error = require('../base/error');
-var util2 = require('../base/util2');
-var config = require('../base/config')({ path: 'config/test.json' });
-var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
-var expl = require('../express/express-local');
-var userf = require('../user/user-fixture');
-var counterb = require('../counter/counter-base');
-var countera = require('../counter/counter-all');
-var assert = require('assert');
-var assert2 = require('../base/assert2');
+const init = require('../base/init');
+const error = require('../base/error');
+const date2 = require('../base/date2');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
+const expb = require('../express/express-base');
+const expl = require('../express/express-local');
+const userf = require('../user/user-fixture');
+const counterb = require('../counter/counter-base');
+const countera = require('../counter/counter-all');
+const assert = require('assert');
+const assert2 = require('../base/assert2');
 
 before(function (done) {
+  config.path = 'config/test.json';
+  mongo2.dropDatabase = true;
   init.run(done);
 });
 
+before((done) => {
+  expb.start();
+  done();
+});
+
 describe('/api/counters/:id/inc', function () {
-  var today = util2.today();
+  var today = date2.today();
   it('should succeed for new', function (done) {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');
       counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.e(c.id, 'abc');
         assert2.de(c.d, today);
         assert2.e(c.c, 1);
@@ -34,7 +42,7 @@ describe('/api/counters/:id/inc', function () {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');
       counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.e(c.id, 'abc');
         assert2.de(c.d, today);
         assert2.e(c.c, 2);
@@ -55,15 +63,15 @@ describe('/api/counters/:id', function () {
       { id: 'dc', d: new Date('2015-10-10 0:0'), c: 6 }
     ];
     counterb.counters.insertMany(t, function (err) {
-      assert2.noError(err);
+      assert.ifError(err);
       done();
     });
   });
   it('should succeed', function (done) {
     userf.login('admin', function (err) {
-      assert2.noError(err);
+      assert.ifError(err);
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert2.empty(res.body.err);
         var cs = res.body.counters;
         assert2.e(cs.length, 3);
@@ -79,9 +87,9 @@ describe('/api/counters/:id', function () {
   });
   it('should fail if not admin', function (done) {
     userf.login('user1', function (err) {
-      assert2.noError(err);
+      assert.ifError(err);
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
-        assert2.noError(err);
+        assert.ifError(err);
         assert(error.find(res.body.err, 'NOT_AUTHORIZED'));
         done();
       });

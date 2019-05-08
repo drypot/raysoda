@@ -1,15 +1,22 @@
 'use strict';
 
-var init = require('../base/init');
-var error = require('../base/error');
-var config = require('../base/config')({ path: 'config/test.json' });
-var mongo2 = require('../mongo/mongo2')({ dropDatabase: true });
-var bannerb = require('../banner/banner-base');
-var assert = require('assert');
-var assert2 = require('../base/assert2');
+const init = require('../base/init');
+const error = require('../base/error');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
+const bannerb = require('../banner/banner-base');
+const assert = require('assert');
+const assert2 = require('../base/assert2');
 
 before(function (done) {
+  config.path = 'config/test.json';
+  mongo2.dropDatabase = true;
   init.run(done);
+});
+
+before((done) => {
+  expb.start();
+  done();
 });
 
 describe('banners', function () {

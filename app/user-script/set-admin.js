@@ -1,10 +1,10 @@
 'use strict';
 
-var init = require('../base/init');
-var error = require('../base/error');
-var config = require('../base/config');
-var mongo2 = require('../mongo/mongo2');
-var userb = require('../user/user-base');
+const init = require('../base/init');
+const error = require('../base/error');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
+const userb = require('../user/user-base');
 
 /*
   $ node app/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'

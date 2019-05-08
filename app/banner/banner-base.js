@@ -1,8 +1,8 @@
 'use strict';
 
-var init = require('../base/init');
-var config = require('../base/config');
-var mongo2 = require('../mongo/mongo2');
+const init = require('../base/init');
+const config = require('../base/config');
+const mongo2 = require('../mongo/mongo2');
 var bannerb = exports;
 
 bannerb.banners = [];

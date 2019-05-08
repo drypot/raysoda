@@ -1,9 +1,9 @@
 'use strict';
 
-var nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 
-var init = require('../base/init');
-var config = require('../base/config');
+const init = require('../base/init');
+const config = require('../base/config');
 var mailer2 = exports;
 
 var transport;

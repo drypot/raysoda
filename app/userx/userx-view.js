@@ -1,12 +1,14 @@
 'use strict';
 
-var init = require('../base/init');
-var error = require('../base/error');
-var util2 = require('../base/util2');
-var mongo2 = require('../mongo/mongo2');
-var expb = require('../express/express-base');
-var userb = require('../user/user-base');
-var imageb = require('../image/image-base');
+const init = require('../base/init');
+const error = require('../base/error');
+const async2 = require('../base/async2');
+const url2 = require('../base/url2');
+const date2 = require('../base/date2');
+const mongo2 = require('../mongo/mongo2');
+const expb = require('../express/express-base');
+const userb = require('../user/user-base');
+const imageb = require('../image/image-base');
 
 expb.core.get('/users/:id([0-9]+)', function (req, res, done) {
   var id = parseInt(req.params.id) || 0;
@@ -33,25 +35,30 @@ function profile(req, res, tuser) {
   var query = { uid: tuser.id };
   mongo2.findPage(imageb.images, { uid: tuser._id }, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);
-    util2.fif(images.length, function (next) {
-      let cdate = images[images.length - 1].cdate;
-      var now = new Date();
-      var ddate = new Date(cdate.getFullYear() - 1, now.getMonth(), now.getDate() + 1);
-      mongo2.findDeepDoc(imageb.images, { uid: tuser._id }, {}, ddate, next);
-    }, function (next) {
-      next(null, undefined, undefined);
-    }, function (err, dyear, dlt) {
-      res.render('userx/userx-view', {
-        tuser: tuser,
-        updatable: user && (user._id === tuser._id || user.admin),
-        images: images,
-        gt: gt ? new util2.UrlMaker(req.path).add('gt', gt).add('ps', ps, 16).done() : undefined,
-        lt: lt ? new util2.UrlMaker(req.path).add('lt', lt).add('ps', ps, 16).done() : undefined,
-        dyear: dyear,
-        dlt: dlt ? new util2.UrlMaker(req.path).add('lt', dlt).add('ps', ps, 16).done() : undefined,
-        path: req.path
-      });
-    });
+    async2.waterfall(
+      (done) => {
+        if (images.length) {
+          let cdate = images[images.length - 1].cdate;
+          var now = new Date();
+          var ddate = new Date(cdate.getFullYear() - 1, now.getMonth(), now.getDate() + 1);
+          mongo2.findDeepDoc(imageb.images, { uid: tuser._id }, {}, ddate, done);
+        } else {
+          done(null, undefined, undefined);
+        }
+      },
+      (err, dyear, dlt) => {
+        res.render('userx/userx-view', {
+          tuser: tuser,
+          updatable: user && (user._id === tuser._id || user.admin),
+          images: images,
+          gt: gt ? new url2.UrlMaker(req.path).add('gt', gt).add('ps', ps, 16).done() : undefined,
+          lt: lt ? new url2.UrlMaker(req.path).add('lt', lt).add('ps', ps, 16).done() : undefined,
+          dyear: dyear,
+          dlt: dlt ? new url2.UrlMaker(req.path).add('lt', dlt).add('ps', ps, 16).done() : undefined,
+          path: req.path
+        });        
+      }
+    );
   });
 }
 
@@ -64,7 +71,7 @@ function filter(image, done) {
       home: user.home
     };
     image.thumb = imageb.getThumbUrl(image._id);
-    image.cdateStr = util2.dateTimeString(image.cdate);
+    image.cdateStr = date2.dateTimeString(image.cdate);
     done(null, image);
   });
 }
