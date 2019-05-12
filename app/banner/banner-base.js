@@ -2,7 +2,7 @@
 
 const init = require('../base/init');
 const config = require('../base/config');
-const mongo2 = require('../mongo/mongo2');
+const mysql2 = require('../mysql/mysql2');
 var bannerb = exports;
 
 bannerb.banners = [];

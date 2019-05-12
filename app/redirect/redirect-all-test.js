@@ -10,7 +10,7 @@ const assert = require('assert');
 const assert2 = require('../base/assert2');
 
 before(function (done) {
-  config.path = 'config/test.json';
+  config.path = 'config/raysoda-test.json';
   init.run(done);
 });
 

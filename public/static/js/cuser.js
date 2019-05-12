@@ -47,7 +47,7 @@ $(function () {
     var $form = formty.getForm('form.main');
     $form.$password.focus();
     $form.$send.click(function () {
-      formty.put('/api/reset-pass', $form, { id: url.query.id, token: url.query.t }, function () {
+      formty.put('/api/reset-pass', $form, { uuid: url.query.uuid, token: url.query.t }, function () {
         location = '/users/login';
       });
       return false;

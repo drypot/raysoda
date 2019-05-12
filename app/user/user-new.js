@@ -2,9 +2,10 @@
 
 const init = require('../base/init');
 const error = require('../base/error');
+const mysql2 = require('../mysql/mysql2');
 const expb = require('../express/express-base');
 const userb = require('../user/user-base');
-var usern = exports;
+const usern = exports;
 
 expb.core.get('/users/register', function (req, res, done) {
   res.render('user/user-new');
@@ -16,27 +17,21 @@ expb.core.post('/api/users', function (req, res, done) {
   form.homel = form.namel = form.name.toLowerCase();
   checkForm(form, 0, function (err) {
     if (err) return done(err);
-    var now = new Date();
     userb.makeHash(form.password, function (err, hash) {
       if (err) return done(err);
-      var user = {
-        _id: userb.getNewId(),
-        name: form.name,
-        namel: form.namel,
-        home: form.home,
-        homel: form.homel,
-        email: form.email,
-        hash: hash,
-        status: 'v', // 'v': valid, 'd': deactivated
-        cdate: now,
-        adate: now,
-        profile: form.profile
-        // admin 플래그는 콘솔에서 수작업으로 삽입한다. api 로 넣을 수 없다.
-      };
-      userb.users.insertOne(user, function (err) {
+      var user = userb.getNewUser();
+      user.id = userb.getNewId();
+      user.name = form.name;
+      user.namel = form.namel;
+      user.home = form.home;
+      user.homel = form.homel;
+      user.email = form.email;
+      user.hash = hash;
+      user.profile = form.profile;
+      mysql2.query('insert into user set ?', user, (err) => {
         if (err) return done(err);
         res.json({
-          id: user._id
+          id: user.id
         });
       });
     });
@@ -78,19 +73,19 @@ var checkForm = usern.checkForm = function (form, id, done) {
     checkFormPassword(form, errors);
   }
 
-  countUsersByName(form.namel, id, function (err, cnt) {
+  userExistsWithSameName(form.namel, id, function (err, exist) {
     if (err) return done(err);
-    if (cnt) {
+    if (exist) {
       errors.push(error.NAME_DUPE);
     }
-    countUsersByHome(form.homel, id, function (err, cnt) {
+    userExistsWithSameName(form.homel, id, function (err, exist) {
       if (err) return done(err);
-      if (cnt) {
+      if (exist) {
         errors.push(error.HOME_DUPE);
       }
-      countUsersByEmail(form.email, id, function (err, cnt) {
+      userExistsWithSameEmail(form.email, id, function (err, exist) {
         if (err) return done(err);
-        if (cnt) {
+        if (exist) {
           errors.push(error.EMAIL_DUPE);
         }
         if (errors.length) {
@@ -121,26 +116,22 @@ var checkFormPassword = usern.checkFormPassword = function (form, errors) {
   }
 }
 
-function countUsersByName(namel, id, done) {
-  var q = { $or: [
-    { namel: namel, _id : { $ne: id } },
-    { homel: namel, _id : { $ne: id } }
-  ]};
-  userb.users.countDocuments(q, done);
+function userExistsWithSameName(namel, id, done) {
+  mysql2.queryOne(
+    'select exists(select * from user where (namel = ? or homel = ?) and id != ?) as exist',
+    [namel, namel, id],
+    (err, r) => {
+      done(err, r.exist === 1)
+    }
+  );
 };
 
-function countUsersByHome(namel, id, done) {
-  // countUserByName 과 평션정의가 같다. 정상이다. 들어오는 인자는 다르다.
-  var q = { $or: [
-    { namel: namel, _id : { $ne: id } },
-    { homel: namel, _id : { $ne: id } }
-  ]};
-  userb.users.countDocuments(q, done);
-};
-
-function countUsersByEmail(email, id, done) {
-  var q = { 
-    email: email, _id: { $ne: id } 
-  };
-  userb.users.countDocuments(q, done);
+function userExistsWithSameEmail(email, id, done) {
+  mysql2.queryOne(
+    'select exists(select * from user where email = ? and id != ?) as exist',
+    [email, id],
+    (err, r) => {
+      done(err, r.exist === 1)
+    }
+  );
 };

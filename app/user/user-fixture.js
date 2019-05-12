@@ -1,6 +1,7 @@
 'use strict';
 
 const init = require('../base/init');
+const mysql2 = require('../mysql/mysql2');
 const userb = require('../user/user-base');
 const usera = require('../user/user-auth');
 const expl = require('../express/express-local');
@@ -10,7 +11,7 @@ var userf = exports;
 
 init.add(exports.recreate = function (done) {
   userb.resetCache();
-  userb.users.deleteMany(function (err) {
+  mysql2.query('truncate table user', (err) => {
     if (err) return done(err);
     var forms = [
       { name: 'user1', email: 'user1@mail.com', password: '1234' },
@@ -24,26 +25,18 @@ init.add(exports.recreate = function (done) {
         return done();
       }
       var form = forms[i++];
-      var now = new Date();
       userb.makeHash(form.password, function (err, hash) {
         assert.ifError(err);
-        var user = {
-          _id: userb.getNewId(),
-          name: form.name,
-          namel: form.name,
-          home: form.name,
-          homel: form.name,
-          email: form.email,
-          hash: hash,
-          status: 'v',
-          cdate: now,
-          adate: now,
-          profile: '',
-        };
-        if (form.admin) {
-          user.admin = true;
-        }
-        userb.users.insertOne(user, function (err) {
+        let user = userb.getNewUser();
+        user.id = userb.getNewId();
+        user.namel = form.name;
+        user.home = form.name;
+        user.homel = form.name;
+        user.email = form.email;
+        user.hash = hash;
+        user.name = form.name;
+        user.admin = !!form.admin;
+        mysql2.query('insert into user set ?', user, (err) => {
           assert.ifError(err);
           user.password = form.password;
           exports[user.name] = user;

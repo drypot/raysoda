@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
-const mongo2 = require('../mongo/mongo2');
+const mysql2 = require('../mysql/mysql2');
 var userb = exports;
 
 error.define('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.');
@@ -39,28 +39,77 @@ error.define('RESET_TIMEOUT', '비밀번호 초기화 토큰 유효시간이 지
 
 var userId;
 
-init.add(function (done) {
-  userb.users = mongo2.db.collection('users');
-  userb.users.createIndex({ email: 1 }, function (err) {
-    if (err) return done(err);
-    userb.users.createIndex({ namel: 1 }, function (err) {
+init.add(
+  (done) => {
+    mysql2.query(`
+      create table if not exists user(
+        id int not null,
+        name varchar(32) not null,
+        namel varchar(32) not null,
+        home varchar(32) not null,
+        homel varchar(32) not null,
+        email varchar(64) not null,
+        hash char(60) character set latin1 collate latin1_bin not null,
+        status char(1) not null,
+        admin bool not null,
+        cdate datetime(3) not null,
+        adate datetime(3) not null,
+        pdate datetime(3) not null,
+        profile text not null,
+        primary key (id)
+      )
+    `, done);
+  },
+  (done) => {
+    mysql2.query(`
+      create index user_email on user(email);
+    `, () => { done(); });
+  },
+  (done) => {
+    mysql2.query(`
+    create index user_namel on user(namel);
+    `, () => { done(); });
+  },
+  (done) => {
+    mysql2.query(`
+    create index user_homel on user(homel);
+    `, () => { done(); });
+  },
+  (done) => {
+    mysql2.query(`
+    create index user_pdate on user(pdate desc);
+    `, () => { done(); });
+  },
+  (done) => {
+    mysql2.getMaxId('user', (err, id) => {
       if (err) return done(err);
-      userb.users.createIndex({ homel: 1 }, done);
+      userId = id;
+      done();
     });
-  });
-});
-
-init.add(function (done) {
-  mongo2.getLastId(userb.users, function (err, id) {
-    if (err) return done(err);
-    userId = id;
-    console.log('user-base: user id = ' + userId);
-    done();
-  });
-});
+  }
+);
 
 userb.getNewId = function () {
   return ++userId;
+};
+
+userb.getNewUser = function () {
+  var now = new Date();
+  return { 
+    id: 0, 
+    name: '', 
+    namel: '', 
+    home: '', 
+    homel: '', 
+    email: '',
+    hash: '',
+    status: 'v',
+    admin : false,
+    cdate: now,
+    adate: now,
+    pdate: now,
+    profile: ''
+  };
 };
 
 // bcrypt hash
@@ -78,8 +127,12 @@ userb.checkPassword = function (pw, hash, cb) {
 var usersById = new Map;
 var usersByHome = new Map;
 
+userb.unpackUser= function (user) {
+  user.admin = !!user.admin;
+};
+
 userb.cache = function (user) {
-  usersById.set(user._id, user);
+  usersById.set(user.id, user);
   usersByHome.set(user.homel, user);
 }
 
@@ -88,9 +141,10 @@ userb.getCached = function (id, done) {
   if (user) {
     return done(null, user);
   }
-  userb.users.findOne({ _id: id }, function (err, user) {
+  mysql2.queryOne('select * from user where id = ?', id, (err, user) => {
     if (err) return done(err);
     if (!user) return done(error('USER_NOT_FOUND'));
+    userb.unpackUser(user);
     userb.cache(user);
     done(null, user);
   });
@@ -101,12 +155,13 @@ userb.getCachedByHome = function (homel, done) {
   if (user) {
     return done(null, user);
   }
-  userb.users.findOne({ homel: homel }, function (err, user) {
+  mysql2.queryOne('select * from user where homel = ?', homel, (err, user) => {
     if (err) return done(err);
     if (!user) {
       // 사용자 프로필 URL 검색에 주로 사용되므로 error 생성은 패스한다.
       return done();
     }
+    userb.unpackUser(user);
     userb.cache(user);
     done(null, user);
   });
@@ -124,4 +179,3 @@ userb.resetCache = function () {
   usersById = new Map;
   usersByHome = new Map;
 }
-

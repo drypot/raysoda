@@ -6,7 +6,7 @@ const init = require('../base/init');
 const error = require('../base/error');
 const fs2 = require('../base/fs2');
 const config = require('../base/config');
-const mongo2 = require('../mongo/mongo2');
+const mysql2 = require('../mysql/mysql2');
 var imageb = exports;
 
 error.define('IMAGE_NOT_EXIST', '파일이 없습니다.');
