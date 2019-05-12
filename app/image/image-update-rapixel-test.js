@@ -44,10 +44,10 @@ describe('put /api/images/id', function () {
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
           assert.ifError(err);
-          assert2.ne(image, undefined);
-          //assert2.de(image.vers, [ 5120, 4096, 2560, 1920, 1280 ]);
-          assert2.de(image.vers, [ 5120, 4096, 2560, 1280]);
-          assert2.e(image.comment, 'image1');
+          assert.notStrictEqual(image, undefined);
+          //assert.deepStrictEqual(image.vers, [ 5120, 4096, 2560, 1920, 1280 ]);
+          assert.deepStrictEqual(image.vers, [ 5120, 4096, 2560, 1280]);
+          assert.strictEqual(image.comment, 'image1');
           assert2.path(imageb.getPath(_id, 5120));
           assert2.path(imageb.getPath(_id, 4096));
           assert2.path(imageb.getPath(_id, 2560));
@@ -59,10 +59,10 @@ describe('put /api/images/id', function () {
               assert.ifError(res.body.err);
               imageb.images.findOne({ _id: _id }, function (err, image) {
                 assert.ifError(err);
-                assert2.ne(image, undefined);
-                //assert2.de(image.vers, [ 4096, 2560, 1920, 1280 ]);
-                assert2.de(image.vers, [ 4096, 2560, 1280 ]);
-                assert2.e(image.comment, 'image2');
+                assert.notStrictEqual(image, undefined);
+                //assert.deepStrictEqual(image.vers, [ 4096, 2560, 1920, 1280 ]);
+                assert.deepStrictEqual(image.vers, [ 4096, 2560, 1280 ]);
+                assert.strictEqual(image.comment, 'image2');
                 assert2.path(imageb.getPath(_id, 5120), false);
                 assert2.path(imageb.getPath(_id, 4096));
                 assert2.path(imageb.getPath(_id, 2560));

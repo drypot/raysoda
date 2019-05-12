@@ -1,7 +1,6 @@
 'use strict';
 
 const assert = require('assert');
-const assert2 = require('../base/assert2');
 const init = require('../base/init');
 const error = require('../base/error');
 
@@ -26,17 +25,17 @@ describe('defining duplicated', function () {
 describe('error(string)', function () {
   it('should succeed', function () {
     var err = error('INVALID_DATA');
-    assert2.e(err.code, error.INVALID_DATA.code);
-    assert2.e(err.message, error.INVALID_DATA.message);
-    assert2.ne(err.stack, undefined);
+    assert.strictEqual(err.code, error.INVALID_DATA.code);
+    assert.strictEqual(err.message, error.INVALID_DATA.message);
+    assert.notStrictEqual(err.stack, undefined);
   });
 });
 
 describe('error(field error)', function () {
   it('should succeed', function () {
     var err = error('NAME_DUPE');
-    assert2.e(err.code, error.INVALID_FORM.code);
-    assert2.de(err.errors[0], error.NAME_DUPE);
+    assert.strictEqual(err.code, error.INVALID_FORM.code);
+    assert.deepStrictEqual(err.errors[0], error.NAME_DUPE);
   })
 });
 
@@ -46,9 +45,9 @@ describe('error(field errors)', function () {
     errors.push(error.NAME_DUPE);
     errors.push(error.PASSWORD_EMPTY);
     var err = error(errors);
-    assert2.e(err.code, error.INVALID_FORM.code);
-    assert2.de(err.errors[0], error.NAME_DUPE);
-    assert2.de(err.errors[1], error.PASSWORD_EMPTY);
+    assert.strictEqual(err.code, error.INVALID_FORM.code);
+    assert.deepStrictEqual(err.errors[0], error.NAME_DUPE);
+    assert.deepStrictEqual(err.errors[1], error.PASSWORD_EMPTY);
   })
 });
 
@@ -56,10 +55,10 @@ describe('error(unknown)', function () {
   it('should succeed', function () {
     var obj = { opt: 'extra' };
     var err = error(obj);
-    assert2.e(err.code, undefined);
-    assert2.e(err.message, 'unknown error');
-    assert2.e(err.opt, 'extra')
-    assert2.ne(err.stack, undefined);
+    assert.strictEqual(err.code, undefined);
+    assert.strictEqual(err.message, 'unknown error');
+    assert.strictEqual(err.opt, 'extra')
+    assert.notStrictEqual(err.stack, undefined);
   });
 });
 

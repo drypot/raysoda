@@ -36,7 +36,7 @@ describe('resetting user', function () {
       assert.ifError(err);
       userb.checkPassword(_user.password, user.hash, function (err, matched) {
         assert.ifError(err);
-        assert2.e(matched, true);
+        assert.strictEqual(matched, true);
         done();
       });
     });
@@ -52,9 +52,9 @@ describe('resetting user', function () {
   it('can be checked', function (done) {
     my2.queryOne('select * from pwreset where email = ?', _user.email, (err, reset) => {
       assert.ifError(err);
-      assert2.ne(reset.uuid, undefined);
-      assert2.ne(reset.token, undefined);
-      assert2.e(reset.email, _user.email);
+      assert.notStrictEqual(reset.uuid, undefined);
+      assert.notStrictEqual(reset.token, undefined);
+      assert.strictEqual(reset.email, _user.email);
       _reset = reset;
       done();
     });
@@ -124,7 +124,7 @@ describe('resetting user', function () {
       assert.ifError(err);
       userb.checkPassword(_user.password, user.hash, function (err, matched) {
         assert.ifError(err);
-        assert2.e(matched, false);
+        assert.strictEqual(matched, false);
         done();
       });
     });
@@ -134,7 +134,7 @@ describe('resetting user', function () {
       assert.ifError(err);
       userb.checkPassword('new-pass', user.hash, function (err, matched) {
         assert.ifError(err);
-        assert2.e(matched, true);
+        assert.strictEqual(matched, true);
         done();
       });
     });

@@ -41,30 +41,30 @@ describe('put /api/images/id', function () {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/1280x720.jpg').end(function (err, res) {
         assert.ifError(err);
         assert.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        assert.notStrictEqual(res.body.ids, undefined);
+        assert.strictEqual(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
           assert.ifError(err);
-          assert2.ne(image, undefined);
-          assert2.ne(image.cdate, undefined);
-          assert2.e(image.comment, 'image1');
+          assert.notStrictEqual(image, undefined);
+          assert.notStrictEqual(image.cdate, undefined);
+          assert.strictEqual(image.comment, 'image1');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
             assert.ifError(err);
-            assert2.e(meta.width, 720);
-            assert2.e(meta.height, 720);
+            assert.strictEqual(meta.width, 720);
+            assert.strictEqual(meta.height, 720);
             expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/4096x2304.jpg').end(function (err, res) {
               assert.ifError(err);
               assert.ifError(res.body.err);
               imageb.images.findOne({ _id: _id }, function (err, image) {
                 assert.ifError(err);
-                assert2.ne(image, undefined);
-                assert2.ne(image.cdate, undefined);
-                assert2.e(image.comment, 'image2');
+                assert.notStrictEqual(image, undefined);
+                assert.notStrictEqual(image.cdate, undefined);
+                assert.strictEqual(image.comment, 'image2');
                 imageb.identify(imageb.getPath(_id), function (err, meta) {
                   assert.ifError(err);
-                  assert2.e(meta.width, imageb.maxWidth);
-                  assert2.e(meta.height, imageb.maxWidth);
+                  assert.strictEqual(meta.width, imageb.maxWidth);
+                  assert.strictEqual(meta.height, imageb.maxWidth);
                   done();
                 });
               });

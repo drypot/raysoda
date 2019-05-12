@@ -37,16 +37,16 @@ before(function (done) {
 
 describe('getDir()', function () {
   it('should work for id 1', function () {
-    assert2.e(imageb.getDir(1), config.uploadDir + '/public/images/0/0');
-    assert2.e(imageb.getPath(1), config.uploadDir + '/public/images/0/0/1.svg');
-    assert2.e(imageb.getDirUrl(1), config.uploadSite + '/images/0/0');
-    assert2.e(imageb.getThumbUrl(1), config.uploadSite + '/images/0/0/1.svg');
+    assert.strictEqual(imageb.getDir(1), config.uploadDir + '/public/images/0/0');
+    assert.strictEqual(imageb.getPath(1), config.uploadDir + '/public/images/0/0/1.svg');
+    assert.strictEqual(imageb.getDirUrl(1), config.uploadSite + '/images/0/0');
+    assert.strictEqual(imageb.getThumbUrl(1), config.uploadSite + '/images/0/0/1.svg');
   });
   it('should work for id 1 234 567', function () {
-    assert2.e(imageb.getDir(1234567), config.uploadDir + '/public/images/1/234');
-    assert2.e(imageb.getPath(1234567), config.uploadDir + '/public/images/1/234/1234567.svg');
-    assert2.e(imageb.getDirUrl(1234567), config.uploadSite + '/images/1/234');
-    assert2.e(imageb.getThumbUrl(1234567), config.uploadSite + '/images/1/234/1234567.svg');
+    assert.strictEqual(imageb.getDir(1234567), config.uploadDir + '/public/images/1/234');
+    assert.strictEqual(imageb.getPath(1234567), config.uploadDir + '/public/images/1/234/1234567.svg');
+    assert.strictEqual(imageb.getDirUrl(1234567), config.uploadSite + '/images/1/234');
+    assert.strictEqual(imageb.getThumbUrl(1234567), config.uploadSite + '/images/1/234/1234567.svg');
   });
 });
 
@@ -59,17 +59,17 @@ describe('post /api/images', function () {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/svg-sample.svg').end(function (err, res) {
         assert.ifError(err);
         assert.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        assert.notStrictEqual(res.body.ids, undefined);
+        assert.strictEqual(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
           assert.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.user1.id);
-          assert2.e(image.width, undefined);
-          assert2.e(image.vers, undefined);
-          assert2.ne(image.cdate, undefined);
-          assert2.e(image.comment, 'image1');
+          assert.strictEqual(image.id, _id);
+          assert.strictEqual(image.uid, userf.user1.id);
+          assert.strictEqual(image.width, undefined);
+          assert.strictEqual(image.vers, undefined);
+          assert.notStrictEqual(image.cdate, undefined);
+          assert.strictEqual(image.comment, 'image1');
           assert2.path(imageb.getPath(_id));
           done();
         });

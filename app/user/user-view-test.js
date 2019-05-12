@@ -46,9 +46,9 @@ describe('finding user', function () {
     expl.get('/api/users/' + _user.id).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.user.id, _user.id);
-      assert2.e(res.body.user.name, _user.name);
-      assert2.e(res.body.user.email, _user.email);
+      assert.strictEqual(res.body.user.id, _user.id);
+      assert.strictEqual(res.body.user.name, _user.name);
+      assert.strictEqual(res.body.user.email, _user.email);
       done();
     });
   });
@@ -59,9 +59,9 @@ describe('finding user', function () {
     expl.get('/api/users/' + _user.id).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.user.id, _user.id);
-      assert2.e(res.body.user.name, _user.name);
-      assert2.e(res.body.user.email, undefined);
+      assert.strictEqual(res.body.user.id, _user.id);
+      assert.strictEqual(res.body.user.name, _user.name);
+      assert.strictEqual(res.body.user.email, undefined);
       done();
     });
   });
@@ -72,9 +72,9 @@ describe('finding user', function () {
     expl.get('/api/users/' + _user.id).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.user.id, _user.id);
-      assert2.e(res.body.user.name, _user.name);
-      assert2.e(res.body.user.email, _user.email);
+      assert.strictEqual(res.body.user.id, _user.id);
+      assert.strictEqual(res.body.user.name, _user.name);
+      assert.strictEqual(res.body.user.email, _user.email);
       done();
     });
   });
@@ -89,10 +89,10 @@ describe('finding user', function () {
     expl.get('/api/users/' + _user.id).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.user.id, _user.id);
-      assert2.e(res.body.user.name, _user.name);
-      assert2.e(res.body.user.profile, '');
-      assert2.e(res.body.user.email, undefined);
+      assert.strictEqual(res.body.user.id, _user.id);
+      assert.strictEqual(res.body.user.name, _user.name);
+      assert.strictEqual(res.body.user.profile, '');
+      assert.strictEqual(res.body.user.email, undefined);
       done();
     });
   });

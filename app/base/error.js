@@ -1,6 +1,6 @@
 'use strict';
 
-const assert2 = require('../base/assert2');
+const assert = require('assert');
 
 var error = exports = module.exports = function (obj) {
   var err;
@@ -30,7 +30,7 @@ var error = exports = module.exports = function (obj) {
 };
 
 error.define = function (code, msg, field) {
-  assert2.e(error[code], undefined);
+  assert.strictEqual(error[code], undefined);
   var ec = error[code] = {
     code: code,
     message: msg

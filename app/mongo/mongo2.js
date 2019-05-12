@@ -1,12 +1,11 @@
 'use strict';
 
+const assert = require('assert');
 const mongo = require('mongodb');
 
 const init = require('../base/init');
 const config = require('../base/config');
 const async = require('../base/async');
-const assert = require('assert');
-const assert2 = require('../base/assert2');
 const mongo2 = exports;
 
 mongo2.ObjectID = mongo.ObjectID;
@@ -17,7 +16,7 @@ var client;
 
 init.add(
   (done) => {
-    assert2.ne(config.mongodb, undefined);
+    assert.notStrictEqual(config.mongodb, undefined);
     mongo.MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, function (err, _client) {
       if (err) return done(err);
       client = _client;

@@ -55,18 +55,18 @@ describe('updating user', function () {
   it('can be checked', function (done) {
     userb.users.findOne({ _id: _id }, function (err, user) {
       assert.ifError(err);
-      assert2.e(user.name, 'NewName');
-      assert2.e(user.namel, 'newname');
-      assert2.e(user.home, 'NewHome');
-      assert2.e(user.homel, 'newhome');
-      assert2.e(user.email, 'new.name@mail.com');
+      assert.strictEqual(user.name, 'NewName');
+      assert.strictEqual(user.namel, 'newname');
+      assert.strictEqual(user.home, 'NewHome');
+      assert.strictEqual(user.homel, 'newhome');
+      assert.strictEqual(user.email, 'new.name@mail.com');
       userb.checkPassword('1234', user.hash, function (err, matched) {
         assert.ifError(err);
-        assert2.e(matched, false);
+        assert.strictEqual(matched, false);
         userb.checkPassword('5678', user.hash, function (err, matched) {
           assert.ifError(err);
-          assert2.e(matched, true);
-          assert2.e(user.profile, 'new profile');
+          assert.strictEqual(matched, true);
+          assert.strictEqual(user.profile, 'new profile');
           done();
         });
       });
@@ -290,8 +290,8 @@ describe('updating password', function () {
   it('can be checked', function (done) {
     userb.users.findOne({ _id: userf.user1.id }, function (err, user) {
       assert.ifError(err);
-      assert2.ne(user, undefined);
-      assert2.e(bcrypt.compareSync(userf.user1.password, user.hash), true);
+      assert.notStrictEqual(user, undefined);
+      assert.strictEqual(bcrypt.compareSync(userf.user1.password, user.hash), true);
       done();
     });
   });
@@ -330,9 +330,9 @@ describe('updating cache', function () {
     var user = userf.user1;
     userb.getCached(user.id, function (err, user) {
       assert.ifError(err);
-      assert2.e(user.name, user.name);
-      assert2.e(user.home, user.home);
-      assert2.e(user.email, user.email);
+      assert.strictEqual(user.name, user.name);
+      assert.strictEqual(user.home, user.home);
+      assert.strictEqual(user.email, user.email);
       done();
     });
   });
@@ -347,9 +347,9 @@ describe('updating cache', function () {
   it('can be checked', function (done) {
     userb.getCached(userf.user1.id, function (err, user) {
       assert.ifError(err);
-      assert2.e(user.name, 'Name1');
-      assert2.e(user.home, 'Home1');
-      assert2.e(user.email, 'name1@mail.com');
+      assert.strictEqual(user.name, 'Name1');
+      assert.strictEqual(user.home, 'Home1');
+      assert.strictEqual(user.email, 'name1@mail.com');
       done();
     });
   });

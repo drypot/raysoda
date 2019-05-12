@@ -31,9 +31,9 @@ describe('/api/counters/:id/inc', function () {
       assert2.redirect(res, 'http://hello.world');
       counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
         assert.ifError(err);
-        assert2.e(c.id, 'abc');
-        assert2.de(c.d, today);
-        assert2.e(c.c, 1);
+        assert.strictEqual(c.id, 'abc');
+        assert.deepStrictEqual(c.d, today);
+        assert.strictEqual(c.c, 1);
         done();
       });
     });
@@ -43,9 +43,9 @@ describe('/api/counters/:id/inc', function () {
       assert2.redirect(res, 'http://hello.world');
       counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
         assert.ifError(err);
-        assert2.e(c.id, 'abc');
-        assert2.de(c.d, today);
-        assert2.e(c.c, 2);
+        assert.strictEqual(c.id, 'abc');
+        assert.deepStrictEqual(c.d, today);
+        assert.strictEqual(c.c, 2);
         done();
       });
     });
@@ -74,13 +74,13 @@ describe('/api/counters/:id', function () {
         assert.ifError(err);
         assert.ifError(res.body.err);
         var cs = res.body.counters;
-        assert2.e(cs.length, 3);
-        assert2.e(cs[0].id, 'dc');
-        assert2.de(new Date(cs[0].d), new Date('2015-10-07 0:0'));
-        assert2.e(cs[0].c, 3);
-        assert2.e(cs[2].id, 'dc');
-        assert2.de(new Date(cs[2].d), new Date('2015-10-09 0:0'));
-        assert2.e(cs[2].c, 5);
+        assert.strictEqual(cs.length, 3);
+        assert.strictEqual(cs[0].id, 'dc');
+        assert.deepStrictEqual(new Date(cs[0].d), new Date('2015-10-07 0:0'));
+        assert.strictEqual(cs[0].c, 3);
+        assert.strictEqual(cs[2].id, 'dc');
+        assert.deepStrictEqual(new Date(cs[2].d), new Date('2015-10-09 0:0'));
+        assert.strictEqual(cs[2].c, 5);
         done();
       });
     });

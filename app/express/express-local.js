@@ -13,7 +13,7 @@ const expl = exports;
 
 // superagent
 
-assert2.e(superagent.Request.prototype.fields, undefined);
+assert.strictEqual(superagent.Request.prototype.fields, undefined);
 
 superagent.Request.prototype.fields = function(obj){
   for (var key in obj) {

@@ -49,9 +49,9 @@ describe('put /api/images/id', function () {
             assert.ifError(res.body.err);
             imageb.images.findOne({ _id: _id }, function (err, image) {
               assert.ifError(err);
-              assert2.ne(image, undefined);
-              assert2.ne(image.cdate, undefined);
-              assert2.e(image.comment, 'image2');
+              assert.notStrictEqual(image, undefined);
+              assert.notStrictEqual(image.cdate, undefined);
+              assert.strictEqual(image.comment, 'image2');
               imageb.identify(imageb.getPath(_id), function (err, meta) {
                 assert.ifError(err);
                 done();

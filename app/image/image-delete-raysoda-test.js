@@ -46,12 +46,12 @@ describe('del /api/images/[_id]', function () {
       expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
         assert.ifError(err);
         assert.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
+        assert.notStrictEqual(res.body.ids, undefined);
         var _id1 = res.body.ids[0];
         expl.post('/api/images').field('comment', 'image2').attach('files', _f1).end(function (err, res) {
           assert.ifError(err);
           assert.ifError(res.body.err);
-          assert2.ne(res.body.ids, undefined);
+          assert.notStrictEqual(res.body.ids, undefined);
           var _id2 = res.body.ids[0];
           expl.del('/api/images/' + _id1, function (err, res) {
             assert.ifError(err);
@@ -60,10 +60,10 @@ describe('del /api/images/[_id]', function () {
             assert2.path(imageb.getPath(_id2));
             imageb.images.findOne({ _id: _id1 }, function (err, image) {
               assert.ifError(err);
-              assert2.e(image, null);
+              assert.strictEqual(image, null);
               imageb.images.findOne({ _id: _id2 }, function (err, image) {
                 assert.ifError(err);
-                assert2.ne(image, undefined);
+                assert.notStrictEqual(image, undefined);
                 done();
               });
             });
@@ -82,7 +82,7 @@ describe('del /api/images/[_id]', function () {
         expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
           assert.ifError(err);
           assert.ifError(res.body.err);
-          assert2.ne(res.body.ids, undefined);
+          assert.notStrictEqual(res.body.ids, undefined);
           var _id = res.body.ids[0];
           userf.login('admin', function (err) {
             assert.ifError(err);
@@ -92,7 +92,7 @@ describe('del /api/images/[_id]', function () {
               assert2.path(imageb.getPath(_id), false);
               imageb.images.findOne({ _id: _id }, function (err, image) {
                 assert.ifError(err);
-                assert2.e(image, null);
+                assert.strictEqual(image, null);
                 done();
               });
             });
@@ -111,7 +111,7 @@ describe('del /api/images/[_id]', function () {
         expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
           assert.ifError(err);
           assert.ifError(res.body.err);
-          assert2.ne(res.body.ids, undefined);
+          assert.notStrictEqual(res.body.ids, undefined);
           var _id = res.body.ids[0];
           userf.login('user2', function (err) {
             assert.ifError(err);
@@ -122,7 +122,7 @@ describe('del /api/images/[_id]', function () {
               assert2.path(imageb.getPath(_id));
               imageb.images.findOne({ _id: _id }, function (err, image) {
                 assert.ifError(err);
-                assert2.ne(image, undefined);
+                assert.notStrictEqual(image, undefined);
                 done();
               });
             });

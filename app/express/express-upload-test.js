@@ -24,7 +24,7 @@ before((done) => {
 describe('parsing json', function () {
   it('given handler', function () {
     expb.core.post('/api/test/upload-json', expu.handler(function (req, res, done) {
-      assert2.e(req.headers['content-type'], 'application/json');
+      assert.strictEqual(req.headers['content-type'], 'application/json');
       req.body.files = req.files;
       res.json(req.body);
       done();
@@ -34,8 +34,8 @@ describe('parsing json', function () {
     expl.post('/api/test/upload-json').send({'p1': 'abc'}).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.files, undefined);
-      assert2.e(res.body.p1, 'abc');
+      assert.strictEqual(res.body.files, undefined);
+      assert.strictEqual(res.body.p1, 'abc');
       done();
     });
   });
@@ -55,9 +55,9 @@ describe('parsing form', function () {
     expl.post('/api/test/upload-form').field('p1', 'abc').field('p2', '123').field('p2', '456').end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.files, undefined);
-      assert2.e(res.body.p1, 'abc');
-      assert2.de(res.body.p2, ['123', '456']);
+      assert.strictEqual(res.body.files, undefined);
+      assert.strictEqual(res.body.p1, 'abc');
+      assert.deepStrictEqual(res.body.p2, ['123', '456']);
       done();
     });
   });
@@ -70,10 +70,10 @@ describe('parsing form', function () {
     expl.post('/api/test/upload-form').fields(form).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.files, undefined);
-      assert2.e(res.body.p1, 'abc');
-      assert2.e(res.body.p2, '123');
-      assert2.de(res.body.p3, ['123', '456']);
+      assert.strictEqual(res.body.files, undefined);
+      assert.strictEqual(res.body.p1, 'abc');
+      assert.strictEqual(res.body.p2, '123');
+      assert.deepStrictEqual(res.body.p3, ['123', '456']);
       done();
     });
   });
@@ -95,8 +95,8 @@ describe('parsing one file', function () {
     expl.post('/api/test/upload-one').field('p1', 'abc').attach('f1', f1).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.p1, 'abc');
-      assert2.e(res.body.files.f1[0].safeFilename, 'express-upload-f1.txt');
+      assert.strictEqual(res.body.p1, 'abc');
+      assert.strictEqual(res.body.files.f1[0].safeFilename, 'express-upload-f1.txt');
       setTimeout(function () {
         assert2.path(p1, false);
         done();
@@ -124,9 +124,9 @@ describe('parsing two files', function () {
     expl.post('/api/test/upload-two').field('p1', 'abc').attach('f1', f1).attach('f1', f2).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.p1, 'abc');
-      assert2.e(res.body.files.f1[0].safeFilename, 'express-upload-f1.txt');
-      assert2.e(res.body.files.f1[1].safeFilename, 'express-upload-f2.txt');
+      assert.strictEqual(res.body.p1, 'abc');
+      assert.strictEqual(res.body.files.f1[0].safeFilename, 'express-upload-f1.txt');
+      assert.strictEqual(res.body.files.f1[1].safeFilename, 'express-upload-f2.txt');
       setTimeout(function () {
         assert2.path(p1, false);
         assert2.path(p2, false);
@@ -152,8 +152,8 @@ describe('parsing irregular filename', function () {
     expl.post('/api/test/upload-irregular').field('p1', 'abc').attach('f1', f1, 'file<>()[]_-=.txt.%$#@!&.txt').end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.files.f1[0].safeFilename, 'file__()[]_-=.txt.%$#@!&.txt');
-      assert2.e(res.body.p1, 'abc');
+      assert.strictEqual(res.body.files.f1[0].safeFilename, 'file__()[]_-=.txt.%$#@!&.txt');
+      assert.strictEqual(res.body.p1, 'abc');
       assert2.path(p1, false);
       done();
     });

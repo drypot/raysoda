@@ -52,13 +52,13 @@ describe('get /api/images', function (done) {
     expl.get('/api/images').query(query).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.gt, undefined);
-      assert2.e(res.body.lt, undefined);
-      assert2.e(res.body.images.length, 10);
-      assert2.e(res.body.images[0].id, 10);
-      assert2.e(res.body.images[1].id, 9);
-      assert2.e(res.body.images[2].id, 8);
-      assert2.e(res.body.images[9].id, 1);
+      assert.strictEqual(res.body.gt, undefined);
+      assert.strictEqual(res.body.lt, undefined);
+      assert.strictEqual(res.body.images.length, 10);
+      assert.strictEqual(res.body.images[0].id, 10);
+      assert.strictEqual(res.body.images[1].id, 9);
+      assert.strictEqual(res.body.images[2].id, 8);
+      assert.strictEqual(res.body.images[9].id, 1);
       done();
     });
   });
@@ -69,11 +69,11 @@ describe('get /api/images', function (done) {
     expl.get('/api/images').query(query).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.gt, undefined);
-      assert2.e(res.body.lt, 7);
-      assert2.e(res.body.images.length, 4);
-      assert2.e(res.body.images[0].id, 10);
-      assert2.e(res.body.images[3].id, 7);
+      assert.strictEqual(res.body.gt, undefined);
+      assert.strictEqual(res.body.lt, 7);
+      assert.strictEqual(res.body.images.length, 4);
+      assert.strictEqual(res.body.images[0].id, 10);
+      assert.strictEqual(res.body.images[3].id, 7);
       done();
     });
   });
@@ -84,11 +84,11 @@ describe('get /api/images', function (done) {
     expl.get('/api/images').query(query).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.gt, 6);
-      assert2.e(res.body.lt, 3);
-      assert2.e(res.body.images.length, 4);
-      assert2.e(res.body.images[0].id, 6);
-      assert2.e(res.body.images[3].id, 3);
+      assert.strictEqual(res.body.gt, 6);
+      assert.strictEqual(res.body.lt, 3);
+      assert.strictEqual(res.body.images.length, 4);
+      assert.strictEqual(res.body.images[0].id, 6);
+      assert.strictEqual(res.body.images[3].id, 3);
       done();
     });
   });
@@ -99,11 +99,11 @@ describe('get /api/images', function (done) {
     expl.get('/api/images').query(query).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.gt, 2);
-      assert2.e(res.body.lt, undefined);
-      assert2.e(res.body.images.length, 2);
-      assert2.e(res.body.images[0].id, 2);
-      assert2.e(res.body.images[1].id, 1);
+      assert.strictEqual(res.body.gt, 2);
+      assert.strictEqual(res.body.lt, undefined);
+      assert.strictEqual(res.body.images.length, 2);
+      assert.strictEqual(res.body.images[0].id, 2);
+      assert.strictEqual(res.body.images[1].id, 1);
       done();
     });
   });
@@ -114,11 +114,11 @@ describe('get /api/images', function (done) {
     expl.get('/api/images').query(query).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.gt, 6);
-      assert2.e(res.body.lt, 3);
-      assert2.e(res.body.images.length, 4);
-      assert2.e(res.body.images[0].id, 6);
-      assert2.e(res.body.images[3].id, 3);
+      assert.strictEqual(res.body.gt, 6);
+      assert.strictEqual(res.body.lt, 3);
+      assert.strictEqual(res.body.images.length, 4);
+      assert.strictEqual(res.body.images[0].id, 6);
+      assert.strictEqual(res.body.images[3].id, 3);
       done();
     });
   });
@@ -129,11 +129,11 @@ describe('get /api/images', function (done) {
     expl.get('/api/images').query(query).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.gt, undefined);
-      assert2.e(res.body.lt, 7);
-      assert2.e(res.body.images.length, 4);
-      assert2.e(res.body.images[0].id, 10);
-      assert2.e(res.body.images[3].id, 7);
+      assert.strictEqual(res.body.gt, undefined);
+      assert.strictEqual(res.body.lt, 7);
+      assert.strictEqual(res.body.images.length, 4);
+      assert.strictEqual(res.body.images[0].id, 10);
+      assert.strictEqual(res.body.images[3].id, 7);
       done();
     });
   });
@@ -165,8 +165,8 @@ describe('get /api/images deep', function (done) {
     expl.get('/api/images').query(query).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.dyear, 2010);
-      assert2.e(res.body.dlt, 50);
+      assert.strictEqual(res.body.dyear, 2010);
+      assert.strictEqual(res.body.dlt, 50);
       done();
     });
   });
@@ -177,8 +177,8 @@ describe('get /api/images deep', function (done) {
     expl.get('/api/images').query(query).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.dyear, 2005);
-      assert2.e(res.body.dlt, 16);
+      assert.strictEqual(res.body.dyear, 2005);
+      assert.strictEqual(res.body.dlt, 16);
       done();
     });
   });
@@ -189,8 +189,8 @@ describe('get /api/images deep', function (done) {
     expl.get('/api/images').query(query).end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.dyear, undefined);
-      assert2.e(res.body.dlt, undefined);
+      assert.strictEqual(res.body.dyear, undefined);
+      assert.strictEqual(res.body.dlt, undefined);
       done();
     });
   });

@@ -24,10 +24,10 @@ describe('init', () => {
     );
     init.run((err) => {
       assert.ifError(err);
-      assert2.e(a.length, 3);
-      assert2.e(a[0], 1);
-      assert2.e(a[1], 2);
-      assert2.e(a[2], 3);
+      assert.strictEqual(a.length, 3);
+      assert.strictEqual(a[0], 1);
+      assert.strictEqual(a[1], 2);
+      assert.strictEqual(a[2], 3);
       done();
     });
   });
@@ -58,8 +58,8 @@ describe('init', () => {
     );
     init.run((err) => {
       assert(err);
-      assert2.e(a.length, 1);
-      assert2.e(a[0], 1);
+      assert.strictEqual(a.length, 1);
+      assert.strictEqual(a[0], 1);
       done();
     });
   });

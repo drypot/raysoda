@@ -52,7 +52,7 @@ describe('deactivating self', function () {
   it('can be checked', function (done) {
     userb.users.findOne({ _id: userf.user1.id }, function (err, user) {
       assert.ifError(err);
-      assert2.e(user.status == 'd', true);
+      assert.strictEqual(user.status == 'd', true);
       done();
     });
   });

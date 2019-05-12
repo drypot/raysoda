@@ -46,12 +46,12 @@ describe('del /api/images/[_id]', function () {
       expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
         assert.ifError(err);
         assert.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
+        assert.notStrictEqual(res.body.ids, undefined);
         var _id1 = res.body.ids[0];
         expl.post('/api/images').field('comment', 'image2').attach('files', _f1).end(function (err, res) {
           assert.ifError(err);
           assert.ifError(res.body.err);
-          assert2.ne(res.body.ids, undefined);
+          assert.notStrictEqual(res.body.ids, undefined);
           var _id2 = res.body.ids[0];
           expl.del('/api/images/' + _id1, function (err, res) {
             assert.ifError(err);

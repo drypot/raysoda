@@ -40,7 +40,7 @@ describe('banners', function () {
   it('putting can be checked', function (done) {
     mongo2.values.find('banners', function (err, value) {
       assert.ifError(err);
-      assert2.de(value, banners1);
+      assert.deepStrictEqual(value, banners1);
       done();
     });
   });
@@ -48,7 +48,7 @@ describe('banners', function () {
     expl.get('/api/banners').end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.de(res.body.banners, banners1);
+      assert.deepStrictEqual(res.body.banners, banners1);
       done();
     })
   });

@@ -24,10 +24,10 @@ before((done) => {
 
 describe('emailx test', function () {
   it('should succeed', function () {
-    assert2.e(usern.emailx.test('abc.mail.com'), false);
-    assert2.e(usern.emailx.test('abc*xyz@mail.com'), false);
-    assert2.e(usern.emailx.test('-a-b-c_d-e-f@mail.com'), true);
-    assert2.e(usern.emailx.test('develop.bj@mail.com'), true);
+    assert.strictEqual(usern.emailx.test('abc.mail.com'), false);
+    assert.strictEqual(usern.emailx.test('abc*xyz@mail.com'), false);
+    assert.strictEqual(usern.emailx.test('-a-b-c_d-e-f@mail.com'), true);
+    assert.strictEqual(usern.emailx.test('develop.bj@mail.com'), true);
   });
 });
 
@@ -37,7 +37,7 @@ describe('getNewId', function () {
     var id1 = userb.getNewId();
     var id2 = userb.getNewId();
     var id2 = userb.getNewId();
-    assert2.e(id1 < id2, true);
+    assert.strictEqual(id1 < id2, true);
   });
 });
 
@@ -50,15 +50,15 @@ describe('post /api/users', function () {
         let id = res.body.id;
         my2.queryOne('select * from user where id = ?', id, (err, user) => {
           assert.ifError(err);
-          assert2.e(user.name, 'Name');
-          assert2.e(user.namel, 'name');
-          assert2.e(user.home, 'Name');
-          assert2.e(user.homel, 'name');
-          assert2.e(user.email, 'name@mail.com');
+          assert.strictEqual(user.name, 'Name');
+          assert.strictEqual(user.namel, 'name');
+          assert.strictEqual(user.home, 'Name');
+          assert.strictEqual(user.homel, 'name');
+          assert.strictEqual(user.email, 'name@mail.com');
           userb.checkPassword('1234', user.hash, function (err, matched) {
-            assert2.e(matched, true);
+            assert.strictEqual(matched, true);
             userb.checkPassword('4444', user.hash, function (err, matched) {
-              assert2.e(matched, false);
+              assert.strictEqual(matched, false);
               done();
             });
           });

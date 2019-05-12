@@ -48,14 +48,14 @@ describe('tableExists', () => {
   it('should return false when table not exists.', done => {
     my2.tableExists('test_exist_xxx', (err, exist) => {
       assert.ifError(err);
-      assert2.e(exist, false);
+      assert.strictEqual(exist, false);
       done();
     });
   });  
   it('should return true when table exists.', done => {
     my2.tableExists('test_exist', (err, exist) => {
       assert.ifError(err);
-      assert2.e(exist, true);
+      assert.strictEqual(exist, true);
       done();
     });
   });  

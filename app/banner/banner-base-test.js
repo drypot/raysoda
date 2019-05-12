@@ -21,6 +21,6 @@ before((done) => {
 
 describe('banners', function () {
   it('should exist', function () {
-    assert2.de(bannerb.banners, []);
+    assert.deepStrictEqual(bannerb.banners, []);
   });
 });

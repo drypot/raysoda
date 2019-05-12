@@ -103,7 +103,7 @@ describe('emtpyDir', function () {
       assert.ifError(err);
       fs.readdir(testdir, function (err, files) {
         if (err) return done(err);
-        assert2.e(files.length, 0);
+        assert.strictEqual(files.length, 0);
         done();
       });
     });
@@ -118,7 +118,7 @@ describe('makeDir', function () {
     assert2.path(testdir + '/sub1', false);
     fs2.makeDir(testdir + '/sub1', function (err, dir) {
       assert.ifError(err);
-      assert2.e(dir, testdir + '/sub1');
+      assert.strictEqual(dir, testdir + '/sub1');
       assert2.path(dir);
       done();
     });
@@ -128,7 +128,7 @@ describe('makeDir', function () {
     assert2.path(testdir + '/sub1/sub2/sub3', false);
     fs2.makeDir(testdir + '/sub1/sub2/sub3', function (err, dir) {
       assert.ifError(err);
-      assert2.e(dir, testdir + '/sub1/sub2/sub3');
+      assert.strictEqual(dir, testdir + '/sub1/sub2/sub3');
       assert2.path(dir);
       done();
     });
@@ -153,21 +153,21 @@ describe('safeFilename', function () {
       var a = fs2.safeFilename(pair[0]);
       var b = pair[1];
       if (a !== b) console.log(pair);
-      assert2.e((a == b), true);
+      assert.strictEqual((a == b), true);
     })
   });
 });
 
 describe('makeDeepPath', function () {
   it('should succeed', function () {
-    assert2.e(fs2.makeDeepPath(1, 3), '0/0/1');
-    assert2.e(fs2.makeDeepPath(999, 3), '0/0/999');
-    assert2.e(fs2.makeDeepPath(1000, 3), '0/1/0');
-    assert2.e(fs2.makeDeepPath(1999, 3), '0/1/999');
-    assert2.e(fs2.makeDeepPath(999999, 3), '0/999/999');
-    assert2.e(fs2.makeDeepPath(1999999, 3), '1/999/999');
-    assert2.e(fs2.makeDeepPath(999999999, 3), '999/999/999');
-    assert2.e(fs2.makeDeepPath(9999999999, 3), '9999/999/999');
+    assert.strictEqual(fs2.makeDeepPath(1, 3), '0/0/1');
+    assert.strictEqual(fs2.makeDeepPath(999, 3), '0/0/999');
+    assert.strictEqual(fs2.makeDeepPath(1000, 3), '0/1/0');
+    assert.strictEqual(fs2.makeDeepPath(1999, 3), '0/1/999');
+    assert.strictEqual(fs2.makeDeepPath(999999, 3), '0/999/999');
+    assert.strictEqual(fs2.makeDeepPath(1999999, 3), '1/999/999');
+    assert.strictEqual(fs2.makeDeepPath(999999999, 3), '999/999/999');
+    assert.strictEqual(fs2.makeDeepPath(9999999999, 3), '9999/999/999');
   });
 });
 
@@ -181,7 +181,7 @@ describe('copy', function () {
     fs2.copy('app/base/fs2-dummy.txt', t, function (err) {
       assert.ifError(err);
       assert2.path(t);
-      assert2.e(fs.readFileSync(t, 'utf8'), 'fs2 test dummy');
+      assert.strictEqual(fs.readFileSync(t, 'utf8'), 'fs2 test dummy');
       done();
     });
   });
@@ -190,7 +190,7 @@ describe('copy', function () {
     assert2.path(t, false);
     fs2.copy('app/base/fs2-not-exist.txt', t, function (err) {
       assert(err !== null);
-      assert2.e(err.code, 'ENOENT');
+      assert.strictEqual(err.code, 'ENOENT');
       assert2.path(t, false);
       done();
     });

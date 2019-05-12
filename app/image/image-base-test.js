@@ -21,13 +21,13 @@ before((done) => {
 
 describe('imageb.images', function () {
   it('should exist', function () {
-    assert2.ne(imageb.images, undefined);
+    assert.notStrictEqual(imageb.images, undefined);
   });
 });
 
 describe('getNewId()', function () {
   it('should work', function () {
-    assert2.e(imageb.getNewId() < imageb.getNewId(), true);
+    assert.strictEqual(imageb.getNewId() < imageb.getNewId(), true);
   });
 });
 
@@ -35,18 +35,18 @@ describe('identify()', function () {
   it('should work with jpeg', function (done) {
     imageb.identify('samples/1280x720.jpg', function (err, meta) {
       assert.ifError(err);
-      assert2.e(meta.format, 'jpeg');
-      assert2.e(meta.width, 1280);
-      assert2.e(meta.height, 720);
+      assert.strictEqual(meta.format, 'jpeg');
+      assert.strictEqual(meta.width, 1280);
+      assert.strictEqual(meta.height, 720);
       done();
     });
   });
   it('should work with svg', function (done) {
     imageb.identify('samples/svg-sample.svg', function (err, meta) {
       assert.ifError(err);
-      assert2.e(meta.format, 'svg');
-      assert2.e(meta.width, 1000);
-      assert2.e(meta.height, 1000);
+      assert.strictEqual(meta.format, 'svg');
+      assert.strictEqual(meta.width, 1000);
+      assert.strictEqual(meta.height, 1000);
       done();
     });
   });

@@ -50,8 +50,8 @@ describe('login', function () {
     userf.login('user1', function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.user.id, userf.user1.id);
-      assert2.e(res.body.user.name, userf.user1.name);
+      assert.strictEqual(res.body.user.id, userf.user1.id);
+      assert.strictEqual(res.body.user.name, userf.user1.name);
       done();
     })
   });
@@ -59,7 +59,7 @@ describe('login', function () {
     expl.get('/api/users/login').end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.user.id, userf.user1.id);
+      assert.strictEqual(res.body.user.id, userf.user1.id);
       done();
     });
   });
@@ -229,7 +229,7 @@ describe('auto login with invalid email', function () {
     expl.get('/api/cookies').end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.email, userf.user1.email);
+      assert.strictEqual(res.body.email, userf.user1.email);
       done();
     });
   });
@@ -239,9 +239,9 @@ describe('auto login with invalid email', function () {
         email: 'new@def.com'
       }
     };
-    userb.users.updateOne({ _id: userf.user1.id }, fields, function (err, r) {
+    my2.query('update user set email = "new@def.com" where id = ?', userf.user1.id, (err, r) => {
       assert.ifError(err);
-      assert2.e(r.matchedCount, 1);
+      assert.strictEqual(r.changedRows, 1);
       done();
     });
   });
@@ -263,7 +263,7 @@ describe('auto login with invalid email', function () {
     expl.get('/api/cookies').end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
-      assert2.e(res.body.email, undefined);
+      assert.strictEqual(res.body.email, undefined);
       done();
     });
   });
@@ -285,7 +285,7 @@ describe('redirecting to login page', function () {
   it('public should succeed', function (done) {
     expl.get('/test/public').end(function (err, res) {
       assert.ifError(err);
-      assert2.e(res.text, 'public');
+      assert.strictEqual(res.text, 'public');
       done();
     });
   });

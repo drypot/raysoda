@@ -23,7 +23,7 @@ before((done) => {
 
 describe('counterb.counters', function () {
   it('should exist', function () {
-    assert2.ne(counterb.counters, undefined);
+    assert.notStrictEqual(counterb.counters, undefined);
   });
 });
 
@@ -33,9 +33,9 @@ describe('.update(id)', function () {
       assert.ifError(err);
       counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
         assert.ifError(err);
-        assert2.e(c.id, 'nodate');
-        assert2.e(c.d, undefined);
-        assert2.e(c.c, 1);
+        assert.strictEqual(c.id, 'nodate');
+        assert.strictEqual(c.d, undefined);
+        assert.strictEqual(c.c, 1);
         done();
       });
     });
@@ -45,9 +45,9 @@ describe('.update(id)', function () {
       assert.ifError(err);
       counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
         assert.ifError(err);
-        assert2.e(c.id, 'nodate');
-        assert2.e(c.d, undefined);
-        assert2.e(c.c, 2);
+        assert.strictEqual(c.id, 'nodate');
+        assert.strictEqual(c.d, undefined);
+        assert.strictEqual(c.c, 2);
         done();
       });
     });
@@ -61,9 +61,9 @@ describe('.update(id, date)', function () {
       assert.ifError(err);
       counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
         assert.ifError(err);
-        assert2.e(c.id, 'today');
-        assert2.de(c.d, today);
-        assert2.e(c.c, 1);
+        assert.strictEqual(c.id, 'today');
+        assert.deepStrictEqual(c.d, today);
+        assert.strictEqual(c.c, 1);
         done();
       });
     });
@@ -73,9 +73,9 @@ describe('.update(id, date)', function () {
       assert.ifError(err);
       counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
         assert.ifError(err);
-        assert2.e(c.id, 'today');
-        assert2.de(c.d, today);
-        assert2.e(c.c, 2);
+        assert.strictEqual(c.id, 'today');
+        assert.deepStrictEqual(c.d, today);
+        assert.strictEqual(c.c, 2);
         done();
       });
     });

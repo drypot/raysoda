@@ -18,7 +18,7 @@ describe('waterfall', () => {
       },
       (err) => {
         assert.ifError(err);
-        assert2.e(i, 2);
+        assert.strictEqual(i, 2);
         done();
       }
     );
@@ -36,7 +36,7 @@ describe('waterfall', () => {
       },
       (err) => {
         assert(err);
-        assert2.e(i, 1);
+        assert.strictEqual(i, 1);
         done();
       }
     );

@@ -37,16 +37,16 @@ before(function (done) {
 
 describe('getPath', function () {
   it('should work for id 1', function () {
-    assert2.e(imageb.getDir(1), config.uploadDir + '/public/images/0/0');
-    assert2.e(imageb.getPath(1), config.uploadDir + '/public/images/0/0/1.jpg');
-    assert2.e(imageb.getDirUrl(1), config.uploadSite + '/images/0/0');
-    assert2.e(imageb.getThumbUrl(1), config.uploadSite + '/images/0/0/1.jpg');
+    assert.strictEqual(imageb.getDir(1), config.uploadDir + '/public/images/0/0');
+    assert.strictEqual(imageb.getPath(1), config.uploadDir + '/public/images/0/0/1.jpg');
+    assert.strictEqual(imageb.getDirUrl(1), config.uploadSite + '/images/0/0');
+    assert.strictEqual(imageb.getThumbUrl(1), config.uploadSite + '/images/0/0/1.jpg');
   });
   it('should work for id 1 234 567', function () {
-    assert2.e(imageb.getDir(1234567), config.uploadDir + '/public/images/1/234');
-    assert2.e(imageb.getPath(1234567), config.uploadDir + '/public/images/1/234/1234567.jpg');
-    assert2.e(imageb.getDirUrl(1234567), config.uploadSite + '/images/1/234');
-    assert2.e(imageb.getThumbUrl(1234567), config.uploadSite + '/images/1/234/1234567.jpg');
+    assert.strictEqual(imageb.getDir(1234567), config.uploadDir + '/public/images/1/234');
+    assert.strictEqual(imageb.getPath(1234567), config.uploadDir + '/public/images/1/234/1234567.jpg');
+    assert.strictEqual(imageb.getDirUrl(1234567), config.uploadSite + '/images/1/234');
+    assert.strictEqual(imageb.getThumbUrl(1234567), config.uploadSite + '/images/1/234/1234567.jpg');
   });
 });
 
@@ -73,7 +73,7 @@ describe('getTicketCount', function () {
     it('should return ticketMax', function (done) {
       imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
         assert.ifError(err);
-        assert2.e(count, config.ticketMax);
+        assert.strictEqual(count, config.ticketMax);
         done();
       });
     });
@@ -88,7 +88,7 @@ describe('getTicketCount', function () {
     it('should return ticketMax', function (done) {
       imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
         assert.ifError(err);
-        assert2.e(count, config.ticketMax);
+        assert.strictEqual(count, config.ticketMax);
         done();
       });
     });
@@ -103,7 +103,7 @@ describe('getTicketCount', function () {
     it('should return (ticketMax - 1)', function (done) {
       imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
         assert.ifError(err);
-        assert2.e(count, config.ticketMax - 1);
+        assert.strictEqual(count, config.ticketMax - 1);
         done();
       });
     });
@@ -118,8 +118,8 @@ describe('getTicketCount', function () {
     it('should return 0 with left hours', function (done) {
       imagen.getTicketCount(_now, userf.user1, function (err, count, hours) {
         assert.ifError(err);
-        assert2.e(count, 0);
-        assert2.e(hours, 3);
+        assert.strictEqual(count, 0);
+        assert.strictEqual(hours, 3);
         done();
       });
     });
@@ -135,19 +135,19 @@ describe('post /api/images', function () {
       expl.post('/api/images').field('comment', 'h image').attach('files', 'samples/2560x1440.jpg').end(function (err, res) {
         assert.ifError(err);
         assert.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        assert.notStrictEqual(res.body.ids, undefined);
+        assert.strictEqual(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
           assert.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.user1.id);
-          assert2.ne(image.cdate, undefined);
-          assert2.e(image.comment, 'h image');
+          assert.strictEqual(image.id, _id);
+          assert.strictEqual(image.uid, userf.user1.id);
+          assert.notStrictEqual(image.cdate, undefined);
+          assert.strictEqual(image.comment, 'h image');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
             assert.ifError(err);
-            assert2.e(meta.width <= imageb.maxWidth, true);
-            assert2.e(meta.height <= imageb.maxWidth, true);
+            assert.strictEqual(meta.width <= imageb.maxWidth, true);
+            assert.strictEqual(meta.height <= imageb.maxWidth, true);
             done();
           });
         });
@@ -162,19 +162,19 @@ describe('post /api/images', function () {
       expl.post('/api/images').field('comment', 'v image').attach('files', 'samples/1440x2560.jpg').end(function (err, res) {
         assert.ifError(err);
         assert.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        assert.notStrictEqual(res.body.ids, undefined);
+        assert.strictEqual(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
           assert.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.user1.id);
-          assert2.ne(image.cdate, undefined);
-          assert2.e(image.comment, 'v image');
+          assert.strictEqual(image.id, _id);
+          assert.strictEqual(image.uid, userf.user1.id);
+          assert.notStrictEqual(image.cdate, undefined);
+          assert.strictEqual(image.comment, 'v image');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
             assert.ifError(err);
-            assert2.e(meta.width <= imageb.maxWidth, true);
-            assert2.e(meta.height <= imageb.maxWidth, true);
+            assert.strictEqual(meta.width <= imageb.maxWidth, true);
+            assert.strictEqual(meta.height <= imageb.maxWidth, true);
             done();
           });
         });
@@ -189,19 +189,19 @@ describe('post /api/images', function () {
       expl.post('/api/images').field('comment', 'small image').attach('files', 'samples/640x360.jpg').end(function (err, res) {
         assert.ifError(err);
         assert.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        assert.notStrictEqual(res.body.ids, undefined);
+        assert.strictEqual(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
           assert.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.user1.id);
-          assert2.ne(image.cdate, undefined);
-          assert2.e(image.comment, 'small image');
+          assert.strictEqual(image.id, _id);
+          assert.strictEqual(image.uid, userf.user1.id);
+          assert.notStrictEqual(image.cdate, undefined);
+          assert.strictEqual(image.comment, 'small image');
           imageb.identify(imageb.getPath(_id), function (err, meta) {
             assert.ifError(err);
-            assert2.e(meta.width, 640);
-            assert2.e(meta.height, 360);
+            assert.strictEqual(meta.width, 640);
+            assert.strictEqual(meta.height, 360);
             done();
           });
         });
@@ -231,25 +231,25 @@ describe('post /api/images', function () {
       post.end(function (err, res) {
         assert.ifError(err);
         assert.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, config.ticketMax);
+        assert.notStrictEqual(res.body.ids, undefined);
+        assert.strictEqual(res.body.ids.length, config.ticketMax);
         var ids = res.body.ids;
         var _id;
         // first image should exist
         _id = ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
           assert.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.user1.id);
-          assert2.e(image.comment, 'max images');
+          assert.strictEqual(image.id, _id);
+          assert.strictEqual(image.uid, userf.user1.id);
+          assert.strictEqual(image.comment, 'max images');
           assert2.path(imageb.getPath(_id));
           // third versions should exist
           _id = ids[2];
           imageb.images.findOne({ _id: _id }, function (err, image) {
             assert.ifError(err);
-            assert2.e(image.id, _id);
-            assert2.e(image.uid, userf.user1.id);
-            assert2.e(image.comment, 'max images');
+            assert.strictEqual(image.id, _id);
+            assert.strictEqual(image.uid, userf.user1.id);
+            assert.strictEqual(image.comment, 'max images');
             assert2.path(imageb.getPath(_id));
             done();
           });
@@ -260,8 +260,8 @@ describe('post /api/images', function () {
       expl.post('/api/images').attach('files', 'samples/640x360.jpg').end(function (err, res) {
         assert.ifError(err);
         assert.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 0);
+        assert.notStrictEqual(res.body.ids, undefined);
+        assert.strictEqual(res.body.ids.length, 0);
         done();
       });
     });

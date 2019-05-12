@@ -2,12 +2,7 @@
 
 const fs = require('fs');
 const assert = require('assert');
-var assert2 = exports;
-
-assert2.e = assert.strictEqual;
-assert2.ne = assert.notStrictEqual;
-assert2.de = assert.deepStrictEqual;
-assert2.nde = assert.notDeepStrictEqual;
+const assert2 = exports;
 
 function isEmpty(obj) {
   return typeof obj === 'undefined' || obj === null ||

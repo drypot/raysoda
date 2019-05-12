@@ -5,10 +5,10 @@ const assert2 = require('../base/assert2');
 
 describe('aliases', function () {
   it('should succeed', function (done) {
-    assert2.e('abc', 'abc');
-    assert2.ne('abc', 'def');
-    assert2.de([1], [1]);
-    assert2.nde([1], [2]);
+    assert.strictEqual('abc', 'abc');
+    assert.notStrictEqual('abc', 'def');
+    assert.deepStrictEqual([1], [1]);
+    assert.notDeepStrictEqual([1], [2]);
     done();
   });
 });
