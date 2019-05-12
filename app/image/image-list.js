@@ -67,11 +67,11 @@ function filter(image, done) {
   userb.getCached(image.uid, function (err, user) {
     if (err) return done(err);
     image.user = {
-      _id: user._id,
+      _id: user.id,
       name: user.name,
       home: user.home
     };
-    image.thumb = imageb.getThumbUrl(image._id);
+    image.thumb = imageb.getThumbUrl(image.id);
     image.cdateStr = date2.dateTimeString(image.cdate);
     done(null, image);
   });

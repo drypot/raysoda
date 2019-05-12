@@ -46,7 +46,7 @@ describe('post /api/users', function () {
     it('should succeed', function (done) {
       var form = { name: 'Name', email: 'name@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         let id = res.body.id;
         my2.queryOne('select * from user where id = ?', id, (err, user) => {
           assert.ifError(err);
@@ -84,7 +84,7 @@ describe('post /api/users', function () {
     it('should fail when name duped with name', function (done) {
       var form = { name: 'NAME1', email: 'nameduped@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
-        assert2.ne(res.body.err, undefined);
+        assert(res.body.err);
         assert(error.find(res.body.err, 'NAME_DUPE'));
         done();
       });
@@ -92,7 +92,7 @@ describe('post /api/users', function () {
     it('should fail when name duped with home', function (done) {
       var form = { name: 'HOME1', email: 'nameduped@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
-        assert2.ne(res.body.err, undefined);
+        assert(res.body.err);
         assert(error.find(res.body.err, 'NAME_DUPE'));
         done();
       });
@@ -101,7 +101,7 @@ describe('post /api/users', function () {
       var form = { name: '1', email: 'namelen1@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         done();
       });
     });
@@ -109,7 +109,7 @@ describe('post /api/users', function () {
       var form = { name: '12345678901234567890123456789012', email: 'name32@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         done();
       });
     });
@@ -125,7 +125,7 @@ describe('post /api/users', function () {
       var form = { name: '123456789012345678901234567890123', email: 'namelong@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.ne(res.body.err, undefined);
+        assert(res.body.err);
         assert(error.find(res.body.err, 'NAME_RANGE'));
         done();
       });
@@ -138,7 +138,7 @@ describe('post /api/users', function () {
     before(function (done) {
       var form = { name: 'name1', email: 'name1@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         done();
       });
     });
@@ -146,7 +146,7 @@ describe('post /api/users', function () {
       var form = { name: 'name2', email: 'name1@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.ne(res.body.err, undefined);
+        assert(res.body.err);
         assert(error.find(res.body.err, 'EMAIL_DUPE'));
         done();
       });
@@ -155,7 +155,7 @@ describe('post /api/users', function () {
       var form = { name: 'name3', email: 'Name1@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.ne(res.body.err, undefined);
+        assert(res.body.err);
         assert(error.find(res.body.err, 'EMAIL_DUPE'));
         done();
       });
@@ -164,7 +164,7 @@ describe('post /api/users', function () {
       var form = { name: 'name4', email: 'abc.mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.ne(res.body.err, undefined);
+        assert(res.body.err);
         assert(error.find(res.body.err, 'EMAIL_PATTERN'));
         done();
       });
@@ -173,7 +173,7 @@ describe('post /api/users', function () {
       var form = { name: 'name5', email: 'abc*xyz@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.ne(res.body.err, undefined);
+        assert(res.body.err);
         assert(error.find(res.body.err, 'EMAIL_PATTERN'));
         done();
       });
@@ -182,7 +182,7 @@ describe('post /api/users', function () {
       var form = { name: 'name6', email: '-a-b-c_d-e-f@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         done();
       });
     });
@@ -190,7 +190,7 @@ describe('post /api/users', function () {
       var form = { name: 'name7', email: 'abc+xyz@mail.com', password: '1234' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         done();
       });
     });
@@ -203,7 +203,7 @@ describe('post /api/users', function () {
       var form = { name: 'name1', email: 'pass32@mail.com', password: '12345678901234567890123456789012' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         done();
       });
     });
@@ -211,7 +211,7 @@ describe('post /api/users', function () {
       var form = { name: 'name2', email: 'passshort@mail.com', password: '123' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.ne(res.body.err, undefined);
+        assert(res.body.err);
         assert(error.find(res.body.err, 'PASSWORD_RANGE'));
         done();
       });
@@ -220,7 +220,7 @@ describe('post /api/users', function () {
       var form = { name: 'name3', email: 'passlong@mail.com', password: '123456789012345678901234567890123' };
       expl.post('/api/users').send(form).end(function (err,res) {
         assert.ifError(err);
-        assert2.ne(res.body.err, undefined);
+        assert(res.body.err);
         assert(error.find(res.body.err, 'PASSWORD_RANGE'));
         done();
       });

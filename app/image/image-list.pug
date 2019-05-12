@@ -22,7 +22,7 @@ block content
       .sub-section.top-links
         if locals.user
           a(href='/images/new') Upload
-          //- a(href='/users/' + user._id) My Photos
+          //- a(href='/users/' + user.id) My Photos
           //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
           a(href='/' + encodeURIComponent(user.home)) My Photos
           a(href='/users') Users
@@ -40,7 +40,7 @@ block content
     for image in images
       .image-thumb
         .image
-          a(href='/images/' + image._id)
+          a(href='/images/' + image.id)
             img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
         - var c = image.comment.split(/\r\n|\n/, 1)[0];
         if c

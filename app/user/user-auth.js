@@ -32,7 +32,7 @@ usera.checkAdmin = function (res, done) {
 };
 
 usera.checkUpdatable = function (user, id, done) {
-  if (user._id != id && !user.admin) {
+  if (user.id != id && !user.admin) {
     return done(error('NOT_AUTHORIZED'))
   }
   done();
@@ -73,7 +73,7 @@ expb.core.post('/api/users/login', function (req, res, done) {
       if (err) return done(err);
       res.json({
         user: {
-          id: user._id,
+          id: user.id,
           name: user.name
         }
       });
@@ -109,10 +109,10 @@ function createSession(req, res, user, done) {
   req.session.regenerate(function (err) {
     if (err) return done(err);
     var now = new Date();
-    userb.users.updateOne({_id: user._id}, {$set: {adate: now}}, function (err) {
+    my2.query('update user set adate = ? where id = ?', [now, user.id], (err, r) => {
       if (err) return done(err);
       user.adate = now;
-      req.session.uid = user._id;
+      req.session.uid = user.id;
       res.locals.user = user;
       done(null, user);
     });
@@ -120,11 +120,12 @@ function createSession(req, res, user, done) {
 }
 
 function findUser(email, password, done) {
-  userb.users.findOne({ email: email }, function (err, user) {
+  my2.queryOne('select * from user where email = ?', email, (err, user) => {
     if (err) return done(err);
     if (!user) {
       return done(error('EMAIL_NOT_FOUND'));
     }
+    userb.unpackUser(user);
     if (user.status == 'd') {
       return done(error('ACCOUNT_DEACTIVATED'));
     }    
@@ -143,7 +144,7 @@ expb.core.get('/api/users/login', function (req, res, done) {
     if (err) return done(err);
     res.json({
       user: {
-        id: user._id,
+        id: user.id,
         name: user.name        
       }
     });

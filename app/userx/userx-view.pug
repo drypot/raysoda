@@ -23,7 +23,7 @@ block content
 
       if updatable
         .sub-section.top-links
-          a(href='/users/' + tuser._id + '/update') Update Profile
+          a(href='/users/' + tuser.id + '/update') Update Profile
 
       if tuser.status == 'd'
         .sub-section
@@ -35,7 +35,7 @@ block content
       for image in images
         .image-thumb
           .image
-            a(href='/images/' + image._id)
+            a(href='/images/' + image.id)
               img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
           if image.comment
             .comment= image.comment

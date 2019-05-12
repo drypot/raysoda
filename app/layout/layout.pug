@@ -19,7 +19,7 @@ html
     
     script.
       window.appNamel = '!{appNamel}';
-      window.user = !{locals.user ? JSON.stringify({ id: user._id, name: user.name }) : 'undefined'};
+      window.user = !{locals.user ? JSON.stringify({ id: user.id, name: user.name }) : 'undefined'};
 
     script(src='/static/js/cbase.js')
     script(src='/static/js/cuser.js')

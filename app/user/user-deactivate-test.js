@@ -38,19 +38,19 @@ describe('deactivating self', function () {
   it('checkUser should succeed', function (done) {
     expl.get('/api/test/user').end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       done();
     })
   });
   it('should succeed', function (done) {
-    expl.del('/api/users/' + userf.user1._id).end(function (err, res) {
+    expl.del('/api/users/' + userf.user1.id).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       done();
     });
   });
   it('can be checked', function (done) {
-    userb.users.findOne({ _id: userf.user1._id }, function (err, user) {
+    userb.users.findOne({ _id: userf.user1.id }, function (err, user) {
       assert.ifError(err);
       assert2.e(user.status == 'd', true);
       done();
@@ -59,7 +59,7 @@ describe('deactivating self', function () {
   it('checkUser should fail (because logged off)', function (done) {
     expl.get('/api/test/user').end(function (err, res) {
       assert.ifError(err);
-      assert2.ne(res.body.err, undefined);
+      assert(res.body.err);
       assert(error.find(res.body.err, 'NOT_AUTHENTICATED'));
       done();
     });
@@ -71,9 +71,9 @@ describe('deactivating with no login', function () {
     userf.logout(done);
   });
   it('should fail', function (done) {
-    expl.del('/api/users/' + userf.user2._id).end(function (err, res) {
+    expl.del('/api/users/' + userf.user2.id).end(function (err, res) {
       assert.ifError(err);
-      assert2.ne(res.body.err, undefined);
+      assert(res.body.err);
       assert(error.find(res.body.err, 'NOT_AUTHENTICATED'));
       done();
     });
@@ -85,9 +85,9 @@ describe('deactivating other', function () {
     userf.login('user2', done);
   });
   it('deactivating other should fail', function (done) {
-    expl.del('/api/users/' + userf.user3._id).end(function (err, res) {
+    expl.del('/api/users/' + userf.user3.id).end(function (err, res) {
       assert.ifError(err);
-      assert2.ne(res.body.err, undefined);
+      assert(res.body.err);
       assert(error.find(res.body.err, 'NOT_AUTHORIZED'));
       done();
     });
@@ -99,9 +99,9 @@ describe('deactivating other by admin', function () {
     userf.login('admin', done);
   });
   it('should succeed', function (done) {
-    expl.del('/api/users/' + userf.user3._id).end(function (err, res) {
+    expl.del('/api/users/' + userf.user3.id).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       done();
     });
   });

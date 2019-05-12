@@ -33,7 +33,7 @@ describe('parsing json', function () {
   it('should succeed', function (done) {
     expl.post('/api/test/upload-json').send({'p1': 'abc'}).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       assert2.e(res.body.files, undefined);
       assert2.e(res.body.p1, 'abc');
       done();
@@ -54,7 +54,7 @@ describe('parsing form', function () {
   it('field should succeed', function (done) {
     expl.post('/api/test/upload-form').field('p1', 'abc').field('p2', '123').field('p2', '456').end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       assert2.e(res.body.files, undefined);
       assert2.e(res.body.p1, 'abc');
       assert2.de(res.body.p2, ['123', '456']);
@@ -69,7 +69,7 @@ describe('parsing form', function () {
     }
     expl.post('/api/test/upload-form').fields(form).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       assert2.e(res.body.files, undefined);
       assert2.e(res.body.p1, 'abc');
       assert2.e(res.body.p2, '123');
@@ -94,7 +94,7 @@ describe('parsing one file', function () {
   it('should succeed', function (done) {
     expl.post('/api/test/upload-one').field('p1', 'abc').attach('f1', f1).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       assert2.e(res.body.p1, 'abc');
       assert2.e(res.body.files.f1[0].safeFilename, 'express-upload-f1.txt');
       setTimeout(function () {
@@ -123,7 +123,7 @@ describe('parsing two files', function () {
   it('should succeed', function (done) {
     expl.post('/api/test/upload-two').field('p1', 'abc').attach('f1', f1).attach('f1', f2).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       assert2.e(res.body.p1, 'abc');
       assert2.e(res.body.files.f1[0].safeFilename, 'express-upload-f1.txt');
       assert2.e(res.body.files.f1[1].safeFilename, 'express-upload-f2.txt');
@@ -151,7 +151,7 @@ describe('parsing irregular filename', function () {
   it('should succeed', function (done) {
     expl.post('/api/test/upload-irregular').field('p1', 'abc').attach('f1', f1, 'file<>()[]_-=.txt.%$#@!&.txt').end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       assert2.e(res.body.files.f1[0].safeFilename, 'file__()[]_-=.txt.%$#@!&.txt');
       assert2.e(res.body.p1, 'abc');
       assert2.path(p1, false);

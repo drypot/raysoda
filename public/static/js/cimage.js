@@ -63,11 +63,11 @@ $(function () {
   cimage.initUpdate = function (image) {
     var $form = formty.getForm('form.main');
     $form.$send.click(function (err, res) {
-      formty.put('/api/images/' + image._id, $form, function () {
+      formty.put('/api/images/' + image.id, $form, function () {
         location = sessionStorage.getItem('last-list-url') || '/';
         //history.go(-2);
         //location = '/';
-        //location = '/images/' + image._id;
+        //location = '/images/' + image.id;
       });
       return false;
     });
@@ -86,7 +86,7 @@ $(function () {
     $comment.html(tagUpText($comment.html()));
 
     $('#update-btn').click(function () {
-      location = '/images/' + image._id + '/update';
+      location = '/images/' + image.id + '/update';
       return false;
     });
     
@@ -96,7 +96,7 @@ $(function () {
     });
     
     $('#del-confirm-btn').click(function () {
-      request.del('/api/images/' + image._id).end(function (err, res) {
+      request.del('/api/images/' + image.id).end(function (err, res) {
         //err = err || res.error || res.body.err;
         err = err || res.body.err;
         if (err) return showError(res.body.err);

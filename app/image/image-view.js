@@ -25,12 +25,12 @@ function view(req, res, api, done) {
     userb.getCached(image.uid, function (err, user) {
       if (err) return done(err);
       image.user = {
-        _id: user._id,
+        _id: user.id,
         name: user.name,
         home: user.home
       };
-      image.dir = imageb.getDirUrl(image._id);
-      image.thumb = imageb.getThumbUrl(image._id);
+      image.dir = imageb.getDirUrl(image.id);
+      image.thumb = imageb.getThumbUrl(image.id);
       image.cdateStr = date2.dateTimeString(image.cdate);
       image.cdate = image.cdate.getTime();
       if (api) {
@@ -39,7 +39,7 @@ function view(req, res, api, done) {
         var cuser = res.locals.user;
         res.render('image/image-view', {
           image: image,
-          updatable: cuser && (image.user._id == cuser._id || cuser.admin),
+          updatable: cuser && (image.user.id == cuser.id || cuser.admin),
         });
       }
     });

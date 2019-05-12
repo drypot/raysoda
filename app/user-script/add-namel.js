@@ -8,7 +8,7 @@ const userb = require('../user/user-base');
 init.run(function (err) {
   mongo2.forEach(userb.users, function (user, done) {
     if (!user.namel) {
-      process.stdout.write(user._id + 'u ');
+      process.stdout.write(user.id + 'u ');
       var fields = {};
       if (!user.home) {
         user.home = user.name;
@@ -16,9 +16,9 @@ init.run(function (err) {
       }
       fields.namel = user.name.toLowerCase();
       fields.homel = user.home.toLowerCase();
-      return userb.users.updateOne({ _id: user._id }, { $set: fields }, done);
+      return userb.users.updateOne({ _id: user.id }, { $set: fields }, done);
     }
-    process.stdout.write(user._id + 's ');
+    process.stdout.write(user.id + 's ');
     done();
   }, function (err) {
     if (err) throw err;

@@ -76,7 +76,7 @@ describe('api done(error)', function () {
     expl.get('/api/test/invalid-data').end(function (err, res) {
       assert.ifError(err);
       assert2.e(res.type, 'application/json');
-      assert2.ne(res.body.err, undefined);
+      assert(res.body.err);
       assert(error.find(res.body.err, 'INVALID_DATA'));
       done();
     });
@@ -186,7 +186,7 @@ describe('session var', function () {
   it('should succeed', function (done) {
     expl.put('/api/test/session').send({ book: 'book1', price: 11 }).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       expl.get('/api/test/session').send([ 'book', 'price' ]).end(function (err, res) {
         assert.ifError(err);
         assert2.e(res.body.book, 'book1');
@@ -198,10 +198,10 @@ describe('session var', function () {
   it('should fail when session destroied', function (done) {
     expl.put('/api/test/session').send({ book: 'book1', price: 11 }).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       expl.post('/api/destroy-session').end(function (err, res) {
         assert.ifError(err);
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         expl.get('/api/test/session').send([ 'book', 'price' ]).end(function (err, res) {
           assert.ifError(err);
           assert2.e(res.body.book, undefined);

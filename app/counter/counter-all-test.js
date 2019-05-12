@@ -72,7 +72,7 @@ describe('/api/counters/:id', function () {
       assert.ifError(err);
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
         assert.ifError(err);
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         var cs = res.body.counters;
         assert2.e(cs.length, 3);
         assert2.e(cs[0].id, 'dc');

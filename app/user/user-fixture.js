@@ -29,12 +29,12 @@ init.add(exports.recreate = function (done) {
         assert.ifError(err);
         let user = userb.getNewUser();
         user.id = userb.getNewId();
+        user.name = form.name;
         user.namel = form.name;
         user.home = form.name;
         user.homel = form.name;
         user.email = form.email;
         user.hash = hash;
-        user.name = form.name;
         user.admin = !!form.admin;
         my2.query('insert into user set ?', user, (err) => {
           assert.ifError(err);

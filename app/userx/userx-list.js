@@ -18,7 +18,7 @@ expb.core.get('/api/users', function (req, res, done) {
   var q = (req.query.q + '').replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&");
   userb.users.find({ namel: new RegExp('^' + q) }).limit(45).forEach(
     function (u) {
-      users.push({ _id: u._id, name: u.name, home: u.home });
+      users.push({ _id: u.id, name: u.name, home: u.home });
     },
     function (err) {
       if (err) return done(err);

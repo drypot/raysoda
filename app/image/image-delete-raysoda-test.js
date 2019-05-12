@@ -45,17 +45,17 @@ describe('del /api/images/[_id]', function () {
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
         assert.ifError(err);
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         assert2.ne(res.body.ids, undefined);
         var _id1 = res.body.ids[0];
         expl.post('/api/images').field('comment', 'image2').attach('files', _f1).end(function (err, res) {
           assert.ifError(err);
-          assert2.empty(res.body.err);
+          assert.ifError(res.body.err);
           assert2.ne(res.body.ids, undefined);
           var _id2 = res.body.ids[0];
           expl.del('/api/images/' + _id1, function (err, res) {
             assert.ifError(err);
-            assert2.empty(res.body.err);
+            assert.ifError(res.body.err);
             assert2.path(imageb.getPath(_id1), false);
             assert2.path(imageb.getPath(_id2));
             imageb.images.findOne({ _id: _id1 }, function (err, image) {
@@ -81,14 +81,14 @@ describe('del /api/images/[_id]', function () {
         assert.ifError(err);
         expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
           assert.ifError(err);
-          assert2.empty(res.body.err);
+          assert.ifError(res.body.err);
           assert2.ne(res.body.ids, undefined);
           var _id = res.body.ids[0];
           userf.login('admin', function (err) {
             assert.ifError(err);
             expl.del('/api/images/' + _id, function (err, res) {
               assert.ifError(err);
-              assert2.empty(res.body.err);
+              assert.ifError(res.body.err);
               assert2.path(imageb.getPath(_id), false);
               imageb.images.findOne({ _id: _id }, function (err, image) {
                 assert.ifError(err);
@@ -110,14 +110,14 @@ describe('del /api/images/[_id]', function () {
         assert.ifError(err);
         expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
           assert.ifError(err);
-          assert2.empty(res.body.err);
+          assert.ifError(res.body.err);
           assert2.ne(res.body.ids, undefined);
           var _id = res.body.ids[0];
           userf.login('user2', function (err) {
             assert.ifError(err);
             expl.del('/api/images/' + _id, function (err, res) {
               assert.ifError(err);
-              assert2.ne(res.body.err, undefined);
+              assert(res.body.err);
               assert(error.find(res.body.err, 'NOT_AUTHORIZED'));
               assert2.path(imageb.getPath(_id));
               imageb.images.findOne({ _id: _id }, function (err, image) {

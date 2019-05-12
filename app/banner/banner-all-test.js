@@ -33,7 +33,7 @@ describe('banners', function () {
   it('putting should succeed', function (done) {
     expl.put('/api/banners').send({ banners: banners1 }).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       done();
     });
   });
@@ -47,7 +47,7 @@ describe('banners', function () {
   it('getting should succeed', function (done) {
     expl.get('/api/banners').end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       assert2.de(res.body.banners, banners1);
       done();
     })

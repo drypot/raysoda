@@ -51,7 +51,7 @@ expb.core.post('/api/images', expu.handler(function (req, res, done) {
               if (err) return done(err);
               var image = {
                 _id: id,
-                uid: user._id,
+                uid: user.id,
                 cdate: form.now
               };
               imageb.fillImageDoc(image, form, meta, vers);
@@ -88,7 +88,7 @@ var getTicketCount = imagen.getTicketCount = function(now, user, done) {
     sort: { uid: 1, _id: -1 },
     limit: config.ticketMax
   }
-  imageb.images.find({ uid: user._id }, opt).toArray(function (err, images) {
+  imageb.images.find({ uid: user.id }, opt).toArray(function (err, images) {
     if (err) return done(err);
     for (var i = 0; i < images.length; i++) {
       hours = config.ticketGenInterval - Math.floor((now.getTime() - images[i].cdate.getTime()) / (60 * 60 * 1000));

@@ -33,13 +33,13 @@ describe('get /api/images/:id([0-9]+)', function () {
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
         assert.ifError(err);
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         assert2.ne(res.body.ids, undefined);
         assert2.e(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         expl.get('/api/images/' + _id).end(function (err, res) {
           assert.ifError(err);
-          assert2.empty(res.body.err);
+          assert.ifError(res.body.err);
           done();
         });
       });

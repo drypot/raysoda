@@ -13,7 +13,7 @@ expb.core.get('/api/users/:id([0-9]+)', function (req, res, done) {
     var tuser;
     if (user && user.admin) {
       tuser = {
-        _id: _tuser._id,
+        _id: _tuser.id,
         name: _tuser.name,
         home: _tuser.home,
         email: _tuser.email,
@@ -22,9 +22,9 @@ expb.core.get('/api/users/:id([0-9]+)', function (req, res, done) {
         adate: _tuser.adate.getTime(),
         profile: _tuser.profile
       };
-    } else if (user && user._id == _tuser._id) {
+    } else if (user && user.id == _tuser.id) {
       tuser = {
-        _id: _tuser._id,
+        _id: _tuser.id,
         name: _tuser.name,
         home: _tuser.home,
         email: _tuser.email,
@@ -35,7 +35,7 @@ expb.core.get('/api/users/:id([0-9]+)', function (req, res, done) {
       };
     } else {
       tuser = {
-        _id: _tuser._id,
+        _id: _tuser.id,
         name: _tuser.name,
         home: _tuser.home,
         //email: _tuser.email,

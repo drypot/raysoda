@@ -29,8 +29,8 @@ describe('finding user', function () {
   it('given new user', function (done) {
     expl.post('/api/users').send(_user).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
-      _user._id = res.body.id;
+      assert.ifError(res.body.err);
+      _user.id = res.body.id;
       done();
     });
   });
@@ -38,15 +38,15 @@ describe('finding user', function () {
     var form = { email: _user.email, password: _user.password };
     expl.post('/api/users/login').send(form).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       done();
     });
   });
   it('should succeed with email field', function (done) {
-    expl.get('/api/users/' + _user._id).end(function (err, res) {
+    expl.get('/api/users/' + _user.id).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
-      assert2.e(res.body.user._id, _user._id);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.user.id, _user.id);
       assert2.e(res.body.user.name, _user.name);
       assert2.e(res.body.user.email, _user.email);
       done();
@@ -56,10 +56,10 @@ describe('finding user', function () {
     userf.login('user2', done);
   });
   it('should succeed without email', function (done) {
-    expl.get('/api/users/' + _user._id).end(function (err, res) {
+    expl.get('/api/users/' + _user.id).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
-      assert2.e(res.body.user._id, _user._id);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.user.id, _user.id);
       assert2.e(res.body.user.name, _user.name);
       assert2.e(res.body.user.email, undefined);
       done();
@@ -69,10 +69,10 @@ describe('finding user', function () {
     userf.login('admin', done);
   });
   it('should succeed with email', function (done) {
-    expl.get('/api/users/' + _user._id).end(function (err, res) {
+    expl.get('/api/users/' + _user.id).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
-      assert2.e(res.body.user._id, _user._id);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.user.id, _user.id);
       assert2.e(res.body.user.name, _user.name);
       assert2.e(res.body.user.email, _user.email);
       done();
@@ -81,15 +81,15 @@ describe('finding user', function () {
   it('given no login', function (done) {
     userf.logout(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
+      assert.ifError(res.body.err);
       done();
     })
   });
   it('should succeed without email', function (done) {
-    expl.get('/api/users/' + _user._id).end(function (err, res) {
+    expl.get('/api/users/' + _user.id).end(function (err, res) {
       assert.ifError(err);
-      assert2.empty(res.body.err);
-      assert2.e(res.body.user._id, _user._id);
+      assert.ifError(res.body.err);
+      assert2.e(res.body.user.id, _user.id);
       assert2.e(res.body.user.name, _user.name);
       assert2.e(res.body.user.profile, '');
       assert2.e(res.body.user.email, undefined);
@@ -99,7 +99,7 @@ describe('finding user', function () {
   it('should fail with invalid id', function (done) {
     expl.get('/api/users/999').end(function (err, res) {
       assert.ifError(err);
-      assert2.ne(res.body.err, undefined);
+      assert(res.body.err);
       assert(error.find(res.body.err, 'USER_NOT_FOUND'));
       done();
     });

@@ -58,14 +58,14 @@ describe('post /api/images', function () {
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/5120x2880.jpg').end(function (err, res) {
         assert.ifError(err);
-        assert2.empty(res.body.err);
+        assert.ifError(res.body.err);
         assert2.ne(res.body.ids, undefined);
         assert2.e(res.body.ids.length, 1);
         var _id = res.body.ids[0];
         imageb.images.findOne({ _id: _id }, function (err, image) {
           assert.ifError(err);
-          assert2.e(image._id, _id);
-          assert2.e(image.uid, userf.user1._id);
+          assert2.e(image.id, _id);
+          assert2.e(image.uid, userf.user1.id);
           //assert2.de(image.vers, [ 5120, 4096, 2560, 1920, 1280 ]);
           assert2.de(image.vers, [ 5120, 4096, 2560, 1280]);
           assert2.ne(image.cdate, undefined);
@@ -87,7 +87,7 @@ describe('post /api/images', function () {
     it('should fail', function (done) {
       expl.post('/api/images').attach('files', 'samples/2560x1440.jpg').end(function (err, res) {
         assert.ifError(err);
-        assert2.ne(res.body.err, undefined);
+        assert(res.body.err);
         assert(error.find(res.body.err, 'IMAGE_SIZE'));
         done();
       });
