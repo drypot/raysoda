@@ -1,7 +1,7 @@
 'use strict';
 
 const init = require('../base/init');
-const async2 = require('../base/async2');
+const async = require('../base/async');
 const url2 = require('../base/url2');
 const date2 = require('../base/date2');
 const error = require('../base/error');
@@ -27,7 +27,7 @@ function list(req, res, api, done) {
   var ps = parseInt(req.query.ps) || 16;
   mongo2.findPage(imageb.images, {}, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);
-    async2.waterfall(
+    async.wf(
       (done) => {
         if (images.length) {
           let cdate = images[images.length - 1].cdate;

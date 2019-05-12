@@ -4,7 +4,7 @@ const mongo = require('mongodb');
 
 const init = require('../base/init');
 const config = require('../base/config');
-const async2 = require('../base/async2');
+const async = require('../base/async');
 const assert = require('assert');
 const assert2 = require('../base/assert2');
 const mongo2 = exports;
@@ -109,7 +109,7 @@ mongo2.findPage = function (col, query, opt, gt, lt, ps, filter, done) {
         count++;
         if (!first) first = doc._id;
         last = doc._id;
-        async2.waterfall(
+        async.wf(
           (done) => {
             if (filter) {
               filter(doc, done);

@@ -1,8 +1,8 @@
 'use strict';
 
-const async2 = exports;
+const async = exports;
 
-async2.waterfall = function (...funcs) {
+async.wf = function (...funcs) {
   let i = 0;
   let e = funcs.length - 1;
   let done = funcs[e];

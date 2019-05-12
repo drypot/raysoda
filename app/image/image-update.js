@@ -6,7 +6,7 @@ const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
 const fs2 = require('../base/fs2');
-const async2 = require('../base/async2');
+const async = require('../base/async');
 const expb = require('../express/express-base');
 const expu = require('../express/express-upload');
 const usera = require('../user/user-auth');
@@ -34,7 +34,7 @@ expb.core.put('/api/images/:id([0-9]+)', expu.handler(function (req, res, done) 
     var form = imagen.getForm(req);
     imageb.checkUpdatable(user, id, function (err) {
       if (err) return done(err);
-      async2.waterfall(
+      async.wf(
         (done) => {
           if (form.files) {
             let upload = form.files[0];

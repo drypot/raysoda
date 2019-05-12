@@ -4,7 +4,7 @@ const mysql = require('mysql');
 
 const init = require('../base/init');
 const config = require('../base/config');
-const async2 = require('../base/async2');
+const async = require('../base/async');
 const my2 = exports;
 
 // db
@@ -57,7 +57,7 @@ init.add(
 );
 
 my2.close = function (done) {
-  async2.waterfall(
+  async.wf(
     (done) => {
       if (conn) {
         conn.end(done);

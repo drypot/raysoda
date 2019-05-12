@@ -2,7 +2,7 @@
 
 const init = require('../base/init');
 const error = require('../base/error');
-const async2 = require('../base/async2');
+const async = require('../base/async');
 const expb = require('../express/express-base');
 const userb = require('../user/user-base');
 const usera = require('../user/user-auth');
@@ -43,7 +43,7 @@ expb.core.put('/api/users/:id([0-9]+)', function (req, res, done) {
           email: form.email,
           profile: form.profile
         };
-        async2.waterfall(
+        async.wf(
           (done) => {
             if (form.password.length) {
               userb.makeHash(form.password, done)

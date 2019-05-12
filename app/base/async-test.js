@@ -1,13 +1,13 @@
 'use strict';
 
-const async2 = require('../base/async2');
+const async = require('../base/async');
 const assert = require('assert');
-const assert2 = require('../base/assert2');
+const assert2 = require('./assert2');
 
 describe('waterfall', () => {
   it('should succeed', (done) => {
     let i = 0;
-    async2.waterfall(
+    async.wf(
       (done) => {
         i++;
         done(null);
@@ -25,7 +25,7 @@ describe('waterfall', () => {
   });
   it('should succeed with err', (done) => {
     let i = 0;
-    async2.waterfall(
+    async.wf(
       (done) => {
         i++;
         done(new Error());
@@ -42,7 +42,7 @@ describe('waterfall', () => {
     );
   });
   it('should succeed with param', (done) => {
-    async2.waterfall(
+    async.wf(
       (done) => {
         done(null, 1, 2);
       },
@@ -62,7 +62,7 @@ describe('waterfall', () => {
     );
   });
   it('should succeed with param, err', (done) => {
-    async2.waterfall(
+    async.wf(
       (done) => {
         done(null, 1, 2);
       },

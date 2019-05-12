@@ -2,7 +2,7 @@
 
 const init = require('../base/init');
 const error = require('../base/error');
-const async2 = require('../base/async2');
+const async = require('../base/async');
 const url2 = require('../base/url2');
 const date2 = require('../base/date2');
 const my2 = require('../mysql/my2');
@@ -35,7 +35,7 @@ function profile(req, res, tuser) {
   var query = { uid: tuser.id };
   mongo2.findPage(imageb.images, { uid: tuser._id }, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
     if (err) return done(err);
-    async2.waterfall(
+    async.wf(
       (done) => {
         if (images.length) {
           let cdate = images[images.length - 1].cdate;
