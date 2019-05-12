@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const init = require('../base/init');
 const config = require('../base/config')({ parseArg: true });
-const mongo2 = require('../mongo/mongo2');
+const mongo2 = require('../mongodb/mongo2');
 const imageb = require('../image/image-base');
 
 // TODO: 만든지 오래되었다. 누더기 상태. 다시 만들어야한다.

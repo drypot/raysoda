@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const init = require('../base/init');
 const config = require('../base/config')({ parseArg: true });
-const mongo2 = require('../mongo/mongo2');
+const mongo2 = require('../mongodb/mongo2');
 const imageb = require('../image/image-base');
 
 init.run(function (err) {

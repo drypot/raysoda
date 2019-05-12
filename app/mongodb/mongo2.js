@@ -1,14 +1,14 @@
 'use strict';
 
 const assert = require('assert');
-const mongo = require('mongodb');
+const mongodb = require('mongodb');
 
 const init = require('../base/init');
 const config = require('../base/config');
 const async = require('../base/async');
 const mongo2 = exports;
 
-mongo2.ObjectID = mongo.ObjectID;
+mongo2.ObjectID = mongodb.ObjectID;
 
 // db
 
@@ -17,7 +17,7 @@ var client;
 init.add(
   (done) => {
     assert.notStrictEqual(config.mongodb, undefined);
-    mongo.MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, function (err, _client) {
+    mongodb.MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, function (err, _client) {
       if (err) return done(err);
       client = _client;
       done();
@@ -25,14 +25,14 @@ init.add(
   },
   (done) => {
     if (mongo2.dropDatabase) {
-      console.log('mongo: dropping db');
+      console.log('mongodb: dropping db');
       client.db(config.mongodb).dropDatabase(done);
     } else {
       done();
     }
   },
   (done) => {
-    console.log('mongo: db=' + config.mongodb);
+    console.log('mongodb: db=' + config.mongodb);
     mongo2.db = client.db(config.mongodb);
     if (config.mongoUser) {
       mongo2.db.authenticate(config.mongoUser, config.mongoPassword, done);

@@ -2,7 +2,7 @@
 
 const init = require('../base/init');
 const config = require('../base/config');
-const mongo2 = require('../mongo/mongo2');
+const mongo2 = require('../mongodb/mongo2');
 const userb = require('../user/user-base');
 
 init.run(function (err) {
