@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
-const mysql2 = require('../mysql/mysql2');
+const my2 = require('../mysql/my2');
 var userb = exports;
 
 error.define('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.');
@@ -41,7 +41,7 @@ var userId;
 
 init.add(
   (done) => {
-    mysql2.query(`
+    my2.query(`
       create table if not exists user(
         id int not null,
         name varchar(32) not null,
@@ -61,27 +61,27 @@ init.add(
     `, done);
   },
   (done) => {
-    mysql2.query(`
+    my2.query(`
       create index user_email on user(email);
     `, () => { done(); });
   },
   (done) => {
-    mysql2.query(`
+    my2.query(`
     create index user_namel on user(namel);
     `, () => { done(); });
   },
   (done) => {
-    mysql2.query(`
+    my2.query(`
     create index user_homel on user(homel);
     `, () => { done(); });
   },
   (done) => {
-    mysql2.query(`
+    my2.query(`
     create index user_pdate on user(pdate desc);
     `, () => { done(); });
   },
   (done) => {
-    mysql2.getMaxId('user', (err, id) => {
+    my2.getMaxId('user', (err, id) => {
       if (err) return done(err);
       userId = id;
       done();
@@ -141,7 +141,7 @@ userb.getCached = function (id, done) {
   if (user) {
     return done(null, user);
   }
-  mysql2.queryOne('select * from user where id = ?', id, (err, user) => {
+  my2.queryOne('select * from user where id = ?', id, (err, user) => {
     if (err) return done(err);
     if (!user) return done(error('USER_NOT_FOUND'));
     userb.unpackUser(user);
@@ -155,7 +155,7 @@ userb.getCachedByHome = function (homel, done) {
   if (user) {
     return done(null, user);
   }
-  mysql2.queryOne('select * from user where homel = ?', homel, (err, user) => {
+  my2.queryOne('select * from user where homel = ?', homel, (err, user) => {
     if (err) return done(err);
     if (!user) {
       // 사용자 프로필 URL 검색에 주로 사용되므로 error 생성은 패스한다.

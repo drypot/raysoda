@@ -6,7 +6,7 @@ const init = require('../base/init');
 const error = require('../base/error');
 const fs2 = require('../base/fs2');
 const config = require('../base/config');
-const mysql2 = require('../mysql/mysql2');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const expu = require('../express/express-upload');
 const expl = require('../express/express-local');
@@ -18,7 +18,7 @@ const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/osoky-test.json';
-  mysql2.dropDatabase = true;
+  my2.dropDatabase = true;
   init.run(done);
 });
 

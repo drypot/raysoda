@@ -1,7 +1,7 @@
 'use strict';
 
 const init = require('../base/init');
-const mysql2 = require('../mysql/mysql2');
+const my2 = require('../mysql/my2');
 const userb = require('../user/user-base');
 const usera = require('../user/user-auth');
 const expl = require('../express/express-local');
@@ -11,7 +11,7 @@ var userf = exports;
 
 init.add(exports.recreate = function (done) {
   userb.resetCache();
-  mysql2.query('truncate table user', (err) => {
+  my2.query('truncate table user', (err) => {
     if (err) return done(err);
     var forms = [
       { name: 'user1', email: 'user1@mail.com', password: '1234' },
@@ -36,7 +36,7 @@ init.add(exports.recreate = function (done) {
         user.hash = hash;
         user.name = form.name;
         user.admin = !!form.admin;
-        mysql2.query('insert into user set ?', user, (err) => {
+        my2.query('insert into user set ?', user, (err) => {
           assert.ifError(err);
           user.password = form.password;
           exports[user.name] = user;

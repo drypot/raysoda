@@ -3,7 +3,7 @@
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
-const mysql2 = require('../mysql/mysql2');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const expl = require('../express/express-local');
 const userb = require('../user/user-base');
@@ -13,7 +13,7 @@ const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/raysoda-test.json';
-  mysql2.dropDatabase = true;
+  my2.dropDatabase = true;
   init.run(done);
 });
 
@@ -48,7 +48,7 @@ describe('post /api/users', function () {
       expl.post('/api/users').send(form).end(function (err,res) {
         assert2.empty(res.body.err);
         let id = res.body.id;
-        mysql2.queryOne('select * from user where id = ?', id, (err, user) => {
+        my2.queryOne('select * from user where id = ?', id, (err, user) => {
           assert.ifError(err);
           assert2.e(user.name, 'Name');
           assert2.e(user.namel, 'name');
@@ -68,7 +68,7 @@ describe('post /api/users', function () {
   });
   describe('name check', function () {
     before(function (done) {
-      mysql2.query('truncate table user', done);
+      my2.query('truncate table user', done);
     });
     before(function (done) {
       // 정규 create api 로는 home 이름을 세팅할 수 없기 때문에 디비에 직접 넣는다.
@@ -79,7 +79,7 @@ describe('post /api/users', function () {
       user.home = 'Home1';
       user.homel = 'home1';
       user.email = 'name1@mail.com';
-      mysql2.query('insert into user set ?', user, done);
+      my2.query('insert into user set ?', user, done);
     });
     it('should fail when name duped with name', function (done) {
       var form = { name: 'NAME1', email: 'nameduped@mail.com', password: '1234' };
@@ -133,7 +133,7 @@ describe('post /api/users', function () {
   });
   describe('email check', function () {
     before(function (done) {
-      mysql2.query('truncate table user', done);
+      my2.query('truncate table user', done);
     });
     before(function (done) {
       var form = { name: 'name1', email: 'name1@mail.com', password: '1234' };
@@ -197,7 +197,7 @@ describe('post /api/users', function () {
   });
   describe('password check', function () {
     before(function (done) {
-      mysql2.query('truncate table user', done);
+      my2.query('truncate table user', done);
     });
     it('should succeed password 32', function (done) {
       var form = { name: 'name1', email: 'pass32@mail.com', password: '12345678901234567890123456789012' };

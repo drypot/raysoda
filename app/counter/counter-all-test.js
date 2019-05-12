@@ -4,7 +4,7 @@ const init = require('../base/init');
 const error = require('../base/error');
 const date2 = require('../base/date2');
 const config = require('../base/config');
-const mysql2 = require('../mysql/mysql2');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const expl = require('../express/express-local');
 const userf = require('../user/user-fixture');
@@ -15,7 +15,7 @@ const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/raysoda-test.json';
-  mysql2.dropDatabase = true;
+  my2.dropDatabase = true;
   init.run(done);
 });
 

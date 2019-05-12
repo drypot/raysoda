@@ -6,7 +6,7 @@ const uuid = require('uuid/v4');
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
-const mysql2 = require('../mysql/mysql2');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const mailer2 = require('../mailer/mailer2');
 const userb = require('../user/user-base');
@@ -15,7 +15,7 @@ const userp = exports;
 
 init.add(
   (done) => {
-    mysql2.query(`
+    my2.query(`
       create table if not exists pwreset(
         uuid char(36) character set latin1 collate latin1_bin not null,
         email varchar(64) not null,
@@ -25,7 +25,7 @@ init.add(
     `, done);
   },
   (done) => {
-    mysql2.query(`
+    my2.query(`
       create index pwreset_email on pwreset(email);
     `, () => { done(); });
   },
@@ -43,12 +43,12 @@ expb.core.post('/api/reset-pass', function (req, res, done) {
   if (errors.length) {
     return done(error(errors));
   }
-  mysql2.queryOne('select * from user where email = ?', form.email, (err, user) => {
+  my2.queryOne('select * from user where email = ?', form.email, (err, user) => {
     if (err) return done(err);
     if (!user) {
       return done(error('EMAIL_NOT_EXIST'));
     }
-    mysql2.query('delete from pwreset where email = ?', form.email, (err) => {
+    my2.query('delete from pwreset where email = ?', form.email, (err) => {
       if (err) return done(err);
       crypto.randomBytes(32, function(err, buf) {
         var reset = {
@@ -56,7 +56,7 @@ expb.core.post('/api/reset-pass', function (req, res, done) {
           email: form.email,
           token: buf.toString('hex'),
         };
-        mysql2.query('insert into pwreset set ?', reset, (err) => {
+        my2.query('insert into pwreset set ?', reset, (err) => {
           if (err) return done(err);
           var mail = {
             from: 'no-reply@raysoda.com',
@@ -89,7 +89,7 @@ expb.core.put('/api/reset-pass', function (req, res, done) {
   if (errors.length) {
     return done(error(errors));
   }
-  mysql2.queryOne('select * from pwreset where uuid = ?', form.uuid, (err, reset) => {
+  my2.queryOne('select * from pwreset where uuid = ?', form.uuid, (err, reset) => {
     if (err) return done(err);
     if (!reset) {
       return done(error('INVALID_DATA'));
@@ -99,9 +99,9 @@ expb.core.put('/api/reset-pass', function (req, res, done) {
     }
     userb.makeHash(form.password, function (err, hash) {
       if (err) return done(err);
-      mysql2.query('update user set hash = ? where email = ?', [hash, reset.email], (err) => {
+      my2.query('update user set hash = ? where email = ?', [hash, reset.email], (err) => {
         if (err) return done(err);
-        mysql2.query('delete from pwreset where uuid = ?', form.uuid, (err) => {
+        my2.query('delete from pwreset where uuid = ?', form.uuid, (err) => {
           if (err) return done(err);
           res.json({});
         });

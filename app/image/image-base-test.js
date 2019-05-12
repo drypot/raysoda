@@ -2,7 +2,7 @@
 
 const init = require('../base/init');
 const config = require('../base/config');
-const mysql2 = require('../mysql/mysql2');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const imageb = require('../image/image-base');
 const assert = require('assert');
@@ -10,7 +10,7 @@ const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/raysoda-test.json';
-  mysql2.dropDatabase = true;
+  my2.dropDatabase = true;
   init.run(done);
 });
 

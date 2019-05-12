@@ -5,7 +5,7 @@ const uuid = require('uuid/v4');
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
-const mysql2 = require('../mysql/mysql2');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const expl = require('../express/express-local');
 const userb = require('../user/user-base');
@@ -16,7 +16,7 @@ const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/raysoda-test.json';
-  mysql2.dropDatabase = true;
+  my2.dropDatabase = true;
   init.run(done);
 });
 
@@ -32,7 +32,7 @@ describe('resetting user', function () {
     _user = userf.user1;
   });
   it('old password should be ok', function (done) {
-    mysql2.queryOne('select * from user where email = ?', _user.email, (err, user) => {
+    my2.queryOne('select * from user where email = ?', _user.email, (err, user) => {
       assert.ifError(err);
       userb.checkPassword(_user.password, user.hash, function (err, matched) {
         assert.ifError(err);
@@ -50,7 +50,7 @@ describe('resetting user', function () {
     });
   });
   it('can be checked', function (done) {
-    mysql2.queryOne('select * from pwreset where email = ?', _user.email, (err, reset) => {
+    my2.queryOne('select * from pwreset where email = ?', _user.email, (err, reset) => {
       assert.ifError(err);
       assert2.ne(reset.uuid, undefined);
       assert2.ne(reset.token, undefined);
@@ -120,7 +120,7 @@ describe('resetting user', function () {
     });
   });
   it('old password should fail', function (done) {
-    mysql2.queryOne('select * from user where email = ?', _user.email, (err, user) => {
+    my2.queryOne('select * from user where email = ?', _user.email, (err, user) => {
       assert.ifError(err);
       userb.checkPassword(_user.password, user.hash, function (err, matched) {
         assert.ifError(err);
@@ -130,7 +130,7 @@ describe('resetting user', function () {
     });
   });
   it('new password should succeed', function (done) {
-    mysql2.queryOne('select * from user where email = ?', _user.email, (err, user) => {
+    my2.queryOne('select * from user where email = ?', _user.email, (err, user) => {
       assert.ifError(err);
       userb.checkPassword('new-pass', user.hash, function (err, matched) {
         assert.ifError(err);

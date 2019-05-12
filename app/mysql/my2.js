@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const init = require('../base/init');
 const config = require('../base/config');
 const async2 = require('../base/async2');
-const mysql2 = exports;
+const my2 = exports;
 
 // db
 
@@ -18,7 +18,7 @@ var conn;
 
 init.add(
   (done) => {
-    mysql2.conn = conn = mysql.createConnection({
+    my2.conn = conn = mysql.createConnection({
       host: 'localhost',
       user: config.mysqlUser,
       password: config.mysqlPassword,
@@ -28,7 +28,7 @@ init.add(
     done();
   },
   (done) => {
-    if (mysql2.dropDatabase) {
+    if (my2.dropDatabase) {
       console.log('mysql: dropping db, ' + config.mysqlDatabase);
       conn.query('drop database if exists ??', config.mysqlDatabase, done);
     } else {
@@ -43,7 +43,7 @@ init.add(
     conn.changeUser({ database: config.mysqlDatabase }, done);
   },
   // (done) => {
-  //   mysql2.pool = pool = mysql.createPool({
+  //   my2.pool = pool = mysql.createPool({
   //     connectionLimit: 10,
   //     host: 'localhost',
   //     database: config.mysqlDatabase,
@@ -56,7 +56,7 @@ init.add(
   // }
 );
 
-mysql2.close = function (done) {
+my2.close = function (done) {
   async2.waterfall(
     (done) => {
       if (conn) {
@@ -78,12 +78,12 @@ mysql2.close = function (done) {
 
 // utilities
 
-mysql2.query = function () {
+my2.query = function () {
   //pool.query.apply(pool, arguments);
   conn.query.apply(conn, arguments);
 };
 
-mysql2.queryOne = function (sql, param, done) {
+my2.queryOne = function (sql, param, done) {
   if (!done) {
     done = param;
     param = null;
@@ -95,15 +95,15 @@ mysql2.queryOne = function (sql, param, done) {
   });
 };
 
-mysql2.getMaxId = function (table, done) {
-  mysql2.queryOne('select coalesce(max(id), 0) as maxId from ??', table, (err, r) => {
+my2.getMaxId = function (table, done) {
+  my2.queryOne('select coalesce(max(id), 0) as maxId from ??', table, (err, r) => {
     if (err) return done(err);
     done(null, r.maxId);
   });
 };
 
-mysql2.tableExists = function (name, done) {
-  mysql2.query('show tables like ?', name, (err, r) => {
+my2.tableExists = function (name, done) {
+  my2.query('show tables like ?', name, (err, r) => {
     if (err) return done(err);
     done(null, !!r.length);
   });

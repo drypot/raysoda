@@ -2,7 +2,7 @@
 
 const init = require('../base/init');
 const error = require('../base/error');
-const mysql2 = require('../mysql/mysql2');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const userb = require('../user/user-base');
 const usern = exports;
@@ -28,7 +28,7 @@ expb.core.post('/api/users', function (req, res, done) {
       user.email = form.email;
       user.hash = hash;
       user.profile = form.profile;
-      mysql2.query('insert into user set ?', user, (err) => {
+      my2.query('insert into user set ?', user, (err) => {
         if (err) return done(err);
         res.json({
           id: user.id
@@ -117,7 +117,7 @@ var checkFormPassword = usern.checkFormPassword = function (form, errors) {
 }
 
 function userExistsWithSameName(namel, id, done) {
-  mysql2.queryOne(
+  my2.queryOne(
     'select exists(select * from user where (namel = ? or homel = ?) and id != ?) as exist',
     [namel, namel, id],
     (err, r) => {
@@ -127,7 +127,7 @@ function userExistsWithSameName(namel, id, done) {
 };
 
 function userExistsWithSameEmail(email, id, done) {
-  mysql2.queryOne(
+  my2.queryOne(
     'select exists(select * from user where email = ? and id != ?) as exist',
     [email, id],
     (err, r) => {

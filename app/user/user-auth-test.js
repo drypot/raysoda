@@ -3,7 +3,7 @@
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
-const mysql2 = require('../mysql/mysql2');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const expl = require('../express/express-local');
 const userb = require('../user/user-base');
@@ -28,7 +28,7 @@ expb.core.get('/api/test/admin', function (req, res, done) {
 
 before(function (done) {
   config.path = 'config/raysoda-test.json';
-  mysql2.dropDatabase = true;
+  my2.dropDatabase = true;
   init.run(done);
 });
 
