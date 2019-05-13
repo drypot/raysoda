@@ -1,22 +1,29 @@
 'use strict';
 
 const init = require('../base/init');
-const error = require('../base/error');
-const config = require('../base/config');
+const date2 = require('../base/date2');
 const my2 = require('../mysql/my2');
 const counterb = exports;
 
-init.add(function (done) {
-  counterb.counters = mongo2.db.collection('counters');
-  counterb.counters.createIndex({ id: 1, d: 1 }, done);
-});
+init.add(
+  (done) => {
+    my2.query(`
+      create table if not exists counter(
+        id varchar(64) not null,
+        d char(10) not null,
+        c int not null,
+        primary key (id, d)
+      )
+      charset latin1 collate latin1_bin 
+    `, done);
+  },
+);
 
 counterb.update = function (id, date, done) {
-  var query = { id: id };
-  if (done) {
-    query.d = date;
-  } else {
-    done = date;
-  }
-  counterb.counters.updateOne(query, { $inc: { c: 1 }}, { upsert: true }, done);
+  let dateStr = date2.dateString(date);
+  my2.query(
+    'insert into counter values(?, ?, 1) on duplicate key update c = c + 1',
+    [id, dateStr],
+    done
+  );
 };

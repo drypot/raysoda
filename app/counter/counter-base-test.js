@@ -2,7 +2,6 @@
 
 const assert = require('assert');
 const init = require('../base/init');
-const error = require('../base/error');
 const config = require('../base/config');
 const date2 = require('../base/date2');
 const my2 = require('../mysql/my2');
@@ -20,61 +19,39 @@ before((done) => {
   done();
 });
 
-describe('counterb.counters', function () {
-  it('should exist', function () {
-    assert.notStrictEqual(counterb.counters, undefined);
-  });
-});
-
-describe('.update(id)', function () {
-  it('should succeed for new', function (done) {
-    counterb.update('nodate', function (err) {
+describe('table counter', function () {
+  it('should exist', function (done) {
+    my2.tableExists('counter', (err, exist) => {
       assert.ifError(err);
-      counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
-        assert.ifError(err);
-        assert.strictEqual(c.id, 'nodate');
-        assert.strictEqual(c.d, undefined);
-        assert.strictEqual(c.c, 1);
-        done();
-      });
-    });
-  });
-  it('should succeed for existing', function (done) {
-    counterb.update('nodate', function (err) {
-      assert.ifError(err);
-      counterb.counters.findOne({ id: 'nodate' }, function (err, c) {
-        assert.ifError(err);
-        assert.strictEqual(c.id, 'nodate');
-        assert.strictEqual(c.d, undefined);
-        assert.strictEqual(c.c, 2);
-        done();
-      });
+      assert(exist);
+      done();
     });
   });
 });
 
 describe('.update(id, date)', function () {
-  var today = date2.today();
+  let date = new Date();
+  let dateStr = date2.dateString(date);
   it('should succeed for new', function (done) {
-    counterb.update('today', today, function (err) {
+    counterb.update('cnt1', date, function (err) {
       assert.ifError(err);
-      counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
+      my2.queryOne('select * from counter where id = "cnt1" and d = ?', dateStr, (err, r) => {
         assert.ifError(err);
-        assert.strictEqual(c.id, 'today');
-        assert.deepStrictEqual(c.d, today);
-        assert.strictEqual(c.c, 1);
+        assert.strictEqual(r.id, 'cnt1');
+        assert.strictEqual(r.d, dateStr);
+        assert.strictEqual(r.c, 1);
         done();
       });
     });
   });
   it('should succeed for existing', function (done) {
-    counterb.update('today', today, function (err) {
+    counterb.update('cnt1', date, function (err) {
       assert.ifError(err);
-      counterb.counters.findOne({ id: 'today', d: today }, function (err, c) {
+      my2.queryOne('select * from counter where id = "cnt1" and d = ?', dateStr, (err, r) => {
         assert.ifError(err);
-        assert.strictEqual(c.id, 'today');
-        assert.deepStrictEqual(c.d, today);
-        assert.strictEqual(c.c, 2);
+        assert.strictEqual(r.id, 'cnt1');
+        assert.strictEqual(r.d, dateStr);
+        assert.strictEqual(r.c, 2);
         done();
       });
     });

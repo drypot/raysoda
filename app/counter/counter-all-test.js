@@ -25,15 +25,16 @@ before((done) => {
 });
 
 describe('/api/counters/:id/inc', function () {
-  var today = date2.today();
+  var today = new Date();
+  var todayStr = date2.dateString(today);
   it('should succeed for new', function (done) {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');
-      counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
+      my2.queryOne('select * from counter where id = "abc" and d = ?', todayStr, (err, r) => {
         assert.ifError(err);
-        assert.strictEqual(c.id, 'abc');
-        assert.deepStrictEqual(c.d, today);
-        assert.strictEqual(c.c, 1);
+        assert.strictEqual(r.id, 'abc');
+        assert.strictEqual(r.d, todayStr);
+        assert.strictEqual(r.c, 1);
         done();
       });
     });
@@ -41,11 +42,11 @@ describe('/api/counters/:id/inc', function () {
   it('should succeed for existing', function (done) {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');
-      counterb.counters.findOne({ id: 'abc', d: today }, function (err, c) {
+      my2.queryOne('select * from counter where id = "abc" and d = ?', todayStr, (err, r) => {
         assert.ifError(err);
-        assert.strictEqual(c.id, 'abc');
-        assert.deepStrictEqual(c.d, today);
-        assert.strictEqual(c.c, 2);
+        assert.strictEqual(r.id, 'abc');
+        assert.strictEqual(r.d, todayStr);
+        assert.strictEqual(r.c, 2);
         done();
       });
     });
@@ -54,18 +55,15 @@ describe('/api/counters/:id/inc', function () {
 
 describe('/api/counters/:id', function () {
   before(function (done) {
-    var t = [
-      { id: 'dc', d: new Date('2015-10-05 0:0'), c: 1 },
-      { id: 'dc', d: new Date('2015-10-06 0:0'), c: 2 },
-      { id: 'dc', d: new Date('2015-10-07 0:0'), c: 3 },
-      { id: 'dc', d: new Date('2015-10-08 0:0'), c: 4 },
-      { id: 'dc', d: new Date('2015-10-09 0:0'), c: 5 },
-      { id: 'dc', d: new Date('2015-10-10 0:0'), c: 6 }
-    ];
-    counterb.counters.insertMany(t, function (err) {
-      assert.ifError(err);
-      done();
-    });
+    my2.query(`
+      insert into counter(id, d, c) values   
+        ('dc', '2015-10-06', 2 ),
+        ('dc', '2015-10-07', 3 ),
+        ('dc', '2015-10-05', 1 ),
+        ('dc', '2015-10-08', 4 ),
+        ('dc', '2015-10-09', 5 ),
+        ('dc', '2015-10-10', 6 )
+    `, done);
   });
   it('should succeed', function (done) {
     userf.login('admin', function (err) {
@@ -73,13 +71,11 @@ describe('/api/counters/:id', function () {
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
         assert.ifError(err);
         assert.ifError(res.body.err);
-        var cs = res.body.counters;
+        let cs = res.body.counters;
         assert.strictEqual(cs.length, 3);
-        assert.strictEqual(cs[0].id, 'dc');
-        assert.deepStrictEqual(new Date(cs[0].d), new Date('2015-10-07 0:0'));
+        assert.strictEqual(cs[0].d, '2015-10-07');
         assert.strictEqual(cs[0].c, 3);
-        assert.strictEqual(cs[2].id, 'dc');
-        assert.deepStrictEqual(new Date(cs[2].d), new Date('2015-10-09 0:0'));
+        assert.strictEqual(cs[2].d, '2015-10-09');
         assert.strictEqual(cs[2].c, 5);
         done();
       });
