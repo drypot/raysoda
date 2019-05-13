@@ -1,18 +1,18 @@
 'use strict';
 
+const assert = require('assert');
 const bcrypt = require('bcrypt');
 
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
+const assert2 = require('../base/assert2');
 const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const expl = require('../express/express-local');
 const userb = require('../user/user-base');
 const useru = require('../user/user-update');
 const userf = require('../user/user-fixture');
-const assert = require('assert');
-const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/raysoda-test.json';
@@ -53,7 +53,7 @@ describe('updating user', function () {
     });
   });
   it('can be checked', function (done) {
-    userb.users.findOne({ _id: _id }, function (err, user) {
+    my2.queryOne('select * from user where id = ?', _id, (err, user) => {
       assert.ifError(err);
       assert.strictEqual(user.name, 'NewName');
       assert.strictEqual(user.namel, 'newname');
@@ -69,7 +69,7 @@ describe('updating user', function () {
           assert.strictEqual(user.profile, 'new profile');
           done();
         });
-      });
+      });      
     });
   });
 });
@@ -112,11 +112,14 @@ describe('permission', function () {
 describe('updating name', function () {
   before(userf.recreate);
   it('given user', function (done) {
-    var user = { _id: userb.getNewId(), name: 'Name', namel: 'name', home: 'Home', homel: 'home', email: 'name@mail.com' };
-    userb.users.insertOne(user, function (err) {
-      assert.ifError(err);
-      done();
-    });
+    let user = userb.getNewUser();
+    user.id = userb.getNewId();
+    user.name = 'Name';
+    user.namel = 'name';
+    user.home = 'Home';
+    user.homel = 'home';
+    user.email = 'name@mail.com';
+    my2.query('insert into user set ?', user, done);
   });
   it('given user1 login', function (done) {
     userf.login('user1', done);
@@ -176,11 +179,14 @@ describe('updating name', function () {
 describe('updating home', function () {
   before(userf.recreate);
   it('given user', function (done) {
-    var user = { _id: userb.getNewId(), name: 'Name', namel: 'name', home: 'Home', homel: 'home', email: 'name@mail.com' };
-    userb.users.insertOne(user, function (err) {
-      assert.ifError(err);
-      done();
-    });
+    let user = userb.getNewUser();
+    user.id = userb.getNewId();
+    user.name = 'Name';
+    user.namel = 'name';
+    user.home = 'Home';
+    user.homel = 'home';
+    user.email = 'name@mail.com';
+    my2.query('insert into user set ?', user, done);
   });
   it('given user1 login', function (done) {
     userf.login('user1', done);
@@ -240,11 +246,14 @@ describe('updating home', function () {
 describe('updating email', function () {
   before(userf.recreate);
   it('given user', function (done) {
-    var user = { _id: userb.getNewId(), name: 'Name', namel: 'name', home: 'Home', homel: 'home', email: 'name@mail.com' };
-    userb.users.insertOne(user, function (err) {
-      assert.ifError(err);
-      done();
-    });
+    let user = userb.getNewUser();
+    user.id = userb.getNewId();
+    user.name = 'Name';
+    user.namel = 'name';
+    user.home = 'Home';
+    user.homel = 'home';
+    user.email = 'name@mail.com';
+    my2.query('insert into user set ?', user, done);
   });
   it('given user1 login', function (done) {
     userf.login('user1', done);
@@ -270,11 +279,14 @@ describe('updating email', function () {
 describe('updating password', function () {
   before(userf.recreate);
   it('given user', function (done) {
-    var user = { _id: userb.getNewId(), name: 'Name', namel: 'name', home: 'Home', homel: 'home', email: 'name@mail.com' };
-    userb.users.insertOne(user, function (err) {
-      assert.ifError(err);
-      done();
-    });
+    let user = userb.getNewUser();
+    user.id = userb.getNewId();
+    user.name = 'Name';
+    user.namel = 'name';
+    user.home = 'Home';
+    user.homel = 'home';
+    user.email = 'name@mail.com';
+    my2.query('insert into user set ?', user, done);
   });
   it('given user1 login', function (done) {
     userf.login('user1', done);
@@ -288,11 +300,11 @@ describe('updating password', function () {
     });
   });
   it('can be checked', function (done) {
-    userb.users.findOne({ _id: userf.user1.id }, function (err, user) {
+    my2.queryOne('select * from user where id = ?', userf.user1.id, (err, user) => {
       assert.ifError(err);
-      assert.notStrictEqual(user, undefined);
+      assert(user);
       assert.strictEqual(bcrypt.compareSync(userf.user1.password, user.hash), true);
-      done();
+      done();      
     });
   });
   it('short password should fail', function (done) {

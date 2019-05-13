@@ -3,6 +3,7 @@
 const init = require('../base/init');
 const error = require('../base/error');
 const async = require('../base/async');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const userb = require('../user/user-base');
 const usera = require('../user/user-auth');
@@ -35,7 +36,7 @@ expb.core.put('/api/users/:id([0-9]+)', function (req, res, done) {
       form.homel = form.home.toLowerCase();
       usern.checkForm(form, id, function (err) {
         if (err) return done(err);
-        var fields = {
+        let fields = {
           name: form.name,
           namel: form.namel,
           home: form.home,
@@ -55,14 +56,14 @@ expb.core.put('/api/users/:id([0-9]+)', function (req, res, done) {
             if (hash) {
               fields.hash = hash;
             }
-            userb.users.updateOne({ _id: id }, { $set: fields }, function (err, r) {
+            my2.query('update user set ? where id = ?', [fields, id], (err, r) => {
               if (err) return done(err);
-              if (!r.matchedCount) {
+              if (!r.changedRows) {
                 return done(error('USER_NOT_FOUND'));
               }
               userb.deleteCache(id);
               res.json({});
-            });            
+            });
           }
         );
       });

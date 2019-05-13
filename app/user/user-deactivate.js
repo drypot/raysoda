@@ -2,6 +2,7 @@
 
 const init = require('../base/init');
 const error = require('../base/error');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const userb = require('../user/user-base');
 const usera = require('../user/user-auth');
@@ -12,13 +13,15 @@ expb.core.delete('/api/users/:id([0-9]+)', function (req, res, done) {
     var id = parseInt(req.params.id) || 0;
     usera.checkUpdatable(user, id, function (err) {
       if (err) return done(err);
-      userb.users.updateOne({ _id: id }, { $set: { status: 'd' } }, function (err, cnt) {
+      my2.query('update user set status = "d" where id = ?', id, (err, r) => {
         if (err) return done(err);
-        if (!cnt) {
+        if (!r.changedRows) {
           return done(error('USER_NOT_FOUND'));
         }
         userb.deleteCache(id);
-        usera.logout(req, res);
+        if (user.id === id) {
+          usera.logout(req, res);
+        }
         res.json({});
       });
     });

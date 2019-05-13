@@ -50,7 +50,7 @@ describe('deactivating self', function () {
     });
   });
   it('can be checked', function (done) {
-    userb.users.findOne({ _id: userf.user1.id }, function (err, user) {
+    my2.queryOne('select * from user where id = ?', userf.user1.id, (err, user) => {
       assert.ifError(err);
       assert.strictEqual(user.status == 'd', true);
       done();
@@ -106,4 +106,3 @@ describe('deactivating other by admin', function () {
     });
   });
 });
-
