@@ -1,1 +1,1 @@
-node app/main/main.js -c config/raysoda.json
+node app/main/main.js -c config/raysoda-dev.json

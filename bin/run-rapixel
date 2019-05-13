@@ -1,1 +1,1 @@
-node app/main/main.js -c config/rapixel.json
+node app/main/main.js -c config/rapixel-dev.json

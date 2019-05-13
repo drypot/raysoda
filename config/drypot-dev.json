@@ -13,6 +13,10 @@
 
   "mongodb": "drypot",
 
+  "mysqlDatabase": "drypot",
+  "mysqlUser": "drypot",
+  "mysqlPassword": "",
+
   "mailServer": "",
 
   "ticketGenInterval": 18,

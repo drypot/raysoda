@@ -13,6 +13,10 @@
 
   "mongodb": "raysoda",
 
+  "mysqlDatabase": "raysoda",
+  "mysqlUser": "drypot",
+  "mysqlPassword": "",
+
   "mailServer": "",
 
   "ticketGenInterval": 18,

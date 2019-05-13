@@ -1,1 +1,1 @@
-node app/main/main.js -c config/drypot.json
+node app/main/main.js -c config/drypot-dev.json
