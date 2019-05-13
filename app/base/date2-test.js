@@ -1,8 +1,7 @@
 'use strict';
 
-const date2 = require('../base/date2');
 const assert = require('assert');
-const assert2 = require('../base/assert2');
+const date2 = require('../base/date2');
 
 describe('today', function () {
   it('should succeed', function (done) {

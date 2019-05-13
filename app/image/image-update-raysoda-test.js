@@ -1,10 +1,7 @@
 'use strict';
 
-const fs = require('fs');
-
 const init = require('../base/init');
 const error = require('../base/error');
-const fs2 = require('../base/fs2');
 const config = require('../base/config');
 const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');

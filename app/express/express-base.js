@@ -5,12 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const redisStore = require('connect-redis')(session);
-
-const init = require('../base/init');
-const error = require('../base/error');
 const config = require('../base/config');
-const assert = require('assert');
-const assert2 = require('../base/assert2');
 const expb = exports;
 
 expb.core = express.Router();

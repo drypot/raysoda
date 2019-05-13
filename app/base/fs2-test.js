@@ -1,9 +1,9 @@
 'use strict';
 
-const fs = require('fs');
-const fs2 = require('../base/fs2');
 const assert = require('assert');
+const fs = require('fs');
 const assert2 = require('../base/assert2');
+const fs2 = require('../base/fs2');
 
 const testdir = 'tmp/fs-test';
 

@@ -1,8 +1,7 @@
 'use strict';
 
-const { tokenize } = require('./token2');
 const assert = require('assert');
-const assert2 = require('./assert2');
+const { tokenize } = require('./token2');
 
 function assertTokens(tokenized, len) {
   var tokens = [].slice.call(arguments, 2);

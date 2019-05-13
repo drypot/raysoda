@@ -1,8 +1,7 @@
 'use strict';
 
-const array2 = require('./array2');
 const assert = require('assert');
-const assert2 = require('./assert2');
+const array2 = require('./array2');
 
 describe('find', function () {
   it('should succeed', function () {

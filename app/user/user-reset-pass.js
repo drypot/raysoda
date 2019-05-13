@@ -2,7 +2,6 @@
 
 const crypto = require('crypto');
 const uuid = require('uuid/v4');
-
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');

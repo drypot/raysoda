@@ -1,13 +1,12 @@
 'use strict';
 
 const exec = require('child_process').exec;
-
 const init = require('../base/init');
 const error = require('../base/error');
 const fs2 = require('../base/fs2');
 const config = require('../base/config');
 const my2 = require('../mysql/my2');
-var imageb = exports;
+const imageb = exports;
 
 error.define('IMAGE_NOT_EXIST', '파일이 없습니다.');
 error.define('IMAGE_NO_FILE', '아미지 파일이 첨부되지 않았습니다.', 'files');

@@ -1,5 +1,7 @@
 'use strict';
 
+const assert = require('assert');
+const assert2 = require('../base/assert2');
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
@@ -9,8 +11,6 @@ const expl = require('../express/express-local');
 const userb = require('../user/user-base');
 const usera = require('../user/user-auth');
 const userf = require('../user/user-fixture');
-const assert = require('assert');
-const assert2 = require('../base/assert2');
 
 expb.core.get('/api/test/user', function (req, res, done) {
   usera.checkUser(res, function (err, user) {

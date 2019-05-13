@@ -1,8 +1,7 @@
 'use strict';
 
-const init = require('../base/init');
 const assert = require('assert');
-const assert2 = require('../base/assert2');
+const init = require('../base/init');
 
 describe('init', () => {
   it('should succeed with 3 adds', (done) => {

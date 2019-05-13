@@ -1,7 +1,6 @@
 'use strict';
 
 const init = require('../base/init');
-const config = require('../base/config');
 const expb = require('../express/express-base');
 
 require('../image/image-new');

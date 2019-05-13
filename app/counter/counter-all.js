@@ -1,7 +1,5 @@
 'use strict';
 
-const init = require('../base/init');
-const config = require('../base/config');
 const date2 = require('../base/date2');
 const expb = require('../express/express-base');
 const usera = require('../user/user-auth');

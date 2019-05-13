@@ -1,13 +1,12 @@
 'use strict';
 
+const assert = require('assert');
 const init = require('../base/init');
 const my2 = require('../mysql/my2');
 const userb = require('../user/user-base');
 const usera = require('../user/user-auth');
 const expl = require('../express/express-local');
-const assert = require('assert');
-const assert2 = require('../base/assert2');
-var userf = exports;
+const userf = exports;
 
 init.add(exports.recreate = function (done) {
   userb.resetCache();

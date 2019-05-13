@@ -1,10 +1,8 @@
 'use strict';
 
-const superagent = require('superagent');
-
-const config = require('../base/config');
 const assert = require('assert');
-const assert2 = require('../base/assert2');
+const superagent = require('superagent');
+const config = require('../base/config');
 const expl = exports;
 
 // user-fixture 와 같이 여러 테스트 모듈이 세션을 공유할 필요가 있다.

@@ -1,16 +1,12 @@
 'use strict';
 
-const fs = require('fs');
-
-const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
-const fs2 = require('../base/fs2');
 const expb = require('../express/express-base');
 const expu = require('../express/express-upload');
 const usera = require('../user/user-auth');
 const imageb = require('../image/image-base');
-var imagen = exports;
+const imagen = exports;
 
 expb.core.get('/images/new', function (req, res, done) {
   usera.checkUser(res, function (err, user) {

@@ -2,7 +2,6 @@
 
 const exec = require('child_process').exec;
 const fs = require('fs');
-
 const init = require('../base/init');
 const config = require('../base/config');
 const fs2 = require('../base/fs2');

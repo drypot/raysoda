@@ -1,8 +1,5 @@
 'use strict';
 
-const init = require('../base/init');
-const error = require('../base/error');
-const config = require('../base/config');
 const expb = require('../express/express-base');
 
 /* redirects for raysoda v1 */

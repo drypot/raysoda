@@ -1,6 +1,5 @@
 'use strict';
 
-const util = require('util');
 const init = exports;
 
 process.on('uncaughtException', function (err) {

@@ -1,6 +1,5 @@
 'use strict';
 
-const init = require('../base/init');
 const async = require('../base/async');
 const url2 = require('../base/url2');
 const date2 = require('../base/date2');

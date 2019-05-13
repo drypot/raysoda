@@ -1,7 +1,6 @@
 'use strict';
 
-const uuid = require('uuid/v4');
-
+const assert = require('assert');
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
@@ -11,8 +10,6 @@ const expl = require('../express/express-local');
 const userb = require('../user/user-base');
 const userf = require('../user/user-fixture');
 const userp = require('../user/user-reset-pass');
-const assert = require('assert');
-const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/raysoda-test.json';

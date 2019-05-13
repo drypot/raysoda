@@ -1,12 +1,11 @@
 'use strict';
 
+const assert = require('assert');
 const init = require('../base/init');
 const config = require('../base/config');
 const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const imageb = require('../image/image-base');
-const assert = require('assert');
-const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/raysoda-test.json';

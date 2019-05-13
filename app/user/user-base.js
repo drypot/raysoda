@@ -1,13 +1,10 @@
 'use strict';
 
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
-
 const init = require('../base/init');
 const error = require('../base/error');
-const config = require('../base/config');
 const my2 = require('../mysql/my2');
-var userb = exports;
+const userb = exports;
 
 error.define('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.');
 error.define('NOT_AUTHORIZED', '사용 권한이 없습니다.');

@@ -1,8 +1,7 @@
 'use strict';
 
-const async = require('../base/async');
 const assert = require('assert');
-const assert2 = require('./assert2');
+const async = require('../base/async');
 
 describe('waterfall', () => {
   it('should succeed', (done) => {

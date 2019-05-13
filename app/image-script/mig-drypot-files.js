@@ -3,8 +3,7 @@
 const exec = require('child_process').exec;
 const fs = require('fs');
 const tds = require('tedious');
-var types = tds.TYPES;
-
+const types = tds.TYPES;
 const init = require('../base/init');
 const config = require('../base/config');
 const fs2 = require('../base/fs2');

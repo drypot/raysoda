@@ -1,8 +1,7 @@
 'use strict';
 
 const tds = require('tedious');
-var types = tds.TYPES;
-
+const types = tds.TYPES;
 const init = require('../base/init');
 const config = require('../base/config');
 const mongo2 = require('../mongodb/mongo2');

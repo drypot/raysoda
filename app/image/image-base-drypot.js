@@ -1,11 +1,8 @@
 'use strict';
 
-const exec = require('child_process').exec;
 const fs = require('fs');
-
 const error = require('../base/error');
 const fs2 = require('../base/fs2');
-const config = require('../base/config');
 const imageb = require('../image/image-base');
 
 function getDepth(id) {

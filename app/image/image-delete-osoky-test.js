@@ -1,10 +1,8 @@
 'use strict';
 
-const fs = require('fs');
-
+const assert = require('assert');
+const assert2 = require('../base/assert2');
 const init = require('../base/init');
-const error = require('../base/error');
-const fs2 = require('../base/fs2');
 const config = require('../base/config');
 const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
@@ -14,8 +12,6 @@ const userf = require('../user/user-fixture');
 const imageb = require('../image/image-base');
 const imagen = require('../image/image-new');
 const imaged = require('../image/image-delete');
-const assert = require('assert');
-const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/osoky-test.json';

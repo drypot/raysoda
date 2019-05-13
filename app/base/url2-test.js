@@ -1,8 +1,7 @@
 'use strict';
 
-const url2 = require('../base/url2');
 const assert = require('assert');
-const assert2 = require('../base/assert2');
+const url2 = require('../base/url2');
 
 describe('url', function () {
   it('should succeed', function () {

@@ -1,7 +1,7 @@
 'use strict';
 
-const fs = require('fs');
-
+const assert = require('assert');
+const assert2 = require('../base/assert2');
 const init = require('../base/init');
 const error = require('../base/error');
 const fs2 = require('../base/fs2');
@@ -13,8 +13,6 @@ const expl = require('../express/express-local');
 const userf = require('../user/user-fixture');
 const imageb = require('../image/image-base');
 const imageu = require('../image/image-update');
-const assert = require('assert');
-const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/rapixel-test.json';

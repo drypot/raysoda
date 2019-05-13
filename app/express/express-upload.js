@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const path = require('path');
-
 const init = require('../base/init');
 const config = require('../base/config');
 const fs2 = require('../base/fs2');

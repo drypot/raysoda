@@ -1,7 +1,6 @@
 'use strict';
 
 const mysql = require('mysql');
-
 const init = require('../base/init');
 const config = require('../base/config');
 const async = require('../base/async');

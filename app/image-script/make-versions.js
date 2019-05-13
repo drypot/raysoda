@@ -1,7 +1,6 @@
 'use strict';
 
 const fs = require('fs');
-
 const init = require('../base/init');
 const config = require('../base/config')({ parseArg: true });
 const mongo2 = require('../mongodb/mongo2');

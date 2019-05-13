@@ -1,12 +1,10 @@
 'use strict';
 
-const init = require('../base/init');
 const error = require('../base/error');
-const config = require('../base/config');
 const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const userb = require('../user/user-base');
-var usera = exports;
+const usera = exports;
 
 // set-admin.js 등, express 가 필요없는 모듈에서 user-base 를 쓸 수 있도록 auth 부분을 분리한다.
 

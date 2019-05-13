@@ -1,10 +1,9 @@
 'use strict';
 
+const assert = require('assert');
 const init = require('../base/init');
 const config = require('../base/config');
 const mongo2 = require('../mongodb/mongo2');
-const assert = require('assert');
-const assert2 = require('../base/assert2');
 
 before(function (done) {
   config.path = 'config/test.json';

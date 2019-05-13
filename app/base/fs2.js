@@ -1,7 +1,7 @@
 'use strict';
 
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
 const fs2 = exports;
 
 fs2.removeDir = function removeDir(p, done) {

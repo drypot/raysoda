@@ -1,7 +1,6 @@
 'use strict';
 
 const tds = require('tedious');
-
 const init = require('../base/init');
 const config = require('../base/config');
 
