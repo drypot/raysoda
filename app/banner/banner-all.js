@@ -1,6 +1,6 @@
 'use strict';
 
-const my2 = require('../mysql/my2');
+const jsont = require('../mysql/jsont');
 const expb = require('../express/express-base');
 const usera = require('../user/user-auth');
 const bannerb = require('../banner/banner-base');
@@ -27,7 +27,7 @@ expb.core.put('/api/banners', function (req, res, done) {
   usera.checkAdmin(res, function (err, user) {
     if (err) return done(err);
     bannerb.banners = req.body.banners;
-    mongo2.values.update('banners', bannerb.banners, function (err) {
+    jsont.update('banners', bannerb.banners, function (err) {
       if (err) return done(err);
       res.json({});
     });
