@@ -11,7 +11,7 @@ before(function (done) {
   init.run(done);
 });
 
-describe('db', function () {
+describe('database', function () {
   it('should exist.', function (done) {
     var query = 'show databases like ?';
     my2.query(query, config.mysqlDatabase, function (err, r) {
