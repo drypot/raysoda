@@ -12,8 +12,32 @@ var conn;
 
 // 작업 종료후 pool을 닫으면 큐잉된 쿼리는 실행되지 못하고 'Pool is closed' 를 뿜는다.
 // 이 문제가 해결되기 전까지 pool 사용을 피한다.
-
+//
 //var pool;
+
+function typeCast(field, next) {
+  
+  // console.log('---');
+  // console.log(field.name);
+  // console.log(field.type);
+  
+  if (field.type === 'TINY' && field.length === 1) {
+    let v = field.string();
+    //console.log(v);
+    return v === '1';
+  }
+  
+  // JSON 이 JSON 으로 오지 않고 BLOB 으로 온다.
+  // 다른 정보가 BLOB 으로 오면 구분할 수가 없다.
+  //  
+  // if (field.type === 'BLOB') {
+  //   let v = JSON.parse(field.string());
+  //   //console.log(v);
+  //   return v;
+  // }
+
+  return next();
+}
 
 init.add(
   (done) => {
@@ -23,6 +47,7 @@ init.add(
       password: config.mysqlPassword,
       charset: 'utf8mb4',
       multipleStatements: true,
+      typeCast: typeCast,
     });
     done();
   },
@@ -50,6 +75,7 @@ init.add(
   //     password: config.mysqlPassword,
   //     charset: 'utf8mb4',
   //     multipleStatements: true,
+  //     typeCast: typeCast,
   //   });
   //   done();
   // }

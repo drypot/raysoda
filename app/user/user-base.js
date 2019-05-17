@@ -124,10 +124,6 @@ userb.checkPassword = function (pw, hash, cb) {
 var usersById = new Map;
 var usersByHome = new Map;
 
-userb.unpackUser= function (user) {
-  user.admin = !!user.admin;
-};
-
 userb.cache = function (user) {
   usersById.set(user.id, user);
   usersByHome.set(user.homel, user);
@@ -141,7 +137,6 @@ userb.getCached = function (id, done) {
   my2.queryOne('select * from user where id = ?', id, (err, user) => {
     if (err) return done(err);
     if (!user) return done(error('USER_NOT_FOUND'));
-    userb.unpackUser(user);
     userb.cache(user);
     done(null, user);
   });
@@ -158,7 +153,6 @@ userb.getCachedByHome = function (homel, done) {
       // 사용자 프로필 URL 검색에 주로 사용되므로 error 생성은 패스한다.
       return done();
     }
-    userb.unpackUser(user);
     userb.cache(user);
     done(null, user);
   });

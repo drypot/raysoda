@@ -123,7 +123,6 @@ function findUser(email, password, done) {
     if (!user) {
       return done(error('EMAIL_NOT_FOUND'));
     }
-    userb.unpackUser(user);
     if (user.status == 'd') {
       return done(error('ACCOUNT_DEACTIVATED'));
     }    

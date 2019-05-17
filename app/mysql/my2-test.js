@@ -22,19 +22,75 @@ describe('database', function () {
   });
 });
 
+describe('typeCast bool', () => {
+  before((done) => {
+    my2.query(`
+      create table bool_test(
+        id int not null,
+        v bool not null, 
+        primary key (id)
+      )
+    `, done);
+  });
+  before((done) => {
+    my2.query('insert into bool_test values (1, true), (2, false)',done);
+  });
+  it('should succeed for true', (done) => {
+    my2.queryOne('select * from bool_test where id = 1', (err, r) => {
+      assert.ifError(err);
+      assert.strictEqual(r.v, true);
+      done();
+    });
+  });  
+  it('should succeed for false', (done) => {
+    my2.queryOne('select * from bool_test where id = 2', (err, r) => {
+      assert.ifError(err);
+      assert.strictEqual(r.v, false);
+      done();
+    });
+  });  
+});
+
+describe.skip('typeCast json', () => {
+  const obj1 = {
+    s1: 'string1',
+    a1: [ 1, 2, 3],
+    i1: 10
+  }
+  before((done) => {
+    my2.query(`
+      create table json_test(
+        id int not null,
+        v json not null,
+        primary key (id)
+      )
+    `, done);
+  });
+  before((done) => {
+    my2.query('insert into json_test set id = 1, v = ?', JSON.stringify(obj1), done);
+  });
+  it('should succeed', (done) => {
+    my2.queryOne('select * from json_test where id = 1', (err, r) => {
+      assert.ifError(err);
+      assert.deepStrictEqual(r.v, obj1);
+      done();
+    });
+  });  
+});
+
+
 describe('queryOne', (done) => {
   it('should succeed when result exists.', done => {
     my2.queryOne('select * from (select 1 as id) dummy where id = 1', (err, r) => {
       assert.ifError(err);
-      assert(r.id === 1);
+      assert.strictEqual(r.id, 1);
       done();      
     });
   });
   it('should succeed when result does not exists.', done => {
     my2.queryOne('select * from (select 1 as id) dummy where id = 2', (err, r) => {
       assert.ifError(err);
-      console.log(r);
-      assert(r === undefined);
+      assert.strictEqual(r, undefined);
       done();      
     });
   });
