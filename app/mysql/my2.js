@@ -15,6 +15,8 @@ var conn;
 //
 //var pool;
 
+// 광역 typeCast 는 안 하기로 한다.
+//
 function typeCast(field, next) {
   
   // console.log('---');
@@ -47,7 +49,7 @@ init.add(
       password: config.mysqlPassword,
       charset: 'utf8mb4',
       multipleStatements: true,
-      typeCast: typeCast,
+      //typeCast: typeCast,
     });
     done();
   },

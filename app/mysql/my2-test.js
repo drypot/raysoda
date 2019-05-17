@@ -22,7 +22,7 @@ describe('database', function () {
   });
 });
 
-describe('typeCast bool', () => {
+describe.skip('typeCast bool', () => {
   before((done) => {
     my2.query(`
       create table bool_test(
