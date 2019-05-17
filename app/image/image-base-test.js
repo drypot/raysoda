@@ -18,15 +18,17 @@ before((done) => {
   done();
 });
 
-describe('imageb.images', function () {
-  it('should exist', function () {
-    assert.notStrictEqual(imageb.images, undefined);
+describe('table image', function () {
+  it('should exist', function (done) {
+    my2.tableExists('image', (err, exist) => {
+      assert.ifError(err);
+      assert(exist);
+      done();
+    });
   });
-});
-
-describe('getNewId()', function () {
-  it('should work', function () {
-    assert.strictEqual(imageb.getNewId() < imageb.getNewId(), true);
+  it('getNewId should success', function () {
+    assert(imageb.getNewId() === 1);
+    assert(imageb.getNewId() < imageb.getNewId());
   });
 });
 

@@ -143,7 +143,7 @@ expb.core.get('/api/users/login', function (req, res, done) {
     res.json({
       user: {
         id: user.id,
-        name: user.name        
+        name: user.name
       }
     });
   });

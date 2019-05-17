@@ -17,62 +17,80 @@ error.define('IMAGE_TYPE', '인식할 수 없는 파일입니다.', 'files');
 
 var imageId;
 
-init.add(function (done) {
-  imageb.images = mongo2.db.collection('images');
-  imageb.images.createIndex({ uid: 1, _id: -1 }, function (err) {
-    if (err) return done(err);
-    imageb.images.createIndex({ cdate: 1 }, done);
-  });
-});
-
-init.add(function (done) {
-  mongo2.getLastId(imageb.images, function (err, id) {
-    if (err) return done(err);
-    imageId = id;
-    console.log('image-base: image id = ' + imageId);
-    done();
-  });
-});
+init.add(
+  (done) => {
+    my2.query(`
+      create table if not exists image(
+        id int not null,
+        uid int not null,
+        cdate datetime(3) not null,
+        vers varchar(4096) not null,
+        comment text not null,
+        primary key (id)
+      )
+    `, done);
+  },
+  (done) => {
+    my2.query(`
+      create index image_uid_id on image(uid, id desc);
+    `, () => { done(); });
+  },
+  (done) => {
+    my2.getMaxId('image', (err, id) => {
+      if (err) return done(err);
+      imageId = id;
+      done();
+    });
+  }
+);
 
 imageb.getNewId = function () {
   return ++imageId;
 };
 
+imageb.packImage= function (image) {
+  image.vers = JSON.stringify(image.vers || null);
+};
+
+imageb.unpackImage= function (image) {
+  image.vers = JSON.parse(image.vers);
+};
+
 /*
   이미지 파일 관리
 
-  원본과 버젼이 같은 디렉토리에 저장된다는 것을 전제로 작명하였다.
-  원본과 버젼이 같은 디렉토리에 있는 것이 좋을 것 같다.
-  같은 형태끼리 모으지 말고 관련된 것 끼리 모아 놓는다.
-  스토리지가 부족하면 원본/버젼을 분리할 것이 아니라
-  id 영역별로 나누는 방안을 고려하면 된다.
+  같은 형태끼리 모으지 말고 관련된 것끼리 모아놓는 것이 좋을 것 같다.
+  해서 원본과 버전을 같은 디렉토리에 넣는 것으로 한다.
 
-  원본을 저장하는 경우 파일에 -org 를 붙여 놓는다.
-  DB 없이 파일명으로 검색이 가능.
+  스토리지가 부족하면 원본/버젼을 분리할 것이 아니라
+  id 영역별로 나누는 방안을 고려하면 될 것 같다.
+
+  원본을 저장하는 경우, 파일에 -org 를 붙여 놓는다.
+  DB 없이 파일명으로 검색이 가능한 장점.
 */
 
-init.add(function (done) {
-  fs2.makeDir(config.uploadDir + '/public/images', function (err, dir) {
-    if (err) return done(err);
-    imageb.imageDir = dir;
-    imageb.imageUrl = config.uploadSite + '/images';
+init.add(
+  function (done) {
+    fs2.makeDir(config.uploadDir + '/public/images', function (err, dir) {
+      if (err) return done(err);
+      imageb.imageDir = dir;
+      imageb.imageUrl = config.uploadSite + '/images';
+      done();
+    });
+  },
+  function (done) {
+    require('./image-base-' + config.appNamel);
     done();
-  });
-});
-
-init.add(function (done) {
-  if (config.dev) {
-    imageb.emptyDir = function (done) {
-      fs2.emptyDir(imageb.imageDir, done);
-    }
   }
-  done();
-});
+);
 
-init.add(function (done) {
-  require('./image-base-' + config.appNamel);
-  done();
-});
+imageb.emptyDir = function (done) {
+  if (config.dev) {
+    fs2.emptyDir(imageb.imageDir, done);
+  } else {
+    done(new Error("emptyDir not allowed on production instance."));
+  }
+};
 
 imageb.identify = function (fname, done) {
   exec('identify -format "%m %w %h" ' + fname, function (err, stdout, stderr) {
@@ -91,7 +109,7 @@ imageb.identify = function (fname, done) {
 };
 
 imageb.checkUpdatable = function (user, id, done) {
-  imageb.images.findOne({ _id: id }, function (err, image) {
+  my2.queryOne('select * from image where id = ?', id, (err, image) => {
     if (err) return done(err);
     if (!image) {
       return done(error('IMAGE_NOT_EXIST'));
@@ -101,4 +119,4 @@ imageb.checkUpdatable = function (user, id, done) {
     }
     done(null, image);
   });
-}
+};

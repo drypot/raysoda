@@ -27,7 +27,7 @@ function view(req, res, api, done) {
         name: user.name,
         home: user.home
       };
-      image.dir = imageb.getDirUrl(image.id);
+      image.dir = imageb.getUrlDir(image.id);
       image.thumb = imageb.getThumbUrl(image.id);
       image.cdateStr = date2.dateTimeString(image.cdate);
       image.cdate = image.cdate.getTime();

@@ -17,7 +17,7 @@ imageb.getPath = function (id) {
   return imageb.imageDir + '/' + getDepth(id) + '/' + id + '.svg';
 };
 
-imageb.getDirUrl = function (id) {
+imageb.getUrlDir = function (id) {
   return imageb.imageUrl + '/' + getDepth(id);
 };
 

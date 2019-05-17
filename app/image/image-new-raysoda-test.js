@@ -36,13 +36,13 @@ describe('getPath', function () {
   it('should work for id 1', function () {
     assert.strictEqual(imageb.getDir(1), config.uploadDir + '/public/images/0/0');
     assert.strictEqual(imageb.getPath(1), config.uploadDir + '/public/images/0/0/1.jpg');
-    assert.strictEqual(imageb.getDirUrl(1), config.uploadSite + '/images/0/0');
+    assert.strictEqual(imageb.getUrlDir(1), config.uploadSite + '/images/0/0');
     assert.strictEqual(imageb.getThumbUrl(1), config.uploadSite + '/images/0/0/1.jpg');
   });
   it('should work for id 1 234 567', function () {
     assert.strictEqual(imageb.getDir(1234567), config.uploadDir + '/public/images/1/234');
     assert.strictEqual(imageb.getPath(1234567), config.uploadDir + '/public/images/1/234/1234567.jpg');
-    assert.strictEqual(imageb.getDirUrl(1234567), config.uploadSite + '/images/1/234');
+    assert.strictEqual(imageb.getUrlDir(1234567), config.uploadSite + '/images/1/234');
     assert.strictEqual(imageb.getThumbUrl(1234567), config.uploadSite + '/images/1/234/1234567.jpg');
   });
 });

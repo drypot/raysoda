@@ -38,7 +38,7 @@ imageb.getPath = function (id, width) {
   return imageb.imageDir + '/' + getDepth(id) + '/' + id + '-' + width + '.jpg';
 };
 
-imageb.getDirUrl = function (id) {
+imageb.getUrlDir = function (id) {
   return imageb.imageUrl + '/' + getDepth(id);
 };
 
