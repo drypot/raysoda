@@ -20,12 +20,14 @@ before((done) => {
 
 describe('parsing json', function () {
   it('given handler', function () {
-    expb.core.post('/api/test/upload-json', expu.handler(function (req, res, done) {
+    expb.core.post('/api/test/upload-json', expu.parse, handler, expu.delete);
+    function handler(req, res, next) {
       assert.strictEqual(req.headers['content-type'], 'application/json');
       req.body.files = req.files;
       res.json(req.body);
-      done();
-    }));
+
+      next();
+    }
   });
   it('should succeed', function (done) {
     expl.post('/api/test/upload-json').send({'p1': 'abc'}).end(function (err, res) {
@@ -40,13 +42,13 @@ describe('parsing json', function () {
 
 describe('parsing form', function () {
   it('given handler', function () {
-    expb.core.post('/api/test/upload-form', expu.handler(function (req, res, done) {
-      // RegExp 기능이 chai-http github 에는 커밋되어 있으나 npm 패키지엔 아직 적용이 안 되어 있다.
+    expb.core.post('/api/test/upload-form', expu.parse, handler, expu.delete);
+    function handler(req, res, next) {
       assert(req.header('content-type').includes('multipart'));
       req.body.files = req.files;
       res.json(req.body);
-      done();
-    }));
+      next();
+    }
   });
   it('field should succeed', function (done) {
     expl.post('/api/test/upload-form').field('p1', 'abc').field('p2', '123').field('p2', '456').end(function (err, res) {
@@ -80,13 +82,14 @@ describe('parsing one file', function () {
   var f1 = 'app/express/express-upload-f1.txt';
   var p1;
   it('given handler', function () {
-    expb.core.post('/api/test/upload-one', expu.handler(function (req, res, done) {
+    expb.core.post('/api/test/upload-one', expu.parse, handler, expu.delete);
+    function handler(req, res, next) {
       p1 = req.files.f1[0].path;
       assert2.path(p1);
       req.body.files = req.files;
       res.json(req.body);
-      done();
-    }));
+      next();
+    }
   });
   it('should succeed', function (done) {
     expl.post('/api/test/upload-one').field('p1', 'abc').attach('f1', f1).end(function (err, res) {
@@ -107,15 +110,16 @@ describe('parsing two files', function () {
   var f2 = 'app/express/express-upload-f2.txt';
   var p1, p2;
   it('given handler', function () {
-    expb.core.post('/api/test/upload-two', expu.handler(function (req, res, done) {
+    expb.core.post('/api/test/upload-two', expu.parse, handler, expu.delete);
+    function handler(req, res, next) {
       p1 = req.files.f1[0].path;
       p2 = req.files.f1[1].path;
       assert2.path(p1);
       assert2.path(p2);
       req.body.files = req.files;
       res.json(req.body);
-      done();
-    }));
+      next();
+    }
   });
   it('should succeed', function (done) {
     expl.post('/api/test/upload-two').field('p1', 'abc').attach('f1', f1).attach('f1', f2).end(function (err, res) {
@@ -137,13 +141,14 @@ describe('parsing irregular filename', function () {
   var f1 = 'app/express/express-upload-f1.txt';
   var p1;
   it('given handler', function () {
-    expb.core.post('/api/test/upload-irregular', expu.handler(function (req, res, done) {
+    expb.core.post('/api/test/upload-irregular', expu.parse, handler, expu.delete);
+    function handler(req, res, next) {
       p1 = req.files.f1[0].path;
       assert2.path(p1);
       req.body.files = req.files;
       res.json(req.body);
-      done();
-    }));
+      next();
+    }
   });
   it('should succeed', function (done) {
     expl.post('/api/test/upload-irregular').field('p1', 'abc').attach('f1', f1, 'file<>()[]_-=.txt.%$#@!&.txt').end(function (err, res) {
@@ -156,4 +161,3 @@ describe('parsing irregular filename', function () {
     });
   });
 });
-
