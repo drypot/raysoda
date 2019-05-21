@@ -20,14 +20,12 @@ init.add(
         if (c % 100 === 0) {
           process.stdout.write(c + ' ');
         }
-        my2.query(
-          'replace into counter(id, d, c) values (?, ?, ?)',
-          [r.id, date2.dateString(r.d), r.c],
-          err => {
-            if (err) return done(err);
-            setImmediate(read);
-          }
-        );
+        delete r._id;
+        r.d = date2.dateString(r.d);
+        my2.query('replace into counter set ?', r, (err) => {
+          if (err) return done(err);
+          setImmediate(read);
+        });
       });
     })();
   },
