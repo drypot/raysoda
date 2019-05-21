@@ -34,7 +34,7 @@ var _f1 = 'samples/640x360.jpg';
 describe('del /api/images/[_id]', function () {
   describe('deleting mine', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     before(function (done) {
       userf.login('user1', done);
@@ -55,10 +55,10 @@ describe('del /api/images/[_id]', function () {
             assert.ifError(res.body.err);
             assert2.path(imageb.getPath(_id1), false);
             assert2.path(imageb.getPath(_id2));
-            imageb.images.findOne({ _id: _id1 }, function (err, image) {
+            my2.queryOne('select * from image where id = ?', _id1, (err, image) => {
               assert.ifError(err);
-              assert.strictEqual(image, null);
-              imageb.images.findOne({ _id: _id2 }, function (err, image) {
+              assert.strictEqual(image, undefined);
+              my2.queryOne('select * from image where id = ?', _id2, (err, image) => {
                 assert.ifError(err);
                 assert.notStrictEqual(image, undefined);
                 done();
@@ -71,7 +71,7 @@ describe('del /api/images/[_id]', function () {
   });
   describe('deleting by admin', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     it('should succeed', function (done) {
       userf.login('user1', function (err) {
@@ -87,9 +87,9 @@ describe('del /api/images/[_id]', function () {
               assert.ifError(err);
               assert.ifError(res.body.err);
               assert2.path(imageb.getPath(_id), false);
-              imageb.images.findOne({ _id: _id }, function (err, image) {
+              my2.queryOne('select * from image where id = ?', _id, (err, image) => {
                 assert.ifError(err);
-                assert.strictEqual(image, null);
+                assert.strictEqual(image, undefined);
                 done();
               });
             });
@@ -100,7 +100,7 @@ describe('del /api/images/[_id]', function () {
   });
   describe('deleting other\'s', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     it('should fail', function (done) {
       userf.login('user1', function (err) {
@@ -117,7 +117,7 @@ describe('del /api/images/[_id]', function () {
               assert(res.body.err);
               assert(error.find(res.body.err, 'NOT_AUTHORIZED'));
               assert2.path(imageb.getPath(_id));
-              imageb.images.findOne({ _id: _id }, function (err, image) {
+              my2.queryOne('select * from image where id = ?', _id, (err, image) => {
                 assert.ifError(err);
                 assert.notStrictEqual(image, undefined);
                 done();

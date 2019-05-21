@@ -31,7 +31,7 @@ before(function (done) {
 describe('put /api/images/id', function () {
   describe('updating with image', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     before(function (done) {
       userf.login('user1', done);
@@ -41,7 +41,7 @@ describe('put /api/images/id', function () {
         assert.ifError(err);
         assert.ifError(res.body.err);
         var _id = res.body.ids[0];
-        imageb.images.findOne({ _id: _id }, function (err, image) {
+        my2.queryOne('select * from image where id = ?', _id, (err, image) => {
           assert.ifError(err);
           assert.notStrictEqual(image, undefined);
           assert.notStrictEqual(image.cdate, undefined);
@@ -53,7 +53,7 @@ describe('put /api/images/id', function () {
             expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/1440x2560.jpg').end(function (err, res) {
               assert.ifError(err);
               assert.ifError(res.body.err);
-              imageb.images.findOne({ _id: _id }, function (err, image) {
+              my2.queryOne('select * from image where id = ?', _id, (err, image) => {
                 assert.ifError(err);
                 assert.notStrictEqual(image, undefined);
                 assert.notStrictEqual(image.cdate, undefined);
@@ -73,7 +73,7 @@ describe('put /api/images/id', function () {
   });
   describe('updating with small image', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     before(function (done) {
       userf.login('user1', done);
@@ -94,7 +94,7 @@ describe('put /api/images/id', function () {
   });
   describe('updating with no file', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     before(function (done) {
       userf.login('user1', done);
@@ -107,7 +107,7 @@ describe('put /api/images/id', function () {
         expl.put('/api/images/' + _id).field('comment', 'updated with no file').end(function (err, res) {
           assert.ifError(err);
           assert.ifError(res.body.err);
-          imageb.images.findOne({ _id: _id }, function (err, image) {
+          my2.queryOne('select * from image where id = ?', _id, (err, image) => {
             assert.ifError(err);
             assert.notStrictEqual(image, undefined);
             assert.strictEqual(image.comment, 'updated with no file');
@@ -119,7 +119,7 @@ describe('put /api/images/id', function () {
   });
   describe('updating with text file', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     before(function (done) {
       userf.login('user1', done);
@@ -140,7 +140,7 @@ describe('put /api/images/id', function () {
   });
   describe('updating other\'s', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     it('should fail', function (done) {
       userf.login('user1', function (err) {

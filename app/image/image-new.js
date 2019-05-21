@@ -2,6 +2,7 @@
 
 const error = require('../base/error');
 const config = require('../base/config');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const expu = require('../express/express-upload');
 const usera = require('../user/user-auth');
@@ -46,12 +47,14 @@ expb.core.post('/api/images', expu.handler(function (req, res, done) {
             imageb.saveImage(id, upload.path, meta, function (err, vers) {
               if (err) return done(err);
               var image = {
-                _id: id,
+                id: id,
                 uid: user.id,
-                cdate: form.now
+                cdate: form.now,
+                vers: vers,
+                comment: form.comment,
               };
-              imageb.fillImageDoc(image, form, meta, vers);
-              imageb.images.insertOne(image, function (err) {
+              imageb.packImage(image);
+              my2.query('insert into image set ?', image, (err, r) => {
                 if (err) return done(err);
                 ids.push(id);
                 setImmediate(create);
@@ -84,7 +87,7 @@ var getTicketCount = imagen.getTicketCount = function(now, user, done) {
     sort: { uid: 1, _id: -1 },
     limit: config.ticketMax
   }
-  imageb.images.find({ uid: user.id }, opt).toArray(function (err, images) {
+  my2.query('select cdate from image where uid = ? order by id desc limit ?', [user.id, config.ticketMax], (err, images) => {
     if (err) return done(err);
     for (var i = 0; i < images.length; i++) {
       hours = config.ticketGenInterval - Math.floor((now.getTime() - images[i].cdate.getTime()) / (60 * 60 * 1000));

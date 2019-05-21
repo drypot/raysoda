@@ -90,15 +90,6 @@ imageb.saveImage = function (id, src, meta, done) {
   });
 };
 
-imageb.fillImageDoc = function (image, form, meta, vers) {
-  if (vers) {
-    image.vers = vers;
-  }
-  if (form) {
-    image.comment = form.comment;
-  }
-};
-
 imageb.deleteImage = function (id, done) {
   fs2.removeDir(imageb.getDir(id), done);
 };

@@ -40,9 +40,10 @@ describe('put /api/images/id', function () {
         assert.ifError(err);
         assert.ifError(res.body.err);
         var _id = res.body.ids[0];
-        imageb.images.findOne({ _id: _id }, function (err, image) {
+        my2.queryOne('select * from image where id = ?', _id, (err, image) => {
           assert.ifError(err);
           assert.notStrictEqual(image, undefined);
+          imageb.unpackImage(image);
           //assert.deepStrictEqual(image.vers, [ 5120, 4096, 2560, 1920, 1280 ]);
           assert.deepStrictEqual(image.vers, [ 5120, 4096, 2560, 1280]);
           assert.strictEqual(image.comment, 'image1');
@@ -55,9 +56,10 @@ describe('put /api/images/id', function () {
             expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/4096x2304.jpg').end(function (err, res) {
               assert.ifError(err);
               assert.ifError(res.body.err);
-              imageb.images.findOne({ _id: _id }, function (err, image) {
+              my2.queryOne('select * from image where id = ?', _id, (err, image) => {
                 assert.ifError(err);
                 assert.notStrictEqual(image, undefined);
+                imageb.unpackImage(image);
                 //assert.deepStrictEqual(image.vers, [ 4096, 2560, 1920, 1280 ]);
                 assert.deepStrictEqual(image.vers, [ 4096, 2560, 1280 ]);
                 assert.strictEqual(image.comment, 'image2');

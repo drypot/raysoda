@@ -24,7 +24,7 @@ init.add(
         id int not null,
         uid int not null,
         cdate datetime(3) not null,
-        vers varchar(4096) not null,
+        vers varchar(4096) not null default 'null',
         comment text not null,
         primary key (id)
       )
@@ -49,7 +49,9 @@ imageb.getNewId = function () {
 };
 
 imageb.packImage= function (image) {
-  image.vers = JSON.stringify(image.vers || null);
+  if (image.vers !== undefined) {
+    image.vers = JSON.stringify(image.vers);
+  }
 };
 
 imageb.unpackImage= function (image) {

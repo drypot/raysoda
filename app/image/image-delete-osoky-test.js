@@ -33,7 +33,7 @@ var _f1 = 'samples/2560x1440.jpg';
 describe('del /api/images/[_id]', function () {
   describe('deleting mine', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     before(function (done) {
       userf.login('user1', done);

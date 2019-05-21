@@ -49,7 +49,7 @@ describe('getDir()', function () {
 describe('post /api/images', function () {
   describe('posting big', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/4096x2304.jpg').end(function (err, res) {
@@ -58,7 +58,7 @@ describe('post /api/images', function () {
         assert.notStrictEqual(res.body.ids, undefined);
         assert.strictEqual(res.body.ids.length, 1);
         var _id = res.body.ids[0];
-        imageb.images.findOne({ _id: _id }, function (err, image) {
+        my2.queryOne('select * from image where id = ?', _id, (err, image) => {
           assert.ifError(err);
           assert.strictEqual(image.id, _id);
           assert.strictEqual(image.uid, userf.user1.id);
@@ -76,7 +76,7 @@ describe('post /api/images', function () {
   });
   describe('posting small', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/1280x720.jpg').end(function (err, res) {
@@ -85,7 +85,7 @@ describe('post /api/images', function () {
         assert.notStrictEqual(res.body.ids, undefined);
         assert.strictEqual(res.body.ids.length, 1);
         var _id = res.body.ids[0];
-        imageb.images.findOne({ _id: _id }, function (err, image) {
+        my2.queryOne('select * from image where id = ?', _id, (err, image) => {
           assert.ifError(err);
           assert.strictEqual(image.id, _id);
           assert.strictEqual(image.uid, userf.user1.id);
@@ -103,7 +103,7 @@ describe('post /api/images', function () {
   });
   describe('posting too small', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     it('should fail', function (done) {
       expl.post('/api/images').attach('files', 'samples/640x360.jpg').end(function (err, res) {

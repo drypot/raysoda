@@ -43,7 +43,7 @@ describe('put /api/images/id', function () {
           expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/svg-sample-2.svg').end(function (err, res) {
             assert.ifError(err);
             assert.ifError(res.body.err);
-            imageb.images.findOne({ _id: _id }, function (err, image) {
+            my2.queryOne('select * from image where id = ?', _id, (err, image) => {
               assert.ifError(err);
               assert.notStrictEqual(image, undefined);
               assert.notStrictEqual(image.cdate, undefined);

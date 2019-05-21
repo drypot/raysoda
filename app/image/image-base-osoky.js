@@ -65,12 +65,6 @@ imageb.saveImage = function (id, src, meta, done) {
   });
 };
 
-imageb.fillImageDoc = function (image, form, meta, vers) {
-  if (form) {
-    image.comment = form.comment;
-  }
-};
-
 imageb.deleteImage = function (id, done) {
   fs.unlink(imageb.getPath(id), function (err) {
     // 파일 없을 경우 나는 에러를 무시한다.

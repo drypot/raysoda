@@ -50,23 +50,17 @@ block content
           a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
 
   .section
-    if lt
+    if next
       .mini-section
-        a(href=lt) Next
-    if gt
+        a(href=next) Next
+    if prev
       .mini-section
-        a(href=gt) Previous
-    if lt
-      .mini-section
-        if dlt
-          a(href=dlt) !{dyear}
-        else
-          a(href='/?gt=0') First
+        a(href=prev) Previous
 
   .section.top-links
-    if appNamel != 'raysoda'
-      a(href='https://raysoda.com') RaySoda
-    if appNamel != 'rapixel'
-      a(href='https://rapixel.com') Rapixel
-    if appNamel != 'osoky'
-      a(href='https://osoky.com') Osoky
+    //-if appNamel != 'raysoda'
+    a(href='https://raysoda.com') RaySoda
+    //-if appNamel != 'rapixel'
+    a(href='https://rapixel.com') Rapixel
+    //-if appNamel != 'osoky'
+    a(href='https://osoky.com') Osoky

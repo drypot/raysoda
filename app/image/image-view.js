@@ -2,6 +2,7 @@
 
 const error = require('../base/error');
 const date2 = require('../base/date2');
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const expu = require('../express/express-upload');
 const userb = require('../user/user-base');
@@ -17,13 +18,14 @@ expb.core.get('/images/:id([0-9]+)', function (req, res, done) {
 
 function view(req, res, api, done) {
   var id = parseInt(req.params.id) || 0;
-  imageb.images.findOne({ _id: id }, function (err, image) {
+  my2.queryOne('select * from image where id = ?', id, (err, image) => {
     if (err) return done(err);
     if (!image) return done(error('IMAGE_NOT_EXIST'));
+    imageb.unpackImage(image);
     userb.getCached(image.uid, function (err, user) {
       if (err) return done(err);
       image.user = {
-        _id: user.id,
+        id: user.id,
         name: user.name,
         home: user.home
       };

@@ -1,5 +1,6 @@
 'use strict';
 
+const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const expu = require('../express/express-upload');
 const usera = require('../user/user-auth');
@@ -11,7 +12,7 @@ expb.core.delete('/api/images/:id([0-9]+)', function (req, res, done) {
     var id = parseInt(req.params.id) || 0;
     imageb.checkUpdatable(user, id, function (err) {
       if (err) return done(err);
-      imageb.images.deleteOne({ _id: id }, function (err, cnt) {
+      my2.query('delete from image where id = ?', id, (err) => {
         if (err) return done(err);
         imageb.deleteImage(id, function (err) {
           if (err) return done(err);

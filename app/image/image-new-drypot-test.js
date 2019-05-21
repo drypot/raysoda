@@ -50,7 +50,7 @@ describe('getDir()', function () {
 describe('post /api/images', function () {
   describe('posting one image', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     it('should succeed', function (done) {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/svg-sample.svg').end(function (err, res) {
@@ -59,12 +59,11 @@ describe('post /api/images', function () {
         assert.notStrictEqual(res.body.ids, undefined);
         assert.strictEqual(res.body.ids.length, 1);
         var _id = res.body.ids[0];
-        imageb.images.findOne({ _id: _id }, function (err, image) {
+        my2.queryOne('select * from image where id = ?', _id, (err, image) => {
           assert.ifError(err);
           assert.strictEqual(image.id, _id);
           assert.strictEqual(image.uid, userf.user1.id);
           assert.strictEqual(image.width, undefined);
-          assert.strictEqual(image.vers, undefined);
           assert.notStrictEqual(image.cdate, undefined);
           assert.strictEqual(image.comment, 'image1');
           assert2.path(imageb.getPath(_id));
@@ -75,7 +74,7 @@ describe('post /api/images', function () {
   });
   describe('posting jpeg', function () {
     before(function (done) {
-      imageb.images.deleteMany(done);
+      my2.query('truncate table image', done);
     });
     it('should fail', function (done) {
       expl.post('/api/images').attach('files', 'samples/640x360.jpg').end(function (err, res) {

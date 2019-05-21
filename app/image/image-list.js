@@ -16,62 +16,54 @@ expb.core.get('/', function (req, res, done) {
   list(req, res, false, done);
 });
 
+expb.core.get('/images', function (req, res, done) {
+  list(req, res, false, done);
+});
+
 expb.core.get('/api/images', function (req, res, done) {
   list(req, res, true, done);
 });
 
 function list(req, res, api, done) {
-  var lt = parseInt(req.query.lt);
-  var gt = parseInt(req.query.gt);
-  var ps = parseInt(req.query.ps) || 16;
-  mongo2.findPage(imageb.images, {}, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
+  var p = Math.max(parseInt(req.query.p) || 1, 1);
+  var ps = Math.min(Math.max(parseInt(req.query.ps) || 16, 1), 128);
+  my2.query('select * from image order by id desc limit ?, ?', [(p-1)*ps, ps], (err, r) => {
     if (err) return done(err);
-    async.wf(
-      (done) => {
-        if (images.length) {
-          let cdate = images[images.length - 1].cdate;
-          var now = new Date();
-          var ddate = new Date(cdate.getFullYear() - 1, now.getMonth(), now.getDate() + 1);
-          mongo2.findDeepDoc(imageb.images, {}, {}, ddate, done);
-        } else {
-          done(null, undefined, undefined)
-        }
-      },
-      (err, dyear, dlt) => {
-        if (err) return done(err);
-        if (api) {
-          res.json({
-            images: images,
-            gt: gt,
-            lt: lt,
-            dyear: dyear,
-            dlt: dlt
-          });
-        } else {
-          res.render('image/image-list', {
-            images: images,
-            gt: gt ? new url2.UrlMaker('/').add('gt', gt).add('ps', ps, 16).done() : undefined,
-            lt: lt ? new url2.UrlMaker('/').add('lt', lt).add('ps', ps, 16).done() : undefined,
-            dyear: dyear,
-            dlt: dlt ? new url2.UrlMaker('/').add('lt', dlt).add('ps', ps, 16).done() : undefined,
-            banners: bannerb.banners
-          });
-        }
+    decoResult(r, (err) => {
+      if (err) return done(err);
+      if (api) {
+        res.json({
+          images: r
+        });
+      } else {
+        res.render('image/image-list', {
+          images: r,
+          prev: p > 1 ? new url2.UrlMaker('/images').add('p', p - 1, 1).add('ps', ps, 16).done() : undefined,
+          next: new url2.UrlMaker('/images').add('p', p + 1).add('ps', ps, 16).done(),
+          banners: bannerb.banners,
+        });
       }
-    );
+    });
   });
 }
 
-function filter(image, done) {
-  userb.getCached(image.uid, function (err, user) {
-    if (err) return done(err);
-    image.user = {
-      _id: user.id,
-      name: user.name,
-      home: user.home
-    };
-    image.thumb = imageb.getThumbUrl(image.id);
-    image.cdateStr = date2.dateTimeString(image.cdate);
-    done(null, image);
-  });
+function decoResult(r, done) {
+  let i = 0;
+  (function loop() {
+    if (i === r.length) {
+      return done(null);
+    }
+    let image = r[i++];
+    userb.getCached(image.uid, function (err, user) {
+      if (err) return done(err);
+      image.user = {
+        id: user.id,
+        name: user.name,
+        home: user.home
+      };
+      image.thumb = imageb.getThumbUrl(image.id);
+      image.cdateStr = date2.dateTimeString(image.cdate);
+      setImmediate(loop);
+    });
+  })();
 }
