@@ -4,7 +4,7 @@ const assert = require('assert');
 const init = require('../base/init');
 const config = require('../base/config');
 const my2 = require('../mysql/my2');
-const jsont = require('../mysql/jsont');
+const persist = require('../mysql/persist');
 
 before(function (done) {
   config.path = 'config/test.json';
@@ -12,9 +12,9 @@ before(function (done) {
   init.run(done);
 });
 
-describe('table jsont', function () {
+describe('table persist', function () {
   it('should exist', function (done) {
-    my2.tableExists('jsont', (err, exist) => {
+    my2.tableExists('persist', (err, exist) => {
       assert.ifError(err);
       assert(exist);
       done();
@@ -22,12 +22,12 @@ describe('table jsont', function () {
   });
 });
 
-describe('jsont', function () {
+describe('persist', function () {
   describe('.update(id, string)', function () {
     it('should succeed', function (done) {
-      jsont.update('s1', 'value1', function (err) {
+      persist.update('s1', 'value1', function (err) {
         assert.ifError(err);
-        jsont.find('s1', function (err, value) {
+        persist.find('s1', function (err, value) {
           assert.ifError(err);
           assert.strictEqual(value, 'value1');
           done();
@@ -35,9 +35,9 @@ describe('jsont', function () {
       });
     });
     it('should succeed on replace', function (done) {
-      jsont.update('s1', 'value2', function (err) {
+      persist.update('s1', 'value2', function (err) {
         assert.ifError(err);
-        jsont.find('s1', function (err, value) {
+        persist.find('s1', function (err, value) {
           assert.ifError(err);
           assert.strictEqual(value, 'value2');
           done();
@@ -47,9 +47,9 @@ describe('jsont', function () {
   });
   describe('.update(id, number)', function () {
     it('should succeed', function (done) {
-      jsont.update('n1', 123, function (err) {
+      persist.update('n1', 123, function (err) {
         assert.ifError(err);
-        jsont.find('n1', function (err, value) {
+        persist.find('n1', function (err, value) {
           assert.ifError(err);
           assert.strictEqual(value, 123);
           done();
@@ -59,9 +59,9 @@ describe('jsont', function () {
   });
   describe('.update(id, obj)', function () {
     it('should succeed', function (done) {
-      jsont.update('o1', { p1: 123, p2: 456 }, function (err) {
+      persist.update('o1', { p1: 123, p2: 456 }, function (err) {
         assert.ifError(err);
-        jsont.find('o1', function (err, value) {
+        persist.find('o1', function (err, value) {
           assert.ifError(err);
           assert.deepStrictEqual(value, { p1: 123, p2: 456 });
           done();
@@ -71,7 +71,7 @@ describe('jsont', function () {
   });
   describe('.find()', function () {
     it('should return null for undefined', function (done) {
-      jsont.find('noname', function (err, value) {
+      persist.find('noname', function (err, value) {
         assert.ifError(err);
         assert.strictEqual(value, null);
         done();
