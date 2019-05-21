@@ -11,7 +11,7 @@ init.add(
     my2.query(`
       create table if not exists persist(
         id varchar(128) not null,
-        v json not null,
+        v text(65535) not null,
         primary key (id)
       )
     `, done);
