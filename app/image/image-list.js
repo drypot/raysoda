@@ -27,17 +27,17 @@ expb.core.get('/api/images', function (req, res, done) {
 function list(req, res, api, done) {
   var p = Math.max(parseInt(req.query.p) || 1, 1);
   var ps = Math.min(Math.max(parseInt(req.query.ps) || 16, 1), 128);
-  my2.query('select * from image order by id desc limit ?, ?', [(p-1)*ps, ps], (err, r) => {
+  my2.query('select * from image order by id desc limit ?, ?', [(p-1)*ps, ps], (err, images) => {
     if (err) return done(err);
-    decoResult(r, (err) => {
+    imagel.decoImageList(images, (err) => {
       if (err) return done(err);
       if (api) {
         res.json({
-          images: r
+          images: images
         });
       } else {
         res.render('image/image-list', {
-          images: r,
+          images: images,
           prev: p > 1 ? new url2.UrlMaker('/images').add('p', p - 1, 1).add('ps', ps, 16).done() : undefined,
           next: new url2.UrlMaker('/images').add('p', p + 1).add('ps', ps, 16).done(),
           banners: bannerb.banners,
@@ -47,13 +47,14 @@ function list(req, res, api, done) {
   });
 }
 
-function decoResult(r, done) {
+imagel.decoImageList = function (images, done) {
   let i = 0;
   (function loop() {
-    if (i === r.length) {
+    if (i === images.length) {
       return done(null);
     }
-    let image = r[i++];
+    let image = images[i++];
+    imageb.unpackImage(image);
     userb.getCached(image.uid, function (err, user) {
       if (err) return done(err);
       image.user = {

@@ -30,45 +30,51 @@ expb.core.post('/api/images', expu.handler(function (req, res, done) {
     if (!form.files) {
       return done(error('IMAGE_NO_FILE'));
     }
-    var i = 0;
-    var ids = [];
-    (function create() {
-      if (i < form.files.length) {
-        var upload = form.files[i++];
-        getTicketCount(form.now, user, function (err, count, hours) {
-          if (err) return done(err);
-          if (!count) {
-            res.json({ ids: ids });
-            return done();
-          }
-          imageb.checkImageMeta(upload.path, function (err, meta) {
-            if (err) return done(err);
-            var id = imageb.getNewId();
-            imageb.saveImage(id, upload.path, meta, function (err, vers) {
-              if (err) return done(err);
-              var image = {
-                id: id,
-                uid: user.id,
-                cdate: form.now,
-                vers: vers,
-                comment: form.comment,
-              };
-              imageb.packImage(image);
-              my2.query('insert into image set ?', image, (err, r) => {
-                if (err) return done(err);
-                ids.push(id);
-                setImmediate(create);
-              });
-            });
-          });
-        });
-        return;
-      }
-      res.json({ ids: ids });
-      done();
-    })();
+    saveImages(user, form, (err, ids) => {
+      if (err) return done(err);
+      my2.query('update user set pdate = ? where id = ?', [form.now, user.id], (err) => {
+        if (err) return done(err);
+        res.json({ ids: ids });
+        done();
+      });
+    });
   });
 }));
+
+function saveImages(user, form, done) {
+  var i = 0;
+  var ids = [];
+  (function create() {
+    if (i === form.files.length) {
+      return done(null, ids);
+    }
+    var upload = form.files[i++];
+    getTicketCount(form.now, user, function (err, count, hours) {
+      if (err) return done(err);
+      if (!count) return done(null, ids);
+      imageb.checkImageMeta(upload.path, function (err, meta) {
+        if (err) return done(err);
+        var id = imageb.getNewId();
+        imageb.saveImage(id, upload.path, meta, function (err, vers) {
+          if (err) return done(err);
+          var image = {
+            id: id,
+            uid: user.id,
+            cdate: form.now,
+            vers: vers,
+            comment: form.comment,
+          };
+          imageb.packImage(image);
+          my2.query('insert into image set ?', image, (err, r) => {
+            if (err) return done(err);
+            ids.push(id);
+            setImmediate(create);
+          });
+        });
+      });
+    });
+  })();
+}
 
 var getForm = imagen.getForm = function (req) {
   var body = req.body;

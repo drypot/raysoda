@@ -7,12 +7,13 @@ const my2 = require('../mysql/my2');
 const expb = require('../express/express-base');
 const userb = require('../user/user-base');
 const imageb = require('../image/image-base');
+const imagel = require('../image/image-list');
 
 expb.core.get('/users/:id([0-9]+)', function (req, res, done) {
   var id = parseInt(req.params.id) || 0;
   userb.getCached(id, function (err, tuser) {
     if (err) return done(err);
-    profile(req, res, tuser);
+    list(req, res, tuser);
   });
 });
 
@@ -21,55 +22,26 @@ expb.core.get('/:name([^/]+)', function (req, res, done) {
   userb.getCachedByHome(homel, function (err, tuser) {
     if (err) return done(err);
     if (!tuser) return done();
-    profile(req, res, tuser);
+    list(req, res, tuser);
   });
 });
 
-function profile(req, res, tuser) {
+function list(req, res, tuser) {
   var user = res.locals.user;
-  var lt = parseInt(req.query.lt);
-  var gt = parseInt(req.query.gt);
-  var ps = parseInt(req.query.ps) || 16;
-  var query = { uid: tuser.id };
-  mongo2.findPage(imageb.images, { uid: tuser.id }, {}, gt, lt, ps, filter, function (err, images, gt, lt) {
+  var p = Math.max(parseInt(req.query.p) || 1, 1);
+  var ps = Math.min(Math.max(parseInt(req.query.ps) || 16, 1), 128);
+  my2.query('select * from image where uid = ? order by id desc limit ?, ?', [tuser.id, (p-1)*ps, ps], (err, images) => {
     if (err) return done(err);
-    async.wf(
-      (done) => {
-        if (images.length) {
-          let cdate = images[images.length - 1].cdate;
-          var now = new Date();
-          var ddate = new Date(cdate.getFullYear() - 1, now.getMonth(), now.getDate() + 1);
-          mongo2.findDeepDoc(imageb.images, { uid: tuser.id }, {}, ddate, done);
-        } else {
-          done(null, undefined, undefined);
-        }
-      },
-      (err, dyear, dlt) => {
-        res.render('userx/userx-view', {
-          tuser: tuser,
-          updatable: user && (user.id === tuser.id || user.admin),
-          images: images,
-          gt: gt ? new url2.UrlMaker(req.path).add('gt', gt).add('ps', ps, 16).done() : undefined,
-          lt: lt ? new url2.UrlMaker(req.path).add('lt', lt).add('ps', ps, 16).done() : undefined,
-          dyear: dyear,
-          dlt: dlt ? new url2.UrlMaker(req.path).add('lt', dlt).add('ps', ps, 16).done() : undefined,
-          path: req.path
-        });        
-      }
-    );
-  });
-}
-
-function filter(image, done) {
-  userb.getCached(image.uid, function (err, user) {
-    if (err) return done(err);
-    image.user = {
-      _id: user.id,
-      name: user.name,
-      home: user.home
-    };
-    image.thumb = imageb.getThumbUrl(image.id);
-    image.cdateStr = date2.dateTimeString(image.cdate);
-    done(null, image);
+    imagel.decoImageList(images, (err) => {
+      if (err) return done(err);
+      res.render('userx/userx-view', {
+        tuser: tuser,
+        updatable: user && (user.id === tuser.id || user.admin),
+        images: images,
+        prev: p > 1 ? new url2.UrlMaker(req.path).add('p', p - 1, 1).add('ps', ps, 16).done() : undefined,
+        next: new url2.UrlMaker(req.path).add('p', p + 1).add('ps', ps, 16).done(),
+        path: req.path,
+      });
+    });
   });
 }

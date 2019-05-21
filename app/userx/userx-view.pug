@@ -40,16 +40,9 @@ block content
           if image.comment
             .comment= image.comment
     .section
-      if lt
+      if next
         .mini-section
-          a(href=lt) Next
-      if gt
+          a(href=next) Next
+      if prev
         .mini-section
-          a(href=gt) Previous
-      if lt
-        .mini-section
-          if dlt
-            a(href=dlt) !{dyear}
-          else
-            a(href=path + '?gt=0') First
-
+          a(href=prev) Previous
