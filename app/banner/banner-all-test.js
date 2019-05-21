@@ -5,7 +5,7 @@ const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
 const my2 = require('../mysql/my2');
-const jsont = require('../mysql/jsont');
+const persist = require('../mysql/persist');
 const expb = require('../express/express-base');
 const expl = require('../express/express-local');
 const userf = require('../user/user-fixture');
@@ -39,7 +39,7 @@ describe('banners', function () {
     });
   });
   it('putting can be checked', function (done) {
-    jsont.find('banners', function (err, value) {
+    persist.find('banners', function (err, value) {
       assert.ifError(err);
       assert.deepStrictEqual(value, banners1);
       done();
