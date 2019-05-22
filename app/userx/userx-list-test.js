@@ -21,7 +21,7 @@ before((done) => {
   done();
 });
 
-describe('/api/users?q=', function () {
+describe('/api/users?q=user', function () {
   it('should succeed for user1', function (done) {
     expl.get('/api/users?q=user1', function (err, res) {
       assert.ifError(err);
@@ -69,6 +69,49 @@ describe('/api/users?q=', function () {
       assert.ifError(res.body.err);
       assert.strictEqual(res.body.users.length, 0);
       done();
+    });
+  });
+});
+
+describe('/api/users?q=email', () => {
+  describe('when not logged in', () => {
+    it('should fail', function (done) {
+      expl.get('/api/users?q=user1@mail.com', function (err, res) {
+        assert.ifError(err);
+        assert.ifError(res.body.err);
+        assert.strictEqual(res.body.users.length, 0);
+        done();
+      });
+    });
+  });
+  describe('when logged in as user1', () => {
+    before(function (done) {
+      userf.login('user1', done);
+    });
+    it('should fail', function (done) {
+      expl.get('/api/users?q=user1@mail.com', function (err, res) {
+        assert.ifError(err);
+        assert.ifError(res.body.err);
+        assert.strictEqual(res.body.users.length, 0);
+        done();
+      });
+    });
+  });
+  describe('when logged in as admin', () => {
+    before(function (done) {
+      userf.login('admin', done);
+    });
+    it('should succeed', function (done) {
+      expl.get('/api/users?q=user1@mail.com', function (err, res) {
+        assert.ifError(err);
+        assert.ifError(res.body.err);
+        assert.strictEqual(res.body.users.length, 1);
+        var u = res.body.users[0];
+        assert.strictEqual(u.id, 1);
+        assert.strictEqual(u.name, 'user1');
+        assert.strictEqual(u.home, 'user1');
+        done();
+      });
     });
   });
 });
