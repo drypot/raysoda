@@ -9,6 +9,12 @@ const userb = require('../user/user-base');
 init.add(
   (done) => {
     console.log('copy mongodb users to mysql user.');
+    done();
+  },
+  (done) => {
+    my2.query('start transaction', done);
+  },
+  (done) => {
     let c = 0;
     let cursor = mongo2.db.collection('users').find();
     let images = mongo2.db.collection('images');
@@ -46,6 +52,9 @@ init.add(
         });
       });
     })();
+  },
+  (done) => {
+    my2.query('commit', done);
   },
   (done) => {
     mongo2.close(done);
