@@ -24,15 +24,35 @@ init.add(
         if (c % 100 === 0) {
           process.stdout.write(c + ' ');
         }
-        r.id = r._id;
-        delete r._id;
-        delete r.namel;
-        delete r.homel;
-        r.admin = !!r.admin;
+        /*
+              id int not null,
+        name varchar(32) not null,
+        home varchar(32) not null,
+        email varchar(64) not null,
+        hash char(60) character set latin1 collate latin1_bin not null,
+        status char(1) not null,
+        admin bool not null,
+        cdate datetime(3) not null,
+        adate datetime(3) not null,
+        pdate datetime(3) not null,
+        profile text not null,
+        */
+        let user = {
+          id: r._id,
+          name: r.name,
+          home: r.home,
+          email: r.email,
+          hash: r.hash,
+          status: r.status,
+          admin: r.admin,
+          cdate: r.cdate,
+          adate: r.adate,
+          profile: r.profile,
+        }
         images.findOne({ uid: r.id }, imageOpt, (err, image) => {
           if (err) return done(err);
-          r.pdate = image ? image.cdate : r.cdate;
-          my2.query('replace into user set ?', r, (err) => {
+          user.pdate = image ? image.cdate : r.cdate;
+          my2.query('replace into user set ?', user, (err) => {
             if (err) return done(err);
             setImmediate(read);
           });
