@@ -271,3 +271,14 @@ pre.sample {
 #profile-text {
   white-space: pre-line;
 }
+
+// user list
+
+.user-list {
+  span {
+    display: inline-block;
+    width: 200px;
+    padding-right: 1em;
+    padding-left: 1em;
+  }
+}

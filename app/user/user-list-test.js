@@ -8,7 +8,7 @@ const expb = require('../express/express-base');
 const expl = require('../express/express-local');
 const userb = require('../user/user-base');
 const userf = require('../user/user-fixture');
-const userxl = require('../userx/userx-list');
+const userl = require('../user/user-list');
 
 before(function (done) {
   config.path = 'config/raysoda-test.json';
@@ -21,13 +21,42 @@ before((done) => {
   done();
 });
 
+describe('/api/users', () => {
+  it('should succeed for page 1', function (done) {
+    expl.get('/api/users?p=1&ps=3', function (err, res) {
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert.strictEqual(res.body.users.length, 3);
+      let u;
+      u = res.body.users[0];
+      assert.strictEqual(u.name, 'user2');
+      u = res.body.users[1];
+      assert.strictEqual(u.name, 'user3');
+      u = res.body.users[2];
+      assert.strictEqual(u.name, 'user1');
+      done();
+    });
+  });
+  it('should succeed for page 2', function (done) {
+    expl.get('/api/users?p=2&ps=3', function (err, res) {
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert.strictEqual(res.body.users.length, 1);
+      let u;
+      u = res.body.users[0];
+      assert.strictEqual(u.name, 'admin');
+      done();
+    });
+  });
+});
+
 describe('/api/users?q=user', function () {
   it('should succeed for user1', function (done) {
     expl.get('/api/users?q=user1', function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
       assert.strictEqual(res.body.users.length, 1);
-      var u = res.body.users[0];
+      let u = res.body.users[0];
       assert.strictEqual(u.id, 1);
       assert.strictEqual(u.name, 'user1');
       assert.strictEqual(u.home, 'user1');
@@ -39,7 +68,7 @@ describe('/api/users?q=user', function () {
       assert.ifError(err);
       assert.ifError(res.body.err);
       assert.strictEqual(res.body.users.length, 1);
-      var u = res.body.users[0];
+      let u = res.body.users[0];
       assert.strictEqual(u.id, 1);
       assert.strictEqual(u.name, 'user1');
       assert.strictEqual(u.home, 'user1');
@@ -51,7 +80,7 @@ describe('/api/users?q=user', function () {
       assert.ifError(err);
       assert.ifError(res.body.err);
       assert.strictEqual(res.body.users.length, 3);
-      var u;
+      let u;
       u = res.body.users[0];
       assert.strictEqual(u.id, 1);
       assert.strictEqual(u.name, 'user1');
@@ -106,7 +135,7 @@ describe('/api/users?q=email', () => {
         assert.ifError(err);
         assert.ifError(res.body.err);
         assert.strictEqual(res.body.users.length, 1);
-        var u = res.body.users[0];
+        let u = res.body.users[0];
         assert.strictEqual(u.id, 1);
         assert.strictEqual(u.name, 'user1');
         assert.strictEqual(u.home, 'user1');

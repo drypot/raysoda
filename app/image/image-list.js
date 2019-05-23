@@ -25,8 +25,8 @@ expb.core.get('/api/images', function (req, res, done) {
 });
 
 function list(req, res, api, done) {
-  var p = Math.max(parseInt(req.query.p) || 1, 1);
-  var ps = Math.min(Math.max(parseInt(req.query.ps) || 16, 1), 128);
+  let p = Math.max(parseInt(req.query.p) || 1, 1);
+  let ps = Math.min(Math.max(parseInt(req.query.ps) || 16, 1), 128);
   my2.query('select * from image order by id desc limit ?, ?', [(p-1)*ps, ps], (err, images) => {
     if (err) return done(err);
     imagel.decoImageList(images, (err) => {

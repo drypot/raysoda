@@ -13,10 +13,10 @@ init.add(exports.recreate = function (done) {
   my2.query('truncate table user', (err) => {
     if (err) return done(err);
     var forms = [
-      { name: 'user1', email: 'user1@mail.com', password: '1234' },
-      { name: 'user2', email: 'user2@mail.com', password: '1234' },
-      { name: 'user3', email: 'user3@mail.com', password: '1234' },
-      { name: 'admin', email: 'admin@mail.com', password: '1234', admin: true }
+      { name: 'user1', email: 'user1@mail.com', password: '1234', pdate: new Date(2019, 0, 10) },
+      { name: 'user2', email: 'user2@mail.com', password: '1234', pdate: new Date(2019, 0, 20) },
+      { name: 'user3', email: 'user3@mail.com', password: '1234', pdate: new Date(2019, 0, 15) },
+      { name: 'admin', email: 'admin@mail.com', password: '1234', pdate: new Date(2019, 0, 5), admin: true }
     ];
     var i = 0;
     (function create() {
@@ -32,6 +32,7 @@ init.add(exports.recreate = function (done) {
         user.home = form.name;
         user.email = form.email;
         user.hash = hash;
+        user.pdate = form.pdate;
         user.admin = !!form.admin;
         my2.query('insert into user set ?', user, (err) => {
           assert.ifError(err);

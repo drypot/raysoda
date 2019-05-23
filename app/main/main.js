@@ -15,13 +15,13 @@ require('../user/user-view');
 require('../user/user-update');
 require('../user/user-deactivate');
 require('../user/user-reset-pass');
+require('../user/user-list');
 
 require('../about/about-all');
 require('../counter/counter-all');
 require('../banner/banner-all');
 require('../redirect/redirect-all');
 
-require('../userx/userx-list');
 require('../userx/userx-view'); // url 유저명 대조는 맨 마지막에
 
 init.add((done) => {
