@@ -10,7 +10,7 @@ init.add(
   (done) => {
     console.log('copy mongodb users to mysql user.');
     let c = 0;
-    let cursor = mongo2.db.collection('users').find().sort({ id: 1 });
+    let cursor = mongo2.db.collection('users').find();
     let images = mongo2.db.collection('images');
     let imageOpt = {
       sort: { _id: -1 },

@@ -11,7 +11,7 @@ init.add(
   (done) => {
     console.log('copy mongodb images to mysql image.');
     let c = 0;
-    let cursor = mongo2.db.collection('images').find().sort({ id: 1 });
+    let cursor = mongo2.db.collection('images').find();
     (function read() {
       cursor.next(function (err, r) {
         if (err) return done(err);
