@@ -252,9 +252,10 @@ pre.sample {
 
 .user-list span {
   display: inline-block;
-  width: 200px;
-  padding-right: 1em;
+  min-width: 200px;
   padding-left: 1em;
+  padding-right: 1em;
+  word-break: keep-all;
 }
 
 /*# sourceMappingURL=base.css.map */
