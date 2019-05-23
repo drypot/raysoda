@@ -3,7 +3,7 @@
 // basic layout
 
 html {
-  font-size: 14px;
+  font-size: 16px;
   @include narrow {
     font-size: 16px;
   }
@@ -276,7 +276,7 @@ pre.sample {
 
 .user-list {
   span {
-    display: inline-block;
+    display: block;
     min-width: 200px;
     padding-left: 1em;
     padding-right: 1em;
