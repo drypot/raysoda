@@ -39,7 +39,7 @@ function list(req, res, tuser) {
         updatable: user && (user.id === tuser.id || user.admin),
         images: images,
         prev: p > 1 ? new url2.UrlMaker(req.path).add('p', p - 1, 1).add('ps', ps, 16).done() : undefined,
-        next: new url2.UrlMaker(req.path).add('p', p + 1).add('ps', ps, 16).done(),
+        next: images.length === ps ? new url2.UrlMaker(req.path).add('p', p + 1).add('ps', ps, 16).done() : undefined,
         path: req.path,
       });
     });

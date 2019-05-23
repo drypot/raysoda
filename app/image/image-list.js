@@ -39,7 +39,7 @@ function list(req, res, api, done) {
         res.render('image/image-list', {
           images: images,
           prev: p > 1 ? new url2.UrlMaker('/images').add('p', p - 1, 1).add('ps', ps, 16).done() : undefined,
-          next: new url2.UrlMaker('/images').add('p', p + 1).add('ps', ps, 16).done(),
+          next: images.length === ps ? new url2.UrlMaker('/images').add('p', p + 1).add('ps', ps, 16).done(): undefined,
           banners: bannerb.banners,
         });
       }

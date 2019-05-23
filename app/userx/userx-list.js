@@ -5,9 +5,9 @@ const expb = require('../express/express-base');
 const usera = require('../user/user-auth');
 
 expb.core.get('/users', function (req, res, done) {
-  my2.queryOne('select count(*) as c from user', (err, c) => {
+  my2.queryOne('select count(*) as c from user', (err, r) => {
     if (err) return done(err);
-    res.render('userx/userx-list', { count: c });
+    res.render('userx/userx-list', { count: r.c });
   });
 });
 
