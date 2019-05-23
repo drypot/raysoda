@@ -51,12 +51,12 @@ block content
           a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
 
   .section
-    if next
-      .mini-section
-        a(href=next) Next
     if prev
       .mini-section
         a(href=prev) Previous
+    if next
+      .mini-section
+        a(href=next) Next
 
   .section.top-links
     //-if appNamel != 'raysoda'
