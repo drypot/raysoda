@@ -44,7 +44,7 @@ init.add(
           email: r.email,
           hash: r.hash,
           status: r.status,
-          admin: r.admin,
+          admin: !!r.admin,
           cdate: r.cdate,
           adate: r.adate,
           profile: r.profile,
