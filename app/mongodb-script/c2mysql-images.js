@@ -20,10 +20,14 @@ init.add(
         if (c % 100 === 0) {
           process.stdout.write(c + ' ');
         }
-        r.id = r._id;
-        delete r._id;
-        r.vers = JSON.stringify(r.vers || null);
-        my2.query('replace into image set ?', r, (err) => {
+        let img = {
+          id: r._id,
+          uid: r.uid,
+          cdate: r.cdate,
+          vers: JSON.stringify(r.vers || null),
+          comment: r.comment,
+        }
+        my2.query('replace into image set ?', img, (err) => {
           if (err) return done(err);
           setImmediate(read);
         });
