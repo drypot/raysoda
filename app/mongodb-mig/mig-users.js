@@ -26,6 +26,8 @@ init.add(
         }
         r.id = r._id;
         delete r._id;
+        delete r.namel;
+        delete r.homel;
         r.admin = !!r.admin;
         images.findOne({ uid: r.id }, imageOpt, (err, image) => {
           if (err) return done(err);

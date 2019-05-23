@@ -42,9 +42,7 @@ init.add(
       create table if not exists user(
         id int not null,
         name varchar(32) not null,
-        namel varchar(32) not null,
         home varchar(32) not null,
-        homel varchar(32) not null,
         email varchar(64) not null,
         hash char(60) character set latin1 collate latin1_bin not null,
         status char(1) not null,
@@ -64,12 +62,12 @@ init.add(
   },
   (done) => {
     my2.query(`
-    create index user_namel on user(namel);
+    create index user_name on user(name);
     `, () => { done(); });
   },
   (done) => {
     my2.query(`
-    create index user_homel on user(homel);
+    create index user_home on user(home);
     `, () => { done(); });
   },
   (done) => {
@@ -92,12 +90,10 @@ userb.getNewId = function () {
 
 userb.getNewUser = function () {
   var now = new Date();
-  return { 
-    id: 0, 
-    name: '', 
-    namel: '', 
-    home: '', 
-    homel: '', 
+  return {
+    id: 0,
+    name: '',
+    home: '',
     email: '',
     hash: '',
     status: 'v',
@@ -130,7 +126,7 @@ userb.unpackUser= function (user) {
 
 userb.cache = function (user) {
   usersById.set(user.id, user);
-  usersByHome.set(user.homel, user);
+  usersByHome.set(user.home.toLowerCase(), user);
 }
 
 userb.getCached = function (id, done) {
@@ -147,12 +143,12 @@ userb.getCached = function (id, done) {
   });
 };
 
-userb.getCachedByHome = function (homel, done) {
-  var user = usersByHome.get(homel);
+userb.getCachedByHome = function (home, done) {
+  var user = usersByHome.get(home.toLowerCase());
   if (user) {
     return done(null, user);
   }
-  my2.queryOne('select * from user where homel = ?', homel, (err, user) => {
+  my2.queryOne('select * from user where home = ?', home, (err, user) => {
     if (err) return done(err);
     if (!user) {
       // 사용자 프로필 URL 검색에 주로 사용되므로 error 생성은 패스한다.
@@ -168,7 +164,7 @@ userb.deleteCache = function (id) {
   var user = usersById.get(id);
   if (user) {
     usersById.delete(id);
-    usersByHome.delete(user.homel);
+    usersByHome.delete(user.home.toLowerCase());
   }
 }
 

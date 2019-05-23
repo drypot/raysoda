@@ -50,9 +50,7 @@ describe('post /api/users', function () {
         my2.queryOne('select * from user where id = ?', id, (err, user) => {
           assert.ifError(err);
           assert.strictEqual(user.name, 'Name');
-          assert.strictEqual(user.namel, 'name');
           assert.strictEqual(user.home, 'Name');
-          assert.strictEqual(user.homel, 'name');
           assert.strictEqual(user.email, 'name@mail.com');
           userb.checkPassword('1234', user.hash, function (err, matched) {
             assert.strictEqual(matched, true);
@@ -74,9 +72,7 @@ describe('post /api/users', function () {
       let user = userb.getNewUser();
       user.id = userb.getNewId();
       user.name = 'Name1';
-      user.namel = 'name1';
       user.home = 'Home1';
-      user.homel = 'home1';
       user.email = 'name1@mail.com';
       my2.query('insert into user set ?', user, done);
     });

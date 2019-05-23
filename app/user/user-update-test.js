@@ -54,9 +54,7 @@ describe('updating user', function () {
     my2.queryOne('select * from user where id = ?', _id, (err, user) => {
       assert.ifError(err);
       assert.strictEqual(user.name, 'NewName');
-      assert.strictEqual(user.namel, 'newname');
       assert.strictEqual(user.home, 'NewHome');
-      assert.strictEqual(user.homel, 'newhome');
       assert.strictEqual(user.email, 'new.name@mail.com');
       userb.checkPassword('1234', user.hash, function (err, matched) {
         assert.ifError(err);
@@ -67,7 +65,7 @@ describe('updating user', function () {
           assert.strictEqual(user.profile, 'new profile');
           done();
         });
-      });      
+      });
     });
   });
 });
@@ -113,9 +111,7 @@ describe('updating name', function () {
     let user = userb.getNewUser();
     user.id = userb.getNewId();
     user.name = 'Name';
-    user.namel = 'name';
     user.home = 'Home';
-    user.homel = 'home';
     user.email = 'name@mail.com';
     my2.query('insert into user set ?', user, done);
   });
@@ -180,9 +176,7 @@ describe('updating home', function () {
     let user = userb.getNewUser();
     user.id = userb.getNewId();
     user.name = 'Name';
-    user.namel = 'name';
     user.home = 'Home';
-    user.homel = 'home';
     user.email = 'name@mail.com';
     my2.query('insert into user set ?', user, done);
   });
@@ -247,9 +241,7 @@ describe('updating email', function () {
     let user = userb.getNewUser();
     user.id = userb.getNewId();
     user.name = 'Name';
-    user.namel = 'name';
     user.home = 'Home';
-    user.homel = 'home';
     user.email = 'name@mail.com';
     my2.query('insert into user set ?', user, done);
   });
@@ -280,9 +272,7 @@ describe('updating password', function () {
     let user = userb.getNewUser();
     user.id = userb.getNewId();
     user.name = 'Name';
-    user.namel = 'name';
     user.home = 'Home';
-    user.homel = 'home';
     user.email = 'name@mail.com';
     my2.query('insert into user set ?', user, done);
   });
@@ -302,7 +292,7 @@ describe('updating password', function () {
       assert.ifError(err);
       assert(user);
       assert.strictEqual(bcrypt.compareSync(userf.user1.password, user.hash), true);
-      done();      
+      done();
     });
   });
   it('short password should fail', function (done) {

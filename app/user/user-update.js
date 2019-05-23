@@ -31,15 +31,11 @@ expb.core.put('/api/users/:id([0-9]+)', function (req, res, done) {
     var form = usern.getForm(req);
     usera.checkUpdatable(user, id, function (err) {
       if (err) return done(err);
-      form.namel = form.name.toLowerCase();
-      form.homel = form.home.toLowerCase();
       usern.checkForm(form, id, function (err) {
         if (err) return done(err);
         let fields = {
           name: form.name,
-          namel: form.namel,
           home: form.home,
-          homel: form.homel,
           email: form.email,
           profile: form.profile
         };

@@ -18,8 +18,8 @@ expb.core.get('/users/:id([0-9]+)', function (req, res, done) {
 });
 
 expb.core.get('/:name([^/]+)', function (req, res, done) {
-  var homel = decodeURIComponent(req.params.name).toLowerCase();
-  userb.getCachedByHome(homel, function (err, tuser) {
+  var home = decodeURIComponent(req.params.name);
+  userb.getCachedByHome(home, function (err, tuser) {
     if (err) return done(err);
     if (!tuser) return done();
     list(req, res, tuser);

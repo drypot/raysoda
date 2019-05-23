@@ -13,7 +13,6 @@ expb.core.get('/users/register', function (req, res, done) {
 expb.core.post('/api/users', function (req, res, done) {
   var form = getForm(req);
   form.home = form.name;
-  form.homel = form.namel = form.name.toLowerCase();
   checkForm(form, 0, function (err) {
     if (err) return done(err);
     userb.makeHash(form.password, function (err, hash) {
@@ -21,9 +20,7 @@ expb.core.post('/api/users', function (req, res, done) {
       var user = userb.getNewUser();
       user.id = userb.getNewId();
       user.name = form.name;
-      user.namel = form.namel;
       user.home = form.home;
-      user.homel = form.homel;
       user.email = form.email;
       user.hash = hash;
       user.profile = form.profile;
@@ -72,12 +69,12 @@ var checkForm = usern.checkForm = function (form, id, done) {
     checkFormPassword(form, errors);
   }
 
-  userExistsWithSameName(form.namel, id, function (err, exist) {
+  userExistsWithSameName(form.name, id, function (err, exist) {
     if (err) return done(err);
     if (exist) {
       errors.push(error.NAME_DUPE);
     }
-    userExistsWithSameName(form.homel, id, function (err, exist) {
+    userExistsWithSameName(form.home, id, function (err, exist) {
       if (err) return done(err);
       if (exist) {
         errors.push(error.HOME_DUPE);
@@ -115,10 +112,10 @@ var checkFormPassword = usern.checkFormPassword = function (form, errors) {
   }
 }
 
-function userExistsWithSameName(namel, id, done) {
+function userExistsWithSameName(name, id, done) {
   my2.queryOne(
-    'select exists(select * from user where (namel = ? or homel = ?) and id != ?) as exist',
-    [namel, namel, id],
+    'select exists(select * from user where (name = ? or home = ?) and id != ?) as exist',
+    [name, name, id],
     (err, r) => {
       done(err, r.exist === 1)
     }
