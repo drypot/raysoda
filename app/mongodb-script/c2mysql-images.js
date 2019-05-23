@@ -10,6 +10,12 @@ const imageb = require('../image/image-base');
 init.add(
   (done) => {
     console.log('copy mongodb images to mysql image.');
+    done();
+  },
+  (done) => {
+    my2.query('start transaction', done);
+  },
+  (done) => {
     let c = 0;
     let cursor = mongo2.db.collection('images').find();
     (function read() {
@@ -33,6 +39,9 @@ init.add(
         });
       });
     })();
+  },
+  (done) => {
+    my2.query('commit', done);
   },
   (done) => {
     mongo2.close(done);
