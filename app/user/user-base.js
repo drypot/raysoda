@@ -100,7 +100,7 @@ userb.getNewUser = function () {
     admin : false,
     cdate: now,
     adate: now,
-    pdate: now,
+    pdate: new Date(2000, 0, 1),
     profile: ''
   };
 };

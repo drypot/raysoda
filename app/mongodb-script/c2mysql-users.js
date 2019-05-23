@@ -24,19 +24,6 @@ init.add(
         if (c % 100 === 0) {
           process.stdout.write(c + ' ');
         }
-        /*
-              id int not null,
-        name varchar(32) not null,
-        home varchar(32) not null,
-        email varchar(64) not null,
-        hash char(60) character set latin1 collate latin1_bin not null,
-        status char(1) not null,
-        admin bool not null,
-        cdate datetime(3) not null,
-        adate datetime(3) not null,
-        pdate datetime(3) not null,
-        profile text not null,
-        */
         let user = {
           id: r._id,
           name: r.name,
@@ -49,9 +36,9 @@ init.add(
           adate: r.adate,
           profile: r.profile,
         }
-        images.findOne({ uid: r.id }, imageOpt, (err, image) => {
+        images.findOne({ uid: r._id }, imageOpt, (err, image) => {
           if (err) return done(err);
-          user.pdate = image ? image.cdate : r.cdate;
+          user.pdate = image ? image.cdate : new Date(2000, 0, 1);
           my2.query('replace into user set ?', user, (err) => {
             if (err) return done(err);
             setImmediate(read);
