@@ -25,9 +25,9 @@ block content
         .user-list
           if users.length
             for user in users
-              span: a(href='/' + encodeURIComponent(user.home)) #{user.name}
+              div: a(href='/' + encodeURIComponent(user.home)) #{user.name}
           else
-            span No more users.
+            div No more users.
 
       .sub-section
         if prev

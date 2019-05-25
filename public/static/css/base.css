@@ -250,11 +250,8 @@ pre.sample {
   white-space: pre-line;
 }
 
-.user-list span {
-  display: block;
-  min-width: 200px;
-  padding-left: 1em;
-  padding-right: 1em;
+.user-list div {
+  margin-bottom: 0.3em;
   word-break: keep-all;
 }
 

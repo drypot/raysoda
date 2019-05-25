@@ -275,11 +275,8 @@ pre.sample {
 // user list
 
 .user-list {
-  span {
-    display: block;
-    min-width: 200px;
-    padding-left: 1em;
-    padding-right: 1em;
+  div {
+    margin-bottom: 0.3em;
     word-break: keep-all;
   }
 }
