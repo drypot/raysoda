@@ -7,16 +7,16 @@ html
     meta(property='og:site_name', content=appName)
     block head-opt
 
-    link(rel='icon', type='image/png', href='/static/favicon/' + appNamel + '.png')
+    link(rel='icon', type='image/png', href='/static/favicon/' + appNamel + '.png?v=1.0.1')
 
     link(rel='stylesheet', href='/static/bower/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/static/bower/fontawesome/css/font-awesome.min.css')
-    link(rel='stylesheet', href='/static/css/base.css')
-    link(rel='stylesheet', href='/static/css/' + appNamel + '.css')
+    link(rel='stylesheet', href='/static/css/base.css?v=1.0.1')
+    link(rel='stylesheet', href='/static/css/' + appNamel + '.css?v=1.0.1')
 
     script(src='/static/bower/jquery/dist/jquery.min.js')
     script(src='/static/bower/bootstrap/dist/js/bootstrap.min.js')
-    
+
     script.
       window.appNamel = '!{appNamel}';
       window.user = !{locals.user ? JSON.stringify({ id: user.id, name: user.name }) : 'undefined'};
@@ -32,7 +32,7 @@ html
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-      var ga_tid = 
+      var ga_tid =
         appNamel == 'raysoda' ? 'UA-86165221-2' :
         appNamel == 'rapixel' ? 'UA-86165221-3' :
         appNamel == 'osoky' ? 'UA-86165221-4' :
@@ -45,7 +45,7 @@ html
       }
 
   body
-    
+
     block header
       .section.page-header
         .site-name
@@ -76,5 +76,5 @@ html
           .modal-body
           .modal-footer
             button.btn.btn-default(data-dismiss='modal') Close
-    
+
     #fullscreen
