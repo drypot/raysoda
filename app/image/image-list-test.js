@@ -29,18 +29,17 @@ before(function (done) {
 
 describe('get /api/images', function (done) {
   before(function (done) {
-    var now = new Date();
     var values = [
-      [ 1,  userf.user1.id, now, '1' ],
-      [ 2,  userf.user1.id, now, '2' ],
-      [ 3,  userf.user1.id, now, '3' ],
-      [ 4,  userf.user1.id, now, '4' ],
-      [ 5,  userf.user1.id, now, '5' ],
-      [ 6,  userf.user1.id, now, '6' ],
-      [ 7,  userf.user1.id, now, '7' ],
-      [ 8,  userf.user1.id, now, '8' ],
-      [ 9,  userf.user1.id, now, '9' ],
-      [ 10, userf.user1.id, now, '10' ],
+      [ 1,  userf.user1.id, new Date(2003, 0, 1), '1' ],
+      [ 2,  userf.user1.id, new Date(2003, 1, 2), '2' ],
+      [ 3,  userf.user1.id, new Date(2003, 2, 3), '3' ],
+      [ 4,  userf.user1.id, new Date(2003, 3, 4), '4' ],
+      [ 5,  userf.user1.id, new Date(2003, 4, 5), '5' ],
+      [ 6,  userf.user1.id, new Date(2003, 5, 6), '6' ],
+      [ 7,  userf.user1.id, new Date(2003, 6, 7), '7' ],
+      [ 8,  userf.user1.id, new Date(2003, 7, 8), '8' ],
+      [ 9,  userf.user1.id, new Date(2003, 8, 9), '9' ],
+      [ 10, userf.user1.id, new Date(2003, 9, 10), '10' ],
     ];
     my2.query('insert into image(id, uid, cdate, comment) values ?', [values], done);
   });
@@ -60,10 +59,7 @@ describe('get /api/images', function (done) {
     });
   });
   it('should succeed for page 1', function (done) {
-    var query = {
-      ps: 4
-    };
-    expl.get('/api/images').query(query).end(function (err, res) {
+    expl.get('/api/images?ps=4').end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
       assert.strictEqual(res.body.images.length, 4);
@@ -73,10 +69,7 @@ describe('get /api/images', function (done) {
     });
   });
   it('should succeed for page 2', function (done) {
-    var query = {
-      p:2, ps: 4
-    }
-    expl.get('/api/images').query(query).end(function (err, res) {
+    expl.get('/api/images?p=2&ps=4').end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
       assert.strictEqual(res.body.images.length, 4);
@@ -86,15 +79,22 @@ describe('get /api/images', function (done) {
     });
   });
   it('should succeed for last page', function (done) {
-    var query = {
-      p: 3, ps: 4
-    }
-    expl.get('/api/images').query(query).end(function (err, res) {
+    expl.get('/api/images?p=3&ps=4').end(function (err, res) {
       assert.ifError(err);
       assert.ifError(res.body.err);
       assert.strictEqual(res.body.images.length, 2);
       assert.strictEqual(res.body.images[0].id, 2);
       assert.strictEqual(res.body.images[1].id, 1);
+      done();
+    });
+  });
+  it('should succeed for 2003-08', function (done) {
+    expl.get('/api/images?d=200308&ps=4').end(function (err, res) {
+      assert.ifError(err);
+      assert.ifError(res.body.err);
+      assert.strictEqual(res.body.images.length, 4);
+      assert.strictEqual(res.body.images[0].id, 8);
+      assert.strictEqual(res.body.images[3].id, 5);
       done();
     });
   });

@@ -93,7 +93,7 @@ var getTicketCount = imagen.getTicketCount = function(now, user, done) {
     sort: { uid: 1, _id: -1 },
     limit: config.ticketMax
   }
-  my2.query('select cdate from image where uid = ? order by id desc limit ?', [user.id, config.ticketMax], (err, images) => {
+  my2.query('select cdate from image where uid = ? order by cdate desc limit ?', [user.id, config.ticketMax], (err, images) => {
     if (err) return done(err);
     for (var i = 0; i < images.length; i++) {
       hours = config.ticketGenInterval - Math.floor((now.getTime() - images[i].cdate.getTime()) / (60 * 60 * 1000));

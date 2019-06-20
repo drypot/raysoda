@@ -27,24 +27,38 @@ expb.core.get('/api/images', function (req, res, done) {
 function list(req, res, api, done) {
   let p = Math.max(parseInt(req.query.p) || 1, 1);
   let ps = Math.min(Math.max(parseInt(req.query.ps) || 16, 1), 128);
-  my2.query('select * from image order by id desc limit ?, ?', [(p-1)*ps, ps], (err, images) => {
-    if (err) return done(err);
-    imagel.decoImageList(images, (err) => {
-      if (err) return done(err);
-      if (api) {
-        res.json({
-          images: images
-        });
+  let dstr = req.query.d;
+  let d = null;
+  if (dstr) {
+    d = new Date(dstr.slice(0, 4), dstr.slice(4,6));
+  }
+  async.wf(
+    (done) => {
+      if (d) {
+        my2.query('select * from image where cdate < ? order by cdate desc limit ?, ?', [d, (p-1)*ps, ps], done);
       } else {
-        res.render('image/image-list', {
-          images: images,
-          prev: p > 1 ? new url2.UrlMaker('/images').add('p', p - 1, 1).add('ps', ps, 16).done() : undefined,
-          next: images.length === ps ? new url2.UrlMaker('/images').add('p', p + 1).add('ps', ps, 16).done(): undefined,
-          banners: bannerb.banners,
-        });
+        my2.query('select * from image order by cdate desc limit ?, ?', [(p-1)*ps, ps], done);
       }
-    });
-  });
+    },
+    (err, images) => {
+      if (err) return done(err);
+      imagel.decoImageList(images, (err) => {
+        if (err) return done(err);
+        if (api) {
+          res.json({
+            images: images
+          });
+        } else {
+          res.render('image/image-list', {
+            images: images,
+            prev: p > 1 ? new url2.UrlMaker('/images').add('d', dstr).add('p', p - 1, 1).add('ps', ps, 16).done() : undefined,
+            next: images.length === ps ? new url2.UrlMaker('/images').add('d', dstr).add('p', p + 1).add('ps', ps, 16).done(): undefined,
+            banners: bannerb.banners,
+          });
+        }
+      });
+    }
+  );
 }
 
 imagel.decoImageList = function (images, done) {

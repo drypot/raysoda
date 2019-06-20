@@ -30,7 +30,7 @@ function list(req, res, tuser) {
   var user = res.locals.user;
   var p = Math.max(parseInt(req.query.p) || 1, 1);
   var ps = Math.min(Math.max(parseInt(req.query.ps) || 16, 1), 128);
-  my2.query('select * from image where uid = ? order by id desc limit ?, ?', [tuser.id, (p-1)*ps, ps], (err, images) => {
+  my2.query('select * from image where uid = ? order by cdate desc limit ?, ?', [tuser.id, (p-1)*ps, ps], (err, images) => {
     if (err) return done(err);
     imagel.decoImageList(images, (err) => {
       if (err) return done(err);

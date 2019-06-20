@@ -32,7 +32,12 @@ init.add(
   },
   (done) => {
     my2.query(`
-      create index image_uid_id on image(uid, id desc);
+      create index image_cdate on image(cdate desc);
+    `, () => { done(); });
+  },
+  (done) => {
+    my2.query(`
+      create index image_uid_cdate on image(uid, cdate desc);
     `, () => { done(); });
   },
   (done) => {

@@ -27,6 +27,9 @@ url2.UrlMaker.prototype.add = function (name, value, def) {
   if (def !== undefined && def === value) {
     return this;
   }
+  if (value === undefined || value === null) {
+    return this;
+  }
   if (!this.qm) {
     this.url += '?';
     this.qm = true;
