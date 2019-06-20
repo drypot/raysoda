@@ -17,11 +17,11 @@ block content
       .sub-section
         h2!= iy
         ul.pagination
-          - let sm = iy == ey ? first.getMonth() : 0;
-          - let em = iy == sy ? today.getMonth() : 11;
+          - let sm = iy == sy ? today.getMonth() : 11;
+          - let em = iy == ey ? first.getMonth() : 0;
           - let im = sm;
-          while im <= em
+          while im >= em
             li.page-item
               a.page-link(href='/images?d=' + iy + (im < 9 ? '0' : '') + (im + 1))!= (im + 1)
-            - im++;
+            - im--;
       - iy--;
