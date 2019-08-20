@@ -88,11 +88,6 @@ var getForm = imagen.getForm = function (req) {
 var getTicketCount = imagen.getTicketCount = function(now, user, done) {
   var count = config.ticketMax;
   var hours;
-  var opt = {
-    projection: { cdate: 1 },
-    sort: { uid: 1, _id: -1 },
-    limit: config.ticketMax
-  }
   my2.query('select cdate from image where uid = ? order by cdate desc limit ?', [user.id, config.ticketMax], (err, images) => {
     if (err) return done(err);
     for (var i = 0; i < images.length; i++) {
