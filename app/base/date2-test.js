@@ -52,14 +52,14 @@ describe('makeDateTimeString', function () {
   });
 });
 
-describe('makeDateTimeMillPacked', function () {
+describe('makeDateTimeMilliPacked', function () {
   it('should succeed', function () {
     let d = new Date(1974, 4, 16, 12, 13, 14, 115);
-    assert.strictEqual(date2.makeDateTimeMillPacked(d), '19740516121314115');
+    assert.strictEqual(date2.makeDateTimeMilliPacked(d), '19740516121314115');
     let d2 = new Date(1974, 4, 16, 12, 3, 4, 15);
-    assert.strictEqual(date2.makeDateTimeMillPacked(d2), '19740516120304015');
+    assert.strictEqual(date2.makeDateTimeMilliPacked(d2), '19740516120304015');
     let d3 = new Date(1974, 4, 16, 12, 3, 4, 5);
-    assert.strictEqual(date2.makeDateTimeMillPacked(d3), '19740516120304005');
+    assert.strictEqual(date2.makeDateTimeMilliPacked(d3), '19740516120304005');
   });
 });
 

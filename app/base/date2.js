@@ -48,7 +48,7 @@ date2.makeDateTimeString = function (d) {
 };
 
 
-date2.makeDateTimeMillPacked = function (d) {
+date2.makeDateTimeMilliPacked = function (d) {
   return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) +
     pad(d.getHours()) + pad(d.getMinutes()) + pad(d.getSeconds()) + pad3(d.getMilliseconds());
 };
