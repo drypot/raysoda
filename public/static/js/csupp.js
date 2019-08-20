@@ -37,7 +37,7 @@ $(function () {
         var sum = 0;
         var html = '<pre class="clean">';
         for (var i = 0; i < c.length; i++) {
-          html += '' + date2.dateString(new Date(c[i].d)) + '\t' + c[i].c + '<br>'; 
+          html += '' + date2.makeDateString(new Date(c[i].d)) + '\t' + c[i].c + '<br>'; 
           sum += c[i].c;
         }
         html += '<br>' + sum + '<br>';

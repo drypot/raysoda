@@ -20,7 +20,7 @@ init.add(
 );
 
 counterb.update = function (id, date, done) {
-  let dateStr = date2.dateString(date);
+  let dateStr = date2.makeDateString(date);
   my2.query(
     'insert into counter values(?, ?, 1) on duplicate key update c = c + 1',
     [id, dateStr],

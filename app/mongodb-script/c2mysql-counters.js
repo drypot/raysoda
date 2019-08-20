@@ -21,7 +21,7 @@ init.add(
           process.stdout.write(c + ' ');
         }
         delete r._id;
-        r.d = date2.dateString(r.d);
+        r.d = date2.makeDateString(r.d);
         my2.query('replace into counter set ?', r, (err) => {
           if (err) return done(err);
           setImmediate(read);

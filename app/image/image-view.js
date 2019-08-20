@@ -31,7 +31,7 @@ function view(req, res, api, done) {
       };
       image.dir = imageb.getUrlDir(image.id);
       image.thumb = imageb.getThumbUrl(image.id);
-      image.cdateStr = date2.dateTimeString(image.cdate);
+      image.cdateStr = date2.makeDateTimeString(image.cdate);
       image.cdate = image.cdate.getTime();
       if (api) {
         res.json(image);

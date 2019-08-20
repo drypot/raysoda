@@ -26,7 +26,7 @@ before((done) => {
 
 describe('/api/counters/:id/inc', function () {
   var today = new Date();
-  var todayStr = date2.dateString(today);
+  var todayStr = date2.makeDateString(today);
   it('should succeed for new', function (done) {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');

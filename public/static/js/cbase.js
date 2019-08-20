@@ -16,12 +16,12 @@ $(function () {
     return r;
   }
 
-  date2.dateTimeString = function (d) {
+  date2.makeDateTimeString = function (d) {
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
       pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
   };
 
-  date2.dateString = function (d) {
+  date2.makeDateString = function (d) {
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
   };
 

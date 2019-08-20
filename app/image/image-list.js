@@ -77,7 +77,7 @@ imagel.decoImageList = function (images, done) {
         home: user.home
       };
       image.thumb = imageb.getThumbUrl(image.id);
-      image.cdateStr = date2.dateTimeString(image.cdate);
+      image.cdateStr = date2.makeDateTimeString(image.cdate);
       setImmediate(loop);
     });
   })();

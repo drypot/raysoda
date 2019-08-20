@@ -31,7 +31,7 @@ describe('table counter', function () {
 
 describe('.update(id, date)', function () {
   let date = new Date();
-  let dateStr = date2.dateString(date);
+  let dateStr = date2.makeDateString(date);
   it('should succeed for new', function (done) {
     counterb.update('cnt1', date, function (err) {
       assert.ifError(err);
