@@ -74,6 +74,16 @@ describe('parseDateTimeMilliPacked', function () {
     assert.strictEqual(d.getSeconds(), 4);
     assert.strictEqual(d.getMilliseconds(), 5);
   });
+  it('should succeed only with date', function () {
+    let d = date2.parseDateTimeMilliPacked('19740516');
+    assert.strictEqual(d.getFullYear(), 1974);
+    assert.strictEqual(d.getMonth(), 4);
+    assert.strictEqual(d.getDate(), 16);
+    assert.strictEqual(d.getHours(), 0);
+    assert.strictEqual(d.getMinutes(), 0);
+    assert.strictEqual(d.getSeconds(), 0);
+    assert.strictEqual(d.getMilliseconds(), 0);
+  });
   it('should succeed for non digit', function () {
     let d = date2.parseDateTimeMilliPacked('undefined');
     assert.strictEqual(d.getFullYear(), NaN);
