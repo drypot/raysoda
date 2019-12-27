@@ -10,8 +10,14 @@
 사용자 검색
 
     > select * from user where email='...';
+    > select * from user where email='...'\G
+
+    \G : 결과를 세로로 출력한다.
+
     > select * from user where home='...';
     > select * from user where name='...';
+
+    > select * from user where email like 'drypot%';
 
 이름 변경
 
