@@ -69,6 +69,11 @@ expu.handler = function (inner) {
     var form = new multiparty.Form({ uploadDir: tmpDir });
     var paths = [];
     form.parse(req, function(err, fields, files) {
+      if (err) {
+        res.writeHead(400, { 'content-type': 'text/plain' });
+        res.end('invalid request: ' + err.message);
+        return;
+      }
       var key, val;
       for (key in fields) {
         val = fields[key];
