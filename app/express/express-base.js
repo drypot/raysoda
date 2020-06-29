@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const redis = require('redis')
 const session = require('express-session');
 const redisStore = require('connect-redis')(session);
 const config = require('../base/config');
@@ -26,8 +27,17 @@ expb.start = function () {
   app.set('views', 'app');
 
   app.use(cookieParser());
+
+  let redisClient = redis.createClient({
+    host: 'localhost',
+    port: 6379,
+    db: 1,
+  });
+  redisClient.unref();
+  redisClient.on('error', console.log);
+
   app.use(session({
-    store: new redisStore({ ttl: 1800 /* 단위: 초. 30 분 */ }),
+    store: new redisStore({ client: redisClient }),
     resave: false,
     saveUninitialized: false,
     secret: config.cookieSecret
