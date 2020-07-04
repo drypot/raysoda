@@ -5,8 +5,8 @@ const error = require('../base/error');
 const fs2 = require('../base/fs2');
 const imageb = require('../image/image-base');
 
-var _minWidth = 4096;
-var _minHeight = 2304;
+var _minWidth = 3840;
+var _minHeight = 2160;
 
 var _vers = [
   { width: 5120, height: 2880 }, // iMac 27 Retina

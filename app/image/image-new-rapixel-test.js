@@ -48,7 +48,7 @@ describe('getDir()', function () {
 });
 
 describe('post /api/images', function () {
-  describe('posting one image', function () {
+  describe('posting 5120x2880 image', function () {
     before(function (done) {
       my2.query('truncate table image', done);
     });
@@ -69,6 +69,36 @@ describe('post /api/images', function () {
           assert.notStrictEqual(image.cdate, undefined);
           assert.strictEqual(image.comment, 'image1');
           assert2.path(imageb.getPath(_id, 5120));
+          assert2.path(imageb.getPath(_id, 4096));
+          assert2.path(imageb.getPath(_id, 2560));
+          assert2.path(imageb.getPath(_id, 1280));
+          assert2.path(imageb.getPath(_id, 640), false);
+          done();
+        });
+      });
+    });
+  });
+  describe('posting 3840x2160 image', function () {
+    before(function (done) {
+      my2.query('truncate table image', done);
+    });
+    it('should succeed', function (done) {
+      expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/3840x2160.jpg').end(function (err, res) {
+        assert.ifError(err);
+        assert.ifError(res.body.err);
+        assert.notStrictEqual(res.body.ids, undefined);
+        assert.strictEqual(res.body.ids.length, 1);
+        var _id = res.body.ids[0];
+        my2.queryOne('select * from image where id = ?', _id, (err, image) => {
+          assert.ifError(err);
+          imageb.unpackImage(image);
+          assert.strictEqual(image.id, _id);
+          assert.strictEqual(image.uid, userf.user1.id);
+          //assert.deepStrictEqual(image.vers, [ 5120, 4096, 2560, 1920, 1280 ]);
+          assert.deepStrictEqual(image.vers, [ 4096, 2560, 1280 ]);
+          assert.notStrictEqual(image.cdate, undefined);
+          assert.strictEqual(image.comment, 'image1');
+          assert2.path(imageb.getPath(_id, 5120), false);
           assert2.path(imageb.getPath(_id, 4096));
           assert2.path(imageb.getPath(_id, 2560));
           assert2.path(imageb.getPath(_id, 1280));

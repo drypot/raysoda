@@ -1,7 +1,7 @@
 'use strict';
 
 const crypto = require('crypto');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
