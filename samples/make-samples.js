@@ -13,8 +13,8 @@ process.on('uncaughtException', function (err) {
 var _vers = [
   { width: 5120, height: 2880 }, // rapixel
   { width: 4096, height: 2304 },
-  // { width: 3840, height: 2160 },
-   { width: 2560, height: 1440 }, // osoky, raysoda
+  { width: 3840, height: 2160 },
+  { width: 2560, height: 1440 }, // osoky, raysoda
   //{ width: 1440, height: 810 }, 
   { width: 1280, height: 720 }, // osoky
   //{ width: 1136, height: 640 },
