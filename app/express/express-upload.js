@@ -5,15 +5,19 @@ const path = require('path');
 const init = require('../base/init');
 const config = require('../base/config');
 const fs2 = require('../base/fs2');
-const multiparty = require('multiparty');
+//const multiparty = require('multiparty');
+//const busboy = require('busboy');
+const multer  = require('multer');
 const expb = require('../express/express-base');
 const expu = exports;
 
 var tmpDir;
+var multerInst;
 
 init.add((done) => {
   console.log('upload: ' + config.uploadDir);
   tmpDir = config.uploadDir + '/tmp';
+  multerInst = multer({ dest: tmpDir });
   fs2.makeDir(tmpDir, function (err) {
     if (err) return done(err);
     fs2.emptyDir(tmpDir, done);
@@ -63,7 +67,7 @@ init.add((done) => {
 //   ] 
 // }
 
-expu.handler = function (inner) {
+function handlerForMultiParty(inner) {
   return function (req, res, done) {
     if (req._body) return inner(req, res, done);
     var form = new multiparty.Form({ uploadDir: tmpDir });
@@ -110,4 +114,46 @@ expu.handler = function (inner) {
       unlink();
     }
   };
-};
+}
+
+function handlerForMulter(inner) {
+  return function (req, res, done) {
+    var paths = [];
+    multerInst.any()(req, res, function (err) {
+      if (err) return done(err);
+      if (!req.files) return inner(req, res, done);
+      var files = req.files;
+      delete req.files;
+      for (let file of files) {        
+        paths.push(file.path);
+        if (file.originalname.trim()) {
+          // XHR 이 빈 파일 필드를 보낸다.
+          // 불필요한 req.files[key] 생성을 막기 위해 조건 처리는 가장 안쪽에서.
+          let key = file.fieldname;
+          if (!req.files) req.files = {};
+          if (!req.files[key]) req.files[key] = [];
+          file.safeFilename = fs2.safeFilename(path.basename(file.originalname));
+          req.files[key].push(file);
+        }
+      }
+      inner(req, res, deleter);
+    });
+
+    function deleter(err) {
+      var i = 0;
+      function unlink() {
+        if (i == paths.length) {
+          if (err) done(err);
+          return;
+        }
+        var path = paths[i++];
+        fs.unlink(path, function (err) {
+          setImmediate(unlink);
+        });
+      }
+      unlink();
+    }
+  }
+}
+
+expu.handler = handlerForMulter;
