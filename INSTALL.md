@@ -35,7 +35,7 @@ Mac 개발환경용 Nginx 설정 예
 
 ## Requirements
 
-mongodb, redis, imagemagick.
+mysql, redis, imagemagick.
 
 ## ImageMagick
 

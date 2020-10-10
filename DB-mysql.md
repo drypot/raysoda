@@ -27,14 +27,11 @@
 
 계정 복구
 
-    추후 수정.
-    db.users.find({ email: '...' })
-    db.users.update({ email: '...' }, { $set : { status: 'v' }})
+    > select * from user where email='...'\G
+    > update user set status='v' where email='...';
 
-    db.users.find({ namel: '...' })
-    db.users.update({ namel: '...' }, { $set : { status: 'v' }})
-
-    디비 수정하고 웹 페이지에서 Profile Update 한번 해야한다.
+    디비 수정하고 서버 재시동이 필요하다.
+    추후 user 캐쉬만 refresh 하는 기능을 만들어야;
 
 사진 코멘트 변경
 
