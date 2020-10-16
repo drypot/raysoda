@@ -53,9 +53,10 @@ expb.core.put('/api/users/:id([0-9]+)', function (req, res, done) {
             }
             my2.query('update user set ? where id = ?', [fields, id], (err, r) => {
               if (err) return done(err);
-              if (!r.changedRows) {
-                return done(error('USER_NOT_FOUND'));
-              }
+              // 수정 없이 Submit 한 경우에 에러를 내서 Comment Out 하였다.
+              // if (!r.changedRows) {
+              //   return done(error('USER_NOT_FOUND'));
+              // }
               userb.deleteCache(id);
               res.json({});
             });
