@@ -27,6 +27,10 @@
 
 계정 복구
 
+    > select * from user where home='...'\G
+    > update user set status='v' where home='...';
+
+
     > select * from user where email='...'\G
     > update user set status='v' where email='...';
 
