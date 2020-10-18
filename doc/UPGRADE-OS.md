@@ -20,14 +20,27 @@
     sudo pacman -S archlinux-keyring
     sudo pacman -Syu
 
+Arch 서비스 Fail 나면
+
+    pacman -Rs ... 로 패키지 삭제했다가
+    pacman -S ... 로 재설치.
+
 ## 전역 툴 업데이트
 
     sudo npm install -g mocha
-    sudo npm install -g bower
+
+## 코드 업데이트
+
+    git pull
+    npm install
 
 ## 설정 업데이트
 
     config/...
+
+## 테스트 런
+
+    $ bin/run-*
 
 ## 재부팅
 
@@ -44,7 +57,7 @@ Arch 서비스 Fail 나면
 
 ## 테스트 런
 
-    $ node app/main/main.js -c config/raysoda-live.json
+    $ node app/main/main.js -c config/???.json
 
 이상 없으면
 
