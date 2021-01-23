@@ -1,1 +1,1 @@
-node code/main/man.js -c config/osoky-dev.json
+node code/main/main.js -c config/osoky-dev.json
