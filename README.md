@@ -9,11 +9,6 @@ Running following sites.
 * [https://osoky.com](https://osoky.com)
 * [https://drypot.com](https://drypot.com)
 
-## Install and Upgrade
-
-* [Install](INSTALL.md)
-* [Upgrade](UPGRADE.md)
-
 ## History
 
 2019.05.00 MongoDB 에서 MySQL 로 이사.

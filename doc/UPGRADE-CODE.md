@@ -1,11 +1,10 @@
 # 코드 업데이트
 
-    git pull
+    $ git pull
     
-    npm install
-    bower install
+    $ npm install
 
-    sudo systemctl restart raysoda
-    sudo systemctl restart rapixel
-    sudo systemctl restart osoky
-    sudo systemctl restart drypot
+    $ sudo systemctl restart raysoda
+    $ sudo systemctl restart rapixel
+    $ sudo systemctl restart osoky
+    $ sudo systemctl restart drypot

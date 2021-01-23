@@ -1,6 +1,6 @@
 # Install
 
-아래는 Arch Linux 를 가정.
+mariadb, redis, imagemagick, 등 필요.
 
 ## Nginx
 
@@ -8,34 +8,26 @@ Mac 개발환경용 Nginx 설정 예
 
     server {
       listen 8080;
-      server_name raysoda.localhost;
-      root /Users/drypot/projects/raysoda/website/public;
-
+      server_name raysoda.test;
+      root /Users/drypot/projects/raysoda/raysoda/public;
+    
       client_max_body_size 10m;
-
+    
       location / {
         try_files $uri @app;
       }
-
-      location /static/bower/ {
-        alias /Users/drypot/projects/raysoda/website/bower_components/;
-      }
-
+    
       location @app {
         proxy_pass http://localhost:8050;
         proxy_set_header Host $http_host;
       }
     }
-
+    
     server {
       listen 8080;
-      server_name file.raysoda.localhost;
-      root /Users/drypot/projects/raysoda/website/upload/raysoda/public;
+      server_name file.raysoda.test;
+      root /Users/drypot/projects/raysoda/raysoda/upload/raysoda/public;
     }
-
-## Requirements
-
-mysql, redis, imagemagick.
 
 ## ImageMagick
 
@@ -45,37 +37,25 @@ libpng 별도 설치 필요(?)
 
 ## Clone Source
 
-프로젝트 클론.
-
-    $ mkdir /data/web
-    $ cd /data/web
+클론.
 
     $ git clone https://github.com/drypot/raysoda.git
     $ cd raysoda
-
     $ npm install
-    $ bower install
-
-설정파일 생성.
-
-    config/raysoda-live.json
 
 실행.
 
-    node code/main/main.js -c config/raysoda-live.json
+    $ node code/main/main.js -c config/raysoda-dev.json
 
 
 ## 서비스로 등록
-
-/usr/lib/systemd 디렉토리는 패키지의 유닛 파일들만 들어간다.
-사용자 추가 유닛들은 /etc/systemd/system 에 생성.
 
     /etc/systemd/system/raysoda.service
 
     [Unit]
     Description=Rapixel
-    Requires=nginx.service mongodb.service redis.service
-    After=nginx.service mongodb.service redis.service
+    Requires=nginx.service mariadb.service redis.service
+    After=nginx.service mariadb.service redis.service
 
     [Service]
     User=drypot
@@ -123,5 +103,5 @@ libpng 별도 설치 필요(?)
 
 웹 페이지에서는 관리자 설정을 할 수 없다. 서버 콘솔에서 아래 코드를 실행한다.
 
-    $ node app/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'
+    $ node code/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'
 

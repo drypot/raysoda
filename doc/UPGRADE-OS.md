@@ -2,18 +2,18 @@
 
 ## 서비스 중지
 
-    sudo systemctl stop raysoda
-    sudo systemctl stop rapixel
-    sudo systemctl stop osoky
-    sudo systemctl stop drypot
+    $ sudo systemctl stop raysoda
+    $ sudo systemctl stop rapixel
+    $ sudo systemctl stop osoky
+    $ sudo systemctl stop drypot
 
 혹시 systemd 설정 변경했으면
 
-    sudo systemctl daemon-reload
+    $ sudo systemctl daemon-reload
 
 ## 디비 백업
 
-    mysqldump -u drypot -p raysoda > backup_xxx.sql
+    $ sudo mysqldump -u drypot -p raysoda > backup_xxx.sql
 
 ## Arch Linux 업데이트
 
@@ -27,12 +27,12 @@ Arch 서비스 Fail 나면
 
 ## 전역 툴 업데이트
 
-    sudo npm install -g mocha
+    $ sudo npm install -g mocha
 
 ## 코드 업데이트
 
-    git pull
-    npm install
+    $ git pull
+    $ npm install
 
 ## 설정 업데이트
 
@@ -44,16 +44,16 @@ Arch 서비스 Fail 나면
 
 ## 재부팅
 
-    reboot
+    $ reboot
 
 ## 서비스 오류 확인
 
-    sudo systemctl --failed
+    $ sudo systemctl --failed
 
 Arch 서비스 Fail 나면
 
-    pacman -Rs ... 로 패키지 삭제했다가
-    pacman -S ... 로 재설치 시도.
+    $ pacman -Rs ... 로 패키지 삭제했다가
+    $ pacman -S ... 로 재설치 시도.
 
 ## 테스트 런
 
@@ -61,7 +61,7 @@ Arch 서비스 Fail 나면
 
 이상 없으면
 
-    sudo systemctl start raysoda
-    sudo systemctl start rapixel
-    sudo systemctl start osoky
-    sudo systemctl start drypot
+    $ sudo systemctl start raysoda
+    $ sudo systemctl start rapixel
+    $ sudo systemctl start osoky
+    $ sudo systemctl start drypot
