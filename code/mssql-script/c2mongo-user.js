@@ -8,7 +8,7 @@ const mongo2 = require('../mongodb/mongo2');
 const userb = require('../user/user-base');
 
 /*
-  $ node app/mig-raysoda/mig-user.js -c config/mig-1-dev.json 1 10
+  $ node code/mig-raysoda/mig-user.js -c config/mig-1-dev.json 1 10
 */
 
 /*

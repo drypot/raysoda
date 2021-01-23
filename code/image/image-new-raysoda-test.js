@@ -269,7 +269,7 @@ describe('post /api/images', function () {
       my2.query('truncate table image', done);
     });
     it('should fail', function (done) {
-      expl.post('/api/images').attach('files', 'app/express/express-upload-f1.txt').end(function (err, res) {
+      expl.post('/api/images').attach('files', 'code/express/express-upload-f1.txt').end(function (err, res) {
         assert.ifError(err);
         assert(res.body.err);
         assert(error.find(res.body.err, 'IMAGE_TYPE'));

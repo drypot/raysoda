@@ -10,7 +10,7 @@ const imageb = require('../image/image-base');
 /*
   사진 코멘트 부분을 추가적으로 변경하는 것이 좋겠다.
 
-  $ node app/mig-raysoda/mig-image-comment.js -c config/mig-1-dev.json 1 10
+  $ node code/mig-raysoda/mig-image-comment.js -c config/mig-1-dev.json 1 10
 */
 
 init.main(function (done) {

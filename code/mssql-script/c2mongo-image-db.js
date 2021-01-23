@@ -8,7 +8,7 @@ const mongo2 = require('../mongodb/mongo2');
 const imageb = require('../image/image-base');
 
 /*
-  $ node app/mig-raysoda/mig-image-db.js -c config/mig-1-dev.json 1 10
+  $ node code/mig-raysoda/mig-image-db.js -c config/mig-1-dev.json 1 10
 */
 
 /*

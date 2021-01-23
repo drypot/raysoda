@@ -7,7 +7,7 @@ const mongo2 = require('../mongodb/mongo2');
 const userb = require('../user/user-base');
 
 /*
-  $ node app/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'
+  $ node code/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'
 */
 
 init.add(function (done) {

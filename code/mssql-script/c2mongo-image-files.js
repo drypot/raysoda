@@ -8,8 +8,8 @@ const config = require('../base/config');
 const imageb = require('../image/image-base');
 const fs2 = require('../base/fs2');
 
-/* 
-  $ node app/mig-raysoda/mig-image-files.js -c config/mig-1-dev.json 1 10
+/*
+  $ node code/mig-raysoda/mig-image-files.js -c config/mig-1-dev.json 1 10
 */
 
 init.main(function (done) {
@@ -67,7 +67,7 @@ function copyFile(pid, uid, done) {
       if (err.code == 'ENOENT') {
         console.log('dir not exist: ' + sdir);
         return done();
-      } 
+      }
       return done(err);
     }
     if (!files.length) {

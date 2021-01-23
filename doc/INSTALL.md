@@ -62,7 +62,7 @@ libpng 별도 설치 필요(?)
 
 실행.
 
-    node app/main/main.js -c config/raysoda-live.json
+    node code/main/man.js -c config/raysoda-live.json
 
 
 ## 서비스로 등록
@@ -82,7 +82,7 @@ libpng 별도 설치 필요(?)
     Restart=always
     RestartSec=15
     WorkingDirectory=/data/web/raysoda
-    ExecStart=/usr/bin/node app/main/main.js -c config/raysoda-live.json
+    ExecStart=/usr/bin/node code/main/man.js -c config/raysoda-live.json
     Environment=NODE_ENV=production
     Environment=MAGICK_CONFIGURE_PATH=/data/im
 

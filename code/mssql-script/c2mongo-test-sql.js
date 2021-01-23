@@ -4,8 +4,8 @@ const tds = require('tedious');
 const init = require('../base/init');
 const config = require('../base/config');
 
-/* 
-  $ node app/mig-raysoda/mig-test-sql.js -c config/mig-1-dev.json 
+/*
+  $ node code/mig-raysoda/mig-test-sql.js -c config/mig-1-dev.json
 */
 
 init.main(function (done) {

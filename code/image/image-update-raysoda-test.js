@@ -129,7 +129,7 @@ describe('put /api/images/id', function () {
         assert.ifError(err);
         assert.ifError(res.body.err);
         var _id = res.body.ids[0];
-        expl.put('/api/images/' + _id).attach('files', 'app/express/express-upload-f1.txt').end(function (err, res) {
+        expl.put('/api/images/' + _id).attach('files', 'code/express/express-upload-f1.txt').end(function (err, res) {
           assert.ifError(err);
           assert(res.body.err);
           assert(error.find(res.body.err, 'IMAGE_TYPE'));
