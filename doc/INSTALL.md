@@ -86,18 +86,19 @@ libpng 별도 설치 필요(?)
 
 'convert -list configure' 명령으로 CONFIGURE_PATH 확인한 후 policy.xml 에 다음을 추가한다.
 
-    <policymap>
-      <policy domain="coder" rights="none" pattern="URL" />
-      <policy domain="coder" rights="none" pattern="EPHEMERAL" />
-      <policy domain="coder" rights="none" pattern="HTTPS" />
-      <policy domain="coder" rights="none" pattern="MVG" />
-      <policy domain="coder" rights="none" pattern="MSL" />
-      <policy domain="coder" rights="none" pattern="TEXT" />
-      <policy domain="coder" rights="none" pattern="SHOW" />
-      <policy domain="coder" rights="none" pattern="WIN" />
-      <policy domain="coder" rights="none" pattern="PLT" />
-    </policymap>
-
+```
+<policymap>
+  <policy domain="coder" rights="none" pattern="URL" />
+  <policy domain="coder" rights="none" pattern="EPHEMERAL" />
+  <policy domain="coder" rights="none" pattern="HTTPS" />
+  <policy domain="coder" rights="none" pattern="MVG" />
+  <policy domain="coder" rights="none" pattern="MSL" />
+  <policy domain="coder" rights="none" pattern="TEXT" />
+  <policy domain="coder" rights="none" pattern="SHOW" />
+  <policy domain="coder" rights="none" pattern="WIN" />
+  <policy domain="coder" rights="none" pattern="PLT" />
+</policymap>
+```
 
 ## 관리자 계정
 
