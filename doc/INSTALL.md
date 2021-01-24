@@ -1,6 +1,7 @@
 # Install
 
-mariadb, redis, imagemagick, 등 필요.
+mariadb, redis, imagemagick 등 설치.
+
 
 ## Nginx
 
@@ -28,12 +29,6 @@ Mac 개발환경용 Nginx 설정 예
       server_name file.raysoda.test;
       root /Users/drypot/projects/raysoda/raysoda/upload/raysoda/public;
     }
-
-## ImageMagick
-
-libpng 별도 설치 필요(?)
-
-    $ pacman -S imagemagick
 
 ## Clone Source
 
@@ -84,7 +79,11 @@ libpng 별도 설치 필요(?)
 
 ## ImageImagick
 
-'convert -list configure' 명령으로 CONFIGURE_PATH 확인한 후 policy.xml 에 다음을 추가한다.
+CONFIGURE_PATH 확인.
+
+    $ convert -list configure
+    
+policy.xml 를 찾아 다음을 추가한다.
 
 ```
 <policymap>
@@ -105,4 +104,3 @@ libpng 별도 설치 필요(?)
 웹 페이지에서는 관리자 설정을 할 수 없다. 서버 콘솔에서 아래 코드를 실행한다.
 
     $ node code/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'
-
