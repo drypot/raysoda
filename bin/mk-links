@@ -1,0 +1,5 @@
+ln -s ~/Dropbox/project/raysoda/config/drypot-live.json config/drypot-live.json
+ln -s ~/Dropbox/project/raysoda/config/mssql-live.json config/mssql-live.json
+ln -s ~/Dropbox/project/raysoda/config/osoky-live.json config/osoky-live.json
+ln -s ~/Dropbox/project/raysoda/config/rapixel-live.json config/rapixel-live.json
+ln -s ~/Dropbox/project/raysoda/config/raysoda-live.json config/raysoda-live.json
