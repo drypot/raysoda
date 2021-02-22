@@ -8,7 +8,7 @@
 /bower_components/
 package-lock.json
 
-/config/*live*.json
+/config-live/
 /tmp/
 /upload/
 /samples/untracked/
