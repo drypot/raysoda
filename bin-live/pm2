@@ -1,0 +1,16 @@
+#!/bin/bash
+if [ -z "$1" ]
+  then
+    echo "pm2 [raysoda|rapixel|osoky|drypot]"
+    exit 1
+fi
+args=(
+    start
+    code/main/main.js
+    --name $1
+    --exp-backoff-restart-delay=2000
+    --
+    -c config-live/${1}-live.json
+)
+export NODE_ENV=production
+pm2 "${args[@]}"

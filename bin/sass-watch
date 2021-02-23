@@ -1,1 +1,2 @@
+#!/bin/bash
 sass --watch public/static/css
