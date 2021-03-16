@@ -1,11 +1,9 @@
-'use strict';
-
-const assert = require('assert');
-const init = require('../base/init');
+import * as assert2 from "../base/assert2.js";
+import * as init from "../base/init.js";
 
 describe('init', () => {
   it('should succeed with 3 adds', (done) => {
-    var a = [];
+    let a = [];
     init.reset();
     init.add((done) => {
       a.push(1);
@@ -22,11 +20,11 @@ describe('init', () => {
       }
     );
     init.run((err) => {
-      assert.ifError(err);
-      assert.strictEqual(a.length, 3);
-      assert.strictEqual(a[0], 1);
-      assert.strictEqual(a[1], 2);
-      assert.strictEqual(a[2], 3);
+      assert2.ifError(err);
+      assert2.e(a.length, 3);
+      assert2.e(a[0], 1);
+      assert2.e(a[1], 2);
+      assert2.e(a[2], 3);
       done();
     });
   });
@@ -40,7 +38,7 @@ describe('init', () => {
     done();
   });
   it('should pass an error', (done) => {
-    var a = [];
+    let a = [];
     init.reset();
     init.add(
       (done) => {
@@ -56,9 +54,9 @@ describe('init', () => {
       }
     );
     init.run((err) => {
-      assert(err);
-      assert.strictEqual(a.length, 1);
-      assert.strictEqual(a[0], 1);
+      assert2.ne(err, null);
+      assert2.e(a.length, 1);
+      assert2.e(a[0], 1);
       done();
     });
   });

@@ -1,8 +1,6 @@
-'use strict';
+import * as assert2 from "./assert2.js";
 
-const async = exports;
-
-async.wf = function (...funcs) {
+export function waterfall(...funcs) {
   let i = 0;
   let e = funcs.length - 1;
   let done = funcs[e];

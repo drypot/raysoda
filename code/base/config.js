@@ -1,30 +1,34 @@
-'use strict';
+import fs from "fs";
+import minimist from "minimist";
+import * as assert2 from "./assert2.js";
+import * as init from "../base/init.js";
 
-const fs = require('fs');
-const minimist = require('minimist');
-const init = require('../base/init');
-const config = exports;
+export const prop = {};
 
-config.dev = process.env.NODE_ENV != 'production';
+let path = null;
+
+export function setPath(_path) {
+  path = _path;
+}
 
 init.add((done) => {
-  config.argv = minimist(process.argv.slice(2));
-  var path = config.path || config.argv.config || config.argv.c;
-  if (typeof path == 'string') {
-    console.log('config: path=' + path);
-    fs.readFile(path, 'utf8', function (err, data) {
-      if (err) return done(err);
-      var _config = JSON.parse(data);
-      for(var p in _config) {
-        config[p] = _config[p];
-      }
-      done();
-    });
-  } else {
+  prop.dev = process.env.NODE_ENV != 'production';
+  prop.argv = minimist(process.argv.slice(2));
+  const epath = path || prop.argv.config || prop.argv.c;
+  if (typeof epath !== 'string') {
     process.stdout.write('config file not found.\n');
     process.stdout.write('\n');
     process.stdout.write('node some.js --config config.json\n');
     process.stdout.write('node some.js -c config.json\n');
     process.exit(-1);
   }
+  console.log('config: path=' + epath);
+  fs.readFile(epath, 'utf8', function (err, data) {
+    if (err) return done(err);
+    const _config = JSON.parse(data);
+    for(let p in _config) {
+      prop[p] = _config[p];
+    }
+    done();
+  });
 });

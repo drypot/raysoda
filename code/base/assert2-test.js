@@ -1,34 +1,31 @@
-'use strict';
-
-const assert = require('assert');
-const assert2 = require('../base/assert2');
+import * as assert2 from "../base/assert2.js";
 
 describe('aliases', function () {
   it('should succeed', function (done) {
-    assert.strictEqual('abc', 'abc');
-    assert.notStrictEqual('abc', 'def');
-    assert.deepStrictEqual([1], [1]);
-    assert.notDeepStrictEqual([1], [2]);
+    assert2.e('abc', 'abc');
+    assert2.ne('abc', 'def');
+    assert2.de([1], [1]);
+    assert2.nde([1], [2]);
     done();
   });
 });
 
-describe('emtpy', function () {
+describe('empty', function () {
   it('should succeed', function (done) {
     assert2.empty(undefined);
     assert2.empty(null);
     assert2.empty({});
-    assert.throws(function () {
+    assert2.throws(function () {
       assert2.empty({ a: 1 });
     });
     done();
   });
 });
 
-describe('notEmtpy', function () {
+describe('notEmpty', function () {
   it('should succeed', function (done) {
     assert2.notEmpty({ a: 1 });
-    assert.throws(function () {
+    assert2.throws(function () {
       assert2.notEmpty({});
     });
     done();
