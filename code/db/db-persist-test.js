@@ -2,7 +2,7 @@ import * as assert2 from "../base/assert2.js";
 import * as config from "../base/config.js";
 import * as init from "../base/init.js";
 import * as db from "../db/db.js";
-import * as persist from "../db/persist.js";
+import * as persist from "./db-persist.js";
 
 before(function (done) {
   config.setPath('config/test.json');
