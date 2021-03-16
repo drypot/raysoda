@@ -1,13 +1,13 @@
-'use strict';
+import os from "os";
+import nodemailer from "nodemailer";
+import * as assert2 from "../base/assert2.js";
 
-const nodemailer = require('nodemailer');
+const transport = nodemailer.createTransport();
 
-var transport = nodemailer.createTransport();
-
-var mail = {
+const mail = {
   from: 'no-reply@raysoda.com',
   to: 'drypot@gmail.com',
-  subject: 'expl mail server test from ' + require('os').hostname(),
+  subject: 'expl mail server test from ' + os.hostname(),
   text: 'Hello'
 };
 

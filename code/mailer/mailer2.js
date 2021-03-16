@@ -1,26 +1,22 @@
-'use strict';
+import fs from "fs";
+import nodemailer from "nodemailer";
+import * as assert2 from "../base/assert2.js";
+import * as init from "../base/init.js";
+import * as config from "../base/config.js";
 
-const fs = require('fs');
-const nodemailer = require('nodemailer');
-
-const init = require('../base/init');
-const config = require('../base/config');
-const mailer2 = exports;
-
-var transport;
+let transport;
 
 init.add(function (done) {
-
-  if (config.mailServer === "aws") {
+  if (config.prop.mailServer === "aws") {
     fs.readFile("config-live/ses-smtp-user.json", 'utf8', function (err, data) {
       if (err) return done(err);
       transport = nodemailer.createTransport(JSON.parse(data));
       done();
     });
   } else {
-    if (config.mailServer) {
+    if (config.prop.mailServer) {
       transport = nodemailer.createTransport({
-        host: config.mailServer,
+        host: config.prop.mailServer,
         port: 587
       });
     }
@@ -28,10 +24,10 @@ init.add(function (done) {
   }
 });
 
-mailer2.send = function (opt, done) {
+export function send(opt, done) {
   if (transport) {
     return transport.sendMail(opt, done);
   }
   console.log(opt);
   done();
-};
+}
