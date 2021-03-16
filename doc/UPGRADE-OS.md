@@ -57,7 +57,7 @@ Arch 서비스 Fail 나면
 
 ## 테스트 런
 
-    $ node code/main/main.js -c config/???.json
+    $ node code/main/main.mjs -c config/???.json
 
 이상 없으면
 

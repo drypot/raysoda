@@ -40,7 +40,7 @@ Mac 개발환경용 Nginx 설정 예
 
 실행.
 
-    $ node code/main/main.js -c config/raysoda-dev.json
+    $ node code/main/main.mjs -c config/raysoda-dev.json
 
 
 ## 서비스로 등록
@@ -57,7 +57,7 @@ Mac 개발환경용 Nginx 설정 예
     Restart=always
     RestartSec=15
     WorkingDirectory=/data/web/raysoda
-    ExecStart=/usr/bin/node code/main/main.js -c config/raysoda-live.json
+    ExecStart=/usr/bin/node code/main/main.mjs -c config/raysoda-live.json
     Environment=NODE_ENV=production
     Environment=MAGICK_CONFIGURE_PATH=/data/im
 

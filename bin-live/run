@@ -4,4 +4,4 @@ if [ -z "$1" ]
     echo "run [raysoda|rapixel|osoky|drypot]"
     exit 1
 fi
-node code/main/main.js -c config-live/${1}-live.json
+node code/main/main.mjs -c config-live/${1}-live.json
