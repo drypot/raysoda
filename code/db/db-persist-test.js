@@ -2,7 +2,7 @@ import * as assert2 from "../base/assert2.js";
 import * as config from "../base/config.js";
 import * as init from "../base/init.js";
 import * as db from "../db/db.js";
-import * as persist from "./db-persist.js";
+import * as dbPersist from "./db-persist.js";
 
 before(function (done) {
   config.setPath('config/test.json');
@@ -23,9 +23,9 @@ describe('table persist', function () {
 describe('persist', function () {
   describe('.update(id, string)', function () {
     it('should succeed', function (done) {
-      persist.update('s1', 'value1', function (err) {
+      dbPersist.update('s1', 'value1', function (err) {
         assert2.ifError(err);
-        persist.find('s1', function (err, value) {
+        dbPersist.find('s1', function (err, value) {
           assert2.ifError(err);
           assert2.e(value, 'value1');
           done();
@@ -33,9 +33,9 @@ describe('persist', function () {
       });
     });
     it('should succeed on replace', function (done) {
-      persist.update('s1', 'value2', function (err) {
+      dbPersist.update('s1', 'value2', function (err) {
         assert2.ifError(err);
-        persist.find('s1', function (err, value) {
+        dbPersist.find('s1', function (err, value) {
           assert2.ifError(err);
           assert2.e(value, 'value2');
           done();
@@ -45,9 +45,9 @@ describe('persist', function () {
   });
   describe('update(id, number)', function () {
     it('should succeed', function (done) {
-      persist.update('n1', 123, function (err) {
+      dbPersist.update('n1', 123, function (err) {
         assert2.ifError(err);
-        persist.find('n1', function (err, value) {
+        dbPersist.find('n1', function (err, value) {
           assert2.ifError(err);
           assert2.e(value, 123);
           done();
@@ -57,9 +57,9 @@ describe('persist', function () {
   });
   describe('update(id, obj)', function () {
     it('should succeed', function (done) {
-      persist.update('o1', { p1: 123, p2: 456 }, function (err) {
+      dbPersist.update('o1', { p1: 123, p2: 456 }, function (err) {
         assert2.ifError(err);
-        persist.find('o1', function (err, value) {
+        dbPersist.find('o1', function (err, value) {
           assert2.ifError(err);
           assert2.deepStrictEqual(value, { p1: 123, p2: 456 });
           done();
@@ -69,7 +69,7 @@ describe('persist', function () {
   });
   describe('find()', function () {
     it('should return null for undefined', function (done) {
-      persist.find('noname', function (err, value) {
+      dbPersist.find('noname', function (err, value) {
         assert2.ifError(err);
         assert2.e(value, null);
         done();
