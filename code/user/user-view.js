@@ -1,7 +1,6 @@
-'use strict';
-
-const expb = require('../express/express-base');
-const userb = require('../user/user-base');
+import * as assert2 from "../base/assert2.js";
+import * as expb from "../express/express-base.js";
+import * as userb from "../user/user-base.js";
 
 expb.core.get('/api/users/:id([0-9]+)', function (req, res, done) {
   let id = parseInt(req.params.id) || 0;
@@ -19,7 +18,7 @@ expb.core.get('/api/users/:id([0-9]+)', function (req, res, done) {
       pdate: _tuser.pdate,
       profile: _tuser.profile
     };
-    if (user && (user.admin || user.id == _tuser.id)) {
+    if (user && (user.admin || user.id === _tuser.id)) {
       tuser.email = _tuser.email;
       tuser.adate = _tuser.adate;
     }

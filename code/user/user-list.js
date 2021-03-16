@@ -1,9 +1,8 @@
-'use strict';
-
-const url2 = require('../base/url2');
-const my2 = require('../mysql/my2');
-const expb = require('../express/express-base');
-const usera = require('../user/user-auth');
+import * as assert2 from "../base/assert2.js";
+import * as url2 from "../base/url2.js";
+import * as expb from "../express/express-base.js";
+import * as db from '../db/db.js';
+import * as usera from "../user/user-auth.js";
 
 expb.core.get('/users', function (req, res, done) {
   list(req, res, false, done);
@@ -33,7 +32,7 @@ function list(req, res, api, done) {
     sql = 'select id, name, home from user order by pdate desc limit ?, ?';
     sqlParam =[offset, ps];
   }
-  my2.query(sql, sqlParam, (err, users) => {
+  db.query(sql, sqlParam, (err, users) => {
     if (err) return done(err);
     if (api) {
       res.json({
@@ -47,4 +46,4 @@ function list(req, res, api, done) {
       });
     }
   });
-};
+}

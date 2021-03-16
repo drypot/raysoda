@@ -1,10 +1,8 @@
-'use strict';
-
-const bcrypt = require('bcryptjs');
-const init = require('../base/init');
-const error = require('../base/error');
-const my2 = require('../mysql/my2');
-const userb = exports;
+import bcrypt from "bcryptjs";
+import * as assert2 from "../base/assert2.js";
+import * as init from "../base/init.js";
+import * as error from "../base/error.js";
+import * as db from '../db/db.js';
 
 error.define('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.');
 error.define('NOT_AUTHORIZED', '사용 권한이 없습니다.');
@@ -34,11 +32,11 @@ error.define('RESET_TIMEOUT', '비밀번호 초기화 토큰 유효시간이 지
 
 // users collection
 
-var userId;
+let userId;
 
 init.add(
   (done) => {
-    my2.query(`
+    db.query(`
       create table if not exists user(
         id int not null,
         name varchar(32) not null,
@@ -56,27 +54,27 @@ init.add(
     `, done);
   },
   (done) => {
-    my2.query(`
+    db.query(`
       create index user_email on user(email);
     `, () => { done(); });
   },
   (done) => {
-    my2.query(`
+    db.query(`
     create index user_name on user(name);
     `, () => { done(); });
   },
   (done) => {
-    my2.query(`
+    db.query(`
     create index user_home on user(home);
     `, () => { done(); });
   },
   (done) => {
-    my2.query(`
+    db.query(`
     create index user_pdate on user(pdate desc);
     `, () => { done(); });
   },
   (done) => {
-    my2.getMaxId('user', (err, id) => {
+    db.getMaxId('user', (err, id) => {
       if (err) return done(err);
       userId = id;
       done();
@@ -84,12 +82,12 @@ init.add(
   }
 );
 
-userb.getNewId = function () {
+export function getNewId() {
   return ++userId;
-};
+}
 
-userb.getNewUser = function () {
-  var now = new Date();
+export function getNewUser() {
+  const now = new Date();
   return {
     id: 0,
     name: '',
@@ -97,78 +95,78 @@ userb.getNewUser = function () {
     email: '',
     hash: '',
     status: 'v',
-    admin : false,
+    admin: false,
     cdate: now,
     adate: now,
     pdate: new Date(2000, 0, 1),
     profile: ''
   };
-};
+}
 
 // bcrypt hash
 
-userb.makeHash = function (pw, cb) {
+export function makeHash(pw, cb) {
   bcrypt.hash(pw, 10, cb);
 }
 
-userb.checkPassword = function (pw, hash, cb) {
+export function checkPassword(pw, hash, cb) {
   return bcrypt.compare(pw, hash, cb);
 }
 
 // user cache
 
-var usersById = new Map;
-var usersByHome = new Map;
+let usersById = new Map;
+let usersByHome = new Map;
 
-userb.unpackUser= function (user) {
+export function unpackUser(user) {
   user.admin = !!user.admin;
-};
+}
 
-userb.cache = function (user) {
+export function cache(user) {
   usersById.set(user.id, user);
   usersByHome.set(user.home.toLowerCase(), user);
 }
 
-userb.getCached = function (id, done) {
-  var user = usersById.get(id);
+export function getCached(id, done) {
+  const user = usersById.get(id);
   if (user) {
     return done(null, user);
   }
-  my2.queryOne('select * from user where id = ?', id, (err, user) => {
+  db.queryOne('select * from user where id = ?', id, (err, user) => {
     if (err) return done(err);
-    if (!user) return done(error('USER_NOT_FOUND'));
-    userb.unpackUser(user);
-    userb.cache(user);
+    if (!user) return done(error.newError('USER_NOT_FOUND'));
+    unpackUser(user);
+    cache(user);
     done(null, user);
   });
-};
+}
 
-userb.getCachedByHome = function (home, done) {
-  var user = usersByHome.get(home.toLowerCase());
+export function getCachedByHome(home, done) {
+  const user = usersByHome.get(home.toLowerCase());
   if (user) {
     return done(null, user);
   }
-  my2.queryOne('select * from user where home = ?', home, (err, user) => {
+  db.queryOne('select * from user where home = ?', home, (err, user) => {
     if (err) return done(err);
     if (!user) {
       // 사용자 프로필 URL 검색에 주로 사용되므로 error 생성은 패스한다.
       return done();
     }
-    userb.unpackUser(user);
-    userb.cache(user);
+    unpackUser(user);
+    cache(user);
     done(null, user);
   });
-};
+}
 
-userb.deleteCache = function (id) {
-  var user = usersById.get(id);
+export function deleteCache(id) {
+  const user = usersById.get(id);
   if (user) {
     usersById.delete(id);
     usersByHome.delete(user.home.toLowerCase());
   }
 }
 
-userb.resetCache = function () {
+export function resetCache() {
   usersById = new Map;
   usersByHome = new Map;
 }
