@@ -1,14 +1,12 @@
-'use strict';
-
-const init = require('../base/init');
-const my2 = require('./my2');
-const persist = exports;
+import * as assert2 from "../base/assert2.js";
+import * as init from "../base/init.js";
+import * as db from '../db/db.js';
 
 // general json table
 
 init.add(
   (done) => {
-    my2.query(`
+    db.query(`
       create table if not exists persist(
         id varchar(128) not null,
         v text(65535) not null,
@@ -18,17 +16,17 @@ init.add(
   }
 );
 
-persist.find = function (id, done) {
-  my2.queryOne('select * from persist where id = ?', id, (err, r) => {
+export function find(id, done) {
+  db.queryOne('select * from persist where id = ?', id, (err, r) => {
     if (err) return done(err);
     done(null, r ? JSON.parse(r.v) : null);
   });
-};
+}
 
-persist.update = function (id, v, done) {
-  my2.query(
+export function update(id, v, done) {
+  db.query(
     'replace into persist values(?, ?)',
     [id, JSON.stringify(v)],
     done
   );
-};
+}
