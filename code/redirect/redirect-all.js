@@ -1,6 +1,5 @@
-'use strict';
-
-const expb = require('../express/express-base');
+import * as assert2 from "../base/assert2.js";
+import * as expb from "../express/express-base.js";
 
 /* redirects for raysoda v1 */
 
