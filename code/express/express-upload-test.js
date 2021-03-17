@@ -51,7 +51,7 @@ describe('parsing form', function () {
       assert2.ifError(res.body.err);
       assert2.e(res.body.files, undefined);
       assert2.e(res.body.p1, 'abc');
-      assert2.deepStrictEqual(res.body.p2, ['123', '456']);
+      assert2.de(res.body.p2, ['123', '456']);
       done();
     });
   });
@@ -67,7 +67,7 @@ describe('parsing form', function () {
       assert2.e(res.body.files, undefined);
       assert2.e(res.body.p1, 'abc');
       assert2.e(res.body.p2, '123');
-      assert2.deepStrictEqual(res.body.p3, ['123', '456']);
+      assert2.de(res.body.p3, ['123', '456']);
       done();
     });
   });

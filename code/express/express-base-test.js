@@ -284,7 +284,7 @@ describe('echo', function () {
       expl.get('/api/echo?p1&p2=123').end(function (err, res) {
         assert2.ifError(err);
         assert2.e(res.body.method, 'GET');
-        assert2.deepStrictEqual(res.body.query, { p1: '', p2: '123' });
+        assert2.de(res.body.query, { p1: '', p2: '123' });
         done();
       });
     });
@@ -294,7 +294,7 @@ describe('echo', function () {
       expl.post('/api/echo').send({ p1: '', p2: '123' }).end(function (err, res) {
         assert2.ifError(err);
         assert2.e(res.body.method, 'POST');
-        assert2.deepStrictEqual(res.body.body, { p1: '', p2: '123' });
+        assert2.de(res.body.body, { p1: '', p2: '123' });
         done();
       });
     });

@@ -165,4 +165,4 @@ export function start() {
 
   app.listen(config.prop.appPort);
   console.log('express: listening ' + config.prop.appPort);
-};
+}
