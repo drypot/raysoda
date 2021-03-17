@@ -61,7 +61,7 @@ describe('persist', function () {
         assert2.ifError(err);
         dbPersist.find('o1', function (err, value) {
           assert2.ifError(err);
-          assert2.deepStrictEqual(value, { p1: 123, p2: 456 });
+          assert2.de(value, { p1: 123, p2: 456 });
           done();
         });
       });
