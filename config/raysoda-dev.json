@@ -17,7 +17,7 @@
   "mysqlUser": "drypot",
   "mysqlPassword": "",
 
-  "mailServer": "aws",
+  "mailServer": "",
 
   "ticketGenInterval": 18,
   "ticketMax": 99
