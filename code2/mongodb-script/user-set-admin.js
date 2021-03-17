@@ -4,7 +4,7 @@ const init = require('../base/init');
 const error = require('../base/error');
 const config = require('../base/config');
 const mongo2 = require('../mongodb/mongo2');
-const userb = require('../user/user-base');
+import * as userb from '../user/user-base.js';
 
 /*
   $ node code/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'

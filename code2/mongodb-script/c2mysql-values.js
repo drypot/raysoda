@@ -3,8 +3,8 @@
 const init = require('../base/init');
 const config = require('../base/config');
 const mongo2 = require('../mongodb/mongo2');
-const my2 = require('../mysql/my2');
-const persist = require('../mysql/persist');
+import * as db from '../db/db.js';
+const persist = require('../db/db-persist');
 
 init.add(
   (done) => {
@@ -22,7 +22,7 @@ init.add(
         r.id = r._id;
         delete r._id;
         r.v = JSON.stringify(r.v);
-        my2.query('replace into persist set ?', r, (err) => {
+        db.query('replace into persist set ?', r, (err) => {
           if (err) return done(err);
           setImmediate(read);
         });
@@ -33,7 +33,7 @@ init.add(
     mongo2.close(done);
   },
   (done) => {
-    my2.close(done);
+    db.close(done);
   },
   (done) => {
     console.log('done.');

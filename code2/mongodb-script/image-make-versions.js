@@ -4,7 +4,7 @@ const fs = require('fs');
 const init = require('../base/init');
 const config = require('../base/config')({ parseArg: true });
 const mongo2 = require('../mongodb/mongo2');
-const imageb = require('../image/image-base');
+import * as imageb from '../image/image-base.js';
 
 // TODO: 만든지 오래되었다. 누더기 상태. 다시 만들어야한다.
 //       image-update.js, rename-org.js 참고.
@@ -22,7 +22,7 @@ init.add(function (done) {
         removeVersions(path.dir, function (err) {
           if (err) return done(err);
           process.stdout.write(id + ' ');
-          imageb.saveImage(id, path.dir, org.org, image.width, function (err, vers) {
+          imageb.fman.saveImage(id, path.dir, org.org, image.width, function (err, vers) {
             if (err) return done(err);
             var fields = {
               $set : { vers: vers }

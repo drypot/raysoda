@@ -4,7 +4,7 @@ const fs = require('fs');
 const init = require('../base/init');
 const config = require('../base/config')({ parseArg: true });
 const mongo2 = require('../mongodb/mongo2');
-const imageb = require('../image/image-base');
+import * as imageb from '../image/image-base.js';
 
 init.run(function (err) {
   if (err) throw err;
@@ -14,8 +14,8 @@ init.run(function (err) {
     cursor.nextObject(function (err, image) {
       if (err) return done(err);
       if (!image) return done();
-      var dir = new imageb.getDir(image._id);
-      var oname = dir + '/' + image._id + '.' + image.format;    
+      var dir = new imageb.fman.getDir(image._id);
+      var oname = dir + '/' + image._id + '.' + image.format;
       var nname = dir + '/' + image._id + '-org.' + image.format;
       //console.log(oname + ' -> ' + nname);
       fs.renameSync(oname, nname);

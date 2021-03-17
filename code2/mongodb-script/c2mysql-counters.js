@@ -4,7 +4,7 @@ const init = require('../base/init');
 const config = require('../base/config');
 const date2 = require('../base/date2');
 const mongo2 = require('../mongodb/mongo2');
-const my2 = require('../mysql/my2');
+import * as db from '../db/db.js';
 const counterb = require('../counter/counter-base');
 
 init.add(
@@ -21,8 +21,8 @@ init.add(
           process.stdout.write(c + ' ');
         }
         delete r._id;
-        r.d = date2.makeDateString(r.d);
-        my2.query('replace into counter set ?', r, (err) => {
+        r.d = date2.dateString(r.d);
+        db.query('replace into counter set ?', r, (err) => {
           if (err) return done(err);
           setImmediate(read);
         });
@@ -33,7 +33,7 @@ init.add(
     mongo2.close(done);
   },
   (done) => {
-    my2.close(done);
+    db.close(done);
   },
   (done) => {
     console.log('done.');

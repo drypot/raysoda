@@ -6,9 +6,9 @@ const tds = require('tedious');
 const types = tds.TYPES;
 const init = require('../base/init');
 const config = require('../base/config');
-const fs2 = require('../base/fs2');
+import * as fs2 from '../base/fs2.js';
 const mongo2 = require('../mongodb/mongo2');
-const imageb = require('../image/image-base');
+import * as imageb from '../image/image-base.js';
 
 /*
   먼저 public 디렉토리를 public-old 로 변경해 놓는다.
@@ -38,13 +38,13 @@ init.main(function (done) {
 });
 
 function doIt(id, done) {
-  var src = config.uploadDir + '/public-old/images/' + fs2.makeDeepPath(id, 3) + '/' + id + '-org.svg';
+  var src = config.prop.uploadDir + '/public-old/images/' + fs2.makeDeepPath(id, 3) + '/' + id + '-org.svg';
   fs.access(src, function (err) {
     if (err) return done();
     console.log(src);
-    imageb.checkImageMeta(src, function (err, meta) {
+    imageb.fman.checkImageMeta(src, function (err, meta) {
       if (err) return done(err);
-      imageb.saveImage(id, src, meta, done);
+      imageb.fman.saveImage(id, src, meta, done);
     });
   });
 }

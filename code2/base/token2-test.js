@@ -1,16 +1,15 @@
 'use strict';
 
-const assert = require('assert');
 const { tokenize } = require('./token2');
 
 function assertTokens(tokenized, len) {
   var tokens = [].slice.call(arguments, 2);
   if (tokenized.length !== len) {
-    assert.fail(tokenized.length, len, 'length mismatch', 'tokenzie', assertTokens);
+    assert2.fail(tokenized.length, len, 'length mismatch', 'tokenzie', assertTokens);
   }
   tokens.forEach(function (token) {
     if (tokenized.indexOf(token) === -1) {
-      assert.fail(tokenized, token, 'token missed', 'tokenzie', assertTokens);
+      assert2.fail(tokenized, token, 'token missed', 'tokenzie', assertTokens);
     }
   });
 }

@@ -4,9 +4,9 @@ const exec = require('child_process').exec;
 const fs = require('fs');
 const init = require('../base/init');
 const config = require('../base/config');
-const fs2 = require('../base/fs2');
+import * as fs2 from '../base/fs2.js';
 const mongo2 = require('../mongodb/mongo2');
-const imageb = require('../image/image-base');
+import * as imageb from '../image/image-base.js';
 
 /*
   먼저 public 디렉토리를 public-old 로 변경해 놓는다.
@@ -38,13 +38,13 @@ init.main(function (done) {
 var maxWidth = 1080;
 
 function doIt(id, done) {
-  var src = config.uploadDir + '/public-old/images/' + fs2.makeDeepPath(id, 3) + '/' + id + '-org.png';
+  var src = config.prop.uploadDir + '/public-old/images/' + fs2.makeDeepPath(id, 3) + '/' + id + '-org.png';
   fs.access(src, function (err) {
     if (err) return done();
     console.log(src);
-    imageb.checkImageMeta(src, function (err, meta) {
+    imageb.fman.checkImageMeta(src, function (err, meta) {
       if (err) return done(err);
-      fs2.makeDir(imageb.getDir(id), function (err) {
+      fs2.makeDir(imageb.fman.getDir(id), function (err) {
         if (err) return done(err);
         var shorter = meta.shorter * 299 / 320; // 구 버젼에선 (20 / 320) % 만큼 여백이 있었다. 이것을 깍아 삭제.
         var max = shorter < maxWidth ? shorter : maxWidth;
@@ -61,7 +61,7 @@ function doIt(id, done) {
         //cmd += ' \\( +clone -alpha opaque -fill white -colorize 100% \\)'
         //cmd += ' +swap -geometry +0+0 -compose Over -composite -alpha off'
         cmd += ' -background white -alpha remove -alpha off'; // alpha remove need IM 6.7.5 or above
-        cmd += ' ' + imageb.getPath(id);
+        cmd += ' ' + imageb.fman.getPath(id);
         exec(cmd, function (err) {
           done(err, null);
         });

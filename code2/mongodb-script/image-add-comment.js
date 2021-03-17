@@ -3,7 +3,7 @@
 const init = require('../base/init');
 const config = require('../base/config');
 const mongo2 = require('../mongodb/mongo2');
-const imageb = require('../image/image-base');
+import * as imageb from '../image/image-base.js';
 
 init.run(function (err) {
   var col = imageb.images

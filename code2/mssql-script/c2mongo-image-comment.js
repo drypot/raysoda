@@ -1,11 +1,10 @@
-'use strict';
 
 const tds = require('tedious');
 const types = tds.TYPES;
-const init = require('../base/init');
-const config = require('../base/config');
+import * as init from "../base/init.js";
+import * as config from "../base/config.js";
 const mongo2 = require('../mongodb/mongo2');
-const imageb = require('../image/image-base');
+import * as imageb from '../image/image-base.js';
 
 /*
   사진 코멘트 부분을 추가적으로 변경하는 것이 좋겠다.

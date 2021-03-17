@@ -1,12 +1,11 @@
-'use strict';
 
 const fs = require('fs');
 const tds = require('tedious');
 const types = tds.TYPES;
-const init = require('../base/init');
-const config = require('../base/config');
-const imageb = require('../image/image-base');
-const fs2 = require('../base/fs2');
+import * as init from "../base/init.js";
+import * as config from "../base/config.js";
+import * as imageb from '../image/image-base.js';
+import * as fs2 from '../base/fs2.js';
 
 /*
   $ node code/mig-raysoda/mig-image-files.js -c config/mig-1-dev.json 1 10
@@ -76,12 +75,12 @@ function copyFile(pid, uid, done) {
     }
     var spath = sdir + '/' + files[0];
     // console.log('src: ' + spath);
-    // console.log('tar: ' + imageb.getPath(pid));
-    fs2.makeDir(imageb.getDir(pid), function (err) {
+    // console.log('tar: ' + imageb.fman.getPath(pid));
+    fs2.makeDir(imageb.fman.getDir(pid), function (err) {
       if (err) return done(err);
-      fs2.copy(spath, imageb.getPath(pid), function (err) {
+      fs2.copy(spath, imageb.fman.getPath(pid), function (err) {
         if (err) {
-          console.log('copy err: cp ' + spath + ' ' + imageb.getPath(pid));
+          console.log('copy err: cp ' + spath + ' ' + imageb.fman.getPath(pid));
         }
         cpcnt++;
         if (cpcnt % 100 == 0) {

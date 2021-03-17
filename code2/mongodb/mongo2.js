@@ -1,11 +1,10 @@
 'use strict';
 
-const assert = require('assert');
 const mongodb = require('mongodb');
 
 const init = require('../base/init');
 const config = require('../base/config');
-const async = require('../base/async');
+import * as async2 from '../base/async2.js';
 const mongo2 = exports;
 
 mongo2.ObjectID = mongodb.ObjectID;
@@ -16,7 +15,7 @@ var client;
 
 init.add(
   (done) => {
-    assert.notStrictEqual(config.mongodb, undefined);
+    assert2.ne(config.mongodb, undefined);
     mongodb.MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, function (err, _client) {
       if (err) return done(err);
       client = _client;
@@ -108,7 +107,7 @@ mongo2.findPage = function (col, query, opt, gt, lt, ps, filter, done) {
         count++;
         if (!first) first = doc._id;
         last = doc._id;
-        async.wf(
+        async2.waterfall(
           (done) => {
             if (filter) {
               filter(doc, done);

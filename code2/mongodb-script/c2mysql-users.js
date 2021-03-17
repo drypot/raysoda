@@ -3,8 +3,8 @@
 const init = require('../base/init');
 const config = require('../base/config');
 const mongo2 = require('../mongodb/mongo2');
-const my2 = require('../mysql/my2');
-const userb = require('../user/user-base');
+import * as db from '../db/db.js';
+import * as userb from '../user/user-base.js';
 
 init.add(
   (done) => {
@@ -12,7 +12,7 @@ init.add(
     done();
   },
   (done) => {
-    my2.query('start transaction', done);
+    db.query('start transaction', done);
   },
   (done) => {
     let c = 0;
@@ -45,7 +45,7 @@ init.add(
         images.findOne({ uid: r._id }, imageOpt, (err, image) => {
           if (err) return done(err);
           user.pdate = image ? image.cdate : new Date(2000, 0, 1);
-          my2.query('replace into user set ?', user, (err) => {
+          db.query('replace into user set ?', user, (err) => {
             if (err) return done(err);
             setImmediate(read);
           });
@@ -54,13 +54,13 @@ init.add(
     })();
   },
   (done) => {
-    my2.query('commit', done);
+    db.query('commit', done);
   },
   (done) => {
     mongo2.close(done);
   },
   (done) => {
-    my2.close(done);
+    db.close(done);
   },
   (done) => {
     console.log('done.');

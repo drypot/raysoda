@@ -4,8 +4,8 @@ const init = require('../base/init');
 const config = require('../base/config');
 const date2 = require('../base/date2');
 const mongo2 = require('../mongodb/mongo2');
-const my2 = require('../mysql/my2');
-const imageb = require('../image/image-base');
+import * as db from '../db/db.js';
+import * as imageb from '../image/image-base.js';
 
 init.add(
   (done) => {
@@ -13,7 +13,7 @@ init.add(
     done();
   },
   (done) => {
-    my2.query('start transaction', done);
+    db.query('start transaction', done);
   },
   (done) => {
     let c = 0;
@@ -33,7 +33,7 @@ init.add(
           vers: JSON.stringify(r.vers || null),
           comment: r.comment,
         }
-        my2.query('replace into image set ?', img, (err) => {
+        db.query('replace into image set ?', img, (err) => {
           if (err) return done(err);
           setImmediate(read);
         });
@@ -41,13 +41,13 @@ init.add(
     })();
   },
   (done) => {
-    my2.query('commit', done);
+    db.query('commit', done);
   },
   (done) => {
     mongo2.close(done);
   },
   (done) => {
-    my2.close(done);
+    db.close(done);
   },
   (done) => {
     console.log('done.');

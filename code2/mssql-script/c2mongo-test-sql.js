@@ -1,8 +1,7 @@
-'use strict';
 
 const tds = require('tedious');
-const init = require('../base/init');
-const config = require('../base/config');
+import * as init from "../base/init.js";
+import * as config from "../base/config.js";
 
 /*
   $ node code/mig-raysoda/mig-test-sql.js -c config/mig-1-dev.json

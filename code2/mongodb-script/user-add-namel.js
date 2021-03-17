@@ -3,7 +3,7 @@
 const init = require('../base/init');
 const config = require('../base/config');
 const mongo2 = require('../mongodb/mongo2');
-const userb = require('../user/user-base');
+import * as userb from '../user/user-base.js';
 
 init.run(function (err) {
   mongo2.forEach(userb.users, function (user, done) {
