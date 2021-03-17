@@ -1,15 +1,17 @@
-'use strict';
+import * as assert2 from "../base/assert2.js";
+import * as init from "../base/init.js";
+import * as dbPersist from "../db/db-persist.js";
 
-const init = require('../base/init');
-const persist = require('../mysql/persist');
-const bannerb = exports;
+export let banners = [];
 
-bannerb.banners = [];
+export function setBanners(b) {
+  banners = b;
+}
 
 init.add(function (done) {
-  persist.find('banners', function (err, value) {
+  dbPersist.find('banners', function (err, value) {
     if (err) return done(err);
-    bannerb.banners = value || [];
+    banners = value || [];
     done();
   });
 });

@@ -1,6 +1,5 @@
-'use strict';
-
-const expb = require('../express/express-base');
+import * as assert2 from "../base/assert2.js";
+import * as expb from "../express/express-base.js";
 
 expb.core.get('/about/site', function (req, res, done) {
   res.render('about/about-site');

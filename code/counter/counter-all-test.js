@@ -1,21 +1,18 @@
-'use strict';
-
-const assert = require('assert');
-const assert2 = require('../base/assert2');
-const init = require('../base/init');
-const error = require('../base/error');
-const date2 = require('../base/date2');
-const config = require('../base/config');
-const my2 = require('../mysql/my2');
-const expb = require('../express/express-base');
-const expl = require('../express/express-local');
-const userf = require('../user/user-fixture');
-const counterb = require('../counter/counter-base');
-const countera = require('../counter/counter-all');
+import * as assert2 from "../base/assert2.js";
+import * as init from "../base/init.js";
+import * as error from "../base/error.js";
+import * as date2 from "../base/date2.js";
+import * as config from "../base/config.js";
+import * as db from '../db/db.js';
+import * as expb from "../express/express-base.js";
+import * as expl from "../express/express-local.js";
+import * as userf from "../user/user-fixture.js";
+import * as counterb from "../counter/counter-base.js";
+import * as countera from "../counter/counter-all.js";
 
 before(function (done) {
-  config.path = 'config/raysoda-test.json';
-  my2.dropDatabase = true;
+  config.setPath('config/raysoda-test.json');
+  db.setDropDatabase(true);
   init.run(done);
 });
 
@@ -25,16 +22,16 @@ before((done) => {
 });
 
 describe('/api/counters/:id/inc', function () {
-  var today = new Date();
-  var todayStr = date2.makeDateString(today);
+  const today = new Date();
+  const todayStr = date2.dateString(today);
   it('should succeed for new', function (done) {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');
-      my2.queryOne('select * from counter where id = "abc" and d = ?', todayStr, (err, r) => {
-        assert.ifError(err);
-        assert.strictEqual(r.id, 'abc');
-        assert.strictEqual(r.d, todayStr);
-        assert.strictEqual(r.c, 1);
+      db.queryOne('select * from counter where id = "abc" and d = ?', todayStr, (err, r) => {
+        assert2.ifError(err);
+        assert2.e(r.id, 'abc');
+        assert2.e(r.d, todayStr);
+        assert2.e(r.c, 1);
         done();
       });
     });
@@ -42,11 +39,11 @@ describe('/api/counters/:id/inc', function () {
   it('should succeed for existing', function (done) {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');
-      my2.queryOne('select * from counter where id = "abc" and d = ?', todayStr, (err, r) => {
-        assert.ifError(err);
-        assert.strictEqual(r.id, 'abc');
-        assert.strictEqual(r.d, todayStr);
-        assert.strictEqual(r.c, 2);
+      db.queryOne('select * from counter where id = "abc" and d = ?', todayStr, (err, r) => {
+        assert2.ifError(err);
+        assert2.e(r.id, 'abc');
+        assert2.e(r.d, todayStr);
+        assert2.e(r.c, 2);
         done();
       });
     });
@@ -55,8 +52,8 @@ describe('/api/counters/:id/inc', function () {
 
 describe('/api/counters/:id', function () {
   before(function (done) {
-    my2.query(`
-      insert into counter(id, d, c) values   
+    db.query(`
+      insert into counter(id, d, c) values
         ('dc', '2015-10-06', 2 ),
         ('dc', '2015-10-07', 3 ),
         ('dc', '2015-10-05', 1 ),
@@ -67,26 +64,26 @@ describe('/api/counters/:id', function () {
   });
   it('should succeed', function (done) {
     userf.login('admin', function (err) {
-      assert.ifError(err);
+      assert2.ifError(err);
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
-        assert.ifError(err);
-        assert.ifError(res.body.err);
+        assert2.ifError(err);
+        assert2.ifError(res.body.err);
         let cs = res.body.counters;
-        assert.strictEqual(cs.length, 3);
-        assert.strictEqual(cs[0].d, '2015-10-07');
-        assert.strictEqual(cs[0].c, 3);
-        assert.strictEqual(cs[2].d, '2015-10-09');
-        assert.strictEqual(cs[2].c, 5);
+        assert2.e(cs.length, 3);
+        assert2.e(cs[0].d, '2015-10-07');
+        assert2.e(cs[0].c, 3);
+        assert2.e(cs[2].d, '2015-10-09');
+        assert2.e(cs[2].c, 5);
         done();
       });
     });
   });
   it('should fail if not admin', function (done) {
     userf.login('user1', function (err) {
-      assert.ifError(err);
+      assert2.ifError(err);
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
-        assert.ifError(err);
-        assert(error.find(res.body.err, 'NOT_AUTHORIZED'));
+        assert2.ifError(err);
+        assert2.ok(error.find(res.body.err, 'NOT_AUTHORIZED'));
         done();
       });
     });
