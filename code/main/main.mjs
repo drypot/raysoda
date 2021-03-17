@@ -1,6 +1,6 @@
 import * as init from "../base/init.js";
 import * as db from '../db/db.js';
-import * as expb from "../express/express-base";
+import * as expb from "../express/express-base.js";
 
 import '../image/image-new.js';
 import '../image/image-view.js';
