@@ -1,15 +1,14 @@
-'use strict';
+import * as assert2 from "../base/assert2.js";
+import * as init from "../base/init.js";
+import * as db from '../db/db.js';
+import * as expb from '../express/express-base.js';
+import * as imageb from '../image/image-base.js';
 
-const init = require('../base/init');
-const my2 = require('../mysql/my2');
-const expb = require('../express/express-base');
-const imageb = require('../image/image-base');
-
-var first;
+let first;
 
 init.add(
   (done) => {
-    my2.queryOne('select * from image order by cdate limit 1', (err, image) => {
+    db.queryOne('select * from image order by cdate limit 1', (err, image) => {
       if (err) return done(err);
       first = image ? image.cdate : new Date();
       done();

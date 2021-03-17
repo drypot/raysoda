@@ -1,15 +1,14 @@
-'use strict';
+import * as assert2 from "../base/assert2.js";
 
-const assert = require('assert');
-const init = require('../base/init');
-const config = require('../base/config');
-const my2 = require('../mysql/my2');
-const expb = require('../express/express-base');
-const imageb = require('../image/image-base');
+import * as init from "../base/init.js";
+import * as config from "../base/config.js";
+import * as db from '../db/db.js';
+import * as expb from "../express/express-base.js";
+import * as imageb from "../image/image-base.js";
 
 before(function (done) {
-  config.path = 'config/raysoda-test.json';
-  my2.dropDatabase = true;
+  config.setPath('config/raysoda-test.json');
+  db.setDropDatabase(true);
   init.run(done);
 });
 
@@ -20,46 +19,46 @@ before((done) => {
 
 describe('table image', function () {
   it('should exist', function (done) {
-    my2.tableExists('image', (err, exist) => {
-      assert.ifError(err);
-      assert(exist);
+    db.tableExists('image', (err, exist) => {
+      assert2.ifError(err);
+      assert2.ok(exist);
       done();
     });
   });
   it('getNewId should success', function () {
-    assert(imageb.getNewId() === 1);
-    assert(imageb.getNewId() < imageb.getNewId());
+    assert2.e(imageb.getNewId(), 1);
+    assert2.ok(imageb.getNewId() < imageb.getNewId());
   });
 });
 
 describe('identify()', function () {
   it('should work with jpeg', function (done) {
     imageb.identify('samples/1280x720.jpg', function (err, meta) {
-      assert.ifError(err);
-      assert.strictEqual(meta.format, 'jpeg');
-      assert.strictEqual(meta.width, 1280);
-      assert.strictEqual(meta.height, 720);
+      assert2.ifError(err);
+      assert2.e(meta.format, 'jpeg');
+      assert2.e(meta.width, 1280);
+      assert2.e(meta.height, 720);
       done();
     });
   });
   it('should work with svg', function (done) {
     imageb.identify('samples/svg-sample.svg', function (err, meta) {
-      assert.ifError(err);
-      assert.strictEqual(meta.format, 'svg');
-      assert.strictEqual(meta.width, 1000);
-      assert.strictEqual(meta.height, 1000);
+      assert2.ifError(err);
+      assert2.e(meta.format, 'svg');
+      assert2.e(meta.width, 1000);
+      assert2.e(meta.height, 1000);
       done();
     });
   });
   it('should fail with invalid path', function (done) {
     imageb.identify('xxxx', function (err, meta) {
-      assert(err !== null);
+      assert2.ok(err !== null);
       done();
     })
   });
   it('should fail with non-image', function (done) {
     imageb.identify('README.md', function (err, meta) {
-      assert(err !== null);
+      assert2.ok(err !== null);
       done();
     })
   });

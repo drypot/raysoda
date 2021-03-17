@@ -1,20 +1,19 @@
-'use strict';
-
-const my2 = require('../mysql/my2');
-const expb = require('../express/express-base');
-const expu = require('../express/express-upload');
-const usera = require('../user/user-auth');
-const imageb = require('../image/image-base');
+import * as assert2 from "../base/assert2.js";
+import * as db from '../db/db.js';
+import * as expb from '../express/express-base.js';
+import * as expu from '../express/express-upload.js';
+import * as usera from '../user/user-auth.js';
+import * as imageb from '../image/image-base.js';
 
 expb.core.delete('/api/images/:id([0-9]+)', function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
-    var id = parseInt(req.params.id) || 0;
+    const id = parseInt(req.params.id) || 0;
     imageb.checkUpdatable(user, id, function (err) {
       if (err) return done(err);
-      my2.query('delete from image where id = ?', id, (err) => {
+      db.query('delete from image where id = ?', id, (err) => {
         if (err) return done(err);
-        imageb.deleteImage(id, function (err) {
+        imageb.fman.deleteImage(id, function (err) {
           if (err) return done(err);
           res.json({});
         });

@@ -1,12 +1,10 @@
-'use strict';
-
-const exec = require('child_process').exec;
-const init = require('../base/init');
-const error = require('../base/error');
-const fs2 = require('../base/fs2');
-const config = require('../base/config');
-const my2 = require('../mysql/my2');
-const imageb = exports;
+import { exec } from "child_process";
+import * as assert2 from "../base/assert2.js";
+import * as init from "../base/init.js";
+import * as error from "../base/error.js";
+import * as config from "../base/config.js";
+import * as fs2 from "../base/fs2.js";
+import * as db from '../db/db.js';
 
 error.define('IMAGE_NOT_EXIST', '파일이 없습니다.');
 error.define('IMAGE_NO_FILE', '아미지 파일이 첨부되지 않았습니다.', 'files');
@@ -15,11 +13,13 @@ error.define('IMAGE_TYPE', '인식할 수 없는 파일입니다.', 'files');
 
 // images
 
-var imageId;
+export let fman;
+
+let imageId;
 
 init.add(
   (done) => {
-    my2.query(`
+    db.query(`
       create table if not exists image(
         id int not null,
         uid int not null,
@@ -31,17 +31,17 @@ init.add(
     `, done);
   },
   (done) => {
-    my2.query(`
+    db.query(`
       create index image_cdate on image(cdate desc);
     `, () => { done(); });
   },
   (done) => {
-    my2.query(`
+    db.query(`
       create index image_uid_cdate on image(uid, cdate desc);
     `, () => { done(); });
   },
   (done) => {
-    my2.getMaxId('image', (err, id) => {
+    db.getMaxId('image', (err, id) => {
       if (err) return done(err);
       imageId = id;
       done();
@@ -49,19 +49,19 @@ init.add(
   }
 );
 
-imageb.getNewId = function () {
+export function getNewId() {
   return ++imageId;
-};
+}
 
-imageb.packImage= function (image) {
+export function packImage(image) {
   if (image.vers !== undefined) {
     image.vers = JSON.stringify(image.vers);
   }
-};
+}
 
-imageb.unpackImage= function (image) {
+export function unpackImage(image) {
   image.vers = JSON.parse(image.vers);
-};
+}
 
 /*
   이미지 파일 관리
@@ -76,36 +76,42 @@ imageb.unpackImage= function (image) {
   DB 없이 파일명으로 검색이 가능한 장점.
 */
 
+export let imageDir;
+export let imageUrl;
+
 init.add(
   function (done) {
-    fs2.makeDir(config.uploadDir + '/public/images', function (err, dir) {
+    fs2.makeDir(config.prop.uploadDir + '/public/images', function (err, dir) {
       if (err) return done(err);
-      imageb.imageDir = dir;
-      imageb.imageUrl = config.uploadSite + '/images';
+      imageDir = dir;
+      imageUrl = config.prop.uploadSite + '/images';
       done();
     });
   },
   function (done) {
-    require('./image-base-' + config.appNamel);
-    done();
+    let path = './image-fman-' + config.prop.appNamel + '.js';
+    import(path).then(module => {
+      fman = module;
+      done();
+    });
   }
 );
 
-imageb.emptyDir = function (done) {
-  if (config.dev) {
-    fs2.emptyDir(imageb.imageDir, done);
+export function emptyDir(done) {
+  if (config.prop.dev) {
+    fs2.emptyDir(imageDir, done);
   } else {
     done(new Error("emptyDir not allowed on production instance."));
   }
-};
+}
 
-imageb.identify = function (fname, done) {
+export function identify(fname, done) {
   exec('identify -format "%m %w %h" ' + fname, function (err, stdout, stderr) {
     if (err) return done(err);
-    var a = stdout.split(/[ \n]/);
-    var width = parseInt(a[1]) || 0;
-    var height = parseInt(a[2]) || 0;
-    var meta = {
+    const a = stdout.split(/[ \n]/);
+    const width = parseInt(a[1]) || 0;
+    const height = parseInt(a[2]) || 0;
+    const meta = {
       format: a[0].toLowerCase(),
       width: width,
       height: height,
@@ -113,17 +119,17 @@ imageb.identify = function (fname, done) {
     };
     done(null, meta);
   });
-};
+}
 
-imageb.checkUpdatable = function (user, id, done) {
-  my2.queryOne('select * from image where id = ?', id, (err, image) => {
+export function checkUpdatable(user, id, done) {
+  db.queryOne('select * from image where id = ?', id, (err, image) => {
     if (err) return done(err);
     if (!image) {
-      return done(error('IMAGE_NOT_EXIST'));
+      return done(error.newError('IMAGE_NOT_EXIST'));
     }
-    if (image.uid != user.id && !user.admin) {
-      return done(error('NOT_AUTHORIZED'));
+    if (image.uid !== user.id && !user.admin) {
+      return done(error.newError('NOT_AUTHORIZED'));
     }
     done(null, image);
   });
-};
+}

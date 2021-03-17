@@ -1,16 +1,14 @@
-'use strict';
-
-const async = require('../base/async');
-const url2 = require('../base/url2');
-const date2 = require('../base/date2');
-const error = require('../base/error');
-const config = require('../base/config');
-const my2 = require('../mysql/my2');
-const expb = require('../express/express-base');
-const userb = require('../user/user-base');
-const imageb = require('../image/image-base');
-const bannerb = require('../banner/banner-base');
-const imagel = exports;
+import * as assert2 from "../base/assert2.js";
+import * as async2 from "../base/async2.js";
+import * as date2 from "../base/date2.js";
+import * as error from "../base/error.js";
+import * as config from "../base/config.js";
+import * as url2 from "../base/url2.js";
+import * as db from '../db/db.js';
+import * as expb from "../express/express-base.js";
+import * as userb from "../user/user-base.js";
+import * as imageb from "../image/image-base.js";
+import * as bannerb from "../banner/banner-base.js";
 
 expb.core.get('/', function (req, res, done) {
   list(req, res, false, done);
@@ -32,17 +30,17 @@ function list(req, res, api, done) {
   if (dstr) {
     d = new Date(dstr.slice(0, 4), dstr.slice(4,6));
   }
-  async.wf(
+  async2.waterfall(
     (done) => {
       if (d) {
-        my2.query('select * from image where cdate < ? order by cdate desc limit ?, ?', [d, (p-1)*ps, ps], done);
+        db.query('select * from image where cdate < ? order by cdate desc limit ?, ?', [d, (p-1)*ps, ps], done);
       } else {
-        my2.query('select * from image order by cdate desc limit ?, ?', [(p-1)*ps, ps], done);
+        db.query('select * from image order by cdate desc limit ?, ?', [(p-1)*ps, ps], done);
       }
     },
     (err, images) => {
       if (err) return done(err);
-      imagel.decoImageList(images, (err) => {
+      decoImageList(images, (err) => {
         if (err) return done(err);
         if (api) {
           res.json({
@@ -61,7 +59,7 @@ function list(req, res, api, done) {
   );
 }
 
-imagel.decoImageList = function (images, done) {
+export function decoImageList(images, done) {
   let i = 0;
   (function loop() {
     if (i === images.length) {
@@ -76,8 +74,8 @@ imagel.decoImageList = function (images, done) {
         name: user.name,
         home: user.home
       };
-      image.thumb = imageb.getThumbUrl(image.id);
-      image.cdateStr = date2.makeDateTimeString(image.cdate);
+      image.thumb = imageb.fman.getThumbUrl(image.id);
+      image.cdateStr = date2.dateTimeString(image.cdate);
       setImmediate(loop);
     });
   })();

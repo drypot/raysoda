@@ -1,52 +1,51 @@
-'use strict';
+import fs from "fs";
+import { exec } from "child_process";
+import * as assert2 from "../base/assert2.js";
+import * as error from "../base/error.js";
+import * as fs2 from "../base/fs2.js";
+import * as imageb from "../image/image-base.js";
 
-const exec = require('child_process').exec;
-const fs = require('fs');
-const error = require('../base/error');
-const fs2 = require('../base/fs2');
-const imageb = require('../image/image-base');
-
-imageb.maxWidth = 2048;
+export const maxWidth = 2048;
 
 function getDepth(id) {
   return fs2.makeDeepPath((id / 1000) >> 0, 2);
 };
 
-imageb.getDir = function (id) {
+export function getDir(id) {
   return imageb.imageDir + '/' + getDepth(id);
-};
+}
 
-imageb.getPath = function (id) {
+export function getPath(id) {
   return imageb.imageDir + '/' + getDepth(id) + '/' + id + '.jpg';
-};
+}
 
-imageb.getUrlDir = function (id) {
+export function getUrlDir(id) {
   return imageb.imageUrl + '/' + getDepth(id);
-};
+}
 
-imageb.getThumbUrl = function (id) {
+export function getThumbUrl(id) {
   return imageb.imageUrl + '/' + getDepth(id) + '/' + id + '.jpg';
-};
+}
 
-imageb.checkImageMeta = function (path, done) {
+export function checkImageMeta(path, done) {
   imageb.identify(path, function (err, meta) {
     if (err) {
-      return done(error('IMAGE_TYPE'));
+      return done(error.newError('IMAGE_TYPE'));
     }
     if (meta.shorter < 640) {
-      return done(error('IMAGE_SIZE'));
+      return done(error.newError('IMAGE_SIZE'));
     }
     done(null, meta);
   });
-};
+}
 
-imageb.saveImage = function (id, src, meta, done) {
-  fs2.makeDir(imageb.getDir(id), function (err) {
+export function saveImage(id, src, meta, done) {
+  fs2.makeDir(getDir(id), function (err) {
     if (err) return done(err);
-    var shorter = meta.shorter;
-    var max = shorter < imageb.maxWidth ? shorter : imageb.maxWidth;
-    var r = (max - 1) / 2;
-    var cmd = 'convert ' + src;
+    const shorter = meta.shorter;
+    const max = shorter < maxWidth ? shorter : maxWidth;
+    const r = (max - 1) / 2;
+    let cmd = 'convert ' + src;
     cmd += ' -quality 92';
     cmd += ' -gravity center';
     cmd += ' -auto-orient';
@@ -58,17 +57,17 @@ imageb.saveImage = function (id, src, meta, done) {
     //cmd += ' \\( +clone -alpha opaque -fill white -colorize 100% \\)'
     //cmd += ' +swap -geometry +0+0 -compose Over -composite -alpha off'
     cmd += ' -background white -alpha remove -alpha off'; // alpha remove need IM 6.7.5 or above
-    cmd += ' ' + imageb.getPath(id);
+    cmd += ' ' +
+    getPath(id);
     exec(cmd, function (err) {
       done(err, null);
     });
   });
-};
+}
 
-imageb.deleteImage = function (id, done) {
-  fs.unlink(imageb.getPath(id), function (err) {
+export let deleteImage = function (id, done) {
+  fs.unlink(getPath(id), function (err) {
     // 파일 없을 경우 나는 에러를 무시한다.
     done();
   });
 };
-

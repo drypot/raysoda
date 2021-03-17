@@ -1,21 +1,19 @@
-'use strict';
-
-const error = require('../base/error');
-const config = require('../base/config');
-const my2 = require('../mysql/my2');
-const expb = require('../express/express-base');
-const expu = require('../express/express-upload');
-const usera = require('../user/user-auth');
-const imageb = require('../image/image-base');
-const imagen = exports;
+import * as assert2 from "../base/assert2.js";
+import * as error from "../base/error.js";
+import * as config from "../base/config.js";
+import * as db from '../db/db.js';
+import * as expb from "../express/express-base.js";
+import * as expu from "../express/express-upload.js";
+import * as usera from "../user/user-auth.js";
+import * as imageb from "../image/image-base.js";
 
 expb.core.get('/images/new', function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
-    var now = new Date();
+    const now = new Date();
     getTicketCount(now, user, function (err, count, hours) {
       res.render('image/image-new', {
-        ticketMax: config.ticketMax,
+        ticketMax: config.prop.ticketMax,
         ticketCount: count,
         hours: hours
       });
@@ -26,13 +24,13 @@ expb.core.get('/images/new', function (req, res, done) {
 expb.core.post('/api/images', expu.handler(function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
-    var form = getForm(req);
+    const form = getForm(req);
     if (!form.files) {
-      return done(error('IMAGE_NO_FILE'));
+      return done(error.newError('IMAGE_NO_FILE'));
     }
     saveImages(user, form, (err, ids) => {
       if (err) return done(err);
-      my2.query('update user set pdate = ? where id = ?', [form.now, user.id], (err) => {
+      db.query('update user set pdate = ? where id = ?', [form.now, user.id], (err) => {
         if (err) return done(err);
         res.json({ ids: ids });
         done();
@@ -42,22 +40,22 @@ expb.core.post('/api/images', expu.handler(function (req, res, done) {
 }));
 
 function saveImages(user, form, done) {
-  var i = 0;
-  var ids = [];
+  let i = 0;
+  const ids = [];
   (function create() {
     if (i === form.files.length) {
       return done(null, ids);
     }
-    var upload = form.files[i++];
+    const upload = form.files[i++];
     getTicketCount(form.now, user, function (err, count, hours) {
       if (err) return done(err);
       if (!count) return done(null, ids);
-      imageb.checkImageMeta(upload.path, function (err, meta) {
+      imageb.fman.checkImageMeta(upload.path, function (err, meta) {
         if (err) return done(err);
-        var id = imageb.getNewId();
-        imageb.saveImage(id, upload.path, meta, function (err, vers) {
+        const id = imageb.getNewId();
+        imageb.fman.saveImage(id, upload.path, meta, function (err, vers) {
           if (err) return done(err);
-          var image = {
+          const image = {
             id: id,
             uid: user.id,
             cdate: form.now,
@@ -65,7 +63,7 @@ function saveImages(user, form, done) {
             comment: form.comment,
           };
           imageb.packImage(image);
-          my2.query('insert into image set ?', image, (err, r) => {
+          db.query('insert into image set ?', image, (err, r) => {
             if (err) return done(err);
             ids.push(id);
             setImmediate(create);
@@ -76,22 +74,22 @@ function saveImages(user, form, done) {
   })();
 }
 
-var getForm = imagen.getForm = function (req) {
-  var body = req.body;
-  var form = {};
+export function getForm(req) {
+  const body = req.body;
+  const form = {};
   form.now = new Date();
   form.comment = body.comment || '';
   form.files = req.files && req.files.files;
   return form;
 }
 
-var getTicketCount = imagen.getTicketCount = function(now, user, done) {
-  var count = config.ticketMax;
-  var hours;
-  my2.query('select cdate from image where uid = ? order by cdate desc limit ?', [user.id, config.ticketMax], (err, images) => {
+export function getTicketCount(now, user, done) {
+  let count = config.prop.ticketMax;
+  let hours;
+  db.query('select cdate from image where uid = ? order by cdate desc limit ?', [user.id, config.prop.ticketMax], (err, images) => {
     if (err) return done(err);
-    for (var i = 0; i < images.length; i++) {
-      hours = config.ticketGenInterval - Math.floor((now.getTime() - images[i].cdate.getTime()) / (60 * 60 * 1000));
+    for (let i = 0; i < images.length; i++) {
+      hours = config.prop.ticketGenInterval - Math.floor((now.getTime() - images[i].cdate.getTime()) / (60 * 60 * 1000));
       if (hours > 0) {
         count--;
       } else {
@@ -100,4 +98,4 @@ var getTicketCount = imagen.getTicketCount = function(now, user, done) {
     }
     done(null, count, hours);
   });
-};
+}
