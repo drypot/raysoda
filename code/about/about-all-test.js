@@ -16,5 +16,46 @@ before((done) => {
   done();
 });
 
-describe('about-all', function () {
+describe('about all pages', function () {
+  describe('get /about/site', function () {
+    it('should succeed', function (done) {
+      expl.get('/about/site').end(function (err, res) {
+        assert2.ifError(err);
+        done();
+      });
+    });
+  });
+  describe('get /about/company', function () {
+    it('should succeed', function (done) {
+      expl.get('/about/company').end(function (err, res) {
+        assert2.ifError(err);
+        done();
+      });
+    });
+  });
+  describe('get /about/ad', function () {
+    it('should succeed', function (done) {
+      expl.get('/about/ad').end(function (err, res) {
+        assert2.ifError(err);
+        done();
+      });
+    });
+  });
+  describe('get /about/privacy', function () {
+    it('should succeed', function (done) {
+      expl.get('/about/privacy').end(function (err, res) {
+        assert2.ifError(err);
+        done();
+      });
+    });
+  });
+  describe('get /about/help', function () {
+    it('should succeed', function (done) {
+      expl.get('/about/help').end(function (err, res) {
+        assert2.ifError(err);
+        done();
+      });
+    });
+  });
+
 });
