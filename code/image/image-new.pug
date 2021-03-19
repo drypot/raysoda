@@ -36,5 +36,9 @@ block content
             textarea.form-control(name='comment', rows=7)
         .sub-section
           button.btn.btn-primary(name='send', data-loading-text='Sending') Upload
+          p.help-block
+            if appNamel == 'rapixel'
+              br
+              | 업로드 완료에 다소 시간이 걸릴 수 있습니다.
 
     include image-new-notice.pug
