@@ -106,18 +106,22 @@ export function emptyDir(done) {
 }
 
 export function identify(fname, done) {
-  exec('identify -format "%m %w %h" ' + fname, function (err, stdout, stderr) {
+  // identify 에 -auto-orient 를 적용할 수가 없어서 morify 를 할 수 없이 한번 한다.
+  exec('mogrify -auto-orient ' + fname, function (err) {
     if (err) return done(err);
-    const a = stdout.split(/[ \n]/);
-    const width = parseInt(a[1]) || 0;
-    const height = parseInt(a[2]) || 0;
-    const meta = {
-      format: a[0].toLowerCase(),
-      width: width,
-      height: height,
-      shorter: width > height ? height : width
-    };
-    done(null, meta);
+    exec('identify -format "%m %w %h" ' + fname, function (err, stdout, stderr) {
+      if (err) return done(err);
+      const a = stdout.split(/[ \n]/);
+      const width = parseInt(a[1]) || 0;
+      const height = parseInt(a[2]) || 0;
+      const meta = {
+        format: a[0].toLowerCase(),
+        width: width,
+        height: height,
+        shorter: width > height ? height : width
+      };
+      done(null, meta);
+    });
   });
 }
 
