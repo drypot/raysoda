@@ -1,7 +1,7 @@
-const exec = require('child_process').exec;
-const util = require('util');
+import { exec } from "child_process";
+import util from "util";
 
-/* 
+/*
   $ node samples/make-samples.js
 */
 
@@ -10,33 +10,34 @@ process.on('uncaughtException', function (err) {
   process.exit(1);
 });
 
-var _vers = [
+const _vers = [
   { width: 5120, height: 2880 }, // rapixel
   { width: 4096, height: 2304 },
   { width: 3840, height: 2160 },
+  { width: 2160, height: 3840 },
   { width: 2560, height: 1440 }, // osoky, raysoda
-  //{ width: 1440, height: 810 }, 
+  //{ width: 1440, height: 810 },
   { width: 1280, height: 720 }, // osoky
   //{ width: 1136, height: 640 },
-  // { width: 960 , height: 540 }, 
-  { width: 640 , height: 360 }, // osoky
-  { width: 360 , height: 240 }, // raysoda
+  // { width: 960 , height: 540 },
+  { width: 640, height: 360 }, // osoky
+  { width: 360, height: 240 }, // raysoda
 
   { width: 1440, height: 2560 } // raysoda
 ];
 
 function saveImage(next) {
-  var i = 0;
+  let i = 0;
   (function make() {
     if (i == _vers.length) {
       return next();
     }
-    var v = _vers[i++];
-    var w = v.width;
-    var h = v.height;
-    var lx = w - 1;
-    var ly = h - 1;
-    var cmd = '';
+    const v = _vers[i++];
+    const w = v.width;
+    const h = v.height;
+    const lx = w - 1;
+    const ly = h - 1;
+    let cmd = '';
     cmd += 'convert -size ' + w + 'x' + h + ' xc:#c0c0c0';
     cmd += ' -fill "#c0c0c0" -stroke "#303030" '
     if (w > h) {
