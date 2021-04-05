@@ -47,14 +47,17 @@ export function getThumbUrl(id) {
 }
 
 export function checkImageMeta(path, done) {
-  imageb.identify(path, function (err, meta) {
-    if (err) {
-      return done(error.newError('IMAGE_TYPE'));
-    }
-    if (meta.width < _minWidth - 15 || meta.height < _minHeight - 15) {
-      return done(error.newError('IMAGE_SIZE'));
-    }
-    done(null, meta);
+  exec('mogrify -auto-orient ' + path, function (err) {
+    if (err) return done(err);
+    imageb.identify(path, function (err, meta) {
+      if (err) {
+        return done(error.newError('IMAGE_TYPE'));
+      }
+      if (meta.width < _minWidth - 15 || meta.height < _minHeight - 15) {
+        return done(error.newError('IMAGE_SIZE'));
+      }
+      done(null, meta);
+    });
   });
 }
 

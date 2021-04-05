@@ -107,14 +107,13 @@ describe('post /api/images', function () {
     });
   });
 
-  describe.only('posting vertical image', function () {
+  describe('posting vertical image', function () {
     before(function (done) {
       db.query('truncate table image', done);
     });
     it('should fail', function (done) {
       expl.post('/api/images').attach('files', 'samples/2160x3840.jpg').end(function (err, res) {
         assert2.ifError(err);
-        console.log(res.body);
         assert2.ok(res.body.err);
         assert2.ok(error.find(res.body.err, 'IMAGE_SIZE'));
         done();
