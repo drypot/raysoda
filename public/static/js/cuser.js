@@ -26,7 +26,7 @@ $(function () {
     var $form = formty.getForm('form.main');
     $form.$send.click(function () {
       formty.post('/api/users', $form, function () {
-        location = '/users/login?newuser';
+        location = '/users/register-done';
       });
       return false;
     });

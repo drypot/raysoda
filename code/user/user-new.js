@@ -8,6 +8,10 @@ expb.core.get('/users/register', function (req, res, done) {
   res.render('user/user-new');
 });
 
+expb.core.get('/users/register-done', function (req, res, done) {
+  res.render('user/user-new-done');
+});
+
 expb.core.post('/api/users', function (req, res, done) {
   const form = getForm(req);
   form.home = form.name;

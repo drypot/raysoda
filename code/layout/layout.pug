@@ -11,7 +11,7 @@ html
 
     link(rel='stylesheet', href='/static/lib/bootstrap-3.4.1-dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/static/lib/font-awesome-4.7.0/css/font-awesome.min.css')
-    link(rel='stylesheet', href='/static/css/base.css?v=1.0.1')
+    link(rel='stylesheet', href='/static/css/base.css?v=1.0.2')
     link(rel='stylesheet', href='/static/css/' + appNamel + '.css?v=1.0.1')
 
     script(src='/static/lib/jquery-3.5.1.min.js')
@@ -56,11 +56,16 @@ html
     .section.page-footer
       .about-list
         ul.list-inline
-          li: a(href='/about/site') About
-          li: a(href='/about/company') Company
-          li: a(href='/about/ad') Advertise
-          li: a(href='/about/privacy') Privacy
-          li: a(href='/about/help') Help
+          //-li: a(href='/about/site') About
+          //-li: a(href='/about/company') Company
+          //-li: a(href='/about/ad') Advertise
+          //-li: a(href='/about/privacy') Privacy
+          //-li: a(href='/about/help') Help
+          li: a(href='/about/site') 사이트
+          li: a(href='/about/company') 회사
+          li: a(href='/about/ad') 광고
+          li: a(href='/about/privacy') 개인정보처리방침
+          li: a(href='/about/help') 도움말
       if appNamel == 'raysoda'
         .sponsor
           a(href='/api/counters/adng/inc?r=http://www.natgeokorea.com/magazine' target='_blank') National Geographic

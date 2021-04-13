@@ -162,24 +162,8 @@ pre.sample {
   max-width: 100%;
 }
 .image-thumb-list .image-thumb {
-  margin: 7.5em auto;
   text-align: center;
   max-width: 100%;
-}
-@media (min-width: 768px) {
-  .image-thumb-list .image-thumb {
-    margin: 8.1em auto;
-  }
-}
-@media (min-width: 1024px) {
-  .image-thumb-list .image-thumb {
-    margin: 9em auto;
-  }
-}
-@media (min-width: 1400px) {
-  .image-thumb-list .image-thumb {
-    margin: 9.9em auto;
-  }
 }
 .image-thumb-list .image-thumb a {
   color: #333;
@@ -200,6 +184,25 @@ pre.sample {
   white-space: pre-line;
 }
 
+.thumb-margin {
+  margin: 7.5em auto;
+}
+@media (min-width: 768px) {
+  .thumb-margin {
+    margin: 8.1em auto;
+  }
+}
+@media (min-width: 1024px) {
+  .thumb-margin {
+    margin: 9em auto;
+  }
+}
+@media (min-width: 1400px) {
+  .thumb-margin {
+    margin: 9.9em auto;
+  }
+}
+
 .fs-icon {
   position: absolute;
   top: 0.3em;
@@ -214,6 +217,7 @@ pre.sample {
 
 .prev-next a {
   padding: 0em 1em;
+  font-size: 2em;
 }
 
 .image-full {

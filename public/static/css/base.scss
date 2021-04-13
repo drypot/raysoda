@@ -181,16 +181,6 @@ pre.sample {
   max-width: 100%; // section 의 max-width 오버라이딩.
   .image-thumb {
     //@include section;
-    margin: $margin * 2.5 auto; // auto 는 IE9 이상부터
-    @include narrow {
-      margin: $margin * 2.7 auto;
-    }
-    @include normal {
-      margin: $margin * 3 auto;
-    }
-    @include wide {
-      margin: $margin * 3.3 auto;
-    }
     text-align: center;
     @include ac-link;
     max-width: 100%; // for ie
@@ -213,6 +203,19 @@ pre.sample {
   }
 }
 
+.thumb-margin {
+  margin: $margin * 2.5 auto; // auto 는 IE9 이상부터
+  @include narrow {
+    margin: $margin * 2.7 auto;
+  }
+  @include normal {
+    margin: $margin * 3 auto;
+  }
+  @include wide {
+    margin: $margin * 3.3 auto;
+  }
+}
+
 .fs-icon {
   position: absolute;
   top: 0.3em;
@@ -225,9 +228,10 @@ pre.sample {
   cursor: pointer;
 }
 
-.prev-next { // 삭제 가능
+.prev-next {
   a {
     padding: 0em 1em;
+    font-size: 2em;
   }
 }
 

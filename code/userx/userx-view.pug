@@ -23,7 +23,7 @@ block content
 
       if updatable
         .sub-section.top-links
-          a(href='/users/' + tuser.id + '/update') Update Profile
+          a(href='/users/' + tuser.id + '/update') 개인정보수정
 
       if tuser.status == 'd'
         .sub-section
@@ -40,9 +40,10 @@ block content
           if image.comment
             .comment= image.comment
     .section
-      if prev
-        .mini-section
-          a(href=prev) Previous
-      if next
-        .mini-section
-          a(href=next) Next
+      .prev-next.thumb-margin
+        if prev
+          a(href=prev)
+            i.fa.fa-angle-left(aria-hidden='true')
+        if next
+          a(href=next)
+            i.fa.fa-angle-right(aria-hidden='true')

@@ -11,7 +11,7 @@ block content
     });
 
   .section.page-title
-    h1 Users
+    h1 회원별
 
   .section
     .sub-section
@@ -19,7 +19,7 @@ block content
         .form-group
           input.form-control(name='q', type='text')
         .form-group
-          button.btn.btn-primary(type='submit') Search
+          button.btn.btn-primary(type='submit') 회원 검색
 
       .sub-section
         .user-list
@@ -27,12 +27,14 @@ block content
             for user in users
               div: a(href='/' + encodeURIComponent(user.home)) #{user.name}
           else
-            div No more users.
+            div 검색 결과가 없습니다.
 
       .sub-section
-        if prev
-          .mini-section
-            a(href=prev) Previous
-        if next
-          .mini-section
-            a(href=next) Next
+        .prev-next
+          if prev
+            a(href=prev)
+              i.fa.fa-angle-left(aria-hidden='true')
+          if next
+            a(href=next)
+              i.fa.fa-angle-right(aria-hidden='true')
+
