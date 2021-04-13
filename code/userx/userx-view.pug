@@ -16,7 +16,7 @@ block content
       //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
       a(href='/' + encodeURIComponent(tuser.home)) #{tuser.name}
 
-  if !gt
+  if !prev
     .section
       #profile-text.sub-section
         | #{tuser.profile}
