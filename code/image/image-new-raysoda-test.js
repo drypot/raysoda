@@ -176,6 +176,34 @@ describe('post /api/images', function () {
       });
     });
   });
+  describe.skip('posting heic', function () {
+    before(function (done) {
+      db.query('truncate table image', done);
+    });
+    it('should succeed', function (done) {
+      expl.post('/api/images').field('comment', 'heic image').attach('files', 'samples/IMG_4395.HEIC').end(function (err, res) {
+        assert2.ifError(err);
+        assert2.ifError(res.body.err);
+        assert2.ne(res.body.ids, undefined);
+        assert2.e(res.body.ids.length, 1);
+        const _id = res.body.ids[0];
+        db.queryOne('select * from image where id = ?', _id, (err, image) => {
+          assert2.ifError(err);
+          assert2.e(image.id, _id);
+          assert2.e(image.uid, userf.users.user1.id);
+          assert2.ne(image.cdate, undefined);
+          assert2.e(image.comment, 'heic image');
+          imageb.identify(imageb.fman.getPath(_id), function (err, meta) {
+            assert2.ifError(err);
+            assert2.e(meta.width, 2048);
+            assert2.e(meta.height, 1536);
+            done();
+          });
+        });
+
+      });
+    });
+  });
   describe('posting small image', function () {
     before(function (done) {
       db.query('truncate table image', done);
