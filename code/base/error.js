@@ -25,6 +25,12 @@ const INVALID_FORM = get('INVALID_FORM');
 
 export function newError(obj) {
   let err;
+  if (Array.isArray(obj)) {
+    err = new Error(INVALID_FORM.message);
+    err.code = INVALID_FORM.code;
+    err.errors = obj;
+    return err;
+  }
   const ec = get(obj);
   if (!ec) {
     err = new Error('unknown error');
@@ -33,24 +39,14 @@ export function newError(obj) {
     }
     return err;
   }
-  err = new Error(ec.message);
-  err.code = ec.code;
-  return err;
-}
-
-export function newFormError(obj) {
-  let err;
-  if (Array.isArray(obj)) {
+  if (ec.field) {
     err = new Error(INVALID_FORM.message);
     err.code = INVALID_FORM.code;
-    err.errors = obj;
+    err.errors = [ec];
     return err;
   }
-  const ec = get(obj);
-  assert2.ok(ec.field);
-  err = new Error(INVALID_FORM.message);
-  err.code = INVALID_FORM.code;
-  err.errors = [ec];
+  err = new Error(ec.message);
+  err.code = ec.code;
   return err;
 }
 

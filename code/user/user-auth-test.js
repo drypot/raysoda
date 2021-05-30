@@ -80,6 +80,7 @@ describe('login', function () {
     expl.post('/api/users/login').send(form).end(function (err, res) {
       assert2.ifError(err);
       assert2.ok(res.body.err);
+      assert2.e(res.body.err.code, 'INVALID_FORM');
       assert2.ok(error.find(res.body.err, 'EMAIL_NOT_FOUND'));
       done();
     });
@@ -89,6 +90,7 @@ describe('login', function () {
     expl.post('/api/users/login').send(form).end(function (err, res) {
       assert2.ifError(err);
       assert2.ok(res.body.err);
+      assert2.e(res.body.err.code, 'INVALID_FORM');
       assert2.ok(error.find(res.body.err, 'PASSWORD_WRONG'));
       done();
     });

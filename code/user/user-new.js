@@ -87,7 +87,7 @@ export function checkForm(form, id, done) {
           errors.push(error.get('EMAIL_DUPE'));
         }
         if (errors.length) {
-          done(error.newFormError(errors));
+          done(error.newError(errors));
         } else {
           done();
         }

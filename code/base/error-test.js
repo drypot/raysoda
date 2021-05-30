@@ -32,7 +32,8 @@ describe('error.newError(string)', function () {
 describe('error.newError(field error)', function () {
   it('should succeed', function () {
     const err = error.newError('NAME_DUPE');
-    assert2.e(err.code, error.get('NAME_DUPE').code);
+    assert2.e(err.code, error.get('INVALID_FORM').code);
+    assert2.de(err.errors[0], error.get('NAME_DUPE'));
     assert2.ne(err.stack, undefined);
   })
 });
@@ -48,31 +49,23 @@ describe('error.newError(unknown)', function () {
   });
 });
 
-describe('error.newFormError(field error)', function () {
+describe('error.newError(field error)', function () {
   it('should succeed', function () {
-    const err = error.newFormError('NAME_DUPE');
+    const err = error.newError('NAME_DUPE');
     assert2.e(err.code, error.get('INVALID_FORM').code);
     assert2.de(err.errors[0], error.get('NAME_DUPE'));
   })
 });
 
-describe('error.newFormError(field error array)', function () {
+describe('error.newError(field error array)', function () {
   it('should succeed', function () {
     const errors = [];
     errors.push(error.get('NAME_DUPE'));
     errors.push(error.get('PASSWORD_EMPTY'));
-    const err = error.newFormError(errors);
+    const err = error.newError(errors);
     assert2.e(err.code, error.get('INVALID_FORM').code);
     assert2.de(err.errors[0], error.get('NAME_DUPE'));
     assert2.de(err.errors[1], error.get('PASSWORD_EMPTY'));
-  })
-});
-
-describe('error.newFormError(normal error)', function () {
-  it('should fail', function () {
-    assert2.throws(function () {
-      const err = error.newFormError('INVALID_DATA');
-    });
   })
 });
 

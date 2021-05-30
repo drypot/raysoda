@@ -38,7 +38,7 @@ expb.core.post('/api/reset-pass', function (req, res, done) {
   const errors = [];
   usern.checkFormEmail(form, errors);
   if (errors.length) {
-    return done(error.newFormError(errors));
+    return done(error.newError(errors));
   }
   db.queryOne('select * from user where email = ?', form.email, (err, user) => {
     if (err) return done(err);
@@ -84,7 +84,7 @@ expb.core.put('/api/reset-pass', function (req, res, done) {
   const errors = [];
   usern.checkFormPassword(form, errors);
   if (errors.length) {
-    return done(error.newFormError(errors));
+    return done(error.newError(errors));
   }
   db.queryOne('select * from pwreset where uuid = ?', form.uuid, (err, reset) => {
     if (err) return done(err);
