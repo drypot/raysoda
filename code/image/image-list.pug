@@ -20,6 +20,7 @@ block content
   if !prev
     .section
       .sub-section.top-links
+        a(href='/about/site') 사이트소개
         if locals.user
           //-a(href='/images/new') Upload
           a(href='/images/new') 사진등록
@@ -37,7 +38,7 @@ block content
           //-a(href='/users/login') Login
           a(href='/users/login') 로그인
           //-a(href='/users/register') Register
-          a(href='/users/register') 회원등록
+          a(href='/users/register') 회원가입
           //-a(href='/users') Users
           a(href='/users') 회원별
           //-a(href='/images/years') Years

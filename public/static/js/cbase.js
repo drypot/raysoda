@@ -7,7 +7,7 @@ if (!window.console) {
 $(function () {
   window.date2 = {};
   window.url2 = {};
-  
+
   function pad(number) {
     var r = String(number);
     if ( r.length === 1 ) {
@@ -124,9 +124,9 @@ $(function () {
 
     function onload() {
       if (xhr.status == 200) {
-        done(null, { 
-          xhr: xhr, 
-          body: JSON.parse(xhr.responseText) || {} 
+        done(null, {
+          xhr: xhr,
+          body: JSON.parse(xhr.responseText) || {}
         });
       } else {
         done(new Error(xhr.statusText));
@@ -364,9 +364,9 @@ $(function () {
 $(function () {
   window.fullscreen = {};
 
-  fullscreen.enabled = 
-    document.fullscreenEnabled || 
-    document.webkitFullscreenEnabled || 
+  fullscreen.enabled =
+    document.fullscreenEnabled ||
+    document.webkitFullscreenEnabled ||
     document.mozFullScreenEnabled ||
     document.msFullscreenEnabled;
 
@@ -395,8 +395,8 @@ $(function () {
 
   fullscreen.inFullscreen = function () {
     return fullscreen.enabled && !!(
-      document.fullscreenElement || 
-      document.mozFullScreenElement || 
+      document.fullscreenElement ||
+      document.mozFullScreenElement ||
       document.webkitFullscreenElement ||
       document.msFullscreenElement
     );
