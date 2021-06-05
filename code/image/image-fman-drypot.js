@@ -1,4 +1,4 @@
-import fs from "fs";
+import * as fs from "fs";
 import * as assert2 from "../base/assert2.js";
 import * as error from "../base/error.js";
 import * as fs2 from "../base/fs2.js";

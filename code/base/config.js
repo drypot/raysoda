@@ -1,4 +1,4 @@
-import fs from "fs";
+import * as fs from "fs";
 import minimist from "minimist";
 import * as assert2 from "./assert2.js";
 import * as init from "../base/init.js";

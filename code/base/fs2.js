@@ -1,4 +1,4 @@
-import fs from "fs";
+import * as fs from "fs";
 import * as path from "path";
 import * as assert2 from "../base/assert2.js";
 
