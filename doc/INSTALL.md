@@ -1,7 +1,28 @@
 # Install
 
-mariadb, redis, imagemagick 등 설치.
+mysql, redis, imagemagick 등 설치.
 
+## ImageImagick
+
+CONFIGURE_PATH 확인.
+
+    $ convert -list configure
+
+policy.xml 를 찾아 다음을 추가한다.
+
+```
+<policymap>
+  <policy domain="coder" rights="none" pattern="URL" />
+  <policy domain="coder" rights="none" pattern="EPHEMERAL" />
+  <policy domain="coder" rights="none" pattern="HTTPS" />
+  <policy domain="coder" rights="none" pattern="MVG" />
+  <policy domain="coder" rights="none" pattern="MSL" />
+  <policy domain="coder" rights="none" pattern="TEXT" />
+  <policy domain="coder" rights="none" pattern="SHOW" />
+  <policy domain="coder" rights="none" pattern="WIN" />
+  <policy domain="coder" rights="none" pattern="PLT" />
+</policymap>
+```
 
 ## Nginx
 
@@ -40,10 +61,17 @@ Mac 개발환경용 Nginx 설정 예
 
 실행.
 
-    $ node code/main/main.mjs -c config/raysoda-dev.json
+    $ node src/main/main.mjs -c config/raysoda-dev.json
 
+## pm2 서비스로 등록
 
-## 서비스로 등록
+    $ bin-live/pm2 raysoda
+    $ bin-live/pm2 rapixel
+    ...
+
+    $ pm2 save
+
+## systemd 서비스로 등록
 
     /etc/systemd/system/raysoda.service
 
@@ -57,7 +85,7 @@ Mac 개발환경용 Nginx 설정 예
     Restart=always
     RestartSec=15
     WorkingDirectory=/data/web/raysoda
-    ExecStart=/usr/bin/node code/main/main.mjs -c config/raysoda-live.json
+    ExecStart=/usr/bin/node src/main/main.mjs -c config/raysoda-live.json
     Environment=NODE_ENV=production
     Environment=MAGICK_CONFIGURE_PATH=/data/im
 
@@ -76,31 +104,9 @@ Mac 개발환경용 Nginx 설정 예
 * syslog 를 지정하면 syslog 에도 쌓이고 journal 에도 쌓인다. journal 에는 기본적으로 쌓임.
 * [Install] 파트는 enable, disable 명령에서 사용한다.
 
+## 관리자 권한 부여
 
-## ImageImagick
+웹 페이지에서는 관리자 권한을 부여할 수 없다.
+서버 콘솔에서 아래 코드를 실행한다.
 
-CONFIGURE_PATH 확인.
-
-    $ convert -list configure
-    
-policy.xml 를 찾아 다음을 추가한다.
-
-```
-<policymap>
-  <policy domain="coder" rights="none" pattern="URL" />
-  <policy domain="coder" rights="none" pattern="EPHEMERAL" />
-  <policy domain="coder" rights="none" pattern="HTTPS" />
-  <policy domain="coder" rights="none" pattern="MVG" />
-  <policy domain="coder" rights="none" pattern="MSL" />
-  <policy domain="coder" rights="none" pattern="TEXT" />
-  <policy domain="coder" rights="none" pattern="SHOW" />
-  <policy domain="coder" rights="none" pattern="WIN" />
-  <policy domain="coder" rights="none" pattern="PLT" />
-</policymap>
-```
-
-## 관리자 계정
-
-웹 페이지에서는 관리자 설정을 할 수 없다. 서버 콘솔에서 아래 코드를 실행한다.
-
-    $ node code/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'
+    $ node src/user-script/set-admin.js -c config/raysoda-live.json 'admin@gmail.com'

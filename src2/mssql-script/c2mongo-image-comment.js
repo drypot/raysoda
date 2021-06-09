@@ -9,7 +9,7 @@ import * as imageb from '../image/image-base.js';
 /*
   사진 코멘트 부분을 추가적으로 변경하는 것이 좋겠다.
 
-  $ node code/mig-raysoda/mig-image-comment.js -c config/mig-1-dev.json 1 10
+  $ node src/mig-raysoda/mig-image-comment.js -c config/mig-1-dev.json 1 10
 */
 
 init.main(function (done) {

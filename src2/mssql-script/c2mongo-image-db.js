@@ -7,7 +7,7 @@ const mongo2 = require('../mongodb/mongo2');
 import * as imageb from '../image/image-base.js';
 
 /*
-  $ node code/mig-raysoda/mig-image-db.js -c config/mig-1-dev.json 1 10
+  $ node src/mig-raysoda/mig-image-db.js -c config/mig-1-dev.json 1 10
 */
 
 /*

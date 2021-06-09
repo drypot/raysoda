@@ -175,7 +175,7 @@ describe('copy', function () {
   it('should succeed', function (done) {
     const t = testDir + '/fs2-dummy-copy.txt';
     assert2.path(t, false);
-    fs2.copy('code/base/fs2-dummy.txt', t, function (err) {
+    fs2.copy('src/base/fs2-dummy.txt', t, function (err) {
       assert2.ifError(err);
       assert2.path(t);
       assert2.e(fs.readFileSync(t, 'utf8'), 'fs2 test dummy');
@@ -185,7 +185,7 @@ describe('copy', function () {
   it('should fail when source not exist', function (done) {
     const t = testDir + '/fs2-not-exist-copy.txt';
     assert2.path(t, false);
-    fs2.copy('code/base/fs2-not-exist.txt', t, function (err) {
+    fs2.copy('src/base/fs2-not-exist.txt', t, function (err) {
       assert2.ne(err, null);
       assert2.e(err.code, 'ENOENT');
       assert2.path(t, false);

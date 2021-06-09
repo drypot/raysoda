@@ -6,7 +6,7 @@ if [ -z "$1" ]
 fi
 args=(
     start
-    code/main/main.mjs
+    src/main/main.mjs
     --name $1
     --exp-backoff-restart-delay=2000
     --

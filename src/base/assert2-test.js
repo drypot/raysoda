@@ -34,8 +34,8 @@ describe('notEmpty', function () {
 
 describe('path', function () {
   it('should succeed', function (done) {
-    assert2.path('code/base/assert2.js');
-    assert2.path('code/base/assertX.js', false);
+    assert2.path('src/base/assert2.js');
+    assert2.path('src/base/assertX.js', false);
     done();
   });
 });

@@ -294,7 +294,7 @@ describe('post /api/images', function () {
       db.query('truncate table image', done);
     });
     it('should fail', function (done) {
-      expl.post('/api/images').attach('files', 'code/express/express-upload-f1.txt').end(function (err, res) {
+      expl.post('/api/images').attach('files', 'src/express/express-upload-f1.txt').end(function (err, res) {
         assert2.ifError(err);
         assert2.ok(res.body.err);
         assert2.ok(error.find(res.body.err, 'IMAGE_TYPE'));

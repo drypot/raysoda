@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "https://raysoda.com",
   "type": "module",
-  "main": "code/main/main.mjs",
+  "main": "src/main/main.mjs",
   "scripts": {
     "test": "bin/test"
   },

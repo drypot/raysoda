@@ -7,7 +7,7 @@ const mongo2 = require('../mongodb/mongo2');
 import * as userb from '../user/user-base.js';
 
 /*
-  $ node code/mig-raysoda/mig-user.js -c config/mig-1-dev.json 1 10
+  $ node src/mig-raysoda/mig-user.js -c config/mig-1-dev.json 1 10
 */
 
 /*

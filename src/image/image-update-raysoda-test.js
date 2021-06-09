@@ -126,7 +126,7 @@ describe('put /api/images/id', function () {
         assert2.ifError(err);
         assert2.ifError(res.body.err);
         const _id = res.body.ids[0];
-        expl.put('/api/images/' + _id).attach('files', 'code/express/express-upload-f1.txt').end(function (err, res) {
+        expl.put('/api/images/' + _id).attach('files', 'src/express/express-upload-f1.txt').end(function (err, res) {
           assert2.ifError(err);
           assert2.ok(res.body.err);
           assert2.ok(error.find(res.body.err, 'IMAGE_TYPE'));

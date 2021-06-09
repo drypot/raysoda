@@ -39,7 +39,7 @@ export function start() {
   app.locals.appDesc = config.prop.appDesc;
 
   app.set('view engine', 'pug');
-  app.set('views', 'code');
+  app.set('views', 'src');
 
   app.use(cookieParser());
 

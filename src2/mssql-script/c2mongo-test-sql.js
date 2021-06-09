@@ -4,7 +4,7 @@ import * as init from "../base/init.js";
 import * as config from "../base/config.js";
 
 /*
-  $ node code/mig-raysoda/mig-test-sql.js -c config/mig-1-dev.json
+  $ node src/mig-raysoda/mig-test-sql.js -c config/mig-1-dev.json
 */
 
 init.main(function (done) {
