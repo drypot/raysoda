@@ -32,5 +32,9 @@
   "bugs": {
     "url": "https://github.com/drypot/raysoda/issues"
   },
-  "homepage": "https://github.com/drypot/raysoda#readme"
+  "homepage": "https://github.com/drypot/raysoda#readme",
+  "devDependencies": {
+    "jasmine": "^3.8.0",
+    "jasmine-console-reporter": "^3.1.0"
+  }
 }

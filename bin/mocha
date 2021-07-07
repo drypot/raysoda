@@ -1,5 +1,5 @@
 #!/bin/bash
-for arg in ${@-src}; do
+for arg in "${@-src}"; do
   if [ -f $arg ]; then
     echo mocha --timeout 15000 --exit $arg
     mocha --timeout 15000 --exit $arg
