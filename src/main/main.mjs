@@ -1,28 +1,28 @@
-import * as init from "../base/init.js";
-import * as db from '../db/db.js';
-import * as expb from "../express/express-base.js";
+import * as init from "../base/init.mjs";
+import * as db from '../db/db.mjs';
+import * as expb from "../express/express-base.mjs";
 
-import '../image/image-new.js';
-import '../image/image-view.js';
-import '../image/image-list.js';
-import '../image/image-update.js';
-import '../image/image-delete.js';
-import '../image/image-years.js';
+import '../image/image-new.mjs';
+import '../image/image-view.mjs';
+import '../image/image-list.mjs';
+import '../image/image-update.mjs';
+import '../image/image-delete.mjs';
+import '../image/image-years.mjs';
 
-import '../user/user-new.js';
-import '../user/user-view.js';
-import '../user/user-update.js';
-import '../user/user-deactivate.js';
-import '../user/user-reset-pass.js';
-import '../user/user-list.js';
+import '../user/user-new.mjs';
+import '../user/user-view.mjs';
+import '../user/user-update.mjs';
+import '../user/user-deactivate.mjs';
+import '../user/user-reset-pass.mjs';
+import '../user/user-list.mjs';
 
-import '../about/about-all.js';
-import '../counter/counter-all.js';
-import '../banner/banner-all.js';
+import '../about/about-all.mjs';
+import '../counter/counter-all.mjs';
+import '../banner/banner-all.mjs';
 
-import '../redirect/redirect-all.js';
+import '../redirect/redirect-all.mjs';
 
-import '../userx/userx-view.js'; // url 유저명 대조는 맨 마지막에
+import '../userx/userx-view.mjs'; // url 유저명 대조는 맨 마지막에
 
 // 2021-03-16
 // pm2 에서 *.js 파일은 es 모듈로 인식하지 못한다.

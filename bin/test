@@ -4,7 +4,7 @@ for arg in ${@-src}; do
     echo mocha --timeout 15000 --exit $arg
     mocha --timeout 15000 --exit $arg
   else
-    for path in $(find ${arg} -name "*-test.js"); do
+    for path in $(find ${arg} -name "*.spec.mjs"); do
       echo mocha --timeout 15000 --exit $path
       mocha --timeout 15000 --exit $path
       if [ $? -ne 0 ]; then break; fi

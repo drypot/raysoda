@@ -1,0 +1,59 @@
+import * as assert2 from "../base/assert2.mjs";
+
+describe('aliases', function () {
+  it('should succeed', function (done) {
+    assert2.e('abc', 'abc');
+    assert2.ne('abc', 'def');
+    assert2.de([1], [1]);
+    assert2.nde([1], [2]);
+    done();
+  });
+});
+
+describe('empty', function () {
+  it('should succeed', function (done) {
+    assert2.empty(undefined);
+    assert2.empty(null);
+    assert2.empty({});
+    assert2.throws(function () {
+      assert2.empty({ a: 1 });
+    });
+    done();
+  });
+});
+
+describe('notEmpty', function () {
+  it('should succeed', function (done) {
+    assert2.notEmpty({ a: 1 });
+    assert2.throws(function () {
+      assert2.notEmpty({});
+    });
+    done();
+  });
+});
+
+describe('path', function () {
+  it('should succeed', function (done) {
+    assert2.path('src/base/assert2.mjs');
+    assert2.path('src/base/assertX.mjs', false);
+    done();
+  });
+});
+
+describe('redirect', function () {
+  it('should succeed', function (done) {
+    assert2.redirect({
+      status: 301,
+      header: {
+        location: '/new301'
+      }
+    }, '/new301');
+    assert2.redirect({
+      status: 302,
+      header: {
+        location: '/new302'
+      }
+    }, '/new302');
+    done();
+  });
+});
