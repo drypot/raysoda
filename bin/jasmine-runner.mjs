@@ -10,6 +10,7 @@ const config = {
     "**/*-test.mjs"
   ],
   "stopSpecOnExpectationFailure": false,
+  "oneFailurePerSpec": true,
   "random": false
 }
 

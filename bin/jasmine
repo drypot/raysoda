@@ -1,2 +1,16 @@
 #!/bin/bash
-node bin/jasmine-runner.mjs "${@-src}"
+
+jasmine="node bin/jasmine-runner.mjs"
+
+for arg in "${@-src}"; do
+  if [ -f $arg ]; then
+    echo $jasmine $arg
+    $jasmine $arg
+  else
+    for path in $(find ${arg} -name "*-test.mjs"); do
+      echo $jasmine $path
+      $jasmine $path
+      if [ $? -ne 0 ]; then break; fi
+    done
+  fi
+done
