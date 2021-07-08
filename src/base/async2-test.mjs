@@ -1,9 +1,9 @@
-import * as async2 from '../base/async2.mjs'
+import { waterfall } from './async2.mjs'
 
 describe('waterfall', () => {
   it('should succeed', (done) => {
     let i = 0
-    async2.waterfall(
+    waterfall(
       (done) => {
         i++
         done(null)
@@ -21,7 +21,7 @@ describe('waterfall', () => {
   })
   it('should succeed with err', (done) => {
     let i = 0
-    async2.waterfall(
+    waterfall(
       (done) => {
         i++
         done(new Error())
@@ -38,7 +38,7 @@ describe('waterfall', () => {
     )
   })
   it('should succeed with param', (done) => {
-    async2.waterfall(
+    waterfall(
       (done) => {
         done(null, 1, 2)
       },
@@ -58,7 +58,7 @@ describe('waterfall', () => {
     )
   })
   it('should succeed with param, err', (done) => {
-    async2.waterfall(
+    waterfall(
       (done) => {
         done(null, 1, 2)
       },
