@@ -1,77 +1,76 @@
-import * as assert2 from "./assert2.mjs";
-import * as async2 from "../base/async2.mjs";
+import * as async2 from '../base/async2.mjs'
 
 describe('waterfall', () => {
   it('should succeed', (done) => {
-    let i = 0;
+    let i = 0
     async2.waterfall(
       (done) => {
-        i++;
-        done(null);
+        i++
+        done(null)
       },
       (done) => {
-        i++;
-        done(null);
+        i++
+        done(null)
       },
       (err) => {
-        assert2.ifError(err);
-        assert2.e(i, 2);
-        done();
+        expect(err).toBeNull()
+        expect(i).toBe(2)
+        done()
       }
-    );
-  });
+    )
+  })
   it('should succeed with err', (done) => {
-    let i = 0;
+    let i = 0
     async2.waterfall(
       (done) => {
-        i++;
-        done(new Error());
+        i++
+        done(new Error())
       },
       (done) => {
-        i++;
-        done(null);
+        i++
+        done(null)
       },
       (err) => {
-        assert2.ok(err);
-        assert2.e(i, 1);
-        done();
+        expect(err).toBeDefined()
+        expect(i).toBe(1)
+        done()
       }
-    );
-  });
+    )
+  })
   it('should succeed with param', (done) => {
     async2.waterfall(
       (done) => {
-        done(null, 1, 2);
+        done(null, 1, 2)
       },
       (p1, p2, done) => {
-        assert2.ok(p1 === 1);
-        assert2.ok(p2 === 2);
-        done(null, p1, p2, 3, 4);
+        expect(p1).toBe(1)
+        expect(p2).toBe(2)
+        done(null, p1, p2, 3, 4)
       },
       (err, p1, p2, p3, p4) => {
-        assert2.ifError(err);
-        assert2.ok(p1 === 1);
-        assert2.ok(p2 === 2);
-        assert2.ok(p3 === 3);
-        assert2.ok(p4 === 4);
-        done();
+        expect(err).toBeNull()
+        expect(p1).toBe(1)
+        expect(p2).toBe(2)
+        expect(p3).toBe(3)
+        expect(p4).toBe(4)
+        done()
       }
-    );
-  });
+    )
+  })
   it('should succeed with param, err', (done) => {
     async2.waterfall(
       (done) => {
-        done(null, 1, 2);
+        done(null, 1, 2)
       },
       (p1, p2, done) => {
-        assert2.ok(p1 === 1);
-        assert2.ok(p2 === 2);
-        done("err");
+        expect(p1).toBe(1)
+        expect(p2).toBe(2)
+        done('err')
       },
       (err, p1, p2, p3, p4) => {
-        assert2.ok(err);
-        done();
+        expect(err).toBeDefined()
+        done()
       }
-    );
-  });
-});
+    )
+  })
+})
