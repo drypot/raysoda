@@ -25,23 +25,17 @@ export function notEmpty(obj) {
   }
 }
 
-export function path(path, shouldExist)  {
-  if (shouldExist === undefined) {
-    shouldExist = true;
-  }
-  let exists = false;
-  try {
-    fs.accessSync(path);
-    exists = true;
-  } catch (e) {
-  }
-  if (shouldExist && !exists) {
+export function pathExists(path)  {
+  if (!fs.existsSync(path)) {
     assert.fail(path + ' should exist.');
   }
-  if (!shouldExist && exists) {
+}
+
+export function pathNotExists(path)  {
+  if (fs.existsSync(path)) {
     assert.fail(path + ' should not exist.');
   }
-};
+}
 
 export function redirect(res, url) {
   let codes = [301, 302];
