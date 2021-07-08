@@ -1,22 +1,13 @@
-import * as assert2 from '../base/assert2.mjs'
-
-describe('aliases', () => {
-  it('should succeed', done => {
-    assert2.e('abc', 'abc')
-    assert2.ne('abc', 'def')
-    assert2.de([1], [1])
-    assert2.nde([1], [2])
-    done()
-  })
-})
+import { throws } from 'assert'
+import { empty, notEmpty, pathExists, pathNotExists, resourceMoved } from './assert2.mjs'
 
 describe('empty', () => {
   it('should succeed', done => {
-    assert2.empty(undefined)
-    assert2.empty(null)
-    assert2.empty({})
-    assert2.throws(function () {
-      assert2.empty({ a: 1 })
+    empty(undefined)
+    empty(null)
+    empty({})
+    throws(function () {
+      empty({ a: 1 })
     })
     done()
   })
@@ -24,9 +15,9 @@ describe('empty', () => {
 
 describe('notEmpty', () => {
   it('should succeed', done => {
-    assert2.notEmpty({ a: 1 })
-    assert2.throws(function () {
-      assert2.notEmpty({})
+    notEmpty({ a: 1 })
+    throws(function () {
+      notEmpty({})
     })
     done()
   })
@@ -34,21 +25,21 @@ describe('notEmpty', () => {
 
 describe('pathExists', () => {
   it('should succeed', done => {
-    assert2.pathExists('src/base/assert2.mjs')
-    assert2.pathNotExists('src/base/assertX.mjs')
+    pathExists('src/base/assert2.mjs')
+    pathNotExists('src/base/assertX.mjs')
     done()
   })
 })
 
-describe('redirect', () => {
+describe('resourceMoved', () => {
   it('should succeed', done => {
-    assert2.redirect({
+    resourceMoved({
       status: 301,
       header: {
         location: '/new301'
       }
     }, '/new301')
-    assert2.redirect({
+    resourceMoved({
       status: 302,
       header: {
         location: '/new302'
