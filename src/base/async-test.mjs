@@ -1,4 +1,4 @@
-import { waterfall } from './async2.mjs'
+import { waterfall } from './async.mjs'
 
 describe('waterfall', () => {
   it('should succeed', (done) => {

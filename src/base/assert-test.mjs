@@ -1,5 +1,5 @@
 import { throws } from 'assert'
-import { empty, notEmpty, pathExists, pathNotExists, resourceMoved } from './assert2.mjs'
+import { empty, notEmpty, pathExists, pathNotExists, resourceMoved } from './assert.mjs'
 
 describe('empty', () => {
   it('should succeed', done => {
@@ -25,8 +25,8 @@ describe('notEmpty', () => {
 
 describe('pathExists', () => {
   it('should succeed', done => {
-    pathExists('src/base/assert2.mjs')
-    pathNotExists('src/base/assertX.mjs')
+    pathExists('src/base/assert.mjs')
+    pathNotExists('src/base/assert-xxx.mjs')
     done()
   })
 })
