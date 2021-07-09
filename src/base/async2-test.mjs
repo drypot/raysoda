@@ -67,7 +67,7 @@ describe('waterfall', () => {
         expect(p2).toBe(2)
         done('err')
       },
-      (err, p1, p2, p3, p4) => {
+      (err) => {
         expect(err).toBeDefined()
         done()
       }
