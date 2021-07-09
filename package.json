@@ -13,14 +13,12 @@
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "minimist": "^1.2.5",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
     "nodemailer": "^6.4.10",
     "pug": "^3.0.0",
     "redis": "^3.0.2",
     "superagent": "^5.3.1",
-    "tedious": "^8.3.0",
     "uuid": "^8.2.0"
   },
   "repository": {
