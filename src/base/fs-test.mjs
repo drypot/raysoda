@@ -62,7 +62,7 @@ describe('removeDir', () => {
   })
   it('can return ENOENT', done => {
     fs2.removeDir(testPath('sub1/fx.txt'), err => {
-      expect(err).toBeDefined()
+      expect(err).toBeTruthy()
       expect(err.code).toBe('ENOENT')
       done()
     })
@@ -156,7 +156,7 @@ describe('copyFile', () => {
     const t = testPath('fs2-test-dummy-xxx-copy.txt')
     pathNotExists(t)
     fs2.copyFile('src/base/fs2-test-dummy-xxx.txt', t, err => {
-      expect(err).toBeDefined()
+      expect(err).toBeTruthy()
       expect(err.code).toBe('ENOENT')
       pathNotExists(t)
       done()
