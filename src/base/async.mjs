@@ -14,3 +14,36 @@ export function waterfall(...funcs) {
     })
   })()
 }
+
+export class FuncList {
+  constructor() {
+    this.funcs = []
+  }
+
+  add(...funcs) {
+    this.funcs = [...this.funcs, ...funcs]
+  }
+
+  run(done) {
+    const funcs = this.funcs
+    let i = 0;
+    (function run() {
+      if (i === funcs.length) {
+        if (done)
+          return done()
+        else
+          return
+      }
+      let func = funcs[i++]
+      func(function (err) {
+        if (err) {
+          if (done) {
+            return done(err)
+          }
+          throw err
+        }
+        setImmediate(run)
+      })
+    })()
+  }
+}
