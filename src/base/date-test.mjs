@@ -1,9 +1,9 @@
-import { dateString, dateStringNoDash, dateTimeString, getDate, getDateFrom } from './date.mjs'
+import { genDateString, genDateStringNoDash, genDateTimeString, genDate, genDateFrom } from './date.mjs'
 
 describe('getDate', () => {
   it('should succeed', () => {
     const now = new Date()
-    const today = getDate()
+    const today = genDate()
     expect(today.getFullYear()).toBe(now.getFullYear())
     expect(today.getMonth()).toBe(now.getMonth())
     expect(today.getDate()).toBe(now.getDate())
@@ -16,7 +16,7 @@ describe('getDate', () => {
 
 describe('getDateFrom', () => {
   it('should succeed', () => {
-    const d = getDateFrom('1974-05-16')
+    const d = genDateFrom('1974-05-16')
     expect(d.getFullYear()).toBe(1974)
     expect(d.getMonth()).toBe(4)
     expect(d.getDate()).toBe(16)
@@ -30,20 +30,20 @@ describe('getDateFrom', () => {
 describe('dateTimeString', () => {
   it('should succeed', () => {
     const d = new Date(1974, 4, 16, 12, 0)
-    expect(dateTimeString(d)).toBe('1974-05-16 12:00:00')
+    expect(genDateTimeString(d)).toBe('1974-05-16 12:00:00')
   })
 })
 
 describe('dateString', () => {
   it('should succeed', () => {
     const d = new Date(1974, 4, 16, 12, 0)
-    expect(dateString(d)).toBe('1974-05-16')
+    expect(genDateString(d)).toBe('1974-05-16')
   })
 })
 
 describe('dateStringNoDash', () => {
   it('should succeed', () => {
     const d = new Date(1974, 4, 16, 12, 0)
-    expect(dateStringNoDash(d)).toBe('19740516')
+    expect(genDateStringNoDash(d)).toBe('19740516')
   })
 })
