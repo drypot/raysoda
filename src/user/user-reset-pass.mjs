@@ -1,6 +1,5 @@
 import crypto from "crypto";
 import {v4 as uuid} from "uuid";
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -28,11 +27,11 @@ init.add(
   },
 );
 
-expb.core.get('/users/reset-pass', function (req, res, done) {
+expb.router.get('/users/reset-pass', function (req, res, done) {
   res.render('user/user-reset-pass');
 });
 
-expb.core.post('/api/reset-pass', function (req, res, done) {
+expb.router.post('/api/reset-pass', function (req, res, done) {
   const form = {};
   form.email = String(req.body.email || '').trim();
   const errors = [];
@@ -75,7 +74,7 @@ expb.core.post('/api/reset-pass', function (req, res, done) {
   });
 });
 
-expb.core.put('/api/reset-pass', function (req, res, done) {
+expb.router.put('/api/reset-pass', function (req, res, done) {
   const body = req.body;
   const form = {};
   form.uuid = String(body.uuid || '').trim();

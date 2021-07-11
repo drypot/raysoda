@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -25,7 +24,7 @@ describe('finding user', () => {
   const _user = {name: 'test', email: 'test@def.com', password: '1234'};
   it('given new user', done => {
     expl.post('/api/users').send(_user).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       _user.id = res.body.id;
       done();
@@ -34,18 +33,18 @@ describe('finding user', () => {
   it('given login', done => {
     const form = {email: _user.email, password: _user.password};
     expl.post('/api/users/login').send(form).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     });
   });
   it('should succeed with email field', done => {
     expl.get('/api/users/' + _user.id).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
-      assert2.e(res.body.user.id, _user.id);
-      assert2.e(res.body.user.name, _user.name);
-      assert2.e(res.body.user.email, _user.email);
+      expect(res.body.user.id).toBe(_user.id);
+      expect(res.body.user.name).toBe(_user.name);
+      expect(res.body.user.email).toBe(_user.email);
       done();
     });
   });
@@ -54,11 +53,11 @@ describe('finding user', () => {
   });
   it('should succeed without email', done => {
     expl.get('/api/users/' + _user.id).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
-      assert2.e(res.body.user.id, _user.id);
-      assert2.e(res.body.user.name, _user.name);
-      assert2.e(res.body.user.email, undefined);
+      expect(res.body.user.id).toBe(_user.id);
+      expect(res.body.user.name).toBe(_user.name);
+      expect(res.body.user.email).toBe(undefined);
       done();
     });
   });
@@ -67,37 +66,37 @@ describe('finding user', () => {
   });
   it('should succeed with email', done => {
     expl.get('/api/users/' + _user.id).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
-      assert2.e(res.body.user.id, _user.id);
-      assert2.e(res.body.user.name, _user.name);
-      assert2.e(res.body.user.email, _user.email);
+      expect(res.body.user.id).toBe(_user.id);
+      expect(res.body.user.name).toBe(_user.name);
+      expect(res.body.user.email).toBe(_user.email);
       done();
     });
   });
   it('given no login', done => {
     userf.logout(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     })
   });
   it('should succeed without email', done => {
     expl.get('/api/users/' + _user.id).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
-      assert2.e(res.body.user.id, _user.id);
-      assert2.e(res.body.user.name, _user.name);
-      assert2.e(res.body.user.profile, '');
-      assert2.e(res.body.user.email, undefined);
+      expect(res.body.user.id).toBe(_user.id);
+      expect(res.body.user.name).toBe(_user.name);
+      expect(res.body.user.profile).toBe('');
+      expect(res.body.user.email).toBe(undefined);
       done();
     });
   });
   it('should fail with invalid id', done => {
     expl.get('/api/users/999').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(res.body.err);
-      assert2.ok(error.find(res.body.err, 'USER_NOT_FOUND'));
+      assert2.ok(error.errorExists(res.body.err, 'USER_NOT_FOUND'));
       done();
     });
   });

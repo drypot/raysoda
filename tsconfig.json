@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+
+    "rootDir": "src",
+    "outDir": "build",
+    "target": "ESNext",
+    "module": "ESNext",
+    "sourceMap": true,
+    "strict": true
+    //    "typeRoots": [
+    //      "@types",
+    //      "node_modules/@types"
+    //    ],
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+  ]
+}

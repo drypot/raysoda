@@ -1,13 +1,12 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as error from "../base/error.mjs";
-import * as async2 from "../base/async2.mjs";
+import * as async2 from "../base/async.mjs";
 import * as expb from "../express/express-base.mjs";
 import * as db from '../db/db.mjs';
 import * as userb from "../user/user-base.mjs";
 import * as usera from "../user/user-auth.mjs";
 import * as usern from "../user/user-new.mjs";
 
-expb.core.get('/users/:id([0-9]+)/update', function (req, res, done) {
+expb.router.get('/users/:id([0-9]+)/update', function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     const id = parseInt(req.params.id) || 0;
@@ -23,7 +22,7 @@ expb.core.get('/users/:id([0-9]+)/update', function (req, res, done) {
   });
 });
 
-expb.core.put('/api/users/:id([0-9]+)', function (req, res, done) {
+expb.router.put('/api/users/:id([0-9]+)', function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     const id = parseInt(req.params.id) || 0;

@@ -1,5 +1,4 @@
 
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -39,26 +38,26 @@ describe('del /api/images/[_id]', () => {
     });
     it('should succeed', done => {
       expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
+        expect(res.body.ids).not.toBe(undefined);
         const _id1 = res.body.ids[0];
         expl.post('/api/images').field('comment', 'image2').attach('files', _f1).end(function (err, res) {
-          assert2.ifError(err);
+          expect(err).toBeFalsy();
           assert2.ifError(res.body.err);
-          assert2.ne(res.body.ids, undefined);
+          expect(res.body.ids).not.toBe(undefined);
           const _id2 = res.body.ids[0];
           expl.del('/api/images/' + _id1, function (err, res) {
-            assert2.ifError(err);
+            expect(err).toBeFalsy();
             assert2.ifError(res.body.err);
             assert2.pathNotExists(imageb.fman.getPath(_id1));
             assert2.pathExists(imageb.fman.getPath(_id2));
             db.queryOne('select * from image where id = ?', _id1, (err, image) => {
-              assert2.ifError(err);
-              assert2.e(image, undefined);
+              expect(err).toBeFalsy();
+              expect(image).toBe(undefined);
               db.queryOne('select * from image where id = ?', _id2, (err, image) => {
-                assert2.ifError(err);
-                assert2.ne(image, undefined);
+                expect(err).toBeFalsy();
+                expect(image).not.toBe(undefined);
                 done();
               });
             });
@@ -73,21 +72,21 @@ describe('del /api/images/[_id]', () => {
     });
     it('should succeed', done => {
       userf.login('user1', function (err) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
-          assert2.ifError(err);
+          expect(err).toBeFalsy();
           assert2.ifError(res.body.err);
-          assert2.ne(res.body.ids, undefined);
+          expect(res.body.ids).not.toBe(undefined);
           const _id = res.body.ids[0];
           userf.login('admin', function (err) {
-            assert2.ifError(err);
+            expect(err).toBeFalsy();
             expl.del('/api/images/' + _id, function (err, res) {
-              assert2.ifError(err);
+              expect(err).toBeFalsy();
               assert2.ifError(res.body.err);
               assert2.pathNotExists(imageb.fman.getPath(_id));
               db.queryOne('select * from image where id = ?', _id, (err, image) => {
-                assert2.ifError(err);
-                assert2.e(image, undefined);
+                expect(err).toBeFalsy();
+                expect(image).toBe(undefined);
                 done();
               });
             });
@@ -102,22 +101,22 @@ describe('del /api/images/[_id]', () => {
     });
     it('should fail', done => {
       userf.login('user1', function (err) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
-          assert2.ifError(err);
+          expect(err).toBeFalsy();
           assert2.ifError(res.body.err);
-          assert2.ne(res.body.ids, undefined);
+          expect(res.body.ids).not.toBe(undefined);
           const _id = res.body.ids[0];
           userf.login('user2', function (err) {
-            assert2.ifError(err);
+            expect(err).toBeFalsy();
             expl.del('/api/images/' + _id, function (err, res) {
-              assert2.ifError(err);
+              expect(err).toBeFalsy();
               assert2.ok(res.body.err);
-              assert2.ok(error.find(res.body.err, 'NOT_AUTHORIZED'));
+              assert2.ok(error.errorExists(res.body.err, 'NOT_AUTHORIZED'));
               assert2.pathExists(imageb.fman.getPath(_id));
               db.queryOne('select * from image where id = ?', _id, (err, image) => {
-                assert2.ifError(err);
-                assert2.ne(image, undefined);
+                expect(err).toBeFalsy();
+                expect(image).not.toBe(undefined);
                 done();
               });
             });

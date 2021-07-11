@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as db from '../db/db.mjs';
 import * as expl from "../express/express-local.mjs";
@@ -24,7 +23,7 @@ export function recreate(done) {
       }
       const form = forms[i++];
       userb.makeHash(form.password, function (err, hash) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         let user = userb.getNewUser();
         user.id = userb.getNewId();
         user.name = form.name;
@@ -34,7 +33,7 @@ export function recreate(done) {
         user.pdate = form.pdate;
         user.admin = !!form.admin;
         db.query('insert into user set ?', user, (err) => {
-          assert2.ifError(err);
+          expect(err).toBeFalsy();
           user.password = form.password;
           users[user.name] = user;
           setImmediate(create);

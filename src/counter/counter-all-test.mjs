@@ -1,7 +1,6 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
-import * as date2 from "../base/date2.mjs";
+import * as date2 from "../base/date.mjs";
 import * as config from "../base/config.mjs";
 import * as db from '../db/db.mjs';
 import * as expb from "../express/express-base.mjs";
@@ -23,15 +22,15 @@ beforeAll((done) => {
 
 describe('/api/counters/:id/inc', () => {
   const today = new Date();
-  const todayStr = date2.dateString(today);
+  const todayStr = date2.genDateString(today);
   it('should succeed for new', done => {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');
       db.queryOne('select * from counter where id = "abc" and d = ?', todayStr, (err, r) => {
-        assert2.ifError(err);
-        assert2.e(r.id, 'abc');
-        assert2.e(r.d, todayStr);
-        assert2.e(r.c, 1);
+        expect(err).toBeFalsy();
+        expect(r.id).toBe('abc');
+        expect(r.d).toBe(todayStr);
+        expect(r.c).toBe(1);
         done();
       });
     });
@@ -40,10 +39,10 @@ describe('/api/counters/:id/inc', () => {
     expl.get('/api/counters/abc/inc?r=http://hello.world').redirects(0).end(function (err, res) {
       assert2.redirect(res, 'http://hello.world');
       db.queryOne('select * from counter where id = "abc" and d = ?', todayStr, (err, r) => {
-        assert2.ifError(err);
-        assert2.e(r.id, 'abc');
-        assert2.e(r.d, todayStr);
-        assert2.e(r.c, 2);
+        expect(err).toBeFalsy();
+        expect(r.id).toBe('abc');
+        expect(r.d).toBe(todayStr);
+        expect(r.c).toBe(2);
         done();
       });
     });
@@ -64,26 +63,26 @@ describe('/api/counters/:id', () => {
   });
   it('should succeed', done => {
     userf.login('admin', function (err) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
         let cs = res.body.counters;
-        assert2.e(cs.length, 3);
-        assert2.e(cs[0].d, '2015-10-07');
-        assert2.e(cs[0].c, 3);
-        assert2.e(cs[2].d, '2015-10-09');
-        assert2.e(cs[2].c, 5);
+        expect(cs.length).toBe(3);
+        expect(cs[0].d).toBe('2015-10-07');
+        expect(cs[0].c).toBe(3);
+        expect(cs[2].d).toBe('2015-10-09');
+        expect(cs[2].c).toBe(5);
         done();
       });
     });
   });
   it('should fail if not admin', done => {
     userf.login('user1', function (err) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       expl.get('/api/counters/dc?b=2015-10-07&e=2015-10-09', function (err, res) {
-        assert2.ifError(err);
-        assert2.ok(error.find(res.body.err, 'NOT_AUTHORIZED'));
+        expect(err).toBeFalsy();
+        assert2.ok(error.errorExists(res.body.err, 'NOT_AUTHORIZED'));
         done();
       });
     });

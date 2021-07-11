@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as dbPersist from "../db/db-persist.mjs";
 

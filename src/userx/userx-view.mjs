@@ -1,14 +1,13 @@
-import * as assert2 from "../base/assert2.mjs";
-import * as async2 from "../base/async2.mjs";
-import * as date2 from "../base/date2.mjs";
-import * as url2 from "../base/url2.mjs";
+import * as async2 from "../base/async.mjs";
+import * as date2 from "../base/date.mjs";
+import * as url2 from "../base/url.mjs";
 import * as db from '../db/db.mjs';
 import * as expb from '../express/express-base.mjs';
 import * as userb from '../user/user-base.mjs';
 import * as imageb from '../image/image-base.mjs';
 import * as imagel from '../image/image-list.mjs';
 
-expb.core.get('/users/:id([0-9]+)', function (req, res, done) {
+expb.router.get('/users/:id([0-9]+)', function (req, res, done) {
   const id = parseInt(req.params.id) || 0;
   userb.getCached(id, function (err, tuser) {
     if (err) return done(err);
@@ -16,7 +15,7 @@ expb.core.get('/users/:id([0-9]+)', function (req, res, done) {
   });
 });
 
-expb.core.get('/:name([^/]+)', function (req, res, done) {
+expb.router.get('/:name([^/]+)', function (req, res, done) {
   const home = decodeURIComponent(req.params.name);
   userb.getCachedByHome(home, function (err, tuser) {
     if (err) return done(err);
@@ -37,8 +36,8 @@ function list(req, res, tuser, done) {
         tuser: tuser,
         updatable: user && (user.id === tuser.id || user.admin),
         images: images,
-        prev: p > 1 ? new url2.UrlMaker(req.path).add('p', p - 1, 1).add('ps', ps, 16).done() : undefined,
-        next: images.length === ps ? new url2.UrlMaker(req.path).add('p', p + 1).add('ps', ps, 16).done() : undefined,
+        prev: p > 1 ? new url2.UrlMaker(req.path).add('p', p - 1, 1).add('ps', ps, 16).gen() : undefined,
+        next: images.length === ps ? new url2.UrlMaker(req.path).add('p', p + 1).add('ps', ps, 16).gen() : undefined,
         path: req.path,
       });
     });

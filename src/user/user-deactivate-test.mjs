@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -10,7 +9,7 @@ import * as usera from "../user/user-auth.mjs";
 import * as userf from "../user/user-fixture.mjs";
 import * as userd from "../user/user-deactivate.mjs";
 
-expb.core.get('/api/test/user', function (req, res, done) {
+expb.router.get('/api/test/user', function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     res.json({});
@@ -34,30 +33,30 @@ describe('deactivating self', () => {
   });
   it('checkUser should succeed', done => {
     expl.get('/api/test/user').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     })
   });
   it('should succeed', done => {
     expl.del('/api/users/' + userf.users.user1.id).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     });
   });
   it('can be checked', done => {
     db.queryOne('select * from user where id = ?', userf.users.user1.id, (err, user) => {
-      assert2.ifError(err);
-      assert2.e(user.status === 'd', true);
+      expect(err).toBeFalsy();
+      expect(user.status === 'd').toBe(true);
       done();
     });
   });
   it('checkUser should fail (because logged off)', done => {
     expl.get('/api/test/user').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(res.body.err);
-      assert2.ok(error.find(res.body.err, 'NOT_AUTHENTICATED'));
+      assert2.ok(error.errorExists(res.body.err, 'NOT_AUTHENTICATED'));
       done();
     });
   });
@@ -69,9 +68,9 @@ describe('deactivating with no login', () => {
   });
   it('should fail', done => {
     expl.del('/api/users/' + userf.users.user2.id).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(res.body.err);
-      assert2.ok(error.find(res.body.err, 'NOT_AUTHENTICATED'));
+      assert2.ok(error.errorExists(res.body.err, 'NOT_AUTHENTICATED'));
       done();
     });
   });
@@ -83,9 +82,9 @@ describe('deactivating other', () => {
   });
   it('deactivating other should fail', done => {
     expl.del('/api/users/' + userf.users.user3.id).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(res.body.err);
-      assert2.ok(error.find(res.body.err, 'NOT_AUTHORIZED'));
+      assert2.ok(error.errorExists(res.body.err, 'NOT_AUTHORIZED'));
       done();
     });
   });
@@ -97,7 +96,7 @@ describe('deactivating other by admin', () => {
   });
   it('should succeed', done => {
     expl.del('/api/users/' + userf.users.user3.id).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     });

@@ -1,9 +1,8 @@
 import { exec } from "child_process";
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
-import * as fs2 from "../base/fs2.mjs";
+import * as fs2 from "../base/fs.mjs";
 import * as db from '../db/db.mjs';
 
 error.define('IMAGE_NOT_EXIST', '파일이 없습니다.');
@@ -81,9 +80,9 @@ export let imageUrl;
 
 init.add(
   function (done) {
-    fs2.makeDir(config.prop.uploadDir + '/public/images', function (err, dir) {
+    imageDir = config.prop.uploadDir + '/public/images';
+    fs2.makeDirs(imageDir, function (err) {
       if (err) return done(err);
-      imageDir = dir;
       imageUrl = config.prop.uploadSite + '/images';
       done();
     });

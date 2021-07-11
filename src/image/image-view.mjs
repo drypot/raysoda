@@ -1,17 +1,16 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as error from "../base/error.mjs";
-import * as date2 from "../base/date2.mjs";
+import * as date2 from "../base/date.mjs";
 import * as db from '../db/db.mjs';
 import * as expb from '../express/express-base.mjs';
 import * as expu from '../express/express-upload.mjs';
 import * as userb from '../user/user-base.mjs';
 import * as imageb from '../image/image-base.mjs';
 
-expb.core.get('/api/images/:id([0-9]+)', function (req, res, done) {
+expb.router.get('/api/images/:id([0-9]+)', function (req, res, done) {
   view(req, res, true, done);
 });
 
-expb.core.get('/images/:id([0-9]+)', function (req, res, done) {
+expb.router.get('/images/:id([0-9]+)', function (req, res, done) {
   view(req, res, false, done);
 });
 
@@ -30,7 +29,7 @@ function view(req, res, api, done) {
       };
       image.dir = imageb.fman.getUrlDir(image.id);
       image.thumb = imageb.fman.getThumbUrl(image.id);
-      image.cdateStr = date2.dateTimeString(image.cdate);
+      image.cdateStr = date2.genDateTimeString(image.cdate);
       image.cdate = image.cdate.getTime();
       if (api) {
         res.json(image);

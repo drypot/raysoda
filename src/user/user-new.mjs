@@ -1,18 +1,17 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as error from "../base/error.mjs";
 import * as db from '../db/db.mjs';
 import * as expb from "../express/express-base.mjs";
 import * as userb from "../user/user-base.mjs";
 
-expb.core.get('/users/register', function (req, res, done) {
+expb.router.get('/users/register', function (req, res, done) {
   res.render('user/user-new');
 });
 
-expb.core.get('/users/register-done', function (req, res, done) {
+expb.router.get('/users/register-done', function (req, res, done) {
   res.render('user/user-new-done');
 });
 
-expb.core.post('/api/users', function (req, res, done) {
+expb.router.post('/api/users', function (req, res, done) {
   const form = getForm(req);
   form.home = form.name;
   checkForm(form, 0, function (err) {

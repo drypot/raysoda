@@ -1,6 +1,5 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
-import * as date2 from "../base/date2.mjs";
+import * as date2 from "../base/date.mjs";
 import * as db from '../db/db.mjs';
 
 init.add(
@@ -18,7 +17,7 @@ init.add(
 );
 
 export function update(id, date, done) {
-  let dateStr = date2.dateString(date);
+  let dateStr = date2.genDateString(date);
   db.query(
     'insert into counter values(?, ?, 1) on duplicate key update c = c + 1',
     [id, dateStr],

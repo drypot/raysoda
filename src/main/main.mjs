@@ -22,7 +22,8 @@ import '../banner/banner-all.mjs';
 
 import '../redirect/redirect-all.mjs';
 
-import '../userx/userx-view.mjs'; // url 유저명 대조는 맨 마지막에
+import '../userx/userx-view.mjs';
+import { parseArgv } from '../base/argv.mjs' // url 유저명 대조는 맨 마지막에
 
 // 2021-03-16
 // pm2 에서 *.js 파일은 es 모듈로 인식하지 못한다.
@@ -42,3 +43,26 @@ init.add((done) => {
 });
 
 init.run();
+
+// this.#server.locals.appName = config.prop.appName
+// this.#server.locals.appNamel = config.prop.appNamel
+// this.#server.locals.appDesc = config.prop.appDesc
+
+// 나중에 loadConfig 호출할 때 사용하자.
+// config.argv = parseArgv(process.argv.slice(2))
+// const epath = path || config.argv.config || config.argv.c
+// if (typeof epath !== 'string') {
+//   process.stdout.write('config file not found.\n')
+//   process.stdout.write('\n')
+//   process.stdout.write('node some.js --config config.json\n')
+//   process.stdout.write('node some.js -c config.json\n')
+//   process.exit(-1)
+// }
+//
+//console.log('config: path=' + path)
+
+// 이런 코드는 모두 main 으로 옮기자. init 에서 가져옴.
+// process.on('uncaughtException', function (err) {
+//   console.error(err.stack);
+//   process.exit(1);
+// });

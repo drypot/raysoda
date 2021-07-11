@@ -2,7 +2,7 @@
 
 jasmine="node bin/jasmine-runner.mjs"
 
-for arg in "${@-src}"; do
+for arg in "${@-built}"; do
   if [ -f $arg ]; then
     echo $jasmine $arg
     $jasmine $arg

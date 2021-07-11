@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import nodemailer from "nodemailer";
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as config from "../base/config.mjs";
 

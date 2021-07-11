@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -31,16 +30,16 @@ beforeAll(done => {
 
 describe('getDir()', () => {
   it('should work for id 1', () => {
-    assert2.e(imageb.fman.getDir(1), config.prop.uploadDir + '/public/images/0/0');
-    assert2.e(imageb.fman.getPath(1), config.prop.uploadDir + '/public/images/0/0/1.svg');
-    assert2.e(imageb.fman.getUrlDir(1), config.prop.uploadSite + '/images/0/0');
-    assert2.e(imageb.fman.getThumbUrl(1), config.prop.uploadSite + '/images/0/0/1.svg');
+    expect(imageb.fman.getDir(1)).toBe(config.prop.uploadDir + '/public/images/0/0');
+    expect(imageb.fman.getPath(1)).toBe(config.prop.uploadDir + '/public/images/0/0/1.svg');
+    expect(imageb.fman.getUrlDir(1)).toBe(config.prop.uploadSite + '/images/0/0');
+    expect(imageb.fman.getThumbUrl(1)).toBe(config.prop.uploadSite + '/images/0/0/1.svg');
   });
   it('should work for id 1 234 567', () => {
-    assert2.e(imageb.fman.getDir(1234567), config.prop.uploadDir + '/public/images/1/234');
-    assert2.e(imageb.fman.getPath(1234567), config.prop.uploadDir + '/public/images/1/234/1234567.svg');
-    assert2.e(imageb.fman.getUrlDir(1234567), config.prop.uploadSite + '/images/1/234');
-    assert2.e(imageb.fman.getThumbUrl(1234567), config.prop.uploadSite + '/images/1/234/1234567.svg');
+    expect(imageb.fman.getDir(1234567)).toBe(config.prop.uploadDir + '/public/images/1/234');
+    expect(imageb.fman.getPath(1234567)).toBe(config.prop.uploadDir + '/public/images/1/234/1234567.svg');
+    expect(imageb.fman.getUrlDir(1234567)).toBe(config.prop.uploadSite + '/images/1/234');
+    expect(imageb.fman.getThumbUrl(1234567)).toBe(config.prop.uploadSite + '/images/1/234/1234567.svg');
   });
 });
 
@@ -51,18 +50,18 @@ describe('post /api/images', () => {
     });
     it('should succeed', done => {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/svg-sample.svg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        expect(res.body.ids).not.toBe(undefined);
+        expect(res.body.ids.length).toBe(1);
         const _id = res.body.ids[0];
         db.queryOne('select * from image where id = ?', _id, (err, image) => {
-          assert2.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.users.user1.id);
-          assert2.e(image.width, undefined);
-          assert2.ne(image.cdate, undefined);
-          assert2.e(image.comment, 'image1');
+          expect(err).toBeFalsy();
+          expect(image.id).toBe(_id);
+          expect(image.uid).toBe(userf.users.user1.id);
+          expect(image.width).toBe(undefined);
+          expect(image.cdate).not.toBe(undefined);
+          expect(image.comment).toBe('image1');
           assert2.pathExists(imageb.fman.getPath(_id));
           done();
         });
@@ -75,9 +74,9 @@ describe('post /api/images', () => {
     });
     it('should fail', done => {
       expl.post('/api/images').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ok(res.body.err);
-        assert2.ok(error.find(res.body.err, 'IMAGE_TYPE'));
+        assert2.ok(error.errorExists(res.body.err, 'IMAGE_TYPE'));
         done();
       });
     });

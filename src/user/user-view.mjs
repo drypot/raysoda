@@ -1,8 +1,7 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as expb from "../express/express-base.mjs";
 import * as userb from "../user/user-base.mjs";
 
-expb.core.get('/api/users/:id([0-9]+)', function (req, res, done) {
+expb.router.get('/api/users/:id([0-9]+)', function (req, res, done) {
   let id = parseInt(req.params.id) || 0;
   let user = res.locals.user
   userb.getCached(id, function (err, _tuser) {

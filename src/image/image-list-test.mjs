@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -46,53 +45,53 @@ describe('get /api/images', () => {
       ps: 99
     };
     expl.get('/api/images').query(query).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
-      assert2.e(res.body.images.length, 10);
-      assert2.e(res.body.images[0].id, 10);
-      assert2.e(res.body.images[1].id, 9);
-      assert2.e(res.body.images[2].id, 8);
-      assert2.e(res.body.images[9].id, 1);
+      expect(res.body.images.length).toBe(10);
+      expect(res.body.images[0].id).toBe(10);
+      expect(res.body.images[1].id).toBe(9);
+      expect(res.body.images[2].id).toBe(8);
+      expect(res.body.images[9].id).toBe(1);
       done();
     });
   });
   it('should succeed for page 1', done => {
     expl.get('/api/images?ps=4').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
-      assert2.e(res.body.images.length, 4);
-      assert2.e(res.body.images[0].id, 10);
-      assert2.e(res.body.images[3].id, 7);
+      expect(res.body.images.length).toBe(4);
+      expect(res.body.images[0].id).toBe(10);
+      expect(res.body.images[3].id).toBe(7);
       done();
     });
   });
   it('should succeed for page 2', done => {
     expl.get('/api/images?p=2&ps=4').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
-      assert2.e(res.body.images.length, 4);
-      assert2.e(res.body.images[0].id, 6);
-      assert2.e(res.body.images[3].id, 3);
+      expect(res.body.images.length).toBe(4);
+      expect(res.body.images[0].id).toBe(6);
+      expect(res.body.images[3].id).toBe(3);
       done();
     });
   });
   it('should succeed for last page', done => {
     expl.get('/api/images?p=3&ps=4').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
-      assert2.e(res.body.images.length, 2);
-      assert2.e(res.body.images[0].id, 2);
-      assert2.e(res.body.images[1].id, 1);
+      expect(res.body.images.length).toBe(2);
+      expect(res.body.images[0].id).toBe(2);
+      expect(res.body.images[1].id).toBe(1);
       done();
     });
   });
   it('should succeed for 2003-08', done => {
     expl.get('/api/images?d=200308&ps=4').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
-      assert2.e(res.body.images.length, 4);
-      assert2.e(res.body.images[0].id, 8);
-      assert2.e(res.body.images[3].id, 5);
+      expect(res.body.images.length).toBe(4);
+      expect(res.body.images[0].id).toBe(8);
+      expect(res.body.images[3].id).toBe(5);
       done();
     });
   });

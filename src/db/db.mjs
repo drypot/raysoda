@@ -1,8 +1,7 @@
 import mysql from "mysql";
-import * as assert2 from "../base/assert2.mjs";
 import * as init from '../base/init.mjs';
 import * as config from '../base/config.mjs';
-import * as async2 from "../base/async2.mjs";
+import * as async2 from "../base/async.mjs";
 
 let conn;
 

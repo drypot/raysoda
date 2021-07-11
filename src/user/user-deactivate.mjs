@@ -1,11 +1,10 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as error from "../base/error.mjs";
 import * as expb from "../express/express-base.mjs";
 import * as db from '../db/db.mjs';
 import * as usera from "../user/user-auth.mjs";
 import * as userb from "../user/user-base.mjs";
 
-expb.core.delete('/api/users/:id([0-9]+)', function (req, res, done) {
+expb.router.delete('/api/users/:id([0-9]+)', function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     const id = parseInt(req.params.id) || 0;
@@ -26,7 +25,7 @@ expb.core.delete('/api/users/:id([0-9]+)', function (req, res, done) {
   });
 });
 
-expb.core.get('/users/deactivate', function (req, res, done) {
+expb.router.get('/users/deactivate', function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     res.render('user/user-deactivate');

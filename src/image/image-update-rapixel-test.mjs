@@ -1,7 +1,6 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
-import * as fs2 from '../base/fs2.mjs';
+import * as fs2 from '../base/fs.mjs';
 import * as config from "../base/config.mjs";
 import * as db from '../db/db.mjs';
 import * as expb from '../express/express-base.mjs';
@@ -34,16 +33,16 @@ describe('put /api/images/id', () => {
   describe('updating with image', () => {
     it('should succeed', done => {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/5120x2880.jpg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
         const _id = res.body.ids[0];
         db.queryOne('select * from image where id = ?', _id, (err, image) => {
-          assert2.ifError(err);
-          assert2.ne(image, undefined);
+          expect(err).toBeFalsy();
+          expect(image).not.toBe(undefined);
           imageb.unpackImage(image);
           //assert2.de(image.vers, [ 5120, 4096, 2560, 1920, 1280 ]);
           assert2.de(image.vers, [ 5120, 4096, 2560, 1280]);
-          assert2.e(image.comment, 'image1');
+          expect(image.comment).toBe('image1');
           assert2.pathExists(imageb.fman.getPath(_id, 5120));
           assert2.pathExists(imageb.fman.getPath(_id, 4096));
           assert2.pathExists(imageb.fman.getPath(_id, 2560));
@@ -51,15 +50,15 @@ describe('put /api/images/id', () => {
           fs2.emptyDir(imageb.fman.getDir(_id), function (err) {
             if (err) return done(err);
             expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/4096x2304.jpg').end(function (err, res) {
-              assert2.ifError(err);
+              expect(err).toBeFalsy();
               assert2.ifError(res.body.err);
               db.queryOne('select * from image where id = ?', _id, (err, image) => {
-                assert2.ifError(err);
-                assert2.ne(image, undefined);
+                expect(err).toBeFalsy();
+                expect(image).not.toBe(undefined);
                 imageb.unpackImage(image);
                 //assert2.de(image.vers, [ 4096, 2560, 1920, 1280 ]);
                 assert2.de(image.vers, [ 4096, 2560, 1280 ]);
-                assert2.e(image.comment, 'image2');
+                expect(image.comment).toBe('image2');
                 assert2.pathNotExists(imageb.fman.getPath(_id, 5120));
                 assert2.pathExists(imageb.fman.getPath(_id, 4096));
                 assert2.pathExists(imageb.fman.getPath(_id, 2560));
@@ -75,13 +74,13 @@ describe('put /api/images/id', () => {
   describe('updating with small image', () => {
     it('should fail', done => {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/5120x2880.jpg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
         const _id = res.body.ids[0];
         expl.put('/api/images/' + _id).attach('files', 'samples/2560x1440.jpg').end(function (err, res) {
-          assert2.ifError(err);
+          expect(err).toBeFalsy();
           assert2.ok(res.body.err);
-          assert2.ok(error.find(res.body.err, 'IMAGE_SIZE'));
+          assert2.ok(error.errorExists(res.body.err, 'IMAGE_SIZE'));
           done();
         });
       });

@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -29,13 +28,13 @@ describe('get /api/images/:id([0-9]+)', () => {
   describe('getting image', () => {
     it('should succeed', done => {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        expect(res.body.ids).not.toBe(undefined);
+        expect(res.body.ids.length).toBe(1);
         const _id = res.body.ids[0];
         expl.get('/api/images/' + _id).end(function (err, res) {
-          assert2.ifError(err);
+          expect(err).toBeFalsy();
           assert2.ifError(res.body.err);
           done();
         });

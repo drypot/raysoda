@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as config from "../base/config.mjs";
 import * as db from '../db/db.mjs';
@@ -22,7 +21,7 @@ beforeAll((done) => {
 describe('get /users/:id([0-9]+)', () => {
   it('should succeed', done => {
     expl.get('/users/1').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     });
@@ -32,14 +31,14 @@ describe('get /users/:id([0-9]+)', () => {
 describe('get /:name([^/]+)', () => {
   it('should succeed for /user1', done => {
     expl.get('/user1').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     });
   });
   it('should succeed for /USER1', done => {
     expl.get('/USER1').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     });

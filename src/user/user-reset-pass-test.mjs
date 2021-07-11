@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -28,107 +27,107 @@ describe('resetting user', () => {
   });
   it('old password should be ok', done => {
     db.queryOne('select * from user where email = ?', _user.email, (err, user) => {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       userb.checkPassword(_user.password, user.hash, function (err, matched) {
-        assert2.ifError(err);
-        assert2.e(matched, true);
+        expect(err).toBeFalsy();
+        expect(matched).toBe(true);
         done();
       });
     });
   });
   it('reset request should succeed', done => {
     expl.post('/api/reset-pass').send({ email: _user.email }).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     });
   });
   it('can be checked', done => {
     db.queryOne('select * from pwreset where email = ?', _user.email, (err, reset) => {
-      assert2.ifError(err);
-      assert2.ne(reset.uuid, undefined);
-      assert2.ne(reset.token, undefined);
-      assert2.e(reset.email, _user.email);
+      expect(err).toBeFalsy();
+      expect(reset.uuid).not.toBe(undefined);
+      expect(reset.token).not.toBe(undefined);
+      expect(reset.email).toBe(_user.email);
       _reset = reset;
       done();
     });
   });
   it('invalid email should fail', done => {
     expl.post('/api/reset-pass').send({ email: 'abc.def.xyz' }).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(res.body.err);
-      assert2.ok(error.find(res.body.err, 'EMAIL_PATTERN'));
+      assert2.ok(error.errorExists(res.body.err, 'EMAIL_PATTERN'));
       done();
     });
   });
   it('unregistered email should fail', done => {
     expl.post('/api/reset-pass').send({ email: 'non-exist@xyz.com' }).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(res.body.err);
-      assert2.ok(error.find(res.body.err, 'EMAIL_NOT_EXIST'));
+      assert2.ok(error.errorExists(res.body.err, 'EMAIL_NOT_EXIST'));
       done();
     });
   });
   it('invalid id should fail', done => {
     const form = {uuid: '012345678901234567890123', token: _reset.token, password: '4567'};
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(res.body.err);
-      assert2.ok(error.find(res.body.err, 'INVALID_DATA'));
+      assert2.ok(error.errorExists(res.body.err, 'INVALID_DATA'));
       done();
     });
   });
   it('invalid token should fail', done => {
     const form = {uuid: _reset.uuid, token: 'xxxxx', password: '4567'};
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(res.body.err);
-      assert2.ok(error.find(res.body.err, 'INVALID_DATA'));
+      assert2.ok(error.errorExists(res.body.err, 'INVALID_DATA'));
       done();
     });
   });
   it('invalid password should fail', done => {
     const form = {uuid: _reset.uuid, token: _reset.token, password: ''};
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(res.body.err);
-      assert2.ok(error.find(res.body.err, 'PASSWORD_EMPTY'));
+      assert2.ok(error.errorExists(res.body.err, 'PASSWORD_EMPTY'));
       done();
     });
   });
   it('invalid password should fail', done => {
     const form = {uuid: _reset.uuid, token: _reset.token, password: 'xx'};
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(res.body.err);
-      assert2.ok(error.find(res.body.err, 'PASSWORD_RANGE'));
+      assert2.ok(error.errorExists(res.body.err, 'PASSWORD_RANGE'));
       done();
     });
   });
   it('should succeed', done => {
     const form = {uuid: _reset.uuid, token: _reset.token, password: 'new-pass'};
     expl.put('/api/reset-pass').send(form).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     });
   });
   it('old password should fail', done => {
     db.queryOne('select * from user where email = ?', _user.email, (err, user) => {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       userb.checkPassword(_user.password, user.hash, function (err, matched) {
-        assert2.ifError(err);
-        assert2.e(matched, false);
+        expect(err).toBeFalsy();
+        expect(matched).toBe(false);
         done();
       });
     });
   });
   it('new password should succeed', done => {
     db.queryOne('select * from user where email = ?', _user.email, (err, user) => {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       userb.checkPassword('new-pass', user.hash, function (err, matched) {
-        assert2.ifError(err);
-        assert2.e(matched, true);
+        expect(err).toBeFalsy();
+        expect(matched).toBe(true);
         done();
       });
     });

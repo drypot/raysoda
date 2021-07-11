@@ -5,7 +5,7 @@ import JasmineConsoleReporter from "jasmine-console-reporter"
 const jasmine = new Jasmine()
 
 const config = {
-  "spec_dir": "src",
+  "spec_dir": "built",
   "spec_files": [
     "**/*-test.mjs"
   ],

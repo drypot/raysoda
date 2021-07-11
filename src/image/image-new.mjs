@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
 import * as db from '../db/db.mjs';
@@ -7,7 +6,7 @@ import * as expu from "../express/express-upload.mjs";
 import * as usera from "../user/user-auth.mjs";
 import * as imageb from "../image/image-base.mjs";
 
-expb.core.get('/images/new', function (req, res, done) {
+expb.router.get('/images/new', function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     const now = new Date();
@@ -21,7 +20,7 @@ expb.core.get('/images/new', function (req, res, done) {
   });
 });
 
-expb.core.post('/api/images', expu.handler(function (req, res, done) {
+expb.router.post('/api/images', expu.handler(function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     const form = getForm(req);

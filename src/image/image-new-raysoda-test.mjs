@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -31,16 +30,16 @@ beforeAll(done => {
 
 describe('getPath', () => {
   it('should work for id 1', () => {
-    assert2.e(imageb.fman.getDir(1), config.prop.uploadDir + '/public/images/0/0');
-    assert2.e(imageb.fman.getPath(1), config.prop.uploadDir + '/public/images/0/0/1.jpg');
-    assert2.e(imageb.fman.getUrlDir(1), config.prop.uploadSite + '/images/0/0');
-    assert2.e(imageb.fman.getThumbUrl(1), config.prop.uploadSite + '/images/0/0/1.jpg');
+    expect(imageb.fman.getDir(1)).toBe(config.prop.uploadDir + '/public/images/0/0');
+    expect(imageb.fman.getPath(1)).toBe(config.prop.uploadDir + '/public/images/0/0/1.jpg');
+    expect(imageb.fman.getUrlDir(1)).toBe(config.prop.uploadSite + '/images/0/0');
+    expect(imageb.fman.getThumbUrl(1)).toBe(config.prop.uploadSite + '/images/0/0/1.jpg');
   });
   it('should work for id 1 234 567', () => {
-    assert2.e(imageb.fman.getDir(1234567), config.prop.uploadDir + '/public/images/1/234');
-    assert2.e(imageb.fman.getPath(1234567), config.prop.uploadDir + '/public/images/1/234/1234567.jpg');
-    assert2.e(imageb.fman.getUrlDir(1234567), config.prop.uploadSite + '/images/1/234');
-    assert2.e(imageb.fman.getThumbUrl(1234567), config.prop.uploadSite + '/images/1/234/1234567.jpg');
+    expect(imageb.fman.getDir(1234567)).toBe(config.prop.uploadDir + '/public/images/1/234');
+    expect(imageb.fman.getPath(1234567)).toBe(config.prop.uploadDir + '/public/images/1/234/1234567.jpg');
+    expect(imageb.fman.getUrlDir(1234567)).toBe(config.prop.uploadSite + '/images/1/234');
+    expect(imageb.fman.getThumbUrl(1234567)).toBe(config.prop.uploadSite + '/images/1/234/1234567.jpg');
   });
 });
 
@@ -67,8 +66,8 @@ describe('getTicketCount', () => {
     });
     it('should return ticketMax', done => {
       imagen.getTicketCount(_now, userf.users.user1, function (err, count, hours) {
-        assert2.ifError(err);
-        assert2.e(count, config.prop.ticketMax);
+        expect(err).toBeFalsy();
+        expect(count).toBe(config.prop.ticketMax);
         done();
       });
     });
@@ -82,8 +81,8 @@ describe('getTicketCount', () => {
     });
     it('should return ticketMax', done => {
       imagen.getTicketCount(_now, userf.users.user1, function (err, count, hours) {
-        assert2.ifError(err);
-        assert2.e(count, config.prop.ticketMax);
+        expect(err).toBeFalsy();
+        expect(count).toBe(config.prop.ticketMax);
         done();
       });
     });
@@ -97,8 +96,8 @@ describe('getTicketCount', () => {
     });
     it('should return (ticketMax - 1)', done => {
       imagen.getTicketCount(_now, userf.users.user1, function (err, count, hours) {
-        assert2.ifError(err);
-        assert2.e(count, config.prop.ticketMax - 1);
+        expect(err).toBeFalsy();
+        expect(count).toBe(config.prop.ticketMax - 1);
         done();
       });
     });
@@ -112,9 +111,9 @@ describe('getTicketCount', () => {
     });
     it('should return 0 with left hours', done => {
       imagen.getTicketCount(_now, userf.users.user1, function (err, count, hours) {
-        assert2.ifError(err);
-        assert2.e(count, 0);
-        assert2.e(hours, 3);
+        expect(err).toBeFalsy();
+        expect(count).toBe(0);
+        expect(hours).toBe(3);
         done();
       });
     });
@@ -128,21 +127,21 @@ describe('post /api/images', () => {
     });
     it('should succeed', done => {
       expl.post('/api/images').field('comment', 'h image').attach('files', 'samples/2560x1440.jpg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        expect(res.body.ids).not.toBe(undefined);
+        expect(res.body.ids.length).toBe(1);
         const _id = res.body.ids[0];
         db.queryOne('select * from image where id = ?', _id, (err, image) => {
-          assert2.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.users.user1.id);
-          assert2.ne(image.cdate, undefined);
-          assert2.e(image.comment, 'h image');
+          expect(err).toBeFalsy();
+          expect(image.id).toBe(_id);
+          expect(image.uid).toBe(userf.users.user1.id);
+          expect(image.cdate).not.toBe(undefined);
+          expect(image.comment).toBe('h image');
           imageb.identify(imageb.fman.getPath(_id), function (err, meta) {
-            assert2.ifError(err);
-            assert2.e(meta.width <= imageb.fman.maxWidth, true);
-            assert2.e(meta.height <= imageb.fman.maxWidth, true);
+            expect(err).toBeFalsy();
+            expect(meta.width <= imageb.fman.maxWidth).toBe(true);
+            expect(meta.height <= imageb.fman.maxWidth).toBe(true);
             done();
           });
         });
@@ -155,21 +154,21 @@ describe('post /api/images', () => {
     });
     it('should succeed', done => {
       expl.post('/api/images').field('comment', 'v image').attach('files', 'samples/1440x2560.jpg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        expect(res.body.ids).not.toBe(undefined);
+        expect(res.body.ids.length).toBe(1);
         const _id = res.body.ids[0];
         db.queryOne('select * from image where id = ?', _id, (err, image) => {
-          assert2.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.users.user1.id);
-          assert2.ne(image.cdate, undefined);
-          assert2.e(image.comment, 'v image');
+          expect(err).toBeFalsy();
+          expect(image.id).toBe(_id);
+          expect(image.uid).toBe(userf.users.user1.id);
+          expect(image.cdate).not.toBe(undefined);
+          expect(image.comment).toBe('v image');
           imageb.identify(imageb.fman.getPath(_id), function (err, meta) {
-            assert2.ifError(err);
-            assert2.e(meta.width <= imageb.fman.maxWidth, true);
-            assert2.e(meta.height <= imageb.fman.maxWidth, true);
+            expect(err).toBeFalsy();
+            expect(meta.width <= imageb.fman.maxWidth).toBe(true);
+            expect(meta.height <= imageb.fman.maxWidth).toBe(true);
             done();
           });
         });
@@ -182,21 +181,21 @@ describe('post /api/images', () => {
     });
     it('should succeed', done => {
       expl.post('/api/images').field('comment', 'heic image').attach('files', 'samples/IMG_4395.HEIC').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        expect(res.body.ids).not.toBe(undefined);
+        expect(res.body.ids.length).toBe(1);
         const _id = res.body.ids[0];
         db.queryOne('select * from image where id = ?', _id, (err, image) => {
-          assert2.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.users.user1.id);
-          assert2.ne(image.cdate, undefined);
-          assert2.e(image.comment, 'heic image');
+          expect(err).toBeFalsy();
+          expect(image.id).toBe(_id);
+          expect(image.uid).toBe(userf.users.user1.id);
+          expect(image.cdate).not.toBe(undefined);
+          expect(image.comment).toBe('heic image');
           imageb.identify(imageb.fman.getPath(_id), function (err, meta) {
-            assert2.ifError(err);
-            assert2.e(meta.width, 2048);
-            assert2.e(meta.height, 1536);
+            expect(err).toBeFalsy();
+            expect(meta.width).toBe(2048);
+            expect(meta.height).toBe(1536);
             done();
           });
         });
@@ -210,21 +209,21 @@ describe('post /api/images', () => {
     });
     it('should succeed', done => {
       expl.post('/api/images').field('comment', 'small image').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 1);
+        expect(res.body.ids).not.toBe(undefined);
+        expect(res.body.ids.length).toBe(1);
         const _id = res.body.ids[0];
         db.queryOne('select * from image where id = ?', _id, (err, image) => {
-          assert2.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.users.user1.id);
-          assert2.ne(image.cdate, undefined);
-          assert2.e(image.comment, 'small image');
+          expect(err).toBeFalsy();
+          expect(image.id).toBe(_id);
+          expect(image.uid).toBe(userf.users.user1.id);
+          expect(image.cdate).not.toBe(undefined);
+          expect(image.comment).toBe('small image');
           imageb.identify(imageb.fman.getPath(_id), function (err, meta) {
-            assert2.ifError(err);
-            assert2.e(meta.width, 640);
-            assert2.e(meta.height, 360);
+            expect(err).toBeFalsy();
+            expect(meta.width).toBe(640);
+            expect(meta.height).toBe(360);
             done();
           });
         });
@@ -235,9 +234,9 @@ describe('post /api/images', () => {
   describe('posting too small', () => {
     it('should fail', done => {
       expl.post('/api/images').attach('files', 'samples/360x240.jpg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ok(res.body.err);
-        assert2.ok(error.find(res.body.err, 'IMAGE_SIZE'));
+        assert2.ok(error.errorExists(res.body.err, 'IMAGE_SIZE'));
         done();
       });
     });
@@ -252,27 +251,27 @@ describe('post /api/images', () => {
         post.attach('files', 'samples/640x360.jpg');
       }
       post.end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, config.prop.ticketMax);
+        expect(res.body.ids).not.toBe(undefined);
+        expect(res.body.ids.length).toBe(config.prop.ticketMax);
         const ids = res.body.ids;
         let _id;
         // first image should exist
         _id = ids[0];
         db.queryOne('select * from image where id = ?', _id, (err, image) => {
-          assert2.ifError(err);
-          assert2.e(image.id, _id);
-          assert2.e(image.uid, userf.users.user1.id);
-          assert2.e(image.comment, 'max images');
+          expect(err).toBeFalsy();
+          expect(image.id).toBe(_id);
+          expect(image.uid).toBe(userf.users.user1.id);
+          expect(image.comment).toBe('max images');
           assert2.pathExists(imageb.fman.getPath(_id));
           // third versions should exist
           _id = ids[2];
           db.queryOne('select * from image where id = ?', _id, (err, image) => {
-            assert2.ifError(err);
-            assert2.e(image.id, _id);
-            assert2.e(image.uid, userf.users.user1.id);
-            assert2.e(image.comment, 'max images');
+            expect(err).toBeFalsy();
+            expect(image.id).toBe(_id);
+            expect(image.uid).toBe(userf.users.user1.id);
+            expect(image.comment).toBe('max images');
             assert2.pathExists(imageb.fman.getPath(_id));
             done();
           });
@@ -281,10 +280,10 @@ describe('post /api/images', () => {
     });
     it('should fail when posting one more', done => {
       expl.post('/api/images').attach('files', 'samples/640x360.jpg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
-        assert2.e(res.body.ids.length, 0);
+        expect(res.body.ids).not.toBe(undefined);
+        expect(res.body.ids.length).toBe(0);
         done();
       });
     });
@@ -295,9 +294,9 @@ describe('post /api/images', () => {
     });
     it('should fail', done => {
       expl.post('/api/images').attach('files', 'src/express/express-upload-f1.txt').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ok(res.body.err);
-        assert2.ok(error.find(res.body.err, 'IMAGE_TYPE'));
+        assert2.ok(error.errorExists(res.body.err, 'IMAGE_TYPE'));
         done();
       });
     });
@@ -309,9 +308,9 @@ describe('post /api/images', () => {
     it('should fail', done => {
       const form = {};
       expl.post('/api/images').send(form).end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ok(res.body.err);
-        assert2.ok(error.find(res.body.err, 'IMAGE_NO_FILE'));
+        assert2.ok(error.errorExists(res.body.err, 'IMAGE_NO_FILE'));
         done();
       });
     });

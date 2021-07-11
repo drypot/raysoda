@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as error from "../base/error.mjs";
 import * as db from '../db/db.mjs';
 import * as expb from "../express/express-base.mjs";
@@ -44,11 +43,11 @@ expb.setRedirectToLogin(function (err, req, res, done) {
   }
 });
 
-expb.core.get('/users/login', function (req, res, done) {
+expb.router.get('/users/login', function (req, res, done) {
   res.render('user/user-auth-login');
 });
 
-expb.core.post('/api/users/login', function (req, res, done) {
+expb.router.post('/api/users/login', function (req, res, done) {
   const form = {};
   form.email = String(req.body.email || '').trim();
   form.password = String(req.body.password || '').trim();
@@ -135,7 +134,7 @@ function findUser(email, password, done) {
   });
 }
 
-expb.core.get('/api/users/login', function (req, res, done) {
+expb.router.get('/api/users/login', function (req, res, done) {
   checkUser(res, function (err, user) {
     if (err) return done(err);
     res.json({
@@ -149,7 +148,7 @@ expb.core.get('/api/users/login', function (req, res, done) {
 
 // logout
 
-expb.core.post('/api/users/logout', function (req, res, done) {
+expb.router.post('/api/users/logout', function (req, res, done) {
   logout(req, res);
   res.json({});
 });

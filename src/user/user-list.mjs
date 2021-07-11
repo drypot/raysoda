@@ -1,14 +1,13 @@
-import * as assert2 from "../base/assert2.mjs";
-import * as url2 from "../base/url2.mjs";
+import * as url2 from "../base/url.mjs";
 import * as expb from "../express/express-base.mjs";
 import * as db from '../db/db.mjs';
 import * as usera from "../user/user-auth.mjs";
 
-expb.core.get('/users', function (req, res, done) {
+expb.router.get('/users', function (req, res, done) {
   list(req, res, false, done);
 });
 
-expb.core.get('/api/users', function (req, res, done) {
+expb.router.get('/api/users', function (req, res, done) {
   list(req, res, true, done);
 });
 
@@ -41,8 +40,8 @@ function list(req, res, api, done) {
     } else {
       res.render('user/user-list', {
         users: users,
-        prev: p > 1 ? new url2.UrlMaker('/users').add('p', p - 1, 1).add('ps', ps, 99).done() : undefined,
-        next: users.length === ps ? new url2.UrlMaker('/users').add('p', p + 1).add('ps', ps, 99).done(): undefined,
+        prev: p > 1 ? new url2.UrlMaker('/users').add('p', p - 1, 1).add('ps', ps, 99).gen() : undefined,
+        next: users.length === ps ? new url2.UrlMaker('/users').add('p', p + 1).add('ps', ps, 99).gen(): undefined,
       });
     }
   });

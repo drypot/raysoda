@@ -1,10 +1,9 @@
 import * as fs from "fs";
 import path from "path";
-import * as assert2 from "../base/assert2.mjs";
 import * as init from '../base/init.mjs';
 import * as config from '../base/config.mjs';
 import * as expb from '../express/express-base.mjs';
-import * as fs2 from "../base/fs2.mjs";
+import * as fs2 from "../base/fs.mjs";
 
 //const multiparty = require('multiparty');
 //const busboy = require('busboy');
@@ -17,17 +16,17 @@ init.add((done) => {
   console.log('upload: ' + config.prop.uploadDir);
   tmpDir = config.prop.uploadDir + '/tmp';
   multerInst = multer({ dest: tmpDir });
-  fs2.makeDir(tmpDir, function (err) {
+  fs2.makeDirs(tmpDir, function (err) {
     if (err) return done(err);
     fs2.emptyDir(tmpDir, done);
   });
 
   if (config.prop.dev) {
-    expb.core.get('/test/upload', function (req, res) {
+    expb.router.get('/test/upload', function (req, res) {
       res.render('express/express-upload');
     });
 
-    expb.core.all('/api/test/echo-upload', handler(function (req, res, done) {
+    expb.router.all('/api/test/echo-upload', handler(function (req, res, done) {
       const paths = [];
       if (req.files) {
         Object.keys(req.files).forEach(function (field) {
@@ -134,7 +133,7 @@ function handlerForMulter(inner) {
           let key = file.fieldname;
           if (!req.files) req.files = {};
           if (!req.files[key]) req.files[key] = [];
-          file.safeFilename = fs2.safeFilename(path.basename(file.originalname));
+          file.safeFilename = fs2.genSafeFilename(path.basename(file.originalname));
           req.files[key].push(file);
         }
       }

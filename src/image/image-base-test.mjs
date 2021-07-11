@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 
 import * as init from "../base/init.mjs";
 import * as config from "../base/config.mjs";
@@ -20,13 +19,13 @@ beforeAll((done) => {
 describe('table image', () => {
   it('should exist', done => {
     db.tableExists('image', (err, exist) => {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(exist);
       done();
     });
   });
   it('getNewId should success', () => {
-    assert2.e(imageb.getNewId(), 1);
+    expect(imageb.getNewId()).toBe(1);
     assert2.ok(imageb.getNewId() < imageb.getNewId());
   });
 });
@@ -34,10 +33,10 @@ describe('table image', () => {
 describe('identify()', () => {
   it('should work with jpeg', done => {
     imageb.identify('samples/1280x720.jpg', function (err, meta) {
-      assert2.ifError(err);
-      assert2.e(meta.format, 'jpeg');
-      assert2.e(meta.width, 1280);
-      assert2.e(meta.height, 720);
+      expect(err).toBeFalsy();
+      expect(meta.format).toBe('jpeg');
+      expect(meta.width).toBe(1280);
+      expect(meta.height).toBe(720);
       done();
     });
   });
@@ -50,19 +49,19 @@ describe('identify()', () => {
    */
   xit('should work with heic', function (done) {
     imageb.identify('samples/IMG_4395.HEIC', function (err, meta) {
-      assert2.ifError(err);
-      assert2.e(meta.format, 'heic');
-      assert2.e(meta.width, 4032);
-      assert2.e(meta.height, 3024);
+      expect(err).toBeFalsy();
+      expect(meta.format).toBe('heic');
+      expect(meta.width).toBe(4032);
+      expect(meta.height).toBe(3024);
       done();
     });
   });
   it('should work with svg', done => {
     imageb.identify('samples/svg-sample.svg', function (err, meta) {
-      assert2.ifError(err);
-      assert2.e(meta.format, 'svg');
-      assert2.e(meta.width, 1000);
-      assert2.e(meta.height, 1000);
+      expect(err).toBeFalsy();
+      expect(meta.format).toBe('svg');
+      expect(meta.width).toBe(1000);
+      expect(meta.height).toBe(1000);
       done();
     });
   });

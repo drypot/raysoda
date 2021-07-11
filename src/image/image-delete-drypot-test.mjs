@@ -1,5 +1,4 @@
 
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as config from "../base/config.mjs";
 import * as db from '../db/db.mjs';
@@ -38,17 +37,17 @@ describe('del /api/images/[_id]', () => {
     });
     it('should succeed', done => {
       expl.post('/api/images').field('comment', 'image1').attach('files', _f1).end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
-        assert2.ne(res.body.ids, undefined);
+        expect(res.body.ids).not.toBe(undefined);
         const _id1 = res.body.ids[0];
         expl.post('/api/images').field('comment', 'image2').attach('files', _f1).end(function (err, res) {
-          assert2.ifError(err);
+          expect(err).toBeFalsy();
           assert2.ifError(res.body.err);
-          assert2.ne(res.body.ids, undefined);
+          expect(res.body.ids).not.toBe(undefined);
           const _id2 = res.body.ids[0];
           expl.del('/api/images/' + _id1, function (err, res) {
-            assert2.ifError(err);
+            expect(err).toBeFalsy();
             assert2.ifError(res.body.err);
             assert2.pathNotExists(imageb.fman.getPath(_id1));
             assert2.pathExists(imageb.fman.getPath(_id2));

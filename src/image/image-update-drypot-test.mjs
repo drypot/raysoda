@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -33,21 +32,21 @@ describe('put /api/images/id', () => {
   describe('updating with image', () => {
     it('should succeed', done => {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/svg-sample.svg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
         const _id = res.body.ids[0];
         imageb.identify(imageb.fman.getPath(_id), function (err, meta) {
-          assert2.ifError(err);
+          expect(err).toBeFalsy();
           expl.put('/api/images/' + _id).field('comment', 'image2').attach('files', 'samples/svg-sample-2.svg').end(function (err, res) {
-            assert2.ifError(err);
+            expect(err).toBeFalsy();
             assert2.ifError(res.body.err);
             db.queryOne('select * from image where id = ?', _id, (err, image) => {
-              assert2.ifError(err);
-              assert2.ne(image, undefined);
-              assert2.ne(image.cdate, undefined);
-              assert2.e(image.comment, 'image2');
+              expect(err).toBeFalsy();
+              expect(image).not.toBe(undefined);
+              expect(image.cdate).not.toBe(undefined);
+              expect(image.comment).toBe('image2');
               imageb.identify(imageb.fman.getPath(_id), function (err, meta) {
-                assert2.ifError(err);
+                expect(err).toBeFalsy();
                 done();
               });
             });
@@ -59,13 +58,13 @@ describe('put /api/images/id', () => {
   describe('updating with jpg', () => {
     it('should fail', done => {
       expl.post('/api/images').field('comment', 'image1').attach('files', 'samples/svg-sample.svg').end(function (err, res) {
-        assert2.ifError(err);
+        expect(err).toBeFalsy();
         assert2.ifError(res.body.err);
         const _id = res.body.ids[0];
         expl.put('/api/images/' + _id).attach('files', 'samples/640x360.jpg').end(function (err, res) {
-          assert2.ifError(err);
+          expect(err).toBeFalsy();
           assert2.ok(res.body.err);
-          assert2.ok(error.find(res.body.err, 'IMAGE_TYPE'));
+          assert2.ok(error.errorExists(res.body.err, 'IMAGE_TYPE'));
           done();
         });
       });

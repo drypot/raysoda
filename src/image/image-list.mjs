@@ -1,24 +1,23 @@
-import * as assert2 from "../base/assert2.mjs";
-import * as async2 from "../base/async2.mjs";
-import * as date2 from "../base/date2.mjs";
+import * as async2 from "../base/async.mjs";
+import * as date2 from "../base/date.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
-import * as url2 from "../base/url2.mjs";
+import * as url2 from "../base/url.mjs";
 import * as db from '../db/db.mjs';
 import * as expb from "../express/express-base.mjs";
 import * as userb from "../user/user-base.mjs";
 import * as imageb from "../image/image-base.mjs";
 import * as bannerb from "../banner/banner-base.mjs";
 
-expb.core.get('/', function (req, res, done) {
+expb.router.get('/', function (req, res, done) {
   list(req, res, false, done);
 });
 
-expb.core.get('/images', function (req, res, done) {
+expb.router.get('/images', function (req, res, done) {
   list(req, res, false, done);
 });
 
-expb.core.get('/api/images', function (req, res, done) {
+expb.router.get('/api/images', function (req, res, done) {
   list(req, res, true, done);
 });
 
@@ -49,8 +48,8 @@ function list(req, res, api, done) {
         } else {
           res.render('image/image-list', {
             images: images,
-            prev: p > 1 ? new url2.UrlMaker('/images').add('d', dstr).add('p', p - 1, 1).add('ps', ps, 16).done() : undefined,
-            next: images.length === ps ? new url2.UrlMaker('/images').add('d', dstr).add('p', p + 1).add('ps', ps, 16).done(): undefined,
+            prev: p > 1 ? new url2.UrlMaker('/images').add('d', dstr).add('p', p - 1, 1).add('ps', ps, 16).gen() : undefined,
+            next: images.length === ps ? new url2.UrlMaker('/images').add('d', dstr).add('p', p + 1).add('ps', ps, 16).gen(): undefined,
             banners: bannerb.banners,
           });
         }
@@ -75,7 +74,7 @@ export function decoImageList(images, done) {
         home: user.home
       };
       image.thumb = imageb.fman.getThumbUrl(image.id);
-      image.cdateStr = date2.dateTimeString(image.cdate);
+      image.cdateStr = date2.genDateTimeString(image.cdate);
       setImmediate(loop);
     });
   })();

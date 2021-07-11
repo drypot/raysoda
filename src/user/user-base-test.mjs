@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as config from "../base/config.mjs";
 import * as db from '../db/db.mjs';
@@ -15,13 +14,13 @@ beforeAll(done => {
 describe('table user', () => {
   it('should exist', done => {
     db.tableExists('user', (err, exist) => {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(exist);
       done();
     });
   });
   it('getNewId should success', () => {
-    assert2.e(userb.getNewId(), 1);
+    expect(userb.getNewId()).toBe(1);
     assert2.ok(userb.getNewId() < userb.getNewId());
   });
 });

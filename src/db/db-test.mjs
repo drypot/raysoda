@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from '../base/init.mjs';
 import * as config from '../base/config.mjs';
 import * as db from '../db/db.mjs';
@@ -13,7 +12,7 @@ describe('db', () => {
   it('should exist.', done => {
     const query = 'show databases like ?';
     db.query(query, config.prop.mysqlDatabase, function (err, r) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ok(r.length);
       done();
     });
@@ -23,15 +22,15 @@ describe('db', () => {
 describe('queryOne', () => {
   it('should succeed when result exists.', done => {
     db.queryOne('select * from (select 1 as id) dummy where id = 1', (err, r) => {
-      assert2.ifError(err);
-      assert2.e(r.id, 1);
+      expect(err).toBeFalsy();
+      expect(r.id).toBe(1);
       done();
     });
   });
   it('should succeed when result does not exists.', done => {
     db.queryOne('select * from (select 1 as id) dummy where id = 2', (err, r) => {
-      assert2.ifError(err);
-      assert2.e(r, undefined);
+      expect(err).toBeFalsy();
+      expect(r).toBe(undefined);
       done();
     });
   });
@@ -43,15 +42,15 @@ describe('tableExists', () => {
   });
   it('should return false when table not exists.', done => {
     db.tableExists('test_exist_xxx', (err, exist) => {
-      assert2.ifError(err);
-      assert2.e(exist, false);
+      expect(err).toBeFalsy();
+      expect(exist).toBe(false);
       done();
     });
   });
   it('should return true when table exists.', done => {
     db.tableExists('test_exist', (err, exist) => {
-      assert2.ifError(err);
-      assert2.e(exist, true);
+      expect(err).toBeFalsy();
+      expect(exist).toBe(true);
       done();
     });
   });

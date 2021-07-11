@@ -1,5 +1,4 @@
-import * as assert2 from "../base/assert2.mjs";
-import * as async2 from '../base/async2.mjs';
+import * as async2 from '../base/async.mjs';
 import * as db from '../db/db.mjs';
 import * as expb from '../express/express-base.mjs';
 import * as expu from '../express/express-upload.mjs';
@@ -7,7 +6,7 @@ import * as usera from '../user/user-auth.mjs';
 import * as imageb from '../image/image-base.mjs';
 import * as imagen from '../image/image-new.mjs';
 
-expb.core.get('/images/:id([0-9]+)/update', function (req, res, done) {
+expb.router.get('/images/:id([0-9]+)/update', function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     const id = parseInt(req.params.id) || 0;
@@ -20,7 +19,7 @@ expb.core.get('/images/:id([0-9]+)/update', function (req, res, done) {
   });
 });
 
-expb.core.put('/api/images/:id([0-9]+)', expu.handler(function (req, res, done) {
+expb.router.put('/api/images/:id([0-9]+)', expu.handler(function (req, res, done) {
   usera.checkUser(res, function (err, user) {
     if (err) return done(err);
     const id = parseInt(req.params.id) || 0;

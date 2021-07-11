@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as db from '../db/db.mjs';

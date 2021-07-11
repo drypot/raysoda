@@ -1,11 +1,10 @@
 import * as fs from "fs";
-import * as assert2 from "../base/assert2.mjs";
 import * as error from "../base/error.mjs";
-import * as fs2 from "../base/fs2.mjs";
+import * as fs2 from "../base/fs.mjs";
 import * as imageb from "../image/image-base.mjs";
 
 function getDepth(id) {
-  return fs2.makeDeepPath((id / 1000) >> 0, 2);
+  return fs2.genDeepPath((id / 1000) >> 0, 2);
 }
 
 export function getDir(id) {
@@ -37,9 +36,9 @@ export function checkImageMeta(path, done) {
 }
 
 export function saveImage(id, src, meta, done) {
-  fs2.makeDir(getDir(id), function (err) {
+  fs2.makeDirs(getDir(id), function (err) {
     if (err) return done(err);
-    fs2.copy(src, getPath(id), function (err) {
+    fs2.copyFile(src, getPath(id), function (err) {
       done(err, null);
     });
   });

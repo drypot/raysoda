@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as db from '../db/db.mjs';
 import * as expb from '../express/express-base.mjs';
@@ -16,7 +15,7 @@ init.add(
   }
 );
 
-expb.core.get('/images/years', function (req, res, done) {
+expb.router.get('/images/years', function (req, res, done) {
   res.render('image/image-years', {
     today: new Date(),
     first: first

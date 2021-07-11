@@ -1,6 +1,5 @@
 import os from "os";
 import nodemailer from "nodemailer";
-import * as assert2 from "../base/assert2.mjs";
 
 const transport = nodemailer.createTransport();
 

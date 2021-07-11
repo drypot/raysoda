@@ -1,4 +1,3 @@
-import * as assert2 from "../base/assert2.mjs";
 import * as init from "../base/init.mjs";
 import * as error from "../base/error.mjs";
 import * as config from "../base/config.mjs";
@@ -31,21 +30,21 @@ describe('banners', () => {
   });
   it('putting should succeed', done => {
     expl.put('/api/banners').send({ banners: banners1 }).end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       done();
     });
   });
   it('putting can be checked', done => {
     persist.find('banners', function (err, value) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.de(value, banners1);
       done();
     });
   });
   it('getting should succeed', done => {
     expl.get('/api/banners').end(function (err, res) {
-      assert2.ifError(err);
+      expect(err).toBeFalsy();
       assert2.ifError(res.body.err);
       assert2.de(res.body.banners, banners1);
       done();
@@ -56,15 +55,15 @@ describe('banners', () => {
   });
   it('putting should fail', done => {
     expl.put('/api/banners').send({ banners: banners1 }).end(function (err, res) {
-      assert2.ifError(err);
-      assert2.ok(error.find(res.body.err, 'NOT_AUTHORIZED'));
+      expect(err).toBeFalsy();
+      assert2.ok(error.errorExists(res.body.err, 'NOT_AUTHORIZED'));
       done();
     });
   });
   it('getting should fail', done => {
     expl.get('/api/banners').end(function (err, res) {
-      assert2.ifError(err);
-      assert2.ok(error.find(res.body.err, 'NOT_AUTHORIZED'));
+      expect(err).toBeFalsy();
+      assert2.ok(error.errorExists(res.body.err, 'NOT_AUTHORIZED'));
       done();
     })
   });
