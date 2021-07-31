@@ -1,17 +1,18 @@
-import { lstatSync } from "fs"
-import Jasmine from "jasmine"
-import JasmineConsoleReporter from "jasmine-console-reporter"
+import { lstatSync } from 'fs'
+import Jasmine from 'jasmine'
+import JasmineConsoleReporter from 'jasmine-console-reporter'
 
 const jasmine = new Jasmine()
 
 const config = {
-  "spec_dir": "built",
+  "spec_dir": "dist",
   "spec_files": [
-    "**/*-test.mjs"
+    "**/*-test.js"
   ],
   "stopSpecOnExpectationFailure": false,
   "oneFailurePerSpec": true,
-  "random": false
+  "random": false,
+  "jsLoader": "import"
 }
 
 let execParams = process.argv.slice(2)

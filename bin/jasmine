@@ -2,12 +2,12 @@
 
 jasmine="node bin/jasmine-runner.mjs"
 
-for arg in "${@-built}"; do
+for arg in "${@-dist}"; do
   if [ -f $arg ]; then
     echo $jasmine $arg
     $jasmine $arg
   else
-    for path in $(find ${arg} -name "*-test.mjs"); do
+    for path in $(find ${arg} -name "*-test.js"); do
       echo $jasmine $path
       $jasmine $path
       if [ $? -ne 0 ]; then break; fi

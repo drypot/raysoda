@@ -2,7 +2,8 @@
   "name": "raysoda",
   "version": "3.0.0",
   "description": "https://raysoda.com",
-  "main": "src/main/main.mjs",
+  "main": "target/main/main.js",
+  "type": "module",
   "scripts": {
     "test": "bin/test"
   },
@@ -25,13 +26,15 @@
     "type": "git",
     "url": "git+https://github.com/drypot/raysoda.git"
   },
-  "author": "drypot@gmail.com",
+  "author": "Kyuhyun Park <drypot@gmail.com> (https://drypot.github.io)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/drypot/raysoda/issues"
   },
   "homepage": "https://github.com/drypot/raysoda#readme",
   "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.3.1",
     "jasmine": "^3.8.0",
     "jasmine-console-reporter": "^3.1.0"
   }
