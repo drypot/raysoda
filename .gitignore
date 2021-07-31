@@ -1,14 +1,16 @@
 .DS_Store
 
 /.idea/
-
+/.vscode/
 *.sublime-workspace
 
 /node_modules/
-/bower_components/
 package-lock.json
 
-/config-live/
+/dist/
+
 /tmp/
+
+/config-live/
 /upload/
 /samples/untracked/
