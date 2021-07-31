@@ -2,16 +2,25 @@
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
     "rootDir": "src",
-    "outDir": "build",
-    "target": "ESNext",
-    "module": "ESNext",
+    "outDir": "dist",
     "sourceMap": true,
-    "strict": true
-    //    "typeRoots": [
-    //      "@types",
-    //      "node_modules/@types"
-    //    ],
+
+    "target": "es2018", // async iterators
+    "module": "es2015",
+    "moduleResolution": "Node",
+    //"esModuleInterop": true,
+    "lib": [],
+
+//    "typeRoots": [
+//      "@types",
+//      "node_modules/@types"
+//    ]
+
   },
   "include": [
     "src/**/*.ts"
