@@ -1,15 +1,25 @@
 # RaySoda
 
-[RaySoda](https://raysoda.com) Version 2.
+RaySoda backend.
+
+## Front Repo
+
+<https://github.com/drypot/raysoda-front>
+
+## Running following sites.
 
 Running following sites.
 
-* [https://raysoda.com](https://raysoda.com)
-* [https://rapixel.com](https://rapixel.com)
-* [https://osoky.com](https://osoky.com)
-* [https://drypot.com](https://drypot.com)
+* <https://raysoda.com>
+* <https://rapixel.com>
+* <https://osoky.com>
+* <https://drypot.com>
 
 ## History
+
+2021.08.01 Front를 별도 리포지터리로 분리.
+
+2021.07.00 TypeScript, Jasmine 베이스로 변경 시작.
 
 2019.05.00 MongoDB 에서 MySQL 로 이사.
 

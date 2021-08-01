@@ -1,9 +1,0 @@
-.image-thumb-list .image-thumb .image img {
-  max-height: none; }
-
-:-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
-  background: black; }
-
-#fullscreen img {
-  max-width: 100vw;
-  max-height: 100vh; }
