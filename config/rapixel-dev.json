@@ -3,12 +3,12 @@
   "appNamel": "rapixel",
   "appDesc": "4K images",
 
-  "mainSite": "http://rapixel.test:8080",
+  "siteUrl": "http://rapixel.test:8080",
 
-  "appPort": 8020,
+  "port": 8020,
   "cookieSecret": "o;iejf832ndvs",
 
-  "uploadSite": "http://file.rapixel.test:8080",
+  "uploadSiteUrl": "http://file.rapixel.test:8080",
   "uploadDir": "upload/rapixel",
 
   "mongodb": "rapixel",

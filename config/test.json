@@ -3,7 +3,7 @@
   "appNamel": "test",
   "appDesc": "Test",
 
-  "appPort": 8061,
+  "port": 8061,
   "cookieSecret": "o;iejf832ndvs",
 
   "uploadDir": "upload/test",

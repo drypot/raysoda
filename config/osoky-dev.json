@@ -3,12 +3,12 @@
   "appNamel": "osoky",
   "appDesc": "Your randos",
 
-  "mainSite": "http://osoky.test:8080",
+  "siteUrl": "http://osoky.test:8080",
 
-  "appPort": 8030,
+  "port": 8030,
   "cookieSecret": "o;iejf832ndvs",
 
-  "uploadSite": "http://file.osoky.test:8080",
+  "uploadSiteUrl": "http://file.osoky.test:8080",
   "uploadDir": "upload/osoky",
 
   "mongodb": "osoky",

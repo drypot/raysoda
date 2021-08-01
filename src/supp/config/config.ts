@@ -5,12 +5,12 @@ type Config = {
   appNamel: string
   appDesc: string
 
-  siteUrl: string
-
-  appPort: number
+  port: number
   cookieSecret: string
 
-  uploadSiteUrl: string
+  siteUrl: string
+
+  uploadSiteUrlUrl: string
   uploadDir: string
 
   mysqlDatabase: string
