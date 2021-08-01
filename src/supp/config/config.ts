@@ -28,7 +28,7 @@ type Config = {
 export let config: Config
 
 export function loadConfig(path: string) {
-  const data = readFileSync(path, 'utf8');
+  const data = readFileSync(path, 'utf8')
   config = JSON.parse(data)
   config.dev = process.env.NODE_ENV !== 'production'
 }
