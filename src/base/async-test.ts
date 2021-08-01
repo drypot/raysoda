@@ -1,7 +1,7 @@
 import { FuncList, waterfall } from './async.js'
 
 describe('waterfall', () => {
-  it('should succeed', (done) => {
+  it('should work', (done) => {
     let i = 0
     waterfall(
       (done: Function) => {
@@ -19,7 +19,7 @@ describe('waterfall', () => {
       }
     )
   })
-  it('should succeed with err', (done) => {
+  it('should work with err', (done) => {
     let i = 0
     waterfall(
       (done: Function) => {
@@ -37,7 +37,7 @@ describe('waterfall', () => {
       }
     )
   })
-  it('should succeed with param', (done) => {
+  it('should work with param', (done) => {
     waterfall(
       (done: Function) => {
         done(null, 1, 2)
@@ -57,7 +57,7 @@ describe('waterfall', () => {
       }
     )
   })
-  it('should succeed with param, err', (done) => {
+  it('should work with param, err', (done) => {
     waterfall(
       (done: Function) => {
         done(null, 1, 2)
@@ -76,7 +76,7 @@ describe('waterfall', () => {
 })
 
 describe('FuncList', () => {
-  it('should succeed with 3 adds', (done) => {
+  it('should work with 3 adds', (done) => {
     const funcs = new FuncList()
     const a: number[] = []
     funcs.add((done: Function) => {
@@ -102,11 +102,11 @@ describe('FuncList', () => {
       done()
     })
   })
-  it('should succeed with no funcs', (done: Function) => {
+  it('should work with no funcs', (done: Function) => {
     const funcs = new FuncList()
     funcs.run(done)
   })
-  it('should succeed without done', (done: Function) => {
+  it('should work without done', (done: Function) => {
     const funcs = new FuncList()
     funcs.run()
     done()

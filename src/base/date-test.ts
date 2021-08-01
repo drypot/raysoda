@@ -1,7 +1,7 @@
 import { genDateString, genDateStringNoDash, genDateTimeString, genDate, genDateFrom } from './date.js'
 
 describe('getDate', () => {
-  it('should succeed', () => {
+  it('should work', () => {
     const now = new Date()
     const today = genDate()
     expect(today.getFullYear()).toBe(now.getFullYear())
@@ -15,7 +15,7 @@ describe('getDate', () => {
 })
 
 describe('getDateFrom', () => {
-  it('should succeed', () => {
+  it('should work', () => {
     const d = genDateFrom('1974-05-16')
     expect(d.getFullYear()).toBe(1974)
     expect(d.getMonth()).toBe(4)
@@ -28,21 +28,21 @@ describe('getDateFrom', () => {
 })
 
 describe('dateTimeString', () => {
-  it('should succeed', () => {
+  it('should work', () => {
     const d = new Date(1974, 4, 16, 12, 0)
     expect(genDateTimeString(d)).toBe('1974-05-16 12:00:00')
   })
 })
 
 describe('dateString', () => {
-  it('should succeed', () => {
+  it('should work', () => {
     const d = new Date(1974, 4, 16, 12, 0)
     expect(genDateString(d)).toBe('1974-05-16')
   })
 })
 
 describe('dateStringNoDash', () => {
-  it('should succeed', () => {
+  it('should work', () => {
     const d = new Date(1974, 4, 16, 12, 0)
     expect(genDateStringNoDash(d)).toBe('19740516')
   })

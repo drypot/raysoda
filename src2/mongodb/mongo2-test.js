@@ -18,7 +18,7 @@ describe('db', function () {
 
 describe('values', function () {
   describe('.update(id, string)', function () {
-    it('should succeed', function (done) {
+    it('should work', function (done) {
       mongo2.values.update('s1', 'value1', function (err) {
         assert2.ifError(err);
         mongo2.values.find('s1', function (err, value) {
@@ -30,7 +30,7 @@ describe('values', function () {
     });
   });
   describe('.update(id, number)', function () {
-    it('should succeed', function (done) {
+    it('should work', function (done) {
       mongo2.values.update('n1', 123, function (err) {
         assert2.ifError(err);
         mongo2.values.find('n1', function (err, value) {
@@ -42,7 +42,7 @@ describe('values', function () {
     });
   });
   describe('.update(id, obj)', function () {
-    it('should succeed', function (done) {
+    it('should work', function (done) {
       mongo2.values.update('o1', { p1: 123, p2: 456 }, function (err) {
         assert2.ifError(err);
         mongo2.values.find('o1', function (err, value) {
@@ -82,7 +82,7 @@ describe('.findPage', function () {
     ];
     col.insertMany(list, done);
   });
-  it('should succeed for page size 99', function (done) {
+  it('should work for page size 99', function (done) {
     mongo2.findPage(col, {}, {}, undefined, undefined, 99, null, function (err, r, gt, lt) {
       assert2.ifError(err);
       assert2.e(r.length, 10);
@@ -95,7 +95,7 @@ describe('.findPage', function () {
       done();
     });
   });
-  it('should succeed for page 1', function (done) {
+  it('should work for page 1', function (done) {
     mongo2.findPage(col, {}, {}, undefined, undefined, 4, null, function (err, r, gt, lt) {
       assert2.ifError(err);
       assert2.e(r.length, 4);
@@ -106,7 +106,7 @@ describe('.findPage', function () {
       done();
     });
   });
-  it('should succeed for next page ', function (done) {
+  it('should work for next page ', function (done) {
     mongo2.findPage(col, {}, {}, undefined, 7, 4, null, function (err, r, gt, lt) {
       assert2.ifError(err);
       assert2.e(r.length, 4);
@@ -117,7 +117,7 @@ describe('.findPage', function () {
       done();
     });
   });
-  it('should succeed for next page (last page)', function (done) {
+  it('should work for next page (last page)', function (done) {
     mongo2.findPage(col, {}, {}, undefined, 5, 4, null, function (err, r, gt, lt) {
       assert2.ifError(err);
       assert2.e(r.length, 4);
@@ -130,7 +130,7 @@ describe('.findPage', function () {
       done();
     });
   });
-  it('should succeed for last page (gt = 0)', function (done) {
+  it('should work for last page (gt = 0)', function (done) {
     mongo2.findPage(col, {}, {}, 0, undefined, 4, null, function (err, r, gt, lt) {
       assert2.ifError(err);
       assert2.e(r.length, 4);
@@ -143,7 +143,7 @@ describe('.findPage', function () {
       done();
     });
   });
-  it('should succeed for previous page', function (done) {
+  it('should work for previous page', function (done) {
     mongo2.findPage(col, {}, {}, 2, undefined, 4, null, function (err, r, gt, lt) {
       assert2.ifError(err);
       assert2.e(r.length, 4);
@@ -154,7 +154,7 @@ describe('.findPage', function () {
       done();
     });
   });
-  it('should succeed for previous page (first page)', function (done) {
+  it('should work for previous page (first page)', function (done) {
     mongo2.findPage(col, {}, {}, 6, undefined, 4, null, function (err, r, gt, lt) {
       assert2.ifError(err);
       assert2.e(r.length, 4);
@@ -165,7 +165,7 @@ describe('.findPage', function () {
       done();
     });
   });
-  it('should succeed with filter', function (done) {
+  it('should work with filter', function (done) {
     mongo2.findPage(col, {}, {}, undefined, undefined, 5, filter, function (err, r, gt, lt) {
       assert2.ifError(err);
       assert2.e(r.length, 2);
@@ -179,7 +179,7 @@ describe('.findPage', function () {
       done(null, result._id % 2 ? result : null);
     }
   });
-  it('should succeed with opt', function (done) {
+  it('should work with opt', function (done) {
     mongo2.findPage(col, {}, { projection: { _id: 1, a: 1} }, undefined, undefined, 4, null, function (err, r, gt, lt) {
       assert2.ifError(err);
       assert2.e(r.length, 4);
@@ -210,7 +210,7 @@ describe('.findDeepDoc', function () {
     ];
     col.insertMany(list, done);
   });
-  it('should succeed', function (done) {
+  it('should work', function (done) {
     mongo2.findDeepDoc(col, {}, {}, new Date(2013, 3, 8), function (err, dyear, dlt) {
       assert2.ifError(err);
       assert2.e(dyear, 2013);
@@ -218,7 +218,7 @@ describe('.findDeepDoc', function () {
       done();
     });
   });
-  it('should succeed', function (done) {
+  it('should work', function (done) {
     mongo2.findDeepDoc(col, {}, {}, new Date(2012, 12, 12), function (err, dyear, dlt) {
       assert2.ifError(err);
       assert2.e(dyear, 2012);
@@ -226,7 +226,7 @@ describe('.findDeepDoc', function () {
       done();
     });
   });
-  it('should succeed', function (done) {
+  it('should work', function (done) {
     mongo2.findDeepDoc(col, {}, {}, new Date(2001, 1, 1), function (err, dyear, dlt) {
       assert2.ifError(err);
       assert2.e(dyear, undefined);
@@ -241,14 +241,14 @@ describe('.getLastId', function () {
   before(function () {
     col = mongo2.db.collection('testlastid');
   });
-  it('should succeed for empty collection', function (done) {
+  it('should work for empty collection', function (done) {
     mongo2.getLastId(col, function (err, id) {
       assert2.ifError(err);
       assert2.e(id, 0);
       done();
     });
   });
-  it('should succeed for filled collection', function (done) {
+  it('should work for filled collection', function (done) {
     var list = [];
     for (var i = 0; i < 10; i++) {
       list.push({ _id: i + 1});

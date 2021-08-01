@@ -71,7 +71,7 @@ describe('removeDir', () => {
 
 describe('emptyDir', () => {
   beforeAll(genFiles)
-  it('should succeed', done => {
+  it('should work', done => {
     const files = fs.readdirSync(testDir)
     expect(files.length).toBeGreaterThan(0)
     fs2.emptyDir(testDir, (err: any) => {
@@ -87,7 +87,7 @@ describe('makeDirEasy', () => {
   beforeEach(done => {
     fs2.emptyDir(testDir, done)
   })
-  it('should succeed', done => {
+  it('should work', done => {
     pathNotExists(testPath('sub1'))
     fs2.makeDirEasy(testPath('sub1'), function (err: any) {
       expect(err).toBeFalsy()
@@ -103,7 +103,7 @@ describe('makeDirEasy', () => {
 })
 
 describe('safeFilename', () => {
-  it('should succeed', () => {
+  it('should work', () => {
     const table = [
       ['`', '`'], ['~', '~'],
       ['!', '!'], ['@', '@'], ['#', '#'], ['$', '$'], ['%', '%'],
@@ -126,7 +126,7 @@ describe('safeFilename', () => {
 })
 
 describe('genDeepPath', () => {
-  it('should succeed', () => {
+  it('should work', () => {
     expect(fs2.genDeepPath(1, 3)).toBe('0/0/1')
     expect(fs2.genDeepPath(999, 3)).toBe('0/0/999')
     expect(fs2.genDeepPath(1000, 3)).toBe('0/1/0')
@@ -142,7 +142,7 @@ describe('copyFile', () => {
   beforeAll(done => {
     fs2.emptyDir(testDir, done)
   })
-  it('should succeed', done => {
+  it('should work', done => {
     const t = testPath('fs-test-dummy-copy.txt')
     pathNotExists(t)
     fs2.copyFile('src/base/fs-test-dummy.txt', t, (err: any) => {
