@@ -1,4 +1,4 @@
-import { UrlMaker } from './url.js'
+import { UrlMaker } from './url2.js'
 
 describe('UrlMaker', () => {
   it('should work with only url', () => {

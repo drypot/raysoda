@@ -55,7 +55,7 @@ export function emptyDir(p: string, done: Function) {
   })
 }
 
-export function makeDirEasy(p: string, done: (err: NodeJS.ErrnoException | null, path?: string | undefined) => void) {
+export function makeDir(p: string, done: (err: NodeJS.ErrnoException | null, path?: string | undefined) => void) {
   let opt: MakeDirectoryOptions = {
     recursive: true,
     mode: 0o755,

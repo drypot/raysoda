@@ -1,4 +1,4 @@
-import { genDateString, genDateStringNoDash, genDateTimeString, genDate, genDateFrom } from './date.js'
+import { genDateString, genDateStringNoDash, genDateTimeString, genDate, genDateFrom } from './date2.js'
 
 describe('getDate', () => {
   it('should work', () => {

@@ -1,4 +1,4 @@
-import { lookupErrors, FormError, INVALID_DATA, UNKNOWN_ERROR } from './error.js'
+import { lookupErrors, FormError, INVALID_DATA, UNKNOWN_ERROR } from './error2.js'
 
 describe('FormError', () => {
   it('can be created', () => {

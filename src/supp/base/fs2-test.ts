@@ -1,6 +1,6 @@
 import * as fs from 'fs'
-import * as fs2 from './fs.js'
-import { pathExists, pathNotExists } from './assert.js'
+import * as fs2 from './fs2.js'
+import { assertPathExists, assertPathNotExists } from './assert2.js'
 
 const testDir = 'tmp/fs-test'
 
@@ -14,12 +14,12 @@ function genFiles() {
   fs.writeFileSync(testPath('sub1/f1.txt'), 'abc')
   fs.writeFileSync(testPath('sub2/f2.txt'), 'abc')
   fs.writeFileSync(testPath('sub2/sub3/f3.txt'), 'abc')
-  pathExists(testPath('sub1'))
-  pathExists(testPath('sub2'))
-  pathExists(testPath('sub2/sub3'))
-  pathExists(testPath('sub1/f1.txt'))
-  pathExists(testPath('sub2/f2.txt'))
-  pathExists(testPath('sub2/sub3/f3.txt'))
+  assertPathExists(testPath('sub1'))
+  assertPathExists(testPath('sub2'))
+  assertPathExists(testPath('sub2/sub3'))
+  assertPathExists(testPath('sub1/f1.txt'))
+  assertPathExists(testPath('sub2/f2.txt'))
+  assertPathExists(testPath('sub2/sub3/f3.txt'))
 }
 
 describe('removeDir', () => {
@@ -27,36 +27,36 @@ describe('removeDir', () => {
   it('should work for one file', done => {
     fs2.removeDir(testPath('sub1/f1.txt'), (err: any) => {
       expect(err).toBeFalsy()
-      pathExists(testPath('sub1'))
-      pathExists(testPath('sub2'))
-      pathExists(testPath('sub2/sub3'))
-      pathExists(testPath('sub2/f2.txt'))
-      pathExists(testPath('sub2/sub3/f3.txt'))
-      pathNotExists(testPath('sub1/f1.txt'))
+      assertPathExists(testPath('sub1'))
+      assertPathExists(testPath('sub2'))
+      assertPathExists(testPath('sub2/sub3'))
+      assertPathExists(testPath('sub2/f2.txt'))
+      assertPathExists(testPath('sub2/sub3/f3.txt'))
+      assertPathNotExists(testPath('sub1/f1.txt'))
       done()
     })
   })
   it('should work for one dir', done => {
     fs2.removeDir(testPath('sub1'), (err: any) => {
       expect(err).toBeFalsy()
-      pathExists(testPath('sub2'))
-      pathExists(testPath('sub2/sub3'))
-      pathExists(testPath('sub2/f2.txt'))
-      pathExists(testPath('sub2/sub3/f3.txt'))
-      pathNotExists(testPath('sub1'))
-      pathNotExists(testPath('sub1/f1.txt'))
+      assertPathExists(testPath('sub2'))
+      assertPathExists(testPath('sub2/sub3'))
+      assertPathExists(testPath('sub2/f2.txt'))
+      assertPathExists(testPath('sub2/sub3/f3.txt'))
+      assertPathNotExists(testPath('sub1'))
+      assertPathNotExists(testPath('sub1/f1.txt'))
       done()
     })
   })
   it('should work recursively', done => {
     fs2.removeDir(testPath('sub2'), (err: any) => {
       expect(err).toBeFalsy()
-      pathExists(testPath('sub1'))
-      pathExists(testPath('sub1/f1.txt'))
-      pathNotExists(testPath('sub2'))
-      pathNotExists(testPath('sub2/sub3'))
-      pathNotExists(testPath('sub2/f2.txt'))
-      pathNotExists(testPath('sub2/sub3/f3.txt'))
+      assertPathExists(testPath('sub1'))
+      assertPathExists(testPath('sub1/f1.txt'))
+      assertPathNotExists(testPath('sub2'))
+      assertPathNotExists(testPath('sub2/sub3'))
+      assertPathNotExists(testPath('sub2/f2.txt'))
+      assertPathNotExists(testPath('sub2/sub3/f3.txt'))
       done()
     })
   })
@@ -83,19 +83,19 @@ describe('emptyDir', () => {
   })
 })
 
-describe('makeDirEasy', () => {
+describe('makeDir', () => {
   beforeEach(done => {
     fs2.emptyDir(testDir, done)
   })
   it('should work', done => {
-    pathNotExists(testPath('sub1'))
-    fs2.makeDirEasy(testPath('sub1'), function (err: any) {
+    assertPathNotExists(testPath('sub1'))
+    fs2.makeDir(testPath('sub1'), function (err: any) {
       expect(err).toBeFalsy()
-      pathExists(testPath('sub1'))
-      pathNotExists(testPath('sub1/sub2/sub3'))
-      fs2.makeDirEasy(testPath('sub1/sub2/sub3'), function (err: any) {
+      assertPathExists(testPath('sub1'))
+      assertPathNotExists(testPath('sub1/sub2/sub3'))
+      fs2.makeDir(testPath('sub1/sub2/sub3'), function (err: any) {
         expect(err).toBeFalsy()
-        pathExists(testPath('sub1/sub2/sub3'))
+        assertPathExists(testPath('sub1/sub2/sub3'))
         done()
       })
     })
@@ -144,21 +144,21 @@ describe('copyFile', () => {
   })
   it('should work', done => {
     const t = testPath('fs-test-dummy-copy.txt')
-    pathNotExists(t)
-    fs2.copyFile('src/base/fs-test-dummy.txt', t, (err: any) => {
+    assertPathNotExists(t)
+    fs2.copyFile('src/supp/base/fs2-test-dummy.txt', t, (err: any) => {
       expect(err).toBeFalsy()
-      pathExists(t)
+      assertPathExists(t)
       expect(fs.readFileSync(t, 'utf8')).toBe('fs2 test dummy')
       done()
     })
   })
   it('should fail when source not exist', done => {
     const t = testPath('fs2-test-dummy-xxx-copy.txt')
-    pathNotExists(t)
-    fs2.copyFile('src/base/fs2-test-dummy-xxx.txt', t, (err: any) => {
+    assertPathNotExists(t)
+    fs2.copyFile('src/supp/base/fs2-test-dummy-xxx.txt', t, (err: any) => {
       expect(err).toBeTruthy()
       expect(err.code).toBe('ENOENT')
-      pathNotExists(t)
+      assertPathNotExists(t)
       done()
     })
   })

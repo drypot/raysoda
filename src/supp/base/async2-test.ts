@@ -1,4 +1,4 @@
-import { FuncList, waterfall } from './async.js'
+import { FuncList, waterfall } from './async2.js'
 
 describe('waterfall', () => {
   it('should work', (done) => {
