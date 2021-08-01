@@ -1,16 +1,32 @@
 #!/bin/bash
-if [ -z "$1" ]
-  then
-    echo "pm2 [raysoda|rapixel|osoky|drypot]"
+
+function show_usage {
+    echo "pm2 [raysoda|rapixel|osoky|drypot] [dev|live]"
     exit 1
+}
+
+if [ $# -lt 2 ]; then
+    show_usage
 fi
+
+if [ "$2" = dev ]; then
+    OPT=dev
+    export NODE_ENV=development
+elif [ "$2" = live ]; then
+    OPT=live
+    export NODE_ENV=production
+else
+    show_usage
+fi
+
 args=(
     start
-    src/main/main.mjs
+    bin/pm2-runner.mjs
     --name $1
     --exp-backoff-restart-delay=2000
     --
-    -c config/${1}-dev.json
+    config/${1}-${OPT}.json
 )
-export NODE_ENV=development
+
 pm2 "${args[@]}"
+
