@@ -4,30 +4,18 @@ import JasmineConsoleReporter from 'jasmine-console-reporter'
 
 const jasmine = new Jasmine()
 
-const config = {
+jasmine.loadConfig({
   "spec_dir": "dist",
   "spec_files": [
     "**/*-test.js"
   ],
   "stopSpecOnExpectationFailure": false,
-  "oneFailurePerSpec": true,
+  "stopOnSpecFailure": true,
   "random": false,
   "jsLoader": "import"
-}
+})
 
-let execParams = process.argv.slice(2)
-//console.log(`${execParams}`);
-
-if (lstatSync(execParams[0]).isDirectory()) {
-  config.spec_dir = execParams[0]
-  execParams = []
-}
-
-jasmine.loadConfig(config)
-
-jasmine.jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000
-
-const reporter = new JasmineConsoleReporter({
+jasmine.addReporter(new JasmineConsoleReporter({
   colors: 1,           // (0|false)|(1|true)|2
   cleanStack: 1,       // (0|false)|(1|true)|2|3
   verbosity: 4,        // (0|false)|1|2|(3|true)|4|Object
@@ -37,11 +25,15 @@ const reporter = new JasmineConsoleReporter({
   activity: true,
   emoji: false,         // boolean or emoji-map object
   beep: true
-})
-jasmine.env.clearReporters()
-jasmine.addReporter(reporter)
+}))
 
-//console.log(config)
-//console.log(execParams)
+jasmine.jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000
+
+let execParams = process.argv.slice(2)
+execParams.forEach((v, i) => {
+  if (lstatSync(v).isDirectory()) {
+    execParams[i] += '/**/*-test.js'
+  }
+})
 
 jasmine.execute(execParams)

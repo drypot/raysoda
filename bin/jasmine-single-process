@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# jasmine은 한 프로세스로 여러 테스트를 모아 돌린다.
-# 현재 mocha 용으로 만든 테스트 파일은 모두 새 프로세스에서 실행되는 것을 전제로 한다.
-# 해서 이 코드는 재워두고 mocha 처럼 별도 bash 스크립트로 루프를 돌려야할 것 같다.
-
-node bin/jasmine-runner.mjs "${@-src}"
