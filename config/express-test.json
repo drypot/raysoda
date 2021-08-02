@@ -1,0 +1,24 @@
+{
+  "appName": "ExpressTest",
+  "appNamel": "expresstest",
+  "appDesc": "",
+
+  "siteUrl": "http://raysoda.test:8080",
+
+  "port": 8050,
+  "cookieSecret": "o;iejf832ndvs",
+
+  "uploadSiteUrl": "http://file.raysoda.test:8080",
+  "uploadDir": "upload/raysoda-test",
+
+  "mongodb": "raysoda-test",
+
+  "mysqlDatabase": "raysoda_test",
+  "mysqlUser": "drypot",
+  "mysqlPassword": "",
+
+  "mailServer": "",
+
+  "ticketGenInterval": 18,
+  "ticketMax": 3
+}

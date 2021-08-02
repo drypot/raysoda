@@ -1,2 +1,2 @@
 #!/bin/bash
-node dist/supp/express/express2-test-run.js
+node dist/lib/express/express2-test-run.js

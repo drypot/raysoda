@@ -1,0 +1,58 @@
+import { loadConfig } from '../config/config.js'
+import { Express2 } from './express2.js'
+import { Router } from 'express'
+import { SuperAgentTest } from 'supertest'
+
+let server: Express2
+let router: Router
+let request: SuperAgentTest
+
+describe('Express2', () => {
+
+  beforeAll(done => {
+    const config = loadConfig('config/test.json')
+    Express2.startTest(config, (err, _server, _router, _request) => {
+      server = _server
+      router = _router
+      request = _request
+      done()
+    })
+  })
+
+  afterAll(done => {
+    server.close(done)
+  })
+
+  describe('/api/echo', () => {
+    describe('get', () => {
+      it('should work', done => {
+        request.get('/api/echo?p1&p2=123').end(function (err, res) {
+          expect(err).toBeFalsy()
+          expect(res.body.method).toBe('GET')
+          expect(res.body.query).toEqual({ p1: '', p2: '123' })
+          done()
+        })
+      })
+    })
+    describe('post', () => {
+      it('should work', done => {
+        request.post('/api/echo').send({ p1: '', p2: '123' }).end(function (err, res) {
+          expect(err).toBeFalsy()
+          expect(res.body.method).toBe('POST')
+          expect(res.body.body).toEqual({ p1: '', p2: '123' })
+          done()
+        })
+      })
+    })
+    describe('delete', () => {
+      it('should work', done => {
+        request.del('/api/echo').end(function (err, res) {
+          expect(err).toBeFalsy()
+          expect(res.body.method).toBe('DELETE')
+          done()
+        })
+      })
+    })
+  })
+
+})
