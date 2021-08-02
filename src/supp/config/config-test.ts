@@ -1,10 +1,10 @@
-import { config, loadConfig } from './config.js'
+import { loadConfig } from './config.js'
 
 describe('loadConfig', () => {
   it('should work', () => {
-    loadConfig('src/supp/config/config-test-fixture.json')
-    expect(config.appName).toBe('ConfigTest')
-    expect(config.appNamel).toBe('configtest')
+    const config = loadConfig('config/test.json')
+    expect(config.appName).toBe('Test')
+    expect(config.appNamel).toBe('test')
     expect(config.dev).toBeTruthy()
   })
 })

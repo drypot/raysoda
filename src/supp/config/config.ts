@@ -25,14 +25,9 @@ type Config = {
   dev: boolean
 }
 
-export let config: Config
-
-export function loadConfig(path: string) {
+export function loadConfig(path: string): Config {
   const data = readFileSync(path, 'utf8')
-  config = JSON.parse(data)
+  const config: Config = JSON.parse(data)
   config.dev = process.env.NODE_ENV !== 'production'
-}
-
-export function loadTestConfig() {
-  return loadConfig('config/test.json')
+  return config
 }
