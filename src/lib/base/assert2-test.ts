@@ -25,8 +25,8 @@ describe('assertNotEmpty', () => {
 
 describe('assertPathExists', () => {
   it('should work', done => {
-    assertPathExists('src/supp/base/assert2-test-fixture.txt')
-    assertPathNotExists('src/supp/base/assert2-test-fixture-xxx.txt')
+    assertPathExists('src/lib/base/fixture/test-dummy.txt')
+    assertPathNotExists('src/lib/base/fixture/not-exist.txt')
     done()
   })
 })

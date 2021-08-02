@@ -143,19 +143,19 @@ describe('copyFile', () => {
     fs2.emptyDir(testDir, done)
   })
   it('should work', done => {
-    const t = testPath('fs-test-dummy-copy.txt')
+    const t = testPath('test-dummy-copy.txt')
     assertPathNotExists(t)
-    fs2.copyFile('src/supp/base/fs2-test-dummy.txt', t, (err: any) => {
+    fs2.copyFile('src/lib/base/fixture/test-dummy.txt', t, (err: any) => {
       expect(err).toBeFalsy()
       assertPathExists(t)
-      expect(fs.readFileSync(t, 'utf8')).toBe('fs2 test dummy')
+      expect(fs.readFileSync(t, 'utf8')).toMatch('test dummy')
       done()
     })
   })
   it('should fail when source not exist', done => {
-    const t = testPath('fs2-test-dummy-xxx-copy.txt')
+    const t = testPath('not-exist.txt')
     assertPathNotExists(t)
-    fs2.copyFile('src/supp/base/fs2-test-dummy-xxx.txt', t, (err: any) => {
+    fs2.copyFile('src/lib/base/fixture/not-exist.txt', t, (err: any) => {
       expect(err).toBeTruthy()
       expect(err.code).toBe('ENOENT')
       assertPathNotExists(t)
