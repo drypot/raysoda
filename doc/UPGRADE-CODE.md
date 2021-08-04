@@ -1,10 +1,11 @@
 # 코드 업데이트
 
+    $ pm2 stop all
+
     $ git pull
     
     $ npm install
 
-    $ sudo systemctl restart raysoda
-    $ sudo systemctl restart rapixel
-    $ sudo systemctl restart osoky
-    $ sudo systemctl restart drypot
+    ...
+
+    $ pm2 restart all

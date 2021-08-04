@@ -19,12 +19,6 @@
 
     > select * from user where email like 'drypot%';
 
-이름 변경
-
-    추후 수정.
-    db.users.find({ homel : 'admin'})
-    db.users.update({ _id: 18060 }, { $set : { name: '...', namel: '...' }})
-
 계정 복구
 
     > select * from user where home='...'\G
@@ -36,17 +30,4 @@
 
     디비 수정하고 서버 재시동이 필요하다.
     추후 user 캐쉬만 refresh 하는 기능을 만들어야;
-
-사진 코멘트 변경
-
-    추후 수정.
-    db.images.find({ uid: 125613 })
-
-    db.images.update( { uid: 125613, "comment" : "ShinjukuNoir\n\n#新&#40658;宿#" }, { $set: { "comment" : "ShinjukuNoir\r\n\r\n#新黒宿#" }}, { multi: true})
-
-사용 정지
-
-    추후 수정.
-    db.users.find({ name : ''})
-    db.users.update({ name : '' }, { $set: { status: 'd' } })
 
