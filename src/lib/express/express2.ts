@@ -1,5 +1,4 @@
-import express from 'express'
-import { Request, Response, NextFunction, Express, Router } from 'express'
+import express, { Express, NextFunction, Request, Response, Router } from 'express'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import redis from 'redis'
@@ -9,6 +8,8 @@ import { FormError } from '../base/error2.js'
 import * as http from 'http'
 import supertest, { SuperAgentTest } from 'supertest'
 import { Config } from '../config/config.js'
+import newMulter, { Multer } from 'multer'
+import { mkdirSync2, rmSync2 } from '../base/fs2.js'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 
@@ -17,6 +18,7 @@ export class Express2 {
   private readonly config: Config
   private readonly httpServer: http.Server
   private readonly expr1: Express
+  private multer: Multer | undefined
   public readonly router: Router
 
   public autoLogin: ExpressHandler | undefined
@@ -38,9 +40,9 @@ export class Express2 {
 
     const locals = this.expr1.locals
     locals.pretty = true
-    locals.appName = config.appName;
-    locals.appNamel = config.appNamel;
-    locals.appDesc = config.appDesc;
+    locals.appName = config.appName
+    locals.appNamel = config.appNamel
+    locals.appDesc = config.appDesc
 
     this.setViewEngine('pug', 'src')
   }
@@ -74,7 +76,7 @@ export class Express2 {
     this.setUpCacheControl()
     this.setUpAutoLoginHandler()
     this.setUpGeneralRouter()
-    this.setUpTestAPI()
+    this.setUpBasicAPI()
     this.setUpRedirectToLoginHandler()
     this.setUpErrorHandler()
     this.httpServer.listen(this.config.port, done)
@@ -163,7 +165,7 @@ export class Express2 {
     }
   }
 
-  private setUpTestAPI() {
+  private setUpBasicAPI() {
     this.expr1.get('/api/hello', function (req, res, done) {
       res.json({
         message: 'hello',
@@ -180,21 +182,21 @@ export class Express2 {
       })
     })
 
+    this.expr1.get('/api/cookies', function (req, res, done) {
+      res.json(req.cookies)
+    })
+
     this.expr1.post('/api/destroy-session', function (req, res, done) {
       req.session.destroy((err: any) => {
         res.json({})
       })
-    })
-
-    this.expr1.get('/api/cookies', function (req, res, done) {
-      res.json(req.cookies)
     })
   }
 
   private setUpErrorHandler() {
     const _this = this
     this.expr1.use(function (_err: any, req: Request, res: Response, done: NextFunction) {
-      let obj = undefined
+      let obj
       if (_err instanceof FormError) {
         obj = {
           errType: 'form',
@@ -208,18 +210,52 @@ export class Express2 {
       } else {
         obj = {
           errType: 'system',
-          err: _err
+          err: {
+            name: _err.name,
+            message: _err.message,
+            stack: _err.stack,
+          }
         }
+        console.error(obj)
       }
       if (_this.logError) {
         console.error(obj)
       }
-      if (res.locals.api) {
-        res.json(obj)
-      } else {
-        res.render('lib/express/view/express-error', obj)
-      }
+      res.json(obj)
     })
   }
+
+  get upload(): Multer {
+    if (!this.multer) {
+      if (!this.config.uploadDir) throw new Error('config.uploadDir should be defined')
+      const tmp = this.config.uploadDir + '/tmp'
+      rmSync2(tmp)
+      mkdirSync2(tmp)
+      this.multer = newMulter({ dest: tmp })
+    }
+    return this.multer
+  }
+
+  // getUploadHandler() {
+  //   const multer = this.multer
+  //   return (req: Request, res: Response, done: NextFunction) => {
+  //     multer.any()(req, res, err => {
+  //       if (err) return done(err)
+  //       if (!req.files) return done()
+  //       const files = req.files as Express.Multer.File[]
+  //       for (let file of files) {
+  //         // XHR 이 빈 파일 필드를 보내는 경우가 있어 걸러야 한다.
+  //         if (file.originalname.trim()) {
+  //           // 불필요한 req.files[key] 생성을 막기 위해 초기화는 안쪽에서 한다.
+  //           let key = file.fieldname
+  //           if (!req.files2) req.files2 = {}
+  //           if (!req.files2[key]) req.files[key] = []
+  //           req.files[key].push(file)
+  //         }
+  //       }
+  //       done()
+  //     })
+  //   }
+  // }
 
 }

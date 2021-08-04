@@ -49,7 +49,7 @@ describe('Express2', () => {
       expect(err).toBeFalsy()
       expect(res.type).toBe('application/json')
       expect(res.body.errType).toBe('form')
-      expect(res.body.err.code).toBe(INVALID_DATA.code)
+      expect(res.body.err.code).toBe(INVALID_DATA.name)
       expect(lookupErrors(res.body.err, INVALID_DATA)).toBe(true)
       done()
     })
