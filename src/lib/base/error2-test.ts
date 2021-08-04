@@ -3,7 +3,7 @@ import { lookupErrors, FormError, INVALID_DATA, UNKNOWN_ERROR } from './error2.j
 describe('FormError', () => {
   it('can be created', () => {
     const err = new FormError('ERR', 'Message', 'Field')
-    expect(err.code).toBe('ERR')
+    expect(err.name).toBe('ERR')
     expect(err.message).toBe('Message')
     expect(err.field).toBe('Field')
   })
