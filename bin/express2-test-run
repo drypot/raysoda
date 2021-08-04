@@ -1,2 +1,2 @@
-#!/bin/bash
+#!/usr/bin/env bash
 node dist/lib/express/express2-test-run.js

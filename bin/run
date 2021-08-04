@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function show_usage {
     echo "run [raysoda|rapixel|osoky|drypot] [dev|live]"

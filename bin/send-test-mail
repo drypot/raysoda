@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+function show_usage {
+    echo "send-test-mail [dev|live]"
+    exit 1
+}
+
+if [ "$1" = dev ]; then
+    CONFIG=config/test.json
+elif [ "$1" = live ]; then
+    CONFIG=config-live/raysoda-live.json
+else
+    show_usage
+fi
+
+node dist/lib/mailer/mailer2-send-test-mail.js $CONFIG
