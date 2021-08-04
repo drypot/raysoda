@@ -6,6 +6,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
 
+    // 이 옵션을 켜지 않으면
+    // import * as express from 'express' 식으로만 연결 가능하다.
+    // 이러면 express() 식으로 실행시 에러가 난다.
+    // 이 옵션을 켜면
+    // import express from 'express' 식으로 연결할 수 있다.
+    // express() 식으로 실행할 수 있다.
+    "allowSyntheticDefaultImports": true,
+
     "rootDir": "src",
     "outDir": "dist",
     "sourceMap": true,
@@ -14,7 +22,7 @@
     "module": "es2015",
     "moduleResolution": "Node",
     //"esModuleInterop": true,
-    "lib": [],
+    "lib": []
 
 //    "typeRoots": [
 //      "@types",
