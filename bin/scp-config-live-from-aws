@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+scp -r aws1:/data/service/raysoda/config-live .
