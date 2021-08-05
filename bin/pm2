@@ -10,23 +10,22 @@ if [ $# -lt 2 ]; then
 fi
 
 if [ "$2" = dev ]; then
-    OPT=dev
+    CONFIG_DIR=config
     export NODE_ENV=development
 elif [ "$2" = live ]; then
-    OPT=live
+    CONFIG_DIR=config-live
     export NODE_ENV=production
 else
     show_usage
 fi
-
 args=(
     start
     bin/pm2-runner.mjs
     --name $1
     --exp-backoff-restart-delay=2000
     --
-    config/${1}-${OPT}.json
+    ${CONFIG_DIR}/${1}-${2}.json
 )
 
+set -o xtrace
 pm2 "${args[@]}"
-

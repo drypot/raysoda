@@ -10,11 +10,14 @@ if [ $# -lt 2 ]; then
 fi
 
 if [ "$2" = dev ]; then
-    OPT=dev
+    CONFIG_DIR=config
+    export NODE_ENV=development
 elif [ "$2" = live ]; then
-    OPT=live
+    CONFIG_DIR=config-live
+    export NODE_ENV=production
 else
     show_usage
 fi
 
-node dist/main/main.js config/${1}-${OPT}.json
+set -o xtrace
+node dist/app/main/main.js ${CONFIG_DIR}/${1}-${2}.json
