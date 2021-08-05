@@ -6,10 +6,11 @@ import session from 'express-session'
 import connectRedis from 'connect-redis'
 import { FormError } from '../base/error2.js'
 import * as http from 'http'
-import supertest, { SuperAgentTest } from 'supertest'
-import { Config } from '../config/config.js'
+import supertest from 'supertest'
+import { Config } from '../../app/config/config.js'
 import newMulter, { Multer } from 'multer'
 import { mkdirSync2, rmSync2 } from '../base/fs2.js'
+import { unlinkSync } from 'fs'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 
@@ -45,15 +46,6 @@ export class Express2 {
     locals.appDesc = config.appDesc
 
     this.setViewEngine('pug', 'src')
-  }
-
-  static startTest(config: Config, done: (err: any, server: Express2, router: Router, request: SuperAgentTest) => void) {
-    let server = new Express2(config)
-    let router = server.router
-    let request = server.spawnRequest()
-    server.start(() => {
-      done(null, server, router, request)
-    })
   }
 
   setLocals(name: string, value: any) {
@@ -216,7 +208,6 @@ export class Express2 {
             stack: _err.stack,
           }
         }
-        console.error(obj)
       }
       if (_this.logError) {
         console.error(obj)
@@ -236,26 +227,20 @@ export class Express2 {
     return this.multer
   }
 
-  // getUploadHandler() {
-  //   const multer = this.multer
-  //   return (req: Request, res: Response, done: NextFunction) => {
-  //     multer.any()(req, res, err => {
-  //       if (err) return done(err)
-  //       if (!req.files) return done()
-  //       const files = req.files as Express.Multer.File[]
-  //       for (let file of files) {
-  //         // XHR 이 빈 파일 필드를 보내는 경우가 있어 걸러야 한다.
-  //         if (file.originalname.trim()) {
-  //           // 불필요한 req.files[key] 생성을 막기 위해 초기화는 안쪽에서 한다.
-  //           let key = file.fieldname
-  //           if (!req.files2) req.files2 = {}
-  //           if (!req.files2[key]) req.files[key] = []
-  //           req.files[key].push(file)
-  //         }
-  //       }
-  //       done()
-  //     })
-  //   }
-  // }
+}
 
+export function deleteUpload(handler: ExpressHandler) {
+  return function (req: Request, res: Response, done: NextFunction) {
+    handler(req, res, (err: any) => {
+      if (req.file) {
+        unlinkSync(req.file.path)
+      }
+      if (req.files) {
+        for (const file of req.files as Express.Multer.File[]) {
+          unlinkSync(file.path)
+        }
+      }
+      done(err)
+    })
+  }
 }

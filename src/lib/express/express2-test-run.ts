@@ -1,7 +1,6 @@
 import { INVALID_DATA } from '../base/error2.js'
-import { loadConfig } from '../config/config.js'
+import { loadConfig } from '../../app/config/config.js'
 import { Express2 } from './express2.js'
-import { Request, Response } from 'express'
 
 const config = loadConfig('config/express-test.json')
 const express = new Express2(config)

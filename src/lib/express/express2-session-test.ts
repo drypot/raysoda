@@ -1,4 +1,4 @@
-import { loadConfig } from '../config/config.js'
+import { loadConfig } from '../../app/config/config.js'
 import { Express2 } from './express2.js'
 import { Router } from 'express'
 import { SuperAgentTest } from 'supertest'
@@ -17,12 +17,10 @@ describe('Express2', () => {
 
   beforeAll(done => {
     const config = loadConfig('config/test.json')
-    Express2.startTest(config, (err, _server, _router, _request) => {
-      server = _server
-      router = _router
-      request = _request
-      done()
-    })
+    server = new Express2(config)
+    router = server.router
+    request = server.spawnRequest()
+    server.start(done)
   })
 
   afterAll(done => {
