@@ -1,5 +1,5 @@
 import { Mailer } from './mailer2.js'
-import { loadConfig } from '../config/config.js'
+import { loadConfig } from '../../app/config/config.js'
 import * as os from 'os'
 
 if (!process.argv[2]) {

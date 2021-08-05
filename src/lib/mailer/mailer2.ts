@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import nodemailer, { createTransport } from 'nodemailer'
-import { Config } from '../config/config.js'
+import { Config } from '../../app/config/config.js'
 import Mail from 'nodemailer/lib/mailer'
 
 export class Mailer {
