@@ -9,11 +9,11 @@ declare module 'express-session' {
   }
 }
 
-let server: Express2
-let router: Router
-let request: SuperAgentTest
-
 describe('Express2', () => {
+
+  let server: Express2
+  let router: Router
+  let request: SuperAgentTest
 
   beforeAll(done => {
     const config = loadConfig('config/test.json')

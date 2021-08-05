@@ -5,15 +5,15 @@ import { SuperAgentTest } from 'supertest'
 import { Multer } from 'multer'
 import { assertPathNotExists } from '../base/assert2.js'
 
-let server: Express2
-let router: Router
-let request: SuperAgentTest
-let upload: Multer
-
-const f1 = 'src/lib/express/fixture/express-upload-f1.txt'
-const f2 = 'src/lib/express/fixture/express-upload-f2.txt'
-
 describe('Express2 Upload', () => {
+
+  const f1 = 'src/lib/express/fixture/express-upload-f1.txt'
+  const f2 = 'src/lib/express/fixture/express-upload-f2.txt'
+
+  let server: Express2
+  let router: Router
+  let request: SuperAgentTest
+  let upload: Multer
 
   beforeAll(done => {
     const config = loadConfig('config/test.json')
@@ -22,6 +22,10 @@ describe('Express2 Upload', () => {
     upload = server.upload
     request = server.spawnRequest()
     server.start(done)
+  })
+
+  afterAll(done => {
+    server.close(done)
   })
 
   beforeAll(() => {

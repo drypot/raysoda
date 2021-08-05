@@ -4,11 +4,11 @@ import { Router } from 'express'
 import { SuperAgentTest } from 'supertest'
 import { INVALID_DATA, lookupErrors } from '../base/error2.js'
 
-let server: Express2
-let router: Router
-let request: SuperAgentTest
-
 describe('Express2', () => {
+
+  let server: Express2
+  let router: Router
+  let request: SuperAgentTest
 
   beforeAll(done => {
     const config = loadConfig('config/test.json')
