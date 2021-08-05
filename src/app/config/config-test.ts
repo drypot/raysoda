@@ -7,4 +7,7 @@ describe('loadConfig', () => {
     expect(config.appNamel).toBe('test')
     expect(config.dev).toBeTruthy()
   })
+  it('can throw exception', () => {
+    expect(() => { loadConfig('config/not-exist.json') }).toThrow()
+  })
 })
