@@ -44,6 +44,8 @@ export class Express2 {
     locals.appName = config.appName
     locals.appNamel = config.appNamel
     locals.appDesc = config.appDesc
+
+    this.setViewEngine('pug', 'src')
   }
 
   setLocals(name: string, value: any) {
