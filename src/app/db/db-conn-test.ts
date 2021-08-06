@@ -3,6 +3,7 @@ import { DBConn } from './db-conn.js'
 import { ifError } from 'assert'
 import { Done, waterfall } from '../../lib/base/async2.js'
 import { DBKeyValue } from './db-keyvalue.js'
+import exp from 'constants'
 
 describe('DBConn', () => {
 
@@ -25,41 +26,60 @@ describe('DBConn', () => {
 
   describe('dropDatabase/createDatabase/dbExists', () => {
     it('should work', done => {
-      conn.dropDatabase(err => {
-        expect(err).toBeFalsy()
-        conn.dbExists(config.mysqlDatabase, (err, exist) => {
-          expect(err).toBeFalsy()
-          expect(exist).toBe(false)
+      waterfall(
+        (done: Done) => {
+          conn.dropDatabase(err => {
+            expect(err).toBeFalsy()
+            done()
+          })
+        },
+        (done: Done) => {
+          conn.dbExists(config.mysqlDatabase, (err, exist) => {
+            expect(err).toBeFalsy()
+            expect(exist).toBe(false)
+            done()
+          })
+        },
+        (done: Done) => {
           conn.createDatabase(err => {
             expect(err).toBeFalsy()
-            conn.dbExists(config.mysqlDatabase, (err, exist) => {
-              expect(err).toBeFalsy()
-              expect(exist).toBe(true)
-              done()
-            })
+            done()
           })
-        })
-      })
+        },
+        (done: Done) => {
+          conn.dbExists(config.mysqlDatabase, (err, exist) => {
+            expect(err).toBeFalsy()
+            expect(exist).toBe(true)
+            done()
+          })
+        },
+        done
+      )
     })
   })
 
   describe('tableExists', () => {
-    beforeAll((done) => {
-      conn.query('create table table_exist(id int)', done)
-    })
-    it('should work when table exist', done => {
-      conn.tableExists('table_exist', (err, exist) => {
-        expect(err).toBeFalsy()
-        expect(exist).toBe(true)
-        done()
-      })
-    })
-    it('should work when table not exist', done => {
-      conn.tableExists('table_non_exist', (err, exist) => {
-        expect(err).toBeFalsy()
-        expect(exist).toBe(false)
-        done()
-      })
+    it('should work', done => {
+      waterfall(
+        (done: Done) => {
+          conn.tableExists('exist_test_t', (err, exist) => {
+            expect(err).toBeFalsy()
+            expect(exist).toBe(false)
+            done()
+          })
+        },
+        (done: Done) => {
+          conn.query('create table exist_test_t(id int)', done)
+        },
+        (done: Done) => {
+          conn.tableExists('exist_test_t', (err, exist) => {
+            expect(err).toBeFalsy()
+            expect(exist).toBe(true)
+            done()
+          })
+        },
+        done
+      )
     })
   })
 
@@ -97,4 +117,79 @@ describe('DBConn', () => {
     })
   })
 
+  describe('runQueries', () => {
+    beforeAll(done => {
+      conn.query('create table runq_test_t(id int)', done)
+    })
+    it('should work', done => {
+      waterfall(
+        (done: Done) => {
+          const qa = [
+            'insert into runq_test_t values(1)',
+            'insert into runq_test_t values(2)',
+            'insert into runq_test_t values(3)',
+          ]
+          conn.runQueries(qa, err => {
+            expect(err).toBeFalsy()
+            done()
+          })
+        },
+        (done: Done) => {
+          conn.queryOne('select * from runq_test_t where id = 1', (err, r) => {
+            expect(err).toBeFalsy()
+            expect(r.id).toBe(1)
+            done()
+          })
+        },
+        (done: Done) => {
+          conn.queryOne('select * from runq_test_t where id = 3', (err, r) => {
+            expect(err).toBeFalsy()
+            expect(r.id).toBe(3)
+            done()
+          })
+        },
+        (done: Done) => {
+          conn.queryOne('select * from runq_test_t where id = 4', (err, r) => {
+            expect(err).toBeFalsy()
+            expect(r).toBeUndefined()
+            done()
+          })
+        },
+        done
+      )
+    })
+    it('should work', done => {
+      waterfall(
+        (done: Done) => {
+          const qa = [
+            'insert into runq_test_t values(11)',
+            'insert into runq_test_t values(22)',
+            'insert into xxx_t values(33)',
+            'insert into runq_test_t values(44)',
+            'insert into runq_test_t values(55)'
+          ]
+          conn.runQueries(qa, err => {
+            expect(err).toBeTruthy()
+            expect(err.message).toMatch('xxx_t')
+            done()
+          })
+        },
+        (done: Done) => {
+          conn.queryOne('select * from runq_test_t where id = 11', (err, r) => {
+            expect(err).toBeFalsy()
+            expect(r.id).toBe(11)
+            done()
+          })
+        },
+        (done: Done) => {
+          conn.queryOne('select * from runq_test_t where id = 44', (err, r) => {
+            expect(err).toBeFalsy()
+            expect(r).toBeUndefined()
+            done()
+          })
+        },
+        done
+      )
+    })
+  })
 })

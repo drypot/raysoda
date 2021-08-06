@@ -100,4 +100,22 @@ export class DBConn {
     })
   }
 
+  runQueries(qa: string[], done: Done) {
+    const _this = this
+    let i = 0
+    let e = qa.length
+    ;(function loop() {
+      if (i === e) {
+        return done()
+      }
+      const q = qa[i++]
+      _this.query(q, (err) => {
+        if (err) {
+          return done(new Error('Query failed: ' + q))
+        }
+        setImmediate(loop)
+      })
+    })()
+  }
+
 }
