@@ -11,7 +11,7 @@ describe('Express2', () => {
   let request: SuperAgentTest
 
   beforeAll(done => {
-    const config = loadConfig('config/test.json')
+    const config = loadConfig('config/app-test.json')
     server = new Express2(config)
     router = server.router
     request = server.spawnRequest()

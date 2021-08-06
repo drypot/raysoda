@@ -3,16 +3,14 @@
   "appNamel": "drypot",
   "appDesc": "Simply vectors",
 
-  "siteUrl": "http://drypot.test:8080",
-
   "port": 8040,
   "cookieSecret": "o;iejf832ndvs",
-
-  "uploadSiteUrl": "http://file.drypot.test:8080",
   "uploadDir": "upload/drypot",
 
-  "mongodb": "drypot",
+  "siteUrl": "http://drypot.test:8080",
+  "uploadSiteUrl": "http://file.drypot.test:8080",
 
+  "mysqlServer": "localhost",
   "mysqlDatabase": "drypot",
   "mysqlUser": "drypot",
   "mysqlPassword": "",

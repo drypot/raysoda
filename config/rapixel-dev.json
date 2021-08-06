@@ -3,16 +3,14 @@
   "appNamel": "rapixel",
   "appDesc": "4K images",
 
-  "siteUrl": "http://rapixel.test:8080",
-
   "port": 8020,
   "cookieSecret": "o;iejf832ndvs",
-
-  "uploadSiteUrl": "http://file.rapixel.test:8080",
   "uploadDir": "upload/rapixel",
 
-  "mongodb": "rapixel",
+  "siteUrl": "http://rapixel.test:8080",
+  "uploadSiteUrl": "http://file.rapixel.test:8080",
 
+  "mysqlServer": "localhost",
   "mysqlDatabase": "rapixel",
   "mysqlUser": "drypot",
   "mysqlPassword": "",

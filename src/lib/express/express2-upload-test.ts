@@ -16,7 +16,7 @@ describe('Express2 Upload', () => {
   let upload: Multer
 
   beforeAll(done => {
-    const config = loadConfig('config/test.json')
+    const config = loadConfig('config/app-test.json')
     server = new Express2(config)
     router = server.router
     upload = server.upload

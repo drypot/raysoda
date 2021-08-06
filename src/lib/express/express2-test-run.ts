@@ -2,7 +2,7 @@ import { INVALID_DATA } from '../base/error2.js'
 import { loadConfig } from '../../app/config/config.js'
 import { Express2 } from './express2.js'
 
-const config = loadConfig('config/express-test.json')
+const config = loadConfig('config/app-dev.json')
 const express = new Express2(config)
 const router = express.router
 

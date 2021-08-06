@@ -3,16 +3,14 @@
   "appNamel": "raysoda",
   "appDesc": "One day, one photo.",
 
-  "siteUrl": "http://raysoda.test:8080",
-
   "port": 8050,
   "cookieSecret": "o;iejf832ndvs",
-
-  "uploadSiteUrl": "http://file.raysoda.test:8080",
   "uploadDir": "upload/raysoda",
 
-  "mongodb": "raysoda",
+  "siteUrl": "http://raysoda.test:8080",
+  "uploadSiteUrl": "http://file.raysoda.test:8080",
 
+  "mysqlServer": "localhost",
   "mysqlDatabase": "raysoda",
   "mysqlUser": "drypot",
   "mysqlPassword": "",

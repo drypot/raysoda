@@ -3,16 +3,14 @@
   "appNamel": "osoky",
   "appDesc": "Your randos",
 
-  "siteUrl": "http://osoky.test:8080",
-
   "port": 8030,
   "cookieSecret": "o;iejf832ndvs",
-
-  "uploadSiteUrl": "http://file.osoky.test:8080",
   "uploadDir": "upload/osoky",
 
-  "mongodb": "osoky",
+  "siteUrl": "http://osoky.test:8080",
+  "uploadSiteUrl": "http://file.osoky.test:8080",
 
+  "mysqlServer": "localhost",
   "mysqlDatabase": "osoky",
   "mysqlUser": "drypot",
   "mysqlPassword": "",
