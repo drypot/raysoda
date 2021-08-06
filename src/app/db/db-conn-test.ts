@@ -24,6 +24,10 @@ describe('DBConn', () => {
     )
   })
 
+  afterAll(done => {
+    conn.close(done)
+  })
+
   describe('dropDatabase/createDatabase/dbExists', () => {
     it('should work', done => {
       waterfall(

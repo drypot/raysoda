@@ -27,6 +27,10 @@ describe('DBKeyValue', () => {
     )
   })
 
+  afterAll(done => {
+    conn.close(done)
+  })
+
   describe('persist table', () => {
     it('should exist', done => {
       conn.tableExists('persist', (err, exist) => {
