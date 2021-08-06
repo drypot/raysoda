@@ -13,6 +13,7 @@ export type Config = {
   uploadSiteUrlUrl: string
   uploadDir: string
 
+  mysqlServer: string
   mysqlDatabase: string
   mysqlUser: string
   mysqlPassword: string
