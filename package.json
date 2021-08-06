@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/drypot/raysoda#readme",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/connect-redis": "^0.0.17",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
