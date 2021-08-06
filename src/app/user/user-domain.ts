@@ -41,7 +41,7 @@ export interface User {
   pdate: Date
 }
 
-export function newUser() {
+export function newUser(): User {
   const now = new Date()
   return {
     id: 0,
