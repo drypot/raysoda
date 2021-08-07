@@ -1,49 +1,48 @@
 import { Config, loadConfig } from '../config/config.js'
-import { DBConn } from './db-conn.js'
-import { Done, waterfall } from '../../lib/base/async2.js'
-import exp from 'constants'
+import { DB } from './db.js'
+import { waterfall } from '../../lib/base/async2.js'
 
 describe('DBConn', () => {
 
   let config: Config
-  let db: DBConn
+  let db: DB
 
   beforeAll(done => {
     config = loadConfig('config/app-test.json')
-    db = new DBConn(config)
+    db = new DB(config)
     done()
   })
 
   describe('close', () => {
     it('should work', done => {
       waterfall(
-        (done: Done) => {
+        (done) => {
           db.query('select 3 as v', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0].v).toBe(3)
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.close((err) => {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.query('select 3 as v', (err, r) => {
             expect(err).toBeTruthy()
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.close((err) => {
             expect(err).toBeTruthy()
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
   })
+
 })

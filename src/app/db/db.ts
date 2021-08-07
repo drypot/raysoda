@@ -2,7 +2,7 @@ import mysql, { Connection, Query, queryCallback, QueryOptions } from 'mysql'
 import { Config } from '../config/config.js'
 import { Done, waterfall } from '../../lib/base/async2.js'
 
-export class DBConn {
+export class DB {
 
   private config: Config
   private readonly conn: Connection
@@ -37,29 +37,26 @@ export class DBConn {
     }
   }
 
-  createDatabase(done: queryCallback) {
+  createDatabase(done: Done) {
     waterfall(
-      (done: Done) => {
+      (done) => {
         this.query(
           'create database if not exists ?? character set utf8mb4',
           this.config.mysqlDatabase,
           done
         )
       },
-      (done: Done) => {
+      (done) => {
         this.conn.changeUser(
           { database: this.config.mysqlDatabase },
           done
         )
-      },
-      done
-    )
+      }
+    ).run(done)
   }
 
-  dropDatabase(done: queryCallback) {
-    if (!this.config.dev) {
-      throw new Error('Can not drop database in production mode.')
-    }
+  dropDatabase(done: Done) {
+    if (!this.config.dev) return done(new Error('can not drop database in production mode.'))
     this.query('drop database if exists ??', this.config.mysqlDatabase, done)
   }
 

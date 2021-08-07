@@ -1,15 +1,15 @@
 import { Config, loadConfig } from '../config/config.js'
-import { DBConn } from './db-conn.js'
-import { Done, waterfall } from '../../lib/base/async2.js'
+import { DB } from './db.js'
+import { waterfall } from '../../lib/base/async2.js'
 
 describe('DBConn', () => {
 
   let config: Config
-  let db: DBConn
+  let db: DB
 
   beforeAll(done => {
     config = loadConfig('config/app-test.json')
-    db = new DBConn(config)
+    db = new DB(config)
     done()
   })
 
@@ -20,47 +20,46 @@ describe('DBConn', () => {
   describe('create, drop, find Database', () => {
     it('should work', done => {
       waterfall(
-        (done: Done) => {
+        (done) => {
           db.dropDatabase(err => {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.findDatabase(config.mysqlDatabase, (err, r) => {
             expect(err).toBeFalsy()
             expect(r.length).toBe(0)
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.createDatabase(err => {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.findDatabase(config.mysqlDatabase, (err, r) => {
             expect(err).toBeFalsy()
             expect(r.length).toBe(1)
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.dropDatabase(err => {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.findDatabase(config.mysqlDatabase, (err, r) => {
             expect(err).toBeFalsy()
             expect(r.length).toBe(0)
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
   })
 

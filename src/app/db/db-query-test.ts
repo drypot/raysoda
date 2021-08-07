@@ -1,14 +1,14 @@
 import { Config, loadConfig } from '../config/config.js'
-import { DBConn } from './db-conn.js'
+import { DB } from './db.js'
 
 describe('DBConn', () => {
 
   let config: Config
-  let db: DBConn
+  let db: DB
 
   beforeAll(done => {
     config = loadConfig('config/app-test.json')
-    db = new DBConn(config)
+    db = new DB(config)
     done()
   })
 

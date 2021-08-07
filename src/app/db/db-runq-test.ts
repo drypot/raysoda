@@ -1,41 +1,43 @@
 import { Config, loadConfig } from '../config/config.js'
-import { DBConn } from './db-conn.js'
-import { Done, waterfall } from '../../lib/base/async2.js'
+import { DB } from './db.js'
+import { waterfall } from '../../lib/base/async2.js'
 
 describe('DBConn', () => {
 
   let config: Config
-  let db: DBConn
+  let db: DB
 
   beforeAll(done => {
     config = loadConfig('config/app-test.json')
-    db = new DBConn(config)
+    db = new DB(config)
     waterfall(
-      (done: Done) => {
+      (done) => {
         db.dropDatabase(done)
       },
-      (done: Done) => {
+      (done) => {
         db.createDatabase(done)
-      },
-      done
-    )
+      }
+    ).run(done)
   })
 
   afterAll(done => {
     db.close(done)
   })
 
-  beforeAll(done => {
-    db.query('create table table1(id int)', done)
-  })
-
   describe('runQueries', () => {
+    beforeEach(done => {
+      waterfall(
+        (done) => {
+          db.query('drop table if exists table1', done)
+        },
+        (done) => {
+          db.query('create table table1(id int)', done)
+        },
+      ).run(done)
+    })
     it('should work', done => {
       waterfall(
-        (done: Done) => {
-          db.query('truncate table table1', done)
-        },
-        (done: Done) => {
+        (done) => {
           const qa = [
             'insert into table1 values(1)',
             'insert into table1 values(2)',
@@ -48,36 +50,32 @@ describe('DBConn', () => {
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.query('select * from table1 where id = 1', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0].id).toBe(1)
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.query('select * from table1 where id = 5', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0].id).toBe(5)
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.query('select * from table1 where id = 6', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0]).toBeUndefined()
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
     it('should stop at invalid script', done => {
       waterfall(
-        (done: Done) => {
-          db.query('truncate table table1', done)
-        },
-        (done: Done) => {
+        (done) => {
           const qa = [
             'insert into table1 values(1)',
             'insert into table1 values(2)',
@@ -91,22 +89,22 @@ describe('DBConn', () => {
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.query('select * from table1 where id = 1', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0].id).toBe(1)
             done()
           })
         },
-        (done: Done) => {
+        (done) => {
           db.query('select * from table1 where id = 4', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0]).toBeUndefined()
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
   })
+
 })

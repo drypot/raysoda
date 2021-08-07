@@ -1,11 +1,11 @@
-import { DBConn } from './db-conn.js'
+import { DB } from './db.js'
 import { queryCallback } from 'mysql'
 
-export class KeyValueDB {
+export class ValueDB {
 
-  private db: DBConn
+  private db: DB
 
-  constructor(db: DBConn) {
+  constructor(db: DB) {
     this.db = db
   }
 
@@ -19,7 +19,7 @@ export class KeyValueDB {
     this.db.query(query, done)
   }
 
-  findKeyValue(id: string, done: (err: any, value?: any) => void) {
+  findValue(id: string, done: (err: any, value?: any) => void) {
     this.db.query(
       'select * from persist where id = ?', id,
       (err, r) => {
@@ -32,7 +32,7 @@ export class KeyValueDB {
     )
   }
 
-  updateKeyValue(id: string, v: any, done: queryCallback) {
+  updateValue(id: string, v: any, done: queryCallback) {
     this.db.query(
       'replace into persist values(?, ?)',
       [id, JSON.stringify(v)],

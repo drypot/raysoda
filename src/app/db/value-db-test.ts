@@ -1,30 +1,29 @@
 import { Config, loadConfig } from '../config/config.js'
-import { DBConn } from './db-conn.js'
-import { KeyValueDB } from './keyvalue-db.js'
-import { Done, waterfall } from '../../lib/base/async2.js'
+import { DB } from './db.js'
+import { ValueDB } from './value-db.js'
+import { waterfall } from '../../lib/base/async2.js'
 
-describe('KeyValueDB', () => {
+describe('ValueDB', () => {
 
   let config: Config
-  let db: DBConn
-  let kv: KeyValueDB
+  let db: DB
+  let vdb: ValueDB
 
   beforeAll(done => {
     config = loadConfig('config/app-test.json')
-    db = new DBConn(config)
+    db = new DB(config)
     waterfall(
-      (done: Done) => {
+      (done) => {
         db.dropDatabase(done)
       },
-      (done: Done) => {
+      (done) => {
         db.createDatabase(done)
       },
-      (done: Done) => {
-        kv = new KeyValueDB(db)
-        kv.createTable(done)
-      },
-      done
-    )
+      (done) => {
+        vdb = new ValueDB(db)
+        vdb.createTable(done)
+      }
+    ).run(done)
   })
 
   afterAll(done => {
@@ -44,145 +43,138 @@ describe('KeyValueDB', () => {
   describe('updateKeyValue/findKeyValue', () => {
     it('should work with string', done => {
       waterfall(
-        (done: Done) => {
-          kv.updateKeyValue('s1', 'value1', err => {
+        (done) => {
+          vdb.updateValue('s1', 'value1', err => {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
-          kv.findKeyValue('s1', (err, value) => {
+        (done) => {
+          vdb.findValue('s1', (err, value) => {
             expect(err).toBeFalsy()
             expect(value).toBe('value1')
             done()
           })
         },
-        (done: Done) => {
-          kv.updateKeyValue('s1', 'value2', err => {
+        (done) => {
+          vdb.updateValue('s1', 'value2', err => {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
-          kv.findKeyValue('s1', (err, value) => {
+        (done) => {
+          vdb.findValue('s1', (err, value) => {
             expect(err).toBeFalsy()
             expect(value).toBe('value2')
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
     it('should work with empty string', done => {
       waterfall(
-        (done: Done) => {
-          kv.updateKeyValue('empty', '', err => {
+        (done) => {
+          vdb.updateValue('empty', '', err => {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
-          kv.findKeyValue('empty', (err, value) => {
+        (done) => {
+          vdb.findValue('empty', (err, value) => {
             expect(err).toBeFalsy()
             expect(value).toBe('')
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
     it('should work with number', done => {
       waterfall(
-        (done: Done) => {
-          kv.updateKeyValue('n1', 123, function (err) {
+        (done) => {
+          vdb.updateValue('n1', 123, function (err) {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
-          kv.findKeyValue('n1', function (err, value) {
+        (done) => {
+          vdb.findValue('n1', function (err, value) {
             expect(err).toBeFalsy()
             expect(value).toBe(123)
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
     it('should work with 0', done => {
       waterfall(
-        (done: Done) => {
-          kv.updateKeyValue('zero', 0, function (err) {
+        (done) => {
+          vdb.updateValue('zero', 0, function (err) {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
-          kv.findKeyValue('zero', function (err, value) {
+        (done) => {
+          vdb.findValue('zero', function (err, value) {
             expect(err).toBeFalsy()
             expect(value).toBe(0)
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
     it('should work with object', done => {
       waterfall(
-        (done: Done) => {
-          kv.updateKeyValue('o1', { p1: 123, p2: 456 }, function (err) {
+        (done) => {
+          vdb.updateValue('o1', { p1: 123, p2: 456 }, function (err) {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
-          kv.findKeyValue('o1', function (err, value) {
+        (done) => {
+          vdb.findValue('o1', function (err, value) {
             expect(err).toBeFalsy()
             expect(value).toEqual({ p1: 123, p2: 456 })
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
     it('should work with empty object', done => {
       waterfall(
-        (done: Done) => {
-          kv.updateKeyValue('emptyObj', { }, function (err) {
+        (done) => {
+          vdb.updateValue('emptyObj', {}, function (err) {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
-          kv.findKeyValue('emptyObj', function (err, value) {
+        (done) => {
+          vdb.findValue('emptyObj', function (err, value) {
             expect(err).toBeFalsy()
-            expect(value).toEqual({ })
+            expect(value).toEqual({})
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
     it('should work with null', done => {
       waterfall(
-        (done: Done) => {
-          kv.updateKeyValue('null', null, function (err) {
+        (done) => {
+          vdb.updateValue('null', null, function (err) {
             expect(err).toBeFalsy()
             done()
           })
         },
-        (done: Done) => {
-          kv.findKeyValue('null', function (err, value) {
+        (done) => {
+          vdb.findValue('null', function (err, value) {
             expect(err).toBeFalsy()
             expect(value).toEqual(null)
             done()
           })
-        },
-        done
-      )
+        }
+      ).run(done)
     })
     it('can return undefined', done => {
-      kv.findKeyValue('noname', function (err, value) {
+      vdb.findValue('noname', function (err, value) {
         expect(err).toBeFalsy()
         expect(value).toBeUndefined()
         done()
