@@ -1,13 +1,13 @@
 import { Config, loadConfig } from '../config/config.js'
 import { DBConn } from './db-conn.js'
-import { DBKeyValue } from './db-keyvalue.js'
+import { KeyValueDB } from './key-value-db.js'
 import { Done, waterfall } from '../../lib/base/async2.js'
 
-describe('DBKeyValue', () => {
+describe('KeyValueDB', () => {
 
   let config: Config
   let conn: DBConn
-  let kv: DBKeyValue
+  let kv: KeyValueDB
 
   beforeAll(done => {
     config = loadConfig('config/app-test.json')
@@ -20,7 +20,7 @@ describe('DBKeyValue', () => {
         conn.createDatabase(done)
       },
       (done: Done) => {
-        kv = new DBKeyValue(conn)
+        kv = new KeyValueDB(conn)
         kv.createTable(done)
       },
       done
@@ -73,6 +73,24 @@ describe('DBKeyValue', () => {
         done
       )
     })
+    it('should work with emtpy string', done => {
+      waterfall(
+        (done: Done) => {
+          kv.updateKeyValue('empty', '', err => {
+            expect(err).toBeFalsy()
+            done()
+          })
+        },
+        (done: Done) => {
+          kv.findKeyValue('empty', (err, value) => {
+            expect(err).toBeFalsy()
+            expect(value).toBe('')
+            done()
+          })
+        },
+        done
+      )
+    })
     it('should work with number', done => {
       waterfall(
         (done: Done) => {
@@ -85,6 +103,24 @@ describe('DBKeyValue', () => {
           kv.findKeyValue('n1', function (err, value) {
             expect(err).toBeFalsy()
             expect(value).toBe(123)
+            done()
+          })
+        },
+        done
+      )
+    })
+    it('should work with 0', done => {
+      waterfall(
+        (done: Done) => {
+          kv.updateKeyValue('zero', 0, function (err) {
+            expect(err).toBeFalsy()
+            done()
+          })
+        },
+        (done: Done) => {
+          kv.findKeyValue('zero', function (err, value) {
+            expect(err).toBeFalsy()
+            expect(value).toBe(0)
             done()
           })
         },
@@ -109,10 +145,46 @@ describe('DBKeyValue', () => {
         done
       )
     })
-    it('should return null for undefined', done => {
+    it('should work with empty object', done => {
+      waterfall(
+        (done: Done) => {
+          kv.updateKeyValue('emptyObj', { }, function (err) {
+            expect(err).toBeFalsy()
+            done()
+          })
+        },
+        (done: Done) => {
+          kv.findKeyValue('emptyObj', function (err, value) {
+            expect(err).toBeFalsy()
+            expect(value).toEqual({ })
+            done()
+          })
+        },
+        done
+      )
+    })
+    it('should work with null', done => {
+      waterfall(
+        (done: Done) => {
+          kv.updateKeyValue('null', null, function (err) {
+            expect(err).toBeFalsy()
+            done()
+          })
+        },
+        (done: Done) => {
+          kv.findKeyValue('null', function (err, value) {
+            expect(err).toBeFalsy()
+            expect(value).toEqual(null)
+            done()
+          })
+        },
+        done
+      )
+    })
+    it('can return undefined', done => {
       kv.findKeyValue('noname', function (err, value) {
         expect(err).toBeFalsy()
-        expect(value).toBe(null)
+        expect(value).toBeUndefined()
         done()
       })
     })
