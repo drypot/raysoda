@@ -36,7 +36,7 @@ describe('DBConn', () => {
           })
         },
         (done: Done) => {
-          db.conn.query('create table table1(id int)', done)
+          db.query('create table table1(id int)', done)
         },
         (done: Done) => {
           db.findTable('table1', (err, r) => {
@@ -60,11 +60,11 @@ describe('DBConn', () => {
           })
         },
         (done: Done) => {
-          db.conn.query('create table table2(id int)', done)
+          db.query('create table table2(id int)', done)
         },
         (done: Done) => {
           const values = [[1], [2], [3]]
-          db.conn.query('insert into table2 values ?', [values], done)
+          db.query('insert into table2 values ?', [values], done)
         },
         (done: Done) => {
           db.getMaxId('table2', (err, maxId) => {

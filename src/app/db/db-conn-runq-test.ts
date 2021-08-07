@@ -26,14 +26,14 @@ describe('DBConn', () => {
   })
 
   beforeAll(done => {
-    db.conn.query('create table table1(id int)', done)
+    db.query('create table table1(id int)', done)
   })
 
   describe('runQueries', () => {
     it('should work', done => {
       waterfall(
         (done: Done) => {
-          db.conn.query('truncate table table1', done)
+          db.query('truncate table table1', done)
         },
         (done: Done) => {
           const qa = [
@@ -49,21 +49,21 @@ describe('DBConn', () => {
           })
         },
         (done: Done) => {
-          db.conn.query('select * from table1 where id = 1', (err, r) => {
+          db.query('select * from table1 where id = 1', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0].id).toBe(1)
             done()
           })
         },
         (done: Done) => {
-          db.conn.query('select * from table1 where id = 5', (err, r) => {
+          db.query('select * from table1 where id = 5', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0].id).toBe(5)
             done()
           })
         },
         (done: Done) => {
-          db.conn.query('select * from table1 where id = 6', (err, r) => {
+          db.query('select * from table1 where id = 6', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0]).toBeUndefined()
             done()
@@ -75,7 +75,7 @@ describe('DBConn', () => {
     it('should stop at invalid script', done => {
       waterfall(
         (done: Done) => {
-          db.conn.query('truncate table table1', done)
+          db.query('truncate table table1', done)
         },
         (done: Done) => {
           const qa = [
@@ -92,14 +92,14 @@ describe('DBConn', () => {
           })
         },
         (done: Done) => {
-          db.conn.query('select * from table1 where id = 1', (err, r) => {
+          db.query('select * from table1 where id = 1', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0].id).toBe(1)
             done()
           })
         },
         (done: Done) => {
-          db.conn.query('select * from table1 where id = 4', (err, r) => {
+          db.query('select * from table1 where id = 4', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0]).toBeUndefined()
             done()

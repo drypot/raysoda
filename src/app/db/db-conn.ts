@@ -5,7 +5,7 @@ import { Done, waterfall } from '../../lib/base/async2.js'
 export class DBConn {
 
   private config: Config
-  public readonly conn: Connection
+  private readonly conn: Connection
 
   constructor(config: Config) {
     this.config = config
@@ -22,6 +22,13 @@ export class DBConn {
     })
   }
 
+  query(query: Query): Query;
+  query(options: string | QueryOptions, callback?: queryCallback): Query;
+  query(options: string | QueryOptions, values: any, callback?: queryCallback): Query;
+  query(options: any, values?: any, callback?: any): Query {
+    return this.conn.query(options, values, callback)
+  }
+
   close(done?: (err?: mysql.MysqlError) => void) {
     if (this.conn) {
       this.conn.end(done)
@@ -33,7 +40,7 @@ export class DBConn {
   createDatabase(done: queryCallback) {
     waterfall(
       (done: Done) => {
-        this.conn.query(
+        this.query(
           'create database if not exists ?? character set utf8mb4',
           this.config.mysqlDatabase,
           done
@@ -53,19 +60,19 @@ export class DBConn {
     if (!this.config.dev) {
       throw new Error('Can not drop database in production mode.')
     }
-    this.conn.query('drop database if exists ??', this.config.mysqlDatabase, done)
+    this.query('drop database if exists ??', this.config.mysqlDatabase, done)
   }
 
   findDatabase(name: string, done: queryCallback) {
-    this.conn.query('show databases like ?', name, done)
+    this.query('show databases like ?', name, done)
   }
 
   findTable(name: string, done: queryCallback) {
-    this.conn.query('show tables like ?', name, done)
+    this.query('show tables like ?', name, done)
   }
 
   getMaxId(table: string, done: (err: any, maxId?: number) => void) {
-    this.conn.query('select coalesce(max(id), 0) as maxId from ??', table, (err, r) => {
+    this.query('select coalesce(max(id), 0) as maxId from ??', table, (err, r) => {
       if (err) return done(err)
       done(null, r[0].maxId)
     })
@@ -80,7 +87,7 @@ export class DBConn {
         return done()
       }
       const q = qa[i++]
-      _this.conn.query(q, (err) => {
+      _this.query(q, (err) => {
         if (err) {
           return done(new Error('Query failed: ' + q))
         }

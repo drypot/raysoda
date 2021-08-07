@@ -18,7 +18,7 @@ describe('DBConn', () => {
     it('should work', done => {
       waterfall(
         (done: Done) => {
-          db.conn.query('select 3 as v', (err, r) => {
+          db.query('select 3 as v', (err, r) => {
             expect(err).toBeFalsy()
             expect(r[0].v).toBe(3)
             done()
@@ -31,7 +31,7 @@ describe('DBConn', () => {
           })
         },
         (done: Done) => {
-          db.conn.query('select 3 as v', (err, r) => {
+          db.query('select 3 as v', (err, r) => {
             expect(err).toBeTruthy()
             done()
           })

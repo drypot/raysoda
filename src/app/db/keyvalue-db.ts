@@ -16,11 +16,11 @@ export class KeyValueDB {
         v text(65535) not null,
         primary key (id)
       )`
-    this.db.conn.query(query, done)
+    this.db.query(query, done)
   }
 
   findKeyValue(id: string, done: (err: any, value?: any) => void) {
-    this.db.conn.query(
+    this.db.query(
       'select * from persist where id = ?', id,
       (err, r) => {
         if (err) return done(err)
@@ -33,7 +33,7 @@ export class KeyValueDB {
   }
 
   updateKeyValue(id: string, v: any, done: queryCallback) {
-    this.db.conn.query(
+    this.db.query(
       'replace into persist values(?, ?)',
       [id, JSON.stringify(v)],
       done
