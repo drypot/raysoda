@@ -1,18 +1,29 @@
 export type Done = (err?: any) => void
-type WaterFallMember = ((done: Done) => void) | Done
+type WaterfallMember = (done: Done) => void
 
-export function waterfall(...funcs: WaterFallMember[]): void {
-  let i = 0
-  let e = funcs.length - 1
-  let done: Done = funcs[e]
+class WaterfallRunner {
+  private funcs: WaterfallMember[]
 
-  ;(function loop() {
-    if (i === e) {
-      return done()
-    }
-    funcs[i++]((err:any) => {
-      if (err) return done(err)
-      setImmediate(loop)
-    })
-  })()
+  constructor(funcs: WaterfallMember[]) {
+    this.funcs = funcs
+  }
+
+  run(done: Done) {
+    let funcs = this.funcs
+    let i = 0
+    let e = funcs.length
+    ;(function loop() {
+      if (i === e) {
+        return done()
+      }
+      funcs[i++]((err:any) => {
+        if (err) return done(err)
+        setImmediate(loop)
+      })
+    })()
+  }
+}
+
+export function waterfall(...funcs: WaterfallMember[]): WaterfallRunner {
+  return new WaterfallRunner(funcs)
 }
