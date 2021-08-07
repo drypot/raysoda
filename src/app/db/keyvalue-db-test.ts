@@ -1,26 +1,26 @@
 import { Config, loadConfig } from '../config/config.js'
 import { DBConn } from './db-conn.js'
-import { KeyValueDB } from './key-value-db.js'
+import { KeyValueDB } from './keyvalue-db.js'
 import { Done, waterfall } from '../../lib/base/async2.js'
 
 describe('KeyValueDB', () => {
 
   let config: Config
-  let conn: DBConn
+  let db: DBConn
   let kv: KeyValueDB
 
   beforeAll(done => {
     config = loadConfig('config/app-test.json')
-    conn = new DBConn(config)
+    db = new DBConn(config)
     waterfall(
       (done: Done) => {
-        conn.dropDatabase(done)
+        db.dropDatabase(done)
       },
       (done: Done) => {
-        conn.createDatabase(done)
+        db.createDatabase(done)
       },
       (done: Done) => {
-        kv = new KeyValueDB(conn)
+        kv = new KeyValueDB(db)
         kv.createTable(done)
       },
       done
@@ -28,14 +28,14 @@ describe('KeyValueDB', () => {
   })
 
   afterAll(done => {
-    conn.close(done)
+    db.close(done)
   })
 
   describe('persist table', () => {
     it('should exist', done => {
-      conn.tableExists('persist', (err, exist) => {
+      db.findTable('persist', (err, r) => {
         expect(err).toBeFalsy()
-        expect(exist).toBe(true)
+        expect(r[0]).toBeDefined()
         done()
       })
     })
@@ -73,7 +73,7 @@ describe('KeyValueDB', () => {
         done
       )
     })
-    it('should work with emtpy string', done => {
+    it('should work with empty string', done => {
       waterfall(
         (done: Done) => {
           kv.updateKeyValue('empty', '', err => {

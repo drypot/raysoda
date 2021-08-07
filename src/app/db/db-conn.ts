@@ -5,7 +5,7 @@ import { Done, waterfall } from '../../lib/base/async2.js'
 export class DBConn {
 
   private config: Config
-  private readonly conn: Connection
+  public readonly conn: Connection
 
   constructor(config: Config) {
     this.config = config
@@ -20,34 +20,6 @@ export class DBConn {
       // 다른 정보가 BLOB 으로 오면 구분할 수가 없다.
       // typeCast: typeCast,
     })
-
-  }
-
-  dropDatabase(done: queryCallback) {
-    if (!this.config.dev) {
-      throw new Error('Can not drop database in production mode.')
-    }
-    this.conn.query('drop database if exists ??', this.config.mysqlDatabase, done)
-  }
-
-  createDatabase(done: queryCallback) {
-    const _this = this;
-    waterfall(
-      (done: Done) => {
-        _this.conn.query(
-          'create database if not exists ?? character set utf8mb4',
-          this.config.mysqlDatabase,
-          done
-        )
-      },
-      (done: Done) => {
-        _this.conn.changeUser(
-          { database: _this.config.mysqlDatabase },
-          done
-        )
-      },
-      done
-    )
   }
 
   close(done?: (err?: mysql.MysqlError) => void) {
@@ -58,45 +30,44 @@ export class DBConn {
     }
   }
 
-  query(query: Query): Query;
-  query(options: string | QueryOptions, callback?: queryCallback): Query;
-  query(options: string | QueryOptions, values: any, callback?: queryCallback): Query;
-  query(options: any, values?: any, callback?: any): Query {
-    return this.conn.query(options, values, callback)
+  createDatabase(done: queryCallback) {
+    waterfall(
+      (done: Done) => {
+        this.conn.query(
+          'create database if not exists ?? character set utf8mb4',
+          this.config.mysqlDatabase,
+          done
+        )
+      },
+      (done: Done) => {
+        this.conn.changeUser(
+          { database: this.config.mysqlDatabase },
+          done
+        )
+      },
+      done
+    )
   }
 
-  queryOne(query: Query): Query;
-  queryOne(options: string | QueryOptions, callback?: queryCallback): Query;
-  queryOne(options: string | QueryOptions, values: any, callback?: queryCallback): Query;
-  queryOne(query: any, values?: any, done?: any) {
-    if (!done) {
-      done = values
-      values = null
+  dropDatabase(done: queryCallback) {
+    if (!this.config.dev) {
+      throw new Error('Can not drop database in production mode.')
     }
-    return this.conn.query(query, values, (err, r, f) => {
-      if (err) return done(err)
-      done(null, r[0], f)
-    })
+    this.conn.query('drop database if exists ??', this.config.mysqlDatabase, done)
+  }
+
+  findDatabase(name: string, done: queryCallback) {
+    this.conn.query('show databases like ?', name, done)
+  }
+
+  findTable(name: string, done: queryCallback) {
+    this.conn.query('show tables like ?', name, done)
   }
 
   getMaxId(table: string, done: (err: any, maxId?: number) => void) {
-    this.queryOne('select coalesce(max(id), 0) as maxId from ??', table, (err, r) => {
+    this.conn.query('select coalesce(max(id), 0) as maxId from ??', table, (err, r) => {
       if (err) return done(err)
-      done(null, r.maxId)
-    })
-  }
-
-  dbExists(name: string, done: (err: any, exist?: boolean) => void) {
-    this.query('show databases like ?', name, (err, r) => {
-      if (err) return done(err)
-      done(null, !!r.length)
-    })
-  }
-
-  tableExists(name: string, done: (err: any, exist?: boolean) => void) {
-    this.query('show tables like ?', name, (err, r) => {
-      if (err) return done(err)
-      done(null, !!r.length)
+      done(null, r[0].maxId)
     })
   }
 
@@ -109,7 +80,7 @@ export class DBConn {
         return done()
       }
       const q = qa[i++]
-      _this.query(q, (err) => {
+      _this.conn.query(q, (err) => {
         if (err) {
           return done(new Error('Query failed: ' + q))
         }
