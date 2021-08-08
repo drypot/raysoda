@@ -2,7 +2,7 @@ import { loadConfig } from '../../app/config/config.js'
 import { Express2 } from './express2.js'
 import { Router } from 'express'
 import { SuperAgentTest } from 'supertest'
-import { INVALID_DATA, lookupErrors } from '../base/error2.js'
+import { INVALID_DATA, errorExists } from '../base/error2.js'
 
 describe('Express2', () => {
 
@@ -48,7 +48,7 @@ describe('Express2', () => {
       expect(res.type).toBe('application/json')
       expect(res.body.errType).toBe('form')
       expect(res.body.err.name).toBe(INVALID_DATA.name)
-      expect(lookupErrors(res.body.err, INVALID_DATA)).toBe(true)
+      expect(errorExists(INVALID_DATA, res.body.err)).toBe(true)
       done()
     })
   })

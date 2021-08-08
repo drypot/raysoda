@@ -1,4 +1,4 @@
-import { lookupErrors, FormError, INVALID_DATA, UNKNOWN_ERROR } from './error2.js'
+import { errorExists, FormError, INVALID_DATA, UNKNOWN_ERROR } from './error2.js'
 
 describe('FormError', () => {
   it('can be created', () => {
@@ -27,11 +27,11 @@ describe('lookupErrors', () => {
   const err3 = new FormError('E3')
   const errs = [ err1, err2 ]
   it('should work for object', () => {
-    expect(lookupErrors(err1, err1)).toBe(true)
-    expect(lookupErrors(err2, err1)).toBe(false)
+    expect(errorExists(err1, err1)).toBe(true)
+    expect(errorExists(err1, err2)).toBe(false)
   })
   it('should work for array', () => {
-    expect(lookupErrors(errs, err1)).toBe(true)
-    expect(lookupErrors(errs, err3)).toBe(false)
+    expect(errorExists(err1, errs)).toBe(true)
+    expect(errorExists(err3, errs)).toBe(false)
   })
 })
