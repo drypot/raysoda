@@ -10,14 +10,7 @@ describe('DBConn', () => {
   beforeAll(done => {
     config = loadConfig('config/app-test.json')
     db = new DB(config)
-    waterfall(
-      (done) => {
-        db.dropDatabase(done)
-      },
-      (done) => {
-        db.createDatabase(done)
-      }
-    ).run(done)
+    db.createDatabase(done)
   })
 
   afterAll(done => {
@@ -67,7 +60,7 @@ describe('DBConn', () => {
         (done) => {
           db.query('select * from table1 where id = 6', (err, r) => {
             expect(err).toBeFalsy()
-            expect(r[0]).toBeUndefined()
+            expect(r.length).toBe(0)
             done()
           })
         }
@@ -99,7 +92,7 @@ describe('DBConn', () => {
         (done) => {
           db.query('select * from table1 where id = 4', (err, r) => {
             expect(err).toBeFalsy()
-            expect(r[0]).toBeUndefined()
+            expect(r.length).toBe(0)
             done()
           })
         }

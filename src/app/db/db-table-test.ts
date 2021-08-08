@@ -10,14 +10,7 @@ describe('DBConn', () => {
   beforeAll(done => {
     config = loadConfig('config/app-test.json')
     db = new DB(config)
-    waterfall(
-      (done) => {
-        db.dropDatabase(done)
-      },
-      (done) => {
-        db.createDatabase(done)
-      }
-    ).run(done)
+    db.createDatabase(done)
   })
 
   afterAll(done => {
@@ -36,7 +29,7 @@ describe('DBConn', () => {
         (done) => {
           db.findTable('table1', (err, r) => {
             expect(err).toBeFalsy()
-            expect(r[0]).toBeDefined()
+            expect(r.length).toBe(1)
             done()
           })
         },
@@ -50,7 +43,7 @@ describe('DBConn', () => {
         (done) => {
           db.findTable('table1', (err, r) => {
             expect(err).toBeFalsy()
-            expect(r[0]).toBeUndefined()
+            expect(r.length).toBe(0)
             done()
           })
         },

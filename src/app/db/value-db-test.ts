@@ -12,35 +12,65 @@ describe('ValueDB', () => {
   beforeAll(done => {
     config = loadConfig('config/app-test.json')
     db = new DB(config)
-    waterfall(
-      (done) => {
-        db.dropDatabase(done)
-      },
-      (done) => {
-        db.createDatabase(done)
-      },
-      (done) => {
-        vdb = new ValueDB(db)
-        vdb.createTable(done)
-      }
-    ).run(done)
+    vdb = new ValueDB(db)
+    db.createDatabase(done)
   })
 
   afterAll(done => {
     db.close(done)
   })
 
-  describe('persist table', () => {
-    it('should exist', done => {
-      db.findTable('persist', (err, r) => {
-        expect(err).toBeFalsy()
-        expect(r[0]).toBeDefined()
-        done()
-      })
+  describe('createTable', () => {
+    it('should work', done => {
+      waterfall(
+        (done) => {
+          vdb.dropTable(done)
+        },
+        (done) => {
+          vdb.createTable(done)
+        },
+        (done) => {
+          db.findTable('persist', (err, r) => {
+            expect(err).toBeFalsy()
+            expect(r.length).toBe(1)
+            done()
+          })
+        },
+      ).run(done)
+    })
+  })
+
+  describe('dropTable', () => {
+    it('should work', done => {
+      waterfall(
+        (done) => {
+          vdb.createTable(done)
+        },
+        (done) => {
+          vdb.dropTable(done)
+        },
+        (done) => {
+          db.findTable('persist', (err, r) => {
+            expect(err).toBeFalsy()
+            expect(r.length).toBe(0)
+            done()
+          })
+        },
+      ).run(done)
     })
   })
 
   describe('updateKeyValue/findKeyValue', () => {
+    beforeAll(done => {
+      waterfall(
+        (done) => {
+          vdb.dropTable(done)
+        },
+        (done) => {
+          vdb.createTable(done)
+        }
+      ).run(done)
+    })
     it('should work with string', done => {
       waterfall(
         (done) => {

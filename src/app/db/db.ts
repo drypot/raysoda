@@ -6,6 +6,7 @@ export class DB {
 
   private config: Config
   private readonly conn: Connection
+  public droppable
 
   constructor(config: Config) {
     this.config = config
@@ -20,6 +21,7 @@ export class DB {
       // 다른 정보가 BLOB 으로 오면 구분할 수가 없다.
       // typeCast: typeCast,
     })
+    this.droppable = this.config.dev
   }
 
   query(query: Query): Query;
@@ -56,7 +58,7 @@ export class DB {
   }
 
   dropDatabase(done: Done) {
-    if (!this.config.dev) return done(new Error('can not drop database in production mode.'))
+    if (!this.droppable) return done(new Error('can not drop in production mode.'))
     this.query('drop database if exists ??', this.config.mysqlDatabase, done)
   }
 
@@ -66,6 +68,26 @@ export class DB {
 
   findTable(name: string, done: queryCallback) {
     this.query('show tables like ?', name, done)
+  }
+
+  findIndex(table: string, index: string, done: queryCallback) {
+    const q =
+      "select * from information_schema.statistics " +
+      "where table_schema=database() and table_name=? and index_name=?"
+    this.conn.query(q, [table, index], done)
+  }
+
+  private static indexPattern = /create\s+index\s+(\w+)\s+on\s+(\w+)/i
+
+  createIndexIfNotExists(query: string, done: Done) {
+    const a = query.match(DB.indexPattern)
+    if (!a) return done(new Error('create index pattern not found'))
+    const table = a[2]
+    const index = a[1]
+    this.findIndex(table, index, (err, r) => {
+      if (r.length > 0) return done()
+      this.query(query, done)
+    })
   }
 
   getMaxId(table: string, done: (err: any, maxId?: number) => void) {

@@ -1,5 +1,6 @@
 import { DB } from './db.js'
 import { queryCallback } from 'mysql'
+import { Done } from '../../lib/base/async2.js'
 
 export class ValueDB {
 
@@ -9,7 +10,7 @@ export class ValueDB {
     this.db = db
   }
 
-  createTable(done: (err: any) => void) {
+  createTable(done: queryCallback) {
     const query = `
       create table if not exists persist(
         id varchar(128) not null,
@@ -17,6 +18,11 @@ export class ValueDB {
         primary key (id)
       )`
     this.db.query(query, done)
+  }
+
+  dropTable(done: Done) {
+    if (!this.db.droppable) return done(new Error('can not drop in production mode.'))
+    this.db.query('drop table if exists persist', done)
   }
 
   findValue(id: string, done: (err: any, value?: any) => void) {
