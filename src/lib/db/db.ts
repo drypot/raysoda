@@ -115,4 +115,21 @@ export class DB {
     })()
   }
 
+  insertObjects(table: string, objs: Object[], done: Done) {
+    const _this = this
+    let i = 0
+    let e = objs.length
+    ;(function loop() {
+      if (i === e) {
+        return done()
+      }
+      const obj = objs[i++]
+      _this.query('insert into ' + table + ' set ?', obj, (err) => {
+        if (err) {
+          return done(new Error('Insert failed: ' + JSON.stringify(obj)))
+        }
+        setImmediate(loop)
+      })
+    })()
+  }
 }
