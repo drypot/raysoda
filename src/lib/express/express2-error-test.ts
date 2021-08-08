@@ -2,7 +2,7 @@ import { loadConfig } from '../../app/config/config.js'
 import { Express2 } from './express2.js'
 import { Router } from 'express'
 import { SuperAgentTest } from 'supertest'
-import { INVALID_DATA, errorExists } from '../base/error2.js'
+import { INVALID_DATA } from '../base/error2.js'
 
 describe('Express2', () => {
 
@@ -47,8 +47,19 @@ describe('Express2', () => {
       expect(err).toBeFalsy()
       expect(res.type).toBe('application/json')
       expect(res.body.errType).toBe('form')
-      expect(res.body.err.name).toBe(INVALID_DATA.name)
-      expect(errorExists(INVALID_DATA, res.body.err)).toBe(true)
+      expect(res.body.err).toEqual(INVALID_DATA)
+      done()
+    })
+  })
+  it('can return [INVALID_DATA]', done => {
+    router.get('/api/test/invalid-data-array', function (req, res, done) {
+      done([INVALID_DATA])
+    })
+    request.get('/api/test/invalid-data-array').end(function (err, res) {
+      expect(err).toBeFalsy()
+      expect(res.type).toBe('application/json')
+      expect(res.body.errType).toBe('array')
+      expect(res.body.err).toEqual([INVALID_DATA])
       done()
     })
   })

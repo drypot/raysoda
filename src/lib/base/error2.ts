@@ -1,18 +1,19 @@
-export class FormError {
-  constructor(
-    public name: string,
-    public message: string = '',
-    public field?: string
-  ) {
-  }
+export interface FormError {
+  name: string
+  message: string
+  field: string
+}
 
-  spawn() {
-    return new FormError(this.name, this.message, this.field)
+export function newFormError(name: string, message: string = '', field: string = ''): FormError {
+  return {
+    name,
+    message,
+    field
   }
 }
 
-export const UNKNOWN_ERROR = new FormError('UNKNOWN', 'Unknown error')
-export const INVALID_DATA = new FormError('INVALID_DATA', '비정상적인 값이 입력되었습니다.')
+export const UNKNOWN_ERROR = newFormError('UNKNOWN', 'Unknown error')
+export const INVALID_DATA = newFormError('INVALID_DATA', '비정상적인 값이 입력되었습니다.')
 
 export function errorExists(err: FormError, errs: FormError | FormError[]) {
   // res.body.err 를 통해 들어온 err 는 FormError 타입이 아니라 일반 Object 이다.

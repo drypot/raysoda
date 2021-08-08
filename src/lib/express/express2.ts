@@ -189,12 +189,12 @@ export class Express2 {
     const _this = this
     this.expr1.use(function (_err: any, req: Request, res: Response, done: NextFunction) {
       let obj
-      if (_err instanceof FormError) {
+      if (_err instanceof Array) {
         obj = {
-          errType: 'form',
+          errType: 'array',
           err: _err
         }
-      } else if (_err instanceof Array) {
+      } else if ('field' in _err) {
         obj = {
           errType: 'form',
           err: _err
@@ -208,9 +208,6 @@ export class Express2 {
             stack: _err.stack,
           }
         }
-      }
-      if (_this.logError) {
-        console.error(obj)
       }
       res.json(obj)
     })

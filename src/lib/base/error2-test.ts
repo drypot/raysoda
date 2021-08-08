@@ -1,16 +1,13 @@
-import { errorExists, FormError, INVALID_DATA, UNKNOWN_ERROR } from './error2.js'
+import { errorExists, FormError, INVALID_DATA, newFormError, UNKNOWN_ERROR } from './error2.js'
 
 describe('FormError', () => {
   it('can be created', () => {
-    const err = new FormError('ERR', 'Message', 'Field')
-    expect(err.name).toBe('ERR')
-    expect(err.message).toBe('Message')
-    expect(err.field).toBe('Field')
-  })
-  it('can be spawned', () => {
-    const err = new FormError('ERR', 'Message', 'Field')
-    const err2 = err.spawn()
-    expect(err2).toEqual(err)
+    const err = newFormError('ERR', 'Message', 'Field')
+    expect(err).toEqual({
+      name: 'ERR',
+      message: 'Message',
+      field: 'Field'
+    })
   })
 })
 
@@ -21,10 +18,10 @@ describe('Default Errors', () => {
   })
 })
 
-describe('lookupErrors', () => {
-  const err1 = new FormError('E1')
-  const err2 = new FormError('E2')
-  const err3 = new FormError('E3')
+describe('errorExists', () => {
+  const err1 = newFormError('E1')
+  const err2 = newFormError('E2')
+  const err3 = newFormError('E3')
   const errs = [ err1, err2 ]
   it('should work for object', () => {
     expect(errorExists(err1, err1)).toBe(true)
