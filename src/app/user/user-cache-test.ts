@@ -37,7 +37,7 @@ describe('UserCache', () => {
           newUser({ id: 1, name: 'Alice', home: 'Wonderland', email: 'alice@mail.com' }),
         ]
         db.insertObjects('user', objs, done)
-      }
+      },
     ).run(done)
   })
 
