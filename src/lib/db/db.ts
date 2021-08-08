@@ -1,6 +1,6 @@
 import mysql, { Connection, Query, queryCallback, QueryOptions } from 'mysql'
-import { Config } from '../config/config.js'
-import { Done, waterfall } from '../../lib/base/async2.js'
+import { Config } from '../../app/config/config.js'
+import { Done, waterfall } from '../base/async2.js'
 
 export class DB {
 

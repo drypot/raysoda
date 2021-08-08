@@ -1,7 +1,7 @@
-import { Config, loadConfig } from '../config/config.js'
+import { Config, loadConfig } from '../../app/config/config.js'
 import { DB } from './db.js'
 
-describe('DBConn', () => {
+describe('DB', () => {
 
   let config: Config
   let db: DB

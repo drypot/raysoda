@@ -1,8 +1,8 @@
-import { Config, loadConfig } from '../config/config.js'
+import { Config, loadConfig } from '../../app/config/config.js'
 import { DB } from './db.js'
-import { waterfall } from '../../lib/base/async2.js'
+import { waterfall } from '../base/async2.js'
 
-describe('DBConn', () => {
+describe('DB', () => {
 
   let config: Config
   let db: DB

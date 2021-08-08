@@ -1,6 +1,6 @@
 import { DB } from './db.js'
 import { queryCallback } from 'mysql'
-import { Done } from '../../lib/base/async2.js'
+import { Done } from '../base/async2.js'
 
 export class ValueDB {
 
