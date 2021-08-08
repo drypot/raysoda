@@ -1,6 +1,6 @@
 import { Config, loadConfig } from '../../app/config/config.js'
 import { DB } from './db.js'
-import { ValueDB } from './value-db.js'
+import { ValueDB } from './valuedb.js'
 import { waterfall } from '../base/async2.js'
 
 describe('ValueDB', () => {
