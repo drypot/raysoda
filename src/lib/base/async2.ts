@@ -2,7 +2,7 @@ export type Done = (err?: any) => void
 type WaterfallMember = (done: Done) => void
 
 class WaterfallRunner {
-  private funcs: WaterfallMember[]
+  private readonly funcs: WaterfallMember[]
 
   constructor(funcs: WaterfallMember[]) {
     this.funcs = funcs
@@ -26,4 +26,8 @@ class WaterfallRunner {
 
 export function waterfall(...funcs: WaterfallMember[]): WaterfallRunner {
   return new WaterfallRunner(funcs)
+}
+
+export function setTimeout2(ms: number, callback: () => void) {
+  setTimeout(callback, ms)
 }
