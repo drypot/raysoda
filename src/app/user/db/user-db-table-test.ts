@@ -1,6 +1,6 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
-import { setTimeout2, waterfall } from '../../../lib/base/async2.js'
+import { waterfall } from '../../../lib/base/async2.js'
 import { UserDB } from './user-db.js'
 
 describe('UserDB', () => {
