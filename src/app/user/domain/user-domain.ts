@@ -12,7 +12,7 @@ export interface User {
   pdate: Date
 }
 
-export function newUser(): User {
+export function newUser(_user?: Object): User {
   const now = new Date()
   return {
     id: 0,
@@ -26,6 +26,7 @@ export function newUser(): User {
     cdate: now,
     adate: now,
     pdate: new Date(2000, 0, 1),
+    ..._user
   }
 }
 
