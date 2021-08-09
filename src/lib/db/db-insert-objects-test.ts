@@ -33,7 +33,7 @@ describe('DB', () => {
       waterfall(
         (done) => {
           const objs = [
-            { id: 1, name: 'Alice' },
+            { id: 1, name: 'Alice in Wonderland' },
             { id: 2, name: 'Will' },
             { id: 3, name: 'Snow' },
           ]
@@ -47,7 +47,7 @@ describe('DB', () => {
             expect(err).toBeFalsy()
             expect(r.length).toBe(3)
             expect(r[0].id).toBe(1)
-            expect(r[0].name).toBe('Alice')
+            expect(r[0].name).toBe('Alice in Wonderland')
             expect(r[1].id).toBe(2)
             expect(r[1].name).toBe('Will')
             expect(r[2].id).toBe(3)
@@ -61,7 +61,7 @@ describe('DB', () => {
       waterfall(
         (done) => {
           const objs = [
-            { id: 1, name: 'Alice' },
+            { id: 1, name: 'Alice in Wonderland' },
             { id: 2, email: 'Will' },
             { id: 3, name: 'Snow' },
           ]
@@ -75,7 +75,7 @@ describe('DB', () => {
             expect(err).toBeFalsy()
             expect(r.length).toBe(1)
             expect(r[0].id).toBe(1)
-            expect(r[0].name).toBe('Alice')
+            expect(r[0].name).toBe('Alice in Wonderland')
             done()
           })
         },
