@@ -6,30 +6,26 @@ describe('DB', () => {
   let config: Config
   let db: DB
 
-  beforeAll(done => {
+  beforeAll(() => {
     config = loadConfig('config/app-test.json')
     db = new DB(config)
-    done()
   })
 
-  afterAll(done => {
-    db.close(done)
+  afterAll(async () => {
+    await db.close()
   })
 
   describe('query', () => {
-    it('should work when result exists.', done => {
-      db.query('select * from (select 1 as id) dummy where id = 1', (err: any, r: any) => {
-        expect(err).toBeFalsy()
-        expect(r[0].id).toBe(1)
-        done()
-      })
+    it('should work when result exists', async () => {
+      const r = await db.query('select * from (select 1 as id) dummy where id = 1')
+      expect(r[0].id).toBe(1)
     })
-    it('should work when result does not exists.', done => {
-      db.query('select * from (select 1 as id) dummy where id = 2', (err, r) => {
-        expect(err).toBeFalsy()
-        expect(r[0]).toBe(undefined)
-        done()
-      })
+    it('should work when result does not exists', async () => {
+      const r = await db.query('select * from (select 1 as id) dummy where id = 2')
+      expect(r.length).toBe(0)
+    })
+    it('should fail with invalid sql', async () => {
+      await expectAsync(db.query('select xxx')).toBeRejected()
     })
   })
 

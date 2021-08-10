@@ -1,102 +1,51 @@
 import { Config, loadConfig } from '../../app/config/config.js'
 import { DB } from './db.js'
-import { waterfall } from '../base/async2.js'
 
 describe('DB', () => {
 
   let config: Config
   let db: DB
 
-  beforeAll(done => {
+  beforeAll(async () => {
     config = loadConfig('config/app-test.json')
     db = new DB(config)
-    db.createDatabase(done)
+    await db.createDatabase()
   })
 
-  afterAll(done => {
-    db.close(done)
+  afterAll(async () => {
+    await db.close()
   })
 
   describe('runQueries', () => {
-    beforeEach(done => {
-      waterfall(
-        (done) => {
-          db.query('drop table if exists table1', done)
-        },
-        (done) => {
-          db.query('create table table1(id int)', done)
-        },
-      ).run(done)
+    beforeEach(async () => {
+      await db.query('drop table if exists table1')
+      await db.query('create table table1(id int)')
     })
-    it('should work', done => {
-      waterfall(
-        (done) => {
-          const qa = [
-            'insert into table1 values(1)',
-            'insert into table1 values(2)',
-            'insert into table1 values(3)',
-            'insert into table1 values(4)',
-            'insert into table1 values(5)'
-          ]
-          db.runQueries(qa, err => {
-            expect(err).toBeFalsy()
-            done()
-          })
-        },
-        (done) => {
-          db.query('select * from table1 where id = 1', (err, r) => {
-            expect(err).toBeFalsy()
-            expect(r[0].id).toBe(1)
-            done()
-          })
-        },
-        (done) => {
-          db.query('select * from table1 where id = 5', (err, r) => {
-            expect(err).toBeFalsy()
-            expect(r[0].id).toBe(5)
-            done()
-          })
-        },
-        (done) => {
-          db.query('select * from table1 where id = 6', (err, r) => {
-            expect(err).toBeFalsy()
-            expect(r.length).toBe(0)
-            done()
-          })
-        }
-      ).run(done)
+    it('should work', async () => {
+      const qa = [
+        'insert into table1 values(1)',
+        'insert into table1 values(2)',
+        'insert into table1 values(3)',
+        'insert into table1 values(4)',
+        'insert into table1 values(5)'
+      ]
+      let r: any
+      await db.runQueries(qa)
+      r = await db.query('select * from table1 order by id')
+      expect(r.length).toBe(5)
     })
-    it('should stop at invalid script', done => {
-      waterfall(
-        (done) => {
-          const qa = [
-            'insert into table1 values(1)',
-            'insert into table1 values(2)',
-            'insert into xxx_t values(3)',
-            'insert into table1 values(4)',
-            'insert into table1 values(5)'
-          ]
-          db.runQueries(qa, err => {
-            expect(err).toBeTruthy()
-            expect(err.message).toMatch('xxx_t')
-            done()
-          })
-        },
-        (done) => {
-          db.query('select * from table1 where id = 1', (err, r) => {
-            expect(err).toBeFalsy()
-            expect(r[0].id).toBe(1)
-            done()
-          })
-        },
-        (done) => {
-          db.query('select * from table1 where id = 4', (err, r) => {
-            expect(err).toBeFalsy()
-            expect(r.length).toBe(0)
-            done()
-          })
-        }
-      ).run(done)
+    it('should stop at invalid script', async () => {
+      const qa = [
+        'insert into table1 values(1)',
+        'insert into table1 values(2)',
+        'insert into xxx_t values(3)',
+        'insert into table1 values(4)',
+        'insert into table1 values(5)'
+      ]
+      let r: any
+      await expectAsync(db.runQueries(qa)).toBeRejected()
+      r = await db.query('select * from table1 order by id')
+      expect(r.length).toBe(2)
     })
   })
 

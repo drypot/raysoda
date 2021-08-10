@@ -1,85 +1,53 @@
 import { Config, loadConfig } from '../../app/config/config.js'
 import { DB } from './db.js'
-import { waterfall } from '../base/async2.js'
-import exp from 'constants'
 
 describe('DB', () => {
 
   let config: Config
   let db: DB
 
-  beforeAll(done => {
+  beforeAll(async () => {
     config = loadConfig('config/app-test.json')
     db = new DB(config)
-    db.createDatabase(done)
+    await db.createDatabase()
   })
 
-  afterAll(done => {
-    db.close(done)
+  afterAll(async () => {
+    await db.close()
   })
 
   describe('insertObjects', () => {
-    beforeEach(done => {
-      waterfall(
-        (done) => {
-          db.query('drop table if exists table1', done)
-        },
-        (done) => {
-          db.query('create table table1(id int, name varchar(16))', done)
-        },
-      ).run(done)
+    beforeEach(async () => {
+      await db.query('drop table if exists table1')
+      await db.query('create table table1(id int, name varchar(64))')
     })
-    it('should work', done => {
-      waterfall(
-        (done) => {
-          const objs = [
-            { id: 1, name: 'Alice in Wonderland' },
-            { id: 2, name: 'Will' },
-            { id: 3, name: 'Snow' },
-          ]
-          db.insertObjects('table1', objs, err => {
-            expect(err).toBeFalsy()
-            done()
-          })
-        },
-        (done) => {
-          db.query('select * from table1 order by id', (err, r) => {
-            expect(err).toBeFalsy()
-            expect(r.length).toBe(3)
-            expect(r[0].id).toBe(1)
-            expect(r[0].name).toBe('Alice in Wonderland')
-            expect(r[1].id).toBe(2)
-            expect(r[1].name).toBe('Will')
-            expect(r[2].id).toBe(3)
-            expect(r[2].name).toBe('Snow')
-            done()
-          })
-        },
-      ).run(done)
+    it('should work', async () => {
+      const objs = [
+        { id: 1, name: 'Alice' },
+        { id: 2, name: 'Jon' },
+        { id: 3, name: 'Will' },
+      ]
+      await db.insertObjects('table1', objs)
+      const r = await db.query('select * from table1 order by id')
+      expect(r.length).toBe(3)
+      expect(r[0].id).toBe(1)
+      expect(r[0].name).toBe('Alice')
+      expect(r[1].id).toBe(2)
+      expect(r[1].name).toBe('Jon')
+      expect(r[2].id).toBe(3)
+      expect(r[2].name).toBe('Will')
     })
-    it('should stop at invalid object', done => {
-      waterfall(
-        (done) => {
-          const objs = [
-            { id: 1, name: 'Alice in Wonderland' },
-            { id: 2, email: 'Will' },
-            { id: 3, name: 'Snow' },
-          ]
-          db.insertObjects('table1', objs, err => {
-            expect(err).toBeTruthy()
-            done()
-          })
-        },
-        (done) => {
-          db.query('select * from table1 order by id', (err, r) => {
-            expect(err).toBeFalsy()
-            expect(r.length).toBe(1)
-            expect(r[0].id).toBe(1)
-            expect(r[0].name).toBe('Alice in Wonderland')
-            done()
-          })
-        },
-      ).run(done)
+    it('should stop at invalid object', async () => {
+      const objs = [
+        { id: 1, name: 'Alice' },
+        { id: 2, email: 'Jon' },
+        { id: 3, name: 'Will' },
+      ]
+      await expectAsync(db.insertObjects('table1', objs)).toBeRejected()
+      const r = await db.query('select * from table1 order by id')
+      expect(r.length).toBe(1)
+      expect(r[0].id).toBe(1)
+      expect(r[0].name).toBe('Alice')
     })
   })
 

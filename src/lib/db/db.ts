@@ -1,6 +1,6 @@
 import mysql, { Connection, Query, queryCallback, QueryOptions } from 'mysql'
 import { Config } from '../../app/config/config.js'
-import { Done, waterfall } from '../base/async2.js'
+import { Done } from '../base/async2.js'
 
 export class DB {
 
@@ -24,98 +24,95 @@ export class DB {
     this.droppable = this.config.dev
   }
 
-  query(query: Query): Query;
-  query(options: string | QueryOptions, callback?: queryCallback): Query;
-  query(options: string | QueryOptions, values: any, callback?: queryCallback): Query;
-  query(options: any, values?: any, callback?: any): Query {
-    return this.conn.query(options, values, callback)
+  query(query: Query): Promise<any>;
+  query(options: string | QueryOptions, callback?: queryCallback): Promise<any>;
+  query(options: string | QueryOptions, values: any, callback?: queryCallback): Promise<any>;
+  query(options: any, values?: any, callback?: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.conn.query(options, values, (err, r) => {
+        if (err) return reject(err)
+        resolve(r)
+      })
+    })
   }
 
-  close(done?: (err?: mysql.MysqlError) => void) {
-    if (this.conn) {
-      this.conn.end(done)
-    } else {
-      if (done) done()
-    }
+  close(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!this.conn) return resolve()
+      this.conn.end((err) => {
+        if (err) return reject(err)
+        resolve()
+      })
+    })
   }
 
-  createDatabase(done: Done) {
-    waterfall(
-      (done) => {
-        this.query(
-          'create database if not exists ?? character set utf8mb4',
-          this.config.mysqlDatabase,
-          done
-        )
-      },
-      (done) => {
-        this.conn.changeUser(
-          { database: this.config.mysqlDatabase },
-          done
-        )
-      }
-    ).run(done)
+  changeUser(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.conn.changeUser({ database: this.config.mysqlDatabase }, (err) => {
+        if (err) return reject(err)
+        resolve()
+      })
+    })
   }
 
-  dropDatabase(done: Done) {
-    if (!this.droppable) return done(new Error('can not drop in production mode.'))
-    this.query('drop database if exists ??', this.config.mysqlDatabase, done)
+  async createDatabase() {
+    await this.query(
+      'create database if not exists ?? character set utf8mb4',
+      this.config.mysqlDatabase,
+    )
+    await this.changeUser()
   }
 
-  findDatabase(name: string, done: queryCallback) {
-    this.query('show databases like ?', name, done)
+  async dropDatabase() {
+    if (!this.droppable) throw (new Error('can not drop in production mode.'))
+    await this.query('drop database if exists ??', this.config.mysqlDatabase)
   }
 
-  findTable(name: string, done: queryCallback) {
-    this.query('show tables like ?', name, done)
+  async findDatabase(name: string) {
+    return this.query('show databases like ?', name)
   }
 
-  findIndex(table: string, index: string, done: queryCallback) {
+  async findTable(name: string) {
+    return this.query('show tables like ?', name)
+  }
+
+  async findIndex(table: string, index: string) {
     const q =
       'select * from information_schema.statistics ' +
       'where table_schema=database() and table_name=? and index_name=?'
-    this.conn.query(q, [table, index], done)
+    return this.query(q, [table, index])
   }
 
   private static indexPattern = /create\s+index\s+(\w+)\s+on\s+(\w+)/i
 
-  createIndexIfNotExists(query: string, done: Done) {
+  async createIndexIfNotExists(query: string) {
     const a = query.match(DB.indexPattern)
-    if (!a) return done(new Error('create index pattern not found'))
+    if (!a) throw new Error('create index pattern not found')
     const table = a[2]
     const index = a[1]
-    this.findIndex(table, index, (err, r) => {
-      if (r.length > 0) return done()
-      this.query(query, done)
-    })
+    const r = await this.findIndex(table, index)
+    if (r.length > 0) return
+    await this.query(query)
   }
 
-  getMaxId(table: string, done: (err: any, maxId?: number) => void) {
-    this.query('select coalesce(max(id), 0) as maxId from ??', table, (err, r) => {
-      if (err) return done(err)
-      done(null, r[0].maxId)
-    })
+  async getMaxId(table: string) {
+    const r = await this.query('select coalesce(max(id), 0) as maxId from ??', table)
+    return r[0].maxId
   }
 
-  runQueries(qa: string[], done: Done) {
-    const _this = this
-    let i = 0
-    let e = qa.length
-    ;(function loop() {
-      if (i === e) {
-        return done()
-      }
-      const q = qa[i++]
-      _this.query(q, (err) => {
-        if (err) {
-          return done(new Error('Query failed: ' + q))
-        }
-        setImmediate(loop)
-      })
-    })()
+  async runQueries(qa: string[]) {
+    for (const q of qa) {
+      await this.query(q)
+    }
   }
 
-  insertObjects(table: string, objs: Object[], done: Done) {
+  async insertObjects(table: string, objs: Object[]) {
+    for (const obj of objs) {
+      await this.query('insert into ' + table + ' set ?', obj)
+    }
+  }
+
+  insertObjectsOld(table: string, objs: Object[], done: Done) {
     const _this = this
     let i = 0
     let e = objs.length
