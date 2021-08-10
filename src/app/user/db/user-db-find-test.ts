@@ -1,8 +1,7 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
-import { waterfall } from '../../../lib/base/async2.js'
 import { UserDB } from './user-db.js'
-import { newUser } from '../domain/user-domain.js'
+import { newUser, User } from '../entity/user-entity.js'
 
 describe('UserDB', () => {
 
@@ -10,139 +9,60 @@ describe('UserDB', () => {
   let db: DB
   let udb: UserDB
 
-  beforeAll(done => {
+  beforeAll(async () => {
     config = loadConfig('config/app-test.json')
     db = new DB(config)
     udb = new UserDB(db)
-    db.createDatabase(done)
+    await db.createDatabase()
   })
 
-  afterAll(done => {
-    db.close(done)
+  afterAll(async () => {
+    await db.close()
+  })
+
+  beforeAll(async () => {
+    await udb.dropTable()
+    await udb.createTable(false)
+
+    const objs = [
+      newUser({ id: 1, name: 'Alice Liddell', home: 'alice', email: 'alice@mail.com' }),
+    ]
+    await db.insertObjects('user', objs)
   })
 
   describe('findUserById', () => {
-    beforeAll(done => {
-      waterfall(
-        (done) => {
-          udb.dropTable(done)
-        },
-        (done) => {
-          udb.createTable(done)
-        },
-        (done) => {
-          const objs = [
-            newUser({ id: 1, name: 'Alice', home: 'Wonderland', email: 'alice@mail.com' }),
-          ]
-          db.insertObjects('user', objs, done)
-        }
-      ).run(done)
-    })
-    it('should work', done => {
-      waterfall(
-        (done) => {
-          udb.findUserById(1, (err, user) => {
-            expect(err).toBeFalsy()
-            expect(user?.id).toBe(1)
-            done()
-          })
-        },
-        (done) => {
-          udb.findUserById(999, (err, user) => {
-            expect(err).toBeFalsy()
-            expect(user?.id).toBeUndefined()
-            done()
-          })
-        }
-      ).run(done)
+    it('should work', async () => {
+      let user: User | undefined
+
+      user = await udb.findUserById(1)
+      expect(user?.id).toBe(1)
+
+      user = await udb.findUserById(999)
+      expect(user?.id).toBe(undefined)
     })
   })
 
   describe('findUserByEmail', () => {
-    beforeAll(done => {
-      waterfall(
-        (done) => {
-          udb.dropTable(done)
-        },
-        (done) => {
-          udb.createTable(done)
-        },
-        (done) => {
-          const objs = [
-            newUser({ id: 1, name: 'Alice', home: 'Wonderland', email: 'alice@mail.com' }),
-          ]
-          db.insertObjects('user', objs, done)
-        }
-      ).run(done)
-    })
-    it('should work', done => {
-      waterfall(
-        (done) => {
-          udb.findUserByEmail('alice@mail.com', (err, user) => {
-            expect(err).toBeFalsy()
-            expect(user?.id).toBe(1)
-            done()
-          })
-        },
-        (done) => {
-          udb.findUserByEmail('Alice@mail.com', (err, user) => {
-            expect(err).toBeFalsy()
-            expect(user?.id).toBe(1)
-            done()
-          })
-        },
-        (done) => {
-          udb.findUserByEmail('xxx@mail.com', (err, user) => {
-            expect(err).toBeFalsy()
-            expect(user?.id).toBeUndefined()
-            done()
-          })
-        }
-      ).run(done)
+    it('should work', async () => {
+      let user: User | undefined
+
+      user = await udb.findUserByEmail('alice@mail.com')
+      expect(user?.id).toBe(1)
+
+      user = await udb.findUserByEmail('xxx@mail.com')
+      expect(user?.id).toBe(undefined)
     })
   })
 
   describe('findUserByHome', () => {
-    beforeAll(done => {
-      waterfall(
-        (done) => {
-          udb.dropTable(done)
-        },
-        (done) => {
-          udb.createTable(done)
-        },
-        (done) => {
-          const objs = [
-            newUser({ id: 1, name: 'Alice', home: 'Wonderland', email: 'alice@mail.com' }),
-          ]
-          db.insertObjects('user', objs, done)
-        }
-      ).run(done)
-    })
-    it('should work', done => {
-      waterfall(
-        (done) => {
-          udb.findUserByHome('Wonderland', (err, user) => {
-            expect(err).toBeFalsy()
-            expect(user?.id).toBe(1)
-            done()
-          })
-        },
-        (done) => {
-          udb.findUserByHome('wonderland', (err, user) => {
-            expect(err).toBeFalsy()
-            expect(user?.id).toBe(1)
-            done()
-          })
-        },
-        (done) => {
-          udb.findUserByHome('Neverland', (err, user) => {
-            expect(err).toBeFalsy()
-            expect(user?.id).toBeUndefined()
-            done()
-          })
-        }
-      ).run(done)
+    it('should work', async () => {
+      let user: User | undefined
+
+      user = await udb.findUserByHome('alice')
+      expect(user?.id).toBe(1)
+
+      user = await udb.findUserByHome('jon')
+      expect(user?.id).toBe(undefined)
     })
   })
 

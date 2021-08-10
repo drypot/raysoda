@@ -1,127 +1,114 @@
 import { DB } from '../../../lib/db/db.js'
-import { Done, waterfall } from '../../../lib/base/async2.js'
-import { User } from '../domain/user-domain.js'
+import { User } from '../entity/user-entity.js'
 
 export class UserDB {
 
   private db: DB
-  private userIdMax: number
+  private nextUserId: number
 
   constructor(db: DB) {
     this.db = db
-    this.userIdMax = 0
+    this.nextUserId = 0
   }
 
-  createTable(done: Done) {
-    waterfall(
-      (done) => {
-        const q =
-          'create table if not exists user(' +
-          '  id int not null,' +
-          '  name varchar(32) not null,' +
-          '  home varchar(32) not null,' +
-          '  email varchar(64) not null,' +
-          '  hash char(60) character set latin1 collate latin1_bin not null,' +
-          '  status char(1) not null,' +
-          '  admin bool not null,' +
-          '  cdate datetime(3) not null,' +
-          '  adate datetime(3) not null,' +
-          '  pdate datetime(3) not null,' +
-          '  profile text not null,' +
-          '  primary key (id)' +
-          ')'
-        this.db.query(q, done)
-      },
-      (done) => {
-        this.db.createIndexIfNotExists(
-          'create index user_email on user(email)', done
-        )
-      },
-      (done) => {
-        this.db.createIndexIfNotExists(
-          'create index user_name on user(name)', done
-        )
-      },
-      (done) => {
-        this.db.createIndexIfNotExists(
-          'create index user_home on user(home)', done
-        )
-      },
-      (done) => {
-        this.db.createIndexIfNotExists(
-          'create index user_pdate on user(pdate desc)', done
-        )
-      },
-      (done) => {
-        this.db.getMaxId('user', (err, id) => {
-          if (err) return done(err)
-          this.userIdMax = id ?? 0
-          done()
-        })
-      }
-    ).run(done)
-  }
-
-  dropTable(done: Done) {
-    if (!this.db.droppable) {
-      return done(new Error('can not drop in production mode.'))
+  async createTable(createIndex: boolean = true) {
+    const q =
+      'create table if not exists user(' +
+      '  id int not null,' +
+      '  name varchar(32) not null,' +
+      '  home varchar(32) not null,' +
+      '  email varchar(64) not null,' +
+      '  hash char(60) character set latin1 collate latin1_bin not null,' +
+      '  status char(1) not null,' +
+      '  admin bool not null,' +
+      '  cdate datetime(3) not null,' +
+      '  adate datetime(3) not null,' +
+      '  pdate datetime(3) not null,' +
+      '  profile text not null,' +
+      '  primary key (id)' +
+      ')'
+    await this.db.query(q)
+    if (createIndex) {
+      await this.db.createIndexIfNotExists(
+        'create index user_email on user(email)'
+      )
+      await this.db.createIndexIfNotExists(
+        'create index user_name on user(name)'
+      )
+      await this.db.createIndexIfNotExists(
+        'create index user_home on user(home)'
+      )
+      await this.db.createIndexIfNotExists(
+        'create index user_pdate on user(pdate desc)'
+      )
     }
-    this.db.query('drop table if exists user', done)
+    this.nextUserId = await this.db.getMaxId('user')
+    this.nextUserId++
   }
 
-  getNewUserId() {
-    return ++this.userIdMax
+  async dropTable() {
+    if (!this.db.droppable) {
+      throw (new Error('can not drop in production mode.'))
+    }
+    await this.db.query('drop table if exists user')
   }
 
-  insertUser(user: User, done: Done) {
-    this.db.query('insert into user set ?', user, done)
+  getNextUserId() {
+    return this.nextUserId++
   }
 
-  findUserById(id: number, done: (err: any, user?: User) => void) {
-    this.db.query('select * from user where id = ?', id, (err, r) => {
-      if (err) return done(err)
-      const user = r[0]
-      if (user) unpackUser(user)
-      done(null, user)
-    })
+  setNextUserId(nextId: number) {
+    this.nextUserId = nextId
   }
 
-  findUserByEmail(email: string, done: (err: any, user?: User) => void) {
-    this.db.query('select * from user where email = ?', email, (err, r) => {
-      if (err) return done(err)
-      const user = r[0]
-      if (user) unpackUser(user)
-      done(null, user)
-    })
+  async insertUser(user: User) {
+    await this.db.query('insert into user set ?', user)
   }
 
-  findUserByHome(home: string, done: (err: any, user?: User) => void) {
-    this.db.query('select * from user where home = ?', home, (err, r) => {
-      if (err) return done(err)
-      const user = r[0]
-      if (user) unpackUser(user)
-      done(null, user)
-    })
+  async findUserById(id: number): Promise<User | undefined> {
+    const r = await this.db.query('select * from user where id = ?', id)
+    const user = r[0]
+    if (user) unpackUser(user)
+    return user
   }
 
-  checkNameUsable(id: number, name: string, done: (err: any, usable: boolean) => void) {
-    this.db.query(
-      'select exists(select * from user where (name = ? or home = ?) and id != ?) as exist',
-      [name, name, id],
-      (err, r) => {
-        done(err, r[0].exist === 0)
-      }
+  async findUserByEmail(email: string): Promise<User | undefined> {
+    const r = await this.db.query('select * from user where email = ?', email)
+    const user = r[0]
+    if (user) unpackUser(user)
+    return user
+  }
+
+  async findUserByHome(home: string): Promise<User | undefined> {
+    const r = await this.db.query('select * from user where home = ?', home)
+    const user = r[0]
+    if (user) unpackUser(user)
+    return user
+  }
+
+  async checkNameUsable(id: number, name: string): Promise<boolean> {
+    const r = await this.db.query(
+      'select exists(select * from user where name = ? and id != ?) as exist',
+      [name, id]
     )
+    return r[0].exist === 0
   }
 
-  checkEmailUsable(id: number, email: string, done: (err: any, usable: boolean) => void) {
-    this.db.query(
+  async checkHomeUsable(id: number, home: string): Promise<boolean> {
+    const r = await this.db.query(
+      'select exists(select * from user where home = ? and id != ?) as exist',
+      [home, id]
+    )
+    return r[0].exist === 0
+
+  }
+
+  async checkEmailUsable(id: number, email: string): Promise<boolean> {
+    const r = await this.db.query(
       'select exists(select * from user where email = ? and id != ?) as exist',
-      [email, id],
-      (err, r) => {
-        done(err, r[0].exist === 0)
-      }
+      [email, id]
     )
+    return r[0].exist === 0
   }
 
 }

@@ -1,7 +1,6 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from './user-db.js'
-import { newUser, User } from '../entity/user-entity.js'
 
 describe('UserDB', () => {
 
@@ -20,23 +19,21 @@ describe('UserDB', () => {
     await db.close()
   })
 
-  describe('insertUser', () => {
+  describe('getNextUserId', () => {
     beforeEach(async () => {
       await udb.dropTable()
       await udb.createTable(false)
     })
-    it('should work', async () => {
-      let user: User | undefined
+    it('should work', () => {
+      expect(udb.getNextUserId()).toBe(1)
+      expect(udb.getNextUserId()).toBe(2)
+      expect(udb.getNextUserId()).toBe(3)
 
-      user = await udb.findUserById(1)
-      expect(user?.id).toBe(undefined)
-
-      const user2 = newUser({ id: 1, name: 'Alice Liddell', home: 'alice', email: 'alice@mail.com' })
-      await udb.insertUser(user2)
-
-      user = await udb.findUserById(1)
-      expect(user?.id).toBe(1)
+      udb.setNextUserId(10)
+      expect(udb.getNextUserId()).toBe(10)
+      expect(udb.getNextUserId()).toBe(11)
     })
   })
+
 
 })

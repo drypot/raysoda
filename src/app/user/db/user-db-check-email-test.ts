@@ -1,8 +1,7 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
-import { waterfall } from '../../../lib/base/async2.js'
 import { UserDB } from './user-db.js'
-import { newUser } from '../domain/user-domain.js'
+import { newUser } from '../entity/user-entity.js'
 
 describe('UserDB', () => {
 
@@ -10,54 +9,39 @@ describe('UserDB', () => {
   let db: DB
   let udb: UserDB
 
-  beforeAll(done => {
+  beforeAll(async () => {
     config = loadConfig('config/app-test.json')
     db = new DB(config)
     udb = new UserDB(db)
-    db.createDatabase(done)
+    await db.createDatabase()
   })
 
-  afterAll(done => {
-    db.close(done)
+  afterAll(async () => {
+    await db.close()
+  })
+
+  beforeAll(async () => {
+    await udb.dropTable()
+    await udb.createTable(false)
+
+    const objs = [
+      newUser({ id: 1, name: 'Alice Liddell', home: 'alice', email: 'alice@mail.com' }),
+    ]
+    await db.insertObjects('user', objs)
   })
 
   describe('checkEmailUsable', () => {
-    beforeAll(done => {
-      waterfall(
-        (done) => {
-          udb.dropTable(done)
-        },
-        (done) => {
-          udb.createTable(done)
-        },
-        (done) => {
-          const objs = [
-            newUser({ id: 1, name: 'Alice', home: 'Wonderland', email: 'alice@mail.com' }),
-          ]
-          db.insertObjects('user', objs, done)
-        }
-      ).run(done)
+    it('should ok when email is not in use', async () => {
+      const usable = await udb.checkEmailUsable(0, 'snow@mail.com')
+      expect(usable).toBe(true)
     })
-    it('should pass when email is not in use', done => {
-      udb.checkEmailUsable(0, 'snow@mail.com', (err, usable) => {
-        expect(err).toBeFalsy()
-        expect(usable).toBe(true)
-        done()
-      })
+    it('should fail when email is in use', async () => {
+      const usable = await udb.checkEmailUsable(0, 'alice@mail.com')
+      expect(usable).toBe(false)
     })
-    it('should fail when email is in use', done => {
-      udb.checkEmailUsable(0, 'alice@mail.com', (err, usable) => {
-        expect(err).toBeFalsy()
-        expect(usable).toBe(false)
-        done()
-      })
-    })
-    it('should pass when email is mine', done => {
-      udb.checkEmailUsable(1, 'alice@mail.com', (err, usable) => {
-        expect(err).toBeFalsy()
-        expect(usable).toBe(true)
-        done()
-      })
+    it('should ok when email is mine', async () => {
+      const usable = await udb.checkEmailUsable(1, 'alice@mail.com')
+      expect(usable).toBe(true)
     })
   })
 
