@@ -94,7 +94,7 @@ export class DB {
     await this.query(query)
   }
 
-  async getMaxId(table: string) {
+  async getMaxId(table: string): Promise<number> {
     const r = await this.query('select coalesce(max(id), 0) as maxId from ??', table)
     return r[0].maxId
   }

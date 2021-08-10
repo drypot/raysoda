@@ -26,6 +26,12 @@ describe('DB', () => {
       await db.query('insert into table1 values ?', [values])
       const maxId = await db.getMaxId('table1')
       expect(maxId).toBe(3)
+    })
+    it('should work when table empty', async () => {
+      const maxId = await db.getMaxId('table1')
+      expect(maxId).toBe(0)
+    })
+    it('should fail when table is not exist', async () => {
       await expectAsync(db.getMaxId('table2')).toBeRejected()
     })
   })
