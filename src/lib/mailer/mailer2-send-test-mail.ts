@@ -19,6 +19,6 @@ const mail = {
 
 console.log(mail)
 
-mailer.sendMail(mail, function (err) {
-  console.log(err);
+mailer.sendMail(mail).catch(err => {
+  console.log(err)
 })

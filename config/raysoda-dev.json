@@ -15,7 +15,7 @@
   "mysqlUser": "drypot",
   "mysqlPassword": "",
 
-  "mailServer": "",
+  "mailServer": "localhost",
 
   "ticketGenInterval": 18,
   "ticketMax": 99

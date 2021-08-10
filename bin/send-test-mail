@@ -6,7 +6,7 @@ function show_usage {
 }
 
 if [ "$1" = dev ]; then
-    CONFIG=config/test.json
+    CONFIG=config/app-test.json
 elif [ "$1" = live ]; then
     CONFIG=config-live/raysoda-live.json
 else
