@@ -27,3 +27,7 @@ class WaterfallRunner {
 export function waterfall(...funcs: WaterfallMember[]): WaterfallRunner {
   return new WaterfallRunner(funcs)
 }
+
+export function timeout(ms: number) {
+  return new Promise<void>(resolve => setTimeout(resolve, ms));
+}

@@ -9,38 +9,32 @@ describe('Express2', () => {
   let router: Router
   let request: SuperAgentTest
 
-  beforeAll(done => {
+  beforeAll(async () => {
     const config = loadConfig('config/app-test.json')
     server = new Express2(config)
     router = server.router
     request = server.spawnRequest()
-    server.start(done)
+    await server.start()
   })
 
-  afterAll(done => {
-    server.close(done)
+  afterAll(async () => {
+    await server.close()
   })
 
   describe('api request', () => {
-    it('should return Cache-Control: no-cache', done => {
-      request.get('/api/hello').end((err, res) => {
-        expect(err).toBeFalsy()
-        expect(res.get('Cache-Control')).toBe('no-cache')
-        done()
-      })
+    it('should return Cache-Control: no-cache', async () => {
+      const res = await request.get('/api/hello')
+      expect(res.get('Cache-Control')).toBe('no-cache')
     })
   })
 
   describe('none api request', () => {
-    it('should return Cache-Control: private', done => {
-      router.get('/test/cache-test', (req, res, done) => {
+    it('should return Cache-Control: private', async () => {
+      router.get('/test/cache-test', (req, res) => {
         res.send('<p>must be cached</p>')
       })
-      request.get('/test/cache-test').end((err, res) => {
-        expect(err).toBeFalsy()
-        expect(res.get('Cache-Control')).toBe('private')
-        done()
-      })
+      const res = await request.get('/test/cache-test')
+      expect(res.get('Cache-Control')).toBe('private')
     })
   })
 

@@ -9,16 +9,16 @@ describe('Express2', () => {
   let router: Router
   let request: SuperAgentTest
 
-  beforeAll(done => {
+  beforeAll(async () => {
     const config = loadConfig('config/app-test.json')
     server = new Express2(config)
     router = server.router
     request = server.spawnRequest()
-    server.start(done)
+    await server.start()
   })
 
-  afterAll(done => {
-    server.close(done)
+  afterAll(async () => {
+    await server.close()
   })
 
   describe('middleware', () => {
@@ -60,26 +60,20 @@ describe('Express2', () => {
     })
 
     describe('mw-1-2 ', () => {
-      it('should set 1, 2, 3', done => {
-        request.get('/api/test/mw-1-2').end(function (err, res) {
-          expect(err).toBeFalsy()
-          expect(result.mid1).toBe('ok')
-          expect(result.mid2).toBe('ok')
-          expect(result.mid3).toBe('ok')
-          done()
-        })
+      it('should set 1, 2, 3', async () => {
+        const res = await request.get('/api/test/mw-1-2')
+        expect(result.mid1).toBe('ok')
+        expect(result.mid2).toBe('ok')
+        expect(result.mid3).toBe('ok')
       })
     })
 
     describe('mw-1-err-2', () => {
-      it('should set 1, 2', done => {
-        request.get('/api/test/mw-1-err-2').end(function (err, res) {
-          expect(err).toBeFalsy()
-          expect(result.mid1).toBe('ok')
-          expect(result.mid2).toBeUndefined()
-          expect(result.mid3).toBeUndefined()
-          done()
-        })
+      it('should set 1, 2', async () => {
+        const res = await request.get('/api/test/mw-1-err-2')
+        expect(result.mid1).toBe('ok')
+        expect(result.mid2).toBeUndefined()
+        expect(result.mid3).toBeUndefined()
       })
     })
   })

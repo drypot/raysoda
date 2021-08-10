@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser'
 import redis from 'redis'
 import session from 'express-session'
 import connectRedis from 'connect-redis'
-import { FormError } from '../base/error2.js'
 import * as http from 'http'
 import supertest from 'supertest'
 import { Config } from '../../app/config/config.js'
@@ -57,29 +56,35 @@ export class Express2 {
     this.expr1.set('views', root)
   }
 
-  start(done: () => void) {
-    this.expr1.use(function (req, res, done) {
-      res.locals.query = req.query
-      res.locals.api = /^\/api\//.test(req.path)
-      done()
+  start() {
+    return new Promise<void>((resolve) => {
+      this.expr1.use(function (req, res, done) {
+        res.locals.query = req.query
+        res.locals.api = /^\/api\//.test(req.path)
+        done()
+      })
+      this.setUpSessionHandler()
+      this.setUpBodyParser()
+      this.setUpCacheControl()
+      this.setUpAutoLoginHandler()
+      this.setUpGeneralRouter()
+      this.setUpBasicAPI()
+      this.setUpRedirectToLoginHandler()
+      this.setUpErrorHandler()
+      this.httpServer.listen(
+        this.config.port,
+        () => resolve()
+      )
     })
-    this.setUpSessionHandler()
-    this.setUpBodyParser()
-    this.setUpCacheControl()
-    this.setUpAutoLoginHandler()
-    this.setUpGeneralRouter()
-    this.setUpBasicAPI()
-    this.setUpRedirectToLoginHandler()
-    this.setUpErrorHandler()
-    this.httpServer.listen(this.config.port, done)
   }
 
-  close(done: (err: any) => void) {
-    if (this.httpServer) {
-      this.httpServer.close(done)
-    } else {
-      done(null)
-    }
+  close() {
+    return new Promise<void>((resolve, reject) => {
+      if (!this.httpServer) return resolve()
+      this.httpServer.close(
+        (err) => err ? reject(err) : resolve()
+      )
+    })
   }
 
   spawnRequest() {
@@ -226,18 +231,25 @@ export class Express2 {
 
 }
 
-export function deleteUpload(handler: ExpressHandler) {
-  return function (req: Request, res: Response, done: NextFunction) {
-    handler(req, res, (err: any) => {
-      if (req.file) {
-        unlinkSync(req.file.path)
-      }
-      if (req.files) {
-        for (const file of req.files as Express.Multer.File[]) {
-          unlinkSync(file.path)
+export function deleteUpload(handler: (req: Request, res: Response) => Promise<void>) {
+  return (req: Request, res: Response, done: NextFunction) => {
+    handler(req, res)
+      .catch(done)
+      .finally(() => {
+        if (req.file) {
+          unlinkSync(req.file.path)
         }
-      }
-      done(err)
-    })
+        if (req.files) {
+          for (const file of req.files as Express.Multer.File[]) {
+            unlinkSync(file.path)
+          }
+        }
+      })
+    }
+}
+
+export function toCallback(handler: (req: Request, res: Response) => Promise<void>) {
+  return (req: Request, res: Response, done: NextFunction) => {
+    handler(req, res).catch(done)
   }
 }

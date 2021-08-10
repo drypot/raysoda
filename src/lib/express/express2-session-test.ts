@@ -15,16 +15,16 @@ describe('Express2', () => {
   let router: Router
   let request: SuperAgentTest
 
-  beforeAll(done => {
+  beforeAll(async () => {
     const config = loadConfig('config/app-test.json')
     server = new Express2(config)
     router = server.router
     request = server.spawnRequest()
-    server.start(done)
+    await server.start()
   })
 
-  afterAll(done => {
-    server.close(done)
+  afterAll(async () => {
+    await server.close()
   })
 
   describe('session', () => {
@@ -37,41 +37,36 @@ describe('Express2', () => {
         res.json({})
       })
       router.get('/api/test/session', (req, res) => {
-        const body: string[] = req.body
+        const keys: string[] = req.body
         const obj: { [key: string]: string | undefined } = {}
-        for (let k of body) {
+        for (let k of keys) {
           obj[k] = req.session[k]
         }
         res.json(obj)
       })
     })
-    it('should return session vars', done => {
-      request.put('/api/test/session').send({ book: 'book1', price: 11 }).end((err, res) => {
-        expect(err).toBeFalsy()
-        expect(res.body.err).toBeFalsy()
-        request.get('/api/test/session').send(['book', 'price']).end((err, res) => {
-          expect(err).toBeFalsy()
-          expect(res.body.book).toBe('book1')
-          expect(res.body.price).toBe(11)
-          done()
-        })
-      })
+    it('can store/return session vars', async () => {
+      let res: any
+
+      res = await request.put('/api/test/session').send({ book: 'book1', price: 11 })
+      expect(res.body.err).toBeFalsy()
+
+      res = await request.get('/api/test/session').send(['book', 'price'])
+      expect(res.body.book).toBe('book1')
+      expect(res.body.price).toBe(11)
     })
-    it('should return empty after session destroyed', done => {
-      request.put('/api/test/session').send({ book: 'book1', price: 11 }).end((err, res) => {
-        expect(err).toBeFalsy()
-        expect(res.body.err).toBeFalsy()
-        request.post('/api/destroy-session').end((err, res) => {
-          expect(err).toBeFalsy()
-          expect(res.body.err).toBeFalsy()
-          request.get('/api/test/session').send(['book', 'price']).end((err, res) => {
-            expect(err).toBeFalsy()
-            expect(res.body.book).toBeUndefined()
-            expect(res.body.price).toBeUndefined()
-            done()
-          })
-        })
-      })
+    it('should be empty after destroyed', async () => {
+      let res: any
+
+      res = await request.put('/api/test/session').send({ book: 'book1', price: 11 })
+      expect(res.body.err).toBeFalsy()
+
+      res = await request.post('/api/destroy-session')
+      expect(res.body.err).toBeFalsy()
+
+      res = await request.get('/api/test/session').send(['book', 'price'])
+      expect(res.body.book).toBeUndefined()
+      expect(res.body.price).toBeUndefined()
     })
   })
 

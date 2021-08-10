@@ -9,28 +9,25 @@ describe('Express2', () => {
   let router: Router
   let request: SuperAgentTest
 
-  beforeAll(done => {
+  beforeAll(async () => {
     const config = loadConfig('config/app-test.json')
     server = new Express2(config)
     router = server.router
     request = server.spawnRequest()
-    server.start(done)
+    await server.start()
   })
 
-  afterAll(done => {
-    server.close(done)
+  afterAll(async () => {
+    await server.close()
   })
 
-  it('can return html', done => {
-    router.get('/test/html', (req, res, done) => {
+  it('can return html', async () => {
+    router.get('/test/html', (req, res) => {
       res.send('<p>some text</p>')
     })
-    request.get('/test/html').end((err, res) => {
-      expect(err).toBeFalsy()
-      expect(res.type).toBe('text/html')
-      expect(res.text).toBe('<p>some text</p>')
-      done()
-    })
+    const res = await request.get('/test/html')
+    expect(res.type).toBe('text/html')
+    expect(res.text).toBe('<p>some text</p>')
   })
 
 })

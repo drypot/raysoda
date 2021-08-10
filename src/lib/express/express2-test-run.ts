@@ -6,6 +6,10 @@ const config = loadConfig('config/app-dev.json')
 const express = new Express2(config)
 const router = express.router
 
+router.get('/test/hello', (req, res) => {
+  res.send('<html><body><h1>Hello</h1></body></html>')
+})
+
 router.get('/test/system-error', function (req, res, done) {
   done(new Error('Error Sample'))
 })
@@ -24,9 +28,10 @@ process.on('SIGINT', function () {
   process.exit(1)
 })
 
-express.start(() => {
+express.start().then(() => {
   console.log('express: listening ' + config.port)
   const siteUrl = config.siteUrl
+  console.log(siteUrl + '/test/hello')
   console.log(siteUrl + '/test/system-error')
   console.log(siteUrl + '/test/form-error')
 })

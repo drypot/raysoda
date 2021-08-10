@@ -9,47 +9,32 @@ describe('Express2', () => {
   let router: Router
   let request: SuperAgentTest
 
-  beforeAll(done => {
+  beforeAll(async () => {
     const config = loadConfig('config/app-test.json')
     server = new Express2(config)
     router = server.router
     request = server.spawnRequest()
-    server.start(done)
+    await server.start()
   })
 
-  afterAll(done => {
-    server.close(done)
+  afterAll(async () => {
+    await server.close()
   })
 
   describe('/api/echo', () => {
-    describe('get', () => {
-      it('should work', done => {
-        request.get('/api/echo?p1&p2=123').end(function (err, res) {
-          expect(err).toBeFalsy()
-          expect(res.body.method).toBe('GET')
-          expect(res.body.query).toEqual({ p1: '', p2: '123' })
-          done()
-        })
-      })
+    it('should work with get', async () => {
+      const res = await request.get('/api/echo?p1&p2=123')
+      expect(res.body.method).toBe('GET')
+      expect(res.body.query).toEqual({ p1: '', p2: '123' })
     })
-    describe('post', () => {
-      it('should work', done => {
-        request.post('/api/echo').send({ p1: '', p2: '123' }).end(function (err, res) {
-          expect(err).toBeFalsy()
-          expect(res.body.method).toBe('POST')
-          expect(res.body.body).toEqual({ p1: '', p2: '123' })
-          done()
-        })
-      })
+    it('should work with post', async () => {
+      const res = await request.post('/api/echo').send({ p1: '', p2: '123' })
+      expect(res.body.method).toBe('POST')
+      expect(res.body.body).toEqual({ p1: '', p2: '123' })
     })
-    describe('delete', () => {
-      it('should work', done => {
-        request.del('/api/echo').end(function (err, res) {
-          expect(err).toBeFalsy()
-          expect(res.body.method).toBe('DELETE')
-          done()
-        })
-      })
+    it('should work with delete', async () => {
+      const res = await request.del('/api/echo')
+      expect(res.body.method).toBe('DELETE')
     })
   })
 

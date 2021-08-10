@@ -9,47 +9,38 @@ describe('Express2', () => {
   let router: Router
   let request: SuperAgentTest
 
-  beforeAll(done => {
+  beforeAll(async () => {
     const config = loadConfig('config/app-test.json')
     server = new Express2(config)
     router = server.router
     request = server.spawnRequest()
-    server.start(done)
+    await server.start()
   })
 
-  afterAll(done => {
-    server.close(done)
+  afterAll(async () => {
+    await server.close()
   })
 
-  it('can return hello object', done => {
-    request.get('/api/hello').end(function (err, res) {
-      expect(err).toBeFalsy()
-      expect(res.type).toBe('application/json')
-      expect(res.body.message).toBe('hello')
-      done()
-    })
+  it('can return hello object', async () => {
+    const res = await request.get('/api/hello')
+    expect(res.type).toBe('application/json')
+    expect(res.body.message).toBe('hello')
   })
-  it('can return string', done => {
+  it('can return string', async () => {
     router.get('/api/test/string', function (req, res, done) {
       res.json('hi')
     })
-    request.get('/api/test/string').end(function (err, res) {
-      expect(err).toBeFalsy()
-      expect(res.type).toBe('application/json')
-      expect(res.body).toBe('hi')
-      done()
-    })
+    const res = await request.get('/api/test/string')
+    expect(res.type).toBe('application/json')
+    expect(res.body).toBe('hi')
   })
-  it('can return null', done => {
+  it('can return null', async () => {
     router.get('/api/test/null', function (req, res, done) {
       res.json(null)
     })
-    request.get('/api/test/null').end(function (err, res) {
-      expect(err).toBeFalsy()
-      expect(res.type).toBe('application/json')
-      expect(res.body).toBeNull()
-      done()
-    })
+    const res = await request.get('/api/test/null')
+    expect(res.type).toBe('application/json')
+    expect(res.body).toBeNull()
   })
 
 })
