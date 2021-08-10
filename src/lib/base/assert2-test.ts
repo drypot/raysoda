@@ -2,37 +2,34 @@ import { throws } from 'assert'
 import { assertEmpty, assertNotEmpty, assertPathExists, assertPathNotExists, assertResourceMoved } from './assert2.js'
 
 describe('assertEmpty', () => {
-  it('should work', done => {
+  it('should work', () => {
     assertEmpty(undefined)
     assertEmpty(null)
     assertEmpty({})
     throws(function () {
       assertEmpty({ a: 1 })
     })
-    done()
   })
 })
 
 describe('assertNotEmpty', () => {
-  it('should work', done => {
+  it('should work', () => {
     assertNotEmpty({ a: 1 })
     throws(function () {
       assertNotEmpty({})
     })
-    done()
   })
 })
 
 describe('assertPathExists', () => {
-  it('should work', done => {
+  it('should work', () => {
     assertPathExists('src/lib/base/fixture/test-dummy.txt')
     assertPathNotExists('src/lib/base/fixture/not-exist.txt')
-    done()
   })
 })
 
 describe('assertResourceMoved', () => {
-  it('should work', done => {
+  it('should work', () => {
     assertResourceMoved({
       status: 301,
       header: {
@@ -45,6 +42,5 @@ describe('assertResourceMoved', () => {
         location: '/new302'
       }
     }, '/new302')
-    done()
   })
 })

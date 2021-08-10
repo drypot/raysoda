@@ -27,7 +27,3 @@ class WaterfallRunner {
 export function waterfall(...funcs: WaterfallMember[]): WaterfallRunner {
   return new WaterfallRunner(funcs)
 }
-
-export function setTimeout2(ms: number, callback: () => void) {
-  setTimeout(callback, ms)
-}
