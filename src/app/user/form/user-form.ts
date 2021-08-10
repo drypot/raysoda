@@ -1,5 +1,4 @@
 import { Request } from 'express'
-import { Done } from '../../../lib/base/async2.js'
 import { FormError, newFormError } from '../../../lib/base/error2.js'
 import { UserDB } from '../db/user-db.js'
 
@@ -98,32 +97,23 @@ export function checkUserFormPassword(password: string, errors: FormError[]) {
   }
 }
 
-export function checkUserNameUsable(userdb: UserDB, id: number, name: string, errors: FormError[], done: Done) {
-  userdb.checkNameUsable(id, name, (err, usable) => {
-    if (err) return done(err)
-    if (!usable) {
-      errors.push(NAME_DUPE)
-    }
-    done()
-  })
+export async function checkUserNameUsable(userdb: UserDB, id: number, name: string, errors: FormError[]): Promise<void> {
+  let usable: boolean
+  usable = await userdb.checkNameUsable(id, name)
+  if (!usable) errors.push(NAME_DUPE)
+  usable = await userdb.checkHomeUsable(id, name)
+  if (!usable) errors.push(NAME_DUPE)
 }
 
-export function checkUserHomeUsable(userdb: UserDB, id: number, home: string, errors: FormError[], done: Done) {
-  userdb.checkNameUsable(id, home, (err, usable) => {
-    if (err) return done(err)
-    if (!usable) {
-      errors.push(HOME_DUPE)
-    }
-    done()
-  })
+export async function checkUserHomeUsable(userdb: UserDB, id: number, home: string, errors: FormError[]): Promise<void> {
+  let usable: boolean
+  usable = await userdb.checkNameUsable(id, home)
+  if (!usable) errors.push(HOME_DUPE)
+  usable = await userdb.checkHomeUsable(id, home)
+  if (!usable) errors.push(HOME_DUPE)
 }
 
-export function checkUserEmailUsable(userdb: UserDB, id: number, email: string, errors: FormError[], done: Done) {
-  userdb.checkEmailUsable(id, email, (err, usable) => {
-    if (err) return done(err)
-    if (!usable) {
-      errors.push(EMAIL_DUPE)
-    }
-    done()
-  })
+export async function checkUserEmailUsable(userdb: UserDB, id: number, email: string, errors: FormError[]): Promise<void> {
+  const usable = await userdb.checkEmailUsable(id, email)
+  if (!usable) errors.push(EMAIL_DUPE)
 }

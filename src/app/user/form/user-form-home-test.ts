@@ -7,7 +7,7 @@ describe('UserForm', () => {
 
     it('should pass when valid', () => {
       const errs: FormError[] = []
-      checkUserFormHome('Wonderland', errs)
+      checkUserFormHome('alice', errs)
       expect(errs.length).toBe(0)
     })
 
