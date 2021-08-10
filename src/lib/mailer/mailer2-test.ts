@@ -11,14 +11,17 @@ describe('Mailer', () => {
     mailer.initTransport()
   })
 
-  it('should work', async () => {
+  xit('should work', async () => {
     const mail = {
       from: 'no-reply',
       to: 'drypot@mail.test',
       subject: 'mail server test',
       text: `Hello, ${new Date()}`
     }
-    //await expectAsync(mailer.sendMail(mail)).toBeRejectedWithError('Transport is not initialized.')
+    // 필요할 때만 메일 데몬을 켜고 테스트하도록 한다.
+    // https://github.com/drypot/mac-memo/blob/main/md/mac-postfix-mail-2021.md
+    // $ sudo postfix start
+    // $ sudo postfix stop
     await mailer.sendMail(mail)
   })
 })
