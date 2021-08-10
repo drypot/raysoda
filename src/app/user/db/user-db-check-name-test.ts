@@ -1,8 +1,6 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
-import { waterfall } from '../../../lib/base/async2.js'
 import { UserDB } from './user-db.js'
-import { newUser } from '../entity/user-entity.js'
 import { insertUserDBFixture } from './user-db-fixture.js'
 
 describe('UserDB', () => {
@@ -25,7 +23,7 @@ describe('UserDB', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable(false)
-    await insertUserDBFixture(db)
+    await insertUserDBFixture(udb)
   })
 
   describe('checkNameUsable', () => {

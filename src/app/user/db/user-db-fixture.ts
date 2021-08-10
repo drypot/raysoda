@@ -1,9 +1,11 @@
 import { newUser } from '../entity/user-entity.js'
-import { DB } from '../../../lib/db/db.js'
+import { UserDB } from './user-db.js'
 
-export async function insertUserDBFixture(db: DB): Promise<void> {
-  const objs = [
+export async function insertUserDBFixture(udb: UserDB): Promise<void> {
+  const users = [
     newUser({ id: 1, name: 'Alice Liddell', home: 'alice', email: 'alice@mail.com' }),
   ]
-  await db.insertObjects('user', objs)
+  for (const user of users) {
+    await udb.insertUser(user)
+  }
 }
