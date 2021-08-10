@@ -29,29 +29,28 @@ export class DB {
   query(options: string | QueryOptions, values: any, callback?: queryCallback): Promise<any>;
   query(options: any, values?: any, callback?: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.conn.query(options, values, (err, r) => {
-        if (err) return reject(err)
-        resolve(r)
-      })
+      this.conn.query(
+        options, values,
+        (err, r) => err ? reject(err) : resolve(r)
+      )
     })
   }
 
   close(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!this.conn) return resolve()
-      this.conn.end((err) => {
-        if (err) return reject(err)
-        resolve()
-      })
+      this.conn.end(
+        (err) => err ? reject(err) : resolve()
+      )
     })
   }
 
   changeUser(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.conn.changeUser({ database: this.config.mysqlDatabase }, (err) => {
-        if (err) return reject(err)
-        resolve()
-      })
+      this.conn.changeUser(
+        { database: this.config.mysqlDatabase },
+        (err) => err ? reject(err) : resolve()
+      )
     })
   }
 
