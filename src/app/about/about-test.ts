@@ -25,31 +25,31 @@ describe('about pages', () => {
 
   describe('get /about/site', () => {
     it('should work', async () => {
-      await request.get('/about/site').expect(200)
+      await request.get('/about/site').expect(200).expect(/<title>About/)
     })
   })
 
   describe('get /about/company', () => {
     it('should work', async () => {
-      await request.get('/about/company').expect(200)
+      await request.get('/about/company').expect(200).expect(/<title>Company/)
     })
   })
 
   describe('get /about/ad', () => {
     it('should work', async () => {
-      await request.get('/about/ad').expect(200)
+      await request.get('/about/ad').expect(200).expect(/<title>Advertise/)
     })
   })
 
   describe('get /about/privacy', () => {
     it('should work', async () => {
-      await request.get('/about/privacy').expect(200)
+      await request.get('/about/privacy').expect(200).expect(/<title>Privacy/)
     })
   })
 
   describe('get /about/help', () => {
     it('should work', async () => {
-      await request.get('/about/help').expect(200)
+      await request.get('/about/help').expect(200).expect(/<title>Help/)
     })
   })
 
