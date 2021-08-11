@@ -111,6 +111,10 @@ export class UserDB {
     return r[0].exist === 0
   }
 
+  // 테스트가 없다
+  async updateUserADate(id: number, now: Date) {
+    await this.db.query('update user set adate = ? where id = ?', [now, id])
+  }
 }
 
 function unpackUser(user: User) {
