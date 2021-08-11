@@ -1,4 +1,3 @@
-import { Request } from 'express'
 import { FormError, newFormError } from '../../../lib/base/error2.js'
 import { UserDB } from '../db/user-db.js'
 
@@ -49,71 +48,59 @@ export function newUserForm(params?: Object): UserForm {
   }
 }
 
-export function getUserForm(req: Request): UserForm {
-  const body = req.body
-  return {
-    id: 0,
-    name: String(body.name ?? '').trim(),
-    home: String(body.home ?? '').trim(),
-    email: String(body.email ?? '').trim(),
-    password: String(body.password ?? '').trim(),
-    profile: String(body.profile ?? '').trim(),
-  }
-}
-
 const emailPattern = /^[a-z0-9-_+.]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/i
 
-export function checkUserName(name: string, errors: FormError[]) {
+export function checkUserName(name: string, errs: FormError[]) {
   if (name.length === 0) {
-    errors.push(NAME_EMPTY)
+    errs.push(NAME_EMPTY)
   } else if (name.length > 32) {
-    errors.push(NAME_RANGE)
+    errs.push(NAME_RANGE)
   }
 }
 
-export function checkUserHome(home: string, errors: FormError[]) {
+export function checkUserHome(home: string, errs: FormError[]) {
   if (home.length === 0) {
-    errors.push(HOME_EMPTY)
+    errs.push(HOME_EMPTY)
   } else if (home.length > 32) {
-    errors.push(HOME_RANGE)
+    errs.push(HOME_RANGE)
   }
 }
 
-export function checkUserEmail(email: string, errors: FormError[]) {
+export function checkUserEmail(email: string, errs: FormError[]) {
   if (email.length === 0) {
-    errors.push(EMAIL_EMPTY)
+    errs.push(EMAIL_EMPTY)
   } else if (email.length > 64 || email.length < 8) {
-    errors.push(EMAIL_RANGE)
+    errs.push(EMAIL_RANGE)
   } else if (!emailPattern.test(email)) {
-    errors.push(EMAIL_PATTERN)
+    errs.push(EMAIL_PATTERN)
   }
 }
 
-export function checkUserPassword(password: string, errors: FormError[]) {
+export function checkUserPassword(password: string, errs: FormError[]) {
   if (password.length === 0) {
-    errors.push(PASSWORD_EMPTY)
+    errs.push(PASSWORD_EMPTY)
   } else if (password.length > 32 || password.length < 4) {
-    errors.push(PASSWORD_RANGE)
+    errs.push(PASSWORD_RANGE)
   }
 }
 
-export async function checkUserNameUsable(userdb: UserDB, id: number, name: string, errors: FormError[]): Promise<void> {
+export async function checkUserNameUsable(userdb: UserDB, id: number, name: string, errs: FormError[]): Promise<void> {
   let usable: boolean
   usable = await userdb.checkNameUsable(id, name)
-  if (!usable) errors.push(NAME_DUPE)
+  if (!usable) errs.push(NAME_DUPE)
   usable = await userdb.checkHomeUsable(id, name)
-  if (!usable) errors.push(NAME_DUPE)
+  if (!usable) errs.push(NAME_DUPE)
 }
 
-export async function checkUserHomeUsable(userdb: UserDB, id: number, home: string, errors: FormError[]): Promise<void> {
+export async function checkUserHomeUsable(userdb: UserDB, id: number, home: string, errs: FormError[]): Promise<void> {
   let usable: boolean
   usable = await userdb.checkNameUsable(id, home)
-  if (!usable) errors.push(HOME_DUPE)
+  if (!usable) errs.push(HOME_DUPE)
   usable = await userdb.checkHomeUsable(id, home)
-  if (!usable) errors.push(HOME_DUPE)
+  if (!usable) errs.push(HOME_DUPE)
 }
 
-export async function checkUserEmailUsable(userdb: UserDB, id: number, email: string, errors: FormError[]): Promise<void> {
+export async function checkUserEmailUsable(userdb: UserDB, id: number, email: string, errs: FormError[]): Promise<void> {
   const usable = await userdb.checkEmailUsable(id, email)
-  if (!usable) errors.push(EMAIL_DUPE)
+  if (!usable) errs.push(EMAIL_DUPE)
 }
