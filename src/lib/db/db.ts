@@ -30,8 +30,8 @@ export class DB {
   query(options: any, values?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.conn.query(options, values, (err, r) => {
-        if (err) reject(err)
-        else resolve(r)
+        if (err) return reject(err)
+        resolve(r)
       })
     })
   }

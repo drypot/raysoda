@@ -34,8 +34,8 @@ export class Mailer {
         reject(new Error('Transport is not initialized.'))
       } else {
         this.transport.sendMail(opt, (err) => {
-          if (err) reject(err)
-          else resolve()
+          if (err) return reject(err)
+          resolve()
         })
       }
     })
