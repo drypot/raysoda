@@ -20,8 +20,6 @@ export class Mailer {
     if (this.config.mailServer) {
       this.transport = nodemailer.createTransport({
         host: this.config.mailServer,
-        secure: false,
-        ignoreTLS: true,
         // port 25:  Authentication 이 없어도 된다. 서버간 통신에 사용.
         // port 587: Authentication 과정이 필수로 발생한다.
         port: 25
@@ -35,10 +33,10 @@ export class Mailer {
       if (!this.transport) {
         reject(new Error('Transport is not initialized.'))
       } else {
-        this.transport.sendMail(
-          opt,
-          (err) => err ? reject(err) : resolve()
-        )
+        this.transport.sendMail(opt, (err) => {
+          if (err) reject(err)
+          else resolve()
+        })
       }
     })
   }

@@ -81,9 +81,10 @@ export class Express2 {
   close() {
     return new Promise<void>((resolve, reject) => {
       if (!this.httpServer) return resolve()
-      this.httpServer.close(
-        (err) => err ? reject(err) : resolve()
-      )
+      this.httpServer.close((err) => {
+        if (err) reject(err)
+        else resolve()
+      })
     })
   }
 
