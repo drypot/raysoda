@@ -24,8 +24,6 @@ export class Express2 {
   public autoLogin: ExpressHandler | undefined
   public redirectToLogin: ExpressHandler | undefined
 
-  public logError: boolean
-
   constructor(config: Config) {
     this.config = config
     this.expr1 = express()
@@ -33,7 +31,6 @@ export class Express2 {
     this.httpServer = http.createServer(this.expr1)
 
     this.autoLogin = undefined
-    this.logError = false
     this.redirectToLogin = undefined
 
     this.expr1.disable('x-powered-by')
