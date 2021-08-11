@@ -18,9 +18,9 @@ describe('Express2', () => {
   beforeAll(async () => {
     const config = loadConfig('config/app-test.json')
     web = new Express2(config)
+    await web.start()
     router = web.router
     request = web.spawnRequest()
-    await web.start()
   })
 
   afterAll(async () => {

@@ -19,10 +19,10 @@ describe('Express2 Upload', () => {
   beforeAll(async () => {
     const config = loadConfig('config/app-test.json')
     web = new Express2(config)
+    await web.start()
     router = web.router
     upload = web.upload
     request = web.spawnRequest()
-    await web.start()
   })
 
   afterAll(async () => {
