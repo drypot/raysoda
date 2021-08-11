@@ -8,4 +8,5 @@ export async function insertUserDBFixture(udb: UserDB): Promise<void> {
   for (const user of users) {
     await udb.insertUser(user)
   }
+  udb.setNextUserId(2)
 }

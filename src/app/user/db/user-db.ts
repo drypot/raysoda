@@ -114,5 +114,7 @@ export class UserDB {
 }
 
 function unpackUser(user: User) {
-  user.admin = !!user.admin
+  // admin 컬럼은 bool 타입이고, bool 은 실제로 tinyint(1) 다.
+  // 저장할 때는 true, false 를 사용해도 되지만 읽을 때는 number 가 돌아온다.
+  user.admin = user.admin as unknown === 1
 }
