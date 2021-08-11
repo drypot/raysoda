@@ -28,21 +28,25 @@ describe('about pages', () => {
       await request.get('/about/site').expect(200)
     })
   })
+
   describe('get /about/company', () => {
     it('should work', async () => {
       await request.get('/about/company').expect(200)
     })
   })
+
   describe('get /about/ad', () => {
     it('should work', async () => {
       await request.get('/about/ad').expect(200)
     })
   })
+
   describe('get /about/privacy', () => {
     it('should work', async () => {
       await request.get('/about/privacy').expect(200)
     })
   })
+
   describe('get /about/help', () => {
     it('should work', async () => {
       await request.get('/about/help').expect(200)
