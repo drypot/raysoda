@@ -2,8 +2,6 @@ import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../db/user-db.js'
 import { UserCache } from './user-cache.js'
-import { waterfall } from '../../../lib/base/async2.js'
-import { newUser, User } from '../entity/user-entity.js'
 import { insertUserDBFixture } from '../db/user-db-fixture.js'
 
 describe('UserCache', () => {
