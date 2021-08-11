@@ -53,6 +53,17 @@ describe('UserCache', () => {
     })
   })
 
+  describe('getCachedByEmail', () => {
+    beforeEach(() => {
+      uc.resetCache()
+    })
+    it('should work', async () => {
+      expect(uc.getStrictlyCachedByHome('alice')?.home).toBe(undefined)
+      expect((await uc.getCachedByEmail('alice@mail.test'))?.home).toBe('alice')
+      expect(uc.getStrictlyCachedByHome('alice')?.home).toBe('alice')
+    })
+  })
+
   describe('deleteCache', () => {
     beforeAll(() => {
       uc.resetCache()

@@ -49,6 +49,13 @@ export class UserCache {
     return this.userHomeMap.get(home.toLowerCase())
   }
 
+  async getCachedByEmail(email: string): Promise<User|undefined> {
+    const user = await this.udb.findUserByEmail(email)
+    if (user) this.cache(user)
+    return user
+  }
+
+
   deleteCache(id: number) {
     const user = this.userIdMap.get(id)
     if (user) {
