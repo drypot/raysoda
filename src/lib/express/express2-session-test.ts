@@ -11,20 +11,20 @@ declare module 'express-session' {
 
 describe('Express2', () => {
 
-  let server: Express2
+  let web: Express2
   let router: Router
   let request: SuperAgentTest
 
   beforeAll(async () => {
     const config = loadConfig('config/app-test.json')
-    server = new Express2(config)
-    router = server.router
-    request = server.spawnRequest()
-    await server.start()
+    web = new Express2(config)
+    router = web.router
+    request = web.spawnRequest()
+    await web.start()
   })
 
   afterAll(async () => {
-    await server.close()
+    await web.close()
   })
 
   describe('session', () => {

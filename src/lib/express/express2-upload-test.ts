@@ -11,22 +11,22 @@ describe('Express2 Upload', () => {
   const f1 = 'src/lib/express/fixture/express-upload-f1.txt'
   const f2 = 'src/lib/express/fixture/express-upload-f2.txt'
 
-  let server: Express2
+  let web: Express2
   let router: Router
   let request: SuperAgentTest
   let upload: Multer
 
   beforeAll(async () => {
     const config = loadConfig('config/app-test.json')
-    server = new Express2(config)
-    router = server.router
-    upload = server.upload
-    request = server.spawnRequest()
-    await server.start()
+    web = new Express2(config)
+    router = web.router
+    upload = web.upload
+    request = web.spawnRequest()
+    await web.start()
   })
 
   afterAll(async () => {
-    await server.close()
+    await web.close()
   })
 
   beforeAll(() => {
