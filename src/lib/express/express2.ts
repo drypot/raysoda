@@ -1,4 +1,4 @@
-import express, { Express, NextFunction, Request, Response, Router } from 'express'
+import express, { ErrorRequestHandler, Express, NextFunction, Request, Response, Router } from 'express'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import redis from 'redis'
@@ -22,7 +22,7 @@ export class Express2 {
   public readonly router: Router
 
   public autoLogin: ExpressHandler | undefined
-  public redirectToLogin: ExpressHandler | undefined
+  public redirectToLogin: ErrorRequestHandler | undefined
 
   constructor(config: Config) {
     this.config = config
@@ -154,12 +154,6 @@ export class Express2 {
     this.expr1.use(this.router)
   }
 
-  private setUpRedirectToLoginHandler() {
-    if (this.redirectToLogin) {
-      this.expr1.use(this.redirectToLogin)
-    }
-  }
-
   private setUpBasicAPI() {
     this.expr1.get('/api/hello', function (req, res, done) {
       res.json({
@@ -188,6 +182,14 @@ export class Express2 {
     })
   }
 
+  // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
+  private setUpRedirectToLoginHandler() {
+    if (this.redirectToLogin) {
+      this.expr1.use(this.redirectToLogin)
+    }
+  }
+
+  // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
   private setUpErrorHandler() {
     const _this = this
     this.expr1.use(function (_err: any, req: Request, res: Response, done: NextFunction) {
