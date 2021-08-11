@@ -33,17 +33,17 @@ describe('UserForm', () => {
   describe('checkUserEmailUsable', () => {
     it('should ok when email is not in use', async () => {
       const errs: FormError[] = []
-      await checkUserEmailUsable(udb, 0, 'snow@mail.com', errs)
+      await checkUserEmailUsable(udb, 0, 'snow@mail.test', errs)
       expect(errs.length).toBe(0)
     })
     it('should fail when email is in use', async () => {
       const errs: FormError[] = []
-      await checkUserEmailUsable(udb, 0, 'alice@mail.com', errs)
+      await checkUserEmailUsable(udb, 0, 'alice@mail.test', errs)
       expect(errs).toContain(EMAIL_DUPE)
     })
     it('should ok when email is mine', async () => {
       const errs: FormError[] = []
-      await checkUserEmailUsable(udb, 1, 'alice@mail.com', errs)
+      await checkUserEmailUsable(udb, 1, 'alice@mail.test', errs)
       expect(errs.length).toBe(0)
     })
   })

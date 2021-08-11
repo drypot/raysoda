@@ -25,7 +25,7 @@ describe('UserDB', () => {
     await udb.createTable(false)
 
     const objs = [
-      newUser({ id: 1, name: 'Alice Liddell', home: 'alice', email: 'alice@mail.com' }),
+      newUser({ id: 1, name: 'Alice Liddell', home: 'alice', email: 'alice@mail.test' }),
     ]
     await db.insertObjects('user', objs)
   })
@@ -46,10 +46,10 @@ describe('UserDB', () => {
     it('should work', async () => {
       let user: User | undefined
 
-      user = await udb.findUserByEmail('alice@mail.com')
+      user = await udb.findUserByEmail('alice@mail.test')
       expect(user?.id).toBe(1)
 
-      user = await udb.findUserByEmail('xxx@mail.com')
+      user = await udb.findUserByEmail('xxx@mail.test')
       expect(user?.id).toBe(undefined)
     })
   })

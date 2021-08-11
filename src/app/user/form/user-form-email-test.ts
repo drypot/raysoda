@@ -7,7 +7,7 @@ describe('UserForm', () => {
 
     it('should pass when valid', () => {
       const errs: FormError[] = []
-      checkUserEmail('alice@mail.com', errs)
+      checkUserEmail('alice@mail.test', errs)
       expect(errs.length).toBe(0)
     })
 
@@ -43,22 +43,22 @@ describe('UserForm', () => {
 
     it('should fail with no @', () => {
       const errs: FormError[] = []
-      checkUserEmail('abc.mail.com', errs)
+      checkUserEmail('abc.mail.test', errs)
       expect(errs).toContain(EMAIL_PATTERN)
     })
     it('should fail with *', () => {
       const errs: FormError[] = []
-      checkUserEmail('abc*xyz@mail.com', errs)
+      checkUserEmail('abc*xyz@mail.test', errs)
       expect(errs).toContain(EMAIL_PATTERN)
     })
     it('should pass with -', () => {
       const errs: FormError[] = []
-      checkUserEmail('-a-b-c_d-e-f@mail.com', errs)
+      checkUserEmail('-a-b-c_d-e-f@mail.test', errs)
       expect(errs.length).toBe(0)
     })
     it('should pass with .', () => {
       const errs: FormError[] = []
-      checkUserEmail('develop.bj@mail.com', errs)
+      checkUserEmail('develop.bj@mail.test', errs)
       expect(errs.length).toBe(0)
     })
 

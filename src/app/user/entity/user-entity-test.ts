@@ -14,13 +14,13 @@ describe('User', () => {
     const _user = {
       id: 10,
       name: 'Alice Liddell',
-      email: 'alice@mail.com'
+      email: 'alice@mail.test'
     }
     const user = newUser(_user)
     expect(user).toBeDefined()
     expect(user.id).toBe(10)
     expect(user.name).toBe('Alice Liddell')
-    expect(user.email).toBe('alice@mail.com')
+    expect(user.email).toBe('alice@mail.test')
     expect(user.status).toBe('v')
   })
 

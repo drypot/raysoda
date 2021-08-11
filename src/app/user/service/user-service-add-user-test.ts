@@ -43,7 +43,7 @@ describe('UserService', () => {
       const form = newUserForm({
         name: 'Jon Snow',
         home: 'jon',
-        email: 'jon@mail.com',
+        email: 'jon@mail.test',
         password: '1234',
         profile: '',
       })
@@ -54,7 +54,7 @@ describe('UserService', () => {
       if (!user2) throw new Error('user not found')
       expect(user2.name).toBe('Jon Snow')
       expect(user2.home).toBe('jon')
-      expect(user2.email).toBe('jon@mail.com')
+      expect(user2.email).toBe('jon@mail.test')
       expect(await checkPasswordHash('1234', user2.hash)).toBe(true)
       expect(user2.status).toBe('v')
       expect(user2.admin).toBe(false)
@@ -106,7 +106,7 @@ describe('UserService', () => {
     })
     it('should fail when email is invalid', async () => {
       try {
-        const form = newUserForm({ email: 'abc.mail.com', })
+        const form = newUserForm({ email: 'abc.mail.test', })
         await addUserService(udb, form)
         fail('should throw form error')
       } catch (errs) {
@@ -115,7 +115,7 @@ describe('UserService', () => {
     })
     it('should fail when email is in use', async () => {
       try {
-        const form = newUserForm({ email: 'alice@mail.com', })
+        const form = newUserForm({ email: 'alice@mail.test', })
         await addUserService(udb, form)
         fail('should throw form error')
       } catch (errs) {

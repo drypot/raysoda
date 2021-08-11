@@ -28,15 +28,15 @@ describe('UserDB', () => {
 
   describe('checkEmailUsable', () => {
     it('should ok when email is not in use', async () => {
-      const usable = await udb.checkEmailUsable(0, 'snow@mail.com')
+      const usable = await udb.checkEmailUsable(0, 'snow@mail.test')
       expect(usable).toBe(true)
     })
     it('should fail when email is in use', async () => {
-      const usable = await udb.checkEmailUsable(0, 'alice@mail.com')
+      const usable = await udb.checkEmailUsable(0, 'alice@mail.test')
       expect(usable).toBe(false)
     })
     it('should ok when email is mine', async () => {
-      const usable = await udb.checkEmailUsable(1, 'alice@mail.com')
+      const usable = await udb.checkEmailUsable(1, 'alice@mail.test')
       expect(usable).toBe(true)
     })
   })

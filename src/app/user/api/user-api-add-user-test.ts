@@ -65,7 +65,7 @@ describe('UserAPI', () => {
 
   describe('post /api/user', () => {
     it('should work for valid new', async () => {
-      const form = { name: 'Jon Snow', email: 'jon@mail.com', password: '1234' }
+      const form = { name: 'Jon Snow', email: 'jon@mail.test', password: '1234' }
       const res = await request.post('/api/user').send(form)
       const id = res.body.id as number
       const user2 = await udb.findUserById(id)
@@ -81,7 +81,7 @@ describe('UserAPI', () => {
       expect(res.body.err as FormError[]).toContain(PASSWORD_EMPTY)
     })
     it('should fail when fields are in use', async () => {
-      const form = { name: 'Alice Liddell', email: 'alice@mail.com', password: '1234' }
+      const form = { name: 'Alice Liddell', email: 'alice@mail.test', password: '1234' }
       const res = await request.post('/api/user').send(form)
       expect(res.body.errType).toBe('array')
       expect(res.body.err as FormError[]).toContain(NAME_DUPE)
@@ -89,7 +89,7 @@ describe('UserAPI', () => {
       expect(res.body.err as FormError[]).toContain(EMAIL_DUPE)
     })
     it('should fail when email is invalid', async () => {
-      const form = { name: 'Han Solo', email: 'solo.mail.com', password: '1234' }
+      const form = { name: 'Han Solo', email: 'solo.mail.test', password: '1234' }
       const res = await request.post('/api/user').send(form)
       expect(res.body.errType).toBe('array')
       expect(res.body.err as FormError[]).toContain(EMAIL_PATTERN)
