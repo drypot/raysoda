@@ -63,7 +63,7 @@ export function getUserForm(req: Request): UserForm {
 
 const emailPattern = /^[a-z0-9-_+.]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/i
 
-export function checkUserFormName(name: string, errors: FormError[]) {
+export function checkUserName(name: string, errors: FormError[]) {
   if (name.length === 0) {
     errors.push(NAME_EMPTY)
   } else if (name.length > 32) {
@@ -71,7 +71,7 @@ export function checkUserFormName(name: string, errors: FormError[]) {
   }
 }
 
-export function checkUserFormHome(home: string, errors: FormError[]) {
+export function checkUserHome(home: string, errors: FormError[]) {
   if (home.length === 0) {
     errors.push(HOME_EMPTY)
   } else if (home.length > 32) {
@@ -79,7 +79,7 @@ export function checkUserFormHome(home: string, errors: FormError[]) {
   }
 }
 
-export function checkUserFormEmail(email: string, errors: FormError[]) {
+export function checkUserEmail(email: string, errors: FormError[]) {
   if (email.length === 0) {
     errors.push(EMAIL_EMPTY)
   } else if (email.length > 64 || email.length < 8) {
@@ -89,7 +89,7 @@ export function checkUserFormEmail(email: string, errors: FormError[]) {
   }
 }
 
-export function checkUserFormPassword(password: string, errors: FormError[]) {
+export function checkUserPassword(password: string, errors: FormError[]) {
   if (password.length === 0) {
     errors.push(PASSWORD_EMPTY)
   } else if (password.length > 32 || password.length < 4) {
