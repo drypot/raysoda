@@ -1,11 +1,9 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
-import { waterfall } from '../../../lib/base/async2.js'
-import { newUser } from '../entity/user-entity.js'
 import { UserDB } from '../db/user-db.js'
 import { checkUserNameUsable, NAME_DUPE } from './user-form.js'
 import { FormError } from '../../../lib/base/error2.js'
-import { insertUserDBFixture } from '../db/user-db-fixture.js'
+import { insertUserDBFixture1 } from '../db/user-db-fixture.js'
 
 describe('UserForm', () => {
 
@@ -27,34 +25,34 @@ describe('UserForm', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable(false)
-    await insertUserDBFixture(udb)
+    await insertUserDBFixture1(udb)
   })
 
   describe('checkUserNameUsable', () => {
-    it('should ok when name is not in use', async () => {
+    it('should ok when one entity', async () => {
       const errs: FormError[] = []
-      await checkUserNameUsable(udb, 0, 'Jon', errs)
+      await checkUserNameUsable(udb, 1, 'User Name 1', errs)
+      expect(errs.length).toBe(0)
+    })
+    it('should ok when one entity 2', async () => {
+      const errs: FormError[] = []
+      await checkUserNameUsable(udb, 1, 'user1', errs)
+      expect(errs.length).toBe(0)
+    })
+    it('should ok when valid', async () => {
+      const errs: FormError[] = []
+      await checkUserNameUsable(udb, 0, 'alice', errs)
       expect(errs.length).toBe(0)
     })
     it('should fail when name is in use', async () => {
       const errs: FormError[] = []
-      await checkUserNameUsable(udb, 0, 'Alice Liddell', errs)
+      await checkUserNameUsable(udb, 0, 'User Name 1', errs)
       expect(errs).toContain(NAME_DUPE)
     })
     it('should fail when name is in use 2', async () => {
       const errs: FormError[] = []
-      await checkUserNameUsable(udb, 0, 'alice', errs)
+      await checkUserNameUsable(udb, 0, 'user1', errs)
       expect(errs).toContain(NAME_DUPE)
-    })
-    it('should ok when name is mine', async () => {
-      const errs: FormError[] = []
-      await checkUserNameUsable(udb, 1, 'Alice Liddell', errs)
-      expect(errs.length).toBe(0)
-    })
-    it('should ok when name is mine 2', async () => {
-      const errs: FormError[] = []
-      await checkUserNameUsable(udb, 1, 'alice', errs)
-      expect(errs.length).toBe(0)
     })
   })
 

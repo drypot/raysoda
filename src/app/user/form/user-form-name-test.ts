@@ -5,9 +5,9 @@ describe('UserForm', () => {
 
   describe('checkUserFormName', () => {
 
-    it('should pass when valid', () => {
+    it('should ok when valid', () => {
       const errs: FormError[] = []
-      checkUserName('alice', errs)
+      checkUserName('user1', errs)
       expect(errs.length).toBe(0)
     })
 
@@ -17,7 +17,7 @@ describe('UserForm', () => {
       expect(errs).toContain(NAME_EMPTY)
     })
 
-    it('should pass when length 32', () => {
+    it('should ok when length 32', () => {
       const errs: FormError[] = []
       const name = 'c'.repeat(32)
       checkUserName(name, errs)

@@ -5,9 +5,9 @@ describe('UserForm', () => {
 
   describe('checkUserFormEmail', () => {
 
-    it('should pass when valid', () => {
+    it('should ok when valid', () => {
       const errs: FormError[] = []
-      checkUserEmail('alice@mail.test', errs)
+      checkUserEmail('user1@mail.test', errs)
       expect(errs.length).toBe(0)
     })
 
@@ -23,12 +23,12 @@ describe('UserForm', () => {
       expect(errs.length).toBe(1)
       expect(errs).toContain(EMAIL_RANGE)
     })
-    it('should pass when length 8', () => {
+    it('should ok when length 8', () => {
       const errs: FormError[] = []
       checkUserEmail('12@45.78', errs)
       expect(errs.length).toBe(0)
     })
-    it('should pass when length 64', () => {
+    it('should ok when length 64', () => {
       const errs: FormError[] = []
       const email = '123@567.90' + 'c'.repeat(54)
       checkUserEmail(email, errs)
@@ -51,12 +51,12 @@ describe('UserForm', () => {
       checkUserEmail('abc*xyz@mail.test', errs)
       expect(errs).toContain(EMAIL_PATTERN)
     })
-    it('should pass with -', () => {
+    it('should ok with -', () => {
       const errs: FormError[] = []
       checkUserEmail('-a-b-c_d-e-f@mail.test', errs)
       expect(errs.length).toBe(0)
     })
-    it('should pass with .', () => {
+    it('should ok with .', () => {
       const errs: FormError[] = []
       checkUserEmail('develop.bj@mail.test', errs)
       expect(errs.length).toBe(0)
