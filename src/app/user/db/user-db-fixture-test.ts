@@ -1,7 +1,6 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from './user-db.js'
-import { newUser, User } from '../entity/user-entity.js'
 import { insertUserDBFixture1, insertUserDBFixture4 } from './user-db-fixture.js'
 
 describe('UserDB', () => {
@@ -29,7 +28,7 @@ describe('UserDB', () => {
     })
     it('user1 should exist', async () => {
       let user = await udb.findUserById(1)
-      if (!user) throw new Error("User is empty")
+      if (!user) throw new Error('User is empty')
       expect(user.id).toBe(1)
       expect(user.name).toBe('User Name 1')
       expect(user.home).toBe('user1')
@@ -44,7 +43,7 @@ describe('UserDB', () => {
     })
     it('user1 should exist', async () => {
       let user = await udb.findUserById(1)
-      if (!user) throw new Error("User is empty")
+      if (!user) throw new Error('User is empty')
       expect(user.id).toBe(1)
       expect(user.name).toBe('User Name 1')
       expect(user.home).toBe('user1')
@@ -52,7 +51,7 @@ describe('UserDB', () => {
     })
     it('user3 should exist', async () => {
       let user = await udb.findUserById(3)
-      if (!user) throw new Error("User is empty")
+      if (!user) throw new Error('User is empty')
       expect(user.id).toBe(3)
       expect(user.name).toBe('User Name 3')
       expect(user.home).toBe('user3')
@@ -60,7 +59,7 @@ describe('UserDB', () => {
     })
     it('admin should exist', async () => {
       let user = await udb.findUserById(4)
-      if (!user) throw new Error("User is empty")
+      if (!user) throw new Error('User is empty')
       expect(user.id).toBe(4)
       expect(user.name).toBe('Admin Name')
       expect(user.home).toBe('admin')
