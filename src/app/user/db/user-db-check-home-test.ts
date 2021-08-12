@@ -32,7 +32,7 @@ describe('UserDB', () => {
       expect(usable).toBe(true)
     })
     it('should ok when valid', async () => {
-      const usable = await udb.checkHomeUsable(0, 'alice')
+      const usable = await udb.checkHomeUsable(0, 'userx')
       expect(usable).toBe(true)
     })
     it('should fail when in use', async () => {

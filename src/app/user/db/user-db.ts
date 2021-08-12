@@ -1,6 +1,8 @@
 import { DB } from '../../../lib/db/db.js'
 import { User } from '../entity/user-entity.js'
 
+export const MSG_USER_UNDEFINED = 'User is undefined'
+
 export class UserDB {
 
   private db: DB

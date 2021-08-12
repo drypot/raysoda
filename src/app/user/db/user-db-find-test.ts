@@ -45,11 +45,9 @@ describe('UserDB', () => {
   describe('findUserByEmail', () => {
     it('should work', async () => {
       let user: User | undefined
-
       user = await udb.findUserByEmail('user1@mail.test')
       expect(user?.id).toBe(1)
-
-      user = await udb.findUserByEmail('alice@mail.test')
+      user = await udb.findUserByEmail('userx@mail.test')
       expect(user?.id).toBe(undefined)
     })
   })
@@ -57,11 +55,9 @@ describe('UserDB', () => {
   describe('findUserByHome', () => {
     it('should work', async () => {
       let user: User | undefined
-
       user = await udb.findUserByHome('user1')
       expect(user?.id).toBe(1)
-
-      user = await udb.findUserByHome('alice')
+      user = await udb.findUserByHome('userx')
       expect(user?.id).toBe(undefined)
     })
   })
