@@ -1,4 +1,4 @@
-import { checkPasswordHash, makePasswordHash } from './user-service.js'
+import { checkPasswordHash, makePasswordHash } from './user-service-hash.js'
 
 describe('makePasswordHash/checkPassword', () => {
 

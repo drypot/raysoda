@@ -1,36 +1,17 @@
 import {
-  checkUserEmailUsable,
   checkUserEmail,
+  checkUserEmailUsable,
   checkUserHome,
-  checkUserName,
-  checkUserPassword,
   checkUserHomeUsable,
+  checkUserName,
   checkUserNameUsable,
+  checkUserPassword,
   UserForm
 } from '../form/user-form.js'
 import { newUser } from '../entity/user-entity.js'
 import { FormError } from '../../../lib/base/error2.js'
 import { UserDB } from '../db/user-db.js'
-import bcryptjs from 'bcryptjs'
-
-export async function makePasswordHash(password: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    bcryptjs.hash(password, 10, (err, hash) => {
-      if (err) return reject(err)
-      resolve(hash)
-    })
-  })
-}
-
-export async function checkPasswordHash(password: string, hash: string) {
-  return new Promise<boolean>((resolve, reject) => {
-    bcryptjs.compare(password, hash, (err, success) => {
-        if (err) return reject(err)
-        resolve(success)
-      }
-    )
-  })
-}
+import { makePasswordHash } from './user-service-hash.js'
 
 export async function addUserService(userdb: UserDB, form: UserForm) {
   const errs = [] as FormError[]
