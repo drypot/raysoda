@@ -11,10 +11,9 @@ import {
 import { newUser } from '../entity/user-entity.js'
 import { FormError } from '../../../lib/base/error2.js'
 import { UserDB } from '../db/user-db.js'
-import { makePasswordHash } from './user-service-hash.js'
+import { makePasswordHash } from '../entity/user-password.js'
 
-export async function addUserService(userdb: UserDB, form: UserForm) {
-  const errs = [] as FormError[]
+export async function registerUser(userdb: UserDB, form: UserForm, errs: FormError[]) {
   checkUserName(form.name, errs)
   checkUserHome(form.home, errs)
   checkUserEmail(form.email, errs)
@@ -22,16 +21,14 @@ export async function addUserService(userdb: UserDB, form: UserForm) {
   await checkUserNameUsable(userdb, 0, form.name, errs)
   await checkUserHomeUsable(userdb, 0, form.home, errs)
   await checkUserEmailUsable(userdb, 0, form.email, errs)
-  if (errs.length > 0) throw errs
-
+  if (errs.length > 0) return
   const user = newUser()
   user.id = userdb.getNextUserId()
   user.name = form.name
   user.home = form.home
   user.email = form.email
   user.profile = form.profile
-  const hash = await makePasswordHash(form.password)
-  user.hash = hash
+  user.hash = await makePasswordHash(form.password)
   await userdb.insertUser(user)
   return user
 }
