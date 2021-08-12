@@ -13,6 +13,8 @@ export class UserDB {
     this.nextUserId = 0
   }
 
+  // Table
+
   async createTable(createIndex: boolean = true) {
     const q =
       'create table if not exists user(' +
@@ -55,6 +57,8 @@ export class UserDB {
     await this.db.query('drop table if exists user')
   }
 
+  // Next User ID
+
   getNextUserId() {
     return this.nextUserId++
   }
@@ -62,6 +66,8 @@ export class UserDB {
   setNextUserId(nextId: number) {
     this.nextUserId = nextId
   }
+
+  // Query
 
   async insertUser(user: User) {
     await this.db.query('insert into user set ?', user)
@@ -117,6 +123,64 @@ export class UserDB {
   async updateUserADate(id: number, now: Date) {
     await this.db.query('update user set adate = ? where id = ?', [now, id])
   }
+
+  // Cache
+
+  private userIdMap = new Map
+  private userHomeMap = new Map
+
+  resetCache() {
+    this.userIdMap = new Map
+    this.userHomeMap = new Map
+  }
+
+  cache(user: User) {
+    this.userIdMap.set(user.id, user)
+    this.userHomeMap.set(user.home.toLowerCase(), user)
+  }
+
+  async getCachedById(id: number): Promise<User|undefined> {
+    let user = this.userIdMap.get(id)
+    if (user) {
+      return user
+    }
+    user = await this.findUserById(id)
+    if (user) this.cache(user)
+    return user
+  }
+
+  getStrictlyCachedById(id: number): User | undefined {
+    return this.userIdMap.get(id)
+  }
+
+  async getCachedByIdByHome(home: string): Promise<User|undefined> {
+    let user = this.userHomeMap.get(home.toLowerCase())
+    if (user) {
+      return user
+    }
+    user = await this.findUserByHome(home)
+    if (user) this.cache(user)
+    return user
+  }
+
+  getStrictlyCachedByIdByHome(home: string): User | undefined {
+    return this.userHomeMap.get(home.toLowerCase())
+  }
+
+  async getCachedByIdByEmail(email: string): Promise<User|undefined> {
+    const user = await this.findUserByEmail(email)
+    if (user) this.cache(user)
+    return user
+  }
+
+  deleteCache(id: number) {
+    const user = this.userIdMap.get(id)
+    if (user) {
+      this.userIdMap.delete(id)
+      this.userHomeMap.delete(user.home.toLowerCase())
+    }
+  }
+
 }
 
 function unpackUser(user: User) {
