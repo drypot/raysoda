@@ -36,7 +36,7 @@ describe('UserForm', () => {
     })
     it('should ok when valid', async () => {
       const errs: FormError[] = []
-      await checkUserEmailUsable(udb, 0, 'alice@mail.test', errs)
+      await checkUserEmailUsable(udb, 0, 'userx@mail.test', errs)
       expect(errs.length).toBe(0)
     })
     it('should fail when in use', async () => {
