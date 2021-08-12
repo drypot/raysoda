@@ -32,7 +32,7 @@ describe('UserDB', () => {
       expect(usable).toBe(true)
     })
     it('should ok when valid', async () => {
-      const usable = await udb.checkEmailUsable(0, 'snow@mail.test')
+      const usable = await udb.checkEmailUsable(0, 'alice@mail.test')
       expect(usable).toBe(true)
     })
     it('should fail when in use', async () => {
