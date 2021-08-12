@@ -23,31 +23,31 @@ describe('DB', () => {
     })
     it('should work', async () => {
       const objs = [
-        { id: 1, name: 'Alice' },
-        { id: 2, name: 'Jon' },
-        { id: 3, name: 'Will' },
+        { id: 1, name: 'user1' },
+        { id: 2, name: 'user2' },
+        { id: 3, name: 'user3' },
       ]
       await db.insertObjects('table1', objs)
       const r = await db.query('select * from table1 order by id')
       expect(r.length).toBe(3)
       expect(r[0].id).toBe(1)
-      expect(r[0].name).toBe('Alice')
+      expect(r[0].name).toBe('user1')
       expect(r[1].id).toBe(2)
-      expect(r[1].name).toBe('Jon')
+      expect(r[1].name).toBe('user2')
       expect(r[2].id).toBe(3)
-      expect(r[2].name).toBe('Will')
+      expect(r[2].name).toBe('user3')
     })
     it('should stop at invalid object', async () => {
       const objs = [
-        { id: 1, name: 'Alice' },
-        { id: 2, email: 'Jon' },
-        { id: 3, name: 'Will' },
+        { id: 1, name: 'user1' },
+        { id: 2, email: 'user2' },
+        { id: 3, name: 'user3' },
       ]
       await expectAsync(db.insertObjects('table1', objs)).toBeRejected()
       const r = await db.query('select * from table1 order by id')
       expect(r.length).toBe(1)
       expect(r[0].id).toBe(1)
-      expect(r[0].name).toBe('Alice')
+      expect(r[0].name).toBe('user1')
     })
   })
 
