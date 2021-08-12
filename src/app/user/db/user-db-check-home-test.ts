@@ -1,7 +1,7 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from './user-db.js'
-import { insertUserDBFixture } from './user-db-fixture.js'
+import { insertUserDBFixture1 } from './user-db-fixture.js'
 
 describe('UserDB', () => {
 
@@ -23,21 +23,21 @@ describe('UserDB', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable(false)
-    await insertUserDBFixture(udb)
+    await insertUserDBFixture1(udb)
   })
 
   describe('checkHomeUsable', () => {
-    it('should ok when name is not in use', async () => {
+    it('should ok when one entity', async () => {
+      const usable = await udb.checkHomeUsable(1, 'user1')
+      expect(usable).toBe(true)
+    })
+    it('should ok when valid', async () => {
       const usable = await udb.checkHomeUsable(0, 'jon')
       expect(usable).toBe(true)
     })
-    it('should fail when name is in use', async () => {
-      const usable = await udb.checkHomeUsable(0, 'alice')
+    it('should fail when in use', async () => {
+      const usable = await udb.checkHomeUsable(0, 'user1')
       expect(usable).toBe(false)
-    })
-    it('should ok when name is mine', async () => {
-      const usable = await udb.checkHomeUsable(1, 'alice')
-      expect(usable).toBe(true)
     })
   })
 

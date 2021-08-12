@@ -13,14 +13,14 @@ describe('User', () => {
   it('can be created 2', () => {
     const _user = {
       id: 10,
-      name: 'Alice Liddell',
-      email: 'alice@mail.test'
+      name: 'User Name 1',
+      email: 'user1@mail.test'
     }
     const user = newUser(_user)
     expect(user).toBeDefined()
     expect(user.id).toBe(10)
-    expect(user.name).toBe('Alice Liddell')
-    expect(user.email).toBe('alice@mail.test')
+    expect(user.name).toBe('User Name 1')
+    expect(user.email).toBe('user1@mail.test')
     expect(user.status).toBe('v')
   })
 

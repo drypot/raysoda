@@ -1,7 +1,7 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from './user-db.js'
-import { insertUserDBFixture } from './user-db-fixture.js'
+import { insertUserDBFixture1 } from './user-db-fixture.js'
 
 describe('UserDB', () => {
 
@@ -23,21 +23,21 @@ describe('UserDB', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable(false)
-    await insertUserDBFixture(udb)
+    await insertUserDBFixture1(udb)
   })
 
   describe('checkEmailUsable', () => {
-    it('should ok when email is not in use', async () => {
+    it('should ok when one entity', async () => {
+      const usable = await udb.checkEmailUsable(1, 'user1@mail.test')
+      expect(usable).toBe(true)
+    })
+    it('should ok when valid', async () => {
       const usable = await udb.checkEmailUsable(0, 'snow@mail.test')
       expect(usable).toBe(true)
     })
-    it('should fail when email is in use', async () => {
-      const usable = await udb.checkEmailUsable(0, 'alice@mail.test')
+    it('should fail when in use', async () => {
+      const usable = await udb.checkEmailUsable(0, 'user1@mail.test')
       expect(usable).toBe(false)
-    })
-    it('should ok when email is mine', async () => {
-      const usable = await udb.checkEmailUsable(1, 'alice@mail.test')
-      expect(usable).toBe(true)
     })
   })
 

@@ -2,7 +2,7 @@ import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../db/user-db.js'
 import { UserCache } from './user-cache.js'
-import { insertUserDBFixture } from '../db/user-db-fixture.js'
+import { insertUserDBFixture1 } from '../db/user-db-fixture.js'
 
 describe('UserCache', () => {
 
@@ -26,7 +26,7 @@ describe('UserCache', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable(false)
-    await insertUserDBFixture(udb)
+    await insertUserDBFixture1(udb)
   })
 
   describe('getCached', () => {
@@ -45,9 +45,9 @@ describe('UserCache', () => {
       uc.resetCache()
     })
     it('should work', async () => {
-      expect(uc.getStrictlyCachedByHome('alice')?.home).toBe(undefined)
-      expect((await uc.getCachedByHome('alice'))?.home).toBe('alice')
-      expect(uc.getStrictlyCachedByHome('alice')?.home).toBe('alice')
+      expect(uc.getStrictlyCachedByHome('user1')?.home).toBe(undefined)
+      expect((await uc.getCachedByHome('user1'))?.home).toBe('user1')
+      expect(uc.getStrictlyCachedByHome('user1')?.home).toBe('user1')
     })
   })
 
@@ -56,9 +56,9 @@ describe('UserCache', () => {
       uc.resetCache()
     })
     it('should work', async () => {
-      expect(uc.getStrictlyCachedByHome('alice')?.home).toBe(undefined)
-      expect((await uc.getCachedByEmail('alice@mail.test'))?.home).toBe('alice')
-      expect(uc.getStrictlyCachedByHome('alice')?.home).toBe('alice')
+      expect(uc.getStrictlyCachedByHome('user1')?.home).toBe(undefined)
+      expect((await uc.getCachedByEmail('user1@mail.test'))?.home).toBe('user1')
+      expect(uc.getStrictlyCachedByHome('user1')?.home).toBe('user1')
     })
   })
 
