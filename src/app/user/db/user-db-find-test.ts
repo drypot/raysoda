@@ -25,7 +25,7 @@ describe('UserDB', () => {
     await udb.createTable(false)
 
     const objs = [
-      newUser({ id: 1, name: 'User Name 1', home: 'user1', email: 'user1@mail.test' }),
+      newUser({ id: 1, name: 'User 1', home: 'user1', email: 'user1@mail.test' }),
     ]
     await db.insertObjects('user', objs)
   })

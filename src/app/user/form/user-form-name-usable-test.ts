@@ -31,7 +31,7 @@ describe('UserForm', () => {
   describe('checkUserNameUsable', () => {
     it('should ok when one entity', async () => {
       const errs: FormError[] = []
-      await checkUserNameUsable(udb, 1, 'User Name 1', errs)
+      await checkUserNameUsable(udb, 1, 'User 1', errs)
       expect(errs.length).toBe(0)
     })
     it('should ok when one entity 2', async () => {
@@ -46,7 +46,7 @@ describe('UserForm', () => {
     })
     it('should fail when name is in use', async () => {
       const errs: FormError[] = []
-      await checkUserNameUsable(udb, 0, 'User Name 1', errs)
+      await checkUserNameUsable(udb, 0, 'User 1', errs)
       expect(errs).toContain(NAME_DUPE)
     })
     it('should fail when name is in use 2', async () => {

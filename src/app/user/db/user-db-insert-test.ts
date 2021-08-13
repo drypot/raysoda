@@ -31,7 +31,7 @@ describe('UserDB', () => {
       user = await udb.findUserById(1)
       expect(user?.id).toBe(undefined)
 
-      const user2 = newUser({ id: 123, name: 'User Name 1', home: 'user1', email: 'user1@mail.test' })
+      const user2 = newUser({ id: 123, name: 'User 1', home: 'user1', email: 'user1@mail.test' })
       await udb.insertUser(user2)
 
       user = await udb.findUserById(123)

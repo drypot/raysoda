@@ -31,7 +31,7 @@ describe('UserForm', () => {
   describe('checkUserHomeUsable', () => {
     it('should ok when one entity', async () => {
       const errs: FormError[] = []
-      await checkUserHomeUsable(udb, 1, 'User Name 1', errs)
+      await checkUserHomeUsable(udb, 1, 'User 1', errs)
       expect(errs.length).toBe(0)
     })
     it('should ok when one entity 2', async () => {
@@ -51,7 +51,7 @@ describe('UserForm', () => {
     })
     it('should fail when is in use 2', async () => {
       const errs: FormError[] = []
-      await checkUserHomeUsable(udb, 0, 'User Name 1', errs)
+      await checkUserHomeUsable(udb, 0, 'User 1', errs)
       expect(errs).toContain(HOME_DUPE)
     })
   })

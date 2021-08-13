@@ -42,14 +42,14 @@ describe('UserService', () => {
   describe('registerUser', () => {
     it('should work when form valid', async () => {
       const form = newUserForm({
-        name: 'User Name X', home: 'userx', email: 'userx@mail.test', password: '1234', profile: '',
+        name: 'User X', home: 'userx', email: 'userx@mail.test', password: '1234', profile: '',
       })
       const errs = [] as FormError[]
       let user = await registerUser(udb, form, errs)
       if (!user) throw new Error(MSG_USER_UNDEFINED)
       const user2 = await udb.findUserById(user.id)
       if (!user2) throw new Error(MSG_USER_UNDEFINED)
-      expect(user2.name).toBe('User Name X')
+      expect(user2.name).toBe('User X')
       expect(user2.home).toBe('userx')
       expect(user2.email).toBe('userx@mail.test')
       expect(await checkPasswordHash('1234', user2.hash)).toBe(true)
@@ -70,7 +70,7 @@ describe('UserService', () => {
     })
     it('should fail when name is in use', async () => {
       const errs = [] as FormError[]
-      const form = newUserForm({ name: 'User Name 1', })
+      const form = newUserForm({ name: 'User 1', })
       await registerUser(udb, form, errs)
       expect(errs).toContain(NAME_DUPE)
     })

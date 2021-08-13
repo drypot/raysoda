@@ -28,15 +28,15 @@ describe('UserDB', () => {
 
   describe('checkNameUsable', () => {
     it('should ok when one entity', async () => {
-      const usable = await udb.checkNameUsable(1, 'User Name 1')
+      const usable = await udb.checkNameUsable(1, 'User 1')
       expect(usable).toBe(true)
     })
     it('should ok when valid', async () => {
-      const usable = await udb.checkNameUsable(0, 'User Name X')
+      const usable = await udb.checkNameUsable(0, 'User X')
       expect(usable).toBe(true)
     })
     it('should fail when in use', async () => {
-      const usable = await udb.checkNameUsable(0, 'User Name 1')
+      const usable = await udb.checkNameUsable(0, 'User 1')
       expect(usable).toBe(false)
     })
   })
