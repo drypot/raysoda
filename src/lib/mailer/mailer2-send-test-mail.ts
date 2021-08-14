@@ -2,17 +2,13 @@ import { Mailer } from './mailer2.js'
 import { loadConfig } from '../../app/config/config.js'
 import * as os from 'os'
 
-if (!process.argv[2]) {
-  throw new Error('config not found')
-}
-
 const config = loadConfig(process.argv[2])
 const mailer = new Mailer(config)
 mailer.initTransport()
 
 const mail = {
   from: 'no-reply@raysoda.com',
-  to: 'drypot@gmail.com',
+  to: process.argv[3],
   subject: 'mail server test from ' + os.hostname(),
   text: `Hello, ${new Date()}`
 }

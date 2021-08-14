@@ -4,7 +4,8 @@ import { Config } from '../../app/config/config.js'
 import Mail from 'nodemailer/lib/mailer'
 
 export class Mailer {
-  private config: Config
+
+  public config: Config
   private transport: ReturnType<typeof createTransport> | undefined
 
   constructor(config: Config) {

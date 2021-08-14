@@ -1,12 +1,10 @@
-import mysql, { Connection, Query, queryCallback, QueryOptions } from 'mysql'
+import mysql, { Connection, Query, QueryOptions } from 'mysql'
 import { Config } from '../../app/config/config.js'
-import { Done } from '../base/async2.js'
 
 export class DB {
 
-  private config: Config
+  public config: Config
   private readonly conn: Connection
-  public droppable
 
   constructor(config: Config) {
     this.config = config
@@ -21,7 +19,6 @@ export class DB {
       // 다른 정보가 BLOB 으로 오면 구분할 수가 없다.
       // typeCast: typeCast,
     })
-    this.droppable = this.config.dev
   }
 
   query(query: Query): Promise<any>;
@@ -64,7 +61,7 @@ export class DB {
   }
 
   async dropDatabase() {
-    if (!this.droppable) throw (new Error('can not drop in production mode.'))
+    if (!this.config.dev) throw (new Error('can not drop in production mode.'))
     await this.query('drop database if exists ??', this.config.mysqlDatabase)
   }
 

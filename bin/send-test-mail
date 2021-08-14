@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
 
 function show_usage {
-    echo "send-test-mail [dev|live]"
+    echo "usage: send-test-mail config/app-test.json drypot@mail.test"
     exit 1
 }
 
-if [ "$1" = dev ]; then
-    CONFIG=config/app-test.json
-elif [ "$1" = live ]; then
-    CONFIG=config-live/raysoda-live.json
-else
+if [ $# -lt 2 ]; then
     show_usage
 fi
 
-node dist/lib/mailer/mailer2-send-test-mail.js $CONFIG
+node dist/lib/mailer/mailer2-send-test-mail.js "$@"

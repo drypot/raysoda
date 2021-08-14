@@ -1,11 +1,13 @@
 import { DB } from './db.js'
-import { Done } from '../base/async2.js'
+import { Config } from '../../app/config/config.js'
 
 export class ValueDB {
 
+  public config: Config
   private db: DB
 
   constructor(db: DB) {
+    this.config = db.config
     this.db = db
   }
 
@@ -20,7 +22,7 @@ export class ValueDB {
   }
 
   async dropTable() {
-    if (!this.db.droppable) throw new Error('can not drop in production mode.')
+    if (!this.config.dev) throw new Error('can not drop in production mode.')
     await this.db.query('drop table if exists persist')
   }
 

@@ -15,7 +15,7 @@ type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 
 export class Express2 {
 
-  private readonly config: Config
+  public config: Config
   private readonly httpServer: http.Server
   private readonly expr1: Express
   private multer: Multer | undefined
@@ -245,7 +245,7 @@ export function deleteUpload(handler: (req: Request, res: Response) => Promise<v
           }
         }
       })
-    }
+  }
 }
 
 export function toCallback(handler: (req: Request, res: Response) => Promise<void>) {

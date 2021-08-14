@@ -1,14 +1,17 @@
 import { DB } from '../../../lib/db/db.js'
 import { User } from '../entity/user-entity.js'
+import { Config } from '../../config/config.js'
 
 export const MSG_USER_UNDEFINED = 'User is undefined'
 
 export class UserDB {
 
+  public config: Config
   private db: DB
   private nextUserId: number
 
   constructor(db: DB) {
+    this.config = db.config
     this.db = db
     this.nextUserId = 0
   }
@@ -51,7 +54,7 @@ export class UserDB {
   }
 
   async dropTable() {
-    if (!this.db.droppable) {
+    if (!this.config.dev) {
       throw (new Error('can not drop in production mode.'))
     }
     await this.db.query('drop table if exists user')
@@ -70,7 +73,7 @@ export class UserDB {
   // Query
 
   async insertUser(user: User) {
-    await this.db.query('insert into user set ?', user)
+    return this.db.query('insert into user set ?', user)
   }
 
   async findUserById(id: number): Promise<User | undefined> {
