@@ -9,6 +9,8 @@ export function initUserRegisterApi(udb: UserDB, web: Express2) {
 
   const router = web.router
 
+  // Pages
+
   router.get('/user/register', (req, res) => {
     res.render('app/user/view/user-register')
   })
@@ -16,6 +18,8 @@ export function initUserRegisterApi(udb: UserDB, web: Express2) {
   router.get('/user/register-done', (req, res) => {
     res.render('app/user/view/user-register-done')
   })
+
+  // Api
 
   router.post('/api/user', toCallback(async (req, res) => {
     let form = getUserForm(req)

@@ -51,6 +51,8 @@ describe('UserRegisterApi', () => {
     await insertUserDBFixture1(udb)
   })
 
+  // Pages
+
   describe('page /user/register', () => {
     it('should work', async () => {
       await request.get('/user/register').expect(200).expect(/<title>Register/)
@@ -63,7 +65,9 @@ describe('UserRegisterApi', () => {
     })
   })
 
-  describe('post /api/user', () => {
+  // Api
+
+  describe('register new user: post /api/user', () => {
     it('should ok for valid new', async () => {
       const form = { name: 'User X', email: 'userx@mail.test', password: '1234' }
       const res = await request.post('/api/user').send(form)

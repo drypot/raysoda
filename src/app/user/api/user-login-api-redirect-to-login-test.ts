@@ -6,6 +6,7 @@ import { Express2, toCallback } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { getSessionUser, initUserLoginApi } from './user-login-api.js'
 import { Router } from 'express'
+import { NOT_AUTHENTICATED } from '../form/user-form.js'
 
 describe('UserLoginApi', () => {
 
@@ -48,7 +49,8 @@ describe('UserLoginApi', () => {
         res.send('public')
       })
       router.get('/test/private', toCallback(async (req, res) => {
-        await getSessionUser(res)
+        const user = await getSessionUser(res)
+        if (!user) throw NOT_AUTHENTICATED
         res.send('private')
       }))
     })

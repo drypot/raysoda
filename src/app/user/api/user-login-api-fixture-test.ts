@@ -7,7 +7,7 @@ import { SuperAgentTest } from 'supertest'
 import { initUserLoginApi } from './user-login-api.js'
 import { Router } from 'express'
 import { NOT_AUTHENTICATED } from '../form/user-form.js'
-import { login, logout, User1Login } from './user-login-api-fixture.js'
+import { loginForTest, logoutForTest, User1Login } from './user-login-api-fixture.js'
 
 describe('UserLoginApi', () => {
 
@@ -46,10 +46,10 @@ describe('UserLoginApi', () => {
 
   describe('login/logout', () => {
     it('should work', async () => {
-      await login(request, User1Login)
+      await loginForTest(request, User1Login)
       let res = await request.get('/api/user/login').expect(200)
       expect(res.body).toEqual({ user: { id: 1, name: 'User 1' } })
-      await logout(request)
+      await logoutForTest(request)
       res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })

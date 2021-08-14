@@ -11,11 +11,11 @@ export const User2Login = { email: 'user2@mail.test', password: '1234' }
 export const User3Login = { email: 'user3@mail.test', password: '1234' }
 export const AdminLogin = { email: 'admin@mail.test', password: '1234' }
 
-export async function login(request: SuperAgentTest, _form: UserLoginForm, remember: boolean = false) {
+export async function loginForTest(request: SuperAgentTest, _form: UserLoginForm, remember: boolean = false) {
   const form = { ..._form, remember }
   return request.post('/api/user/login').send(form).expect(200)
 }
 
-export async function logout(request: SuperAgentTest) {
+export async function logoutForTest(request: SuperAgentTest) {
   return request.post('/api/user/logout').expect(200)
 }

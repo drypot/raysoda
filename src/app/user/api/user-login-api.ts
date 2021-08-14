@@ -26,13 +26,16 @@ export function initUserLoginApi(udb: UserDB, web: Express2) {
 
   router.get('/api/user/login', toCallback(async function (req, res) {
     const user = getSessionUser(res)
+    if (!user) throw NOT_AUTHENTICATED
     res.json({
       user: { id: user.id, name: user.name }
     })
   }))
 
   router.get('/api/user/login-admin', toCallback(async function (req, res) {
-    const user = getSessionAdmin(res)
+    const user = getSessionUser(res)
+    if (!user) throw NOT_AUTHENTICATED
+    if (!user.admin) throw NOT_AUTHORIZED
     res.json({
       user: { id: user.id, name: user.name }
     })
@@ -78,7 +81,7 @@ export function initUserLoginApi(udb: UserDB, web: Express2) {
   })
 
   router.post('/api/user/logout', toCallback(async (req, res) => {
-    await destroySession(req, res)
+    await logoutCurrentSession(req, res)
     res.json({})
   }))
 
@@ -120,26 +123,17 @@ export function initUserLoginApi(udb: UserDB, web: Express2) {
 }
 
 export function getSessionUser(res: Response) {
-  const user = res.locals.user as User | undefined
-  if (!user) throw NOT_AUTHENTICATED
-  return user
+  return res.locals.user as User | undefined
 }
 
-export function getSessionAdmin(res: Response) {
-  const user = res.locals.user as User | undefined
-  if (!user) throw NOT_AUTHENTICATED
-  if (!user.admin) throw NOT_AUTHORIZED
-  return user
+export function hasPermToUpdate(op: User, id: number) {
+  return op.id === id || op.admin
 }
 
-export function assertUpdatable(user: User, id: number) {
-  if (user.id !== id && !user.admin) throw NOT_AUTHORIZED
-}
-
-export async function destroySession(req: Request, res: Response) {
+export async function logoutCurrentSession(req: Request, res: Response) {
   res.clearCookie('email')
   res.clearCookie('password')
-  return new Promise<void>((resolve, reject) =>
+  await new Promise<void>((resolve, reject) =>
     req.session.destroy(err => err ? reject(err) : resolve())
   )
 }

@@ -7,7 +7,7 @@ import { SuperAgentTest } from 'supertest'
 import { initUserLoginApi } from './user-login-api.js'
 import { Router } from 'express'
 import { NOT_AUTHENTICATED } from '../form/user-form.js'
-import { login, logout, User1Login } from './user-login-api-fixture.js'
+import { loginForTest, logoutForTest, User1Login } from './user-login-api-fixture.js'
 
 describe('UserLoginApi', () => {
 
@@ -44,11 +44,11 @@ describe('UserLoginApi', () => {
     await insertUserDBFixture4(udb)
   })
 
-  describe('story: testing auto login', () => {
+  describe('testing auto login', () => {
     it('before login', () => {
       //
     })
-    it('access should fail', async () => {
+    it('get login should fail', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
@@ -58,9 +58,9 @@ describe('UserLoginApi', () => {
     })
 
     it('after login with remember true', async () => {
-      await login(request, User1Login, true)
+      await loginForTest(request, User1Login, true)
     })
-    it('access should ok', async () => {
+    it('get login should ok', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toBe(undefined)
     })
@@ -72,7 +72,7 @@ describe('UserLoginApi', () => {
     it('after session destroyed', async () => {
       await request.post('/api/destroy-session').expect(200)
     })
-    it('access should ok (autologin worked)', async () => {
+    it('get login should ok (autologin worked)', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toBe(undefined)
     })
@@ -82,9 +82,9 @@ describe('UserLoginApi', () => {
     })
 
     it('after logout', async () => {
-      await logout(request)
+      await logoutForTest(request)
     })
-    it('access should fail', async () => {
+    it('get login should fail', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
@@ -94,9 +94,9 @@ describe('UserLoginApi', () => {
     })
 
     it('after login 2', async () => {
-      await login(request, User1Login, true)
+      await loginForTest(request, User1Login, true)
     })
-    it('access should ok', async () => {
+    it('get login should ok', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toBe(undefined)
     })
@@ -107,7 +107,7 @@ describe('UserLoginApi', () => {
     it('after session destroyed', async () => {
       await request.post('/api/destroy-session').expect(200)
     })
-    it('access should fail (autologin failed)', async () => {
+    it('get login should fail (autologin failed)', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
