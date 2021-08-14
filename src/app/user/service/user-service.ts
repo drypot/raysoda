@@ -5,7 +5,7 @@ import {
   checkUserHomeUsable,
   checkUserName,
   checkUserNameUsable,
-  checkUserPassword,
+  checkUserPassword, USER_NOT_FOUND,
   UserForm
 } from '../form/user-form.js'
 import { newUser } from '../entity/user-entity.js'
@@ -13,22 +13,31 @@ import { FormError } from '../../../lib/base/error2.js'
 import { UserDB } from '../db/user-db.js'
 import { makePasswordHash } from '../entity/user-password.js'
 
-export async function registerUser(userdb: UserDB, form: UserForm, errs: FormError[]) {
+export async function registerUser(udb: UserDB, form: UserForm, errs: FormError[]) {
   checkUserName(form.name, errs)
   checkUserHome(form.home, errs)
   checkUserEmail(form.email, errs)
   checkUserPassword(form.password, errs)
-  await checkUserNameUsable(userdb, 0, form.name, errs)
-  await checkUserHomeUsable(userdb, 0, form.home, errs)
-  await checkUserEmailUsable(userdb, 0, form.email, errs)
+  await checkUserNameUsable(udb, 0, form.name, errs)
+  await checkUserHomeUsable(udb, 0, form.home, errs)
+  await checkUserEmailUsable(udb, 0, form.email, errs)
   if (errs.length > 0) return
   const user = newUser()
-  user.id = userdb.getNextUserId()
+  user.id = udb.getNextUserId()
   user.name = form.name
   user.home = form.home
   user.email = form.email
   user.profile = form.profile
   user.hash = await makePasswordHash(form.password)
-  await userdb.insertUser(user)
+  await udb.insertUser(user)
   return user
+}
+
+export async function deactivateUser(udb: UserDB, id: number, errs: FormError[]) {
+  const r = await udb.deactivateUser(id)
+  if (!r.changedRows) {
+    errs.push(USER_NOT_FOUND)
+    return
+  }
+  udb.deleteCache(id)
 }
