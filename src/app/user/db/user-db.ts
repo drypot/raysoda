@@ -121,7 +121,12 @@ export class UserDB {
 
   // 테스트가 없다
   async updateUserADate(id: number, now: Date) {
-    await this.db.query('update user set adate = ? where id = ?', [now, id])
+    return this.db.query('update user set adate = ? where id = ?', [now, id])
+  }
+
+  // 테스트가 없다
+  async deactivateUser(id: number) {
+    return this.db.query('update user set status = "d" where id = ?', id)
   }
 
   // Cache
