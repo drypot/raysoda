@@ -24,7 +24,7 @@ export class Express2 {
   public autoLogin: ExpressHandler | undefined
   public redirectToLogin: ErrorRequestHandler | undefined
 
-  constructor(config: Config) {
+  private constructor(config: Config) {
     this.config = config
     this.expr1 = express()
     this.router = express.Router()
@@ -44,6 +44,10 @@ export class Express2 {
     this.setViewEngine('pug', 'src')
   }
 
+  static from(config: Config) {
+    return new Express2(config)
+  }
+
   setLocals(name: string, value: any) {
     this.expr1.locals[name] = value
   }
@@ -54,24 +58,24 @@ export class Express2 {
   }
 
   start() {
-    return new Promise<void>((resolve) => {
-      this.expr1.use(function (req, res, done) {
-        res.locals.query = req.query
-        res.locals.api = /^\/api\//.test(req.path)
-        done()
+    this.expr1.use(function (req, res, done) {
+      res.locals.query = req.query
+      res.locals.api = /^\/api\//.test(req.path)
+      done()
+    })
+    this.setUpSessionHandler()
+    this.setUpBodyParser()
+    this.setUpCacheControl()
+    this.setUpAutoLoginHandler()
+    this.setUpGeneralRouter()
+    this.setUpBasicAPI()
+    this.setUpRedirectToLoginHandler()
+    this.setUpErrorHandler()
+    const _this = this
+    return new Promise<Express2>((resolve) => {
+      this.httpServer.listen(this.config.port, () => {
+        resolve(_this)
       })
-      this.setUpSessionHandler()
-      this.setUpBodyParser()
-      this.setUpCacheControl()
-      this.setUpAutoLoginHandler()
-      this.setUpGeneralRouter()
-      this.setUpBasicAPI()
-      this.setUpRedirectToLoginHandler()
-      this.setUpErrorHandler()
-      this.httpServer.listen(
-        this.config.port,
-        () => resolve()
-      )
     })
   }
 

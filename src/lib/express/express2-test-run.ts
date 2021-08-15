@@ -1,9 +1,9 @@
 import { INVALID_DATA } from '../base/error2.js'
-import { loadConfig } from '../../app/config/config.js'
+import { configFrom } from '../../app/config/config.js'
 import { Express2 } from './express2.js'
 
-const config = loadConfig('config/app-dev.json')
-const express = new Express2(config)
+const config = configFrom('config/app-dev.json')
+const express = Express2.from(config)
 const router = express.router
 
 router.get('/test/hello', (req, res) => {
