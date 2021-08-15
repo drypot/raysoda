@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function show_usage {
-    echo "make-password-hash <password>"
+    echo "bin/make-hash <password>"
     exit 1
 }
 
@@ -9,4 +9,4 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-node dist/app/user/entity/tool-make-password-hash.js $1
+node dist/lib/base/hash-tool.js $1
