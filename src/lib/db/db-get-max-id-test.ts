@@ -1,4 +1,4 @@
-import { Config, loadConfig } from '../../app/config/config.js'
+import { Config, configFrom } from '../../app/config/config.js'
 import { DB } from './db.js'
 
 describe('DB', () => {
@@ -7,9 +7,8 @@ describe('DB', () => {
   let db: DB
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
-    await db.createDatabase()
+    config = configFrom('config/app-test.json')
+    db = await DB.from(config).createDatabase()
   })
 
   afterAll(async () => {
@@ -17,21 +16,23 @@ describe('DB', () => {
   })
 
   describe('getMaxId', () => {
-    beforeEach(async () => {
+    it('after init table', async () => {
       await db.query('drop table if exists table1')
       await db.query('create table table1(id int)')
     })
-    it('should work', async () => {
-      const values = [[1], [2], [3]]
-      await db.query('insert into table1 values ?', [values])
-      const maxId = await db.getMaxId('table1')
-      expect(maxId).toBe(3)
-    })
-    it('should work when table empty', async () => {
+    it('getMaxId should return 0', async () => {
       const maxId = await db.getMaxId('table1')
       expect(maxId).toBe(0)
     })
-    it('should fail when table is not exist', async () => {
+    it('after table filled', async () => {
+      const values = [[3], [5], [7]]
+      await db.query('insert into table1 values ?', [values])
+    })
+    it('getMaxId should return max value', async () => {
+      const maxId = await db.getMaxId('table1')
+      expect(maxId).toBe(7)
+    })
+    it('getMaxId should fail with invalid table', async () => {
       await expectAsync(db.getMaxId('table2')).toBeRejected()
     })
   })

@@ -1,4 +1,4 @@
-import { Config, loadConfig } from '../../app/config/config.js'
+import { Config, configFrom } from '../../app/config/config.js'
 import { DB } from './db.js'
 
 describe('DB', () => {
@@ -7,28 +7,28 @@ describe('DB', () => {
   let db: DB
 
   beforeAll(() => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
+    config = configFrom('config/app-test.json')
+    db = DB.from(config)
   })
 
   afterAll(async () => {
     await db.close()
   })
 
-  describe('create, drop, find Database', () => {
-    it('should work', async () => {
-      let r: any
-
+  describe('database scenario', () => {
+    it('dropDatabase should work', async () => {
       await db.dropDatabase()
-      r = await db.findDatabase(config.mysqlDatabase)
+      const r = await db.findDatabase(config.mysqlDatabase)
       expect(r.length).toBe(0)
-
+    })
+    it('createDatabase should work', async () => {
       await db.createDatabase()
-      r = await db.findDatabase(config.mysqlDatabase)
+      const r = await db.findDatabase(config.mysqlDatabase)
       expect(r.length).toBe(1)
-
+    })
+    it('dropDatabase should work again', async () => {
       await db.dropDatabase()
-      r = await db.findDatabase(config.mysqlDatabase)
+      const r = await db.findDatabase(config.mysqlDatabase)
       expect(r.length).toBe(0)
     })
   })

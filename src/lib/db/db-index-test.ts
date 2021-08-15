@@ -1,4 +1,4 @@
-import { Config, loadConfig } from '../../app/config/config.js'
+import { Config, configFrom } from '../../app/config/config.js'
 import { DB } from './db.js'
 
 describe('DB', () => {
@@ -7,9 +7,8 @@ describe('DB', () => {
   let db: DB
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
-    await db.createDatabase()
+    config = configFrom('config/app-test.json')
+    db = await DB.from(config).createDatabase()
   })
 
   afterAll(async () => {
@@ -17,38 +16,44 @@ describe('DB', () => {
   })
 
   describe('findIndex', () => {
-    it('should work', async () => {
-      let r: any
+    it('after table init', async () => {
       await db.query('drop table if exists user1')
       await db.query('create table user1(id int, email varchar(64), primary key (id))')
-
-      r = await db.findIndex('user1', 'email')
+    })
+    it('there is no index', async () => {
+      const r = await db.findIndex('user1', 'email')
       expect(r.length).toBe(0)
-
+    })
+    it('after create index', async () => {
       await db.query('create index email on user1(email)')
-      r = await db.findIndex('user1', 'email')
+    })
+    it('index should exist', async () => {
+      const r = await db.findIndex('user1', 'email')
       expect(r.length).toBe(1)
-
-      await expectAsync(db.query('create index email on user1(email)')).toBeRejected()
     })
   })
 
   describe('createIndexIfNotExists', () => {
-    it('should work', async () => {
-      let r: any
+    it('after table init', async () => {
       await db.query('drop table if exists user1')
       await db.query('create table user1(id int, email varchar(64), primary key (id))')
-
-      r = await db.findIndex('user1', 'email')
+    })
+    it('there is no index', async () => {
+      const r = await db.findIndex('user1', 'email')
       expect(r.length).toBe(0)
-
+    })
+    it('createIndexIfNotExists should work', async () => {
       await db.createIndexIfNotExists('create index email on user1(email)')
-      r = await db.findIndex('user1', 'email')
+    })
+    it('index should exist', async () => {
+      const r = await db.findIndex('user1', 'email')
       expect(r.length).toBe(1)
-
+    })
+    it('can not create same index again', async () => {
+      await expectAsync(db.query('create index email on user1(email)')).toBeRejected()
+    })
+    it('buf createIndexIfNotExists should ok', async () => {
       await db.createIndexIfNotExists('create index email on user1(email)')
-      r = await db.findIndex('user1', 'email')
-      expect(r.length).toBe(1)
     })
   })
 

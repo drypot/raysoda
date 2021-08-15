@@ -6,7 +6,7 @@ export class DB {
   public config: Config
   private readonly conn: Connection
 
-  constructor(config: Config) {
+  private constructor(config: Config) {
     this.config = config
     this.conn = mysql.createConnection({
       host: this.config.mysqlServer,
@@ -19,6 +19,10 @@ export class DB {
       // 다른 정보가 BLOB 으로 오면 구분할 수가 없다.
       // typeCast: typeCast,
     })
+  }
+
+  static from(config: Config) {
+    return new DB(config)
   }
 
   query(query: Query): Promise<any>;
@@ -58,11 +62,13 @@ export class DB {
       this.config.mysqlDatabase,
     )
     await this.changeUser()
+    return this
   }
 
   async dropDatabase() {
     if (!this.config.dev) throw (new Error('can not drop in production mode.'))
     await this.query('drop database if exists ??', this.config.mysqlDatabase)
+    return this
   }
 
   async findDatabase(name: string) {
@@ -90,17 +96,12 @@ export class DB {
     const r = await this.findIndex(table, index)
     if (r.length > 0) return
     await this.query(query)
+    return this
   }
 
   async getMaxId(table: string): Promise<number> {
     const r = await this.query('select coalesce(max(id), 0) as maxId from ??', table)
     return r[0].maxId
-  }
-
-  async runQueries(qa: string[]) {
-    for (const q of qa) {
-      await this.query(q)
-    }
   }
 
   async insertObjects(table: string, objs: Object[]) {

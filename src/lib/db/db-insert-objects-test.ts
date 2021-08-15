@@ -1,4 +1,4 @@
-import { Config, loadConfig } from '../../app/config/config.js'
+import { Config, configFrom } from '../../app/config/config.js'
 import { DB } from './db.js'
 
 describe('DB', () => {
@@ -7,9 +7,8 @@ describe('DB', () => {
   let db: DB
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
-    await db.createDatabase()
+    config = configFrom('config/app-test.json')
+    db = await DB.from(config).createDatabase()
   })
 
   afterAll(async () => {
@@ -17,17 +16,19 @@ describe('DB', () => {
   })
 
   describe('insertObjects', () => {
-    beforeEach(async () => {
+    it('after table init', async () => {
       await db.query('drop table if exists table1')
       await db.query('create table table1(id int, name varchar(64))')
     })
-    it('should work', async () => {
+    it('insertObjects should work', async () => {
       const objs = [
         { id: 1, name: 'user1' },
         { id: 2, name: 'user2' },
         { id: 3, name: 'user3' },
       ]
       await db.insertObjects('table1', objs)
+    })
+    it('can be checked', async () => {
       const r = await db.query('select * from table1 order by id')
       expect(r.length).toBe(3)
       expect(r[0].id).toBe(1)
@@ -37,13 +38,19 @@ describe('DB', () => {
       expect(r[2].id).toBe(3)
       expect(r[2].name).toBe('user3')
     })
-    it('should stop at invalid object', async () => {
+    it('after table init', async () => {
+      await db.query('drop table if exists table1')
+      await db.query('create table table1(id int, name varchar(64))')
+    })
+    it('insertObjects should stop at invalid data', async () => {
       const objs = [
         { id: 1, name: 'user1' },
         { id: 2, email: 'user2' },
         { id: 3, name: 'user3' },
       ]
       await expectAsync(db.insertObjects('table1', objs)).toBeRejected()
+    })
+    it('can be checked', async () => {
       const r = await db.query('select * from table1 order by id')
       expect(r.length).toBe(1)
       expect(r[0].id).toBe(1)

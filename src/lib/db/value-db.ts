@@ -6,9 +6,13 @@ export class ValueDB {
   public config: Config
   private db: DB
 
-  constructor(db: DB) {
+  private constructor(db: DB) {
     this.config = db.config
     this.db = db
+  }
+
+  static from(db: DB) {
+    return new ValueDB(db)
   }
 
   async createTable() {

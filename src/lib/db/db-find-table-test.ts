@@ -1,4 +1,4 @@
-import { Config, loadConfig } from '../../app/config/config.js'
+import { Config, configFrom } from '../../app/config/config.js'
 import { DB } from './db.js'
 
 describe('DB', () => {
@@ -7,9 +7,8 @@ describe('DB', () => {
   let db: DB
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
-    await db.createDatabase()
+    config = configFrom('config/app-test.json')
+    db = await DB.from(config).createDatabase()
   })
 
   afterAll(async () => {
@@ -17,14 +16,18 @@ describe('DB', () => {
   })
 
   describe('findTable', () => {
-    it('should work', async () => {
+    it('after create table', async () => {
       await db.query('drop table if exists table1')
       await db.query('create table table1(id int)')
+    })
+    it('result should have table', async () => {
       const r = await db.findTable('table1')
       expect(r.length).toBe(1)
     })
-    it('should work when table not exist', async () => {
+    it('after drop table', async () => {
       await db.query('drop table if exists table1')
+    })
+    it('result should be empty', async () => {
       const r = await db.findTable('table1')
       expect(r.length).toBe(0)
     })

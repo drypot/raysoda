@@ -1,4 +1,4 @@
-import { Config, loadConfig } from '../../app/config/config.js'
+import { Config, configFrom } from '../../app/config/config.js'
 import { DB } from './db.js'
 
 describe('DB', () => {
@@ -7,8 +7,8 @@ describe('DB', () => {
   let db: DB
 
   beforeAll(() => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
+    config = configFrom('config/app-test.json')
+    db = DB.from(config)
   })
 
   afterAll(async () => {

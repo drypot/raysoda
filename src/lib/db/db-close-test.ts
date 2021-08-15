@@ -1,4 +1,4 @@
-import { Config, loadConfig } from '../../app/config/config.js'
+import { Config, configFrom } from '../../app/config/config.js'
 import { DB } from './db.js'
 
 describe('DB', () => {
@@ -7,15 +7,21 @@ describe('DB', () => {
   let db: DB
 
   beforeAll(() => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
+    config = configFrom('config/app-test.json')
+    db = DB.from(config)
   })
 
-  describe('close', () => {
-    it('should work', async () => {
+  describe('close scenario', () => {
+    it('query should work', async () => {
       await db.query('select 3 as v')
+    })
+    it('after close', async () => {
       await db.close()
+    })
+    it('query should fail', async () => {
       await expectAsync(db.query('select 3 as v')).toBeRejected()
+    })
+    it('close should fail', async () => {
       await expectAsync(db.close()).toBeRejected()
     })
   })
