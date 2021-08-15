@@ -1,12 +1,14 @@
 import * as fs from 'fs'
-import nodemailer, { createTransport } from 'nodemailer'
+import nodemailer, { createTransport, Transporter } from 'nodemailer'
 import { Config } from '../../app/config/config.js'
 import Mail from 'nodemailer/lib/mailer'
+
+export const MSG_TRANSPORT_NOT_INITIALIZED = 'Transport not initialized.'
 
 export class Mailer {
 
   public config: Config
-  private transport: ReturnType<typeof createTransport> | undefined
+  public transport?: Transporter
 
   constructor(config: Config) {
     this.config = config
@@ -32,7 +34,7 @@ export class Mailer {
   sendMail(opt: Mail.Options) {
     return new Promise<void>((resolve, reject) => {
       if (!this.transport) {
-        reject(new Error('Transport is not initialized.'))
+        reject(new Error(MSG_TRANSPORT_NOT_INITIALIZED))
       } else {
         this.transport.sendMail(opt, (err) => {
           if (err) return reject(err)
