@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+rm -fr dist
+node_modules/typescript/bin/tsc --watch
