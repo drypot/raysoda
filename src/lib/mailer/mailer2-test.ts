@@ -1,14 +1,13 @@
 import { Mailer, MSG_TRANSPORT_NOT_INITIALIZED } from './mailer2.js'
-import { loadConfig } from '../../app/config/config.js'
+import { configFrom } from '../../app/config/config.js'
 
 describe('Mailer', () => {
 
   let mailer: Mailer
 
   beforeAll(() => {
-    const config = loadConfig('config/app-test.json')
-    mailer = new Mailer(config)
-    mailer.initTransport()
+    const config = configFrom('config/app-test.json')
+    mailer = Mailer.from(config).initTransport()
   })
 
   it('should work', async () => {

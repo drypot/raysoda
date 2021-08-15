@@ -1,20 +1,24 @@
 import { Mailer } from './mailer2.js'
-import { loadConfig } from '../../app/config/config.js'
-import * as os from 'os'
+import { configFrom } from '../../app/config/config.js'
+import { logError } from '../base/error2.js'
 
-const config = loadConfig(process.argv[2])
-const mailer = new Mailer(config)
-mailer.initTransport()
-
-const mail = {
-  from: 'no-reply@raysoda.com',
-  to: process.argv[3],
-  subject: 'mail server test from ' + os.hostname(),
-  text: `Hello, ${new Date()}`
+async function main() {
+  const config = configFrom(process.argv[2])
+  const mailer = await Mailer.from(config).initTransport()
+  const mail = {
+    from: 'no-reply@raysoda.com',
+    to: process.argv[3],
+    subject: 'Hello',
+    text: `This is a test mail.`
+  }
+  console.log(mail)
+  await mailer.sendMail(mail)
 }
 
-console.log(mail)
-
-mailer.sendMail(mail).catch(err => {
-  console.log(err)
+main().then(() => {
+  console.log('mail sent.')
+}).catch((err) => {
+  logError(err)
+}).finally(async () => {
+  //
 })
