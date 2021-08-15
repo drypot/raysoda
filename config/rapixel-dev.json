@@ -1,4 +1,6 @@
 {
+  "dev": true,
+
   "appName": "Rapixel",
   "appNamel": "rapixel",
   "appDesc": "4K images",

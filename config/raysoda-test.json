@@ -1,4 +1,6 @@
 {
+  "dev": true,
+
   "appName": "RaySoda",
   "appNamel": "raysoda",
   "appDesc": "One day, one photo.",
