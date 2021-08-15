@@ -12,7 +12,7 @@ export interface User {
   pdate: Date
 }
 
-export function newUser(params?: Partial<User>): User {
+export function userOf(params?: Partial<User>): User {
   const now = new Date()
   return {
     id: 0,
@@ -29,4 +29,3 @@ export function newUser(params?: Partial<User>): User {
     ...params
   }
 }
-
