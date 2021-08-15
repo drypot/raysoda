@@ -1,6 +1,6 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
-import { MSG_USER_UNDEFINED, UserDB } from './user-db.js'
+import { MSG_USER_NOT_FOUND, UserDB } from './user-db.js'
 import { insertUserDBFixture1, insertUserDBFixture4 } from './user-db-fixture.js'
 
 describe('UserDB', () => {
@@ -28,7 +28,7 @@ describe('UserDB', () => {
     })
     it('user1 should exist', async () => {
       let user = await udb.findUserById(1)
-      if (!user) throw new Error(MSG_USER_UNDEFINED)
+      if (!user) throw new Error(MSG_USER_NOT_FOUND)
       expect(user.name).toBe('User 1')
       expect(user.home).toBe('user1')
     })
@@ -42,21 +42,21 @@ describe('UserDB', () => {
     })
     it('user1 should exist', async () => {
       let user = await udb.findUserById(1)
-      if (!user) throw new Error(MSG_USER_UNDEFINED)
+      if (!user) throw new Error(MSG_USER_NOT_FOUND)
       expect(user.name).toBe('User 1')
       expect(user.home).toBe('user1')
       expect(user.admin).toBe(false)
     })
     it('user3 should exist', async () => {
       let user = await udb.findUserById(3)
-      if (!user) throw new Error(MSG_USER_UNDEFINED)
+      if (!user) throw new Error(MSG_USER_NOT_FOUND)
       expect(user.name).toBe('User 3')
       expect(user.home).toBe('user3')
       expect(user.admin).toBe(false)
     })
     it('admin should exist', async () => {
       let user = await udb.findUserById(4)
-      if (!user) throw new Error(MSG_USER_UNDEFINED)
+      if (!user) throw new Error(MSG_USER_NOT_FOUND)
       expect(user.name).toBe('Admin')
       expect(user.home).toBe('admin')
       expect(user.admin).toBe(true)

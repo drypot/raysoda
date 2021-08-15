@@ -1,6 +1,6 @@
 import { Config, loadConfig } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
-import { MSG_USER_UNDEFINED, UserDB } from '../db/user-db.js'
+import { MSG_USER_NOT_FOUND, UserDB } from '../db/user-db.js'
 import {
   EMAIL_DUPE,
   EMAIL_EMPTY,
@@ -46,9 +46,9 @@ describe('UserService', () => {
       })
       const errs = [] as FormError[]
       let user = await registerUser(udb, form, errs)
-      if (!user) throw new Error(MSG_USER_UNDEFINED)
+      if (!user) throw new Error(MSG_USER_NOT_FOUND)
       const user2 = await udb.findUserById(user.id)
-      if (!user2) throw new Error(MSG_USER_UNDEFINED)
+      if (!user2) throw new Error(MSG_USER_NOT_FOUND)
       expect(user2.name).toBe('User X')
       expect(user2.home).toBe('userx')
       expect(user2.email).toBe('userx@mail.test')

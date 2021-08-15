@@ -1,4 +1,4 @@
-import { MSG_USER_UNDEFINED, UserDB } from '../db/user-db.js'
+import { MSG_USER_NOT_FOUND, UserDB } from '../db/user-db.js'
 import { Express2, toCallback } from '../../../lib/express/express2.js'
 import { NextFunction, Request, Response } from 'express'
 import {
@@ -48,7 +48,7 @@ export function initUserLoginApi(udb: UserDB, web: Express2) {
     const errs = [] as FormError[]
     const user = await findUserByEmailPassword(email, password, errs)
     if (errs.length) throw errs
-    if (!user) throw new Error(MSG_USER_UNDEFINED)
+    if (!user) throw new Error(MSG_USER_NOT_FOUND)
     await createSession(req, res, user)
     if (remember) {
       res.cookie('email', email, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })

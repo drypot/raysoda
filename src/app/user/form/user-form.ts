@@ -24,7 +24,6 @@ export const EMAIL_DUPE = newFormError('EMAIL_DUPE', '이미 등록되어 있는
 export const PASSWORD_EMPTY = newFormError('PASSWORD_EMPTY', '비밀번호를 입력해 주십시오.', 'password')
 export const PASSWORD_RANGE = newFormError('PASSWORD_RANGE', '비밀번호 길이는 4 ~ 32 글자입니다.', 'password')
 
-export const EMAIL_NOT_EXIST = newFormError('EMAIL_NOT_EXIST', '등록되지 않은 이메일입니다.', 'email')
 export const RESET_TIMEOUT = newFormError('RESET_TIMEOUT', '비밀번호 초기화 토큰 유효시간이 지났습니다.')
 
 export interface UserForm {
@@ -36,7 +35,7 @@ export interface UserForm {
   profile: string
 }
 
-export function newUserForm(params?: Object): UserForm {
+export function newUserForm(params?: Partial<UserForm>): UserForm {
   return {
     id: 0,
     name: '',
@@ -50,7 +49,7 @@ export function newUserForm(params?: Object): UserForm {
 
 const emailPattern = /^[a-z0-9-_+.]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/i
 
-export function checkUserName(name: string, errs: FormError[]) {
+export function checkNameFormat(name: string, errs: FormError[]) {
   if (name.length === 0) {
     errs.push(NAME_EMPTY)
   } else if (name.length > 32) {
@@ -58,7 +57,7 @@ export function checkUserName(name: string, errs: FormError[]) {
   }
 }
 
-export function checkUserHome(home: string, errs: FormError[]) {
+export function checkHomeFormat(home: string, errs: FormError[]) {
   if (home.length === 0) {
     errs.push(HOME_EMPTY)
   } else if (home.length > 32) {
@@ -66,7 +65,7 @@ export function checkUserHome(home: string, errs: FormError[]) {
   }
 }
 
-export function checkUserEmail(email: string, errs: FormError[]) {
+export function checkEmailFormat(email: string, errs: FormError[]) {
   if (email.length === 0) {
     errs.push(EMAIL_EMPTY)
   } else if (email.length > 64 || email.length < 8) {
@@ -76,7 +75,7 @@ export function checkUserEmail(email: string, errs: FormError[]) {
   }
 }
 
-export function checkUserPassword(password: string, errs: FormError[]) {
+export function checkPasswordFormat(password: string, errs: FormError[]) {
   if (password.length === 0) {
     errs.push(PASSWORD_EMPTY)
   } else if (password.length > 32 || password.length < 4) {
@@ -84,7 +83,7 @@ export function checkUserPassword(password: string, errs: FormError[]) {
   }
 }
 
-export async function checkUserNameUsable(userdb: UserDB, id: number, name: string, errs: FormError[]): Promise<void> {
+export async function checkNameUsable(userdb: UserDB, id: number, name: string, errs: FormError[]): Promise<void> {
   let usable: boolean
   usable = await userdb.checkNameUsable(id, name)
   if (!usable) errs.push(NAME_DUPE)
@@ -92,7 +91,7 @@ export async function checkUserNameUsable(userdb: UserDB, id: number, name: stri
   if (!usable) errs.push(NAME_DUPE)
 }
 
-export async function checkUserHomeUsable(userdb: UserDB, id: number, home: string, errs: FormError[]): Promise<void> {
+export async function checkHomeUsable(userdb: UserDB, id: number, home: string, errs: FormError[]): Promise<void> {
   let usable: boolean
   usable = await userdb.checkNameUsable(id, home)
   if (!usable) errs.push(HOME_DUPE)
@@ -100,7 +99,7 @@ export async function checkUserHomeUsable(userdb: UserDB, id: number, home: stri
   if (!usable) errs.push(HOME_DUPE)
 }
 
-export async function checkUserEmailUsable(userdb: UserDB, id: number, email: string, errs: FormError[]): Promise<void> {
+export async function checkEmailUsable(userdb: UserDB, id: number, email: string, errs: FormError[]): Promise<void> {
   const usable = await userdb.checkEmailUsable(id, email)
   if (!usable) errs.push(EMAIL_DUPE)
 }

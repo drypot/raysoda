@@ -11,10 +11,10 @@ describe('User', () => {
     expect(user.status).toBe('v')
   })
   it('can be created 2', () => {
-    const _user = {
+    const _user: Partial<User> = {
       id: 10,
       name: 'User 1',
-      email: 'user1@mail.test'
+      email: 'user1@mail.test',
     }
     const user = newUser(_user)
     expect(user).toBeDefined()

@@ -2,7 +2,7 @@ import { DB } from '../../../lib/db/db.js'
 import { User } from '../entity/user-entity.js'
 import { Config } from '../../config/config.js'
 
-export const MSG_USER_UNDEFINED = 'User is undefined'
+export const MSG_USER_NOT_FOUND = 'User not found'
 
 export class UserDB {
 
@@ -125,6 +125,11 @@ export class UserDB {
   // 테스트가 없다
   async updateUserADate(id: number, now: Date) {
     return this.db.query('update user set adate = ? where id = ?', [now, id])
+  }
+
+  // 테스트가 없다
+  async updateHash(email: string, hash: string) {
+    return this.db.query('update user set hash = ? where email = ?', [hash, email])
   }
 
   // 테스트가 없다
