@@ -28,3 +28,13 @@ export function errorExists(err: FormError, errs: FormError | FormError[]) {
   }
   return errs.name === err.name
 }
+
+export function logError(errs: any, logger = console.log) {
+  if (errs instanceof Array) {
+    for (const err of errs as FormError[]) {
+      logger(err.message)
+    }
+    return
+  }
+  logger(errs)
+}
