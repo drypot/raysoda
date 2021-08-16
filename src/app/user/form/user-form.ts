@@ -1,5 +1,6 @@
 import { FormError, newFormError } from '../../../lib/base/error2.js'
 import { UserDB } from '../db/user-db.js'
+import { emailPatternIsOk } from '../../../lib/base/email.js'
 
 export const NOT_AUTHENTICATED = newFormError('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.')
 export const NOT_AUTHORIZED = newFormError('NOT_AUTHORIZED', '사용 권한이 없습니다.')
@@ -35,7 +36,7 @@ export interface UserForm {
   profile: string
 }
 
-export function newUserForm(params?: Partial<UserForm>): UserForm {
+export function userFormOf(params?: Partial<UserForm>): UserForm {
   return {
     id: 0,
     name: '',
@@ -46,8 +47,6 @@ export function newUserForm(params?: Partial<UserForm>): UserForm {
     ...params
   }
 }
-
-const emailPattern = /^[a-z0-9-_+.]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/i
 
 export function checkNameFormat(name: string, errs: FormError[]) {
   if (name.length === 0) {
@@ -70,7 +69,7 @@ export function checkEmailFormat(email: string, errs: FormError[]) {
     errs.push(EMAIL_EMPTY)
   } else if (email.length > 64 || email.length < 8) {
     errs.push(EMAIL_RANGE)
-  } else if (!emailPattern.test(email)) {
+  } else if (!emailPatternIsOk(email)) {
     errs.push(EMAIL_PATTERN)
   }
 }
@@ -83,23 +82,22 @@ export function checkPasswordFormat(password: string, errs: FormError[]) {
   }
 }
 
-export async function checkNameUsable(userdb: UserDB, id: number, name: string, errs: FormError[]): Promise<void> {
-  let usable: boolean
-  usable = await userdb.checkNameUsable(id, name)
-  if (!usable) errs.push(NAME_DUPE)
-  usable = await userdb.checkHomeUsable(id, name)
-  if (!usable) errs.push(NAME_DUPE)
+export async function checkNameDB(
+  userdb: UserDB, id: number, name: string, errs: FormError[]
+) {
+  if (!await userdb.nameIsAvailable(id, name)) errs.push(NAME_DUPE)
+  if (!await userdb.homeIsAvailable(id, name)) errs.push(NAME_DUPE)
 }
 
-export async function checkHomeUsable(userdb: UserDB, id: number, home: string, errs: FormError[]): Promise<void> {
-  let usable: boolean
-  usable = await userdb.checkNameUsable(id, home)
-  if (!usable) errs.push(HOME_DUPE)
-  usable = await userdb.checkHomeUsable(id, home)
-  if (!usable) errs.push(HOME_DUPE)
+export async function checkHomeDB(
+  userdb: UserDB, id: number, home: string, errs: FormError[]
+) {
+  if (!await userdb.nameIsAvailable(id, home)) errs.push(HOME_DUPE)
+  if (!await userdb.homeIsAvailable(id, home)) errs.push(HOME_DUPE)
 }
 
-export async function checkEmailUsable(userdb: UserDB, id: number, email: string, errs: FormError[]): Promise<void> {
-  const usable = await userdb.checkEmailUsable(id, email)
-  if (!usable) errs.push(EMAIL_DUPE)
+export async function checkEmailDB(
+  userdb: UserDB, id: number, email: string, errs: FormError[]
+) {
+  if (!await userdb.emailIsAvailable(id, email)) errs.push(EMAIL_DUPE)
 }

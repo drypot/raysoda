@@ -1,9 +1,9 @@
-import { Config, loadConfig } from '../../config/config.js'
+import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../db/user-db.js'
-import { checkNameUsable, NAME_DUPE } from './user-form.js'
+import { checkNameDB, NAME_DUPE } from './user-form.js'
 import { FormError } from '../../../lib/base/error2.js'
-import { insertUserDBFixture1 } from '../db/user-db-fixture.js'
+import { insertUserFix1 } from '../db/user-db-fixture.js'
 
 describe('UserForm', () => {
 
@@ -12,46 +12,46 @@ describe('UserForm', () => {
   let udb: UserDB
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
-    udb = new UserDB(db)
-    await db.createDatabase()
+    config = configFrom('config/app-test.json')
+    db = await DB.from(config).createDatabase()
+    udb = UserDB.from(db)
   })
 
   afterAll(async () => {
     await db.close()
   })
 
-  beforeAll(async () => {
-    await udb.dropTable()
-    await udb.createTable(false)
-    await insertUserDBFixture1(udb)
-  })
-
-  describe('checkNameUsable', () => {
-    it('should ok when one entity', async () => {
+  describe('checkNameDB', () => {
+    it('init table', async () => {
+      await udb.dropTable()
+      await udb.createTable(false)
+    })
+    it('fill fix', async () => {
+      await insertUserFix1(udb)
+    })
+    it('ok if available', async () => {
       const errs: FormError[] = []
-      await checkNameUsable(udb, 1, 'User 1', errs)
+      await checkNameDB(udb, 0, 'alice', errs)
       expect(errs.length).toBe(0)
     })
-    it('should ok when one entity 2', async () => {
+    it('ok if same entity', async () => {
       const errs: FormError[] = []
-      await checkNameUsable(udb, 1, 'user1', errs)
+      await checkNameDB(udb, 1, 'User 1', errs)
       expect(errs.length).toBe(0)
     })
-    it('should ok when valid', async () => {
+    it('ok if same entity 2', async () => {
       const errs: FormError[] = []
-      await checkNameUsable(udb, 0, 'alice', errs)
+      await checkNameDB(udb, 1, 'user1', errs)
       expect(errs.length).toBe(0)
     })
-    it('should fail when name is in use', async () => {
+    it('fail if in use', async () => {
       const errs: FormError[] = []
-      await checkNameUsable(udb, 0, 'User 1', errs)
+      await checkNameDB(udb, 0, 'User 1', errs)
       expect(errs).toContain(NAME_DUPE)
     })
-    it('should fail when name is in use 2', async () => {
+    it('fail if in use 2', async () => {
       const errs: FormError[] = []
-      await checkNameUsable(udb, 0, 'user1', errs)
+      await checkNameDB(udb, 0, 'user1', errs)
       expect(errs).toContain(NAME_DUPE)
     })
   })

@@ -5,25 +5,25 @@ describe('UserForm', () => {
 
   describe('checkHomeFormat', () => {
 
-    it('should ok when valid', () => {
+    it('ok if valid', () => {
       const errs: FormError[] = []
       checkHomeFormat('user1', errs)
       expect(errs.length).toBe(0)
     })
 
-    it('should fail when empty', () => {
+    it('fail if empty', () => {
       const errs: FormError[] = []
       checkHomeFormat('', errs)
       expect(errs).toContain(HOME_EMPTY)
     })
 
-    it('should ok when length 32', () => {
+    it('ok if length 32', () => {
       const errs: FormError[] = []
       const home = 'c'.repeat(32)
       checkHomeFormat(home, errs)
       expect(errs.length).toBe(0)
     })
-    it('should fail when length 33', () => {
+    it('fail if length 33', () => {
       const errs: FormError[] = []
       const home = 'c'.repeat(33)
       checkHomeFormat(home, errs)
