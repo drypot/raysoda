@@ -1,7 +1,7 @@
-import { Config, loadConfig } from '../../config/config.js'
+import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from './user-db.js'
-import { insertUserDBFixture1 } from './user-db-fixture.js'
+import { insertUserFix1 } from './user-db-fixture.js'
 
 describe('UserDB', () => {
 
@@ -10,10 +10,9 @@ describe('UserDB', () => {
   let udb: UserDB
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
-    udb = new UserDB(db)
-    await db.createDatabase()
+    config = configFrom('config/app-test.json')
+    db = await DB.from(config).createDatabase()
+    udb = UserDB.from(db)
   })
 
   afterAll(async () => {
@@ -23,19 +22,19 @@ describe('UserDB', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable(false)
-    await insertUserDBFixture1(udb)
+    await insertUserFix1(udb)
   })
 
   describe('checkEmailUsable', () => {
-    it('should ok when one entity', async () => {
+    it('must be true if they are the same entity', async () => {
       const usable = await udb.checkEmailUsable(1, 'user1@mail.test')
       expect(usable).toBe(true)
     })
-    it('should ok when valid', async () => {
+    it('must be true if not already in use', async () => {
       const usable = await udb.checkEmailUsable(0, 'userx@mail.test')
       expect(usable).toBe(true)
     })
-    it('should fail when in use', async () => {
+    it('must be false if already in use', async () => {
       const usable = await udb.checkEmailUsable(0, 'user1@mail.test')
       expect(usable).toBe(false)
     })

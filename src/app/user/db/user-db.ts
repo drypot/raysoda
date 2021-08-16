@@ -10,10 +10,14 @@ export class UserDB {
   private db: DB
   private nextUserId: number
 
-  constructor(db: DB) {
+  private constructor(db: DB) {
     this.config = db.config
     this.db = db
     this.nextUserId = 0
+  }
+
+  static from(db: DB) {
+    return new UserDB(db)
   }
 
   // Table
@@ -122,17 +126,14 @@ export class UserDB {
     return r[0].exist === 0
   }
 
-  // 테스트가 없다
   async updateUserADate(id: number, now: Date) {
     return this.db.query('update user set adate = ? where id = ?', [now, id])
   }
 
-  // 테스트가 없다
   async updateHash(email: string, hash: string) {
     return this.db.query('update user set hash = ? where email = ?', [hash, email])
   }
 
-  // 테스트가 없다
   async deactivateUser(id: number) {
     return this.db.query('update user set status = "d" where id = ?', id)
   }
@@ -152,7 +153,7 @@ export class UserDB {
     this.userHomeMap.set(user.home.toLowerCase(), user)
   }
 
-  async getCachedById(id: number): Promise<User|undefined> {
+  async getCachedById(id: number): Promise<User | undefined> {
     let user = this.userIdMap.get(id)
     if (user) {
       return user
@@ -166,7 +167,7 @@ export class UserDB {
     return this.userIdMap.get(id)
   }
 
-  async getCachedByIdByHome(home: string): Promise<User|undefined> {
+  async getCachedByIdByHome(home: string): Promise<User | undefined> {
     let user = this.userHomeMap.get(home.toLowerCase())
     if (user) {
       return user
@@ -180,13 +181,13 @@ export class UserDB {
     return this.userHomeMap.get(home.toLowerCase())
   }
 
-  async getCachedByIdByEmail(email: string): Promise<User|undefined> {
+  async getCachedByIdByEmail(email: string): Promise<User | undefined> {
     const user = await this.findUserByEmail(email)
     if (user) this.cache(user)
     return user
   }
 
-  deleteCache(id: number) {
+  deleteCacheById(id: number) {
     const user = this.userIdMap.get(id)
     if (user) {
       this.userIdMap.delete(id)

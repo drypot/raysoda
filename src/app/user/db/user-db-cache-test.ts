@@ -1,7 +1,7 @@
-import { Config, loadConfig } from '../../config/config.js'
+import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from './user-db.js'
-import { insertUserDBFixture1 } from './user-db-fixture.js'
+import { insertUserFix1 } from './user-db-fixture.js'
 
 describe('UserCache', () => {
 
@@ -10,10 +10,9 @@ describe('UserCache', () => {
   let udb: UserDB
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
-    udb = new UserDB(db)
-    await db.createDatabase()
+    config = configFrom('config/app-test.json')
+    db = await DB.from(config).createDatabase()
+    udb = UserDB.from(db)
   })
 
   afterAll(async () => {
@@ -23,51 +22,82 @@ describe('UserCache', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable(false)
-    await insertUserDBFixture1(udb)
+    await insertUserFix1(udb)
   })
 
   describe('getCachedById', () => {
-    beforeEach(() => {
+    it('reset cache', async () => {
       udb.resetCache()
     })
-    it('should work', async () => {
-      expect(udb.getStrictlyCachedById(1)?.id).toBe(undefined)
-      expect((await udb.getCachedById(1))?.id).toBe(1)
-      expect(udb.getStrictlyCachedById(1)?.id).toBe(1)
+    it('user1 should not exist in cache', () => {
+      const user = udb.getStrictlyCachedById(1)
+      expect(user?.id).toBe(undefined)
+    })
+    it('getCachedById loads user1', async () => {
+      const user = await udb.getCachedById(1)
+      expect(user?.id).toBe(1)
+    })
+    it('user1 should exist in cache', () => {
+      const user = udb.getStrictlyCachedById(1)
+      expect(user?.id).toBe(1)
     })
   })
 
   describe('getCachedByIdByHome', () => {
-    beforeEach(() => {
+    it('reset cache', async () => {
       udb.resetCache()
     })
-    it('should work', async () => {
-      expect(udb.getStrictlyCachedByIdByHome('user1')?.home).toBe(undefined)
-      expect((await udb.getCachedByIdByHome('user1'))?.home).toBe('user1')
-      expect(udb.getStrictlyCachedByIdByHome('user1')?.home).toBe('user1')
+    it('user1 should not exist in cache', () => {
+      const user = udb.getStrictlyCachedByIdByHome('user1')
+      expect(user?.home).toBe(undefined)
+    })
+    it('getCachedByIdByHome loads user1', async () => {
+      const user = await udb.getCachedByIdByHome('user1')
+      expect(user?.home).toBe('user1')
+    })
+    it('user1 should exist in cache', () => {
+      const user = udb.getStrictlyCachedByIdByHome('user1')
+      expect(user?.home).toBe('user1')
     })
   })
 
   describe('getCachedByIdByEmail', () => {
-    beforeEach(() => {
+    it('reset cache', async () => {
       udb.resetCache()
     })
-    it('should work', async () => {
-      expect(udb.getStrictlyCachedByIdByHome('user1')?.home).toBe(undefined)
-      expect((await udb.getCachedByIdByEmail('user1@mail.test'))?.home).toBe('user1')
-      expect(udb.getStrictlyCachedByIdByHome('user1')?.home).toBe('user1')
+    it('user1 should not exist in cache', () => {
+      const user = udb.getStrictlyCachedByIdByHome('user1')
+      expect(user?.home).toBe(undefined)
+    })
+    it('getCachedByIdByEmail can load user1', async () => {
+      const user = await udb.getCachedByIdByHome('user1')
+      expect(user?.home).toBe('user1')
+    })
+    it('user1 should exist in cache', () => {
+      const user = udb.getStrictlyCachedByIdByHome('user1')
+      expect(user?.home).toBe('user1')
     })
   })
 
-  describe('deleteCache', () => {
-    beforeAll(() => {
+  describe('deleteCacheById', () => {
+    it('reset cache', async () => {
       udb.resetCache()
     })
-    it('should work', async () => {
-      await udb.getCachedById(1)
-      expect(udb.getStrictlyCachedById(1)?.id).toBe(1)
-      udb.deleteCache(1)
-      expect(udb.getStrictlyCachedById(1)?.id).toBe(undefined)
+    it('getCachedById can load user1', async () => {
+      const user = await udb.getCachedById(1)
+      expect(user?.id).toBe(1)
+    })
+    it('user1 should exist in cache', () => {
+      const user = udb.getStrictlyCachedById(1)
+      expect(user?.id).toBe(1)
+    })
+    it('delete user1 from cache', () => {
+      udb.deleteCacheById(1)
+    })
+    it('user1 should not exist in cache', () => {
+      const user = udb.getStrictlyCachedById(1)
+      expect(user?.id).toBe(undefined)
     })
   })
+
 })

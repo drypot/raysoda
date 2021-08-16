@@ -1,7 +1,7 @@
-import { Config, loadConfig } from '../../config/config.js'
+import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from './user-db.js'
-import { newUser, User } from '../entity/user-entity.js'
+import { userOf } from '../entity/user-entity.js'
 
 describe('UserDB', () => {
 
@@ -10,10 +10,9 @@ describe('UserDB', () => {
   let udb: UserDB
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
-    udb = new UserDB(db)
-    await db.createDatabase()
+    config = configFrom('config/app-test.json')
+    db = await DB.from(config).createDatabase()
+    udb = UserDB.from(db)
   })
 
   afterAll(async () => {
@@ -21,21 +20,21 @@ describe('UserDB', () => {
   })
 
   describe('insertUser', () => {
-    beforeEach(async () => {
+    it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
     })
-    it('should work', async () => {
-      let user: User | undefined
-
-      user = await udb.findUserById(1)
+    it('user should not exist', async () => {
+      const user = await udb.findUserById(123)
       expect(user?.id).toBe(undefined)
-
-      const user2 = newUser({ id: 123, name: 'User 1', home: 'user1', email: 'user1@mail.test' })
+    })
+    it('insert user', async () => {
+      const user2 = userOf({ id: 123, name: 'User 1', home: 'user1', email: 'user1@mail.test' })
       await udb.insertUser(user2)
-
-      user = await udb.findUserById(123)
-      expect(user?.home).toBe('user1')
+    })
+    it('user should exist', async () => {
+      const user = await udb.findUserById(123)
+      expect(user?.id).toBe(123)
     })
   })
 

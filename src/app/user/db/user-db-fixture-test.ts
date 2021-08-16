@@ -1,7 +1,7 @@
-import { Config, loadConfig } from '../../config/config.js'
+import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
-import { MSG_USER_NOT_FOUND, UserDB } from './user-db.js'
-import { insertUserDBFixture1, insertUserDBFixture4 } from './user-db-fixture.js'
+import { UserDB } from './user-db.js'
+import { insertUserFix1, insertUserFix4 } from './user-db-fixture.js'
 
 describe('UserDB', () => {
 
@@ -10,56 +10,55 @@ describe('UserDB', () => {
   let udb: UserDB
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
-    db = new DB(config)
-    udb = new UserDB(db)
-    await db.createDatabase()
+    config = configFrom('config/app-test.json')
+    db = await DB.from(config).createDatabase()
+    udb = UserDB.from(db)
   })
 
   afterAll(async () => {
     await db.close()
   })
 
-  describe('insertUserDBFixture1', () => {
-    beforeAll(async () => {
+  describe('insertUserFix1', () => {
+    it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
-      await insertUserDBFixture1(udb)
+    })
+    it('user1 should not exist', async () => {
+      let user = await udb.findUserById(1)
+      expect(user?.id).toBe(undefined)
+    })
+    it('fill table with fixture 1', async () => {
+      await insertUserFix1(udb)
     })
     it('user1 should exist', async () => {
       let user = await udb.findUserById(1)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
-      expect(user.name).toBe('User 1')
-      expect(user.home).toBe('user1')
+      expect(user?.id).toBe(1)
     })
   })
 
-  describe('insertUserDBFixture4', () => {
-    beforeAll(async () => {
+  describe('insertUserFix4', () => {
+    it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
-      await insertUserDBFixture4(udb)
+    })
+    it('fill table with fixture 4', async () => {
+      await insertUserFix4(udb)
     })
     it('user1 should exist', async () => {
       let user = await udb.findUserById(1)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
-      expect(user.name).toBe('User 1')
-      expect(user.home).toBe('user1')
-      expect(user.admin).toBe(false)
+      expect(user?.home).toBe('user1')
+      expect(user?.admin).toBe(false)
     })
     it('user3 should exist', async () => {
       let user = await udb.findUserById(3)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
-      expect(user.name).toBe('User 3')
-      expect(user.home).toBe('user3')
-      expect(user.admin).toBe(false)
+      expect(user?.home).toBe('user3')
+      expect(user?.admin).toBe(false)
     })
     it('admin should exist', async () => {
       let user = await udb.findUserById(4)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
-      expect(user.name).toBe('Admin')
-      expect(user.home).toBe('admin')
-      expect(user.admin).toBe(true)
+      expect(user?.home).toBe('admin')
+      expect(user?.admin).toBe(true)
     })
   })
 
