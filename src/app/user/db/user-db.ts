@@ -127,15 +127,18 @@ export class UserDB {
   }
 
   async updateUserADate(id: number, now: Date) {
-    return this.db.query('update user set adate = ? where id = ?', [now, id])
+    const r = await this.db.query('update user set adate = ? where id = ?', [now, id])
+    return r.changedRows as number
   }
 
   async updateHash(email: string, hash: string) {
-    return this.db.query('update user set hash = ? where email = ?', [hash, email])
+    const r = await this.db.query('update user set hash = ? where email = ?', [hash, email])
+    return r.changedRows as number
   }
 
   async deactivateUser(id: number) {
-    return this.db.query('update user set status = "d" where id = ?', id)
+    const r = await this.db.query('update user set status = "d" where id = ?', id)
+    return r.changedRows as number
   }
 
   // Cache
