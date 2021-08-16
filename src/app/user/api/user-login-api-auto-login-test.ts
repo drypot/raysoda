@@ -1,10 +1,10 @@
-import { Config, loadConfig } from '../../config/config.js'
+import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../db/user-db.js'
-import { insertUserDBFixture4 } from '../db/user-db-fixture.js'
+import { insertUserFix4 } from '../db/user-db-fixture.js'
 import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { initUserLoginApi } from './user-login-api.js'
+import { registerUserLoginApi } from './user-login-api.js'
 import { Router } from 'express'
 import { NOT_AUTHENTICATED } from '../form/user-form.js'
 import { loginForTest, logoutForTest, User1Login } from './user-login-api-fixture.js'
@@ -20,14 +20,13 @@ describe('UserLoginApi', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
+    config = configFrom('config/app-test.json')
 
-    db = new DB(config)
-    udb = new UserDB(db)
-    await db.createDatabase()
+    db = await DB.from(config).createDatabase()
+    udb = UserDB.from(db)
 
-    web = new Express2(config)
-    initUserLoginApi(udb, web)
+    web = Express2.from(config)
+    registerUserLoginApi(web, udb)
     await web.start()
     router = web.router
     request = web.spawnRequest()
@@ -38,13 +37,15 @@ describe('UserLoginApi', () => {
     await db.close()
   })
 
-  beforeAll(async () => {
-    await udb.dropTable()
-    await udb.createTable(false)
-    await insertUserDBFixture4(udb)
-  })
+  describe('auto login', () => {
+    it('init table', async () => {
+      await udb.dropTable()
+      await udb.createTable(false)
+    })
+    it('fill fix', async () => {
+      await insertUserFix4(udb)
+    })
 
-  describe('testing auto login', () => {
     it('before login', () => {
       //
     })
@@ -57,31 +58,31 @@ describe('UserLoginApi', () => {
       expect(res.body.email).toBe(undefined)
     })
 
-    it('after login with remember true', async () => {
+    it('login', async () => {
       await loginForTest(request, User1Login, true)
     })
-    it('get login should ok', async () => {
+    it('get login should work', async () => {
       const res = await request.get('/api/user/login').expect(200)
-      expect(res.body.err).toBe(undefined)
+      expect(res.body.user.id).toBe(1)
     })
     it('cookie should be filled', async () => {
       const res = await request.get('/api/cookies').expect(200)
       expect(res.body.email).toBe('user1@mail.test')
     })
 
-    it('after session destroyed', async () => {
+    it('destroy session', async () => {
       await request.post('/api/destroy-session').expect(200)
     })
-    it('get login should ok (autologin worked)', async () => {
+    it('get login should work (autologin worked)', async () => {
       const res = await request.get('/api/user/login').expect(200)
-      expect(res.body.err).toBe(undefined)
+      expect(res.body.user.id).toBe(1)
     })
     it('cookie should still exist', async () => {
       const res = await request.get('/api/cookies').expect(200)
       expect(res.body.email).toBe('user1@mail.test')
     })
 
-    it('after logout', async () => {
+    it('logout', async () => {
       await logoutForTest(request)
     })
     it('get login should fail', async () => {
@@ -93,18 +94,18 @@ describe('UserLoginApi', () => {
       expect(res.body.email).toBe(undefined)
     })
 
-    it('after login 2', async () => {
+    it('login 2', async () => {
       await loginForTest(request, User1Login, true)
     })
-    it('get login should ok', async () => {
+    it('get login should work', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toBe(undefined)
     })
 
-    it('after db email changed', async () => {
+    it('change db email', async () => {
       await db.query('update user set email = "userx@mail.test" where id = ?', 1)
     })
-    it('after session destroyed', async () => {
+    it('destroy session', async () => {
       await request.post('/api/destroy-session').expect(200)
     })
     it('get login should fail (autologin failed)', async () => {

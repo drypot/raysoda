@@ -1,10 +1,10 @@
-import { Config, loadConfig } from '../../config/config.js'
+import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../db/user-db.js'
-import { insertUserDBFixture4 } from '../db/user-db-fixture.js'
+import { insertUserFix4 } from '../db/user-db-fixture.js'
 import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { initUserLoginApi } from './user-login-api.js'
+import { registerUserLoginApi } from './user-login-api.js'
 import { Router } from 'express'
 import { NOT_AUTHENTICATED } from '../form/user-form.js'
 import { loginForTest, logoutForTest, User1Login } from './user-login-api-fixture.js'
@@ -20,14 +20,13 @@ describe('UserLoginApi', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
+    config = configFrom('config/app-test.json')
 
-    db = new DB(config)
-    udb = new UserDB(db)
-    await db.createDatabase()
+    db = await DB.from(config).createDatabase()
+    udb = UserDB.from(db)
 
-    web = new Express2(config)
-    initUserLoginApi(udb, web)
+    web = Express2.from(config)
+    registerUserLoginApi(web, udb)
     await web.start()
     router = web.router
     request = web.spawnRequest()
@@ -38,19 +37,27 @@ describe('UserLoginApi', () => {
     await db.close()
   })
 
-  beforeAll(async () => {
-    await udb.dropTable()
-    await udb.createTable(false)
-    await insertUserDBFixture4(udb)
-  })
-
   describe('login/logout', () => {
-    it('should work', async () => {
+    it('init table', async () => {
+      await udb.dropTable()
+      await udb.createTable(false)
+    })
+    it('fill fix', async () => {
+      await insertUserFix4(udb)
+    })
+
+    it('login', async () => {
       await loginForTest(request, User1Login)
-      let res = await request.get('/api/user/login').expect(200)
-      expect(res.body).toEqual({ user: { id: 1, name: 'User 1' } })
+    })
+    it('get login should work', async () => {
+      const res = await request.get('/api/user/login').expect(200)
+      expect(res.body.user.id).toBe(1)
+    })
+    it('logout', async () => {
       await logoutForTest(request)
-      res = await request.get('/api/user/login').expect(200)
+    })
+    it('get login should fail', async () => {
+      const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
   })

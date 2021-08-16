@@ -1,10 +1,10 @@
-import { Config, loadConfig } from '../../config/config.js'
+import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../db/user-db.js'
-import { insertUserDBFixture4 } from '../db/user-db-fixture.js'
+import { insertUserFix4 } from '../db/user-db-fixture.js'
 import { Express2, toCallback } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { getSessionUser, initUserLoginApi } from './user-login-api.js'
+import { registerUserLoginApi, sessionUserFrom } from './user-login-api.js'
 import { Router } from 'express'
 import { NOT_AUTHENTICATED } from '../form/user-form.js'
 
@@ -19,14 +19,13 @@ describe('UserLoginApi', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
+    config = configFrom('config/app-test.json')
 
-    db = new DB(config)
-    udb = new UserDB(db)
-    await db.createDatabase()
+    db = await DB.from(config).createDatabase()
+    udb = UserDB.from(db)
 
-    web = new Express2(config)
-    initUserLoginApi(udb, web)
+    web = Express2.from(config)
+    registerUserLoginApi(web, udb)
     await web.start()
     router = web.router
     request = web.spawnRequest()
@@ -37,30 +36,28 @@ describe('UserLoginApi', () => {
     await db.close()
   })
 
-  beforeAll(async () => {
-    await udb.dropTable()
-    await udb.createTable(false)
-    await insertUserDBFixture4(udb)
-  })
-
-  describe('story: redirect to login', () => {
+  describe('redirect to login', () => {
     beforeAll(() => {
       router.get('/test/public', (req, res) => {
         res.send('public')
       })
       router.get('/test/private', toCallback(async (req, res) => {
-        const user = await getSessionUser(res)
+        const user = await sessionUserFrom(res)
         if (!user) throw NOT_AUTHENTICATED
         res.send('private')
       }))
     })
-    it('before login', () => {
-      //
+    it('init table', async () => {
+      await udb.dropTable()
+      await udb.createTable(false)
     })
-    it('access public page should ok', async () => {
+    it('fill fix', async () => {
+      await insertUserFix4(udb)
+    })
+    it('access public should work', async () => {
       await request.get('/test/public').expect(200)
     })
-    it('access private page should be redirected to login', async () => {
+    it('access private should be redirected to login', async () => {
       await request.get('/test/private').expect(302).expect('Location', '/user/login')
     })
 

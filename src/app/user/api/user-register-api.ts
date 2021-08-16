@@ -1,11 +1,11 @@
-import { UserDB } from '../db/user-db.js'
+import { MSG_USER_NOT_FOUND, UserDB } from '../db/user-db.js'
 import { Express2, toCallback } from '../../../lib/express/express2.js'
-import { registerUser } from '../service/user-service.js'
+import { registerUserService } from '../service/user-service.js'
 import { Request } from 'express'
 import { UserForm } from '../form/user-form.js'
 import { FormError } from '../../../lib/base/error2.js'
 
-export function initUserRegisterApi(udb: UserDB, web: Express2) {
+export function registerUserRegisterApi(web: Express2, udb: UserDB) {
 
   const router = web.router
 
@@ -22,17 +22,18 @@ export function initUserRegisterApi(udb: UserDB, web: Express2) {
   // Api
 
   router.post('/api/user', toCallback(async (req, res) => {
-    let form = getUserForm(req)
+    let form = userFormFrom(req)
     form.home = form.name
-    const errs = [] as FormError[]
-    const user = await registerUser(udb, form, errs)
-    if (!user) throw errs
+    const errs: FormError[] = []
+    const user = await registerUserService(udb, form, errs)
+    if (errs.length) throw errs
+    if (!user) throw new Error(MSG_USER_NOT_FOUND)
     res.json({ id: user.id })
   }))
 
 }
 
-export function getUserForm(req: Request): UserForm {
+export function userFormFrom(req: Request): UserForm {
   const body = req.body
   return {
     id: 0,

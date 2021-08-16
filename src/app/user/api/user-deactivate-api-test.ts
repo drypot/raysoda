@@ -1,15 +1,15 @@
-import { Config, loadConfig } from '../../config/config.js'
+import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../db/user-db.js'
-import { insertUserDBFixture4 } from '../db/user-db-fixture.js'
+import { insertUserFix4 } from '../db/user-db-fixture.js'
 import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { initUserDeactivateApi } from './user-deactivate-api.js'
+import { registerUserDeactivateApi } from './user-deactivate-api.js'
 import { AdminLogin, loginForTest, logoutForTest, User1Login, User2Login } from './user-login-api-fixture.js'
-import { initUserLoginApi } from './user-login-api.js'
+import { registerUserLoginApi } from './user-login-api.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../form/user-form.js'
 
-describe('initUserDeactivateApi', () => {
+describe('UserDeactivateApi', () => {
 
   let config: Config
 
@@ -20,15 +20,14 @@ describe('initUserDeactivateApi', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfig('config/app-test.json')
+    config = configFrom('config/app-test.json')
 
-    db = new DB(config)
-    udb = new UserDB(db)
-    await db.createDatabase()
+    db = await DB.from(config).createDatabase()
+    udb = UserDB.from(db)
 
-    web = new Express2(config)
-    initUserLoginApi(udb, web)
-    initUserDeactivateApi(udb, web)
+    web = Express2.from(config)
+    registerUserLoginApi(web, udb)
+    registerUserDeactivateApi(web, udb)
     await web.start()
     request = web.spawnRequest()
   })
@@ -41,7 +40,7 @@ describe('initUserDeactivateApi', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable(false)
-    await insertUserDBFixture4(udb)
+    await insertUserFix4(udb)
   })
 
   // Pages

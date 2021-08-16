@@ -10,9 +10,9 @@ import {
 } from '../form/user-form.js'
 import { FormError } from '../../../lib/base/error2.js'
 import { User } from '../entity/user-entity.js'
-import { checkPasswordHash } from '../entity/user-password.js'
+import { checkHash } from '../../../lib/base/hash.js'
 
-export function initUserLoginApi(udb: UserDB, web: Express2) {
+export function registerUserLoginApi(web: Express2, udb: UserDB) {
 
   const router = web.router
 
@@ -25,19 +25,19 @@ export function initUserLoginApi(udb: UserDB, web: Express2) {
   // Api
 
   router.get('/api/user/login', toCallback(async function (req, res) {
-    const user = getSessionUser(res)
+    const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     res.json({
-      user: { id: user.id, name: user.name }
+      user: { id: user.id, name: user.name, home: user.home, admin: user.admin }
     })
   }))
 
-  router.get('/api/user/login-admin', toCallback(async function (req, res) {
-    const user = getSessionUser(res)
+  router.get('/api/user/admin-login', toCallback(async function (req, res) {
+    const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     if (!user.admin) throw NOT_AUTHORIZED
     res.json({
-      user: { id: user.id, name: user.name }
+      user: { id: user.id, name: user.name, home: user.home, admin: user.admin }
     })
   }))
 
@@ -45,7 +45,7 @@ export function initUserLoginApi(udb: UserDB, web: Express2) {
     const email = String(req.body.email || '').trim()
     const password = String(req.body.password || '').trim()
     const remember = !!req.body.remember
-    const errs = [] as FormError[]
+    const errs: FormError[] = []
     const user = await findUserByEmailPassword(email, password, errs)
     if (errs.length) throw errs
     if (!user) throw new Error(MSG_USER_NOT_FOUND)
@@ -55,10 +55,7 @@ export function initUserLoginApi(udb: UserDB, web: Express2) {
       res.cookie('password', password, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
     }
     res.json({
-      user: {
-        id: user.id,
-        name: user.name
-      }
+      user: { id: user.id, name: user.name, home: user.home, admin: user.admin }
     })
   }))
 
@@ -70,7 +67,7 @@ export function initUserLoginApi(udb: UserDB, web: Express2) {
     const email = req.cookies.email
     const password = req.cookies.password
     if (!email || !password) return
-    const errs = [] as FormError[]
+    const errs: FormError[] = []
     const user = await findUserByEmailPassword(email, password, errs)
     if (!user) {
       res.clearCookie('email')
@@ -103,7 +100,7 @@ export function initUserLoginApi(udb: UserDB, web: Express2) {
       errs.push(ACCOUNT_DEACTIVATED)
       return
     }
-    if (!await checkPasswordHash(password, user.hash)) {
+    if (!await checkHash(password, user.hash)) {
       errs.push(PASSWORD_WRONG)
       return
     }
@@ -122,11 +119,11 @@ export function initUserLoginApi(udb: UserDB, web: Express2) {
 
 }
 
-export function getSessionUser(res: Response) {
+export function sessionUserFrom(res: Response) {
   return res.locals.user as User | undefined
 }
 
-export function hasPermToUpdate(op: User, id: number) {
+export function userCanUpdate(op: User, id: number) {
   return op.id === id || op.admin
 }
 
