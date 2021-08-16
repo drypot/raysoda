@@ -8,12 +8,12 @@ import {
   NAME_DUPE,
   NAME_EMPTY,
   NAME_RANGE,
-  userFormOf,
-  PASSWORD_RANGE
+  PASSWORD_RANGE,
+  userFormOf
 } from '../form/user-form.js'
 import { insertUserFix1 } from '../db/user-db-fixture.js'
 import { FormError } from '../../../lib/base/error2.js'
-import { registerUser } from './user-service.js'
+import { registerUserService } from './user-service.js'
 import { checkHash } from '../../../lib/base/hash.js'
 
 describe('UserService', () => {
@@ -32,7 +32,7 @@ describe('UserService', () => {
     await db.close()
   })
 
-  describe('registerUser', () => {
+  describe('registerUserService', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
@@ -45,7 +45,7 @@ describe('UserService', () => {
         name: 'User X', home: 'userx', email: 'userx@mail.test', password: '1234', profile: '',
       })
       const errs: FormError[] = []
-      const user = await registerUser(udb, form, errs)
+      const user = await registerUserService(udb, form, errs)
       if (!user) throw new Error(MSG_USER_NOT_FOUND)
     })
     it('can be checked', async () => {
@@ -61,55 +61,55 @@ describe('UserService', () => {
     it('fail if name empty', async () => {
       const form = userFormOf({ name: '', })
       const errs: FormError[] = []
-      await registerUser(udb, form, errs)
+      await registerUserService(udb, form, errs)
       expect(errs).toContain(NAME_EMPTY)
     })
     it('fail if name is long', async () => {
       const form = userFormOf({ name: 'x'.repeat(33), })
       const errs: FormError[] = []
-      await registerUser(udb, form, errs)
+      await registerUserService(udb, form, errs)
       expect(errs).toContain(NAME_RANGE)
     })
     it('fail if in use', async () => {
       const errs: FormError[] = []
       const form = userFormOf({ name: 'User 1', })
-      await registerUser(udb, form, errs)
+      await registerUserService(udb, form, errs)
       expect(errs).toContain(NAME_DUPE)
     })
     it('fail if in use 2', async () => {
       const errs: FormError[] = []
       const form = userFormOf({ name: 'user1', })
-      await registerUser(udb, form, errs)
+      await registerUserService(udb, form, errs)
       expect(errs).toContain(NAME_DUPE)
     })
     it('fail if email empty', async () => {
       const errs: FormError[] = []
       const form = userFormOf({ email: '', })
-      await registerUser(udb, form, errs)
+      await registerUserService(udb, form, errs)
       expect(errs).toContain(EMAIL_EMPTY)
     })
     it('fail if email format invalid', async () => {
       const errs: FormError[] = []
       const form = userFormOf({ email: 'abc.mail.test', })
-      await registerUser(udb, form, errs)
+      await registerUserService(udb, form, errs)
       expect(errs).toContain(EMAIL_PATTERN)
     })
     it('fail if email in use', async () => {
       const errs: FormError[] = []
       const form = userFormOf({ email: 'user1@mail.test', })
-      await registerUser(udb, form, errs)
+      await registerUserService(udb, form, errs)
       expect(errs).toContain(EMAIL_DUPE)
     })
     it('fail if password short', async () => {
       const errs: FormError[] = []
       const form = userFormOf({ password: '123', })
-      await registerUser(udb, form, errs)
+      await registerUserService(udb, form, errs)
       expect(errs).toContain(PASSWORD_RANGE)
     })
     it('fail if password long', async () => {
       const errs: FormError[] = []
       const form = userFormOf({ password: 'x'.repeat(33), })
-      await registerUser(udb, form, errs)
+      await registerUserService(udb, form, errs)
       expect(errs).toContain(PASSWORD_RANGE)
     })
   })

@@ -1,11 +1,12 @@
 import {
-  checkEmailFormat,
   checkEmailDB,
-  checkHomeFormat,
+  checkEmailFormat,
   checkHomeDB,
-  checkNameFormat,
+  checkHomeFormat,
   checkNameDB,
-  checkPasswordFormat, USER_NOT_FOUND,
+  checkNameFormat,
+  checkPasswordFormat,
+  USER_NOT_FOUND,
   UserForm
 } from '../form/user-form.js'
 import { userOf } from '../entity/user-entity.js'
@@ -13,7 +14,7 @@ import { FormError } from '../../../lib/base/error2.js'
 import { UserDB } from '../db/user-db.js'
 import { makeHash } from '../../../lib/base/hash.js'
 
-export async function registerUser(udb: UserDB, form: UserForm, errs: FormError[]) {
+export async function registerUserService(udb: UserDB, form: UserForm, errs: FormError[]) {
   checkNameFormat(form.name, errs)
   checkHomeFormat(form.home, errs)
   checkEmailFormat(form.email, errs)
@@ -33,7 +34,7 @@ export async function registerUser(udb: UserDB, form: UserForm, errs: FormError[
   return user
 }
 
-export async function deactivateUser(udb: UserDB, id: number, errs: FormError[]) {
+export async function deactivateUserService(udb: UserDB, id: number, errs: FormError[]) {
   const count = await udb.deactivateUser(id)
   if (!count) {
     errs.push(USER_NOT_FOUND)
