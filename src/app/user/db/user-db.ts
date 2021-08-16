@@ -101,7 +101,7 @@ export class UserDB {
     return user
   }
 
-  async checkNameUsable(id: number, name: string): Promise<boolean> {
+  async nameIsAvailable(id: number, name: string): Promise<boolean> {
     const r = await this.db.query(
       'select exists(select * from user where name = ? and id != ?) as exist',
       [name, id]
@@ -109,7 +109,7 @@ export class UserDB {
     return r[0].exist === 0
   }
 
-  async checkHomeUsable(id: number, home: string): Promise<boolean> {
+  async homeIsAvailable(id: number, home: string): Promise<boolean> {
     const r = await this.db.query(
       'select exists(select * from user where home = ? and id != ?) as exist',
       [home, id]
@@ -118,7 +118,7 @@ export class UserDB {
 
   }
 
-  async checkEmailUsable(id: number, email: string): Promise<boolean> {
+  async emailIsAvailable(id: number, email: string): Promise<boolean> {
     const r = await this.db.query(
       'select exists(select * from user where email = ? and id != ?) as exist',
       [email, id]

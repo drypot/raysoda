@@ -25,17 +25,17 @@ describe('UserDB', () => {
     await insertUserFix1(udb)
   })
 
-  describe('checkNameUsable', () => {
+  describe('nameIsAvailable', () => {
     it('must be true if they are the same entity', async () => {
-      const usable = await udb.checkNameUsable(1, 'User 1')
+      const usable = await udb.nameIsAvailable(1, 'User 1')
       expect(usable).toBe(true)
     })
     it('must be true if not already in use', async () => {
-      const usable = await udb.checkNameUsable(0, 'User X')
+      const usable = await udb.nameIsAvailable(0, 'User X')
       expect(usable).toBe(true)
     })
     it('must be false if already in use', async () => {
-      const usable = await udb.checkNameUsable(0, 'User 1')
+      const usable = await udb.nameIsAvailable(0, 'User 1')
       expect(usable).toBe(false)
     })
   })
