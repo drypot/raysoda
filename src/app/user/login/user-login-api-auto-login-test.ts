@@ -25,9 +25,8 @@ describe('UserLoginApi', () => {
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
 
-    web = Express2.from(config)
+    web = await Express2.from(config).start()
     registerUserLoginApi(web, udb)
-    await web.start()
     router = web.router
     request = web.spawnRequest()
   })

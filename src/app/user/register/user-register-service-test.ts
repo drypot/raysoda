@@ -16,7 +16,7 @@ import { FormError } from '../../../lib/base/error2.js'
 import { registerUserService } from './user-register-service.js'
 import { checkHash } from '../../../lib/base/hash.js'
 
-describe('UserService', () => {
+describe('UserRegisterService', () => {
 
   let config: Config
   let db: DB
