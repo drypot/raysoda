@@ -44,22 +44,6 @@ describe('UserRegisterApi', () => {
     await db.close()
   })
 
-  // Pages
-
-  describe('page /user/register', () => {
-    it('should work', async () => {
-      await request.get('/user/register').expect(200).expect(/<title>Register/)
-    })
-  })
-
-  describe('page /user/register-done', () => {
-    it('should work', async () => {
-      await request.get('/user/register-done').expect(200).expect(/<title>Registered/)
-    })
-  })
-
-  // Api
-
   describe('register new user', () => {
     it('init table', async () => {
       await udb.dropTable()
