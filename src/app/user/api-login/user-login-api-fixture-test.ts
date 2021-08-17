@@ -2,11 +2,12 @@ import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../db/user-db.js'
 import { insertUserFix4 } from '../db/user-db-fixture.js'
-import { Express2, toCallback } from '../../../lib/express/express2.js'
+import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi, sessionUserFrom } from './user-login-api.js'
+import { registerUserLoginApi } from './user-login-api.js'
 import { Router } from 'express'
-import { NOT_AUTHENTICATED } from '../form/user-form.js'
+import { NOT_AUTHENTICATED } from '../api-register-form/user-form.js'
+import { loginForTest, logoutForTest, User1Login } from './user-login-api-fixture.js'
 
 describe('UserLoginApi', () => {
 
@@ -36,17 +37,7 @@ describe('UserLoginApi', () => {
     await db.close()
   })
 
-  describe('redirect to login', () => {
-    beforeAll(() => {
-      router.get('/test/public', (req, res) => {
-        res.send('public')
-      })
-      router.get('/test/private', toCallback(async (req, res) => {
-        const user = await sessionUserFrom(res)
-        if (!user) throw NOT_AUTHENTICATED
-        res.send('private')
-      }))
-    })
+  describe('login/logout', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
@@ -54,13 +45,21 @@ describe('UserLoginApi', () => {
     it('fill fix', async () => {
       await insertUserFix4(udb)
     })
-    it('access public should work', async () => {
-      await request.get('/test/public').expect(200)
-    })
-    it('access private should be redirected to login', async () => {
-      await request.get('/test/private').expect(302).expect('Location', '/user/login')
-    })
 
+    it('login', async () => {
+      await loginForTest(request, User1Login)
+    })
+    it('get login should work', async () => {
+      const res = await request.get('/api/user/login').expect(200)
+      expect(res.body.user.id).toBe(1)
+    })
+    it('logout', async () => {
+      await logoutForTest(request)
+    })
+    it('get login should fail', async () => {
+      const res = await request.get('/api/user/login').expect(200)
+      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+    })
   })
 
 })

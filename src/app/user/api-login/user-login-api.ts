@@ -7,7 +7,7 @@ import {
   NOT_AUTHENTICATED,
   NOT_AUTHORIZED,
   PASSWORD_WRONG
-} from '../form/user-form.js'
+} from '../api-register-form/user-form.js'
 import { FormError } from '../../../lib/base/error2.js'
 import { User } from '../entity/user-entity.js'
 import { checkHash } from '../../../lib/base/hash.js'
@@ -19,7 +19,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
   // Pages
 
   router.get('/user/login', (req, res) => {
-    res.render('app/user/view/user-login')
+    res.render('app/user/api-login/user-login-view')
   })
 
   // Api

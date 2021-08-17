@@ -1,0 +1,35 @@
+extends ../../layout/layout
+
+block head-opt
+  title Login - #{appName}
+
+block content
+  script.
+    $(function () {
+      cuser.initLogin();
+    });
+
+  .section.page-title
+    h1 로그인
+
+  .section
+    form.main
+      .sub-section
+        .form-group
+          label.control-label 이메일
+          input.form-control(name='email', type='text')
+        .form-group
+          label.control-label 비밀번호
+          input.form-control(name='password', type='password')
+        .form-group
+          label.control-label 자동로그인
+          br
+          input(name='remember', type='checkbox')
+      .sub-section
+        button.btn.btn-primary(name='send', data-loading-text='전송중') 로그인
+
+  .section
+    a(href='/user/register') 회원가입
+    br
+    br
+    a(href='/user/reset-pass') 비밀번호 초기화

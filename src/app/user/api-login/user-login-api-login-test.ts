@@ -6,7 +6,7 @@ import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerUserLoginApi } from './user-login-api.js'
 import { Router } from 'express'
-import { EMAIL_NOT_FOUND, NOT_AUTHENTICATED, NOT_AUTHORIZED, PASSWORD_WRONG } from '../form/user-form.js'
+import { EMAIL_NOT_FOUND, NOT_AUTHENTICATED, NOT_AUTHORIZED, PASSWORD_WRONG } from '../api-register-form/user-form.js'
 
 describe('UserLoginApi', () => {
 
@@ -35,16 +35,6 @@ describe('UserLoginApi', () => {
     await web.close()
     await db.close()
   })
-
-  // Pages
-
-  describe('page: /user/login', () => {
-    it('should work', async () => {
-      await request.get('/user/login').expect(200).expect(/<title>Login/)
-    })
-  })
-
-  // Api
 
   describe('login', () => {
     it('init table', async () => {
