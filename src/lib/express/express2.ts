@@ -21,17 +21,14 @@ export class Express2 {
   private multer: Multer | undefined
   public readonly router: Router
 
-  public autoLogin: ExpressHandler | undefined
-  public redirectToLogin: ErrorRequestHandler | undefined
+  public autoLogin: ExpressHandler = (req, res, done) => { done() }
+  public redirectToLogin: ErrorRequestHandler = (err, req, res, done) => { done(err) }
 
   private constructor(config: Config) {
     this.config = config
     this.expr1 = express()
     this.router = express.Router()
     this.httpServer = http.createServer(this.expr1)
-
-    this.autoLogin = undefined
-    this.redirectToLogin = undefined
 
     this.expr1.disable('x-powered-by')
 
@@ -150,9 +147,10 @@ export class Express2 {
   }
 
   private setUpAutoLoginHandler() {
-    if (this.autoLogin) {
-      this.expr1.use(this.autoLogin)
+    const handler: ExpressHandler = (req, res, done)  => {
+      this.autoLogin(req, res, done)
     }
+    this.expr1.use(handler)
   }
 
   private setUpGeneralRouter() {
@@ -190,9 +188,10 @@ export class Express2 {
 
   // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
   private setUpRedirectToLoginHandler() {
-    if (this.redirectToLogin) {
-      this.expr1.use(this.redirectToLogin)
+    const handler: ErrorRequestHandler = (err, req, res, done)  => {
+      this.redirectToLogin(err, req, res, done)
     }
+    this.expr1.use(handler)
   }
 
   // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
