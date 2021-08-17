@@ -46,9 +46,6 @@ describe('UserLoginApi', () => {
       await insertUserFix4(udb)
     })
 
-    it('before login', () => {
-      //
-    })
     it('get login should fail', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)

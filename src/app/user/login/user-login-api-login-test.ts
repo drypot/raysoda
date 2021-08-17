@@ -48,11 +48,11 @@ describe('UserLoginApi', () => {
     it('login', async () => {
       const form = { email: 'user1@mail.test', password: '1234', remember: false }
       const res = await request.post('/api/user/login').send(form).expect(200)
-      expect(res.body).toEqual({ user: { id: 1, name: 'User 1', home: 'user1', admin: false } })
+      expect(res.body.user.id).toBe(1)
     })
     it('get login should work', async () => {
       const res = await request.get('/api/user/login').expect(200)
-      expect(res.body).toEqual({ user: { id: 1, name: 'User 1', home: 'user1', admin: false } })
+      expect(res.body.user.id).toBe(1)
     })
     it('get admin-login should fail', async () => {
       const res = await request.get('/api/user/admin-login').expect(200)
@@ -62,11 +62,13 @@ describe('UserLoginApi', () => {
     it('login as admin', async () => {
       const form = { email: 'admin@mail.test', password: '1234', remember: false }
       const res = await request.post('/api/user/login').send(form).expect(200)
-      expect(res.body).toEqual({ user: { id: 4, name: 'Admin', home: 'admin', admin: true } })
+      expect(res.body.user.id).toBe(4)
+      expect(res.body.user.admin).toBe(true)
     })
     it('get admin-login should work', async () => {
       const res = await request.get('/api/user/admin-login').expect(200)
-      expect(res.body).toEqual({ user: { id: 4, name: 'Admin', home: 'admin', admin: true } })
+      expect(res.body.user.id).toBe(4)
+      expect(res.body.user.admin).toBe(true)
     })
 
     it('logout', async () => {
