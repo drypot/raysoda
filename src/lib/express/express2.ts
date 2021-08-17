@@ -57,10 +57,12 @@ export class Express2 {
     this.expr1.set('views', root)
   }
 
+  static apiPattern = /^\/api\//
+
   start() {
     this.expr1.use(function (req, res, done) {
       res.locals.query = req.query
-      res.locals.api = /^\/api\//.test(req.path)
+      res.locals.api = Express2.apiPattern.test(req.path)
       done()
     })
     this.setUpSessionHandler()
