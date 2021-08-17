@@ -4,7 +4,7 @@ export interface FormError {
   field: string
 }
 
-export function newFormError(name: string, message: string = '', field: string = ''): FormError {
+export function formErrorOf(name: string, message: string = '', field: string = ''): FormError {
   return {
     name,
     message,
@@ -12,8 +12,8 @@ export function newFormError(name: string, message: string = '', field: string =
   }
 }
 
-export const UNKNOWN_ERROR = newFormError('UNKNOWN', 'Unknown error')
-export const INVALID_DATA = newFormError('INVALID_DATA', '비정상적인 값이 입력되었습니다.')
+export const UNKNOWN_ERROR = formErrorOf('UNKNOWN', 'Unknown error')
+export const INVALID_DATA = formErrorOf('INVALID_DATA', '비정상적인 값이 입력되었습니다.')
 
 export function errorExists(err: FormError, errs: FormError | FormError[]) {
   // res.body.err 를 통해 들어온 err 는 FormError 타입이 아니라 일반 Object 이다.
