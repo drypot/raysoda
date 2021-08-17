@@ -6,7 +6,7 @@ import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerUserLoginApi } from './user-login-api.js'
 import { Router } from 'express'
-import { EMAIL_NOT_FOUND, NOT_AUTHENTICATED, NOT_AUTHORIZED, PASSWORD_WRONG } from '../api-register-form/user-form.js'
+import { EMAIL_NOT_FOUND, NOT_AUTHENTICATED, NOT_AUTHORIZED, PASSWORD_WRONG } from '../register-form/user-form.js'
 
 describe('UserLoginApi', () => {
 

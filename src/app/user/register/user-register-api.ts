@@ -2,7 +2,7 @@ import { MSG_USER_NOT_FOUND, UserDB } from '../db/user-db.js'
 import { Express2, toCallback } from '../../../lib/express/express2.js'
 import { registerUserService } from './user-register-service.js'
 import { Request } from 'express'
-import { UserForm } from '../api-register-form/user-form.js'
+import { UserForm } from '../register-form/user-form.js'
 import { FormError } from '../../../lib/base/error2.js'
 
 export function registerUserRegisterApi(web: Express2, udb: UserDB) {
@@ -12,11 +12,11 @@ export function registerUserRegisterApi(web: Express2, udb: UserDB) {
   // Pages
 
   router.get('/user/register', (req, res) => {
-    res.render('app/user/api-register/user-register-view')
+    res.render('app/user/register/user-register-view')
   })
 
   router.get('/user/register-done', (req, res) => {
-    res.render('app/user/api-register/user-register-view-done')
+    res.render('app/user/register/user-register-view-done')
   })
 
   // Api

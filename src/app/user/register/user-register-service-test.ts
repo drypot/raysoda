@@ -10,7 +10,7 @@ import {
   NAME_RANGE,
   PASSWORD_RANGE,
   userFormOf
-} from '../api-register-form/user-form.js'
+} from '../register-form/user-form.js'
 import { insertUserFix1 } from '../db/user-db-fixture.js'
 import { FormError } from '../../../lib/base/error2.js'
 import { registerUserService } from './user-register-service.js'

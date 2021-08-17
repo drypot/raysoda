@@ -7,7 +7,7 @@ import {
   checkNameFormat,
   checkPasswordFormat,
   UserForm
-} from '../api-register-form/user-form.js'
+} from '../register-form/user-form.js'
 import { userOf } from '../entity/user-entity.js'
 import { FormError } from '../../../lib/base/error2.js'
 import { UserDB } from '../db/user-db.js'

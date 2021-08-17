@@ -6,7 +6,7 @@ import { Express2, toCallback } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerUserLoginApi, sessionUserFrom } from './user-login-api.js'
 import { Router } from 'express'
-import { NOT_AUTHENTICATED } from '../api-register-form/user-form.js'
+import { NOT_AUTHENTICATED } from '../register-form/user-form.js'
 
 describe('UserLoginApi', () => {
 
