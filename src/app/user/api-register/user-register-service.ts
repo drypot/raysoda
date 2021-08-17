@@ -6,9 +6,8 @@ import {
   checkNameDB,
   checkNameFormat,
   checkPasswordFormat,
-  USER_NOT_FOUND,
   UserForm
-} from '../form/user-form.js'
+} from '../api-register-form/user-form.js'
 import { userOf } from '../entity/user-entity.js'
 import { FormError } from '../../../lib/base/error2.js'
 import { UserDB } from '../db/user-db.js'
@@ -32,13 +31,4 @@ export async function registerUserService(udb: UserDB, form: UserForm, errs: For
   user.hash = await makeHash(form.password)
   await udb.insertUser(user)
   return user
-}
-
-export async function deactivateUserService(udb: UserDB, id: number, errs: FormError[]) {
-  const count = await udb.deactivateUser(id)
-  if (!count) {
-    errs.push(USER_NOT_FOUND)
-    return
-  }
-  udb.deleteCacheById(id)
 }
