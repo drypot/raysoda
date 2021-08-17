@@ -2,9 +2,9 @@ import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../db/user-db.js'
 import { insertUserFix4 } from '../db/user-db-fixture.js'
-import { USER_NOT_FOUND } from '../form/user-form.js'
-import { deactivateUserService } from './user-service.js'
+import { USER_NOT_FOUND } from '../register-form/user-form.js'
 import { FormError } from '../../../lib/base/error2.js'
+import { deactivateUserService } from './user-deactivate-service.js'
 
 describe('UserService', () => {
 

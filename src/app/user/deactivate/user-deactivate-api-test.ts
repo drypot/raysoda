@@ -5,9 +5,9 @@ import { insertUserFix4 } from '../db/user-db-fixture.js'
 import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerUserDeactivateApi } from './user-deactivate-api.js'
-import { AdminLogin, loginForTest, logoutForTest, User1Login, User2Login } from './user-login-api-fixture.js'
-import { registerUserLoginApi } from './user-login-api.js'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../form/user-form.js'
+import { AdminLogin, loginForTest, User1Login, User2Login } from '../login/user-login-api-fixture.js'
+import { registerUserLoginApi } from '../login/user-login-api.js'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../register-form/user-form.js'
 
 describe('UserDeactivateApi', () => {
 
@@ -37,35 +37,30 @@ describe('UserDeactivateApi', () => {
     await db.close()
   })
 
-  beforeAll(async () => {
-    await udb.dropTable()
-    await udb.createTable(false)
-    await insertUserFix4(udb)
-  })
-
-  // Pages
-
-  describe('page /user/deactivate', () => {
-    it('should work', async () => {
-      await loginForTest(request, User1Login)
-      await request.get('/user/deactivate').expect(200).expect(/<title>Deactivate/)
+  describe('deactivating', () => {
+    it('init table', async () => {
+      await udb.dropTable()
+      await udb.createTable(false)
     })
-  })
-
-  // Api
-
-  describe('deactivating self', () => {
-    it('after login', async () => {
-      await loginForTest(request, User1Login)
-    })
-    it('get login should ok', async () => {
-      const res = await request.get('/api/user/login').expect(200)
-      expect(res.body.err).toEqual(undefined)
+    it('fill fix', async () => {
+      await insertUserFix4(udb)
     })
 
-    it('after deactivating user', async () => {
+    it('deactivating should fail without login', async () => {
       const res = await request.del('/api/user/1').expect(200)
-      expect(res.body.err).toEqual(undefined)
+      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+    })
+
+    it('login', async () => {
+      await loginForTest(request, User1Login)
+    })
+    it('get login should work', async () => {
+      const res = await request.get('/api/user/login').expect(200)
+      expect(res.body.user.id).toBe(1)
+    })
+    it('deactivate user', async () => {
+      const res = await request.del('/api/user/1').expect(200)
+      expect(res.body).toEqual({})
     })
     it('get login should fail', async () => {
       const res = await request.get('/api/user/login').expect(200)
@@ -75,35 +70,21 @@ describe('UserDeactivateApi', () => {
       const user = await udb.findUserById(1)
       expect(user?.status).toBe('d')
     })
-  })
 
-  describe('deactivating without login', () => {
-    it('without login', async () => {
-      await logoutForTest(request)
-    })
-    it('deactivating should fail', async () => {
-      const res = await request.del('/api/user/1').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
-    })
-  })
-
-  describe('deactivating other', () => {
-    it('after login', async () => {
+    it('login as user2', async () => {
       await loginForTest(request, User2Login)
     })
     it('deactivating other should fail', async () => {
       const res = await request.del('/api/user/3').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHORIZED)
     })
-  })
 
-  describe('deactivating other by admin', () => {
-    it('after login', async () => {
+    it('login as admin', async () => {
       await loginForTest(request, AdminLogin)
     })
     it('deactivating other should work', async () => {
       const res = await request.del('/api/user/3').expect(200)
-      expect(res.body.err).toEqual(undefined)
+      expect(res.body).toEqual({})
     })
   })
 

@@ -1,9 +1,9 @@
 import { UserDB } from '../db/user-db.js'
 import { Express2, toCallback } from '../../../lib/express/express2.js'
-import { deactivateUserService } from '../service/user-service.js'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../form/user-form.js'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../register-form/user-form.js'
 import { FormError } from '../../../lib/base/error2.js'
-import { logoutCurrentSession, sessionUserFrom, userCanUpdate } from './user-login-api.js'
+import { logoutCurrentSession, sessionUserFrom, userCanUpdate } from '../login/user-login-api.js'
+import { deactivateUserService } from './user-deactivate-service.js'
 
 export function registerUserDeactivateApi(web: Express2, udb: UserDB) {
 
@@ -14,7 +14,7 @@ export function registerUserDeactivateApi(web: Express2, udb: UserDB) {
   router.get('/user/deactivate', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
-    res.render('app/user/view/user-deactivate')
+    res.render('app/user/deactivate/user-deactivate-view')
   }))
 
   // Api
