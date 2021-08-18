@@ -45,7 +45,7 @@ describe('UserDeactivateApi', () => {
       await insertUserFix4(udb)
     })
 
-    it('deactivating should fail without login', async () => {
+    it('deactivating fails before login', async () => {
       const res = await request.del('/api/user/1').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
@@ -53,7 +53,7 @@ describe('UserDeactivateApi', () => {
     it('login', async () => {
       await loginForTest(request, User1Login)
     })
-    it('get login should work', async () => {
+    it('get login works', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.user.id).toBe(1)
     })
@@ -61,7 +61,7 @@ describe('UserDeactivateApi', () => {
       const res = await request.del('/api/user/1').expect(200)
       expect(res.body).toEqual({})
     })
-    it('get login should fail', async () => {
+    it('get login fails', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
@@ -73,7 +73,7 @@ describe('UserDeactivateApi', () => {
     it('login as user2', async () => {
       await loginForTest(request, User2Login)
     })
-    it('deactivating other should fail', async () => {
+    it('deactivating other fails', async () => {
       const res = await request.del('/api/user/3').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHORIZED)
     })
@@ -81,7 +81,7 @@ describe('UserDeactivateApi', () => {
     it('login as admin', async () => {
       await loginForTest(request, AdminLogin)
     })
-    it('deactivating other should work', async () => {
+    it('deactivating other works', async () => {
       const res = await request.del('/api/user/3').expect(200)
       expect(res.body).toEqual({})
     })

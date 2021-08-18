@@ -43,7 +43,7 @@ describe('UserService', () => {
       const user = await udb.findUserById(1)
       expect(user?.status).toBe('d')
     })
-    it('deactivate user should fail if id invalid', async () => {
+    it('deactivating user fails if id invalid', async () => {
       const errs: FormError[] = []
       await userDeactivateService(udb, 999, errs)
       expect(errs).toContain(USER_NOT_FOUND)

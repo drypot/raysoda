@@ -43,7 +43,7 @@ describe('UserDeactivateView', () => {
     it('fill fix', async () => {
       await insertUserFix4(udb)
     })
-    it('should work', async () => {
+    it('/user/deactivate should work', async () => {
       await loginForTest(request, User1Login)
       await request.get('/user/deactivate').expect(200).expect(/<title>Deactivate/)
     })
