@@ -45,7 +45,7 @@ describe('UserLoginApi', () => {
       await insertUserFix4(udb)
     })
 
-    it('get login should fail', async () => {
+    it('get login fails before login', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
@@ -57,11 +57,11 @@ describe('UserLoginApi', () => {
     it('login', async () => {
       await loginForTest(request, User1Login, true)
     })
-    it('get login should work', async () => {
+    it('get login works', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.user.id).toBe(1)
     })
-    it('cookie should be filled', async () => {
+    it('cookies are filled', async () => {
       const res = await request.get('/api/cookies').expect(200)
       expect(res.body.email).toBe('user1@mail.test')
     })
@@ -69,11 +69,11 @@ describe('UserLoginApi', () => {
     it('destroy session', async () => {
       await request.post('/api/destroy-session').expect(200)
     })
-    it('get login should work (autologin worked)', async () => {
+    it('get login works (autologin worked)', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.user.id).toBe(1)
     })
-    it('cookie should still exist', async () => {
+    it('cookies still exist', async () => {
       const res = await request.get('/api/cookies').expect(200)
       expect(res.body.email).toBe('user1@mail.test')
     })
@@ -81,11 +81,11 @@ describe('UserLoginApi', () => {
     it('logout', async () => {
       await logoutForTest(request)
     })
-    it('get login should fail', async () => {
+    it('get login fails', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
-    it('cookie should be empty', async () => {
+    it('cookies are empty', async () => {
       const res = await request.get('/api/cookies').expect(200)
       expect(res.body.email).toBe(undefined)
     })
@@ -93,7 +93,7 @@ describe('UserLoginApi', () => {
     it('login 2', async () => {
       await loginForTest(request, User1Login, true)
     })
-    it('get login should work', async () => {
+    it('get login works', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toBe(undefined)
     })
@@ -104,11 +104,11 @@ describe('UserLoginApi', () => {
     it('destroy session', async () => {
       await request.post('/api/destroy-session').expect(200)
     })
-    it('get login should fail (autologin failed)', async () => {
+    it('get login fails (autologin failed)', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
-    it('cookie should be empty', async () => {
+    it('cookies are empty', async () => {
       const res = await request.get('/api/cookies').expect(200)
       expect(res.body.email).toBe(undefined)
     })

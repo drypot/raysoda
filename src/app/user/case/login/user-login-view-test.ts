@@ -33,8 +33,8 @@ describe('UserLoginView', () => {
     await db.close()
   })
 
-  describe('user login page', () => {
-    it('should work', async () => {
+  describe('user login pages', () => {
+    it('/user/login should work', async () => {
       await request.get('/user/login').expect(200).expect(/<title>Login/)
     })
   })

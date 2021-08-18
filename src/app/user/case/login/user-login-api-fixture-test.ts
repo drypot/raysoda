@@ -48,14 +48,14 @@ describe('UserLoginApi', () => {
     it('login', async () => {
       await loginForTest(request, User1Login)
     })
-    it('get login should work', async () => {
+    it('get login works', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.user.id).toBe(1)
     })
     it('logout', async () => {
       await logoutForTest(request)
     })
-    it('get login should fail', async () => {
+    it('get login fails', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })

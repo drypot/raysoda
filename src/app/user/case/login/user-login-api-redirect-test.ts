@@ -53,10 +53,10 @@ describe('UserLoginApi', () => {
     it('fill fix', async () => {
       await insertUserFix4(udb)
     })
-    it('access public should work', async () => {
+    it('access public works', async () => {
       await request.get('/test/public').expect(200)
     })
-    it('access private should be redirected to login', async () => {
+    it('access private is redirected to login', async () => {
       await request.get('/test/private').expect(302).expect('Location', '/user/login')
     })
 

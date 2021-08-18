@@ -49,11 +49,11 @@ describe('UserLoginApi', () => {
       const res = await request.post('/api/user/login').send(form).expect(200)
       expect(res.body.user.id).toBe(1)
     })
-    it('get login should work', async () => {
+    it('get login works', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.user.id).toBe(1)
     })
-    it('get admin-login should fail', async () => {
+    it('get admin-login fails', async () => {
       const res = await request.get('/api/user/admin-login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHORIZED)
     })
@@ -64,7 +64,7 @@ describe('UserLoginApi', () => {
       expect(res.body.user.id).toBe(4)
       expect(res.body.user.admin).toBe(true)
     })
-    it('get admin-login should work', async () => {
+    it('get admin-login works', async () => {
       const res = await request.get('/api/user/admin-login').expect(200)
       expect(res.body.user.id).toBe(4)
       expect(res.body.user.admin).toBe(true)
@@ -73,17 +73,17 @@ describe('UserLoginApi', () => {
     it('logout', async () => {
       await request.post('/api/user/logout').expect(200)
     })
-    it('get login should fail', async () => {
+    it('get login fails', async () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
 
-    it('login should fail if email invalid', async () => {
+    it('login fails if email invalid', async () => {
       const form = { email: 'userx@mail.test', password: '1234', remember: false }
       const res = await request.post('/api/user/login').send(form).expect(200)
       expect(res.body.err).toContain(EMAIL_NOT_FOUND)
     })
-    it('login should fail if password invalid', async () => {
+    it('login fails if password invalid', async () => {
       const form = { email: 'user1@mail.test', password: 'xxxx', remember: false }
       const res = await request.post('/api/user/login').send(form).expect(200)
       expect(res.body.err).toContain(PASSWORD_WRONG)
