@@ -10,14 +10,16 @@ describe('Mailer', () => {
     mailer = Mailer.from(config).initTransport()
   })
 
-  it('should work', async () => {
-    const mail = {
-      from: 'no-reply',
-      to: 'drypot@mail.test',
-      subject: 'mail server test',
-      text: `Hello, ${new Date()}`
-    }
-    await expectAsync(mailer.sendMail(mail)).toBeRejectedWithError(MSG_TRANSPORT_NOT_INITIALIZED)
+  describe('sendMail', () => {
+    it('sendMail throws MSG_TRANSPORT_NOT_INITIALIZED', async () => {
+      const mail = {
+        from: 'no-reply',
+        to: 'drypot@mail.test',
+        subject: 'mail server test',
+        text: `Hello, ${new Date()}`
+      }
+      await expectAsync(mailer.sendMail(mail)).toBeRejectedWithError(MSG_TRANSPORT_NOT_INITIALIZED)
+    })
   })
 })
 
