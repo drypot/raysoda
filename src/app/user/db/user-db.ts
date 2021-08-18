@@ -161,6 +161,14 @@ export class UserDB {
     this.userHomeMap.set(user.home.toLowerCase(), user)
   }
 
+  deleteCacheById(id: number) {
+    const user = this.userIdMap.get(id)
+    if (user) {
+      this.userIdMap.delete(id)
+      this.userHomeMap.delete(user.home.toLowerCase())
+    }
+  }
+
   async getCachedById(id: number): Promise<User | undefined> {
     let user = this.userIdMap.get(id)
     if (user) {
@@ -193,14 +201,6 @@ export class UserDB {
     const user = await this.findUserByEmail(email)
     if (user) this.cache(user)
     return user
-  }
-
-  deleteCacheById(id: number) {
-    const user = this.userIdMap.get(id)
-    if (user) {
-      this.userIdMap.delete(id)
-      this.userHomeMap.delete(user.home.toLowerCase())
-    }
   }
 
 }
