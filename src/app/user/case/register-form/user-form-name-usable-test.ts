@@ -29,27 +29,27 @@ describe('UserForm', () => {
     it('fill fix', async () => {
       await insertUserFix1(udb)
     })
-    it('ok if available', async () => {
+    it('no err if name available', async () => {
       const errs: FormError[] = []
       await checkNameDB(udb, 0, 'alice', errs)
       expect(errs.length).toBe(0)
     })
-    it('ok if same entity', async () => {
+    it('no err if same entity', async () => {
       const errs: FormError[] = []
       await checkNameDB(udb, 1, 'User 1', errs)
       expect(errs.length).toBe(0)
     })
-    it('ok if same entity 2', async () => {
+    it('no err if same entity 2', async () => {
       const errs: FormError[] = []
       await checkNameDB(udb, 1, 'user1', errs)
       expect(errs.length).toBe(0)
     })
-    it('fail if in use', async () => {
+    it('err if name in use', async () => {
       const errs: FormError[] = []
       await checkNameDB(udb, 0, 'User 1', errs)
       expect(errs).toContain(NAME_DUPE)
     })
-    it('fail if in use 2', async () => {
+    it('err if name in use 2', async () => {
       const errs: FormError[] = []
       await checkNameDB(udb, 0, 'user1', errs)
       expect(errs).toContain(NAME_DUPE)

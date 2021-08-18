@@ -28,7 +28,6 @@ export const PASSWORD_RANGE = formErrorOf('PASSWORD_RANGE', '비밀번호 길이
 export const RESET_TIMEOUT = formErrorOf('RESET_TIMEOUT', '비밀번호 초기화 토큰 유효시간이 지났습니다.')
 
 export interface UserForm {
-  id: number
   name: string
   home: string
   email: string
@@ -38,7 +37,6 @@ export interface UserForm {
 
 export function userFormOf(params?: Partial<UserForm>): UserForm {
   return {
-    id: 0,
     name: '',
     home: '',
     email: '',

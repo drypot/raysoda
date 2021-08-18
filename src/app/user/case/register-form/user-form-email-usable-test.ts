@@ -29,17 +29,17 @@ describe('UserForm', () => {
     it('fill fix', async () => {
       await insertUserFix1(udb)
     })
-    it('ok if available', async () => {
+    it('checkEmailDB returns no err', async () => {
       const errs: FormError[] = []
       await checkEmailDB(udb, 0, 'userx@mail.test', errs)
       expect(errs.length).toBe(0)
     })
-    it('ok if same entity', async () => {
+    it('no err if same entity', async () => {
       const errs: FormError[] = []
       await checkEmailDB(udb, 1, 'user1@mail.test', errs)
       expect(errs.length).toBe(0)
     })
-    it('fail if in use', async () => {
+    it('err if email in use', async () => {
       const errs: FormError[] = []
       await checkEmailDB(udb, 0, 'user1@mail.test', errs)
       expect(errs).toContain(EMAIL_DUPE)
