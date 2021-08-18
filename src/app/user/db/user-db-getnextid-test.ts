@@ -23,13 +23,15 @@ describe('UserDB', () => {
       await udb.dropTable()
       await udb.createTable(false)
     })
-    it('should work', () => {
+    it('get next user id', () => {
       expect(udb.getNextUserId()).toBe(1)
       expect(udb.getNextUserId()).toBe(2)
       expect(udb.getNextUserId()).toBe(3)
     })
-    it('should work 2', () => {
+    it('set next user id', () => {
       udb.setNextUserId(10)
+    })
+    it('get next user id', () => {
       expect(udb.getNextUserId()).toBe(10)
       expect(udb.getNextUserId()).toBe(11)
     })

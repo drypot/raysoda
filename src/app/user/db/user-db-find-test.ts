@@ -19,7 +19,6 @@ describe('UserDB', () => {
     await db.close()
   })
 
-
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable(false)
@@ -31,33 +30,33 @@ describe('UserDB', () => {
   })
 
   describe('findUserById', () => {
-    it('user 1 should exist', async () => {
+    it('user 1 exists', async () => {
       const user = await udb.findUserById(1)
       expect(user?.id).toBe(1)
     })
-    it('user 999 should not exist', async () => {
+    it('user 999 not exists', async () => {
       const user = await udb.findUserById(999)
       expect(user?.id).toBe(undefined)
     })
   })
 
   describe('findUserByEmail', () => {
-    it('user user1@mail.test should exist', async () => {
+    it('user user1@mail.test exists', async () => {
       const user = await udb.findUserByEmail('user1@mail.test')
       expect(user?.id).toBe(1)
     })
-    it('user userX@mail.test should not exist', async () => {
+    it('user userX@mail.test not exists', async () => {
       const user = await udb.findUserByEmail('userx@mail.test')
       expect(user?.id).toBe(undefined)
     })
   })
 
   describe('findUserByHome', () => {
-    it('user1 should exist', async () => {
+    it('user1 exists', async () => {
       const user = await udb.findUserByHome('user1')
       expect(user?.id).toBe(1)
     })
-    it('userX should not exist', async () => {
+    it('userX not exists', async () => {
       const user = await udb.findUserByHome('userX')
       expect(user?.id).toBe(undefined)
     })

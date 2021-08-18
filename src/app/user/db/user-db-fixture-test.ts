@@ -24,14 +24,14 @@ describe('UserDB', () => {
       await udb.dropTable()
       await udb.createTable(false)
     })
-    it('user1 should not exist', async () => {
+    it('user1 not exists', async () => {
       let user = await udb.findUserById(1)
       expect(user?.id).toBe(undefined)
     })
-    it('fill table with fixture 1', async () => {
+    it('insert fixture 1', async () => {
       await insertUserFix1(udb)
     })
-    it('user1 should exist', async () => {
+    it('user1 exists', async () => {
       let user = await udb.findUserById(1)
       expect(user?.id).toBe(1)
     })

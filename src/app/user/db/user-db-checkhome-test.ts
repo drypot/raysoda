@@ -26,15 +26,15 @@ describe('UserDB', () => {
   })
 
   describe('homeIsAvailable', () => {
-    it('ok if available', async () => {
+    it('true if home available', async () => {
       const usable = await udb.homeIsAvailable(0, 'userx')
       expect(usable).toBe(true)
     })
-    it('ok if same entity', async () => {
+    it('true if same entity', async () => {
       const usable = await udb.homeIsAvailable(1, 'user1')
       expect(usable).toBe(true)
     })
-    it('fail if in use', async () => {
+    it('false if home in use', async () => {
       const usable = await udb.homeIsAvailable(0, 'user1')
       expect(usable).toBe(false)
     })

@@ -24,7 +24,7 @@ describe('UserDB', () => {
       await udb.dropTable()
       await udb.createTable(false)
     })
-    it('user should not exist', async () => {
+    it('user not exists', async () => {
       const user = await udb.findUserById(123)
       expect(user?.id).toBe(undefined)
     })
@@ -32,7 +32,7 @@ describe('UserDB', () => {
       const user2 = userOf({ id: 123, name: 'User 1', home: 'user1', email: 'user1@mail.test' })
       await udb.insertUser(user2)
     })
-    it('user should exist', async () => {
+    it('user exists', async () => {
       const user = await udb.findUserById(123)
       expect(user?.id).toBe(123)
     })

@@ -25,14 +25,14 @@ describe('UserDB', () => {
     it('create table', async () => {
       await udb.createTable(true) // 인덱스까지 만들어 본다
     })
-    it('table should exist', async () => {
+    it('table exists', async () => {
       const r = await db.findTable('user')
       expect(r.length).toBe(1)
     })
     it('drop table', async () => {
       await udb.dropTable()
     })
-    it('table should not exist', async () => {
+    it('table not exists', async () => {
       const r = await db.findTable('user')
       expect(r.length).toBe(0)
     })

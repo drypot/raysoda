@@ -25,17 +25,17 @@ describe('UserDB', () => {
     await insertUserFix1(udb)
   })
 
-  describe('nameIsAvailable', () => {
-    it('ok if available', async () => {
-      const usable = await udb.nameIsAvailable(0, 'User X')
+  describe('emailIsAvailable', () => {
+    it('true if email available', async () => {
+      const usable = await udb.emailIsAvailable(0, 'userx@mail.test')
       expect(usable).toBe(true)
     })
-    it('ok if same entity', async () => {
-      const usable = await udb.nameIsAvailable(1, 'User 1')
+    it('true if same entity', async () => {
+      const usable = await udb.emailIsAvailable(1, 'user1@mail.test')
       expect(usable).toBe(true)
     })
-    it('fail if in use', async () => {
-      const usable = await udb.nameIsAvailable(0, 'User 1')
+    it('false if email in use', async () => {
+      const usable = await udb.emailIsAvailable(0, 'user1@mail.test')
       expect(usable).toBe(false)
     })
   })

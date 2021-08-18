@@ -136,6 +136,11 @@ export class UserDB {
     return r.changedRows as number
   }
 
+  async updateUser(id: number, update: Partial<User>) {
+    const r = await this.db.query('update user set ? where id = ?', [update, id])
+    return r.changedRows as number
+  }
+
   async deactivateUser(id: number) {
     const r = await this.db.query('update user set status = "d" where id = ?', id)
     return r.changedRows as number
