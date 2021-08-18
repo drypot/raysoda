@@ -1,22 +1,22 @@
-import { genDateString, genDateStringNoDash, genDateTimeString, genDate, genDateFrom } from './date2.js'
+import { dateFrom, dateNoDashStringFrom, dateStringFrom, dateTimeStringFrom, today } from './date2.js'
 
-describe('getDate', () => {
-  it('should work', () => {
+describe('today', () => {
+  it('check', () => {
     const now = new Date()
-    const today = genDate()
-    expect(today.getFullYear()).toBe(now.getFullYear())
-    expect(today.getMonth()).toBe(now.getMonth())
-    expect(today.getDate()).toBe(now.getDate())
-    expect(today.getHours()).toBe(0)
-    expect(today.getMinutes()).toBe(0)
-    expect(today.getSeconds()).toBe(0)
-    expect(today.getMilliseconds()).toBe(0)
+    const d = today()
+    expect(d.getFullYear()).toBe(now.getFullYear())
+    expect(d.getMonth()).toBe(now.getMonth())
+    expect(d.getDate()).toBe(now.getDate())
+    expect(d.getHours()).toBe(0)
+    expect(d.getMinutes()).toBe(0)
+    expect(d.getSeconds()).toBe(0)
+    expect(d.getMilliseconds()).toBe(0)
   })
 })
 
-describe('getDateFrom', () => {
-  it('should work', () => {
-    const d = genDateFrom('1974-05-16')
+describe('dateFrom', () => {
+  it('check', () => {
+    const d = dateFrom('1974-05-16')
     expect(d.getFullYear()).toBe(1974)
     expect(d.getMonth()).toBe(4)
     expect(d.getDate()).toBe(16)
@@ -27,23 +27,23 @@ describe('getDateFrom', () => {
   })
 })
 
-describe('dateTimeString', () => {
-  it('should work', () => {
+describe('dateTimeStringFrom', () => {
+  it('check', () => {
     const d = new Date(1974, 4, 16, 12, 0)
-    expect(genDateTimeString(d)).toBe('1974-05-16 12:00:00')
+    expect(dateTimeStringFrom(d)).toBe('1974-05-16 12:00:00')
   })
 })
 
-describe('dateString', () => {
-  it('should work', () => {
+describe('dateStringFrom', () => {
+  it('check', () => {
     const d = new Date(1974, 4, 16, 12, 0)
-    expect(genDateString(d)).toBe('1974-05-16')
+    expect(dateStringFrom(d)).toBe('1974-05-16')
   })
 })
 
-describe('dateStringNoDash', () => {
-  it('should work', () => {
+describe('dateNoDashStringFrom', () => {
+  it('check', () => {
     const d = new Date(1974, 4, 16, 12, 0)
-    expect(genDateStringNoDash(d)).toBe('19740516')
+    expect(dateNoDashStringFrom(d)).toBe('19740516')
   })
 })

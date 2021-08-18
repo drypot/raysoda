@@ -4,13 +4,13 @@ describe('hash', () => {
 
   let hash: string
 
-  it('makeHash should work', async () => {
+  it('makeHash', async () => {
     hash = await makeHash('abc')
   })
-  it('checkHash should ok', async () => {
+  it('checkHash', async () => {
     expect(await checkHash('abc', hash)).toBe(true)
   })
-  it('checkHash should fail with invalid pw', async () => {
+  it('checkHash fails if password invalid', async () => {
     expect(await checkHash('def', hash)).toBe(false)
   })
 

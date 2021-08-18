@@ -1,10 +1,10 @@
-export function genDate() {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  return today
+export function today() {
+  const d = new Date()
+  d.setHours(0, 0, 0, 0)
+  return d
 }
 
-export function genDateFrom(s: string) {
+export function dateFrom(s: string) {
   const d = new Date(s)
   d.setHours(0, 0, 0, 0)
   return d
@@ -18,15 +18,15 @@ function pad(number: number) {
   return r
 }
 
-export function genDateTimeString(d: Date) {
+export function dateTimeStringFrom(d: Date) {
   return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
     pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds())
 }
 
-export function genDateString(d: Date) {
+export function dateStringFrom(d: Date) {
   return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate())
 }
 
-export function genDateStringNoDash(d: Date) {
+export function dateNoDashStringFrom(d: Date) {
   return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate())
 }

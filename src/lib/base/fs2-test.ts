@@ -1,6 +1,5 @@
-import { assertPathExists, assertPathNotExists } from './assert2.js'
-import { mkdirSync, rmSync, writeFileSync } from 'fs'
-import { genDeepPath, mkdirSync2, rmSync2 } from './fs2.js'
+import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs'
+import { deepPathOf, mkdirSync2, rmSync2 } from './fs2.js'
 
 const tdir = 'tmp/fs-test'
 
@@ -24,79 +23,121 @@ function genFiles() {
   writeFileSync(tpath('sub2/sub3/f3.txt'), 'abc')
 }
 
-describe('makeTestDir/removeDir', () => {
-  it('should work', () => {
+describe('test dir', () => {
+  it('make dir', () => {
     makeTestDir()
-    assertPathExists(tdir)
-    makeTestDir()
-
+  })
+  it('check', () => {
+    expect(existsSync(tdir)).toBe(true)
+  })
+  it('remove dir', () => {
     removeTestDir()
-    assertPathNotExists(tdir)
-    removeTestDir()
-
-    makeTestDir()
-    assertPathExists(tdir)
+  })
+  it('check', () => {
+    expect(existsSync(tdir)).toBe(false)
   })
 })
 
 describe('genFiles', () => {
-  it('should work', () => {
+  it('gen files', () => {
     genFiles()
-    assertPathExists(tpath('sub1'))
-    assertPathExists(tpath('sub2'))
-    assertPathExists(tpath('sub2/sub3'))
-    assertPathExists(tpath('sub1/f1.txt'))
-    assertPathExists(tpath('sub2/f2.txt'))
-    assertPathExists(tpath('sub2/sub3/f3.txt'))
+  })
+  it('check', () => {
+    expect(existsSync(tpath('sub1'))).toBe(true)
+    expect(existsSync(tpath('sub2'))).toBe(true)
+    expect(existsSync(tpath('sub2/sub3'))).toBe(true)
+    expect(existsSync(tpath('sub1/f1.txt'))).toBe(true)
+    expect(existsSync(tpath('sub2/f2.txt'))).toBe(true)
+    expect(existsSync(tpath('sub2/sub3/f3.txt'))).toBe(true)
   })
 })
 
 describe('mkdirSync2', () => {
-  it('should work', () => {
+  it('make dir empty', () => {
     removeTestDir()
-    assertPathNotExists(tpath('sub1'))
+  })
+
+  it('sub1 not exists', () => {
+    expect(existsSync(tpath('sub1'))).toBe(false)
+  })
+  it('mkdir sub1', () => {
     mkdirSync2(tpath('sub1'))
-    assertPathExists(tpath('sub1'))
-    assertPathNotExists(tpath('sub1/sub2/sub3'))
+  })
+  it('sub1 exists', () => {
+    expect(existsSync(tpath('sub1'))).toBe(true)
+  })
+
+  it('sub1/sub2/sub3 not exists', () => {
+    expect(existsSync(tpath('sub1/sub2/sub3'))).toBe(false)
+  })
+  it('mkdir sub1/sub2/sub3', () => {
     mkdirSync2(tpath('sub1/sub2/sub3'))
-    assertPathExists(tpath('sub1/sub2/sub3'))
+  })
+  it('sub1/sub2/sub3 exists', () => {
+    expect(existsSync(tpath('sub1/sub2/sub3'))).toBe(true)
   })
 })
 
 describe('rmSync2', () => {
-  beforeEach(genFiles)
-  it('should work for one file', () => {
+  it('gen files', () => {
+    genFiles()
+  })
+  it('sub1/f1.txt exists', () => {
+    expect(existsSync(tpath('sub1/f1.txt'))).toBe(true)
+  })
+  it('rm sub1/f1.txt', () => {
     rmSync2(tpath('sub1/f1.txt'))
-    assertPathNotExists(tpath('sub1/f1.txt'))
-    assertPathExists(tpath('sub1'))
-    assertPathExists(tpath('sub2/sub3/f3.txt'))
   })
-  it('should work for one dir', () => {
+  it('sub1/f1.txt removed', () => {
+    expect(existsSync(tpath('sub1/f1.txt'))).toBe(false)
+    expect(existsSync(tpath('sub1'))).toBe(true)
+    expect(existsSync(tpath('sub2/sub3/f3.txt'))).toBe(true)
+  })
+
+  it('gen files', () => {
+    genFiles()
+  })
+  it('sub1 exists', () => {
+    expect(existsSync(tpath('sub1'))).toBe(true)
+  })
+  it('rm sub1', () => {
     rmSync2(tpath('sub1'))
-    assertPathNotExists(tpath('sub1'))
-    assertPathExists(tpath('sub2/f2.txt'))
-    assertPathExists(tpath('sub2/sub3/f3.txt'))
   })
-  it('should work recursively', () => {
+  it('sub1 removed', () => {
+    expect(existsSync(tpath('sub1'))).toBe(false)
+    expect(existsSync(tpath('sub2/f2.txt'))).toBe(true)
+    expect(existsSync(tpath('sub2/sub3/f3.txt'))).toBe(true)
+  })
+
+  it('gen files', () => {
+    genFiles()
+  })
+  it('sub2 exists', () => {
+    expect(existsSync(tpath('sub2'))).toBe(true)
+  })
+  it('rm sub2 recursively', () => {
     rmSync2(tpath('sub2'))
-    assertPathNotExists(tpath('sub2'))
-    assertPathExists(tpath('sub1/f1.txt'))
   })
-  it('should work for already removed', () => {
+  it('sub2 removed', () => {
+    expect(existsSync(tpath('sub2'))).toBe(false)
+    expect(existsSync(tpath('sub1/f1.txt'))).toBe(true)
+  })
+
+  it('rm already removed', () => {
     rmSync2(tpath('sub1/fx.txt'))
     rmSync2(tpath('sub1/fx.txt'))
   })
 })
 
-describe('genDeepPath', () => {
-  it('should work', () => {
-    expect(genDeepPath(1, 3)).toBe('0/0/1')
-    expect(genDeepPath(999, 3)).toBe('0/0/999')
-    expect(genDeepPath(1000, 3)).toBe('0/1/0')
-    expect(genDeepPath(1999, 3)).toBe('0/1/999')
-    expect(genDeepPath(999999, 3)).toBe('0/999/999')
-    expect(genDeepPath(1999999, 3)).toBe('1/999/999')
-    expect(genDeepPath(999999999, 3)).toBe('999/999/999')
-    expect(genDeepPath(9999999999, 3)).toBe('9999/999/999')
+describe('deepPathOf', () => {
+  it('check', () => {
+    expect(deepPathOf(1, 3)).toBe('0/0/1')
+    expect(deepPathOf(999, 3)).toBe('0/0/999')
+    expect(deepPathOf(1000, 3)).toBe('0/1/0')
+    expect(deepPathOf(1999, 3)).toBe('0/1/999')
+    expect(deepPathOf(999999, 3)).toBe('0/999/999')
+    expect(deepPathOf(1999999, 3)).toBe('1/999/999')
+    expect(deepPathOf(999999999, 3)).toBe('999/999/999')
+    expect(deepPathOf(9999999999, 3)).toBe('9999/999/999')
   })
 })

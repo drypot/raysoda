@@ -8,7 +8,7 @@ export function mkdirSync2(p: string) {
   fs.mkdirSync(p, { recursive: true, mode: 0o755, })
 }
 
-export function genDeepPath(id: number, iter: number) {
+export function deepPathOf(id: number, iter: number) {
   let path = ''
   for (iter--; iter > 0; iter--) {
     path = '/' + id % 1000 + path
