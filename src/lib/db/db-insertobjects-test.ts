@@ -16,11 +16,11 @@ describe('DB', () => {
   })
 
   describe('insertObjects', () => {
-    it('after table init', async () => {
+    it('init table', async () => {
       await db.query('drop table if exists table1')
       await db.query('create table table1(id int, name varchar(64))')
     })
-    it('insertObjects should work', async () => {
+    it('insert objects', async () => {
       const objs = [
         { id: 1, name: 'user1' },
         { id: 2, name: 'user2' },
@@ -28,7 +28,7 @@ describe('DB', () => {
       ]
       await db.insertObjects('table1', objs)
     })
-    it('can be checked', async () => {
+    it('check', async () => {
       const r = await db.query('select * from table1 order by id')
       expect(r.length).toBe(3)
       expect(r[0].id).toBe(1)
@@ -38,11 +38,12 @@ describe('DB', () => {
       expect(r[2].id).toBe(3)
       expect(r[2].name).toBe('user3')
     })
-    it('after table init', async () => {
+
+    it('init table', async () => {
       await db.query('drop table if exists table1')
       await db.query('create table table1(id int, name varchar(64))')
     })
-    it('insertObjects should stop at invalid data', async () => {
+    it('insert objects stops at invalid data', async () => {
       const objs = [
         { id: 1, name: 'user1' },
         { id: 2, email: 'user2' },
@@ -50,7 +51,7 @@ describe('DB', () => {
       ]
       await expectAsync(db.insertObjects('table1', objs)).toBeRejected()
     })
-    it('can be checked', async () => {
+    it('check', async () => {
       const r = await db.query('select * from table1 order by id')
       expect(r.length).toBe(1)
       expect(r[0].id).toBe(1)

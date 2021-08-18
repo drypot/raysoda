@@ -16,18 +16,18 @@ describe('DB', () => {
   })
 
   describe('findTable', () => {
-    it('after create table', async () => {
+    it('create table', async () => {
       await db.query('drop table if exists table1')
       await db.query('create table table1(id int)')
     })
-    it('result should have table', async () => {
+    it('find table works', async () => {
       const r = await db.findTable('table1')
       expect(r.length).toBe(1)
     })
-    it('after drop table', async () => {
+    it('drop table', async () => {
       await db.query('drop table if exists table1')
     })
-    it('result should be empty', async () => {
+    it('find table returns nothing', async () => {
       const r = await db.findTable('table1')
       expect(r.length).toBe(0)
     })

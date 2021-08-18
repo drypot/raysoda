@@ -11,17 +11,17 @@ describe('DB', () => {
     db = DB.from(config)
   })
 
-  describe('close scenario', () => {
-    it('query should work', async () => {
+  describe('close', () => {
+    it('query runs', async () => {
       await db.query('select 3 as v')
     })
-    it('after close', async () => {
+    it('close works', async () => {
       await db.close()
     })
-    it('query should fail', async () => {
+    it('query fails', async () => {
       await expectAsync(db.query('select 3 as v')).toBeRejected()
     })
-    it('close should fail', async () => {
+    it('close fails', async () => {
       await expectAsync(db.close()).toBeRejected()
     })
   })

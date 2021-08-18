@@ -16,15 +16,15 @@ describe('DB', () => {
   })
 
   describe('query', () => {
-    it('should work when result exists', async () => {
+    it('case 1, there are results', async () => {
       const r = await db.query('select * from (select 1 as id) dummy where id = 1')
       expect(r[0].id).toBe(1)
     })
-    it('should work when result does not exists', async () => {
+    it('case 2, there is no result', async () => {
       const r = await db.query('select * from (select 1 as id) dummy where id = 2')
       expect(r.length).toBe(0)
     })
-    it('should fail with invalid sql', async () => {
+    it('fails if sql invalid', async () => {
       await expectAsync(db.query('select xxx')).toBeRejected()
     })
   })

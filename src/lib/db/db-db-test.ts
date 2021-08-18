@@ -15,19 +15,25 @@ describe('DB', () => {
     await db.close()
   })
 
-  describe('database scenario', () => {
-    it('dropDatabase should work', async () => {
+  describe('database', () => {
+    it('drop database', async () => {
       await db.dropDatabase()
+    })
+    it('database not exists', async () => {
       const r = await db.findDatabase(config.mysqlDatabase)
       expect(r.length).toBe(0)
     })
-    it('createDatabase should work', async () => {
+    it('create database', async () => {
       await db.createDatabase()
+    })
+    it('database exists', async () => {
       const r = await db.findDatabase(config.mysqlDatabase)
       expect(r.length).toBe(1)
     })
-    it('dropDatabase should work again', async () => {
+    it('drop database again', async () => {
       await db.dropDatabase()
+    })
+    it('database not exists', async () => {
       const r = await db.findDatabase(config.mysqlDatabase)
       expect(r.length).toBe(0)
     })
