@@ -44,7 +44,8 @@ describe('UserLoginApi', () => {
       await insertUserFix4(udb)
     })
 
-    it('login', async () => {
+    // user change
+    it('login as user1', async () => {
       const form = { email: 'user1@mail.test', password: '1234', remember: false }
       const res = await request.post('/api/user/login').send(form).expect(200)
       expect(res.body.user.id).toBe(1)
@@ -53,11 +54,26 @@ describe('UserLoginApi', () => {
       const res = await request.get('/api/user/login').expect(200)
       expect(res.body.user.id).toBe(1)
     })
+    it('login as user2', async () => {
+      const form = { email: 'user2@mail.test', password: '1234', remember: false }
+      const res = await request.post('/api/user/login').send(form).expect(200)
+      expect(res.body.user.id).toBe(2)
+    })
+    it('get login works', async () => {
+      const res = await request.get('/api/user/login').expect(200)
+      expect(res.body.user.id).toBe(2)
+    })
+
+    // permission
+    it('login as user1', async () => {
+      const form = { email: 'user1@mail.test', password: '1234', remember: false }
+      const res = await request.post('/api/user/login').send(form).expect(200)
+      expect(res.body.user.id).toBe(1)
+    })
     it('get admin-login fails', async () => {
       const res = await request.get('/api/user/admin-login').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHORIZED)
     })
-
     it('login as admin', async () => {
       const form = { email: 'admin@mail.test', password: '1234', remember: false }
       const res = await request.post('/api/user/login').send(form).expect(200)
@@ -70,6 +86,7 @@ describe('UserLoginApi', () => {
       expect(res.body.user.admin).toBe(true)
     })
 
+    // logout
     it('logout', async () => {
       await request.post('/api/user/logout').expect(200)
     })
@@ -78,6 +95,7 @@ describe('UserLoginApi', () => {
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
 
+    // error
     it('login fails if email invalid', async () => {
       const form = { email: 'userx@mail.test', password: '1234', remember: false }
       const res = await request.post('/api/user/login').send(form).expect(200)
