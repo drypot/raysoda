@@ -5,11 +5,10 @@ import {
   EMAIL_DUPE,
   EMAIL_EMPTY,
   EMAIL_PATTERN,
-  HOME_DUPE,
-  HOME_EMPTY,
   NAME_DUPE,
   NAME_EMPTY,
-  PASSWORD_EMPTY
+  NAME_RANGE,
+  PASSWORD_RANGE
 } from '../register-form/user-form.js'
 import { insertUserFix1 } from '../../db/user-db-fixture.js'
 import { FormError } from '../../../../lib/base/error2.js'
@@ -43,7 +42,7 @@ describe('UserRegisterApi', () => {
     await db.close()
   })
 
-  describe('register new user', () => {
+  describe('post new user', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
@@ -51,40 +50,71 @@ describe('UserRegisterApi', () => {
     it('fill fix', async () => {
       await insertUserFix1(udb)
     })
-    it('should work if form valid', async () => {
-      const form = { name: 'User X', email: 'userx@mail.test', password: '1234' }
+    it('post new user should work', async () => {
+      const form = { name: 'User Y', email: 'usery@mail.test', password: '1234' }
       const res = await request.post('/api/user').send(form)
       expect(res.body.id).toBe(2)
     })
-    it('can be checked', async () => {
+    it('check db', async () => {
       const user = await udb.findUserById(2)
-      expect(user?.name).toBe('User X')
+      expect(user?.name).toBe('User Y')
     })
-    it('fail if form empty', async () => {
-      const form = { name: '', email: '', password: '' }
+
+    it('fails if name empty', async () => {
+      const form = { name: '', email: 'userx@mail.test', password: '1234' }
       const res = await request.post('/api/user').send(form)
-      expect(res.body.errType).toBe('array')
       const errs: FormError[] = res.body.err
       expect(errs).toContain(NAME_EMPTY)
-      expect(errs).toContain(HOME_EMPTY)
-      expect(errs).toContain(EMAIL_EMPTY)
-      expect(errs).toContain(PASSWORD_EMPTY)
     })
-    it('fail if in use', async () => {
-      const form = { name: 'User 1', email: 'user1@mail.test', password: '1234' }
+    it('fails if name long', async () => {
+      const form = { name: 'x'.repeat(33), email: 'userx@mail.test', password: '1234' }
       const res = await request.post('/api/user').send(form)
-      expect(res.body.errType).toBe('array')
+      const errs: FormError[] = res.body.err
+      expect(errs).toContain(NAME_RANGE)
+    })
+    it('fails if name in use', async () => {
+      const form = { name: 'User 1', email: 'userx@mail.test', password: '1234' }
+      const res = await request.post('/api/user').send(form)
       const errs: FormError[] = res.body.err
       expect(errs).toContain(NAME_DUPE)
-      expect(errs).toContain(HOME_DUPE)
-      expect(errs).toContain(EMAIL_DUPE)
     })
-    it('fail if email is invalid', async () => {
-      const form = { name: 'Han Solo', email: 'solo.mail.test', password: '1234' }
+    it('fails if name in use 2', async () => {
+      const form = { name: 'user1', email: 'userx@mail.test', password: '1234' }
       const res = await request.post('/api/user').send(form)
-      expect(res.body.errType).toBe('array')
+      const errs: FormError[] = res.body.err
+      expect(errs).toContain(NAME_DUPE)
+    })
+
+    it('fails if email empty', async () => {
+      const form = { name: 'User X', email: '', password: '1234' }
+      const res = await request.post('/api/user').send(form)
+      const errs: FormError[] = res.body.err
+      expect(errs).toContain(EMAIL_EMPTY)
+    })
+    it('fails if email format invalid', async () => {
+      const form = { name: 'User X', email: 'userx.mail.test', password: '1234' }
+      const res = await request.post('/api/user').send(form)
       const errs: FormError[] = res.body.err
       expect(errs).toContain(EMAIL_PATTERN)
+    })
+    it('fails if email in use', async () => {
+      const form = { name: 'User X', email: 'user1@mail.test', password: '1234' }
+      const res = await request.post('/api/user').send(form)
+      const errs: FormError[] = res.body.err
+      expect(errs).toContain(EMAIL_DUPE)
+    })
+
+    it('fails if password short', async () => {
+      const form = { name: 'User X', email: 'userx@mail.test', password: '123' }
+      const res = await request.post('/api/user').send(form)
+      const errs: FormError[] = res.body.err
+      expect(errs).toContain(PASSWORD_RANGE)
+    })
+    it('fails if password long', async () => {
+      const form = { name: 'User X', email: 'userx@mail.test', password: 'x'.repeat(33) }
+      const res = await request.post('/api/user').send(form)
+      const errs: FormError[] = res.body.err
+      expect(errs).toContain(PASSWORD_RANGE)
     })
   })
 

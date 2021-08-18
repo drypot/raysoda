@@ -24,7 +24,6 @@ export function registerUserRegisterApi(web: Express2, udb: UserDB) {
 export function userFormFrom(req: Request): UserForm {
   const body = req.body
   return {
-    id: 0,
     name: String(body.name ?? '').trim(),
     home: String(body.home ?? '').trim(),
     email: String(body.email ?? '').trim(),

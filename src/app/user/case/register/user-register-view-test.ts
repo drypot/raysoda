@@ -31,14 +31,11 @@ describe('UserRegisterView', () => {
     await db.close()
   })
 
-  describe('page /user/register', () => {
-    it('should work', async () => {
+  describe('user register pages ', () => {
+    it('/user/register should work', async () => {
       await request.get('/user/register').expect(200).expect(/<title>Register/)
     })
-  })
-
-  describe('page /user/register-done', () => {
-    it('should work', async () => {
+    it('/user/register-done should work', async () => {
       await request.get('/user/register-done').expect(200).expect(/<title>Registered/)
     })
   })
