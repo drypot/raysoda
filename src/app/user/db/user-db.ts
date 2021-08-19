@@ -215,17 +215,17 @@ export class UserDB {
     return r as UserListItem[]
   }
 
-  async searchUser(name: string, offset: number = 0, ps: number = 100, admin: boolean = false) {
-    let q: string
+  async searchUser(q: string, offset: number = 0, ps: number = 100, admin: boolean = false) {
+    let sql: string
     let param: any[]
     if (admin) {
-      q = 'select id, name, home from user where name = ? or home = ? or email = ? limit ?, ?'
-      param = [name, name, name, offset, ps]
+      sql = 'select id, name, home from user where name = ? or home = ? or email = ? limit ?, ?'
+      param = [q, q, q, offset, ps]
     } else {
-      q = 'select id, name, home from user where name = ? or home = ? limit ?, ?'
-      param = [name, name, offset, ps]
+      sql = 'select id, name, home from user where name = ? or home = ? limit ?, ?'
+      param = [q, q, offset, ps]
     }
-    const r = await this.db.query(q, param)
+    const r = await this.db.query(sql, param)
     return r as UserListItem[]
   }
 

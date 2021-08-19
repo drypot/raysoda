@@ -52,7 +52,7 @@ describe('UserDB', () => {
       expect(l[0].home).toBe('user1')
     })
     it('search userx', async () => {
-      const l = await udb.searchUser('uesrx')
+      const l = await udb.searchUser('userx')
       expect(l.length).toBe(0)
     })
   })
