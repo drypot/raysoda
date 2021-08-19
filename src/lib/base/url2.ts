@@ -3,9 +3,13 @@ export class UrlMaker {
   private url: string
   private qm: boolean
 
-  constructor(url: string) {
+  private constructor(url: string) {
     this.url = url
     this.qm = false
+  }
+
+  static from(url: string) {
+    return new UrlMaker(url)
   }
 
   add(name: string, value: any, def?: any) {
