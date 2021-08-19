@@ -32,10 +32,10 @@ describe('UserRegisterView', () => {
   })
 
   describe('user register pages ', () => {
-    it('/user/register should work', async () => {
+    it('/user/register', async () => {
       await request.get('/user/register').expect(200).expect(/<title>Register/)
     })
-    it('/user/register-done should work', async () => {
+    it('/user/register-done', async () => {
       await request.get('/user/register-done').expect(200).expect(/<title>Registered/)
     })
   })

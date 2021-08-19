@@ -37,7 +37,7 @@ describe('UserLoginApi', () => {
     await db.close()
   })
 
-  describe('user update page', () => {
+  describe('user update pages', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
@@ -48,7 +48,7 @@ describe('UserLoginApi', () => {
     it('login', async () => {
       await loginForTest(request, User1Login)
     })
-    it('get page', async () => {
+    it('/user/1/update', async () => {
       await request.get('/user/1/update').expect(200).expect(/<title>Update/)
     })
   })

@@ -3,15 +3,15 @@ import { DB } from '../../../../lib/db/db.js'
 import { MSG_USER_NOT_FOUND, UserDB } from '../../db/user-db.js'
 import {
   EMAIL_DUPE,
-  EMAIL_EMPTY,
-  EMAIL_PATTERN,
+  EMAIL_RANGE,
+  HOME_DUPE,
+  HOME_RANGE,
   NAME_DUPE,
-  NAME_EMPTY,
   NAME_RANGE,
   PASSWORD_RANGE,
   userFormOf
 } from '../register-form/user-form.js'
-import { insertUserFix1 } from '../../db/user-db-fixture.js'
+import { insertUserFix4 } from '../../db/user-db-fixture.js'
 import { FormError } from '../../../../lib/base/error2.js'
 import { userRegisterService } from './user-register-service.js'
 import { checkHash } from '../../../../lib/base/hash.js'
@@ -38,9 +38,9 @@ describe('UserRegisterService', () => {
       await udb.createTable(false)
     })
     it('fill fix', async () => {
-      await insertUserFix1(udb)
+      await insertUserFix4(udb)
     })
-    it('register new user should work', async () => {
+    it('register new user', async () => {
       const form = userFormOf({
         name: 'User X', home: 'userx', email: 'userx@mail.test', password: '1234', profile: '',
       })
@@ -58,59 +58,30 @@ describe('UserRegisterService', () => {
       expect(user.status).toBe('v')
       expect(user.admin).toBe(false)
     })
-    it('fails if name empty', async () => {
-      const form = userFormOf({ name: '', })
+    it('format check works', async () => {
+      const s33 = 'x'.repeat(33)
+      const s65 = 'x'.repeat(66)
+      const form = {
+        name: s33, home: s33, email: s65, password: s33, profile: ''
+      }
       const errs: FormError[] = []
-      await userRegisterService(udb, form, errs)
-      expect(errs).toContain(NAME_EMPTY)
-    })
-    it('fails if name is long', async () => {
-      const form = userFormOf({ name: 'x'.repeat(33), })
-      const errs: FormError[] = []
-      await userRegisterService(udb, form, errs)
+      const user = await userRegisterService(udb, form, errs)
+      expect(errs.length).toBe(4)
       expect(errs).toContain(NAME_RANGE)
+      expect(errs).toContain(HOME_RANGE)
+      expect(errs).toContain(EMAIL_RANGE)
+      expect(errs).toContain(PASSWORD_RANGE)
     })
-    it('fails if name in use', async () => {
+    it('dupe check works', async () => {
+      const form = {
+        name: 'User 2', home: 'user2', email: 'user2@mail.test', password: '1234', profile: ''
+      }
       const errs: FormError[] = []
-      const form = userFormOf({ name: 'User 1', })
-      await userRegisterService(udb, form, errs)
+      const user = await userRegisterService(udb, form, errs)
+      expect(errs.length).toBe(3)
       expect(errs).toContain(NAME_DUPE)
-    })
-    it('fails if name in use 2', async () => {
-      const errs: FormError[] = []
-      const form = userFormOf({ name: 'user1', })
-      await userRegisterService(udb, form, errs)
-      expect(errs).toContain(NAME_DUPE)
-    })
-    it('fails if email empty', async () => {
-      const errs: FormError[] = []
-      const form = userFormOf({ email: '', })
-      await userRegisterService(udb, form, errs)
-      expect(errs).toContain(EMAIL_EMPTY)
-    })
-    it('fails if email format invalid', async () => {
-      const errs: FormError[] = []
-      const form = userFormOf({ email: 'userx.mail.test', })
-      await userRegisterService(udb, form, errs)
-      expect(errs).toContain(EMAIL_PATTERN)
-    })
-    it('fails if email in use', async () => {
-      const errs: FormError[] = []
-      const form = userFormOf({ email: 'user1@mail.test', })
-      await userRegisterService(udb, form, errs)
+      expect(errs).toContain(HOME_DUPE)
       expect(errs).toContain(EMAIL_DUPE)
-    })
-    it('fails if password short', async () => {
-      const errs: FormError[] = []
-      const form = userFormOf({ password: '123', })
-      await userRegisterService(udb, form, errs)
-      expect(errs).toContain(PASSWORD_RANGE)
-    })
-    it('fails if password long', async () => {
-      const errs: FormError[] = []
-      const form = userFormOf({ password: 'x'.repeat(33), })
-      await userRegisterService(udb, form, errs)
-      expect(errs).toContain(PASSWORD_RANGE)
     })
   })
 
