@@ -9,7 +9,7 @@ import { registerUserViewApi } from './user-view-api.js'
 import { registerUserLoginApi } from '../login/user-login-api.js'
 import { AdminLogin, loginForTest, User1Login } from '../login/user-login-api-fixture.js'
 
-describe('UserViewApi', () => {
+describe('User View Api', () => {
 
   let config: Config
 
