@@ -1,6 +1,6 @@
 import { Express2 } from '../../lib/express/express2.js'
 
-export function initAbout(server: Express2) {
+export function initAboutView(server: Express2) {
 
   const router = server.router
 
