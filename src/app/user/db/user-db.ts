@@ -4,6 +4,12 @@ import { Config } from '../../config/config.js'
 
 export const MSG_USER_NOT_FOUND = 'User not found'
 
+export interface UserListItem {
+  id: number
+  name: string
+  home: string
+}
+
 export class UserDB {
 
   public config: Config
@@ -201,6 +207,26 @@ export class UserDB {
     const user = await this.findUserByEmail(email)
     if (user) this.cache(user)
     return user
+  }
+
+  async listUser(offset: number = 0, ps: number = 100) {
+    const q = 'select id, name, home from user order by pdate desc limit ?, ?'
+    const r = await this.db.query(q, [offset, ps])
+    return r as UserListItem[]
+  }
+
+  async searchUser(name: string, offset: number = 0, ps: number = 100, admin: boolean = false) {
+    let q: string
+    let param: any[]
+    if (admin) {
+      q = 'select id, name, home from user where name = ? or home = ? or email = ? limit ?, ?'
+      param = [name, name, name, offset, ps]
+    } else {
+      q = 'select id, name, home from user where name = ? or home = ? limit ?, ?'
+      param = [name, name, offset, ps]
+    }
+    const r = await this.db.query(q, param)
+    return r as UserListItem[]
   }
 
 }
