@@ -96,12 +96,12 @@ describe('UserLoginApi', () => {
     })
 
     // error
-    it('login fails if email invalid', async () => {
+    it('email check works', async () => {
       const form = { email: 'userx@mail.test', password: '1234', remember: false }
       const res = await request.post('/api/user/login').send(form).expect(200)
       expect(res.body.err).toContain(EMAIL_NOT_FOUND)
     })
-    it('login fails if password invalid', async () => {
+    it('password check works', async () => {
       const form = { email: 'user1@mail.test', password: 'xxxx', remember: false }
       const res = await request.post('/api/user/login').send(form).expect(200)
       expect(res.body.err).toContain(PASSWORD_WRONG)
