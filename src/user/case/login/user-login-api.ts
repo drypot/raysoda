@@ -83,7 +83,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
   }
 
   async function findUserByEmailPassword(email: string, password: string, errs: FormError[]) {
-    const user = await udb.getCachedByIdByEmail(email)
+    const user = await udb.getRecachedByEmail(email)
     if (!user) {
       errs.push(EMAIL_NOT_FOUND)
       return

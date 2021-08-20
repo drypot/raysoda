@@ -43,39 +43,52 @@ describe('UserCache', () => {
     })
   })
 
-  describe('getCachedByIdByHome', () => {
+  describe('getCachedByHome', () => {
     it('reset cache', async () => {
       udb.resetCache()
     })
     it('user1 not exists in cache', () => {
-      const user = udb.getStrictlyCachedByIdByHome('user1')
+      const user = udb.getStrictlyCachedByHome('user1')
       expect(user?.home).toBe(undefined)
     })
     it('loads user1', async () => {
-      const user = await udb.getCachedByIdByHome('user1')
+      const user = await udb.getCachedByHome('user1')
       expect(user?.home).toBe('user1')
     })
     it('user1 exists in cache', () => {
-      const user = udb.getStrictlyCachedByIdByHome('user1')
+      const user = udb.getStrictlyCachedByHome('user1')
       expect(user?.home).toBe('user1')
     })
   })
 
-  describe('getCachedByIdByEmail', () => {
+  describe('getRecachedByEmail', () => {
     it('reset cache', async () => {
       udb.resetCache()
     })
     it('user1 not exists in cache', () => {
-      const user = udb.getStrictlyCachedByIdByHome('user1')
+      const user = udb.getStrictlyCachedByHome('user1')
       expect(user?.home).toBe(undefined)
     })
-    it('load user1', async () => {
-      const user = await udb.getCachedByIdByHome('user1')
+    it('recache user1', async () => {
+      const user = await udb.getRecachedByEmail('user1@mail.test')
       expect(user?.home).toBe('user1')
     })
-    it('user1 exists in cache', () => {
-      const user = udb.getStrictlyCachedByIdByHome('user1')
+    it('change cached user1', () => {
+      const user = udb.getStrictlyCachedByHome('user1')
+      if (!user) throw new Error()
+      user.profile = 'yyyy'
+    })
+    it('check changed', () => {
+      const user = udb.getStrictlyCachedByHome('user1')
+      expect(user?.profile).toBe('yyyy')
+    })
+    it('recache user1', async () => {
+      const user = await udb.getRecachedByEmail('user1@mail.test')
       expect(user?.home).toBe('user1')
+    })
+    it('check reloaded', () => {
+      const user = udb.getStrictlyCachedByHome('user1')
+      expect(user?.profile).toBe('')
     })
   })
 

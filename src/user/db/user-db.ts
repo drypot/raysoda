@@ -189,7 +189,7 @@ export class UserDB {
     return this.userIdMap.get(id)
   }
 
-  async getCachedByIdByHome(home: string): Promise<User | undefined> {
+  async getCachedByHome(home: string): Promise<User | undefined> {
     let user = this.userHomeMap.get(home.toLowerCase())
     if (user) {
       return user
@@ -199,13 +199,16 @@ export class UserDB {
     return user
   }
 
-  getStrictlyCachedByIdByHome(home: string): User | undefined {
+  getStrictlyCachedByHome(home: string): User | undefined {
     return this.userHomeMap.get(home.toLowerCase())
   }
 
-  async getCachedByIdByEmail(email: string): Promise<User | undefined> {
+  async getRecachedByEmail(email: string): Promise<User | undefined> {
     const user = await this.findUserByEmail(email)
-    if (user) this.cache(user)
+    if (user) {
+      this.deleteCacheById(user.id)
+      this.cache(user)
+    }
     return user
   }
 
