@@ -3,8 +3,6 @@ import nodemailer, { Transporter } from 'nodemailer'
 import { Config } from '../../config/config.js'
 import Mail from 'nodemailer/lib/mailer'
 
-export const MSG_TRANSPORT_NOT_INITIALIZED = 'Transport not initialized.'
-
 export class Mailer {
 
   public config: Config
@@ -37,13 +35,13 @@ export class Mailer {
   }
 
   sendMail(opt: Mail.Options) {
-    return new Promise<Mailer>((resolve, reject) => {
+    return new Promise<boolean>((resolve, reject) => {
       if (!this.transport) {
-        reject(new Error(MSG_TRANSPORT_NOT_INITIALIZED))
+        resolve(false)
       } else {
         this.transport.sendMail(opt, (err) => {
           if (err) return reject(err)
-          resolve(this)
+          resolve(true)
         })
       }
     })

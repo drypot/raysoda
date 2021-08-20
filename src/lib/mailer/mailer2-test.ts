@@ -1,4 +1,4 @@
-import { Mailer, MSG_TRANSPORT_NOT_INITIALIZED } from './mailer2.js'
+import { Mailer } from './mailer2.js'
 import { configFrom } from '../../config/config.js'
 
 describe('Mailer', () => {
@@ -11,14 +11,15 @@ describe('Mailer', () => {
   })
 
   describe('sendMail', () => {
-    it('sendMail throws MSG_TRANSPORT_NOT_INITIALIZED', async () => {
+    it('sendMail', async () => {
       const mail = {
         from: 'no-reply',
         to: 'drypot@mail.test',
-        subject: 'mail server test',
-        text: `Hello, ${new Date()}`
+        subject: 'Node Mailer Test',
+        text: `Test.\nTest.\nTest.\n`
       }
-      await expectAsync(mailer.sendMail(mail)).toBeRejectedWithError(MSG_TRANSPORT_NOT_INITIALIZED)
+      const sent = await mailer.sendMail(mail)
+      expect(sent).toBe(false)
     })
   })
 })
