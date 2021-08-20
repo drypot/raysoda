@@ -1,5 +1,5 @@
 import { INVALID_DATA } from '../base/error2.js'
-import { configFrom } from '../../app/config/config.js'
+import { configFrom } from '../../config/config.js'
 import { Express2 } from './express2.js'
 
 const config = configFrom('config/app-dev.json')

@@ -1,5 +1,5 @@
 import { Mailer, MSG_TRANSPORT_NOT_INITIALIZED } from './mailer2.js'
-import { configFrom } from '../../app/config/config.js'
+import { configFrom } from '../../config/config.js'
 
 describe('Mailer', () => {
 

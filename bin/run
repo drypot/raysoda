@@ -20,4 +20,4 @@ else
 fi
 
 set -o xtrace
-node dist/app/main/main.js ${CONFIG_DIR}/${1}-${2}.json
+node dist/main/main.js ${CONFIG_DIR}/${1}-${2}.json

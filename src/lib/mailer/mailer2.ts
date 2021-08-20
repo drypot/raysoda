@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import nodemailer, { Transporter } from 'nodemailer'
-import { Config } from '../../app/config/config.js'
+import { Config } from '../../config/config.js'
 import Mail from 'nodemailer/lib/mailer'
 
 export const MSG_TRANSPORT_NOT_INITIALIZED = 'Transport not initialized.'

@@ -1,6 +1,6 @@
-import { configFrom } from '../../app/config/config.js'
+import { configFrom } from '../../config/config.js'
 import { Express2 } from './express2.js'
-import { NextFunction, Request, Response, Router } from 'express'
+import { Router } from 'express'
 import { SuperAgentTest } from 'supertest'
 
 describe('Express2', () => {

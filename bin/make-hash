@@ -9,4 +9,4 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-node dist/lib/base/hash-tool.js $1
+node dist/lib/base/hash-script.js $1
