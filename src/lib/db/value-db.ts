@@ -23,6 +23,7 @@ export class ValueDB {
       '  primary key (id)' +
       ')'
     await this.db.query(q)
+    return this
   }
 
   async dropTable() {
