@@ -37,6 +37,7 @@ export class PwResetDB {
         'create index pwreset_email on pwreset(email)'
       )
     }
+    return this
   }
 
   async dropTable() {

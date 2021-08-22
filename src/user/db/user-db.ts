@@ -61,6 +61,7 @@ export class UserDB {
     }
     this.nextUserId = await this.db.getMaxId('user')
     this.nextUserId++
+    return this
   }
 
   async dropTable() {
