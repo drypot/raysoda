@@ -4,7 +4,6 @@ import { UserDB } from '../../db/user-db.js'
 import { insertUserFix4 } from '../../db/user-db-fixture.js'
 import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { Router } from 'express'
 import { registerUserLoginApi } from '../login/user-login-api.js'
 import { AdminLogin, loginForTest, User1Login } from '../login/user-login-api-fixture.js'
 import { registerUserUpdateApi } from './user-update-api.js'
@@ -17,7 +16,6 @@ describe('User Update Api', () => {
   let db: DB
   let udb: UserDB
   let web: Express2
-  let router: Router
   let request: SuperAgentTest
 
   beforeAll(async () => {
@@ -29,7 +27,6 @@ describe('User Update Api', () => {
     web = await Express2.from(config).start()
     registerUserLoginApi(web, udb)
     registerUserUpdateApi(web, udb)
-    router = web.router
     request = web.spawnRequest()
   })
 

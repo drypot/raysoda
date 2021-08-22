@@ -1,6 +1,5 @@
 import { configFrom } from '../../config/config.js'
 import { deleteUpload, Express2 } from './express2.js'
-import { Router } from 'express'
 import { SuperAgentTest } from 'supertest'
 import { Multer } from 'multer'
 import { timeout } from '../base/async2.js'
@@ -12,14 +11,12 @@ describe('Express2 Upload', () => {
   const f2 = 'src/lib/express/fixture/express-upload-f2.txt'
 
   let web: Express2
-  let router: Router
   let request: SuperAgentTest
   let upload: Multer
 
   beforeAll(async () => {
     const config = configFrom('config/app-test.json')
     web = await Express2.from(config).start()
-    router = web.router
     upload = web.upload
     request = web.spawnRequest()
   })
@@ -30,13 +27,13 @@ describe('Express2 Upload', () => {
 
   describe('upload handler', () => {
     beforeAll(() => {
-      router.post('/api/test/upload-file', upload.single('file'), deleteUpload(async (req, res) => {
+      web.router.post('/api/test/upload-file', upload.single('file'), deleteUpload(async (req, res) => {
         res.json({
           ...req.body,
           file: req.file
         })
       }))
-      router.post('/api/test/upload-files', upload.array('files', 12), deleteUpload(async (req, res) => {
+      web.router.post('/api/test/upload-files', upload.array('files', 12), deleteUpload(async (req, res) => {
         res.json({
           ...req.body,
           files: req.files

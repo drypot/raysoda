@@ -1,5 +1,4 @@
 import { Express2 } from '../lib/express/express2.js'
-import { Router } from 'express'
 import { SuperAgentTest } from 'supertest'
 import { configFrom } from '../config/config.js'
 import { initAboutView } from './about-view.js'
@@ -7,7 +6,6 @@ import { initAboutView } from './about-view.js'
 describe('About View', () => {
 
   let server: Express2
-  let router: Router
   let request: SuperAgentTest
 
   beforeAll(async () => {
@@ -15,7 +13,6 @@ describe('About View', () => {
     server = Express2.from(config)
     initAboutView(server)
     await server.start()
-    router = server.router
     request = server.spawnRequest()
   })
 

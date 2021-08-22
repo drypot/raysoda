@@ -1,18 +1,16 @@
 import { configFrom } from '../../config/config.js'
 import { Express2 } from './express2.js'
-import { NextFunction, Request, Response, Router } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { SuperAgentTest } from 'supertest'
 
 describe('Express2', () => {
 
   let web: Express2
-  let router: Router
   let request: SuperAgentTest
 
   beforeAll(async () => {
     const config = configFrom('config/app-test.json')
     web = await Express2.from(config).start()
-    router = web.router
     request = web.spawnRequest()
   })
 
@@ -43,12 +41,12 @@ describe('Express2', () => {
         done(new Error('some error'))
       }
 
-      router.get('/api/test/mw-1-2', mid1, mid2, (req, res, done) => {
+      web.router.get('/api/test/mw-1-2', mid1, mid2, (req, res, done) => {
         result.mid3 = 'ok'
         res.json({})
       })
 
-      router.get('/api/test/mw-1-err-2', mid1, midErr, mid2, (req, res, done) => {
+      web.router.get('/api/test/mw-1-err-2', mid1, midErr, mid2, (req, res, done) => {
         result.mid3 = 'ok'
         res.json({})
       })

@@ -2,7 +2,6 @@ import { Config, configFrom } from '../config/config.js'
 import { DB } from '../lib/db/db.js'
 import { UserDB } from '../user/db/user-db.js'
 import { Express2 } from '../lib/express/express2.js'
-import { Router } from 'express'
 import { SuperAgentTest } from 'supertest'
 import { registerUserLoginApi } from '../user/case/login/user-login-api.js'
 import { insertUserFix4 } from '../user/db/user-db-fixture.js'
@@ -21,7 +20,6 @@ describe('Banner View', () => {
   let bdb: BannerDB
 
   let web: Express2
-  let router: Router
   let request: SuperAgentTest
 
   beforeAll(async () => {
@@ -35,7 +33,6 @@ describe('Banner View', () => {
     web = await Express2.from(config).start()
     registerUserLoginApi(web, udb)
     registerBannerView(web, bdb)
-    router = web.router
     request = web.spawnRequest()
   })
 

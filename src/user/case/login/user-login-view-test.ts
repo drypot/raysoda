@@ -3,7 +3,6 @@ import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../../db/user-db.js'
 import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { Router } from 'express'
 import { registerUserLoginView } from './user-login-view.js'
 
 describe('UserLoginView', () => {
@@ -13,7 +12,6 @@ describe('UserLoginView', () => {
   let db: DB
   let udb: UserDB
   let web: Express2
-  let router: Router
   let request: SuperAgentTest
 
   beforeAll(async () => {
@@ -24,7 +22,6 @@ describe('UserLoginView', () => {
 
     web = await Express2.from(config).start()
     registerUserLoginView(web, udb)
-    router = web.router
     request = web.spawnRequest()
   })
 

@@ -1,6 +1,5 @@
 import { configFrom } from '../../config/config.js'
 import { Express2 } from './express2.js'
-import { Router } from 'express'
 import { SuperAgentTest } from 'supertest'
 
 declare module 'express-session' {
@@ -12,13 +11,11 @@ declare module 'express-session' {
 describe('Express2', () => {
 
   let web: Express2
-  let router: Router
   let request: SuperAgentTest
 
   beforeAll(async () => {
     const config = configFrom('config/app-test.json')
     web = await Express2.from(config).start()
-    router = web.router
     request = web.spawnRequest()
   })
 
@@ -28,14 +25,14 @@ describe('Express2', () => {
 
   describe('session', () => {
     beforeAll(() => {
-      router.put('/api/test/session', (req, res) => {
+      web.router.put('/api/test/session', (req, res) => {
         let body: { [key: string]: string } = req.body
         for (let [k, v] of Object.entries(body)) {
           req.session[k] = v
         }
         res.json({})
       })
-      router.get('/api/test/session', (req, res) => {
+      web.router.get('/api/test/session', (req, res) => {
         const keys: string[] = req.body
         const obj: { [key: string]: string | undefined } = {}
         for (let k of keys) {

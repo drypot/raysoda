@@ -3,7 +3,6 @@ import { DB } from '../../../lib/db/db.js'
 import { UserDB } from '../../db/user-db.js'
 import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { Router } from 'express'
 import { registerUserLoginApi } from '../login/user-login-api.js'
 import { insertUserFix1 } from '../../db/user-db-fixture.js'
 import { loginForTest, User1Login } from '../login/user-login-api-fixture.js'
@@ -16,7 +15,6 @@ describe('UserLoginApi', () => {
   let db: DB
   let udb: UserDB
   let web: Express2
-  let router: Router
   let request: SuperAgentTest
 
   beforeAll(async () => {
@@ -28,7 +26,6 @@ describe('UserLoginApi', () => {
     web = await Express2.from(config).start()
     registerUserLoginApi(web, udb)
     registerUserUpdateView(web, udb)
-    router = web.router
     request = web.spawnRequest()
   })
 
