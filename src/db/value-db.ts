@@ -1,5 +1,5 @@
 import { DB } from './db.js'
-import { Config } from '../../config/config.js'
+import { Config } from '../config/config.js'
 
 export class ValueDB {
 

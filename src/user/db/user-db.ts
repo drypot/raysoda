@@ -1,4 +1,4 @@
-import { DB } from '../../lib/db/db.js'
+import { DB } from '../../db/db.js'
 import { User } from '../entity/user-entity.js'
 import { Config } from '../../config/config.js'
 

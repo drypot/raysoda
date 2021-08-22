@@ -1,5 +1,5 @@
 import { Config, configFrom } from '../../config/config.js'
-import { DB } from '../../lib/db/db.js'
+import { DB } from '../../db/db.js'
 import { UserDB } from './user-db.js'
 import { userOf } from '../entity/user-entity.js'
 

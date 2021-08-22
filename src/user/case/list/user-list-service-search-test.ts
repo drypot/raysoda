@@ -1,5 +1,5 @@
 import { Config, configFrom } from '../../../config/config.js'
-import { DB } from '../../../lib/db/db.js'
+import { DB } from '../../../db/db.js'
 import { UserDB } from '../../db/user-db.js'
 import { insertUserFix4 } from '../../db/user-db-fixture.js'
 import { userSearchService } from './user-list-service.js'

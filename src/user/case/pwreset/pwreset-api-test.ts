@@ -1,5 +1,5 @@
 import { Config, configFrom } from '../../../config/config.js'
-import { DB } from '../../../lib/db/db.js'
+import { DB } from '../../../db/db.js'
 import { PwResetDB } from '../../db/pwreset-db.js'
 import { Mailer } from '../../../lib/mailer/mailer2.js'
 import { MSG_USER_NOT_FOUND, UserDB } from '../../db/user-db.js'

@@ -1,6 +1,6 @@
 import { configFrom } from '../../../config/config.js'
 import { Mailer } from '../../../lib/mailer/mailer2.js'
-import { DB } from '../../../lib/db/db.js'
+import { DB } from '../../../db/db.js'
 import { UserDB } from '../../db/user-db.js'
 import { PwResetDB } from '../../db/pwreset-db.js'
 import { FormError, logError } from '../../../lib/base/error2.js'

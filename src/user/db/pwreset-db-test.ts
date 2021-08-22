@@ -1,5 +1,5 @@
 import { Config, configFrom } from '../../config/config.js'
-import { DB } from '../../lib/db/db.js'
+import { DB } from '../../db/db.js'
 import { PwResetDB, PwResetRecord } from './pwreset-db.js'
 
 describe('ResetDB', () => {

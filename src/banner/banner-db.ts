@@ -1,4 +1,4 @@
-import { ValueDB } from '../lib/db/value-db.js'
+import { ValueDB } from '../db/value-db.js'
 
 export interface Banner {
   text: string

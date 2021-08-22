@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../config/config.js'
 import { DB } from './db.js'
 
 describe('DB', () => {

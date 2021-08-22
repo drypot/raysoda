@@ -1,5 +1,5 @@
 import { Config, configFrom } from '../../../config/config.js'
-import { DB } from '../../../lib/db/db.js'
+import { DB } from '../../../db/db.js'
 import { UserDB } from '../../db/user-db.js'
 import { Express2 } from '../../../lib/express/express2.js'
 import { SuperAgentTest } from 'supertest'

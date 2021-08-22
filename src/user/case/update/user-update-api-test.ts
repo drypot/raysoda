@@ -1,5 +1,5 @@
 import { Config, configFrom } from '../../../config/config.js'
-import { DB } from '../../../lib/db/db.js'
+import { DB } from '../../../db/db.js'
 import { MSG_USER_NOT_FOUND, UserDB } from '../../db/user-db.js'
 import { insertUserFix4 } from '../../db/user-db-fixture.js'
 import { Express2 } from '../../../lib/express/express2.js'
