@@ -10,4 +10,4 @@ if [ $# -lt 2 ]; then
     show_usage
 fi
 
-node dist/lib/mailer/send-test-mail-script.js "$@"
+node dist/script/send-test-mail-script.js "$@"

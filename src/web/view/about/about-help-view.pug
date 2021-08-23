@@ -1,0 +1,30 @@
+extends ../layout/layout
+
+block head-opt
+  title Help - #{appName}
+
+block content
+
+  .section.page-title
+    //-h1 Help
+    h1 도움말
+
+  .section
+    .sub-section
+      | 궁금하신 점은 이메일로 문의 부탁드립니다.
+
+    .sub-section
+      | 페이스북 :&nbsp;
+      a(href='https://www.facebook.com/raysoda.news', target='_blank') https://www.facebook.com/raysoda.news
+      br
+
+      | 이메일 :&nbsp;
+      -var email = 'support+' + appNamel + '@raysoda.com'
+      a(href='mailto:' + email)= email
+
+    //-.sub-section
+      span Want to deactivate your account?&nbsp;
+      a(href='/user/deactivate') click
+    .sub-section
+      | 회원탈퇴를 원하실 경우 : &nbsp;
+      a(href='/user/deactivate') 계정사용중지신청

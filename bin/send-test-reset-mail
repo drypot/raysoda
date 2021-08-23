@@ -9,4 +9,4 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-node dist/user/case/pwreset/send-test-reset-mail-script.js "$@"
+node dist/script/send-test-reset-mail-script.js "$@"
