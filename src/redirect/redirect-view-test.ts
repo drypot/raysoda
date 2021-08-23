@@ -38,6 +38,10 @@ describe('Redirect', () => {
       await request.get('/users/1')
         .expect(301).expect('Location', '/user/1')
     })
+    it('/images', async () => {
+      await request.get('/images/1')
+        .expect(301).expect('Location', '/image/1')
+    })
   })
 
 })

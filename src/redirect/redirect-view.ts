@@ -24,4 +24,8 @@ export function registerRedirectView(web: Express2) {
     res.redirect(301, '/user/' + req.params.id)
   })
 
+  router.get('/images/:id([0-9]+)', function (req, res) {
+    res.redirect(301, '/image/' + req.params.id)
+  })
+
 }
