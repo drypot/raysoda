@@ -42,25 +42,25 @@ describe('Banner Api', () => {
     await db.close()
   })
 
+  beforeAll(async () => {
+    await udb.dropTable()
+    await udb.createTable(false)
+    await insertUserFix4(udb)
+  })
+
   describe('banner', () => {
     it('init table', async () => {
-      await udb.dropTable()
-      await udb.createTable(false)
       await vdb.dropTable()
       await vdb.createTable()
     })
-    it('fill fix', async () => {
-      await insertUserFix4(udb)
-    })
-
-    it('get banner without login fails', async () => {
+    it('get banner fails if anonymous', async () => {
       const res = await request.get('/api/banner').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)
     })
-    it('get banner as user fails', async () => {
+    it('get banner fails if user', async () => {
       const res = await request.get('/api/banner').expect(200)
       expect(res.body.err).toEqual(NOT_AUTHORIZED)
     })

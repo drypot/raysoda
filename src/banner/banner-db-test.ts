@@ -20,30 +20,32 @@ describe('BannerDB', () => {
     await db.close()
   })
 
-  it('init table', async () => {
-    await vdb.dropTable()
-    await vdb.createTable()
-  })
-  it('init bdb', async () => {
-    bdb = BannerDB.from(vdb)
-  })
-  it('banner is empty', async () => {
-    const b = await bdb.getBanner()
-    expect(b.length).toBe(0)
-  })
-  it('set list and save', async () => {
-    await bdb.setBanner([{ text: 'text1', url: 'url1' }])
-  })
-  it('banner contains item', async () => {
-    const b = await bdb.getBanner()
-    expect(b.length).toBe(1)
-  })
-  it('reset bdb', () => {
-    bdb = BannerDB.from(vdb)
-  })
-  it('banner contains item', async () => {
-    const b = await bdb.getBanner()
-    expect(b.length).toBe(1)
+  describe('banner', () => {
+    it('init table', async () => {
+      await vdb.dropTable()
+      await vdb.createTable()
+    })
+    it('init bdb', async () => {
+      bdb = BannerDB.from(vdb)
+    })
+    it('banner is empty', async () => {
+      const b = await bdb.getBanner()
+      expect(b.length).toBe(0)
+    })
+    it('set list and save', async () => {
+      await bdb.setBanner([{ text: 'text1', url: 'url1' }])
+    })
+    it('banner contains item', async () => {
+      const b = await bdb.getBanner()
+      expect(b.length).toBe(1)
+    })
+    it('reset bdb', () => {
+      bdb = BannerDB.from(vdb)
+    })
+    it('banner contains item', async () => {
+      const b = await bdb.getBanner()
+      expect(b.length).toBe(1)
+    })
   })
 
 })

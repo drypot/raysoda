@@ -7,7 +7,7 @@ import { registerUserLoginApi } from '../user/case/login/user-login-api.js'
 import { insertUserFix4 } from '../user/db/user-db-fixture.js'
 import { ValueDB } from '../db/value-db.js'
 import { BannerDB } from './banner-db.js'
-import { AdminLogin, loginForTest } from '../user/case/login/user-login-api-fixture.js'
+import { AdminLogin, loginForTest, User1Login } from '../user/case/login/user-login-api-fixture.js'
 import { registerBannerView } from './banner-view.js'
 
 describe('Banner View', () => {
@@ -41,18 +41,24 @@ describe('Banner View', () => {
     await db.close()
   })
 
+  beforeAll(async () => {
+    await udb.dropTable()
+    await udb.createTable(false)
+    await insertUserFix4(udb)
+  })
+
   describe('banner', () => {
     it('init table', async () => {
-      await udb.dropTable()
-      await udb.createTable(false)
       await vdb.dropTable()
       await vdb.createTable()
     })
-    it('fill fix', async () => {
-      await insertUserFix4(udb)
+    it('/support/banner fails if anonymous', async () => {
+      await request.get('/support/banner').expect(302).expect('Location', '/user/login')
     })
-
-    it('/support/banner fails', async () => {
+    it('login as user', async () => {
+      await loginForTest(request, User1Login)
+    })
+    it('/support/banner fails if user', async () => {
       await request.get('/support/banner').expect(302).expect('Location', '/user/login')
     })
     it('login as admin', async () => {
@@ -61,7 +67,6 @@ describe('Banner View', () => {
     it('/support/banner', async () => {
       await request.get('/support/banner').expect(200).expect(/<title>Update Banners/)
     })
-
   })
 
 })
