@@ -75,7 +75,10 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
   }))
 
   web.redirectToLogin = function (err: any, req: Request, res: Response, done: NextFunction) {
-    if (!res.locals.api && err.name === NOT_AUTHENTICATED.name) {
+    if (!res.locals.api && (
+      err.name === NOT_AUTHENTICATED.name ||
+      err.name === NOT_AUTHORIZED.name
+    )) {
       res.redirect('/user/login')
     } else {
       done(err)
