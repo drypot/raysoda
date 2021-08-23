@@ -18,7 +18,7 @@ describe('ValueDB', () => {
     await db.close()
   })
 
-  describe('value table', () => {
+  describe('table', () => {
     it('init table', async () => {
       await vdb.dropTable()
       await vdb.createTable()
