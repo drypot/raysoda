@@ -20,19 +20,19 @@ describe('DB', () => {
       await db.dropDatabase()
     })
     it('database not exists', async () => {
-      expect(await db.databaseExists(config.mysqlDatabase)).toBe(false)
+      expect(await db.findDatabase(config.mysqlDatabase)).toBeUndefined()
     })
     it('create database', async () => {
       await db.createDatabase()
     })
     it('database exists', async () => {
-      expect(await db.databaseExists(config.mysqlDatabase)).toBe(true)
+      expect(await db.findDatabase(config.mysqlDatabase)).toBeDefined()
     })
     it('drop database again', async () => {
       await db.dropDatabase()
     })
     it('database not exists', async () => {
-      expect(await db.databaseExists(config.mysqlDatabase)).toBe(false)
+      expect(await db.findDatabase(config.mysqlDatabase)).toBeUndefined()
     })
   })
 })

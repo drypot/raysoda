@@ -15,17 +15,17 @@ describe('DB', () => {
     await db.close()
   })
 
-  describe('query', () => {
+  describe('queryOne', () => {
     it('when there is something', async () => {
-      const r = await db.query('select * from (select 1 as id) dummy where id = 1')
-      expect(r[0].id).toBe(1)
+      const r = await db.queryOne('select * from (select 1 as id) dummy where id = 1')
+      expect(r.id).toBe(1)
     })
     it('when there is nothing', async () => {
-      const r = await db.query('select * from (select 1 as id) dummy where id = 2')
-      expect(r.length).toBe(0)
+      const r = await db.queryOne('select * from (select 1 as id) dummy where id = 2')
+      expect(r).toBe(undefined)
     })
     it('when sql invalid', async () => {
-      await expectAsync(db.query('select xxx')).toBeRejected()
+      await expectAsync(db.queryOne('select xxx')).toBeRejected()
     })
   })
 

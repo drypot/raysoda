@@ -31,7 +31,7 @@ describe('UserService', () => {
       await insertUserFix4(udb)
     })
     it('user status should be "v"', async () => {
-      const user = await udb.selectUserById(1)
+      const user = await udb.findUserById(1)
       expect(user?.status).toBe('v')
     })
     it('deactivate user', async () => {
@@ -40,7 +40,7 @@ describe('UserService', () => {
       expect(errs.length).toBe(0)
     })
     it('user status should be "d"', async () => {
-      const user = await udb.selectUserById(1)
+      const user = await udb.findUserById(1)
       expect(user?.status).toBe('d')
     })
     it('deactivating user fails if id invalid', async () => {

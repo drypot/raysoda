@@ -51,14 +51,14 @@ export class PwResetDB {
     return this.db.query('insert into pwreset set ?', form)
   }
 
-  async selectByUuid(uuid: string) {
-    const r = await this.db.query('select * from pwreset where uuid = ?', uuid)
-    return r[0] as PwResetRecord | undefined
+  async findByUuid(uuid: string) {
+    const r = await this.db.queryOne('select * from pwreset where uuid = ?', uuid)
+    return r as PwResetRecord | undefined
   }
 
-  async selectByEmail(email: string) {
-    const r = await this.db.query('select * from pwreset where email = ?', email)
-    return r[0] as PwResetRecord | undefined
+  async findByEmail(email: string) {
+    const r = await this.db.queryOne('select * from pwreset where email = ?', email)
+    return r as PwResetRecord | undefined
   }
 
   async deleteByEmail(email: string) {

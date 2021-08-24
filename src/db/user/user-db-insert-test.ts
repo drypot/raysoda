@@ -19,22 +19,42 @@ describe('UserDB', () => {
     await db.close()
   })
 
-  describe('insertUser', () => {
+  describe('user', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
     })
     it('user not exists', async () => {
-      const user = await udb.selectUserById(123)
+      const user = await udb.findUserById(1)
       expect(user?.id).toBe(undefined)
     })
     it('insert user', async () => {
-      const user2 = userOf({ id: 123, name: 'User 1', home: 'user1', email: 'user1@mail.test' })
+      const user2 = userOf({ id: 1, name: 'User 1', home: 'user1', email: 'user1@mail.test' })
       await udb.insertUser(user2)
     })
     it('user exists', async () => {
-      const user = await udb.selectUserById(123)
-      expect(user?.id).toBe(123)
+      const user = await udb.findUserById(1)
+      expect(user?.id).toBe(1)
+    })
+    it('user 999 not exists', async () => {
+      const user = await udb.findUserById(999)
+      expect(user?.id).toBe(undefined)
+    })
+    it('user user1@mail.test exists', async () => {
+      const user = await udb.findUserByEmail('user1@mail.test')
+      expect(user?.id).toBe(1)
+    })
+    it('user userX@mail.test not exists', async () => {
+      const user = await udb.findUserByEmail('userx@mail.test')
+      expect(user?.id).toBe(undefined)
+    })
+    it('user1 exists', async () => {
+      const user = await udb.findUserByHome('user1')
+      expect(user?.id).toBe(1)
+    })
+    it('userX not exists', async () => {
+      const user = await udb.findUserByHome('userX')
+      expect(user?.id).toBe(undefined)
     })
   })
 

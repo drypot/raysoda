@@ -1,4 +1,4 @@
-import mysql, { Connection, Query, QueryOptions } from 'mysql'
+import mysql, { Connection, QueryOptions } from 'mysql'
 import { Config } from '../../config/config.js'
 
 export class DB {
@@ -25,10 +25,7 @@ export class DB {
     return new DB(config)
   }
 
-  query(query: Query): Promise<any>;
-  query(options: string | QueryOptions): Promise<any>;
-  query(options: string | QueryOptions, values: any): Promise<any>;
-  query(options: any, values?: any): Promise<any> {
+  query(options: string | QueryOptions, values?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.conn.query(options, values, (err, r) => {
         if (err) return reject(err)
@@ -37,20 +34,14 @@ export class DB {
     })
   }
 
-  // 어떨 때는 결과가 어레이이고 어떨 때는 단일 오브젝티인지 헷갈린다.
-  // 쓰지 않기로 한다.
-  //
-  // queryOne(query: Query): Promise<any>;
-  // queryOne(options: string | QueryOptions): Promise<any>;
-  // queryOne(options: string | QueryOptions, values: any): Promise<any>;
-  // queryOne(options: any, values?: any): Promise<any> {
-  //   return new Promise((resolve, reject) => {
-  //     this.conn.query(options, values, (err, r) => {
-  //       if (err) return reject(err)
-  //       resolve(r[0])
-  //     })
-  //   })
-  // }
+  queryOne(options: string | QueryOptions, values?: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.conn.query(options, values, (err, r) => {
+        if (err) return reject(err)
+        resolve(r[0])
+      })
+    })
+  }
 
   close(): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -86,34 +77,19 @@ export class DB {
     return this
   }
 
-  async selectDatabase(name: string) {
-    return this.query('show databases like ?', name)
+  async findDatabase(name: string) {
+    return this.queryOne('show databases like ?', name)
   }
 
-  async databaseExists(name: string) {
-    const r = await this.selectDatabase(name)
-    return r.length > 0
+  async findTable(name: string) {
+    return this.queryOne('show tables like ?', name)
   }
 
-  async selectTable(name: string) {
-    return this.query('show tables like ?', name)
-  }
-
-  async tableExists(name: string) {
-    const r = await this.selectTable(name)
-    return r.length > 0
-  }
-
-  async selectIndex(table: string, index: string) {
+  async findIndex(table: string, index: string) {
     const q =
       'select * from information_schema.statistics ' +
       'where table_schema=database() and table_name=? and index_name=?'
-    return this.query(q, [table, index])
-  }
-
-  async indexExists(table: string, index: string) {
-    const r = await this.selectIndex(table, index)
-    return r.length > 0
+    return this.queryOne(q, [table, index])
   }
 
   private static indexPattern = /create\s+index\s+(\w+)\s+on\s+(\w+)/i
@@ -123,20 +99,14 @@ export class DB {
     if (!a) throw new Error('create index pattern not found')
     const table = a[2]
     const index = a[1]
-    if (await this.indexExists(table, index)) return
+    if (await this.findIndex(table, index)) return
     await this.query(query)
     return this
   }
 
   async getMaxId(table: string): Promise<number> {
-    const r = await this.query('select coalesce(max(id), 0) as maxId from ??', table)
-    return r[0].maxId
-  }
-
-  async insertObjects(table: string, objs: Object[]) {
-    for (const obj of objs) {
-      await this.query('insert into ' + table + ' set ?', obj)
-    }
+    const r = await this.queryOne('select coalesce(max(id), 0) as maxId from ??', table)
+    return r.maxId
   }
 
 }

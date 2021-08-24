@@ -12,16 +12,16 @@ describe('DB', () => {
   })
 
   describe('close', () => {
-    it('query runs', async () => {
+    it('when connected, query runs', async () => {
       await db.query('select 3 as v')
     })
-    it('close works', async () => {
+    it('close conn', async () => {
       await db.close()
     })
-    it('query fails', async () => {
+    it('when disconnected, query fails', async () => {
       await expectAsync(db.query('select 3 as v')).toBeRejected()
     })
-    it('close fails', async () => {
+    it('close conn again fails', async () => {
       await expectAsync(db.close()).toBeRejected()
     })
   })

@@ -32,7 +32,7 @@ describe('DB', () => {
       const maxId = await db.getMaxId('table1')
       expect(maxId).toBe(7)
     })
-    it('getMaxId fails if table invalid', async () => {
+    it('getMaxId fails if table not exist', async () => {
       await expectAsync(db.getMaxId('table2')).toBeRejected()
     })
   })

@@ -24,7 +24,8 @@ export class BannerDB {
 
   async getBanner() {
     if (!this.banner) {
-      this.banner = await this.vdb.selectValue('banners')
+      this.banner = await this.vdb.findValue('banners')
+      // 다른 문법으로 하니 평션의 리턴값에서 undefined 가 사라지지 않았다.
       this.banner ??= []
     }
     return this.banner

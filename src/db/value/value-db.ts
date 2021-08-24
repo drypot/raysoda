@@ -29,11 +29,12 @@ export class ValueDB {
   async dropTable() {
     if (!this.config.dev) throw new Error('only available in development mode')
     await this.db.query('drop table if exists persist')
+    return this
   }
 
-  async selectValue(id: string) {
-    const r = await this.db.query('select * from persist where id = ?', id)
-    return r.length ? JSON.parse(r[0].v) : undefined
+  async findValue(id: string) {
+    const r = await this.db.queryOne('select * from persist where id = ?', id)
+    return r ? JSON.parse(r.v) : undefined
   }
 
   async updateValue(id: string, v: any) {

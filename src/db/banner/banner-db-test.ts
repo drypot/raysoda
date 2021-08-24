@@ -32,7 +32,7 @@ describe('BannerDB', () => {
       const b = await bdb.getBanner()
       expect(b.length).toBe(0)
     })
-    it('set list and save', async () => {
+    it('set banner', async () => {
       await bdb.setBanner([{ text: 'text1', url: 'url1' }])
     })
     it('banner contains item', async () => {

@@ -23,29 +23,29 @@ describe('ResetDB', () => {
       await rdb.dropTable()
     })
     it('table not exists', async () => {
-      expect(await db.tableExists('pwreset')).toBe(false)
+      expect(await db.findTable('pwreset')).toBeUndefined()
     })
     it('create table', async () => {
-      await rdb.createTable(true) // 인덱스까지 만들어 본다
+      await rdb.createTable(true)
     })
     it('table exists', async () => {
-      expect(await db.tableExists('pwreset')).toBe(true)
+      expect(await db.findTable('pwreset')).toBeDefined()
     })
     it('drop table', async () => {
       await rdb.dropTable()
     })
     it('table not exists', async () => {
-      expect(await db.tableExists('pwreset')).toBe(false)
+      expect(await db.findTable('pwreset')).toBeUndefined()
     })
   })
 
-  describe('insert/delete/select', () => {
+  describe('pwreset', () => {
     it('init table', async () => {
       await rdb.dropTable()
       await rdb.createTable(false)
     })
-    it('select', async () => {
-      const r = await rdb.selectByUuid('uuid1')
+    it('find returns nothing', async () => {
+      const r = await rdb.findByUuid('uuid1')
       expect(r?.email).toBe(undefined)
     })
     it('insert', async () => {
@@ -56,19 +56,19 @@ describe('ResetDB', () => {
       }
       await rdb.insert(r)
     })
-    it('select by uuid', async () => {
-      const r = await rdb.selectByUuid('uuid1')
+    it('find by uuid', async () => {
+      const r = await rdb.findByUuid('uuid1')
       expect(r?.email).toBe('user1@mail.test')
     })
-    it('select by email', async () => {
-      const r = await rdb.selectByEmail('user1@mail.test')
+    it('find by email', async () => {
+      const r = await rdb.findByEmail('user1@mail.test')
       expect(r?.email).toBe('user1@mail.test')
     })
     it('delete', async () => {
       await rdb.deleteByEmail('user1@mail.test')
     })
-    it('select', async () => {
-      const r3 = await rdb.selectByUuid('uuid1')
+    it('find returns nothing', async () => {
+      const r3 = await rdb.findByUuid('uuid1')
       expect(r3?.email).toBe(undefined)
     })
   })

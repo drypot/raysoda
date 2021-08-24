@@ -56,7 +56,7 @@ describe('UserRegisterApi', () => {
       expect(res.body.id).toBe(5)
     })
     it('check db', async () => {
-      const user = await udb.selectUserById(5)
+      const user = await udb.findUserById(5)
       expect(user?.name).toBe('User Y')
     })
     it('format check works', async () => {

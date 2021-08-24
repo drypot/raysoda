@@ -49,7 +49,7 @@ describe('UserRegisterService', () => {
       if (!user) throw new Error(MSG_USER_NOT_FOUND)
     })
     it('check db', async () => {
-      const user = await udb.selectUserByHome('userx')
+      const user = await udb.findUserByHome('userx')
       if (!user) throw new Error(MSG_USER_NOT_FOUND)
       expect(user.name).toBe('User X')
       expect(user.home).toBe('userx')

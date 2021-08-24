@@ -24,68 +24,68 @@ describe('ValueDB', () => {
       await vdb.createTable()
     })
     it('table exists', async () => {
-      expect(await db.tableExists('persist')).toBe(true)
+      expect(await db.findTable('persist')).toBeDefined()
     })
     it('drop table', async () => {
       await vdb.dropTable()
     })
     it('table does not exist', async () => {
-      expect(await db.tableExists('persist')).toBe(false)
+      expect(await db.findTable('persist')).toBeUndefined()
     })
   })
 
-  describe('updateValue', () => {
+  describe('value', () => {
     it('init table', async () => {
       await vdb.dropTable()
       await vdb.createTable()
     })
-    it('inserts new key/value', async () => {
+    it('find value of undefined', async () => {
+      const v = await vdb.findValue('value1')
+      expect(v).toBe(undefined)
+    })
+    it('insert value', async () => {
       await vdb.updateValue('s1', 'value1')
     })
-    it('check inserted', async () => {
-      const v = await vdb.selectValue('s1')
+    it('find value', async () => {
+      const v = await vdb.findValue('s1')
       expect(v).toBe('value1')
     })
-    it('updates key/value', async () => {
+    it('updates value', async () => {
       await vdb.updateValue('s1', 'value2')
     })
-    it('check updated', async () => {
-      const v = await vdb.selectValue('s1')
+    it('find value', async () => {
+      const v = await vdb.findValue('s1')
       expect(v).toBe('value2')
     })
     it('update with empty string', async () => {
       await vdb.updateValue('empty', '')
-      const v = await vdb.selectValue('empty')
+      const v = await vdb.findValue('empty')
       expect(v).toBe('')
     })
     it('update with number', async () => {
       await vdb.updateValue('n1', 123)
-      const v = await vdb.selectValue('n1')
+      const v = await vdb.findValue('n1')
       expect(v).toBe(123)
     })
     it('update with 0', async () => {
       await vdb.updateValue('zero', 0)
-      const v = await vdb.selectValue('zero')
+      const v = await vdb.findValue('zero')
       expect(v).toBe(0)
     })
     it('update with object', async () => {
       await vdb.updateValue('o', { p1: 123, p2: 456 })
-      const v = await vdb.selectValue('o')
+      const v = await vdb.findValue('o')
       expect(v).toEqual({ p1: 123, p2: 456 })
     })
     it('update with empty object', async () => {
       await vdb.updateValue('emptyObj', {})
-      const v = await vdb.selectValue('emptyObj')
+      const v = await vdb.findValue('emptyObj')
       expect(v).toEqual({})
     })
     it('update with null', async () => {
       await vdb.updateValue('null', null)
-      const v = await vdb.selectValue('null')
+      const v = await vdb.findValue('null')
       expect(v).toBe(null)
-    })
-    it('update with undefined', async () => {
-      const v = await vdb.selectValue('noname')
-      expect(v).toBe(undefined)
     })
   })
 

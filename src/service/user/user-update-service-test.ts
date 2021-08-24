@@ -49,7 +49,7 @@ describe('User Update Service', () => {
       expect(errs.length).toBe(0)
     })
     it('check db', async () => {
-      const user = await udb.selectUserById(1)
+      const user = await udb.findUserById(1)
       if (!user) throw new Error(MSG_USER_NOT_FOUND)
       expect(user.name).toBe('User X')
       expect(user.home).toBe('userx')
@@ -76,7 +76,7 @@ describe('User Update Service', () => {
       expect(errs.length).toBe(0)
     })
     it('check db', async () => {
-      const user = await udb.selectUserById(1)
+      const user = await udb.findUserById(1)
       if (!user) throw new Error(MSG_USER_NOT_FOUND)
       expect(await checkHash('1234', user.hash)).toBe(false)
       expect(await checkHash('5678', user.hash)).toBe(true)

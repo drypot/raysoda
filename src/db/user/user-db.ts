@@ -87,28 +87,25 @@ export class UserDB {
     return this.db.query('insert into user set ?', user)
   }
 
-  async selectUserById(id: number) {
-    const r = await this.db.query('select * from user where id = ?', id)
-    const user = r[0]
-    if (user) unpackUser(user)
-    return user as User | undefined
+  async findUserById(id: number) {
+    const r = await this.db.queryOne('select * from user where id = ?', id)
+    if (r) unpackUser(r)
+    return r as User | undefined
   }
 
-  async selectUserByEmail(email: string) {
-    const r = await this.db.query('select * from user where email = ?', email)
-    const user = r[0]
-    if (user) unpackUser(user)
-    return user as User | undefined
+  async findUserByEmail(email: string) {
+    const r = await this.db.queryOne('select * from user where email = ?', email)
+    if (r) unpackUser(r)
+    return r as User | undefined
   }
 
-  async selectUserByHome(home: string) {
-    const r = await this.db.query('select * from user where home = ?', home)
-    const user = r[0]
-    if (user) unpackUser(user)
-    return user as User | undefined
+  async findUserByHome(home: string) {
+    const r = await this.db.queryOne('select * from user where home = ?', home)
+    if (r) unpackUser(r)
+    return r as User | undefined
   }
 
-  async selectUserList(offset: number = 0, ps: number = 100) {
+  async findUserList(offset: number = 0, ps: number = 100) {
     const r = await this.db.query(
       'select id, name, home from user order by pdate desc limit ?, ?',
       [offset, ps]
@@ -131,28 +128,28 @@ export class UserDB {
   }
 
   async nameIsDupe(id: number, name: string) {
-    const r = await this.db.query(
+    const r = await this.db.queryOne(
       'select exists(select * from user where name = ? and id != ?) as exist',
       [name, id]
     )
-    return r[0].exist === 1
+    return r.exist === 1
   }
 
   async homeIsDupe(id: number, home: string) {
-    const r = await this.db.query(
+    const r = await this.db.queryOne(
       'select exists(select * from user where home = ? and id != ?) as exist',
       [home, id]
     )
-    return r[0].exist === 1
+    return r.exist === 1
 
   }
 
   async emailIsDupe(id: number, email: string) {
-    const r = await this.db.query(
+    const r = await this.db.queryOne(
       'select exists(select * from user where email = ? and id != ?) as exist',
       [email, id]
     )
-    return r[0].exist === 1
+    return r.exist === 1
   }
 
   async updateUserADate(id: number, now: Date) {
@@ -209,7 +206,7 @@ export class UserDB {
     if (user) {
       return user as User
     }
-    user = await this.selectUserById(id)
+    user = await this.findUserById(id)
     if (user) this.cache(user)
     return user as User | undefined
   }
@@ -223,7 +220,7 @@ export class UserDB {
     if (user) {
       return user as User
     }
-    user = await this.selectUserByHome(home)
+    user = await this.findUserByHome(home)
     if (user) this.cache(user)
     return user as User | undefined
   }
@@ -233,7 +230,7 @@ export class UserDB {
   }
 
   async getRecachedByEmail(email: string) {
-    const user = await this.selectUserByEmail(email)
+    const user = await this.findUserByEmail(email)
     if (user) {
       this.deleteCacheById(user.id)
       this.cache(user)
@@ -247,4 +244,10 @@ function unpackUser(user: User) {
   // admin 컬럼은 bool 타입이고, bool 은 실제로 tinyint(1) 다.
   // 저장할 때는 true, false 를 사용해도 되지만 읽을 때는 number 가 돌아온다.
   user.admin = user.admin as unknown === 1
+}
+
+function unpackUserList(users: User[]) {
+  for (const user of users) {
+    user.admin = user.admin as unknown === 1
+  }
 }

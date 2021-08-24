@@ -57,7 +57,7 @@ describe('Counter Api', () => {
     })
     it('check db', async () => {
       const ds = dateStringFrom(new Date())
-      const r = await cdb.selectCounter('abc', ds)
+      const r = await cdb.findCounter('abc', ds)
       expect(r).toEqual(1)
     })
     it('update', async () => {
@@ -66,7 +66,7 @@ describe('Counter Api', () => {
     })
     it('check db', async () => {
       const ds = dateStringFrom(new Date())
-      const r = await cdb.selectCounter('abc', ds)
+      const r = await cdb.findCounter('abc', ds)
       expect(r).toEqual(2)
     })
   })
@@ -77,12 +77,12 @@ describe('Counter Api', () => {
       await cdb.createTable()
     })
     it('insert fix', async () => {
-      await cdb.insertCounter('cnt1', new Date(2003, 0, 17), 10)
-      await cdb.insertCounter('cnt1', new Date(2003, 0, 18), 20)
-      await cdb.insertCounter('cnt1', new Date(2003, 0, 19), 30)
-      await cdb.insertCounter('cnt1', new Date(2003, 0, 20), 40)
-      await cdb.insertCounter('cnt2', new Date(2003, 0, 17), 10)
-      await cdb.insertCounter('cnt2', new Date(2003, 0, 18), 20)
+      await cdb.replaceCounter('cnt1', new Date(2003, 0, 17), 10)
+      await cdb.replaceCounter('cnt1', new Date(2003, 0, 18), 20)
+      await cdb.replaceCounter('cnt1', new Date(2003, 0, 19), 30)
+      await cdb.replaceCounter('cnt1', new Date(2003, 0, 20), 40)
+      await cdb.replaceCounter('cnt2', new Date(2003, 0, 17), 10)
+      await cdb.replaceCounter('cnt2', new Date(2003, 0, 18), 20)
     })
     const url1 = '/api/counter/cnt1?b=2003-01-18&e=2003-01-20'
     it('get fails if anonymous', async () => {

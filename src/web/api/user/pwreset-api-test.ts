@@ -68,7 +68,7 @@ describe('Password Reset Service', () => {
     })
     const resetRecord = { uuid: '', token: '' }
     it('check db', async () => {
-      const r = await rdb.selectByEmail('user1@mail.test')
+      const r = await rdb.findByEmail('user1@mail.test')
       if (!r) throw new Error()
       resetRecord.uuid = r.uuid
       resetRecord.token = r.token
@@ -100,7 +100,7 @@ describe('Password Reset Service', () => {
       expect(res.body.err).toBe(undefined)
     })
     it('check db', async () => {
-      const user = await udb.selectUserByEmail('user1@mail.test')
+      const user = await udb.findUserByEmail('user1@mail.test')
       if (!user) throw new Error(MSG_USER_NOT_FOUND)
       expect(await checkHash('5678', user.hash)).toBe(true)
     })

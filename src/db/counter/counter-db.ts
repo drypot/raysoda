@@ -39,15 +39,7 @@ export class CounterDB {
     await this.db.query('drop table if exists counter')
   }
 
-  async insertCounter(id: string, d: Date, c: number) {
-    let ds = dateStringFrom(d)
-    await this.db.query(
-      'replace into counter values(?, ?, ?)',
-      [id, ds, c],
-    )
-  }
-
-  async updateCounter(id: string) {
+  async increaseCounter(id: string) {
     let ds = dateStringFrom(new Date())
     await this.db.query(
       'insert into counter values(?, ?, 1) on duplicate key update c = c + 1',
@@ -55,15 +47,23 @@ export class CounterDB {
     )
   }
 
-  async selectCounter(id: string, ds: string) {
-    const r = await this.db.query('select * from counter where id = ? and d = ?', [id, ds])
-    return r.length ? r[0].c as number : undefined
+  async replaceCounter(id: string, d: Date, c: number) {
+    let ds = dateStringFrom(d)
+    await this.db.query(
+      'replace into counter values(?, ?, ?)',
+      [id, ds, c],
+    )
   }
 
-  async selectCounterList(id: string, b: string, e: string) {
+  async findCounter(id: string, ds: string) {
+    const r = await this.db.queryOne('select * from counter where id = ? and d = ?', [id, ds])
+    return r ? r.c as number : undefined
+  }
+
+  async findCounterList(id: string, begin: string, end: string) {
     const r = await this.db.query(
       'select d, c from counter where id = ? and d between ? and ? order by d',
-      [id, b, e]
+      [id, begin, end]
     )
     return r as CounterRecord[]
   }

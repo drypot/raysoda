@@ -15,19 +15,19 @@ describe('DB', () => {
     await db.close()
   })
 
-  describe('findTable', () => {
+  describe('table', () => {
     it('create table', async () => {
       await db.query('drop table if exists table1')
       await db.query('create table table1(id int)')
     })
-    it('selectByUuid table works', async () => {
-      expect(await db.tableExists('table1')).toBe(true)
+    it('find table returns table', async () => {
+      expect(await db.findTable('table1')).toBeDefined()
     })
     it('drop table', async () => {
       await db.query('drop table if exists table1')
     })
-    it('selectByUuid table returns nothing', async () => {
-      expect(await db.tableExists('table1')).toBe(false)
+    it('find table returns nothing', async () => {
+      expect(await db.findTable('table1')).toBeUndefined()
     })
   })
 
