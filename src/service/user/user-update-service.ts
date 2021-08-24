@@ -1,5 +1,5 @@
 import { UserDB } from '../../db/user/user-db.js'
-import { User } from './entity/user-entity.js'
+import { User } from '../../entity/user-entity.js'
 import {
   checkEmailDB,
   checkEmailFormat,

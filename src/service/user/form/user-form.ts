@@ -83,19 +83,19 @@ export function checkPasswordFormat(password: string, errs: FormError[]) {
 export async function checkNameDB(
   userdb: UserDB, id: number, name: string, errs: FormError[]
 ) {
-  if (!await userdb.nameIsAvailable(id, name)) errs.push(NAME_DUPE)
-  if (!await userdb.homeIsAvailable(id, name)) errs.push(NAME_DUPE)
+  if (await userdb.nameIsDupe(id, name)) errs.push(NAME_DUPE)
+  if (await userdb.homeIsDupe(id, name)) errs.push(NAME_DUPE)
 }
 
 export async function checkHomeDB(
   userdb: UserDB, id: number, home: string, errs: FormError[]
 ) {
-  if (!await userdb.nameIsAvailable(id, home)) errs.push(HOME_DUPE)
-  if (!await userdb.homeIsAvailable(id, home)) errs.push(HOME_DUPE)
+  if (await userdb.nameIsDupe(id, home)) errs.push(HOME_DUPE)
+  if (await userdb.homeIsDupe(id, home)) errs.push(HOME_DUPE)
 }
 
 export async function checkEmailDB(
   userdb: UserDB, id: number, email: string, errs: FormError[]
 ) {
-  if (!await userdb.emailIsAvailable(id, email)) errs.push(EMAIL_DUPE)
+  if (await userdb.emailIsDupe(id, email)) errs.push(EMAIL_DUPE)
 }

@@ -42,7 +42,7 @@ export class PwResetDB {
 
   async dropTable() {
     if (!this.config.dev) {
-      throw (new Error('can not drop in production mode.'))
+      throw (new Error('only available in development mode'))
     }
     await this.db.query('drop table if exists pwreset')
   }
@@ -51,12 +51,12 @@ export class PwResetDB {
     return this.db.query('insert into pwreset set ?', form)
   }
 
-  async findByUuid(uuid: string) {
+  async selectByUuid(uuid: string) {
     const r = await this.db.query('select * from pwreset where uuid = ?', uuid)
     return r[0] as PwResetRecord | undefined
   }
 
-  async findByEmail(email: string) {
+  async selectByEmail(email: string) {
     const r = await this.db.query('select * from pwreset where email = ?', email)
     return r[0] as PwResetRecord | undefined
   }

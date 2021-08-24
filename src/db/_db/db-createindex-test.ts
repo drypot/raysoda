@@ -21,15 +21,14 @@ describe('DB', () => {
       await db.query('create table user1(id int, email varchar(64), primary key (id))')
     })
     it('there is no index', async () => {
-      const r = await db.findIndex('user1', 'email')
-      expect(r.length).toBe(0)
+      expect(await db.indexExists('user1', 'email')).toBe(false)
     })
     it('create index', async () => {
       await db.createIndexIfNotExists('create index email on user1(email)')
     })
     it('index should exist', async () => {
-      const r = await db.findIndex('user1', 'email')
-      expect(r.length).toBe(1)
+      const r = await db.selectIndex('user1', 'email')
+      expect(r).toBeDefined()
     })
     it('create same index throws', async () => {
       await expectAsync(db.query('create index email on user1(email)')).toBeRejected()

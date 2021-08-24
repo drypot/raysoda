@@ -37,6 +37,21 @@ export class DB {
     })
   }
 
+  // 어떨 때는 결과가 어레이이고 어떨 때는 단일 오브젝티인지 헷갈린다.
+  // 쓰지 않기로 한다.
+  //
+  // queryOne(query: Query): Promise<any>;
+  // queryOne(options: string | QueryOptions): Promise<any>;
+  // queryOne(options: string | QueryOptions, values: any): Promise<any>;
+  // queryOne(options: any, values?: any): Promise<any> {
+  //   return new Promise((resolve, reject) => {
+  //     this.conn.query(options, values, (err, r) => {
+  //       if (err) return reject(err)
+  //       resolve(r[0])
+  //     })
+  //   })
+  // }
+
   close(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!this.conn) return resolve()
@@ -66,24 +81,39 @@ export class DB {
   }
 
   async dropDatabase() {
-    if (!this.config.dev) throw (new Error('can not drop in production mode.'))
+    if (!this.config.dev) throw (new Error('only available in development mode'))
     await this.query('drop database if exists ??', this.config.mysqlDatabase)
     return this
   }
 
-  async findDatabase(name: string) {
+  async selectDatabase(name: string) {
     return this.query('show databases like ?', name)
   }
 
-  async findTable(name: string) {
+  async databaseExists(name: string) {
+    const r = await this.selectDatabase(name)
+    return r.length > 0
+  }
+
+  async selectTable(name: string) {
     return this.query('show tables like ?', name)
   }
 
-  async findIndex(table: string, index: string) {
+  async tableExists(name: string) {
+    const r = await this.selectTable(name)
+    return r.length > 0
+  }
+
+  async selectIndex(table: string, index: string) {
     const q =
       'select * from information_schema.statistics ' +
       'where table_schema=database() and table_name=? and index_name=?'
     return this.query(q, [table, index])
+  }
+
+  async indexExists(table: string, index: string) {
+    const r = await this.selectIndex(table, index)
+    return r.length > 0
   }
 
   private static indexPattern = /create\s+index\s+(\w+)\s+on\s+(\w+)/i
@@ -93,8 +123,7 @@ export class DB {
     if (!a) throw new Error('create index pattern not found')
     const table = a[2]
     const index = a[1]
-    const r = await this.findIndex(table, index)
-    if (r.length > 0) return
+    if (await this.indexExists(table, index)) return
     await this.query(query)
     return this
   }

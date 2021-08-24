@@ -18,7 +18,7 @@ describe('UserDB', () => {
     await db.close()
   })
 
-  describe('getNextUserId', () => {
+  describe('nextUserId', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
@@ -36,6 +36,5 @@ describe('UserDB', () => {
       expect(udb.getNextUserId()).toBe(11)
     })
   })
-
 
 })

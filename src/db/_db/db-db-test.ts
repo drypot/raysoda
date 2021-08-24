@@ -20,22 +20,19 @@ describe('DB', () => {
       await db.dropDatabase()
     })
     it('database not exists', async () => {
-      const r = await db.findDatabase(config.mysqlDatabase)
-      expect(r.length).toBe(0)
+      expect(await db.databaseExists(config.mysqlDatabase)).toBe(false)
     })
     it('create database', async () => {
       await db.createDatabase()
     })
     it('database exists', async () => {
-      const r = await db.findDatabase(config.mysqlDatabase)
-      expect(r.length).toBe(1)
+      expect(await db.databaseExists(config.mysqlDatabase)).toBe(true)
     })
     it('drop database again', async () => {
       await db.dropDatabase()
     })
     it('database not exists', async () => {
-      const r = await db.findDatabase(config.mysqlDatabase)
-      expect(r.length).toBe(0)
+      expect(await db.databaseExists(config.mysqlDatabase)).toBe(false)
     })
   })
 })

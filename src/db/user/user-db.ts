@@ -1,5 +1,5 @@
 import { DB } from '../_db/db.js'
-import { User } from '../../service/user/entity/user-entity.js'
+import { User } from '../../entity/user-entity.js'
 import { Config } from '../../config/config.js'
 
 export const MSG_USER_NOT_FOUND = 'User not found'
@@ -66,19 +66,19 @@ export class UserDB {
 
   async dropTable() {
     if (!this.config.dev) {
-      throw (new Error('can not drop in production mode.'))
+      throw (new Error('only available in development mode'))
     }
     await this.db.query('drop table if exists user')
   }
 
-  // Next User ID
+  // ID
 
   getNextUserId() {
     return this.nextUserId++
   }
 
-  setNextUserId(nextId: number) {
-    this.nextUserId = nextId
+  setNextUserId(id: number) {
+    this.nextUserId = id
   }
 
   // Query
@@ -87,50 +87,72 @@ export class UserDB {
     return this.db.query('insert into user set ?', user)
   }
 
-  async findUserById(id: number): Promise<User | undefined> {
+  async selectUserById(id: number) {
     const r = await this.db.query('select * from user where id = ?', id)
     const user = r[0]
     if (user) unpackUser(user)
-    return user
+    return user as User | undefined
   }
 
-  async findUserByEmail(email: string): Promise<User | undefined> {
+  async selectUserByEmail(email: string) {
     const r = await this.db.query('select * from user where email = ?', email)
     const user = r[0]
     if (user) unpackUser(user)
-    return user
+    return user as User | undefined
   }
 
-  async findUserByHome(home: string): Promise<User | undefined> {
+  async selectUserByHome(home: string) {
     const r = await this.db.query('select * from user where home = ?', home)
     const user = r[0]
     if (user) unpackUser(user)
-    return user
+    return user as User | undefined
   }
 
-  async nameIsAvailable(id: number, name: string): Promise<boolean> {
+  async selectUserList(offset: number = 0, ps: number = 100) {
+    const r = await this.db.query(
+      'select id, name, home from user order by pdate desc limit ?, ?',
+      [offset, ps]
+    )
+    return r as UserListItem[]
+  }
+
+  async searchUser(q: string, offset: number = 0, ps: number = 100, admin: boolean = false) {
+    let sql: string
+    let param: any[]
+    if (admin) {
+      sql = 'select id, name, home from user where name = ? or home = ? or email = ? limit ?, ?'
+      param = [q, q, q, offset, ps]
+    } else {
+      sql = 'select id, name, home from user where name = ? or home = ? limit ?, ?'
+      param = [q, q, offset, ps]
+    }
+    const r = await this.db.query(sql, param)
+    return r as UserListItem[]
+  }
+
+  async nameIsDupe(id: number, name: string) {
     const r = await this.db.query(
       'select exists(select * from user where name = ? and id != ?) as exist',
       [name, id]
     )
-    return r[0].exist === 0
+    return r[0].exist === 1
   }
 
-  async homeIsAvailable(id: number, home: string): Promise<boolean> {
+  async homeIsDupe(id: number, home: string) {
     const r = await this.db.query(
       'select exists(select * from user where home = ? and id != ?) as exist',
       [home, id]
     )
-    return r[0].exist === 0
+    return r[0].exist === 1
 
   }
 
-  async emailIsAvailable(id: number, email: string): Promise<boolean> {
+  async emailIsDupe(id: number, email: string) {
     const r = await this.db.query(
       'select exists(select * from user where email = ? and id != ?) as exist',
       [email, id]
     )
-    return r[0].exist === 0
+    return r[0].exist === 1
   }
 
   async updateUserADate(id: number, now: Date) {
@@ -148,10 +170,16 @@ export class UserDB {
     return r.changedRows as number
   }
 
-  async deactivateUser(id: number) {
-    const r = await this.db.query('update user set status = "d" where id = ?', id)
+  async updateUserStatus(id: number, s: string) {
+    const r = await this.db.query('update user set status = ? where id = ?', [s, id])
     return r.changedRows as number
   }
+
+  async updateUserPDate(id: number, d: Date) {
+    const r = await this.db.query('update user set pdate = ? where id = ?', [d, id])
+    return r.changedRows as number
+  }
+
 
   // Cache
 
@@ -176,61 +204,41 @@ export class UserDB {
     }
   }
 
-  async getCachedById(id: number): Promise<User | undefined> {
+  async getCachedById(id: number) {
     let user = this.userIdMap.get(id)
     if (user) {
-      return user
+      return user as User
     }
-    user = await this.findUserById(id)
+    user = await this.selectUserById(id)
     if (user) this.cache(user)
-    return user
+    return user as User | undefined
   }
 
-  getStrictlyCachedById(id: number): User | undefined {
-    return this.userIdMap.get(id)
+  getStrictlyCachedById(id: number) {
+    return this.userIdMap.get(id) as User | undefined
   }
 
-  async getCachedByHome(home: string): Promise<User | undefined> {
+  async getCachedByHome(home: string) {
     let user = this.userHomeMap.get(home.toLowerCase())
     if (user) {
-      return user
+      return user as User
     }
-    user = await this.findUserByHome(home)
+    user = await this.selectUserByHome(home)
     if (user) this.cache(user)
-    return user
+    return user as User | undefined
   }
 
-  getStrictlyCachedByHome(home: string): User | undefined {
-    return this.userHomeMap.get(home.toLowerCase())
+  getStrictlyCachedByHome(home: string) {
+    return this.userHomeMap.get(home.toLowerCase()) as User | undefined
   }
 
-  async getRecachedByEmail(email: string): Promise<User | undefined> {
-    const user = await this.findUserByEmail(email)
+  async getRecachedByEmail(email: string) {
+    const user = await this.selectUserByEmail(email)
     if (user) {
       this.deleteCacheById(user.id)
       this.cache(user)
     }
-    return user
-  }
-
-  async listUser(offset: number = 0, ps: number = 100) {
-    const q = 'select id, name, home from user order by pdate desc limit ?, ?'
-    const r = await this.db.query(q, [offset, ps])
-    return r as UserListItem[]
-  }
-
-  async searchUser(q: string, offset: number = 0, ps: number = 100, admin: boolean = false) {
-    let sql: string
-    let param: any[]
-    if (admin) {
-      sql = 'select id, name, home from user where name = ? or home = ? or email = ? limit ?, ?'
-      param = [q, q, q, offset, ps]
-    } else {
-      sql = 'select id, name, home from user where name = ? or home = ? limit ?, ?'
-      param = [q, q, offset, ps]
-    }
-    const r = await this.db.query(sql, param)
-    return r as UserListItem[]
+    return user as User | undefined
   }
 
 }

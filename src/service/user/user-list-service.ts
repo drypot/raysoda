@@ -2,7 +2,7 @@ import { UserDB } from '../../db/user/user-db.js'
 
 export async function userListService(udb: UserDB, p: number = 1, ps: number = 100) {
   let offset = (p - 1) * ps
-  return await udb.listUser(offset, ps)
+  return await udb.selectUserList(offset, ps)
 }
 
 export async function userSearchService(

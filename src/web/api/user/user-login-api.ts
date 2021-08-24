@@ -9,7 +9,7 @@ import {
   PASSWORD_WRONG
 } from '../../../service/user/form/user-form.js'
 import { FormError } from '../../../lib/base/error2.js'
-import { User } from '../../../service/user/entity/user-entity.js'
+import { User } from '../../../entity/user-entity.js'
 import { checkHash } from '../../../lib/base/hash.js'
 
 export function registerUserLoginApi(web: Express2, udb: UserDB) {

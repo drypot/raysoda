@@ -6,7 +6,7 @@ import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../service/user/form/us
 export function registerCounterApi(web: Express2, cdb: CounterDB) {
 
   web.router.get('/api/counter/:id/inc', toCallback(async (req, res) => {
-    await cdb.update(req.params.id)
+    await cdb.updateCounter(req.params.id)
     res.redirect(req.query.r as string)
   }))
 
@@ -17,7 +17,7 @@ export function registerCounterApi(web: Express2, cdb: CounterDB) {
     const id = req.params.id
     const b = req.query.b as string
     const e = req.query.e as string
-    const r = await cdb.findRange(id, b, e)
+    const r = await cdb.selectCounterList(id, b, e)
     res.json({ counter: r })
   }))
 

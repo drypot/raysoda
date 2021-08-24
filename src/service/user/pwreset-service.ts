@@ -15,7 +15,7 @@ export async function pwResetSendMailService(
     errs.push(EMAIL_PATTERN)
     return false
   }
-  const user = await udb.findUserByEmail(email)
+  const user = await udb.selectUserByEmail(email)
   if (!user) {
     errs.push(EMAIL_NOT_FOUND)
     return false
@@ -60,7 +60,7 @@ export async function pwResetSetPasswordService(
 ) {
   checkPasswordFormat(form.password, errs)
   if (errs.length) return
-  const r = await resetDB.findByUuid(form.uuid)
+  const r = await resetDB.selectByUuid(form.uuid)
   if (!r) {
     errs.push(INVALID_DATA)
     return

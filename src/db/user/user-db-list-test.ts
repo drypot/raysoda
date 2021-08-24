@@ -19,7 +19,7 @@ describe('UserDB', () => {
     await db.close()
   })
 
-  describe('listUser', () => {
+  describe('selectUserList', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
@@ -28,7 +28,7 @@ describe('UserDB', () => {
       await insertUserFix4(udb)
     })
     it('get list default opt', async () => {
-      const l = await udb.listUser()
+      const l = await udb.selectUserList()
       expect(l.length).toBe(4)
       // ordered by pdate desc
       expect(l[0].home).toBe('user2')
@@ -37,7 +37,7 @@ describe('UserDB', () => {
       expect(l[3].home).toBe('admin')
     })
     it('get offset 0, ps 3', async () => {
-      const l = await udb.listUser(0, 3)
+      const l = await udb.selectUserList(0, 3)
       expect(l.length).toBe(3)
       // ordered by pdate desc
       expect(l[0].home).toBe('user2')
@@ -45,13 +45,13 @@ describe('UserDB', () => {
       expect(l[2].home).toBe('user1')
     })
     it('get offset 3, ps 3', async () => {
-      const l = await udb.listUser(3, 3)
+      const l = await udb.selectUserList(3, 3)
       expect(l.length).toBe(1)
       // ordered by pdate desc
       expect(l[0].home).toBe('admin')
     })
     it('get offset 6, ps 3', async () => {
-      const l = await udb.listUser(6, 3)
+      const l = await udb.selectUserList(6, 3)
       expect(l.length).toBe(0)
     })
   })

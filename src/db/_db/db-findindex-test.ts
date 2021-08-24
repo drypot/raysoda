@@ -21,15 +21,13 @@ describe('DB', () => {
       await db.query('create table user1(id int, email varchar(64), primary key (id))')
     })
     it('findIndex returns nothing', async () => {
-      const r = await db.findIndex('user1', 'email')
-      expect(r.length).toBe(0)
+      expect(await db.indexExists('user1', 'email')).toBe(false)
     })
     it('create index', async () => {
       await db.query('create index email on user1(email)')
     })
     it('findIndex returns indexes', async () => {
-      const r = await db.findIndex('user1', 'email')
-      expect(r.length).toBe(1)
+      expect(await db.indexExists('user1', 'email')).toBe(true)
     })
   })
 

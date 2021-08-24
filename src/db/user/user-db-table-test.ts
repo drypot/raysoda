@@ -18,7 +18,7 @@ describe('UserDB', () => {
     await db.close()
   })
 
-  describe('createTable', () => {
+  describe('table', () => {
     it('drop table', async () => {
       await udb.dropTable()
     })
@@ -26,15 +26,13 @@ describe('UserDB', () => {
       await udb.createTable(true) // 인덱스까지 만들어 본다
     })
     it('table exists', async () => {
-      const r = await db.findTable('user')
-      expect(r.length).toBe(1)
+      expect(await db.tableExists('user')).toBe(true)
     })
     it('drop table', async () => {
       await udb.dropTable()
     })
     it('table not exists', async () => {
-      const r = await db.findTable('user')
-      expect(r.length).toBe(0)
+      expect(await db.tableExists('user')).toBe(false)
     })
   })
 

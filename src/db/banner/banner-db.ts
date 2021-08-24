@@ -24,7 +24,7 @@ export class BannerDB {
 
   async getBanner() {
     if (!this.banner) {
-      this.banner = await this.vdb.findValue('banners')
+      this.banner = await this.vdb.selectValue('banners')
       this.banner ??= []
     }
     return this.banner

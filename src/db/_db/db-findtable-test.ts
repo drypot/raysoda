@@ -20,16 +20,14 @@ describe('DB', () => {
       await db.query('drop table if exists table1')
       await db.query('create table table1(id int)')
     })
-    it('findByUuid table works', async () => {
-      const r = await db.findTable('table1')
-      expect(r.length).toBe(1)
+    it('selectByUuid table works', async () => {
+      expect(await db.tableExists('table1')).toBe(true)
     })
     it('drop table', async () => {
       await db.query('drop table if exists table1')
     })
-    it('findByUuid table returns nothing', async () => {
-      const r = await db.findTable('table1')
-      expect(r.length).toBe(0)
+    it('selectByUuid table returns nothing', async () => {
+      expect(await db.tableExists('table1')).toBe(false)
     })
   })
 

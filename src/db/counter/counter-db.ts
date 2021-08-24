@@ -35,11 +35,11 @@ export class CounterDB {
   }
 
   async dropTable() {
-    if (!this.config.dev) throw new Error('can not drop in production mode.')
+    if (!this.config.dev) throw new Error('only available in development mode')
     await this.db.query('drop table if exists counter')
   }
 
-  async insert(id: string, d: Date, c: number) {
+  async insertCounter(id: string, d: Date, c: number) {
     let ds = dateStringFrom(d)
     await this.db.query(
       'replace into counter values(?, ?, ?)',
@@ -47,7 +47,7 @@ export class CounterDB {
     )
   }
 
-  async update(id: string) {
+  async updateCounter(id: string) {
     let ds = dateStringFrom(new Date())
     await this.db.query(
       'insert into counter values(?, ?, 1) on duplicate key update c = c + 1',
@@ -55,12 +55,12 @@ export class CounterDB {
     )
   }
 
-  async find(id: string, ds: string) {
+  async selectCounter(id: string, ds: string) {
     const r = await this.db.query('select * from counter where id = ? and d = ?', [id, ds])
     return r.length ? r[0].c as number : undefined
   }
 
-  async findRange(id: string, b: string, e: string) {
+  async selectCounterList(id: string, b: string, e: string) {
     const r = await this.db.query(
       'select d, c from counter where id = ? and d between ? and ? order by d',
       [id, b, e]

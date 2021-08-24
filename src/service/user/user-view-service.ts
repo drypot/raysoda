@@ -1,5 +1,5 @@
 import { UserDB } from '../../db/user/user-db.js'
-import { User } from './entity/user-entity.js'
+import { User } from '../../entity/user-entity.js'
 
 export async function userViewService(udb: UserDB, id: number, priv: boolean) {
   const user1 = await udb.getCachedById(id)

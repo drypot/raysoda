@@ -66,7 +66,7 @@ describe('UserDeactivateApi', () => {
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
     it('user status must be "d"', async () => {
-      const user = await udb.findUserById(1)
+      const user = await udb.selectUserById(1)
       expect(user?.status).toBe('d')
     })
 

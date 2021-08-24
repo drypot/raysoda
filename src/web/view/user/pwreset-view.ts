@@ -16,5 +16,4 @@ export function registerPwResetView(web: Express2) {
     res.render('user/pwreset-view-3')
   })
 
-
 }

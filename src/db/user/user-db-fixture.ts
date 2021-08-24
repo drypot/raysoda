@@ -1,4 +1,4 @@
-import { userOf } from '../../service/user/entity/user-entity.js'
+import { userOf } from '../../entity/user-entity.js'
 import { UserDB } from './user-db.js'
 
 const hash1 = '$2a$10$bP0BJpAzAUNFZ2Ejo57Gruhg8LkIQ9./EvfUjjyYqwCf3ZDhQZC1K' /* 1234 */

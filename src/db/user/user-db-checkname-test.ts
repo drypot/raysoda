@@ -25,18 +25,18 @@ describe('UserDB', () => {
     await insertUserFix1(udb)
   })
 
-  describe('nameIsAvailable', () => {
-    it('true if name available', async () => {
-      const usable = await udb.nameIsAvailable(0, 'User X')
-      expect(usable).toBe(true)
+  describe('nameIsDupe', () => {
+    it('false if not dupe', async () => {
+      const dupe = await udb.nameIsDupe(0, 'User X')
+      expect(dupe).toBe(false)
     })
-    it('true if same entity', async () => {
-      const usable = await udb.nameIsAvailable(1, 'User 1')
-      expect(usable).toBe(true)
+    it('false if same entity', async () => {
+      const dupe = await udb.nameIsDupe(1, 'User 1')
+      expect(dupe).toBe(false)
     })
-    it('false if name in use', async () => {
-      const usable = await udb.nameIsAvailable(0, 'User 1')
-      expect(usable).toBe(false)
+    it('true if dupe', async () => {
+      const dupe = await udb.nameIsDupe(0, 'User 1')
+      expect(dupe).toBe(true)
     })
   })
 

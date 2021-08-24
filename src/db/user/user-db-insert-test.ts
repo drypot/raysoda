@@ -1,7 +1,7 @@
 import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../_db/db.js'
 import { UserDB } from './user-db.js'
-import { userOf } from '../../service/user/entity/user-entity.js'
+import { userOf } from '../../entity/user-entity.js'
 
 describe('UserDB', () => {
 
@@ -25,7 +25,7 @@ describe('UserDB', () => {
       await udb.createTable(false)
     })
     it('user not exists', async () => {
-      const user = await udb.findUserById(123)
+      const user = await udb.selectUserById(123)
       expect(user?.id).toBe(undefined)
     })
     it('insert user', async () => {
@@ -33,7 +33,7 @@ describe('UserDB', () => {
       await udb.insertUser(user2)
     })
     it('user exists', async () => {
-      const user = await udb.findUserById(123)
+      const user = await udb.selectUserById(123)
       expect(user?.id).toBe(123)
     })
   })
