@@ -29,8 +29,8 @@ describe('UserDB', () => {
       expect(user?.id).toBe(undefined)
     })
     it('insert user', async () => {
-      const user2 = userOf({ id: 1, name: 'User 1', home: 'user1', email: 'user1@mail.test' })
-      await udb.insertUser(user2)
+      const user = userOf({ id: 1, name: 'User 1', home: 'user1', email: 'user1@mail.test' })
+      await udb.insertUser(user)
     })
     it('user exists', async () => {
       const user = await udb.findUserById(1)
