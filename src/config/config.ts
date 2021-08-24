@@ -10,7 +10,7 @@ export type Config = {
 
   siteUrl: string
 
-  uploadSiteUrlUrl: string
+  uploadSiteUrl: string
   uploadDir: string
 
   mysqlServer: string
