@@ -8,7 +8,7 @@ import * as http from 'http'
 import supertest from 'supertest'
 import { Config } from '../../config/config.js'
 import newMulter, { Multer } from 'multer'
-import { mkdirSync2, rmSync2 } from '../../lib/base/fs2.js'
+import { emptyDirSync, mkdirRecursiveSync } from '../../lib/base/fs2.js'
 import { unlinkSync } from 'fs'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
@@ -21,8 +21,12 @@ export class Express2 {
   private multer: Multer | undefined
   public readonly router: Router
 
-  public autoLogin: ExpressHandler = (req, res, done) => { done() }
-  public redirectToLogin: ErrorRequestHandler = (err, req, res, done) => { done(err) }
+  public autoLogin: ExpressHandler = (req, res, done) => {
+    done()
+  }
+  public redirectToLogin: ErrorRequestHandler = (err, req, res, done) => {
+    done(err)
+  }
 
   private constructor(config: Config) {
     this.config = config
@@ -147,7 +151,7 @@ export class Express2 {
   }
 
   private setUpAutoLoginHandler() {
-    const handler: ExpressHandler = (req, res, done)  => {
+    const handler: ExpressHandler = (req, res, done) => {
       this.autoLogin(req, res, done)
     }
     this.expr1.use(handler)
@@ -188,7 +192,7 @@ export class Express2 {
 
   // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
   private setUpRedirectToLoginHandler() {
-    const handler: ErrorRequestHandler = (err, req, res, done)  => {
+    const handler: ErrorRequestHandler = (err, req, res, done) => {
       this.redirectToLogin(err, req, res, done)
     }
     this.expr1.use(handler)
@@ -227,8 +231,8 @@ export class Express2 {
     if (!this.multer) {
       if (!this.config.uploadDir) throw new Error('config.uploadDir should be defined')
       const tmp = this.config.uploadDir + '/tmp'
-      rmSync2(tmp)
-      mkdirSync2(tmp)
+      mkdirRecursiveSync(tmp)
+      emptyDirSync(tmp)
       this.multer = newMulter({ dest: tmp })
     }
     return this.multer
