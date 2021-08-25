@@ -4,16 +4,16 @@ describe('ImageMagick2', () => {
 
   describe('identify', () => {
     it('jpeg', async () => {
-      const meta = await identify('samples/1280x720.jpg')
+      const meta = await identify('sample/1280x720.jpg')
       expect(meta.format).toBe('jpeg')
       expect(meta.width).toBe(1280)
       expect(meta.height).toBe(720)
     })
     it('svg', async () => {
-      const meta = await identify('samples/svg-sample.svg')
-      expect(meta.format).toBe('svg');
-      expect(meta.width).toBe(1000);
-      expect(meta.height).toBe(1000);
+      const meta = await identify('sample/svg-sample.svg')
+      expect(meta.format).toBe('svg')
+      expect(meta.width).toBe(1000)
+      expect(meta.height).toBe(1000)
     })
 
     // heic 서포트를 넣으려고 시작했는데 heic 지원은 내 코드를 수정하는 것이 아니라
@@ -23,17 +23,19 @@ describe('ImageMagick2', () => {
     // Mac brew ImageMagick 에선 heic 처리가 그냥 된다.
 
     // it('heic', async () => {
-    //   const meta = await identify('samples/IMG_4395.HEIC')
+    //   const meta = await identify('sample/IMG_4395.HEIC')
     //   expect(meta.format).toBe('heic')
     //   expect(meta.width).toBe(4032)
     //   expect(meta.height).toBe(3024)
     // })
 
     it('if file not exist', async () => {
-       await expectAsync(identify('xxxx')).toBeRejected()
+      const meta = await identify('xxx')
+      expect(meta.format).toBeUndefined()
     })
     it('if file not image', async () => {
-       await expectAsync(identify('README.md')).toBeRejected()
+      const meta = await identify('README.md')
+      expect(meta.format).toBeUndefined()
     })
   })
 })
