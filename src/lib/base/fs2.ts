@@ -7,12 +7,3 @@ export function rmSync2(p: string) {
 export function mkdirSync2(p: string) {
   fs.mkdirSync(p, { recursive: true, mode: 0o755, })
 }
-
-export function deepPathOf(id: number, iter: number) {
-  let path = ''
-  for (iter--; iter > 0; iter--) {
-    path = '/' + id % 1000 + path
-    id = Math.floor(id / 1000)
-  }
-  return id + path
-}
