@@ -7,8 +7,8 @@ import { existsSync } from 'fs'
 
 describe('Express2 Upload', () => {
 
-  const f1 = 'src/web/_express/fixture/upload1.txt'
-  const f2 = 'src/web/_express/fixture/upload2.txt'
+  const f1 = 'sample/text1.txt'
+  const f2 = 'sample/text2.txt'
 
   let web: Express2
   let request: SuperAgentTest
@@ -70,14 +70,14 @@ describe('Express2 Upload', () => {
       // res.body.file sample
       //
       // fieldname: 'file'
-      // originalname: 'upload1.txt'
+      // originalname: 'text1.txt'
       // encoding: '7bit'
       // mimetype: 'text/plain'
       // destination: 'upload/test/tmp'
       // filename: 'bfd9da3c1b83d8184472ee35ec3539b5'
       // path: 'upload/test/tmp/bfd9da3c1b83d8184472ee35ec3539b5'
       //
-      expect(res.body.file.originalname).toBe('upload1.txt')
+      expect(res.body.file.originalname).toBe('text1.txt')
       await timeout(100)
       expect(existsSync(res.body.file.path)).toBe(false)
     })
@@ -86,8 +86,8 @@ describe('Express2 Upload', () => {
       expect(res.body.err).toBeFalsy()
       expect(res.body.p1).toBe('v1')
       expect(res.body.files.length).toBe(2)
-      expect(res.body.files[0].originalname).toBe('upload1.txt')
-      expect(res.body.files[1].originalname).toBe('upload2.txt')
+      expect(res.body.files[0].originalname).toBe('text1.txt')
+      expect(res.body.files[1].originalname).toBe('text2.txt')
       await timeout(100)
       expect(existsSync(res.body.files[0].path)).toBe(false)
       expect(existsSync(res.body.files[1].path)).toBe(false)
