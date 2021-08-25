@@ -9,8 +9,8 @@
   "cookieSecret": "o;iejf832ndvs",
   "uploadDir": "upload/raysoda",
 
-  "siteUrl": "http://raysoda.test:8080",
-  "uploadSiteUrl": "http://file.raysoda.test:8080",
+  "mainUrl": "http://raysoda.test:8080",
+  "uploadUrl": "http://file.raysoda.test:8080",
 
   "mysqlServer": "localhost",
   "mysqlDatabase": "raysoda",

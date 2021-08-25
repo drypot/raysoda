@@ -9,8 +9,8 @@
   "cookieSecret": "o;iejf832ndvs",
   "uploadDir": "upload/drypot",
 
-  "siteUrl": "http://drypot.test:8080",
-  "uploadSiteUrl": "http://file.drypot.test:8080",
+  "mainUrl": "http://drypot.test:8080",
+  "uploadUrl": "http://file.drypot.test:8080",
 
   "mysqlServer": "localhost",
   "mysqlDatabase": "drypot",

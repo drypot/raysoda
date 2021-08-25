@@ -7,11 +7,10 @@ export type Config = {
 
   port: number
   cookieSecret: string
-
-  siteUrl: string
-
-  uploadSiteUrl: string
   uploadDir: string
+
+  mainUrl: string
+  uploadUrl: string
 
   mysqlServer: string
   mysqlDatabase: string

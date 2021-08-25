@@ -9,8 +9,8 @@
   "cookieSecret": "o;iejf832ndvs",
   "uploadDir": "upload/rapixel",
 
-  "siteUrl": "http://rapixel.test:8080",
-  "uploadSiteUrl": "http://file.rapixel.test:8080",
+  "mainUrl": "http://rapixel.test:8080",
+  "uploadUrl": "http://file.rapixel.test:8080",
 
   "mysqlServer": "localhost",
   "mysqlDatabase": "rapixel",

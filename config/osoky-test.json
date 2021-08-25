@@ -9,8 +9,8 @@
   "cookieSecret": "o;iejf832ndvs",
   "uploadDir": "upload/osoky-test",
 
-  "siteUrl": "http://osoky.test:8080",
-  "uploadSiteUrl": "http://file.osoky.test:8080",
+  "mainUrl": "http://osoky.test:8080",
+  "uploadUrl": "http://file.osoky.test:8080",
 
   "mysqlServer": "localhost",
   "mysqlDatabase": "raysoda_test",

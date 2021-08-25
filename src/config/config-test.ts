@@ -7,7 +7,7 @@ describe('loadConfig', () => {
     expect(config.appNamel).toBe('test')
     expect(config.dev).toBeTruthy()
   })
-  it('can throw exception', () => {
+  it('throw exception if file not found', () => {
     expect(() => { configFrom('config/not-exist.json') }).toThrow()
   })
 })

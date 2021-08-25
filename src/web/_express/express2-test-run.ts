@@ -30,8 +30,8 @@ process.on('SIGINT', function () {
 
 express.start().then(() => {
   console.log('express: listening ' + config.port)
-  const siteUrl = config.siteUrl
-  console.log(siteUrl + '/test/hello')
-  console.log(siteUrl + '/test/system-error')
-  console.log(siteUrl + '/test/form-error')
+  const mainUrl = config.mainUrl
+  console.log(mainUrl + '/test/hello')
+  console.log(mainUrl + '/test/system-error')
+  console.log(mainUrl + '/test/form-error')
 })
