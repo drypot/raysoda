@@ -2,19 +2,16 @@ import { ImageFileManager } from './fileman.js'
 import { FormError } from '../lib/base/error2.js'
 import { Config } from '../config/config.js'
 import { deepPathOf } from '../lib/base/deeppath.js'
-import { IMAGE_SIZE } from '../service/image/form/image-form.js'
+import { IMAGE_TYPE } from '../service/image/form/image-form.js'
 import { mkdirRecursive, rmRecursive } from '../lib/base/fs2.js'
-import { exec2 } from '../lib/base/exec2.js'
-import { unlink } from 'fs/promises'
+import { copyFile, unlink } from 'fs/promises'
 import { ImageMeta } from '../entity/image-meta.js'
-
-const maxWidth = 2048
 
 function subDir(id: number) {
   return deepPathOf((id / 1000) >> 0, 2)
 }
 
-export class RaySodaFileManager implements ImageFileManager {
+export class DrypotFileManager implements ImageFileManager {
 
   public readonly config: Config
   public readonly dir: string
@@ -27,7 +24,7 @@ export class RaySodaFileManager implements ImageFileManager {
   }
 
   static from(config: Config) {
-    return new RaySodaFileManager(config)
+    return new DrypotFileManager(config)
   }
 
   async rmRoot() {
@@ -42,7 +39,7 @@ export class RaySodaFileManager implements ImageFileManager {
   }
 
   getPathFor(id: number): string {
-    return this.dir + subDir(id) + '/' + id + '.jpg'
+    return this.dir + subDir(id) + '/' + id + '.svg'
   }
 
   getDirUrlFor(id: number): string {
@@ -50,7 +47,7 @@ export class RaySodaFileManager implements ImageFileManager {
   }
 
   getThumbUrlFor(id: number): string {
-    return this.url + subDir(id) + '/' + id + '.jpg'
+    return this.url + subDir(id) + '/' + id + '.svg'
   }
 
   beforeIdentify(path: string): Promise<void> {
@@ -58,19 +55,14 @@ export class RaySodaFileManager implements ImageFileManager {
   }
 
   checkMeta(meta: ImageMeta, errs: FormError[]) {
-    if (meta.width < 240 || meta.height < 240) {
-      errs.push(IMAGE_SIZE)
+    if (meta.format !== 'svg') {
+      errs.push(IMAGE_TYPE)
     }
   }
 
   async saveImage(id: number, src: string) {
     await mkdirRecursive(this.getDirFor(id))
-    let cmd = 'convert ' + src
-    cmd += ' -quality 92'
-    cmd += ' -auto-orient'
-    cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>'
-    cmd += ' ' + this.getPathFor(id)
-    await exec2(cmd)
+    await copyFile(src, this.getPathFor(id))
   }
 
   async deleteImage(id: number) {

@@ -2,11 +2,11 @@ import { ImageFileManager } from './fileman.js'
 import { FormError } from '../lib/base/error2.js'
 import { Config } from '../config/config.js'
 import { deepPathOf } from '../lib/base/deeppath.js'
-import { identify, mogrify } from './magick/magick2.js'
 import { IMAGE_SIZE } from '../service/image/form/image-form.js'
 import { emptyDir, mkdirRecursive, rmRecursive } from '../lib/base/fs2.js'
 import { exec2 } from '../lib/base/exec2.js'
 import { ImageMeta, WidthHeight } from '../entity/image-meta.js'
+import { mogrifyAutoOrient } from './magick/magick2.js'
 
 const _minWidth = 3840
 const _minHeight = 2160
@@ -34,6 +34,10 @@ function subDir(id: number) {
 }
 
 export class RapixelFileManager implements ImageFileManager {
+
+  // identify 에 -auto-orient 를 적용할 수가 없다.
+  // 세로 사진이 들어오는 것을 막기 위해 identify 전에 mogrify 를 한번 해야 한다.
+  public readonly needOrientFix = true
 
   public readonly config: Config
   public readonly dir: string
@@ -72,12 +76,8 @@ export class RapixelFileManager implements ImageFileManager {
     return this.url + subDir(id) + '/' + id + '-2560.jpg'
   }
 
-  async mogrify(p: string) {
-    return mogrify(p)
-  }
-
-  async identify(p: string) {
-    return identify(p)
+  beforeIdentify(path: string): Promise<void> {
+    return mogrifyAutoOrient(path)
   }
 
   checkMeta(meta: ImageMeta, errs: FormError[]) {

@@ -40,15 +40,6 @@ describe('RapixelFileManager', () => {
     })
   })
 
-  describe('identify', () => {
-    it('identify', async () => {
-      const meta = await fm.identify('sample/360x240.jpg')
-      expect(meta.format).toBe('jpeg')
-      expect(meta.width).toBe(360)
-      expect(meta.height).toBe(240)
-    })
-  })
-
   describe('check meta', () => {
     it('if size too small', () => {
       const meta = imageMetaOf({ width: 2560, height: 1440 })
@@ -73,7 +64,7 @@ describe('RapixelFileManager', () => {
       expect(existsSync(fm.getPathFor(1, 2560))).toBe(false)
     })
     it('save 5120 image', async () => {
-      const meta = await fm.identify('sample/5120x2880.jpg')
+      const meta = await identify('sample/5120x2880.jpg')
       const vers = await fm.saveImage(1, 'sample/5120x2880.jpg', meta)
       expect(vers).toEqual([5120, 4096, 2560, 1280])
     })
@@ -89,7 +80,7 @@ describe('RapixelFileManager', () => {
       expect(meta.height).toBe(1440)
     })
     it('save 4096 image', async () => {
-      const meta = await fm.identify('sample/4096x2304.jpg')
+      const meta = await identify('sample/4096x2304.jpg')
       const vers = await fm.saveImage(2, 'sample/4096x2304.jpg', meta)
       expect(vers).toEqual([4096, 2560, 1280])
     })
