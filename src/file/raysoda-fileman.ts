@@ -2,11 +2,12 @@ import { ImageFileManager } from './fileman.js'
 import { FormError } from '../lib/base/error2.js'
 import { Config } from '../config/config.js'
 import { deepPathOf } from '../lib/base/deeppath.js'
-import { ImageMeta } from './magick2.js'
+import { identify } from './magick/magick2.js'
 import { IMAGE_SIZE } from '../service/image/form/image-form.js'
-import { unlinkSync } from 'fs'
-import { exec } from 'child_process'
-import { mkdirRecursiveSync, rmRecursiveSync } from '../lib/base/fs2.js'
+import { mkdirRecursive, rmRecursive } from '../lib/base/fs2.js'
+import { exec2 } from '../lib/base/exec2.js'
+import { unlink } from 'fs/promises'
+import { ImageMeta } from '../entity/image-meta.js'
 
 const maxWidth = 2048
 
@@ -30,11 +31,11 @@ export class RaySodaFileManager implements ImageFileManager {
     return new RaySodaFileManager(config)
   }
 
-  rmRootSync() {
+  async rmRoot() {
     if (!this.config.dev) {
       throw (new Error('only available in development mode'))
     }
-    rmRecursiveSync(this.dir)
+    return rmRecursive(this.dir)
   }
 
   getDirFor(id: number) {
@@ -53,32 +54,32 @@ export class RaySodaFileManager implements ImageFileManager {
     return this.url + subDir(id) + '/' + id + '.jpg'
   }
 
+  async mogrify(p: string) {
+    return
+  }
+
+  async identify(p: string) {
+    return identify(p)
+  }
+
   checkMeta(meta: ImageMeta, errs: FormError[]) {
     if (meta.width < 240 || meta.height < 240) {
       errs.push(IMAGE_SIZE)
     }
   }
 
-  async saveImage(id: number, src: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      mkdirRecursiveSync(this.dir + subDir(id))
-      let cmd = 'convert ' + src +
-        ' -quality 92' +
-        ' -auto-orient' +
-        ' -resize ' + maxWidth + 'x' + maxWidth + '\\>' +
-        ' ' + this.getPathFor(id)
-      exec(cmd, function (err) {
-        if (err) return reject(err)
-        resolve()
-      })
-    })
+  async saveImage(id: number, src: string) {
+    await mkdirRecursive(this.getDirFor(id))
+    let cmd = 'convert ' + src
+    cmd += ' -quality 92'
+    cmd += ' -auto-orient'
+    cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>'
+    cmd += ' ' + this.getPathFor(id)
+    await exec2(cmd)
   }
 
-  deleteImage(id: number): void {
-    try {
-      unlinkSync(this.getPathFor(id))
-    } catch {
-    }
+  async deleteImage(id: number) {
+    return unlink(this.getPathFor(id))
   }
 
 }
