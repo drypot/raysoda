@@ -8,7 +8,7 @@ import * as http from 'http'
 import supertest from 'supertest'
 import { Config } from '../../config/config.js'
 import newMulter, { Multer } from 'multer'
-import { emptyDirSync, mkdirRecursiveSync } from '../../lib/base/fs2.js'
+import { emptyDir, mkdirRecursive } from '../../lib/base/fs2.js'
 import { unlinkSync } from 'fs'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
@@ -60,7 +60,7 @@ export class Express2 {
 
   static apiPattern = /^\/api\//
 
-  start() {
+  async start(initMulter: boolean = false) {
     this.expr1.use(function (req, res, done) {
       res.locals.query = req.query
       res.locals.api = Express2.apiPattern.test(req.path)
@@ -74,10 +74,12 @@ export class Express2 {
     this.setUpBasicAPI()
     this.setUpRedirectToLoginHandler()
     this.setUpErrorHandler()
-    const _this = this
+    if (initMulter) {
+      await this.initMulter()
+    }
     return new Promise<Express2>((resolve) => {
       this.httpServer.listen(this.config.port, () => {
-        resolve(_this)
+        resolve(this)
       })
     })
   }
@@ -227,15 +229,18 @@ export class Express2 {
     })
   }
 
-  get upload(): Multer {
+  private async initMulter() {
     if (!this.multer) {
       if (!this.config.uploadDir) throw new Error('config.uploadDir should be defined')
       const tmp = this.config.uploadDir + '/tmp'
-      mkdirRecursiveSync(tmp)
-      emptyDirSync(tmp)
+      await mkdirRecursive(tmp)
+      await emptyDir(tmp)
       this.multer = newMulter({ dest: tmp })
     }
-    return this.multer
+  }
+
+  get upload(): Multer {
+    return this.multer as Multer
   }
 
 }

@@ -16,7 +16,7 @@ describe('Express2 Upload', () => {
 
   beforeAll(async () => {
     const config = configFrom('config/app-test.json')
-    web = await Express2.from(config).start()
+    web = await Express2.from(config).start(true)
     upload = web.upload
     request = web.spawnRequest()
   })
