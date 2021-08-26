@@ -2,6 +2,11 @@ import { existsSync } from 'fs'
 import { emptyDir, mkdirRecursive, rmRecursive } from './fs2.js'
 import { writeFile } from 'fs/promises'
 
+// exists 는 deprecated 되었지만 existsSync 는 계속 유효하다.
+// exists 대신 access 가 권장되기도 하는데
+// 아래처럼 해야해서 번잡하다.
+// await expectAsync(access(tdir)).toBeRejected()
+
 describe('fs2', () => {
 
   const tdir = 'tmp/fs/'

@@ -1,11 +1,11 @@
 import { mkdir, readdir, rm, unlink } from 'fs/promises'
 
 export async function mkdirRecursive(p: string) {
-  return mkdir(p, { recursive: true, mode: 0o755, })
+  await mkdir(p, { recursive: true, mode: 0o755, })
 }
 
 export async function rmRecursive(p: string) {
-  return rm(p, { force: true, recursive: true })
+  await rm(p, { force: true, recursive: true })
 }
 
 export async function emptyDir(p: string) {
