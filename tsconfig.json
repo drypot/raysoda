@@ -14,7 +14,7 @@
     // express() 식으로 실행할 수 있다.
     "allowSyntheticDefaultImports": true,
 
-    "rootDir": "src",
+    "rootDir": ".",
     "outDir": "dist",
     "sourceMap": true,
 
