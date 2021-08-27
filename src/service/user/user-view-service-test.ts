@@ -1,6 +1,6 @@
 import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../db/_db/db.js'
-import { MSG_USER_NOT_FOUND, UserDB } from '../../db/user/user-db.js'
+import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix1 } from '../../db/user/user-db-fixture.js'
 import { userViewService } from './user-view-service.js'
 
@@ -30,7 +30,7 @@ describe('UserViewService', () => {
     })
     it('return user info if id valid', async () => {
       const user = await userViewService(udb, 1, false)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
+      if (!user) throw new Error()
       expect(user.id).toBe(1)
       expect(user.home).toBe('user1')
       expect(user.email).toBe(undefined)
@@ -38,7 +38,7 @@ describe('UserViewService', () => {
     })
     it('return with email if privInfo true', async () => {
       const user = await userViewService(udb, 1, true)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
+      if (!user) throw new Error()
       expect(user.id).toBe(1)
       expect(user.home).toBe('user1')
       expect(user.email).toBe('user1@mail.test')

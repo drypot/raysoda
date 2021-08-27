@@ -1,6 +1,6 @@
 import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../db/_db/db.js'
-import { MSG_USER_NOT_FOUND, UserDB } from '../../db/user/user-db.js'
+import { UserDB } from '../../db/user/user-db.js'
 import {
   EMAIL_DUPE,
   EMAIL_RANGE,
@@ -9,7 +9,7 @@ import {
   NAME_DUPE,
   NAME_RANGE,
   PASSWORD_RANGE,
-  userFormOf
+  userRegisterFormOf
 } from './form/user-form.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { FormError } from '../../lib/base/error2.js'
@@ -32,7 +32,7 @@ describe('UserRegisterService', () => {
     await db.close()
   })
 
-  describe('userRegisterService', () => {
+  describe('user register service', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
@@ -40,19 +40,25 @@ describe('UserRegisterService', () => {
     it('fill fix', async () => {
       await insertUserFix4(udb)
     })
-    it('register new user', async () => {
-      const form = userFormOf({
-        name: 'User X', home: 'userx', email: 'userx@mail.test', password: '1234', profile: '',
+    it('register user', async () => {
+      const form = userRegisterFormOf({
+        name: 'User X', email: 'userx@mail.test', password: '1234',
       })
       const errs: FormError[] = []
       const user = await userRegisterService(udb, form, errs)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
+      if (!user) throw new Error()
+      expect(user.name).toBe('User X')
+      expect(user.home).toBe('User X')
+      expect(user.email).toBe('userx@mail.test')
+      expect(await checkHash('1234', user.hash)).toBe(true)
+      expect(user.status).toBe('v')
+      expect(user.admin).toBe(false)
     })
     it('check db', async () => {
-      const user = await udb.findUserByHome('userx')
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
+      const user = await udb.findUserByHome('User X')
+      if (!user) throw new Error()
       expect(user.name).toBe('User X')
-      expect(user.home).toBe('userx')
+      expect(user.home).toBe('User X')
       expect(user.email).toBe('userx@mail.test')
       expect(await checkHash('1234', user.hash)).toBe(true)
       expect(user.status).toBe('v')
@@ -61,9 +67,9 @@ describe('UserRegisterService', () => {
     it('format check works', async () => {
       const s33 = 'x'.repeat(33)
       const s65 = 'x'.repeat(66)
-      const form = {
-        name: s33, home: s33, email: s65, password: s33, profile: ''
-      }
+      const form = userRegisterFormOf({
+        name: s33, email: s65, password: s33
+      })
       const errs: FormError[] = []
       const user = await userRegisterService(udb, form, errs)
       expect(errs.length).toBe(4)
@@ -73,9 +79,9 @@ describe('UserRegisterService', () => {
       expect(errs).toContain(PASSWORD_RANGE)
     })
     it('dupe check works', async () => {
-      const form = {
-        name: 'User 2', home: 'user2', email: 'user2@mail.test', password: '1234', profile: ''
-      }
+      const form = userRegisterFormOf({
+        name: 'User 2', email: 'user2@mail.test', password: '1234'
+      })
       const errs: FormError[] = []
       const user = await userRegisterService(udb, form, errs)
       expect(errs.length).toBe(3)

@@ -27,7 +27,13 @@ export const PASSWORD_RANGE = formErrorOf('PASSWORD_RANGE', '비밀번호 길이
 
 export const RESET_TIMEOUT = formErrorOf('RESET_TIMEOUT', '비밀번호 초기화 토큰 유효시간이 지났습니다.')
 
-export interface UserForm {
+export interface UserRegisterForm {
+  name: string
+  email: string
+  password: string
+}
+
+export interface UserUpdateForm {
   name: string
   home: string
   email: string
@@ -35,7 +41,16 @@ export interface UserForm {
   profile: string
 }
 
-export function userFormOf(params?: Partial<UserForm>): UserForm {
+export function userRegisterFormOf(params?: Partial<UserRegisterForm>) {
+  return {
+    name: '',
+    email: '',
+    password: '',
+    ...params
+  } as UserRegisterForm
+}
+
+export function userUpdateFormOf(params?: Partial<UserUpdateForm>) {
   return {
     name: '',
     home: '',
@@ -43,7 +58,7 @@ export function userFormOf(params?: Partial<UserForm>): UserForm {
     password: '',
     profile: '',
     ...params
-  }
+  } as UserUpdateForm
 }
 
 export function checkNameFormat(name: string, errs: FormError[]) {
@@ -80,21 +95,21 @@ export function checkPasswordFormat(password: string, errs: FormError[]) {
   }
 }
 
-export async function checkNameDB(
+export async function checkNameDupe(
   userdb: UserDB, id: number, name: string, errs: FormError[]
 ) {
   if (await userdb.nameIsDupe(id, name)) errs.push(NAME_DUPE)
   if (await userdb.homeIsDupe(id, name)) errs.push(NAME_DUPE)
 }
 
-export async function checkHomeDB(
+export async function checkHomeDupe(
   userdb: UserDB, id: number, home: string, errs: FormError[]
 ) {
   if (await userdb.nameIsDupe(id, home)) errs.push(HOME_DUPE)
   if (await userdb.homeIsDupe(id, home)) errs.push(HOME_DUPE)
 }
 
-export async function checkEmailDB(
+export async function checkEmailDupe(
   userdb: UserDB, id: number, email: string, errs: FormError[]
 ) {
   if (await userdb.emailIsDupe(id, email)) errs.push(EMAIL_DUPE)

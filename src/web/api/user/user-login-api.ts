@@ -1,4 +1,4 @@
-import { MSG_USER_NOT_FOUND, UserDB } from '../../../db/user/user-db.js'
+import { UserDB } from '../../../db/user/user-db.js'
 import { Express2, toCallback } from '../../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
 import {
@@ -40,7 +40,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
     const errs: FormError[] = []
     const user = await findUserByEmailPassword(email, password, errs)
     if (errs.length) throw errs
-    if (!user) throw new Error(MSG_USER_NOT_FOUND)
+    if (!user) throw new Error()
     await createSession(req, res, user)
     if (remember) {
       res.cookie('email', email, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
@@ -118,7 +118,7 @@ export function sessionUserFrom(res: Response) {
   return res.locals.user as User | undefined
 }
 
-export function userCanUpdate(op: User, id: number) {
+export function hasUpdatePerm(op: User, id: number) {
   return op.id === id || op.admin
 }
 

@@ -1,28 +1,28 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { User } from '../../entity/user-entity.js'
 import {
-  checkEmailDB,
+  checkEmailDupe,
   checkEmailFormat,
-  checkHomeDB,
+  checkHomeDupe,
   checkHomeFormat,
-  checkNameDB,
+  checkNameDupe,
   checkNameFormat,
   checkPasswordFormat,
-  UserForm
+  UserUpdateForm
 } from './form/user-form.js'
 import { FormError } from '../../lib/base/error2.js'
 import { makeHash } from '../../lib/base/hash.js'
 
-export async function userUpdateService(udb: UserDB, id: number, form: UserForm, errs: FormError[]) {
+export async function userUpdateService(udb: UserDB, id: number, form: UserUpdateForm, errs: FormError[]) {
   checkNameFormat(form.name, errs)
   checkHomeFormat(form.home, errs)
   checkEmailFormat(form.email, errs)
   if (form.password) {
     checkPasswordFormat(form.password, errs)
   }
-  await checkNameDB(udb, id, form.name, errs)
-  await checkHomeDB(udb, id, form.home, errs)
-  await checkEmailDB(udb, id, form.email, errs)
+  await checkNameDupe(udb, id, form.name, errs)
+  await checkHomeDupe(udb, id, form.home, errs)
+  await checkEmailDupe(udb, id, form.email, errs)
   if (errs.length > 0) return
   let update: Partial<User> = {
     name: form.name,

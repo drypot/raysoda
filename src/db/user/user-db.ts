@@ -2,8 +2,6 @@ import { DB } from '../_db/db.js'
 import { User } from '../../entity/user-entity.js'
 import { Config } from '../../config/config.js'
 
-export const MSG_USER_NOT_FOUND = 'User not found'
-
 export interface UserListItem {
   id: number
   name: string
@@ -12,8 +10,8 @@ export interface UserListItem {
 
 export class UserDB {
 
-  public config: Config
-  private db: DB
+  public readonly config: Config
+  private readonly db: DB
   private nextUserId: number
 
   private constructor(db: DB) {

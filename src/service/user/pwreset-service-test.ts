@@ -2,7 +2,7 @@ import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { PwResetDB } from '../../db/pwreset/pwreset-db.js'
 import { Mailer } from '../../lib/mailer/mailer2.js'
-import { MSG_USER_NOT_FOUND, UserDB } from '../../db/user/user-db.js'
+import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { NewPasswordForm, pwResetSendMailService, pwResetSetPasswordService } from './pwreset-service.js'
 import { FormError, INVALID_DATA } from '../../lib/base/error2.js'
@@ -88,7 +88,7 @@ describe('Password Reset Service', () => {
     })
     it('check db', async () => {
       const user = await udb.findUserByEmail('user1@mail.test')
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
+      if (!user) throw new Error()
       expect(await checkHash('5678', user.hash)).toBe(true)
     })
   })

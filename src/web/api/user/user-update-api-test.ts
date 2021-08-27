@@ -1,6 +1,6 @@
 import { Config, configFrom } from '../../../config/config.js'
 import { DB } from '../../../db/_db/db.js'
-import { MSG_USER_NOT_FOUND, UserDB } from '../../../db/user/user-db.js'
+import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
@@ -66,7 +66,7 @@ describe('User Update Api', () => {
     })
     it('check db', async () => {
       const user = await udb.findUserById(1)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
+      if (!user) throw new Error()
       expect(user.name).toBe('User X')
       expect(user.home).toBe('userx')
       expect(user.email).toBe('userx@mail.test')
@@ -75,7 +75,7 @@ describe('User Update Api', () => {
     })
     it('check cache', async () => {
       const user = await udb.getCachedById(1)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
+      if (!user) throw new Error()
       expect(user.name).toBe('User X')
       expect(user.home).toBe('userx')
       expect(user.email).toBe('userx@mail.test')
@@ -92,12 +92,12 @@ describe('User Update Api', () => {
     })
     it('check db', async () => {
       const user = await udb.findUserById(1)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
+      if (!user) throw new Error()
       expect(await checkHash('5678', user.hash)).toBe(true)
     })
     it('check cache', async () => {
       const user = await udb.getCachedById(1)
-      if (!user) throw new Error(MSG_USER_NOT_FOUND)
+      if (!user) throw new Error()
       expect(await checkHash('5678', user.hash)).toBe(true)
     })
     it('format check works', async () => {
