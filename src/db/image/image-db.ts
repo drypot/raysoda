@@ -4,8 +4,8 @@ import { Image } from '../../entity/image-entity.js'
 
 export class ImageDB {
 
-  public config: Config
-  private db: DB
+  public readonly config: Config
+  private readonly db: DB
   private nextImageId: number = 0
 
   private constructor(db: DB) {
@@ -106,10 +106,10 @@ export class ImageDB {
     return r as Image[]
   }
 
-  async findCdateListByUser(uid: number) {
+  async findCdateListByUser(uid: number, limit: number) {
     const r = await this.db.query(
       'select id, cdate from image where uid = ? order by cdate desc limit ?',
-      [uid, this.config.ticketMax]
+      [uid, limit]
     )
     return r as { id: number, cdate: Date }[]
   }

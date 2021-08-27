@@ -86,7 +86,7 @@ describe('ImageDB', () => {
       expect(r[3].id).toBe(3)
     })
     it('find cdate list by user', async () => {
-      const r = await idb.findCdateListByUser(2)
+      const r = await idb.findCdateListByUser(2, 3)
       expect(r.length).toBe(3)
       expect(r[0].id).toBe(5)
       expect(r[2].id).toBe(3)

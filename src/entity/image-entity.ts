@@ -6,7 +6,7 @@ export interface Image {
   id: number
   uid: number
   cdate: Date
-  vers: { width: number, height: number }[] | string | null
+  vers: number[] | string | null
   comment: string
 }
 
