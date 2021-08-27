@@ -21,7 +21,7 @@ export async function userRegisterService(udb: UserDB, form: UserRegisterForm, e
   await checkNameDupe(udb, 0, form.name, errs)
   await checkHomeDupe(udb, 0, form.name, errs)
   await checkEmailDupe(udb, 0, form.email, errs)
-  if (errs.length > 0) return
+  if (errs.length) return
   const user = userOf()
   user.id = udb.getNextUserId()
   user.name = form.name
