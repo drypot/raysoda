@@ -9,12 +9,22 @@ export interface ImageFileManager {
   readonly url: string
 
   rmRoot(): Promise<void>
+
   getDirFor(id: number): string
+
   getPathFor(id: number, width?: number): string
+
   getDirUrlFor(id: number): string
+
   getThumbUrlFor(id: number): string
+
   beforeIdentify(path: string): Promise<void>
+
+  identify(path: string): Promise<ImageMeta>
+
   checkMeta(meta: ImageMeta, errs: FormError[]): void
-  saveImage(id: number, src: string, meta?: ImageMeta): Promise<any>
+
+  saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null>
+
   deleteImage(id: number): Promise<void>
 }

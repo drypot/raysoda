@@ -6,6 +6,7 @@ import { IMAGE_TYPE } from '../service/image/form/image-form.js'
 import { mkdirRecursive, rmRecursive } from '../lib/base/fs2.js'
 import { copyFile, unlink } from 'fs/promises'
 import { ImageMeta } from '../entity/image-meta.js'
+import { identify } from './magick/magick2.js'
 
 function subDir(id: number) {
   return deepPathOf((id / 1000) >> 0, 2)
@@ -50,8 +51,12 @@ export class DrypotFileManager implements ImageFileManager {
     return this.url + subDir(id) + '/' + id + '.svg'
   }
 
-  beforeIdentify(path: string): Promise<void> {
-    return Promise.resolve(undefined)
+  async beforeIdentify(path: string) {
+    return Promise.resolve()
+  }
+
+  async identify(path: string) {
+    return identify(path)
   }
 
   checkMeta(meta: ImageMeta, errs: FormError[]) {
@@ -60,9 +65,10 @@ export class DrypotFileManager implements ImageFileManager {
     }
   }
 
-  async saveImage(id: number, src: string) {
+  async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
     await mkdirRecursive(this.getDirFor(id))
     await copyFile(src, this.getPathFor(id))
+    return null
   }
 
   async deleteImage(id: number) {

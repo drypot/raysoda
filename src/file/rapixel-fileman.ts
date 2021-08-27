@@ -2,11 +2,11 @@ import { ImageFileManager } from './fileman.js'
 import { FormError } from '../lib/base/error2.js'
 import { Config } from '../config/config.js'
 import { deepPathOf } from '../lib/base/deeppath.js'
-import { IMAGE_SIZE } from '../service/image/form/image-form.js'
+import { IMAGE_SIZE, IMAGE_TYPE } from '../service/image/form/image-form.js'
 import { emptyDir, mkdirRecursive, rmRecursive } from '../lib/base/fs2.js'
 import { exec2 } from '../lib/base/exec2.js'
 import { ImageMeta, WidthHeight } from '../entity/image-meta.js'
-import { mogrifyAutoOrient } from './magick/magick2.js'
+import { identify, mogrifyAutoOrient } from './magick/magick2.js'
 
 const _minWidth = 3840
 const _minHeight = 2160
@@ -76,17 +76,25 @@ export class RapixelFileManager implements ImageFileManager {
     return this.url + subDir(id) + '/' + id + '-2560.jpg'
   }
 
-  beforeIdentify(path: string): Promise<void> {
+  async beforeIdentify(path: string) {
     return mogrifyAutoOrient(path)
   }
 
+  async identify(path: string) {
+    return identify(path)
+  }
+
   checkMeta(meta: ImageMeta, errs: FormError[]) {
+    if (!meta.format) {
+      errs.push(IMAGE_TYPE)
+      return
+    }
     if (meta.width < _minWidth - 15 || meta.height < _minHeight - 15) {
       errs.push(IMAGE_SIZE)
     }
   }
 
-  async saveImage(id: number, src: string, meta: ImageMeta) {
+  async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
     await mkdirRecursive(this.getDirFor(id))
 
     let cmd = 'convert ' + src
