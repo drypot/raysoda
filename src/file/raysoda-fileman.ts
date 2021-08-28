@@ -74,7 +74,7 @@ export class RaySodaFileManager implements ImageFileManager {
     }
     // 이미지 파일 타입 확인은 하지 않는다.
     // convert 능력에 그냥 맡긴다.
-    if (meta.width < 240 || meta.height < 240) {
+    if (meta.width <= 240 || meta.height <= 240) {
       errs.push(IMAGE_SIZE)
     }
   }

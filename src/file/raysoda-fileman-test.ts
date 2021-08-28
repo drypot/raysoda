@@ -41,15 +41,15 @@ describe('RaySodaFileManager', () => {
   })
 
   describe('check meta', () => {
-    it('if size too small', () => {
-      const meta = imageMetaOf({ width: 239, height: 239 })
+    it('err if size too small', () => {
+      const meta = imageMetaOf({ format: 'jpeg', width: 240, height: 240 })
       const errs: FormError[] = []
       ifm.checkMeta(meta, errs)
       expect(errs.length).toBe(1)
       expect(errs).toContain(IMAGE_SIZE)
     })
-    it('if size valid', () => {
-      const meta = imageMetaOf({ width: 240, height: 240 })
+    it('ok if size valid', () => {
+      const meta = imageMetaOf({ format: 'jpeg', width: 241, height: 241 })
       const errs: FormError[] = []
       ifm.checkMeta(meta, errs)
       expect(errs.length).toBe(0)
@@ -63,6 +63,8 @@ describe('RaySodaFileManager', () => {
     it('file not exist', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(false)
     })
+    // saveImage 안에서는 checkMeta 를 하지 않는다.
+    // 저장하려하면 저장된다.
     it('save small image', async () => {
       const meta = await ifm.identify('sample/360x240.jpg')
       await ifm.saveImage(1, 'sample/360x240.jpg', meta)
