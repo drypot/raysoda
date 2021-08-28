@@ -51,16 +51,25 @@ export class Express2 {
 
   setLocals(name: string, value: any) {
     this.expr1.locals[name] = value
+    return this
   }
 
   setViewEngine(engine: string, root: string) {
     this.expr1.set('view engine', engine)
     this.expr1.set('views', root)
+    return this
+  }
+
+  private _useUpload = false
+
+  useUpload() {
+    this._useUpload = true
+    return this
   }
 
   static apiPattern = /^\/api\//
 
-  async start(initMulter: boolean = false) {
+  async start() {
     this.expr1.use(function (req, res, done) {
       res.locals.query = req.query
       res.locals.api = Express2.apiPattern.test(req.path)
@@ -74,7 +83,7 @@ export class Express2 {
     this.setUpBasicAPI()
     this.setUpRedirectToLoginHandler()
     this.setUpErrorHandler()
-    if (initMulter) {
+    if (this._useUpload) {
       await this.initMulter()
     }
     return new Promise<Express2>((resolve) => {
