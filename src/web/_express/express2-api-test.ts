@@ -30,11 +30,11 @@ describe('Express2', () => {
 
   describe('res.local.api test', () => {
     it('should work for api', async () => {
-      const res = await request.get('/api/test-api')
+      const res = await request.get('/api/test-api').expect(200)
       expect(res.body).toEqual({})
     })
     it('should work for page', async () => {
-      const res = await request.get('/test-page')
+      const res = await request.get('/test-page').expect(200)
       expect(res.body).toEqual({})
     })
   })

@@ -41,7 +41,7 @@ describe('Express2 Upload', () => {
       }))
     })
     it('posting application/json should work', async () => {
-      const res = await request.post('/api/test/upload-files').send({ 'p1': 'v1' })
+      const res = await request.post('/api/test/upload-files').send({ 'p1': 'v1' }).expect(200)
       expect(res.body).toEqual({
         p1: 'v1'
       })

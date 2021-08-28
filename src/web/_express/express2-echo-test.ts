@@ -19,17 +19,17 @@ describe('Express2', () => {
 
   describe('/api/echo', () => {
     it('should work with get', async () => {
-      const res = await request.get('/api/echo?p1&p2=123')
+      const res = await request.get('/api/echo?p1&p2=123').expect(200)
       expect(res.body.method).toBe('GET')
       expect(res.body.query).toEqual({ p1: '', p2: '123' })
     })
     it('should work with post', async () => {
-      const res = await request.post('/api/echo').send({ p1: '', p2: '123' })
+      const res = await request.post('/api/echo').send({ p1: '', p2: '123' }).expect(200)
       expect(res.body.method).toBe('POST')
       expect(res.body.body).toEqual({ p1: '', p2: '123' })
     })
     it('should work with delete', async () => {
-      const res = await request.del('/api/echo')
+      const res = await request.del('/api/echo').expect(200)
       expect(res.body.method).toBe('DELETE')
     })
   })

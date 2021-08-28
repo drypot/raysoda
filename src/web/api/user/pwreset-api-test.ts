@@ -53,17 +53,17 @@ describe('Password Reset Service', () => {
       await rdb.createTable(false)
     })
     it('send mail, email existence check', async () => {
-      const res = await request.post('/api/password-reset/send-mail').send({ email: 'userx@mail.test' })
+      const res = await request.post('/api/password-reset/send-mail').send({ email: 'userx@mail.test' }).expect(200)
       const errs: FormError[] = res.body.err
       expect(errs).toContain(EMAIL_NOT_FOUND)
     })
     it('send mail, email format check', async () => {
-      const res = await request.post('/api/password-reset/send-mail').send({ email: 'userx.mail.test' })
+      const res = await request.post('/api/password-reset/send-mail').send({ email: 'userx.mail.test' }).expect(200)
       const errs: FormError[] = res.body.err
       expect(errs).toContain(EMAIL_PATTERN)
     })
     it('send mail', async () => {
-      const res = await request.post('/api/password-reset/send-mail').send({ email: 'user1@mail.test' })
+      const res = await request.post('/api/password-reset/send-mail').send({ email: 'user1@mail.test' }).expect(200)
       expect(res.body.err).toBe(undefined)
     })
     const resetRecord = { uuid: '', token: '' }
@@ -75,28 +75,28 @@ describe('Password Reset Service', () => {
     })
     it('set password, password format check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '123' }
-      const res = await request.post('/api/password-reset/set-password').send(form)
+      const res = await request.post('/api/password-reset/set-password').send(form).expect(200)
       const errs: FormError[] = res.body.err
       expect(errs.length).toBe(1)
       expect(errs).toContain(PASSWORD_RANGE)
     })
     it('set password, uuid check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '1234', uuid: 'xxxx' }
-      const res = await request.post('/api/password-reset/set-password').send(form)
+      const res = await request.post('/api/password-reset/set-password').send(form).expect(200)
       const errs: FormError[] = res.body.err
       expect(errs.length).toBe(1)
       expect(errs).toContain(INVALID_DATA)
     })
     it('set password, token check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '1234', token: 'xxxx' }
-      const res = await request.post('/api/password-reset/set-password').send(form)
+      const res = await request.post('/api/password-reset/set-password').send(form).expect(200)
       const errs: FormError[] = res.body.err
       expect(errs.length).toBe(1)
       expect(errs).toContain(INVALID_DATA)
     })
     it('set password', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '5678' }
-      const res = await request.post('/api/password-reset/set-password').send(form)
+      const res = await request.post('/api/password-reset/set-password').send(form).expect(200)
       expect(res.body.err).toBe(undefined)
     })
     it('check db', async () => {

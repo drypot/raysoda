@@ -21,7 +21,7 @@ describe('Express2', () => {
     web.router.get('/test/html', (req, res) => {
       res.send('<p>some text</p>')
     })
-    const res = await request.get('/test/html')
+    const res = await request.get('/test/html').expect(200)
     expect(res.type).toBe('text/html')
     expect(res.text).toBe('<p>some text</p>')
   })

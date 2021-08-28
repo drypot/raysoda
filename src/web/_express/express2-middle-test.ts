@@ -58,7 +58,7 @@ describe('Express2', () => {
 
     describe('mw-1-2 ', () => {
       it('should set 1, 2, 3', async () => {
-        const res = await request.get('/api/test/mw-1-2')
+        const res = await request.get('/api/test/mw-1-2').expect(200)
         expect(result.mid1).toBe('ok')
         expect(result.mid2).toBe('ok')
         expect(result.mid3).toBe('ok')
@@ -67,7 +67,7 @@ describe('Express2', () => {
 
     describe('mw-1-err-2', () => {
       it('should set 1, 2', async () => {
-        const res = await request.get('/api/test/mw-1-err-2')
+        const res = await request.get('/api/test/mw-1-err-2').expect(200)
         expect(result.mid1).toBe('ok')
         expect(result.mid2).toBeUndefined()
         expect(result.mid3).toBeUndefined()

@@ -39,7 +39,7 @@ describe('User Update Api', () => {
 
   describe('update without login', () => {
     it('update fails', async () => {
-      const res = await request.put('/api/user/' + 1).send(form)
+      const res = await request.put('/api/user/' + 1).send(form).expect(200)
       expect(res.body.err).toEqual(NOT_AUTHENTICATED)
     })
   })
@@ -56,7 +56,7 @@ describe('User Update Api', () => {
       await loginForTest(request, User1Login)
     })
     it('update user1 works', async () => {
-      const res = await request.put('/api/user/' + 1).send(form)
+      const res = await request.put('/api/user/' + 1).send(form).expect(200)
       expect(res.body).toEqual({})
     })
   })
@@ -73,7 +73,7 @@ describe('User Update Api', () => {
       await loginForTest(request, User1Login)
     })
     it('update user2 fails', async () => {
-      const res = await request.put('/api/user/' + 2).send(form)
+      const res = await request.put('/api/user/' + 2).send(form).expect(200)
       expect(res.body.err).toEqual(NOT_AUTHORIZED)
     })
   })
@@ -90,7 +90,7 @@ describe('User Update Api', () => {
       await loginForTest(request, AdminLogin)
     })
     it('update user2 works', async () => {
-      const res = await request.put('/api/user/' + 2).send(form)
+      const res = await request.put('/api/user/' + 2).send(form).expect(200)
       expect(res.body).toEqual({})
     })
   })

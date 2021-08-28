@@ -52,7 +52,7 @@ describe('UserRegisterApi', () => {
     })
     it('post new user', async () => {
       const form = { name: 'User Y', email: 'usery@mail.test', password: '1234' }
-      const res = await request.post('/api/user').send(form)
+      const res = await request.post('/api/user').send(form).expect(200)
       expect(res.body.id).toBe(5)
     })
     it('check db', async () => {
@@ -63,7 +63,7 @@ describe('UserRegisterApi', () => {
       const s33 = 'x'.repeat(33)
       const s65 = 'x'.repeat(66)
       const form = { name: s33, email: s65, password: s33 }
-      const res = await request.post('/api/user').send(form)
+      const res = await request.post('/api/user').send(form).expect(200)
       const errs: FormError[] = res.body.err
       expect(errs.length).toBe(4)
       expect(errs).toContain(NAME_RANGE)
@@ -73,7 +73,7 @@ describe('UserRegisterApi', () => {
     })
     it('dupe check works', async () => {
       const form = { name: 'User 2', email: 'user2@mail.test', password: '1234' }
-      const res = await request.post('/api/user').send(form)
+      const res = await request.post('/api/user').send(form).expect(200)
       const errs: FormError[] = res.body.err
       expect(errs.length).toBe(3)
       expect(errs).toContain(NAME_DUPE)

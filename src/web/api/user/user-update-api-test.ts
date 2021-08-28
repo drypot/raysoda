@@ -61,7 +61,7 @@ describe('User Update Api', () => {
         name: 'User X', home: 'userx', email: 'userx@mail.test',
         password: '5678', profile: 'profile x'
       }
-      const res = await request.put('/api/user/' + 1).send(form)
+      const res = await request.put('/api/user/' + 1).send(form).expect(200)
       expect(res.body).toEqual({})
     })
     it('check db', async () => {
@@ -87,7 +87,7 @@ describe('User Update Api', () => {
         name: 'User X', home: 'userx', email: 'userx@mail.test',
         password: '', profile: 'profile x'
       }
-      const res = await request.put('/api/user/' + 1).send(form)
+      const res = await request.put('/api/user/' + 1).send(form).expect(200)
       expect(res.body).toEqual({})
     })
     it('check db', async () => {
@@ -106,7 +106,7 @@ describe('User Update Api', () => {
       const form = {
         name: s33, home: s33, email: s65, password: s33, profile: ''
       }
-      const res = await request.put('/api/user/' + 1).send(form)
+      const res = await request.put('/api/user/' + 1).send(form).expect(200)
       const errs: FormError[] = res.body.err
       expect(errs.length).toBe(4)
       expect(errs).toContain(NAME_RANGE)
@@ -119,7 +119,7 @@ describe('User Update Api', () => {
         name: 'User 2', home: 'user2', email: 'user2@mail.test',
         password: '', profile: ''
       }
-      const res = await request.put('/api/user/' + 1).send(form)
+      const res = await request.put('/api/user/' + 1).send(form).expect(200)
       const errs: FormError[] = res.body.err
       expect(errs.length).toBe(3)
       expect(errs).toContain(NAME_DUPE)

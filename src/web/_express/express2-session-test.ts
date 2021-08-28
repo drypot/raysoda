@@ -44,23 +44,23 @@ describe('Express2', () => {
     it('can store/return session vars', async () => {
       let res: any
 
-      res = await request.put('/api/test/session').send({ book: 'book1', price: 11 })
+      res = await request.put('/api/test/session').send({ book: 'book1', price: 11 }).expect(200)
       expect(res.body.err).toBeFalsy()
 
-      res = await request.get('/api/test/session').send(['book', 'price'])
+      res = await request.get('/api/test/session').send(['book', 'price']).expect(200)
       expect(res.body.book).toBe('book1')
       expect(res.body.price).toBe(11)
     })
     it('should be empty after destroyed', async () => {
       let res: any
 
-      res = await request.put('/api/test/session').send({ book: 'book1', price: 11 })
+      res = await request.put('/api/test/session').send({ book: 'book1', price: 11 }).expect(200)
       expect(res.body.err).toBeFalsy()
 
       res = await request.post('/api/destroy-session')
       expect(res.body.err).toBeFalsy()
 
-      res = await request.get('/api/test/session').send(['book', 'price'])
+      res = await request.get('/api/test/session').send(['book', 'price']).expect(200)
       expect(res.body.book).toBeUndefined()
       expect(res.body.price).toBeUndefined()
     })

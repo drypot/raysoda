@@ -18,7 +18,7 @@ describe('Express2', () => {
   })
 
   it('can return hello object', async () => {
-    const res = await request.get('/api/hello')
+    const res = await request.get('/api/hello').expect(200)
     expect(res.type).toBe('application/json')
     expect(res.body.message).toBe('hello')
   })
@@ -26,7 +26,7 @@ describe('Express2', () => {
     web.router.get('/api/test/string', function (req, res, done) {
       res.json('hi')
     })
-    const res = await request.get('/api/test/string')
+    const res = await request.get('/api/test/string').expect(200)
     expect(res.type).toBe('application/json')
     expect(res.body).toBe('hi')
   })
@@ -34,7 +34,7 @@ describe('Express2', () => {
     web.router.get('/api/test/null', function (req, res, done) {
       res.json(null)
     })
-    const res = await request.get('/api/test/null')
+    const res = await request.get('/api/test/null').expect(200)
     expect(res.type).toBe('application/json')
     expect(res.body).toBeNull()
   })
