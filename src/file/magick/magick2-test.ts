@@ -37,10 +37,16 @@ describe('ImageMagick2', () => {
 
   describe('identify none image', () => {
     it('if file not exist', async () => {
-      await expectAsync(identify('xxx')).toBeRejected()
+      const meta = await identify('xxx')
+      expect(meta.format).toBeUndefined()
+      expect(meta.width).toBe(0)
+      expect(meta.height).toBe(0)
     })
     it('if file not image', async () => {
-      await expectAsync(identify('README.md')).toBeRejected()
+      const meta = await identify('README.md')
+      expect(meta.format).toBeUndefined()
+      expect(meta.width).toBe(0)
+      expect(meta.height).toBe(0)
     })
   })
 })
