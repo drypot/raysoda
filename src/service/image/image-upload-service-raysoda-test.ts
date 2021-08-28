@@ -1,20 +1,16 @@
-import { Config, configFrom } from '../../../config/config.js'
-import { DB } from '../../../db/_db/db.js'
-import { UserDB } from '../../../db/user/user-db.js'
-import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi } from '../user/user-login-api.js'
-import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
-import { ImageDB } from '../../../db/image/image-db.js'
-import { ImageFileManager } from '../../../file/fileman.js'
-import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
-import { registerImageUploadApi } from './image-upload-api.js'
-import { loginForTest, User1Login } from '../user/user-login-api-fixture.js'
-import { FormError } from '../../../lib/base/error2.js'
-import { IMAGE_NO_FILE, IMAGE_SIZE, IMAGE_TYPE } from '../../../service/image/form/image-form.js'
-import { identify } from '../../../file/magick/magick2.js'
+import { Config, configFrom } from '../../config/config.js'
+import { DB } from '../../db/_db/db.js'
+import { UserDB } from '../../db/user/user-db.js'
+import { ImageDB } from '../../db/image/image-db.js'
+import { ImageFileManager } from '../../file/fileman.js'
+import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
+import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
+import { FormError } from '../../lib/base/error2.js'
+import { IMAGE_NO_FILE, IMAGE_SIZE, IMAGE_TYPE, ImageUploadForm } from './form/image-form.js'
+import { identify } from '../../file/magick/magick2.js'
+import { imageUploadService } from './image-upload-service.js'
 
-describe('Image Upload RaySoda Api', () => {
+describe('Image Service with RaySoda FileManager', () => {
 
   let config: Config
 
@@ -23,26 +19,15 @@ describe('Image Upload RaySoda Api', () => {
   let idb: ImageDB
   let ifm: ImageFileManager
 
-  let web: Express2
-  let request: SuperAgentTest
-
   beforeAll(async () => {
     config = configFrom('config/raysoda-test.json')
-
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     idb = ImageDB.from(db)
-
     ifm = RaySodaFileManager.from(config)
-
-    web = await Express2.from(config).useUpload().start()
-    registerUserLoginApi(web, udb)
-    registerImageUploadApi(web, udb, idb, ifm)
-    request = web.spawnRequest()
   })
 
   afterAll(async () => {
-    await web.close()
     await db.close()
   })
 
@@ -60,34 +45,33 @@ describe('Image Upload RaySoda Api', () => {
     it('remove image dir', async () => {
       await ifm.rmRoot()
     })
-    it('login as user1', async () => {
-      await loginForTest(request, User1Login)
-    })
     it('upload fails if file not sent', async () => {
-      const res = await request.post('/api/image').expect(200)
-      const errs: FormError[] = res.body.err
+      const form: ImageUploadForm = { now: new Date(), comment: '', file: undefined, }
+      const errs: FormError[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
       expect(errs.length).toBe(1)
       expect(errs).toContain(IMAGE_NO_FILE)
     })
     it('upload fails if file is not image', async () => {
-      const res = await request.post('/api/image').attach('file', 'sample/text1.txt').expect(200)
-      const errs: FormError[] = res.body.err
+      const form: ImageUploadForm = { now: new Date(), comment: '', file: 'sample/text1.txt', }
+      const errs: FormError[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
       expect(errs.length).toBe(1)
       expect(errs).toContain(IMAGE_TYPE)
     })
     it('upload fails if image is too small', async () => {
-      const res = await request.post('/api/image').attach('file', 'sample/360x240.jpg').expect(200)
-      const errs: FormError[] = res.body.err
+      const form: ImageUploadForm = { now: new Date(), comment: '', file: 'sample/360x240.jpg', }
+      const errs: FormError[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
       expect(errs.length).toBe(1)
       expect(errs).toContain(IMAGE_SIZE)
     })
     it('upload horizontal image', async () => {
       // resize 기능 테스트를 위해 2048 보다 큰 이미지를 업로드한다.
-      const res = await request.post('/api/image')
-        .field('comment', 'h')
-        .attach('file', 'sample/2560x1440.jpg')
-        .expect(200)
-      expect(res.body.id).toBe(1)
+      const form: ImageUploadForm = { now: new Date(), comment: 'h', file: 'sample/2560x1440.jpg', }
+      const errs: FormError[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
+      expect(id).toBe(1)
     })
     it('check db', async () => {
       const r = await idb.findImage(1)
@@ -102,11 +86,10 @@ describe('Image Upload RaySoda Api', () => {
       expect(meta.height).toBe(1152)
     })
     it('upload vertical image', async () => {
-      const res = await request.post('/api/image')
-        .field('comment', 'v')
-        .attach('file', 'sample/1440x2560.jpg')
-        .expect(200)
-      expect(res.body.id).toBe(2)
+      const form: ImageUploadForm = { now: new Date(), comment: 'v', file: 'sample/1440x2560.jpg', }
+      const errs: FormError[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
+      expect(id).toBe(2)
     })
     it('check db', async () => {
       const r = await idb.findImage(2)
@@ -121,11 +104,10 @@ describe('Image Upload RaySoda Api', () => {
       expect(meta.height).toBe(2048)
     })
     it('upload small image', async () => {
-      const res = await request.post('/api/image')
-        .field('comment', 'small')
-        .attach('file', 'sample/640x360.jpg')
-        .expect(200)
-      expect(res.body.id).toBe(3)
+      const form: ImageUploadForm = { now: new Date(), comment: 'small', file: 'sample/640x360.jpg', }
+      const errs: FormError[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
+      expect(id).toBe(3)
     })
     it('check db', async () => {
       const r = await idb.findImage(3)
@@ -140,12 +122,10 @@ describe('Image Upload RaySoda Api', () => {
       expect(meta.height).toBe(360)
     })
     it('upload 4th image should fail', async () => {
-      const res = await request.post('/api/image')
-        .field('comment', 'small')
-        .attach('file', 'sample/640x360.jpg')
-        .expect(200)
-      expect(res.body.err).toBeUndefined()
-      expect(res.body.id).toBeUndefined()
+      const form: ImageUploadForm = { now: new Date(), comment: 'small', file: 'sample/640x360.jpg', }
+      const errs: FormError[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
+      expect(id).toBeUndefined()
     })
   })
 
