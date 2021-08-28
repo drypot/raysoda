@@ -31,6 +31,11 @@ export class RaySodaFileManager implements ImageFileManager {
     return new RaySodaFileManager(config)
   }
 
+  // init 평션을 만들어서 this.dir 을 미리 만들어둘까 하다가 하지 않기로 했다.
+  // 어짜피 파일 업로드할 때 패스가 쭉 만들어진다.
+  // 실 서비스시 nginx 연결등으로 디렉토리를 미리 생성해야 한다면
+  // 쉘에서 수작업으로 만들면 된다.
+
   async rmRoot() {
     if (!this.config.dev) {
       throw (new Error('only available in development mode'))
