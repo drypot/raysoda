@@ -39,7 +39,7 @@ describe('ValueDB', () => {
       await vdb.dropTable()
       await vdb.createTable()
     })
-    it('find value of undefined', async () => {
+    it('find undefined value', async () => {
       const v = await vdb.findValue('value1')
       expect(v).toBe(undefined)
     })
@@ -56,6 +56,11 @@ describe('ValueDB', () => {
     it('find value', async () => {
       const v = await vdb.findValue('s1')
       expect(v).toBe('value2')
+    })
+    it('update with undefined', async () => {
+      await vdb.updateValue('s1', undefined)
+      const v = await vdb.findValue('s1')
+      expect(v).toBe(undefined)
     })
     it('update with empty string', async () => {
       await vdb.updateValue('empty', '')

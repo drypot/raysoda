@@ -38,10 +38,11 @@ export class ValueDB {
   }
 
   async updateValue(id: string, v: any) {
-    await this.db.query(
-      'replace into persist values(?, ?)',
-      [id, JSON.stringify(v)]
-    )
+    if (v === undefined) {
+      await this.db.query('delete from persist where id = ?', id)
+    } else {
+      await this.db.query('replace into persist values(?, ?)', [id, JSON.stringify(v)])
+    }
   }
 
 }
