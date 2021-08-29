@@ -73,7 +73,7 @@ describe('Image Update View', () => {
     it('login as user2', async () => {
       await loginForTest(request, User2Login)
     })
-    it('fails if user2 access user1 image', async () => {
+    it('fails if owner not match', async () => {
       const res = await request.get('/image/1/update').expect(302).expect('Location', '/user/login')
     })
   })

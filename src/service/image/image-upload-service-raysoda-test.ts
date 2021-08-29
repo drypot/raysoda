@@ -9,8 +9,9 @@ import { Error2 } from '../../lib/base/error2.js'
 import { IMAGE_NO_FILE, IMAGE_SIZE, IMAGE_TYPE, ImageUploadForm } from './form/image-form.js'
 import { identify } from '../../file/magick/magick2.js'
 import { imageUploadService } from './image-upload-service.js'
+import { dateNull } from '../../lib/base/date2.js'
 
-describe('Image Service with RaySoda FileManager', () => {
+describe('Image Upload Service with RaySoda FileManager', () => {
 
   let config: Config
 
@@ -68,7 +69,7 @@ describe('Image Service with RaySoda FileManager', () => {
     })
     it('upload horizontal image', async () => {
       // resize 기능 테스트를 위해 2048 보다 큰 이미지를 업로드한다.
-      const form: ImageUploadForm = { now: new Date(), comment: 'h', file: 'sample/2560x1440.jpg', }
+      const form: ImageUploadForm = { now: dateNull, comment: 'h', file: 'sample/2560x1440.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
