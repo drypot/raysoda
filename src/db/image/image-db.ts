@@ -127,13 +127,13 @@ export class ImageDB {
 }
 
 function packOf(image: Partial<Image>) {
-  if (image.vers === undefined) {
-    return image
+  const pack = {
+    ...image
   }
-  return {
-    ...image,
-    vers: JSON.stringify(image.vers)
+  if ('vers' in image) {
+    pack.vers = JSON.stringify(image.vers)
   }
+  return pack
 }
 
 function unpack(image: Image) {
@@ -141,7 +141,7 @@ function unpack(image: Image) {
 }
 
 function unpackList(list: any[]) {
-  for (const e of list) {
-    e.vers = JSON.parse(e.vers as string)
+  for (const image of list) {
+    unpack(image)
   }
 }

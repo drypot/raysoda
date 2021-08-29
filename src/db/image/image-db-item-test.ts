@@ -3,6 +3,7 @@ import { DB } from '../_db/db.js'
 import { ImageDB } from './image-db.js'
 import { imageOf } from '../../entity/image-entity.js'
 import { dupeOf } from '../../lib/base/object2.js'
+import { dateNull } from '../../lib/base/date2.js'
 
 describe('ImageDB', () => {
 
@@ -21,7 +22,6 @@ describe('ImageDB', () => {
   })
 
   describe('image', () => {
-    const d = new Date()
     it('init table', async () => {
       await idb.dropTable()
       await idb.createTable(false)
@@ -31,25 +31,25 @@ describe('ImageDB', () => {
       expect(image).toBeUndefined()
     })
     it('insert image', async () => {
-      const image = imageOf({ cdate: d })
+      const image = imageOf({ id: 1 })
       await idb.insertImage(image)
     })
     it('find image', async () => {
-      const image = await idb.findImage(0)
+      const image = await idb.findImage(1)
       expect(dupeOf(image)).toEqual({
-        id: 0, uid: 0, cdate: d, vers: null, comment: ''
+        id: 1, uid: 0, cdate: dateNull, vers: null, comment: ''
       })
     })
     it('insert image', async () => {
       const image = imageOf({
-        id: 10, uid: 100, cdate: d, vers: [5120, 4096], comment: 'text1'
+        id: 10, uid: 100, cdate: dateNull, vers: [5120, 4096], comment: 'text1'
       })
       await idb.insertImage(image)
     })
     it('find image', async () => {
       const image = await idb.findImage(10)
       expect(dupeOf(image)).toEqual({
-        id: 10, uid: 100, cdate: d, vers: [5120, 4096], comment: 'text1'
+        id: 10, uid: 100, cdate: dateNull, vers: [5120, 4096], comment: 'text1'
       })
     })
     it('update image', async () => {
@@ -58,16 +58,16 @@ describe('ImageDB', () => {
     it('find image', async () => {
       const image = await idb.findImage(10)
       expect(dupeOf(image)).toEqual({
-        id: 10, uid: 100, cdate: d, vers: [5120, 4096], comment: 'text2'
+        id: 10, uid: 100, cdate: dateNull, vers: [5120, 4096], comment: 'text2'
       })
     })
     it('update image 2', async () => {
-      await idb.updateImage(10, { vers: [5120, 4096] })
+      await idb.updateImage(10, { vers: [4096] })
     })
     it('find image', async () => {
       const image = await idb.findImage(10)
       expect(dupeOf(image)).toEqual({
-        id: 10, uid: 100, cdate: d, vers: [5120, 4096], comment: 'text2'
+        id: 10, uid: 100, cdate: dateNull, vers: [4096], comment: 'text2'
       })
     })
     it('delete image', async () => {
