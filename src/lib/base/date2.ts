@@ -1,3 +1,5 @@
+export const dateNull = new Date()
+
 export function today() {
   const d = new Date()
   d.setHours(0, 0, 0, 0)
