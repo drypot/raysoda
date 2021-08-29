@@ -49,13 +49,13 @@ describe('Image Upload View', () => {
       await idb.dropTable()
       await idb.createTable()
     })
-    it('get /image/upload fails if anonymous', async () => {
+    it('fails if anonymous', async () => {
       await request.get('/image/upload').expect(302).expect('Location', '/user/login')
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)
     })
-    it('get /image/upload', async () => {
+    it('succeeds', async () => {
       await request.get('/image/upload').expect(200)
     })
   })
