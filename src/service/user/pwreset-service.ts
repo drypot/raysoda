@@ -1,6 +1,6 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { PwResetDB, PwResetRecord } from '../../db/pwreset/pwreset-db.js'
-import { FormError, INVALID_DATA } from '../../lib/base/error2.js'
+import { Error2, INVALID_DATA } from '../../lib/base/error2.js'
 import { checkPasswordFormat, EMAIL_NOT_FOUND, EMAIL_PATTERN } from './form/user-form.js'
 import crypto from 'crypto'
 import { v4 as uuid } from 'uuid'
@@ -9,15 +9,15 @@ import { makeHash } from '../../lib/base/hash.js'
 import { emailPatternIsOk } from '../../lib/base/email.js'
 
 export async function pwResetSendMailService(
-  mailer: Mailer, udb: UserDB, resetDB: PwResetDB, email: string, errs: FormError[]
+  mailer: Mailer, udb: UserDB, resetDB: PwResetDB, email: string, err: Error2[]
 ) {
   if (!emailPatternIsOk(email)) {
-    errs.push(EMAIL_PATTERN)
+    err.push(EMAIL_PATTERN)
     return false
   }
   const user = await udb.findUserByEmail(email)
   if (!user) {
-    errs.push(EMAIL_NOT_FOUND)
+    err.push(EMAIL_NOT_FOUND)
     return false
   }
   await resetDB.deleteByEmail(email)
@@ -56,17 +56,17 @@ export interface NewPasswordForm {
 }
 
 export async function pwResetSetPasswordService(
-  udb: UserDB, resetDB: PwResetDB, form: NewPasswordForm, errs: FormError[]
+  udb: UserDB, resetDB: PwResetDB, form: NewPasswordForm, err: Error2[]
 ) {
-  checkPasswordFormat(form.password, errs)
-  if (errs.length) return
+  checkPasswordFormat(form.password, err)
+  if (err.length) return
   const r = await resetDB.findByUuid(form.uuid)
   if (!r) {
-    errs.push(INVALID_DATA)
+    err.push(INVALID_DATA)
     return
   }
   if (r.token !== form.token) {
-    errs.push(INVALID_DATA)
+    err.push(INVALID_DATA)
     return
   }
   const hash = await makeHash(form.password)

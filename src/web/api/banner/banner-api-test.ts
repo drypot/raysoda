@@ -55,14 +55,14 @@ describe('Banner Api', () => {
     })
     it('get banner fails if anonymous', async () => {
       const res = await request.get('/api/banner').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)
     })
     it('get banner fails if user', async () => {
       const res = await request.get('/api/banner').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHORIZED)
+      expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
     it('login as admin', async () => {
       await loginForTest(request, AdminLogin)
@@ -80,7 +80,7 @@ describe('Banner Api', () => {
         banner: []
       }
       const res = await request.put('/api/banner').send(form).expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHORIZED)
+      expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
     it('login as admin', async () => {
       await loginForTest(request, AdminLogin)

@@ -1,5 +1,5 @@
 import { ImageFileManager } from './fileman.js'
-import { FormError } from '../lib/base/error2.js'
+import { Error2 } from '../lib/base/error2.js'
 import { Config } from '../config/config.js'
 import { deepPathOf } from '../lib/base/deeppath.js'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../service/image/form/image-form.js'
@@ -67,15 +67,15 @@ export class RaySodaFileManager implements ImageFileManager {
     return identify(path)
   }
 
-  checkMeta(meta: ImageMeta, errs: FormError[]) {
+  checkMeta(meta: ImageMeta, err: Error2[]) {
     if (!meta.format) {
-      errs.push(IMAGE_TYPE)
+      err.push(IMAGE_TYPE)
       return
     }
     // 이미지 파일 타입 확인은 하지 않는다.
     // convert 능력에 그냥 맡긴다.
     if (meta.width <= 240 || meta.height <= 240) {
-      errs.push(IMAGE_SIZE)
+      err.push(IMAGE_SIZE)
     }
   }
 

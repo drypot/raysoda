@@ -11,7 +11,7 @@ import {
   PASSWORD_RANGE
 } from '../../../service/user/form/user-form.js'
 import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
-import { FormError } from '../../../lib/base/error2.js'
+import { Error2 } from '../../../lib/base/error2.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerUserRegisterApi } from './user-register-api.js'
@@ -64,21 +64,21 @@ describe('UserRegisterApi', () => {
       const s65 = 'x'.repeat(66)
       const form = { name: s33, email: s65, password: s33 }
       const res = await request.post('/api/user').send(form).expect(200)
-      const errs: FormError[] = res.body.err
-      expect(errs.length).toBe(4)
-      expect(errs).toContain(NAME_RANGE)
-      expect(errs).toContain(HOME_RANGE)
-      expect(errs).toContain(EMAIL_RANGE)
-      expect(errs).toContain(PASSWORD_RANGE)
+      const err: Error2[] = res.body.err
+      expect(err.length).toBe(4)
+      expect(err).toContain(NAME_RANGE)
+      expect(err).toContain(HOME_RANGE)
+      expect(err).toContain(EMAIL_RANGE)
+      expect(err).toContain(PASSWORD_RANGE)
     })
     it('dupe check works', async () => {
       const form = { name: 'User 2', email: 'user2@mail.test', password: '1234' }
       const res = await request.post('/api/user').send(form).expect(200)
-      const errs: FormError[] = res.body.err
-      expect(errs.length).toBe(3)
-      expect(errs).toContain(NAME_DUPE)
-      expect(errs).toContain(HOME_DUPE)
-      expect(errs).toContain(EMAIL_DUPE)
+      const err: Error2[] = res.body.err
+      expect(err.length).toBe(3)
+      expect(err).toContain(NAME_DUPE)
+      expect(err).toContain(HOME_DUPE)
+      expect(err).toContain(EMAIL_DUPE)
     })
   })
 

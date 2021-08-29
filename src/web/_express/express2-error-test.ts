@@ -28,33 +28,33 @@ describe('Express2', () => {
       })
       const res = await request.get('/api/test/no-action').expect(404)
     })
-    it('can return INVALID_DATA', async () => {
+    it('INVALID_DATA', async () => {
       web.router.get('/api/test/invalid-data', function (req, res, done) {
         done(INVALID_DATA)
       })
       const res = await request.get('/api/test/invalid-data').expect(200)
       expect(res.type).toBe('application/json')
-      expect(res.body.errType).toBe('form')
-      expect(res.body.err).toEqual(INVALID_DATA)
+      expect(res.body.err.length).toBe(1)
+      expect(res.body.err).toContain(INVALID_DATA)
     })
-    it('can return [INVALID_DATA]', async () => {
+    it('[INVALID_DATA]', async () => {
       web.router.get('/api/test/invalid-data-array', function (req, res, done) {
         done([INVALID_DATA])
       })
       const res = await request.get('/api/test/invalid-data-array').expect(200)
       expect(res.type).toBe('application/json')
-      expect(res.body.errType).toBe('array')
-      expect(res.body.err).toEqual([INVALID_DATA])
+      expect(res.body.err.length).toBe(1)
+      expect(res.body.err).toContain(INVALID_DATA)
     })
-    it('can return system error', async () => {
+    it('system error', async () => {
       web.router.get('/api/test/system-error', function (req, res, done) {
         done(new Error('System Error'))
       })
       const res = await request.get('/api/test/system-error').expect(200)
       expect(res.type).toBe('application/json')
-      expect(res.body.errType).toBe('system')
-      expect(res.body.err.name).toBe('Error')
-      expect(res.body.err.message).toBe('System Error')
+      expect(res.body.err.length).toBe(1)
+      expect(res.body.err[0].name).toBe('Error')
+      expect(res.body.err[0].message).toBe('System Error')
     })
   })
 

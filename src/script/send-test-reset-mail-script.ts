@@ -3,7 +3,7 @@ import { Mailer } from '../lib/mailer/mailer2.js'
 import { DB } from '../db/_db/db.js'
 import { UserDB } from '../db/user/user-db.js'
 import { PwResetDB } from '../db/pwreset/pwreset-db.js'
-import { FormError, logError } from '../lib/base/error2.js'
+import { Error2, logError } from '../lib/base/error2.js'
 import { pwResetSendMailService } from '../service/user/pwreset-service.js'
 import { insertUserFix4 } from '../db/user/user-db-fixture.js'
 
@@ -28,9 +28,9 @@ async function main() {
   const mailer = Mailer.from(config).initTransport()
 
   const email = process.argv[2]
-  const errs: FormError[] = []
-  await pwResetSendMailService(mailer, udb, rdb, email, errs)
-  if (errs.length) throw errs
+  const err: Error2[] = []
+  await pwResetSendMailService(mailer, udb, rdb, email, err)
+  if (err.length) throw err
 }
 
 main().then(() => {

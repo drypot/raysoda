@@ -45,7 +45,7 @@ describe('UserLoginApi', () => {
 
     it('get login fails before login', async () => {
       const res = await request.get('/api/user/login').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('cookie should be empty', async () => {
       const res = await request.get('/api/cookies').expect(200)
@@ -81,7 +81,7 @@ describe('UserLoginApi', () => {
     })
     it('get login fails', async () => {
       const res = await request.get('/api/user/login').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('cookies are empty', async () => {
       const res = await request.get('/api/cookies').expect(200)
@@ -104,7 +104,7 @@ describe('UserLoginApi', () => {
     })
     it('get login fails (autologin failed)', async () => {
       const res = await request.get('/api/user/login').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('cookies are empty', async () => {
       const res = await request.get('/api/cookies').expect(200)

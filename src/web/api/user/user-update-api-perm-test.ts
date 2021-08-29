@@ -40,7 +40,7 @@ describe('User Update Api', () => {
   describe('update without login', () => {
     it('update fails', async () => {
       const res = await request.put('/api/user/' + 1).send(form).expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
   })
 
@@ -74,7 +74,7 @@ describe('User Update Api', () => {
     })
     it('update user2 fails', async () => {
       const res = await request.put('/api/user/' + 2).send(form).expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHORIZED)
+      expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
   })
 

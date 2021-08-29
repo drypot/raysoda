@@ -1,7 +1,7 @@
 import { Config, configFrom } from '../config/config.js'
 import { ImageFileManager } from './fileman.js'
 import { RaySodaFileManager } from './raysoda-fileman.js'
-import { FormError } from '../lib/base/error2.js'
+import { Error2 } from '../lib/base/error2.js'
 import { IMAGE_SIZE } from '../service/image/form/image-form.js'
 import { identify } from './magick/magick2.js'
 import { existsSync } from 'fs'
@@ -43,16 +43,16 @@ describe('RaySodaFileManager', () => {
   describe('check meta', () => {
     it('err if size too small', () => {
       const meta = imageMetaOf({ format: 'jpeg', width: 240, height: 240 })
-      const errs: FormError[] = []
-      ifm.checkMeta(meta, errs)
-      expect(errs.length).toBe(1)
-      expect(errs).toContain(IMAGE_SIZE)
+      const err: Error2[] = []
+      ifm.checkMeta(meta, err)
+      expect(err.length).toBe(1)
+      expect(err).toContain(IMAGE_SIZE)
     })
     it('ok if size valid', () => {
       const meta = imageMetaOf({ format: 'jpeg', width: 241, height: 241 })
-      const errs: FormError[] = []
-      ifm.checkMeta(meta, errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      ifm.checkMeta(meta, err)
+      expect(err.length).toBe(0)
     })
   })
 

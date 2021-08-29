@@ -10,6 +10,7 @@ import { Config } from '../../config/config.js'
 import newMulter, { Multer } from 'multer'
 import { emptyDir, mkdirRecursive } from '../../lib/base/fs2.js'
 import { unlinkSync } from 'fs'
+import { errorOf } from '../../lib/base/error2.js'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 
@@ -212,29 +213,22 @@ export class Express2 {
   // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
   private setUpErrorHandler() {
     const _this = this
-    this.expr1.use(function (_err: any, req: Request, res: Response, done: NextFunction) {
-      let obj
-      if (_err instanceof Array) {
-        obj = {
-          errType: 'array',
-          err: _err
+    this.expr1.use(function (err: any, req: Request, res: Response, done: NextFunction) {
+      let r
+      if (err instanceof Array) {
+        r = {
+          err
         }
-      } else if ('field' in _err) {
-        obj = {
-          errType: 'form',
-          err: _err
+      } else if ('field' in err) {
+        r = {
+          err: [err]
         }
       } else {
-        obj = {
-          errType: 'system',
-          err: {
-            name: _err.name,
-            message: _err.message,
-            stack: _err.stack,
-          }
+        r = {
+          err: [errorOf(err.name, err.message,err.stack)]
         }
       }
-      res.json(obj)
+      res.json(r)
     })
   }
 

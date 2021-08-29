@@ -17,7 +17,7 @@ import {
   NAME_RANGE,
   PASSWORD_RANGE
 } from '../../../service/user/form/user-form.js'
-import { FormError } from '../../../lib/base/error2.js'
+import { Error2 } from '../../../lib/base/error2.js'
 
 describe('User Update Api', () => {
 
@@ -107,12 +107,12 @@ describe('User Update Api', () => {
         name: s33, home: s33, email: s65, password: s33, profile: ''
       }
       const res = await request.put('/api/user/' + 1).send(form).expect(200)
-      const errs: FormError[] = res.body.err
-      expect(errs.length).toBe(4)
-      expect(errs).toContain(NAME_RANGE)
-      expect(errs).toContain(HOME_RANGE)
-      expect(errs).toContain(EMAIL_RANGE)
-      expect(errs).toContain(PASSWORD_RANGE)
+      const err: Error2[] = res.body.err
+      expect(err.length).toBe(4)
+      expect(err).toContain(NAME_RANGE)
+      expect(err).toContain(HOME_RANGE)
+      expect(err).toContain(EMAIL_RANGE)
+      expect(err).toContain(PASSWORD_RANGE)
     })
     it('dupe check works', async () => {
       const form = {
@@ -120,11 +120,11 @@ describe('User Update Api', () => {
         password: '', profile: ''
       }
       const res = await request.put('/api/user/' + 1).send(form).expect(200)
-      const errs: FormError[] = res.body.err
-      expect(errs.length).toBe(3)
-      expect(errs).toContain(NAME_DUPE)
-      expect(errs).toContain(HOME_DUPE)
-      expect(errs).toContain(EMAIL_DUPE)
+      const err: Error2[] = res.body.err
+      expect(err.length).toBe(3)
+      expect(err).toContain(NAME_DUPE)
+      expect(err).toContain(HOME_DUPE)
+      expect(err).toContain(EMAIL_DUPE)
     })
   })
 

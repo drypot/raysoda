@@ -2,7 +2,7 @@ import { Config, configFrom } from '../../../config/config.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { checkEmailDupe, checkHomeDupe, checkNameDupe, EMAIL_DUPE, HOME_DUPE, NAME_DUPE } from './user-form.js'
-import { FormError } from '../../../lib/base/error2.js'
+import { Error2 } from '../../../lib/base/error2.js'
 import { insertUserFix1 } from '../../../db/user/user-db-fixture.js'
 
 describe('User Form', () => {
@@ -29,76 +29,76 @@ describe('User Form', () => {
 
   describe('check name dupe', () => {
     it('err if in use', async () => {
-      const errs: FormError[] = []
-      await checkNameDupe(udb, 0, 'User 1', errs)
-      expect(errs).toContain(NAME_DUPE)
+      const err: Error2[] = []
+      await checkNameDupe(udb, 0, 'User 1', err)
+      expect(err).toContain(NAME_DUPE)
     })
     it('err if in use 2', async () => {
-      const errs: FormError[] = []
-      await checkNameDupe(udb, 0, 'user1', errs)
-      expect(errs).toContain(NAME_DUPE)
+      const err: Error2[] = []
+      await checkNameDupe(udb, 0, 'user1', err)
+      expect(err).toContain(NAME_DUPE)
     })
     it('ok if available', async () => {
-      const errs: FormError[] = []
-      await checkNameDupe(udb, 0, 'alice', errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      await checkNameDupe(udb, 0, 'alice', err)
+      expect(err.length).toBe(0)
     })
     it('ok if same entity', async () => {
-      const errs: FormError[] = []
-      await checkNameDupe(udb, 1, 'User 1', errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      await checkNameDupe(udb, 1, 'User 1', err)
+      expect(err.length).toBe(0)
     })
     it('ok if same entity 2', async () => {
-      const errs: FormError[] = []
-      await checkNameDupe(udb, 1, 'user1', errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      await checkNameDupe(udb, 1, 'user1', err)
+      expect(err.length).toBe(0)
     })
   })
 
 
   describe('check home dupe', () => {
     it('err if in use', async () => {
-      const errs: FormError[] = []
-      await checkHomeDupe(udb, 0, 'user1', errs)
-      expect(errs).toContain(HOME_DUPE)
+      const err: Error2[] = []
+      await checkHomeDupe(udb, 0, 'user1', err)
+      expect(err).toContain(HOME_DUPE)
     })
     it('err if in use 2', async () => {
-      const errs: FormError[] = []
-      await checkHomeDupe(udb, 0, 'User 1', errs)
-      expect(errs).toContain(HOME_DUPE)
+      const err: Error2[] = []
+      await checkHomeDupe(udb, 0, 'User 1', err)
+      expect(err).toContain(HOME_DUPE)
     })
     it('ok if available', async () => {
-      const errs: FormError[] = []
-      await checkHomeDupe(udb, 0, 'alice', errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      await checkHomeDupe(udb, 0, 'alice', err)
+      expect(err.length).toBe(0)
     })
     it('ok if same entity', async () => {
-      const errs: FormError[] = []
-      await checkHomeDupe(udb, 1, 'User 1', errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      await checkHomeDupe(udb, 1, 'User 1', err)
+      expect(err.length).toBe(0)
     })
     it('ok if same entity 2', async () => {
-      const errs: FormError[] = []
-      await checkHomeDupe(udb, 1, 'user1', errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      await checkHomeDupe(udb, 1, 'user1', err)
+      expect(err.length).toBe(0)
     })
   })
 
   describe('check email dupe', () => {
     it('err if email in use', async () => {
-      const errs: FormError[] = []
-      await checkEmailDupe(udb, 0, 'user1@mail.test', errs)
-      expect(errs).toContain(EMAIL_DUPE)
+      const err: Error2[] = []
+      await checkEmailDupe(udb, 0, 'user1@mail.test', err)
+      expect(err).toContain(EMAIL_DUPE)
     })
     it('ok if available', async () => {
-      const errs: FormError[] = []
-      await checkEmailDupe(udb, 0, 'userx@mail.test', errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      await checkEmailDupe(udb, 0, 'userx@mail.test', err)
+      expect(err.length).toBe(0)
     })
     it('ok if same entity', async () => {
-      const errs: FormError[] = []
-      await checkEmailDupe(udb, 1, 'user1@mail.test', errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      await checkEmailDupe(udb, 1, 'user1@mail.test', err)
+      expect(err.length).toBe(0)
     })
   })
 })

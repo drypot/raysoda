@@ -10,20 +10,20 @@ import {
   checkPasswordFormat,
   UserUpdateForm
 } from './form/user-form.js'
-import { FormError } from '../../lib/base/error2.js'
+import { Error2 } from '../../lib/base/error2.js'
 import { makeHash } from '../../lib/base/hash.js'
 
-export async function userUpdateService(udb: UserDB, id: number, form: UserUpdateForm, errs: FormError[]) {
-  checkNameFormat(form.name, errs)
-  checkHomeFormat(form.home, errs)
-  checkEmailFormat(form.email, errs)
+export async function userUpdateService(udb: UserDB, id: number, form: UserUpdateForm, err: Error2[]) {
+  checkNameFormat(form.name, err)
+  checkHomeFormat(form.home, err)
+  checkEmailFormat(form.email, err)
   if (form.password) {
-    checkPasswordFormat(form.password, errs)
+    checkPasswordFormat(form.password, err)
   }
-  await checkNameDupe(udb, id, form.name, errs)
-  await checkHomeDupe(udb, id, form.home, errs)
-  await checkEmailDupe(udb, id, form.email, errs)
-  if (errs.length > 0) return
+  await checkNameDupe(udb, id, form.name, err)
+  await checkHomeDupe(udb, id, form.home, err)
+  await checkEmailDupe(udb, id, form.email, err)
+  if (err.length > 0) return
   let update: Partial<User> = {
     name: form.name,
     home: form.home,

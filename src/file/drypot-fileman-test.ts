@@ -1,6 +1,6 @@
 import { Config, configFrom } from '../config/config.js'
 import { ImageFileManager } from './fileman.js'
-import { FormError } from '../lib/base/error2.js'
+import { Error2 } from '../lib/base/error2.js'
 import { IMAGE_TYPE } from '../service/image/form/image-form.js'
 import { existsSync } from 'fs'
 import { imageMetaOf } from '../entity/image-meta.js'
@@ -42,16 +42,16 @@ describe('DrypotFileManager', () => {
   describe('check meta', () => {
     it('if jpeg', () => {
       const meta = imageMetaOf({ format: 'jpeg' })
-      const errs: FormError[] = []
-      ifm.checkMeta(meta, errs)
-      expect(errs.length).toBe(1)
-      expect(errs).toContain(IMAGE_TYPE)
+      const err: Error2[] = []
+      ifm.checkMeta(meta, err)
+      expect(err.length).toBe(1)
+      expect(err).toContain(IMAGE_TYPE)
     })
     it('if svg', () => {
       const meta = imageMetaOf({ format: 'svg' })
-      const errs: FormError[] = []
-      ifm.checkMeta(meta, errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      ifm.checkMeta(meta, err)
+      expect(err.length).toBe(0)
     })
   })
 

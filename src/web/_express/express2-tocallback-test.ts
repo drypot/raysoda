@@ -40,7 +40,7 @@ describe('Express2', () => {
     })
     it('should work', async () => {
       const res = await request.get('/api/test/promise-err').expect(200)
-      expect(res.body.err.message).toBe('fatal error')
+      expect(res.body.err[0].message).toBe('fatal error')
     })
     it('setup toCallback ok handler', () => {
       web.router.get('/api/test/tocallback-ok', toCallback(async (req, res) => {
@@ -60,7 +60,7 @@ describe('Express2', () => {
     })
     it('should work', async () => {
       const res = await request.get('/api/test/tocallback-err').expect(200)
-      expect(res.body.err.message).toBe('fatal error')
+      expect(res.body.err[0].message).toBe('fatal error')
     })
   })
 

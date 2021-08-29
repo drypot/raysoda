@@ -5,7 +5,7 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { FormError } from '../../lib/base/error2.js'
+import { Error2 } from '../../lib/base/error2.js'
 import { IMAGE_NO_FILE, IMAGE_SIZE, IMAGE_TYPE, ImageUploadForm } from './form/image-form.js'
 import { identify } from '../../file/magick/magick2.js'
 import { imageUploadService } from './image-upload-service.js'
@@ -47,30 +47,30 @@ describe('Image Service with RaySoda FileManager', () => {
     })
     it('upload fails if file not sent', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: '', file: undefined, }
-      const errs: FormError[] = []
-      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
-      expect(errs.length).toBe(1)
-      expect(errs).toContain(IMAGE_NO_FILE)
+      const err: Error2[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, err)
+      expect(err.length).toBe(1)
+      expect(err).toContain(IMAGE_NO_FILE)
     })
     it('upload fails if file is not image', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: '', file: 'sample/text1.txt', }
-      const errs: FormError[] = []
-      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
-      expect(errs.length).toBe(1)
-      expect(errs).toContain(IMAGE_TYPE)
+      const err: Error2[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, err)
+      expect(err.length).toBe(1)
+      expect(err).toContain(IMAGE_TYPE)
     })
     it('upload fails if image is too small', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: '', file: 'sample/360x240.jpg', }
-      const errs: FormError[] = []
-      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
-      expect(errs.length).toBe(1)
-      expect(errs).toContain(IMAGE_SIZE)
+      const err: Error2[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, err)
+      expect(err.length).toBe(1)
+      expect(err).toContain(IMAGE_SIZE)
     })
     it('upload horizontal image', async () => {
       // resize 기능 테스트를 위해 2048 보다 큰 이미지를 업로드한다.
       const form: ImageUploadForm = { now: new Date(), comment: 'h', file: 'sample/2560x1440.jpg', }
-      const errs: FormError[] = []
-      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
+      const err: Error2[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
     })
     it('check db', async () => {
@@ -87,8 +87,8 @@ describe('Image Service with RaySoda FileManager', () => {
     })
     it('upload vertical image', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: 'v', file: 'sample/1440x2560.jpg', }
-      const errs: FormError[] = []
-      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
+      const err: Error2[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(2)
     })
     it('check db', async () => {
@@ -105,8 +105,8 @@ describe('Image Service with RaySoda FileManager', () => {
     })
     it('upload small image', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: 'small', file: 'sample/640x360.jpg', }
-      const errs: FormError[] = []
-      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
+      const err: Error2[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(3)
     })
     it('check db', async () => {
@@ -123,8 +123,8 @@ describe('Image Service with RaySoda FileManager', () => {
     })
     it('upload 4th image should fail', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: 'small', file: 'sample/640x360.jpg', }
-      const errs: FormError[] = []
-      const id = await imageUploadService(udb, idb, ifm, 1, form, errs)
+      const err: Error2[] = []
+      const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBeUndefined()
     })
   })

@@ -1,5 +1,5 @@
 import { ImageFileManager } from './fileman.js'
-import { FormError } from '../lib/base/error2.js'
+import { Error2 } from '../lib/base/error2.js'
 import { Config } from '../config/config.js'
 import { deepPathOf } from '../lib/base/deeppath.js'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../service/image/form/image-form.js'
@@ -84,13 +84,13 @@ export class RapixelFileManager implements ImageFileManager {
     return identify(path)
   }
 
-  checkMeta(meta: ImageMeta, errs: FormError[]) {
+  checkMeta(meta: ImageMeta, err: Error2[]) {
     if (!meta.format) {
-      errs.push(IMAGE_TYPE)
+      err.push(IMAGE_TYPE)
       return
     }
     if (meta.width < _minWidth - 15 || meta.height < _minHeight - 15) {
-      errs.push(IMAGE_SIZE)
+      err.push(IMAGE_SIZE)
     }
   }
 

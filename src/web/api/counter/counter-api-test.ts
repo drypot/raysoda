@@ -87,14 +87,14 @@ describe('Counter Api', () => {
     const url1 = '/api/counter/cnt1?b=2003-01-18&e=2003-01-20'
     it('get fails if anonymous', async () => {
       const res = await request.get(url1).expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)
     })
     it('get fails if user', async () => {
       const res = await request.get(url1).expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHORIZED)
+      expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
     it('login as admin', async () => {
       await loginForTest(request, AdminLogin)

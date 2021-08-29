@@ -1,5 +1,5 @@
 import { ImageFileManager } from './fileman.js'
-import { FormError } from '../lib/base/error2.js'
+import { Error2 } from '../lib/base/error2.js'
 import { Config } from '../config/config.js'
 import { deepPathOf } from '../lib/base/deeppath.js'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../service/image/form/image-form.js'
@@ -62,13 +62,13 @@ export class OsokyFileManager implements ImageFileManager {
     return identify(path)
   }
 
-  checkMeta(meta: ImageMeta, errs: FormError[]) {
+  checkMeta(meta: ImageMeta, err: Error2[]) {
     if (!meta.format) {
-      errs.push(IMAGE_TYPE)
+      err.push(IMAGE_TYPE)
       return
     }
     if (meta.shorter < 640) {
-      errs.push(IMAGE_SIZE)
+      err.push(IMAGE_SIZE)
     }
   }
 

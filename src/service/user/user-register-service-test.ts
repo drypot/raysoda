@@ -12,7 +12,7 @@ import {
   userRegisterFormOf
 } from './form/user-form.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { FormError } from '../../lib/base/error2.js'
+import { Error2 } from '../../lib/base/error2.js'
 import { userRegisterService } from './user-register-service.js'
 import { checkHash } from '../../lib/base/hash.js'
 
@@ -44,8 +44,8 @@ describe('UserRegisterService', () => {
       const form = userRegisterFormOf({
         name: 'User X', email: 'userx@mail.test', password: '1234',
       })
-      const errs: FormError[] = []
-      const user = await userRegisterService(udb, form, errs)
+      const err: Error2[] = []
+      const user = await userRegisterService(udb, form, err)
       if (!user) throw new Error()
       expect(user.name).toBe('User X')
       expect(user.home).toBe('User X')
@@ -70,24 +70,24 @@ describe('UserRegisterService', () => {
       const form = userRegisterFormOf({
         name: s33, email: s65, password: s33
       })
-      const errs: FormError[] = []
-      const user = await userRegisterService(udb, form, errs)
-      expect(errs.length).toBe(4)
-      expect(errs).toContain(NAME_RANGE)
-      expect(errs).toContain(HOME_RANGE)
-      expect(errs).toContain(EMAIL_RANGE)
-      expect(errs).toContain(PASSWORD_RANGE)
+      const err: Error2[] = []
+      const user = await userRegisterService(udb, form, err)
+      expect(err.length).toBe(4)
+      expect(err).toContain(NAME_RANGE)
+      expect(err).toContain(HOME_RANGE)
+      expect(err).toContain(EMAIL_RANGE)
+      expect(err).toContain(PASSWORD_RANGE)
     })
     it('dupe check works', async () => {
       const form = userRegisterFormOf({
         name: 'User 2', email: 'user2@mail.test', password: '1234'
       })
-      const errs: FormError[] = []
-      const user = await userRegisterService(udb, form, errs)
-      expect(errs.length).toBe(3)
-      expect(errs).toContain(NAME_DUPE)
-      expect(errs).toContain(HOME_DUPE)
-      expect(errs).toContain(EMAIL_DUPE)
+      const err: Error2[] = []
+      const user = await userRegisterService(udb, form, err)
+      expect(err.length).toBe(3)
+      expect(err).toContain(NAME_DUPE)
+      expect(err).toContain(HOME_DUPE)
+      expect(err).toContain(EMAIL_DUPE)
     })
   })
 

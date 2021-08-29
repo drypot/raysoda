@@ -1,5 +1,5 @@
 import { ImageDB } from '../../db/image/image-db.js'
-import { FormError } from '../../lib/base/error2.js'
+import { Error2 } from '../../lib/base/error2.js'
 import { IMAGE_NO_FILE, ImageUploadForm } from './form/image-form.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { Image } from '../../entity/image-entity.js'
@@ -22,16 +22,16 @@ export async function leftTicket(idb: ImageDB, uid: number, now: Date) {
 }
 
 export async function imageUploadService(
-  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, uid: number, form: ImageUploadForm, errs: FormError[]
+  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, uid: number, form: ImageUploadForm, err: Error2[]
 ) {
   // check file
   if (!form.file) {
-    errs.push(IMAGE_NO_FILE)
+    err.push(IMAGE_NO_FILE)
     return
   }
 
   // check ticket
-  // ticket 이 없을 경우 errs 추가 없이 그냥 return.
+  // ticket 이 없을 경우 err 추가 없이 그냥 return.
   // 폼에서 한번 안내하기도 해서 현재는 이렇게 하고 있다.
   const { ticket, hour } = await leftTicket(idb, uid, form.now)
   if (!ticket) return
@@ -39,8 +39,8 @@ export async function imageUploadService(
   // check meta
   await ifm.beforeIdentify(form.file)
   const meta = await ifm.identify(form.file)
-  ifm.checkMeta(meta, errs)
-  if (errs.length) return
+  ifm.checkMeta(meta, err)
+  if (err.length) return
 
   // save
   // 파일 저장에 시간이 걸릴 경우 db insert 가 늦어져

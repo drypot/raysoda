@@ -2,7 +2,7 @@ import { UserDB } from '../../../db/user/user-db.js'
 import { Express2, toCallback } from '../../_express/express2.js'
 import { hasUpdatePerm, sessionUserFrom } from './user-login-api.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED, UserUpdateForm } from '../../../service/user/form/user-form.js'
-import { FormError } from '../../../lib/base/error2.js'
+import { Error2 } from '../../../lib/base/error2.js'
 import { userUpdateService } from '../../../service/user/user-update-service.js'
 import { Request } from 'express'
 
@@ -27,9 +27,9 @@ export function registerUserUpdateApi(web: Express2, udb: UserDB) {
     const id = parseInt(req.params.id) || 0
     if (!hasUpdatePerm(user, id)) throw NOT_AUTHORIZED
     const form = userUpdateFormFrom(req)
-    const errs: FormError[] = []
-    await userUpdateService(udb, id, form, errs)
-    if (errs.length) throw errs
+    const err: Error2[] = []
+    await userUpdateService(udb, id, form, err)
+    if (err.length) throw err
     res.json({})
   }))
 

@@ -1,4 +1,4 @@
-import { FormError } from '../lib/base/error2.js'
+import { Error2 } from '../lib/base/error2.js'
 import { Config } from '../config/config.js'
 import { ImageMeta } from '../entity/image-meta.js'
 
@@ -22,7 +22,7 @@ export interface ImageFileManager {
 
   identify(path: string): Promise<ImageMeta>
 
-  checkMeta(meta: ImageMeta, errs: FormError[]): void
+  checkMeta(meta: ImageMeta, err: Error2[]): void
 
   saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null>
 

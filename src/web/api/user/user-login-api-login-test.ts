@@ -74,7 +74,7 @@ describe('UserLoginApi', () => {
     })
     it('get admin-login fails', async () => {
       const res = await request.get('/api/user/admin-login').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHORIZED)
+      expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
     it('login as admin', async () => {
       const form = { email: 'admin@mail.test', password: '1234', remember: false }
@@ -94,7 +94,7 @@ describe('UserLoginApi', () => {
     })
     it('get login fails', async () => {
       const res = await request.get('/api/user/login').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
 
     // error

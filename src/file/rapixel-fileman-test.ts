@@ -1,6 +1,6 @@
 import { Config, configFrom } from '../config/config.js'
 import { ImageFileManager } from './fileman.js'
-import { FormError } from '../lib/base/error2.js'
+import { Error2 } from '../lib/base/error2.js'
 import { IMAGE_SIZE } from '../service/image/form/image-form.js'
 import { identify } from './magick/magick2.js'
 import { existsSync } from 'fs'
@@ -42,17 +42,17 @@ describe('RapixelFileManager', () => {
 
   describe('check meta', () => {
     it('if size too small', () => {
-      const meta = imageMetaOf({ width: 2560, height: 1440 })
-      const errs: FormError[] = []
-      ifm.checkMeta(meta, errs)
-      expect(errs.length).toBe(1)
-      expect(errs).toContain(IMAGE_SIZE)
+      const meta = imageMetaOf({ format:'jpeg', width: 2560, height: 1440 })
+      const err: Error2[] = []
+      ifm.checkMeta(meta, err)
+      expect(err.length).toBe(1)
+      expect(err).toContain(IMAGE_SIZE)
     })
     it('if size valid', () => {
-      const meta = imageMetaOf({ width: 3840, height: 2160 })
-      const errs: FormError[] = []
-      ifm.checkMeta(meta, errs)
-      expect(errs.length).toBe(0)
+      const meta = imageMetaOf({ format:'jpeg', width: 3840, height: 2160 })
+      const err: Error2[] = []
+      ifm.checkMeta(meta, err)
+      expect(err.length).toBe(0)
     })
   })
 

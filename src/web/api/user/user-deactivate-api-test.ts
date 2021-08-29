@@ -47,7 +47,7 @@ describe('UserDeactivateApi', () => {
 
     it('deactivating fails before login', async () => {
       const res = await request.del('/api/user/1').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
 
     it('login', async () => {
@@ -63,7 +63,7 @@ describe('UserDeactivateApi', () => {
     })
     it('get login fails', async () => {
       const res = await request.get('/api/user/login').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHENTICATED)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('user status must be "d"', async () => {
       const user = await udb.findUserById(1)
@@ -75,7 +75,7 @@ describe('UserDeactivateApi', () => {
     })
     it('deactivating other fails', async () => {
       const res = await request.del('/api/user/3').expect(200)
-      expect(res.body.err).toEqual(NOT_AUTHORIZED)
+      expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
 
     it('login as admin', async () => {

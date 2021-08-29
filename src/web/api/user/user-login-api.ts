@@ -8,7 +8,7 @@ import {
   NOT_AUTHORIZED,
   PASSWORD_WRONG
 } from '../../../service/user/form/user-form.js'
-import { FormError } from '../../../lib/base/error2.js'
+import { Error2 } from '../../../lib/base/error2.js'
 import { User } from '../../../entity/user-entity.js'
 import { checkHash } from '../../../lib/base/hash.js'
 
@@ -37,9 +37,9 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
     const email = String(req.body.email || '').trim()
     const password = String(req.body.password || '').trim()
     const remember = !!req.body.remember
-    const errs: FormError[] = []
-    const user = await findUserByEmailPassword(email, password, errs)
-    if (errs.length) throw errs
+    const err: Error2[] = []
+    const user = await findUserByEmailPassword(email, password, err)
+    if (err.length) throw err
     if (!user) throw new Error()
     await createSession(req, res, user)
     if (remember) {
@@ -59,8 +59,8 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
     const email = req.cookies.email
     const password = req.cookies.password
     if (!email || !password) return
-    const errs: FormError[] = []
-    const user = await findUserByEmailPassword(email, password, errs)
+    const err: Error2[] = []
+    const user = await findUserByEmailPassword(email, password, err)
     if (!user) {
       res.clearCookie('email')
       res.clearCookie('password')
@@ -85,18 +85,18 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
     }
   }
 
-  async function findUserByEmailPassword(email: string, password: string, errs: FormError[]) {
+  async function findUserByEmailPassword(email: string, password: string, err: Error2[]) {
     const user = await udb.getRecachedByEmail(email)
     if (!user) {
-      errs.push(EMAIL_NOT_FOUND)
+      err.push(EMAIL_NOT_FOUND)
       return
     }
     if (user.status === 'd') {
-      errs.push(ACCOUNT_DEACTIVATED)
+      err.push(ACCOUNT_DEACTIVATED)
       return
     }
     if (!await checkHash(password, user.hash)) {
-      errs.push(PASSWORD_WRONG)
+      err.push(PASSWORD_WRONG)
       return
     }
     return user

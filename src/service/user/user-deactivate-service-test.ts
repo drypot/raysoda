@@ -3,7 +3,7 @@ import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { USER_NOT_FOUND } from './form/user-form.js'
-import { FormError } from '../../lib/base/error2.js'
+import { Error2 } from '../../lib/base/error2.js'
 import { userDeactivateService } from './user-deactivate-service.js'
 
 describe('UserService', () => {
@@ -35,18 +35,18 @@ describe('UserService', () => {
       expect(user?.status).toBe('v')
     })
     it('deactivate user', async () => {
-      const errs: FormError[] = []
-      await userDeactivateService(udb, 1, errs)
-      expect(errs.length).toBe(0)
+      const err: Error2[] = []
+      await userDeactivateService(udb, 1, err)
+      expect(err.length).toBe(0)
     })
     it('user status should be "d"', async () => {
       const user = await udb.findUserById(1)
       expect(user?.status).toBe('d')
     })
     it('deactivating user fails if id invalid', async () => {
-      const errs: FormError[] = []
-      await userDeactivateService(udb, 999, errs)
-      expect(errs).toContain(USER_NOT_FOUND)
+      const err: Error2[] = []
+      await userDeactivateService(udb, 999, err)
+      expect(err).toContain(USER_NOT_FOUND)
     })
   })
 

@@ -9,19 +9,19 @@ import {
   UserRegisterForm
 } from './form/user-form.js'
 import { userOf } from '../../entity/user-entity.js'
-import { FormError } from '../../lib/base/error2.js'
+import { Error2 } from '../../lib/base/error2.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { makeHash } from '../../lib/base/hash.js'
 
-export async function userRegisterService(udb: UserDB, form: UserRegisterForm, errs: FormError[]) {
-  checkNameFormat(form.name, errs)
-  checkHomeFormat(form.name, errs)
-  checkEmailFormat(form.email, errs)
-  checkPasswordFormat(form.password, errs)
-  await checkNameDupe(udb, 0, form.name, errs)
-  await checkHomeDupe(udb, 0, form.name, errs)
-  await checkEmailDupe(udb, 0, form.email, errs)
-  if (errs.length) return
+export async function userRegisterService(udb: UserDB, form: UserRegisterForm, err: Error2[]) {
+  checkNameFormat(form.name, err)
+  checkHomeFormat(form.name, err)
+  checkEmailFormat(form.email, err)
+  checkPasswordFormat(form.password, err)
+  await checkNameDupe(udb, 0, form.name, err)
+  await checkHomeDupe(udb, 0, form.name, err)
+  await checkEmailDupe(udb, 0, form.email, err)
+  if (err.length) return
   const now = new Date()
   const user = userOf({
     id: udb.getNextUserId(),
