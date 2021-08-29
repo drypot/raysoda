@@ -1,40 +1,37 @@
-export interface FormError {
+// Error2 를 시리얼라이즈하면 class 정보가 사라진다.
+// 해서 class 대신 plain object 로 만들기로 한다.
+
+export interface Error2 {
   name: string
   message: string
   field: string
 }
 
-export function formErrorOf(name: string, message: string = '', field: string = ''): FormError {
+export function errorOf(name: string, message: string = '', field: string = '') {
   return {
     name,
     message,
     field
-  }
+  } as Error2
 }
 
-export const UNKNOWN_ERROR = formErrorOf('UNKNOWN', 'Unknown error')
-export const INVALID_DATA = formErrorOf('INVALID_DATA', '비정상적인 값이 입력되었습니다.')
+export const UNKNOWN_ERROR = errorOf('UNKNOWN', 'Unknown error')
+export const INVALID_DATA = errorOf('INVALID_DATA', '비정상적인 값이 입력되었습니다.')
 
-export function formErrorExists(errs: FormError | FormError[], err: FormError) {
-  // res.body.err 를 통해 들어온 err 는 FormError 타입이 아니라 일반 Object 이다.
-  // 해서 errs instanceof FormError 조건은 오류를 일으킨다.
-  if (errs instanceof Array) {
-    for (const e of errs) {
-      if (e.name === err.name) {
-        return true
-      }
+export function findError(list: Error2[], err: Error2) {
+  for (const e of list) {
+    if (e.name === err.name) {
+      return e
     }
-    return false
   }
-  return errs.name === err.name
 }
 
-export function logError(errs: any, logger = console.log) {
-  if (errs instanceof Array) {
-    for (const err of errs as FormError[]) {
-      logger(err.message)
+export function logError(list: any, logger = console.log) {
+  if (list instanceof Array) {
+    for (const e of list) {
+      logger(e.message)
     }
     return
   }
-  logger(errs)
+  logger(list)
 }
