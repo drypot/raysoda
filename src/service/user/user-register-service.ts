@@ -22,13 +22,18 @@ export async function userRegisterService(udb: UserDB, form: UserRegisterForm, e
   await checkHomeDupe(udb, 0, form.name, errs)
   await checkEmailDupe(udb, 0, form.email, errs)
   if (errs.length) return
-  const user = userOf()
-  user.id = udb.getNextUserId()
-  user.name = form.name
-  user.home = form.name
-  user.email = form.email
-  user.profile = ''
-  user.hash = await makeHash(form.password)
+  const now = new Date()
+  const user = userOf({
+    id: udb.getNextUserId(),
+    name: form.name,
+    home: form.name,
+    email: form.email,
+    hash: await makeHash(form.password),
+    profile: '',
+    cdate: now,
+    adate: now,
+    pdate: new Date(2000, 0, 1)
+  })
   await udb.insertUser(user)
   return user
 }
