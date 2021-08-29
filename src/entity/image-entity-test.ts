@@ -1,4 +1,5 @@
 import { imageOf } from './image-entity.js'
+import { dateNull } from '../lib/base/date2.js'
 
 describe('Image Entity', () => {
 
@@ -7,23 +8,24 @@ describe('Image Entity', () => {
     expect(image).toEqual(jasmine.objectContaining({
       id: 0,
       uid: 0,
-      vers: undefined,
+      cdate: dateNull,
+      vers: null,
       comment: ''
     }))
   })
   it('create 2', () => {
-    const d = new Date()
     const image = imageOf({
       id: 10,
       uid: 100,
-      cdate: d,
+      cdate: dateNull,
+      vers: [10, 20, 30],
       comment: 'text1',
     })
     expect(image).toEqual(jasmine.objectContaining({
       id: 10,
       uid: 100,
-      cdate: d,
-      vers: undefined,
+      cdate: dateNull,
+      vers: [10, 20, 30],
       comment: 'text1',
     }))
   })

@@ -1,6 +1,4 @@
-
-// undefined 는 JSON 에서 사용하지 못한다.
-// vers 기본 값은 null 로 해두기로 한다.
+import { dateNull } from '../lib/base/date2.js'
 
 export interface Image {
   id: number
@@ -10,12 +8,15 @@ export interface Image {
   comment: string
 }
 
+// vers 등 오브젝트 기본 값은 undefined 대신 null 을 쓰는 것이 좋다.
+// JSON.stringify(null) 은 'null' 이지만,
+// JSON.stringify(undefined) 는 undefined 다. 문제가 생긴다.
+
 export function imageOf(params?: Partial<Image>): Image {
-  const now = new Date()
   return {
     id: 0,
     uid: 0,
-    cdate: now,
+    cdate: dateNull,
     vers: null,
     comment: '',
     ...params

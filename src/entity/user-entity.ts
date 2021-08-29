@@ -1,3 +1,5 @@
+import { dateNull } from '../lib/base/date2.js'
+
 export interface User {
   id: number
   name: string
@@ -13,7 +15,6 @@ export interface User {
 }
 
 export function userOf(params?: Partial<User>): User {
-  const now = new Date()
   return {
     id: 0,
     name: '',
@@ -23,9 +24,9 @@ export function userOf(params?: Partial<User>): User {
     status: 'v',
     admin: false,
     profile: '',
-    cdate: now,
-    adate: now,
-    pdate: new Date(2000, 0, 1),
+    cdate: dateNull,
+    adate: dateNull,
+    pdate: dateNull,
     ...params
   }
 }
