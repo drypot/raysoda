@@ -67,10 +67,8 @@ describe('Image Upload Api with Osoky FileManager', () => {
       expect(res.body.err).toContain(IMAGE_SIZE)
     })
     it('upload 4096x2304', async () => {
-      const res = await request.post('/api/image')
-        .field('comment', '4096')
-        .attach('file', 'sample/4096x2304.jpg')
-        .expect(200)
+      const res = await request.post('/api/image').field('comment', '4096')
+        .attach('file', 'sample/4096x2304.jpg').expect(200)
       expect(res.body.id).toBe(1)
     })
     it('check db', async () => {
@@ -86,10 +84,8 @@ describe('Image Upload Api with Osoky FileManager', () => {
       expect(meta.height).toBe(2048)
     })
     it('upload 1280x720', async () => {
-      const res = await request.post('/api/image')
-        .field('comment', '1280')
-        .attach('file', 'sample/1280x720.jpg')
-        .expect(200)
+      const res = await request.post('/api/image').field('comment', '1280')
+        .attach('file', 'sample/1280x720.jpg').expect(200)
       expect(res.body.id).toBe(2)
     })
     it('check db', async () => {

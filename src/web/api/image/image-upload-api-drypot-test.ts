@@ -62,7 +62,7 @@ describe('Image Upload Api with Drypot FileManager', () => {
     it('login as user1', async () => {
       await loginForTest(request, User1Login)
     })
-    it('upload fails if image is jpeg', async () => {
+    it('upload fails if jpeg', async () => {
       const res = await request.post('/api/image').attach('file', 'sample/640x360.jpg').expect(200)
       expect(res.body.err).toContain(IMAGE_TYPE)
     })
