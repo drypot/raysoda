@@ -50,21 +50,18 @@ describe('Image Upload Service with RaySoda FileManager', () => {
       const form: ImageUploadForm = { now: new Date(), comment: '', file: undefined, }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
-      expect(err.length).toBe(1)
       expect(err).toContain(IMAGE_NO_FILE)
     })
     it('upload fails if file is not image', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: '', file: 'sample/text1.txt', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
-      expect(err.length).toBe(1)
       expect(err).toContain(IMAGE_TYPE)
     })
     it('upload fails if image is too small', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: '', file: 'sample/360x240.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
-      expect(err.length).toBe(1)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('upload horizontal image', async () => {

@@ -45,7 +45,6 @@ describe('OsokyFileManager', () => {
       const meta = imageMetaOf({ format:'jpeg', width: 639, height: 639, shorter: 639 })
       const err: Error2[] = []
       ifm.checkMeta(meta, err)
-      expect(err.length).toBe(1)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('if size valid', () => {

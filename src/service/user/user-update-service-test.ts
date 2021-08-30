@@ -96,7 +96,6 @@ describe('User Update Service', () => {
       })
       const err: Error2[] = []
       await userUpdateService(udb, 1, form, err)
-      expect(err.length).toBe(4)
       expect(err).toContain(NAME_RANGE)
       expect(err).toContain(HOME_RANGE)
       expect(err).toContain(EMAIL_RANGE)
@@ -109,7 +108,6 @@ describe('User Update Service', () => {
       })
       const err: Error2[] = []
       await userUpdateService(udb, 1, form, err)
-      expect(err.length).toBe(3)
       expect(err).toContain(NAME_DUPE)
       expect(err).toContain(HOME_DUPE)
       expect(err).toContain(EMAIL_DUPE)

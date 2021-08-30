@@ -10,9 +10,9 @@ import { ImageFileManager } from '../../../file/fileman.js'
 import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
 import { loginForTest, User1Login } from '../user/user-login-api-fixture.js'
-import { Error2 } from '../../../lib/base/error2.js'
 import { IMAGE_NO_FILE, IMAGE_SIZE, IMAGE_TYPE } from '../../../service/image/form/image-form.js'
 import { identify } from '../../../file/magick/magick2.js'
+import { NOT_AUTHENTICATED } from '../../../service/user/form/user-form.js'
 
 describe('Image Upload Api with RaySoda FileManager', () => {
 
@@ -60,26 +60,25 @@ describe('Image Upload Api with RaySoda FileManager', () => {
     it('remove image dir', async () => {
       await ifm.rmRoot()
     })
+    it('upload fails if not logged in', async () => {
+      const res = await request.post('/api/image').expect(200)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
+    })
     it('login as user1', async () => {
       await loginForTest(request, User1Login)
     })
     it('upload fails if file not sent', async () => {
       const res = await request.post('/api/image').expect(200)
-      const err: Error2[] = res.body.err
-      expect(err.length).toBe(1)
-      expect(err).toContain(IMAGE_NO_FILE)
+      expect(res.body.err).toContain(IMAGE_NO_FILE)
     })
     it('upload fails if file is not image', async () => {
       const res = await request.post('/api/image').attach('file', 'sample/text1.txt').expect(200)
-      const err: Error2[] = res.body.err
-      expect(err.length).toBe(1)
-      expect(err).toContain(IMAGE_TYPE)
+      expect(res.body.err).toContain(IMAGE_TYPE)
     })
     it('upload fails if image is too small', async () => {
       const res = await request.post('/api/image').attach('file', 'sample/360x240.jpg').expect(200)
-      const err: Error2[] = res.body.err
-      expect(err.length).toBe(1)
-      expect(err).toContain(IMAGE_SIZE)
+      expect(res.body.err).toContain(IMAGE_SIZE)
+
     })
     it('upload horizontal image', async () => {
       // resize 기능 테스트를 위해 2048 보다 큰 이미지를 업로드한다.

@@ -44,7 +44,6 @@ describe('DrypotFileManager', () => {
       const meta = imageMetaOf({ format: 'jpeg' })
       const err: Error2[] = []
       ifm.checkMeta(meta, err)
-      expect(err.length).toBe(1)
       expect(err).toContain(IMAGE_TYPE)
     })
     it('if svg', () => {

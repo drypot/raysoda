@@ -8,7 +8,6 @@ import { ImageDB } from '../../../db/image/image-db.js'
 import { registerUserLoginApi } from '../../api/user/user-login-api.js'
 import { loginForTest, User1Login, User2Login } from '../../api/user/user-login-api-fixture.js'
 import { registerImageUpdateView } from './image-update-view.js'
-import { Error2 } from '../../../lib/base/error2.js'
 import { IMAGE_NOT_EXIST } from '../../../service/image/form/image-form.js'
 import { imageOf } from '../../../entity/image-entity.js'
 
@@ -60,8 +59,7 @@ describe('Image Update View', () => {
     })
     it('fails if image not exist', async () => {
       const res = await request.get('/image/1/update').expect(200)
-      const err: Error2[] = res.body.err
-      expect(err).toContain(IMAGE_NOT_EXIST)
+      expect(res.body.err).toContain(IMAGE_NOT_EXIST)
     })
     it('insert image', async () => {
       await idb.insertImage(imageOf({ id: 1, uid: 1 }))

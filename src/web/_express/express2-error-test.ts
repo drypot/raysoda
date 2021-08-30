@@ -34,7 +34,6 @@ describe('Express2', () => {
       })
       const res = await request.get('/api/test/invalid-data').expect(200)
       expect(res.type).toBe('application/json')
-      expect(res.body.err.length).toBe(1)
       expect(res.body.err).toContain(INVALID_DATA)
     })
     it('[INVALID_DATA]', async () => {
@@ -43,7 +42,6 @@ describe('Express2', () => {
       })
       const res = await request.get('/api/test/invalid-data-array').expect(200)
       expect(res.type).toBe('application/json')
-      expect(res.body.err.length).toBe(1)
       expect(res.body.err).toContain(INVALID_DATA)
     })
     it('system error', async () => {
@@ -52,7 +50,6 @@ describe('Express2', () => {
       })
       const res = await request.get('/api/test/system-error').expect(200)
       expect(res.type).toBe('application/json')
-      expect(res.body.err.length).toBe(1)
       expect(res.body.err[0].name).toBe('Error')
       expect(res.body.err[0].message).toBe('System Error')
     })

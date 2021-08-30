@@ -5,7 +5,7 @@ import { Mailer } from '../../../lib/mailer/mailer2.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
 import { NewPasswordForm } from '../../../service/user/pwreset-service.js'
-import { Error2, INVALID_DATA } from '../../../lib/base/error2.js'
+import { INVALID_DATA } from '../../../lib/base/error2.js'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../../service/user/form/user-form.js'
 import { checkHash } from '../../../lib/base/hash.js'
 import { Express2 } from '../../_express/express2.js'
@@ -54,13 +54,11 @@ describe('Password Reset Service', () => {
     })
     it('send mail, email existence check', async () => {
       const res = await request.post('/api/password-reset/send-mail').send({ email: 'userx@mail.test' }).expect(200)
-      const err: Error2[] = res.body.err
-      expect(err).toContain(EMAIL_NOT_FOUND)
+      expect(res.body.err).toContain(EMAIL_NOT_FOUND)
     })
     it('send mail, email format check', async () => {
       const res = await request.post('/api/password-reset/send-mail').send({ email: 'userx.mail.test' }).expect(200)
-      const err: Error2[] = res.body.err
-      expect(err).toContain(EMAIL_PATTERN)
+      expect(res.body.err).toContain(EMAIL_PATTERN)
     })
     it('send mail', async () => {
       const res = await request.post('/api/password-reset/send-mail').send({ email: 'user1@mail.test' }).expect(200)
@@ -76,23 +74,17 @@ describe('Password Reset Service', () => {
     it('set password, password format check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '123' }
       const res = await request.post('/api/password-reset/set-password').send(form).expect(200)
-      const err: Error2[] = res.body.err
-      expect(err.length).toBe(1)
-      expect(err).toContain(PASSWORD_RANGE)
+      expect(res.body.err).toContain(PASSWORD_RANGE)
     })
     it('set password, uuid check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '1234', uuid: 'xxxx' }
       const res = await request.post('/api/password-reset/set-password').send(form).expect(200)
-      const err: Error2[] = res.body.err
-      expect(err.length).toBe(1)
-      expect(err).toContain(INVALID_DATA)
+      expect(res.body.err).toContain(INVALID_DATA)
     })
     it('set password, token check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '1234', token: 'xxxx' }
       const res = await request.post('/api/password-reset/set-password').send(form).expect(200)
-      const err: Error2[] = res.body.err
-      expect(err.length).toBe(1)
-      expect(err).toContain(INVALID_DATA)
+      expect(res.body.err).toContain(INVALID_DATA)
     })
     it('set password', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '5678' }

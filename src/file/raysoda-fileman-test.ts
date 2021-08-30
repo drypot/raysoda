@@ -45,7 +45,6 @@ describe('RaySodaFileManager', () => {
       const meta = imageMetaOf({ format: 'jpeg', width: 240, height: 240 })
       const err: Error2[] = []
       ifm.checkMeta(meta, err)
-      expect(err.length).toBe(1)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('ok if size valid', () => {

@@ -63,21 +63,18 @@ describe('Password Reset Service', () => {
       const form: NewPasswordForm = { ...resetRecord, password: '123' }
       const err: Error2[] = []
       await pwResetSetPasswordService(udb, rdb, form, err)
-      expect(err.length).toBe(1)
       expect(err).toContain(PASSWORD_RANGE)
     })
     it('set password, uuid check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '1234', uuid: 'xxxx' }
       const err: Error2[] = []
       await pwResetSetPasswordService(udb, rdb, form, err)
-      expect(err.length).toBe(1)
       expect(err).toContain(INVALID_DATA)
     })
     it('set password, token check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '1234', token: 'xxxx' }
       const err: Error2[] = []
       await pwResetSetPasswordService(udb, rdb, form, err)
-      expect(err.length).toBe(1)
       expect(err).toContain(INVALID_DATA)
     })
     it('set password', async () => {

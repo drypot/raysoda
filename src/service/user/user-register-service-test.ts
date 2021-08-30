@@ -72,7 +72,6 @@ describe('UserRegisterService', () => {
       })
       const err: Error2[] = []
       const user = await userRegisterService(udb, form, err)
-      expect(err.length).toBe(4)
       expect(err).toContain(NAME_RANGE)
       expect(err).toContain(HOME_RANGE)
       expect(err).toContain(EMAIL_RANGE)
@@ -84,7 +83,6 @@ describe('UserRegisterService', () => {
       })
       const err: Error2[] = []
       const user = await userRegisterService(udb, form, err)
-      expect(err.length).toBe(3)
       expect(err).toContain(NAME_DUPE)
       expect(err).toContain(HOME_DUPE)
       expect(err).toContain(EMAIL_DUPE)
