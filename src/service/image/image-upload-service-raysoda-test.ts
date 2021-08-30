@@ -11,7 +11,7 @@ import { identify } from '../../file/magick/magick2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { dateNull } from '../../lib/base/date2.js'
 
-describe('Image Upload Service with RaySoda FileManager', () => {
+describe('Image Upload Service with RaySodaFileManager', () => {
 
   let config: Config
 
@@ -66,7 +66,7 @@ describe('Image Upload Service with RaySoda FileManager', () => {
     })
     it('upload horizontal image', async () => {
       // resize 기능 테스트를 위해 2048 보다 큰 이미지를 업로드한다.
-      const form: ImageUploadForm = { now: dateNull, comment: 'h', file: 'sample/2560x1440.jpg', }
+      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'sample/2560x1440.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
@@ -76,7 +76,7 @@ describe('Image Upload Service with RaySoda FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(2000)
-      expect(r.comment).toBe('h')
+      expect(r.comment).toBe('c1')
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(1))
@@ -84,7 +84,7 @@ describe('Image Upload Service with RaySoda FileManager', () => {
       expect(meta.height).toBe(1152)
     })
     it('upload vertical image', async () => {
-      const form: ImageUploadForm = { now: new Date(), comment: 'v', file: 'sample/1440x2560.jpg', }
+      const form: ImageUploadForm = { now: new Date(), comment: 'c2', file: 'sample/1440x2560.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(2)
@@ -94,7 +94,7 @@ describe('Image Upload Service with RaySoda FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(2000)
-      expect(r.comment).toBe('v')
+      expect(r.comment).toBe('c2')
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(2))
@@ -120,7 +120,7 @@ describe('Image Upload Service with RaySoda FileManager', () => {
       expect(meta.height).toBe(360)
     })
     it('upload 4th image should fail', async () => {
-      const form: ImageUploadForm = { now: new Date(), comment: 'small', file: 'sample/640x360.jpg', }
+      const form: ImageUploadForm = { now: new Date(), comment: '', file: 'sample/640x360.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBeUndefined()

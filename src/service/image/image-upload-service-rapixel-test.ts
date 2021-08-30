@@ -13,7 +13,7 @@ import { RapixelFileManager } from '../../file/rapixel-fileman.js'
 import { copyFile } from 'fs/promises'
 import { constants } from 'fs'
 
-describe('Image Upload Service with Rapixel FileManager', () => {
+describe('Image Upload Service with RapixelFileManager', () => {
 
   let config: Config
 
@@ -64,9 +64,9 @@ describe('Image Upload Service with Rapixel FileManager', () => {
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(err).toContain(IMAGE_SIZE)
     })
-    it('upload 5120x2880', async () => {
+    it('upload 1', async () => {
       await copyFile('sample/5120x2880.jpg', 'tmp/5120x2880.jpg', constants.COPYFILE_FICLONE)
-      const form: ImageUploadForm = { now: dateNull, comment: '5120', file: 'tmp/5120x2880.jpg', }
+      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'tmp/5120x2880.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
@@ -76,7 +76,7 @@ describe('Image Upload Service with Rapixel FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
-      expect(r.comment).toBe('5120')
+      expect(r.comment).toBe('c1')
       expect(r.vers).toEqual([5120, 4096, 2560, 1280])
     })
     it('check file', async () => {
@@ -85,9 +85,9 @@ describe('Image Upload Service with Rapixel FileManager', () => {
       expect((await identify(ifm.getPathFor(1, 2560))).width).toBe(2560)
       expect((await identify(ifm.getPathFor(1, 1280))).width).toBe(1280)
     })
-    it('upload 3840x2160', async () => {
+    it('upload 2', async () => {
       await copyFile('sample/3840x2160.jpg', 'tmp/3840x2160.jpg', constants.COPYFILE_FICLONE)
-      const form: ImageUploadForm = { now: dateNull, comment: '3840', file: 'tmp/3840x2160.jpg', }
+      const form: ImageUploadForm = { now: dateNull, comment: 'c2', file: 'tmp/3840x2160.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(2)
@@ -97,15 +97,15 @@ describe('Image Upload Service with Rapixel FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
-      expect(r.comment).toBe('3840')
+      expect(r.comment).toBe('c2')
       expect(r.vers).toEqual([4096, 2560, 1280])
     })
     it('check file', async () => {
+      expect((await identify(ifm.getPathFor(2, 5120))).width).toBe(0)
       expect((await identify(ifm.getPathFor(2, 4096))).width).toBe(4096)
       expect((await identify(ifm.getPathFor(2, 2560))).width).toBe(2560)
       expect((await identify(ifm.getPathFor(2, 1280))).width).toBe(1280)
     })
-
   })
 
 })

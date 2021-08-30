@@ -11,7 +11,7 @@ import { imageUploadService } from './image-upload-service.js'
 import { dateNull } from '../../lib/base/date2.js'
 import { DrypotFileManager } from '../../file/drypot-fileman.js'
 
-describe('Image Upload Service with Drypot FileManager', () => {
+describe('Image Upload Service with DrypotFileManager', () => {
 
   let config: Config
 
@@ -52,8 +52,8 @@ describe('Image Upload Service with Drypot FileManager', () => {
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(err).toContain(IMAGE_TYPE)
     })
-    it('upload svg-sample.svg', async () => {
-      const form: ImageUploadForm = { now: dateNull, comment: 'svg', file: 'sample/svg-sample.svg', }
+    it('upload 1', async () => {
+      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'sample/svg-sample.svg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
@@ -63,7 +63,7 @@ describe('Image Upload Service with Drypot FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
-      expect(r.comment).toBe('svg')
+      expect(r.comment).toBe('c1')
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(1))

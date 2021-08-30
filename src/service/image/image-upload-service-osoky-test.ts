@@ -11,7 +11,7 @@ import { imageUploadService } from './image-upload-service.js'
 import { dateNull } from '../../lib/base/date2.js'
 import { OsokyFileManager } from '../../file/osoky-fileman.js'
 
-describe('Image Upload Service with Osoky FileManager', () => {
+describe('Image Upload Service with OsokyFileManager', () => {
 
   let config: Config
 
@@ -52,8 +52,8 @@ describe('Image Upload Service with Osoky FileManager', () => {
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(err).toContain(IMAGE_SIZE)
     })
-    it('upload 4096x2304', async () => {
-      const form: ImageUploadForm = { now: dateNull, comment: '4096', file: 'sample/4096x2304.jpg', }
+    it('upload 1', async () => {
+      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'sample/4096x2304.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
@@ -63,15 +63,15 @@ describe('Image Upload Service with Osoky FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
-      expect(r.comment).toBe('4096')
+      expect(r.comment).toBe('c1')
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(1))
       expect(meta.width).toBe(2048)
       expect(meta.height).toBe(2048)
     })
-    it('upload 1280x720', async () => {
-      const form: ImageUploadForm = { now: dateNull, comment: '1280', file: 'sample/1280x720.jpg', }
+    it('upload 2', async () => {
+      const form: ImageUploadForm = { now: dateNull, comment: 'c2', file: 'sample/1280x720.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(2)
@@ -81,14 +81,13 @@ describe('Image Upload Service with Osoky FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
-      expect(r.comment).toBe('1280')
+      expect(r.comment).toBe('c2')
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(2))
       expect(meta.width).toBe(720)
       expect(meta.height).toBe(720)
     })
-
   })
 
 })

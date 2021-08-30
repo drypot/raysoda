@@ -1,18 +1,18 @@
 import { Config, configFrom } from '../../config/config.js'
 import { identify } from '../../file/magick/magick2.js'
-import { IMAGE_SIZE, ImageUpdateForm, ImageUploadForm } from './form/image-form.js'
+import { ImageUpdateForm, ImageUploadForm } from './form/image-form.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { UserDB } from '../../db/user/user-db.js'
-import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { DB } from '../../db/_db/db.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { dateNull } from '../../lib/base/date2.js'
 import { imageUpdateService } from './image-update-service.js'
+import { DrypotFileManager } from '../../file/drypot-fileman.js'
 
-describe('Image Update Service with RaySodaFileManager', () => {
+describe('Image Update Service with DrypotFileManager', () => {
 
   let config: Config
 
@@ -22,11 +22,11 @@ describe('Image Update Service with RaySodaFileManager', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = configFrom('config/raysoda-test.json')
+    config = configFrom('config/drypot-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     idb = ImageDB.from(db)
-    ifm = RaySodaFileManager.from(config)
+    ifm = DrypotFileManager.from(config)
   })
 
   afterAll(async () => {
@@ -47,8 +47,8 @@ describe('Image Update Service with RaySodaFileManager', () => {
     it('remove image dir', async () => {
       await ifm.rmRoot()
     })
-    it('upload image', async () => {
-      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'sample/2560x1440.jpg', }
+    it('upload', async () => {
+      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'sample/svg-sample.svg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
@@ -57,16 +57,15 @@ describe('Image Update Service with RaySodaFileManager', () => {
       const r = await idb.findImage(1)
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
-      expect(Date.now() - r.cdate.getTime()).toBeLessThan(3000)
+      expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
       expect(r.comment).toBe('c1')
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(1))
-      expect(meta.width).toBe(2048)
-      expect(meta.height).toBe(1152)
+      expect(meta.format).toBe('svg')
     })
-    it('update image', async () => {
-      const form: ImageUpdateForm = { comment: 'c2', file: 'sample/1440x2560.jpg' }
+    it('update', async () => {
+      const form: ImageUpdateForm = { comment: 'c2', file: 'sample/svg-sample-2.svg' }
       const err: Error2[] = []
       await imageUpdateService(idb, ifm, 1, form, err)
     })
@@ -79,29 +78,7 @@ describe('Image Update Service with RaySodaFileManager', () => {
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(1))
-      expect(meta.width).toBe(1152)
-      expect(meta.height).toBe(2048)
-    })
-    it('update comment only', async () => {
-      const form: ImageUpdateForm = { comment: 'only' }
-      const err: Error2[] = []
-      await imageUpdateService(idb, ifm, 1, form, err)
-    })
-    it('check db', async () => {
-      const r = await idb.findImage(1)
-      if (!r) throw new Error()
-      expect(r.comment).toBe('only')
-    })
-    it('check file', async () => {
-      const meta = await identify(ifm.getPathFor(1))
-      expect(meta.width).toBe(1152)
-      expect(meta.height).toBe(2048)
-    })
-    it('fails if image too small', async () => {
-      const form: ImageUpdateForm = { comment: '', file: 'sample/360x240.jpg' }
-      const err: Error2[] = []
-      await imageUpdateService(idb, ifm, 1, form, err)
-      expect(err).toContain(IMAGE_SIZE)
+      expect(meta.format).toBe('svg')
     })
   })
 
