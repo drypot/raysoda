@@ -9,11 +9,11 @@ import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
 import { loginForTest, User1Login } from '../user/user-login-api-fixture.js'
-import { IMAGE_TYPE } from '../../../service/image/form/image-form.js'
-import { DrypotFileManager } from '../../../file/drypot-fileman.js'
 import { identify } from '../../../file/magick/magick2.js'
+import { registerImageUpdateApi } from './image-update-api.js'
+import { DrypotFileManager } from '../../../file/drypot-fileman.js'
 
-describe('Image Upload Api with Drypot FileManager', () => {
+describe('Image Update Api with Drypot FileManager', () => {
 
   let config: Config
 
@@ -37,6 +37,7 @@ describe('Image Upload Api with Drypot FileManager', () => {
     web = await Express2.from(config).useUpload().start()
     registerUserLoginApi(web, udb)
     registerImageUploadApi(web, udb, idb, ifm)
+    registerImageUpdateApi(web, idb, ifm)
     request = web.spawnRequest()
   })
 
@@ -51,7 +52,7 @@ describe('Image Upload Api with Drypot FileManager', () => {
     await insertUserFix4(udb)
   })
 
-  describe('upload image', () => {
+  describe('update image', () => {
     it('init able', async () => {
       await idb.dropTable()
       await idb.createTable(false)
@@ -62,14 +63,10 @@ describe('Image Upload Api with Drypot FileManager', () => {
     it('login as user1', async () => {
       await loginForTest(request, User1Login)
     })
-    it('upload fails if jpeg', async () => {
-      const res = await request.post('/api/image').attach('file', 'sample/640x360.jpg').expect(200)
-      expect(res.body.err).toContain(IMAGE_TYPE)
-    })
-    it('upload svg-sample.svg', async () => {
+    it('upload', async () => {
       const res = await request.post('/api/image').field('comment', 'c1')
         .attach('file', 'sample/svg-sample.svg').expect(200)
-      expect(res.body.id).toBe(1)
+      expect(res.body.id).toEqual(1)
     })
     it('check db', async () => {
       const r = await idb.findImage(1)
@@ -77,6 +74,22 @@ describe('Image Upload Api with Drypot FileManager', () => {
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
       expect(r.comment).toBe('c1')
+    })
+    it('check file', async () => {
+      const meta = await identify(ifm.getPathFor(1))
+      expect(meta.format).toBe('svg')
+    })
+    it('update', async () => {
+      const res = await request.put('/api/image/1').field('comment', 'c2')
+        .attach('file', 'sample/svg-sample-2.svg').expect(200)
+      expect(res.body).toEqual({})
+    })
+    it('check db', async () => {
+      const r = await idb.findImage(1)
+      if (!r) throw new Error()
+      expect(r.uid).toBe(1)
+      expect(Date.now() - r.cdate.getTime()).toBeLessThan(3000)
+      expect(r.comment).toBe('c2')
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(1))

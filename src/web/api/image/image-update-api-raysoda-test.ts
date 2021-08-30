@@ -9,11 +9,11 @@ import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
-import { loginForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
-import { IMAGE_SIZE } from '../../../service/image/form/image-form.js'
+import { loginForTest, logoutForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
+import { IMAGE_NOT_EXIST, IMAGE_SIZE } from '../../../service/image/form/image-form.js'
 import { identify } from '../../../file/magick/magick2.js'
 import { registerImageUpdateApi } from './image-update-api.js'
-import { NOT_AUTHORIZED } from '../../../service/user/form/user-form.js'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../service/user/form/user-form.js'
 
 describe('Image Update Api with RaySoda FileManager', () => {
 
@@ -65,18 +65,18 @@ describe('Image Update Api with RaySoda FileManager', () => {
     it('login as user1', async () => {
       await loginForTest(request, User1Login)
     })
-    it('upload image', async () => {
-      const res = await request.post('/api/image').field('comment', 'h')
+    it('upload', async () => {
+      const res = await request.post('/api/image').field('comment', 'c1')
         .attach('file', 'sample/2560x1440.jpg').expect(200)
-      expect(res.body).toEqual({ id: 1})
+      expect(res.body.id).toEqual(1)
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(1))
       expect(meta.width).toBe(2048)
       expect(meta.height).toBe(1152)
     })
-    it('update image', async () => {
-      const res = await request.put('/api/image/1').field('comment', 'v')
+    it('update', async () => {
+      const res = await request.put('/api/image/1').field('comment', 'c2')
         .attach('file', 'sample/1440x2560.jpg').expect(200)
       expect(res.body).toEqual({})
     })
@@ -85,14 +85,14 @@ describe('Image Update Api with RaySoda FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(3000)
-      expect(r.comment).toBe('v')
+      expect(r.comment).toBe('c2')
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(1))
       expect(meta.width).toBe(1152)
       expect(meta.height).toBe(2048)
     })
-    it('update comment only', async () => {
+    it('update comment', async () => {
       const res = await request.put('/api/image/1').field('comment', 'only').expect(200)
       expect(res.body).toEqual({})
     })
@@ -106,14 +106,25 @@ describe('Image Update Api with RaySoda FileManager', () => {
       expect(meta.width).toBe(1152)
       expect(meta.height).toBe(2048)
     })
-    it('fails if image too small', async () => {
+    it('update fails if image too small', async () => {
       const res = await request.put('/api/image/1').attach('file', 'sample/360x240.jpg').expect(200)
       expect(res.body.err).toContain(IMAGE_SIZE)
+    })
+    it('update fails if image not exist', async () => {
+      const res = await request.put('/api/image/2').expect(200)
+      expect(res.body.err).toContain(IMAGE_NOT_EXIST)
+    })
+    it('logout', async () => {
+      await logoutForTest(request)
+    })
+    it('update fails if not logged in', async () => {
+      const res = await request.put('/api/image/1').expect(200)
+      expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('login as user2', async () => {
       await loginForTest(request, User2Login)
     })
-    it('fails if owner not match', async () => {
+    it('update fails if owner not match', async () => {
       const res = await request.put('/api/image/1').expect(200)
       expect(res.body.err).toContain(NOT_AUTHORIZED)
     })

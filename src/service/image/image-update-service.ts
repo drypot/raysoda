@@ -27,6 +27,7 @@ export async function imageUpdateService(
     const meta = await ifm.identify(form.file)
     ifm.checkMeta(meta, err)
     if (err.length) return
+    await ifm.deleteImage(id)
     image.vers = await ifm.saveImage(id, form.file, meta)
   }
   image.comment = form.comment

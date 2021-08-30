@@ -71,7 +71,7 @@ describe('Image Upload Api with Rapixel FileManager', () => {
       expect(res.body.err).toContain(IMAGE_SIZE)
     })
     it('upload 5120x2880', async () => {
-      const res = await request.post('/api/image').field('comment', '5120')
+      const res = await request.post('/api/image').field('comment', 'c1')
         .attach('file', 'sample/5120x2880.jpg').expect(200)
       expect(res.body.id).toBe(1)
     })
@@ -80,7 +80,7 @@ describe('Image Upload Api with Rapixel FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
-      expect(r.comment).toBe('5120')
+      expect(r.comment).toBe('c1')
       expect(r.vers).toEqual([5120, 4096, 2560, 1280])
     })
     it('check file', async () => {
@@ -90,7 +90,7 @@ describe('Image Upload Api with Rapixel FileManager', () => {
       expect((await identify(ifm.getPathFor(1, 1280))).width).toBe(1280)
     })
     it('upload 3840x2160', async () => {
-      const res = await request.post('/api/image').field('comment', '3840')
+      const res = await request.post('/api/image').field('comment', 'c2')
         .attach('file', 'sample/3840x2160.jpg').expect(200)
       expect(res.body.id).toBe(2)
     })
@@ -99,7 +99,7 @@ describe('Image Upload Api with Rapixel FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
-      expect(r.comment).toBe('3840')
+      expect(r.comment).toBe('c2')
       expect(r.vers).toEqual([4096, 2560, 1280])
     })
     it('check file', async () => {

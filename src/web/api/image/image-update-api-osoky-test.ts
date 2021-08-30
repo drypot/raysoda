@@ -9,11 +9,12 @@ import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
 import { loginForTest, User1Login } from '../user/user-login-api-fixture.js'
-import { IMAGE_TYPE } from '../../../service/image/form/image-form.js'
-import { DrypotFileManager } from '../../../file/drypot-fileman.js'
+import { IMAGE_SIZE } from '../../../service/image/form/image-form.js'
 import { identify } from '../../../file/magick/magick2.js'
+import { registerImageUpdateApi } from './image-update-api.js'
+import { OsokyFileManager } from '../../../file/osoky-fileman.js'
 
-describe('Image Upload Api with Drypot FileManager', () => {
+describe('Image Update Api with Osoky FileManager', () => {
 
   let config: Config
 
@@ -26,17 +27,18 @@ describe('Image Upload Api with Drypot FileManager', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = configFrom('config/drypot-test.json')
+    config = configFrom('config/osoky-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     idb = ImageDB.from(db)
 
-    ifm = DrypotFileManager.from(config)
+    ifm = OsokyFileManager.from(config)
 
     web = await Express2.from(config).useUpload().start()
     registerUserLoginApi(web, udb)
     registerImageUploadApi(web, udb, idb, ifm)
+    registerImageUpdateApi(web, idb, ifm)
     request = web.spawnRequest()
   })
 
@@ -51,7 +53,7 @@ describe('Image Upload Api with Drypot FileManager', () => {
     await insertUserFix4(udb)
   })
 
-  describe('upload image', () => {
+  describe('update image', () => {
     it('init able', async () => {
       await idb.dropTable()
       await idb.createTable(false)
@@ -62,14 +64,10 @@ describe('Image Upload Api with Drypot FileManager', () => {
     it('login as user1', async () => {
       await loginForTest(request, User1Login)
     })
-    it('upload fails if jpeg', async () => {
-      const res = await request.post('/api/image').attach('file', 'sample/640x360.jpg').expect(200)
-      expect(res.body.err).toContain(IMAGE_TYPE)
-    })
-    it('upload svg-sample.svg', async () => {
+    it('upload', async () => {
       const res = await request.post('/api/image').field('comment', 'c1')
-        .attach('file', 'sample/svg-sample.svg').expect(200)
-      expect(res.body.id).toBe(1)
+        .attach('file', 'sample/1280x720.jpg').expect(200)
+      expect(res.body.id).toEqual(1)
     })
     it('check db', async () => {
       const r = await idb.findImage(1)
@@ -80,7 +78,29 @@ describe('Image Upload Api with Drypot FileManager', () => {
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(1))
-      expect(meta.format).toBe('svg')
+      expect(meta.width).toBe(720)
+      expect(meta.height).toBe(720)
+    })
+    it('update', async () => {
+      const res = await request.put('/api/image/1').field('comment', 'c2')
+        .attach('file', 'sample/4096x2304.jpg').expect(200)
+      expect(res.body).toEqual({})
+    })
+    it('check db', async () => {
+      const r = await idb.findImage(1)
+      if (!r) throw new Error()
+      expect(r.uid).toBe(1)
+      expect(Date.now() - r.cdate.getTime()).toBeLessThan(3000)
+      expect(r.comment).toBe('c2')
+    })
+    it('check file', async () => {
+      const meta = await identify(ifm.getPathFor(1))
+      expect(meta.width).toBe(2048)
+      expect(meta.height).toBe(2048)
+    })
+    it('update fails if image too small', async () => {
+      const res = await request.put('/api/image/1').attach('file', 'sample/640x360.jpg').expect(200)
+      expect(res.body.err).toContain(IMAGE_SIZE)
     })
   })
 

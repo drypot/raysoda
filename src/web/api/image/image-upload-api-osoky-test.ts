@@ -67,7 +67,7 @@ describe('Image Upload Api with Osoky FileManager', () => {
       expect(res.body.err).toContain(IMAGE_SIZE)
     })
     it('upload 4096x2304', async () => {
-      const res = await request.post('/api/image').field('comment', '4096')
+      const res = await request.post('/api/image').field('comment', 'c1')
         .attach('file', 'sample/4096x2304.jpg').expect(200)
       expect(res.body.id).toBe(1)
     })
@@ -76,7 +76,7 @@ describe('Image Upload Api with Osoky FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
-      expect(r.comment).toBe('4096')
+      expect(r.comment).toBe('c1')
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(1))
@@ -84,7 +84,7 @@ describe('Image Upload Api with Osoky FileManager', () => {
       expect(meta.height).toBe(2048)
     })
     it('upload 1280x720', async () => {
-      const res = await request.post('/api/image').field('comment', '1280')
+      const res = await request.post('/api/image').field('comment', 'c2')
         .attach('file', 'sample/1280x720.jpg').expect(200)
       expect(res.body.id).toBe(2)
     })
@@ -93,7 +93,7 @@ describe('Image Upload Api with Osoky FileManager', () => {
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
       expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
-      expect(r.comment).toBe('1280')
+      expect(r.comment).toBe('c2')
     })
     it('check file', async () => {
       const meta = await identify(ifm.getPathFor(2))
