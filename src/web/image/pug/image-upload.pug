@@ -1,0 +1,50 @@
+extends ../../layout/layout
+
+block head-opt
+  title Upload - #{appName}
+
+block content
+
+  .section.page-title
+    //-h1 Upload
+    h1 사진 등록
+
+  if !ticketCount
+    .section
+      //-| !{ticketMax} images a day.
+      | 이미지는 하루 !{ticketMax}장 등록하실 수 있습니다.
+      br
+      //-| You can upload #{hour} hours later.
+      | 새 이미지는 #{hour} 시간 후에 등록하실 수 있습니다.
+
+  else
+    script.
+      $(function() {
+        cimage.initNew();
+      });
+
+    .section
+      form.main
+        .sub-section
+          .form-group
+            //-label.control-label Image
+            label.control-label 이미지 파일
+            input.form-control(type='file', name='file', accept='image/jpeg, image/png, image/tiff')
+            p.help-block
+              //-| You can upload #{ticket} more images today.
+              br
+              if appNamel == 'drypot'
+                | Only SVG files.
+          .form-group
+            //-label.control-label Comment
+            label.control-label 이미지 설명
+            textarea.form-control(name='comment', rows=7)
+        .sub-section
+          //-button.btn.btn-primary(name='send', data-loading-text='Sending') Upload
+          button.btn.btn-primary(name='send', data-loading-text='전송중') 업로드
+          p.help-block
+            if appNamel == 'rapixel'
+              br
+              | 업로드 완료에 다소 시간이 걸릴 수 있습니다.
+
+    include image-new-notice

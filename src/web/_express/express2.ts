@@ -43,7 +43,7 @@ export class Express2 {
     locals.appNamel = config.appNamel
     locals.appDesc = config.appDesc
 
-    this.setViewEngine('pug', 'src/web/view')
+    this.setViewEngine('pug', 'src/web')
   }
 
   static from(config: Config) {
