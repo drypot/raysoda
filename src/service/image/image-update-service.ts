@@ -7,7 +7,7 @@ import { NOT_AUTHORIZED } from '../user/form/user-form.js'
 import { Image } from '../../entity/image-entity.js'
 
 export async function checkImageUpdatable(
-  image: Image | undefined, user: User, err: Error2[]
+  user: User, image: Image | undefined, err: Error2[]
 ) {
   if (!image) {
     err.push(IMAGE_NOT_EXIST)

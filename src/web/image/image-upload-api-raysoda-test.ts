@@ -53,7 +53,7 @@ describe('Image Upload Api with RaySoda FileManager', () => {
   })
 
   describe('upload image', () => {
-    it('init able', async () => {
+    it('init table', async () => {
       await idb.dropTable()
       await idb.createTable(false)
     })

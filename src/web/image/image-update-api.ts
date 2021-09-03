@@ -24,7 +24,7 @@ export function registerImageUpdateApi(web: Express2, idb: ImageDB, ifm: ImageFi
     const form = imageUpdateFormFrom(req)
     const err: Error2[] = []
     const image = await idb.findImage(id)
-    await checkImageUpdatable(image, user, err)
+    await checkImageUpdatable(user, image, err)
     if (err.length) throw err
     await imageUpdateService(idb, ifm, id, form, err)
     if (err.length) throw err

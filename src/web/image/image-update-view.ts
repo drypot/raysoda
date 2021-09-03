@@ -14,7 +14,7 @@ export function registerImageUpdateView(web: Express2, udb: UserDB, idb: ImageDB
     const id = parseInt(req.params.id) || 0
     const err: Error2[] = []
     const image = await idb.findImage(id)
-    await checkImageUpdatable(image, user, err)
+    await checkImageUpdatable(user, image, err)
     if (err.length) throw err
     res.render('image/pug/image-update', {
       image

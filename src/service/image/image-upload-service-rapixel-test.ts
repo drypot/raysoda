@@ -41,7 +41,7 @@ describe('Image Upload Service with RapixelFileManager', () => {
   })
 
   describe('upload image', () => {
-    it('init able', async () => {
+    it('init table', async () => {
       await idb.dropTable()
       await idb.createTable(false)
     })

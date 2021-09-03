@@ -54,7 +54,7 @@ describe('Image Update Api with Osoky FileManager', () => {
   })
 
   describe('update image', () => {
-    it('init able', async () => {
+    it('init table', async () => {
       await idb.dropTable()
       await idb.createTable(false)
     })

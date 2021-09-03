@@ -40,7 +40,7 @@ describe('Image Update Service with OsokyFileManager', () => {
   })
 
   describe('update image', () => {
-    it('init able', async () => {
+    it('init table', async () => {
       await idb.dropTable()
       await idb.createTable(false)
     })
