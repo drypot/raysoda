@@ -19,4 +19,12 @@ export function registerImageViewApi(web: Express2, udb: UserDB, idb: ImageDB, i
     res.json({ image: image })
   }))
 
+  web.router.get('/api/image/first-image-cdate', toCallback(async (req, res) => {
+    const image = await idb.findFirstImage()
+    res.json({
+      today: Date.now(),
+      cdate: image?.cdate.getTime()
+    })
+  }))
+
 }
