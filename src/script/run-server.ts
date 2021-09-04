@@ -35,11 +35,11 @@ async function main() {
   const config = configFrom(process.argv[2])
 
   const db = await DB.from(config).createDatabase()
-  const vdb = ValueDB.from(db)
-  const udb = UserDB.from(db)
-  const rdb = PwResetDB.from(db)
-  const idb = ImageDB.from(db)
-  const cdb = CounterDB.from(db)
+  const vdb = await ValueDB.from(db).createTable()
+  const udb = await UserDB.from(db).createTable()
+  const rdb = await PwResetDB.from(db).createTable()
+  const idb = await ImageDB.from(db).createTable()
+  const cdb = await CounterDB.from(db).createTable()
   const bdb = BannerDB.from(vdb)
 
   const ifm =
