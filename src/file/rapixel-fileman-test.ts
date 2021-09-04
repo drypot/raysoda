@@ -42,13 +42,13 @@ describe('RapixelFileManager', () => {
 
   describe('check meta', () => {
     it('if size too small', () => {
-      const meta = imageMetaOf({ format:'jpeg', width: 2560, height: 1440 })
+      const meta = imageMetaOf({ format: 'jpeg', width: 2560, height: 1440 })
       const err: Error2[] = []
       ifm.checkMeta(meta, err)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('if size valid', () => {
-      const meta = imageMetaOf({ format:'jpeg', width: 3840, height: 2160 })
+      const meta = imageMetaOf({ format: 'jpeg', width: 3840, height: 2160 })
       const err: Error2[] = []
       ifm.checkMeta(meta, err)
       expect(err.length).toBe(0)

@@ -1,6 +1,6 @@
 import { Express2 } from '../_express/express2.js'
 
-export function registerRedirectView(web: Express2) {
+export function registerRedirect(web: Express2) {
 
   const router = web.router
 

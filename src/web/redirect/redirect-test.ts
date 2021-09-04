@@ -1,7 +1,7 @@
 import { Config, configFrom } from '../../config/config.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerRedirectView } from './redirect.js'
+import { registerRedirect } from './redirect.js'
 
 describe('Redirect', () => {
 
@@ -12,7 +12,7 @@ describe('Redirect', () => {
   beforeAll(async () => {
     config = configFrom('config/app-test.json')
     web = await Express2.from(config).start()
-    registerRedirectView(web)
+    registerRedirect(web)
     request = web.spawnRequest()
   })
 

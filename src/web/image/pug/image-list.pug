@@ -9,7 +9,7 @@ block header
 block content
 
   script.
-    $(function() {
+    $(function () {
       cimage.initList();
     });
 
@@ -54,7 +54,7 @@ block content
       .image-thumb.thumb-margin
         .image
           a(href='/images/' + image.id)
-            img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
+            img(src=image.thumb, data-vers= image.vers ? image.vers.join(',') : null)
         - var c = image.comment.split(/\r\n|\n/, 1)[0];
         if c
           .comment= c

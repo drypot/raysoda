@@ -23,13 +23,13 @@ describe('Object 2', () => {
       expect(obj).not.toBe(src)
     })
     it('array', () => {
-      const src = [ 10, 20, 30 ]
+      const src = [10, 20, 30]
       const obj = dupeOf(src)
       expect(obj).toEqual(src)
       expect(obj).not.toBe(src)
     })
     it('array with object element', () => {
-      const src = [ 10, { b: 20 } ]
+      const src = [10, { b: 20 }]
       const obj = dupeOf(src)
       expect(obj).toEqual(src)
       expect(obj).not.toBe(src)

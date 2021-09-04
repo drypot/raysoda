@@ -42,13 +42,13 @@ describe('OsokyFileManager', () => {
 
   describe('check meta', () => {
     it('if size too small', () => {
-      const meta = imageMetaOf({ format:'jpeg', width: 639, height: 639, shorter: 639 })
+      const meta = imageMetaOf({ format: 'jpeg', width: 639, height: 639, shorter: 639 })
       const err: Error2[] = []
       ifm.checkMeta(meta, err)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('if size valid', () => {
-      const meta = imageMetaOf({ format:'jpeg', width: 640, height: 640, shorter: 640 })
+      const meta = imageMetaOf({ format: 'jpeg', width: 640, height: 640, shorter: 640 })
       const err: Error2[] = []
       ifm.checkMeta(meta, err)
       expect(err.length).toBe(0)

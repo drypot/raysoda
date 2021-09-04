@@ -11,13 +11,13 @@ block header
 block content
 
   script.
-    $(function() {
+    $(function () {
       cimage.initView(!{JSON.stringify(image)});
     });
 
   .section.image-full
     .image
-      img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
+      img(src=image.thumb, data-vers= image.vers ? image.vers.join(',') : null)
 
   .section.image-info
     .sub-section(style='display: none')
@@ -26,7 +26,7 @@ block content
 
     .sub-section
       .comment #{image.comment}
-      .cdate !{image.cdateStr.slice(0,16)}
+      .cdate !{image.cdateStr.slice(0, 16)}
       .uname
         a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
 

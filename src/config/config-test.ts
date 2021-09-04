@@ -8,6 +8,8 @@ describe('loadConfig', () => {
     expect(config.dev).toBeTruthy()
   })
   it('throw exception if file not found', () => {
-    expect(() => { configFrom('config/not-exist.json') }).toThrow()
+    expect(() => {
+      configFrom('config/not-exist.json')
+    }).toThrow()
   })
 })

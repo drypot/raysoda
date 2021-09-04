@@ -36,7 +36,7 @@ block content
         .image-thumb.thumb-margin
           .image
             a(href='/image/' + image.id)
-              img(src=image.thumb, data-vers= image.vers ? image.vers.join(','): null)
+              img(src=image.thumb, data-vers= image.vers ? image.vers.join(',') : null)
           if image.comment
             .comment= image.comment
     .section

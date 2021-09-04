@@ -1,6 +1,6 @@
 import { Express2 } from '../_express/express2.js'
 
-export function initAboutView(server: Express2) {
+export function registerAboutApi(server: Express2) {
 
   const router = server.router
 

@@ -16,7 +16,7 @@ class WaterfallRunner {
       if (i === e) {
         return done()
       }
-      funcs[i++]((err:any) => {
+      funcs[i++]((err: any) => {
         if (err) return done(err)
         setImmediate(loop)
       })
@@ -29,5 +29,5 @@ export function waterfall(...funcs: WaterfallMember[]): WaterfallRunner {
 }
 
 export function timeout(ms: number) {
-  return new Promise<void>(resolve => setTimeout(resolve, ms));
+  return new Promise<void>(resolve => setTimeout(resolve, ms))
 }

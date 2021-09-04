@@ -94,7 +94,7 @@ describe('Image View Api', () => {
       //   updatable: false
       // }
       expect(image.id).toBe(1)
-      expect(image.owner).toEqual({ id: 1, name: 'User 1', home: 'user1'})
+      expect(image.owner).toEqual({ id: 1, name: 'User 1', home: 'user1' })
       expect(Date.now() - image.cdate).toBeLessThan(2000)
       expect(dateTimeStringFrom(new Date(image.cdate))).toBe(image.cdateStr)
       expect(image.vers).toBeNull()

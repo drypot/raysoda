@@ -1,4 +1,3 @@
-
 export function dupeOf(src: any) {
   if (!(src instanceof Object)) {
     return src
@@ -17,7 +16,7 @@ export function dupeOf(src: any) {
   if (src instanceof Date) {
     return new Date(src.getTime())
   }
-  const obj: any = { }
+  const obj: any = {}
   for (const [k, v] of Object.entries(src)) {
     if (v instanceof Object) {
       obj[k] = dupeOf(v)
