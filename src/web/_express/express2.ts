@@ -8,7 +8,7 @@ import * as http from 'http'
 import supertest from 'supertest'
 import { Config } from '../../config/config.js'
 import newMulter, { Multer } from 'multer'
-import { emptyDir, mkdirRecursive } from '../../lib/base/fs2.js'
+import { emptyDirSync, mkdirRecursiveSync } from '../../lib/base/fs2.js'
 import { unlinkSync } from 'fs'
 import { errorOf } from '../../lib/base/error2.js'
 
@@ -61,10 +61,14 @@ export class Express2 {
     return this
   }
 
-  private _useUpload = false
-
   useUpload() {
-    this._useUpload = true
+    if (!this.multer) {
+      if (!this.config.uploadDir) throw new Error('config.uploadDir should be defined')
+      const tmp = this.config.uploadDir + '/tmp'
+      mkdirRecursiveSync(tmp)
+      emptyDirSync(tmp)
+      this.multer = newMulter({ dest: tmp })
+    }
     return this
   }
 
@@ -84,9 +88,6 @@ export class Express2 {
     this.setUpBasicAPI()
     this.setUpRedirectToLoginHandler()
     this.setUpErrorHandler()
-    if (this._useUpload) {
-      await this.initMulter()
-    }
     return new Promise<Express2>((resolve) => {
       this.httpServer.listen(this.config.port, () => {
         resolve(this)
@@ -225,21 +226,11 @@ export class Express2 {
         }
       } else {
         r = {
-          err: [errorOf(err.name, err.message,err.stack)]
+          err: [errorOf(err.name, err.message, err.stack)]
         }
       }
       res.json(r)
     })
-  }
-
-  private async initMulter() {
-    if (!this.multer) {
-      if (!this.config.uploadDir) throw new Error('config.uploadDir should be defined')
-      const tmp = this.config.uploadDir + '/tmp'
-      await mkdirRecursive(tmp)
-      await emptyDir(tmp)
-      this.multer = newMulter({ dest: tmp })
-    }
   }
 
   get upload(): Multer {
