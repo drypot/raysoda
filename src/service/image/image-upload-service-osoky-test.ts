@@ -8,7 +8,6 @@ import { Error2 } from '../../lib/base/error2.js'
 import { IMAGE_SIZE, ImageUploadForm } from './form/image-form.js'
 import { identify } from '../../file/magick/magick2.js'
 import { imageUploadService } from './image-upload-service.js'
-import { dateNull } from '../../lib/base/date2.js'
 import { OsokyFileManager } from '../../file/osoky-fileman.js'
 
 describe('Image Upload Service with OsokyFileManager', () => {
@@ -53,7 +52,7 @@ describe('Image Upload Service with OsokyFileManager', () => {
       expect(err).toContain(IMAGE_SIZE)
     })
     it('upload 1', async () => {
-      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'sample/4096x2304.jpg', }
+      const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'sample/4096x2304.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
@@ -71,7 +70,7 @@ describe('Image Upload Service with OsokyFileManager', () => {
       expect(meta.height).toBe(2048)
     })
     it('upload 2', async () => {
-      const form: ImageUploadForm = { now: dateNull, comment: 'c2', file: 'sample/1280x720.jpg', }
+      const form: ImageUploadForm = { now: new Date(), comment: 'c2', file: 'sample/1280x720.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(2)

@@ -8,7 +8,6 @@ import { UserDB } from '../../db/user/user-db.js'
 import { DB } from '../../db/_db/db.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { imageUploadService } from './image-upload-service.js'
-import { dateNull } from '../../lib/base/date2.js'
 import { imageUpdateService } from './image-update-service.js'
 import { RapixelFileManager } from '../../file/rapixel-fileman.js'
 import { copyFile } from 'fs/promises'
@@ -53,7 +52,7 @@ describe('Image Update Service with RapixelFileManager', () => {
       // mogrify 가 소스를 업데이트한다.
       // tmp 로 복사해 놓고 쓴다.
       await copyFile('sample/5120x2880.jpg', 'tmp/5120x2880.jpg', constants.COPYFILE_FICLONE)
-      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'tmp/5120x2880.jpg', }
+      const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'tmp/5120x2880.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
@@ -62,7 +61,7 @@ describe('Image Update Service with RapixelFileManager', () => {
       const r = await idb.findImage(1)
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
-      expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
+      expect(Date.now() - r.cdate.getTime()).toBeLessThan(8000)
       expect(r.comment).toBe('c1')
       expect(r.vers).toEqual([5120, 4096, 2560, 1280])
     })
@@ -82,7 +81,7 @@ describe('Image Update Service with RapixelFileManager', () => {
       const r = await idb.findImage(1)
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
-      expect(Date.now() - r.cdate.getTime()).toBeLessThan(3000)
+      expect(Date.now() - r.cdate.getTime()).toBeLessThan(8000)
       expect(r.comment).toBe('c2')
       expect(r.vers).toEqual([4096, 2560, 1280])
     })

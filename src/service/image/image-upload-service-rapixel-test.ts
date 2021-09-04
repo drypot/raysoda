@@ -8,7 +8,6 @@ import { Error2 } from '../../lib/base/error2.js'
 import { IMAGE_SIZE, ImageUploadForm } from './form/image-form.js'
 import { identify } from '../../file/magick/magick2.js'
 import { imageUploadService } from './image-upload-service.js'
-import { dateNull } from '../../lib/base/date2.js'
 import { RapixelFileManager } from '../../file/rapixel-fileman.js'
 import { copyFile } from 'fs/promises'
 import { constants } from 'fs'
@@ -66,7 +65,7 @@ describe('Image Upload Service with RapixelFileManager', () => {
     })
     it('upload 1', async () => {
       await copyFile('sample/5120x2880.jpg', 'tmp/5120x2880.jpg', constants.COPYFILE_FICLONE)
-      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'tmp/5120x2880.jpg', }
+      const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'tmp/5120x2880.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
@@ -75,7 +74,7 @@ describe('Image Upload Service with RapixelFileManager', () => {
       const r = await idb.findImage(1)
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
-      expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
+      expect(Date.now() - r.cdate.getTime()).toBeLessThan(8000)
       expect(r.comment).toBe('c1')
       expect(r.vers).toEqual([5120, 4096, 2560, 1280])
     })
@@ -87,7 +86,7 @@ describe('Image Upload Service with RapixelFileManager', () => {
     })
     it('upload 2', async () => {
       await copyFile('sample/3840x2160.jpg', 'tmp/3840x2160.jpg', constants.COPYFILE_FICLONE)
-      const form: ImageUploadForm = { now: dateNull, comment: 'c2', file: 'tmp/3840x2160.jpg', }
+      const form: ImageUploadForm = { now: new Date(), comment: 'c2', file: 'tmp/3840x2160.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(2)
@@ -96,7 +95,7 @@ describe('Image Upload Service with RapixelFileManager', () => {
       const r = await idb.findImage(2)
       if (!r) throw new Error()
       expect(r.uid).toBe(1)
-      expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
+      expect(Date.now() - r.cdate.getTime()).toBeLessThan(8000)
       expect(r.comment).toBe('c2')
       expect(r.vers).toEqual([4096, 2560, 1280])
     })

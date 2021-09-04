@@ -8,7 +8,6 @@ import { UserDB } from '../../db/user/user-db.js'
 import { DB } from '../../db/_db/db.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { imageUploadService } from './image-upload-service.js'
-import { dateNull } from '../../lib/base/date2.js'
 import { imageUpdateService } from './image-update-service.js'
 import { OsokyFileManager } from '../../file/osoky-fileman.js'
 
@@ -48,7 +47,7 @@ describe('Image Update Service with OsokyFileManager', () => {
       await ifm.rmRoot()
     })
     it('upload', async () => {
-      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'sample/1280x720.jpg', }
+      const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'sample/1280x720.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)

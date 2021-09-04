@@ -8,7 +8,6 @@ import { Error2 } from '../../lib/base/error2.js'
 import { IMAGE_TYPE, ImageUploadForm } from './form/image-form.js'
 import { identify } from '../../file/magick/magick2.js'
 import { imageUploadService } from './image-upload-service.js'
-import { dateNull } from '../../lib/base/date2.js'
 import { DrypotFileManager } from '../../file/drypot-fileman.js'
 
 describe('Image Upload Service with DrypotFileManager', () => {
@@ -53,7 +52,7 @@ describe('Image Upload Service with DrypotFileManager', () => {
       expect(err).toContain(IMAGE_TYPE)
     })
     it('upload 1', async () => {
-      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'sample/svg-sample.svg', }
+      const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'sample/svg-sample.svg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)

@@ -9,7 +9,6 @@ import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { DB } from '../../db/_db/db.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { imageUploadService } from './image-upload-service.js'
-import { dateNull } from '../../lib/base/date2.js'
 import { imageUpdateService } from './image-update-service.js'
 
 describe('Image Update Service with RaySodaFileManager', () => {
@@ -48,7 +47,7 @@ describe('Image Update Service with RaySodaFileManager', () => {
       await ifm.rmRoot()
     })
     it('upload image', async () => {
-      const form: ImageUploadForm = { now: dateNull, comment: 'c1', file: 'sample/2560x1440.jpg', }
+      const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'sample/2560x1440.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)

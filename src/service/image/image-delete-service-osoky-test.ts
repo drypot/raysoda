@@ -6,7 +6,6 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { DB } from '../../db/_db/db.js'
-import { dateNull } from '../../lib/base/date2.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageDeleteService } from './image-delete-service.js'
@@ -48,7 +47,7 @@ describe('Image Delete Service with Osoky FileManager', () => {
       await ifm.rmRoot()
     })
     it('upload 1', async () => {
-      const form: ImageUploadForm = { now: dateNull, comment: 'c', file: 'sample/1280x720.jpg', }
+      const form: ImageUploadForm = { now: new Date(), comment: 'c', file: 'sample/1280x720.jpg', }
       const err: Error2[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
