@@ -17,6 +17,8 @@ Running following sites.
 
 ## History
 
+2021.09.04 서버 코드의 TypeScript, Jasmine 이전을 완료.
+
 2021.08.01 Front를 별도 리포지터리로 분리.
 
 2021.07.00 TypeScript, Jasmine 베이스로 변경 시작.
