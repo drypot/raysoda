@@ -1,20 +1,19 @@
-import { INVALID_DATA } from '../../lib/base/error2.js'
-import { configFrom } from '../../config/config.js'
-import { Express2 } from './express2.js'
+import { INVALID_DATA } from '../lib/base/error2.js'
+import { configFrom } from '../config/config.js'
+import { Express2 } from '../web/_express/express2.js'
 
 const config = configFrom('config/app-dev.json')
-const express = Express2.from(config)
-const router = express.router
+const web = Express2.from(config)
 
-router.get('/test/hello', (req, res) => {
+web.router.get('/test/hello', (req, res) => {
   res.send('<html><body><h1>Hello</h1></body></html>')
 })
 
-router.get('/test/system-error', function (req, res, done) {
+web.router.get('/test/system-error', function (req, res, done) {
   done(new Error('Error Sample'))
 })
 
-router.get('/test/form-error', function (req, res, done) {
+web.router.get('/test/form-error', function (req, res, done) {
   done(INVALID_DATA)
 })
 
@@ -28,7 +27,7 @@ process.on('SIGINT', function () {
   process.exit(1)
 })
 
-express.start().then(() => {
+web.start().then(() => {
   console.log('express: listening ' + config.port)
   const mainUrl = config.mainUrl
   console.log(mainUrl + '/test/hello')
