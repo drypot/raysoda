@@ -24,7 +24,7 @@ describe('ImageDB', () => {
       await idb.dropTable()
       await idb.createTable(false)
     })
-    it('find first image returns undefined', async () => {
+    it('find first image returns nothing', async () => {
       const r = await idb.findFirstImage()
       expect(r).toBeUndefined()
     })
