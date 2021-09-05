@@ -4,6 +4,7 @@ import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../service/user/form/user-
 import { Error2 } from '../../lib/base/error2.js'
 import { hasUpdatePerm, logoutCurrentSession, sessionUserFrom } from './user-login-api.js'
 import { userDeactivateService } from '../../service/user/user-deactivate-service.js'
+import { numberFrom } from '../../lib/base/primitive.js'
 
 export function registerUserDeactivateApi(web: Express2, udb: UserDB) {
 
@@ -14,7 +15,7 @@ export function registerUserDeactivateApi(web: Express2, udb: UserDB) {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
 
-    const id = parseInt(req.params.id) || 0
+    const id = numberFrom(req.params.id)
     if (!hasUpdatePerm(user, id)) throw NOT_AUTHORIZED
 
     const err: Error2[] = []

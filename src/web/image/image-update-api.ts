@@ -7,6 +7,7 @@ import { Request } from 'express'
 import { Error2 } from '../../lib/base/error2.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { checkImageUpdatable, imageUpdateService } from '../../service/image/image-update-service.js'
+import { numberFrom } from '../../lib/base/primitive.js'
 
 function imageUpdateFormFrom(req: Request) {
   return {
@@ -20,7 +21,7 @@ export function registerImageUpdateApi(web: Express2, idb: ImageDB, ifm: ImageFi
   web.router.put('/api/image/:id([0-9]+)', web.upload.single('file'), deleteUpload(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
-    const id = parseInt(req.params.id) || 0
+    const id = numberFrom(req.params.id)
     const form = imageUpdateFormFrom(req)
     const err: Error2[] = []
     const image = await idb.findImage(id)

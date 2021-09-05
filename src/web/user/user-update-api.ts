@@ -5,15 +5,16 @@ import { NOT_AUTHENTICATED, NOT_AUTHORIZED, UserUpdateForm } from '../../service
 import { Error2 } from '../../lib/base/error2.js'
 import { userUpdateService } from '../../service/user/user-update-service.js'
 import { Request } from 'express'
+import { numberFrom, stringFrom } from '../../lib/base/primitive.js'
 
 export function userUpdateFormFrom(req: Request) {
   const body = req.body
   return {
-    name: String(body.name ?? '').trim(),
-    home: String(body.home ?? '').trim(),
-    email: String(body.email ?? '').trim(),
-    password: String(body.password ?? '').trim(),
-    profile: String(body.profile ?? '').trim(),
+    name: stringFrom(body.name).trim(),
+    home: stringFrom(body.home).trim(),
+    email: stringFrom(body.email).trim(),
+    password: stringFrom(body.password).trim(),
+    profile: stringFrom(body.profile).trim(),
   } as UserUpdateForm
 }
 
@@ -24,7 +25,7 @@ export function registerUserUpdateApi(web: Express2, udb: UserDB) {
   router.put('/api/user/:id([0-9]+)', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
-    const id = parseInt(req.params.id) || 0
+    const id = numberFrom(req.params.id)
     if (!hasUpdatePerm(user, id)) throw NOT_AUTHORIZED
     const form = userUpdateFormFrom(req)
     const err: Error2[] = []

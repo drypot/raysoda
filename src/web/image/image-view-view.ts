@@ -5,12 +5,13 @@ import { ImageFileManager } from '../../file/fileman.js'
 import { imageViewService } from '../../service/image/image-view-service.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { sessionUserFrom } from '../user/user-login-api.js'
+import { numberFrom } from '../../lib/base/primitive.js'
 
 export function registerImageView(web: Express2, udb: UserDB, idb: ImageDB, ifm: ImageFileManager) {
 
   web.router.get('/images/:id([0-9]+)', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
-    const id = parseInt(req.params.id) || 0
+    const id = numberFrom(req.params.id)
     const err: Error2[] = []
     const image = await imageViewService(udb, idb, ifm, id, err)
     if (err.length) throw err

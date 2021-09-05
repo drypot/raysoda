@@ -2,6 +2,7 @@ import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
 import { hasUpdatePerm, sessionUserFrom } from './user-login-api.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../service/user/form/user-form.js'
+import { numberFrom } from '../../lib/base/primitive.js'
 
 export function registerUserUpdateView(web: Express2, udb: UserDB) {
 
@@ -10,7 +11,7 @@ export function registerUserUpdateView(web: Express2, udb: UserDB) {
   router.get('/user/:id([0-9]+)/update', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
-    const id = parseInt(req.params.id) || 0
+    const id = numberFrom(req.params.id)
     if (!hasUpdatePerm(user, id)) throw NOT_AUTHORIZED
     const user2 = await udb.getCachedById(id)
     res.render('user/pug/user-update-view', {

@@ -8,13 +8,14 @@ import {
   pwResetSendMailService,
   pwResetSetPasswordService
 } from '../../service/user/pwreset-service.js'
+import { stringFrom } from '../../lib/base/primitive.js'
 
 export function registerPwResetApi(web: Express2, udb: UserDB, resetDB: PwResetDB, mailer: Mailer) {
 
   const router = web.router
 
   router.post('/api/password-reset/send-mail', toCallback(async (req, res) => {
-    const email = String(req.body.email || '').trim()
+    const email = stringFrom(req.body.email).trim()
     const err: Error2[] = []
     await pwResetSendMailService(mailer, udb, resetDB, email, err)
     if (err.length) throw err
@@ -23,9 +24,9 @@ export function registerPwResetApi(web: Express2, udb: UserDB, resetDB: PwResetD
 
   router.post('/api/password-reset/set-password', toCallback(async (req, res) => {
     const form: NewPasswordForm = {
-      uuid: String(req.body.uuid || '').trim(),
-      token: String(req.body.token || '').trim(),
-      password: String(req.body.password || '').trim()
+      uuid: stringFrom(req.body.uuid).trim(),
+      token: stringFrom(req.body.token).trim(),
+      password: stringFrom(req.body.password).trim()
     }
     const err: Error2[] = []
     await pwResetSetPasswordService(udb, resetDB, form, err)

@@ -6,13 +6,14 @@ import { NOT_AUTHENTICATED } from '../../service/user/form/user-form.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { checkImageUpdatable } from '../../service/image/image-update-service.js'
 import { imageDeleteService } from '../../service/image/image-delete-service.js'
+import { numberFrom } from '../../lib/base/primitive.js'
 
 export function registerImageDeleteApi(web: Express2, idb: ImageDB, ifm: ImageFileManager) {
 
   web.router.delete('/api/image/:id([0-9]+)', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
-    const id = parseInt(req.params.id) || 0
+    const id = numberFrom(req.params.id)
     const err: Error2[] = []
     const image = await idb.findImage(id)
     await checkImageUpdatable(user, image, err)

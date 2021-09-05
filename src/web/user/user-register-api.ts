@@ -4,13 +4,14 @@ import { userRegisterService } from '../../service/user/user-register-service.js
 import { Request } from 'express'
 import { UserRegisterForm } from '../../service/user/form/user-form.js'
 import { Error2 } from '../../lib/base/error2.js'
+import { stringFrom } from '../../lib/base/primitive.js'
 
 export function userRegisterFormFrom(req: Request) {
   const body = req.body
   return {
-    name: String(body.name ?? '').trim(),
-    email: String(body.email ?? '').trim(),
-    password: String(body.password ?? '').trim(),
+    name: stringFrom(body.name).trim(),
+    email: stringFrom(body.email).trim(),
+    password: stringFrom(body.password).trim(),
   } as UserRegisterForm
 }
 

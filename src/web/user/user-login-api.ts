@@ -11,6 +11,7 @@ import {
 import { Error2 } from '../../lib/base/error2.js'
 import { User } from '../../entity/user-entity.js'
 import { checkHash } from '../../lib/base/hash.js'
+import { stringFrom } from '../../lib/base/primitive.js'
 
 export function registerUserLoginApi(web: Express2, udb: UserDB) {
 
@@ -34,8 +35,8 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
   }))
 
   router.post('/api/user/login', toCallback(async (req, res) => {
-    const email = String(req.body.email || '').trim()
-    const password = String(req.body.password || '').trim()
+    const email = stringFrom(req.body.email).trim()
+    const password = stringFrom(req.body.password).trim()
     const remember = !!req.body.remember
     const err: Error2[] = []
     const user = await findUserByEmailPassword(email, password, err)
