@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+DIST_DIR=dist/src
+
 function show_usage {
     echo "usage: bin/send-test-reset-mail user1@mail.test"
     exit 1
@@ -9,4 +11,4 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-node dist/script/send-test-reset-mail-script.js "$@"
+node $DIST_DIR/script/send-test-reset-mail-script.js "$@"

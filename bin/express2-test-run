@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-node dist/script/run-express2.js
+DIST_DIR=dist/src
+node $DIST_DIR/script/run-express2.js

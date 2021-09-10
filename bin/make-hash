@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+DIST_DIR=dist/src
+
 function show_usage {
     echo "bin/make-hash <password>"
     exit 1
@@ -9,4 +11,4 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-node dist/lib/base/hash-script.js $1
+node $DIST_DIR/lib/base/hash-script.js $1
