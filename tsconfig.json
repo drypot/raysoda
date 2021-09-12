@@ -2,21 +2,34 @@
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "target": "es2018", // async iterators
+    "module": "es2015",
 
-    // 이 옵션을 켜지 않으면
-    // import * as express from 'express' 식으로만 연결 가능하다.
-    // 이러면 express() 식으로 실행시 에러가 난다.
-    // 이 옵션을 켜면
-    // import express from 'express' 식으로 연결할 수 있다.
-    // express() 식으로 실행할 수 있다.
-    "allowSyntheticDefaultImports": true,
+    // Node 프로젝트라면 무조건 "Node" 여야 한다.
+    // Node 방식을 쓰지 않을 수 없다.
+    "moduleResolution": "Node",
+
+    // 컴파일러가 기본 제공하는 타입셋을 지정한다.
+    // "lib": [],
+
+    // TypeScript 가 import 를 require 로 변환해서 출력할 시절에는
+    // esModuleInterop 을 켜서 모듈 방식간 호환성을 올려야 했다.
+    // 이 옵션을 켜면 require 한 결과물을 한번 감싼다.
+
+    // 하지만 module: es2015 를 하면 require를 안 쓰고 import 로 출력한다.
+    // 이러면 호환성 문제는 Node 가 처리하기 때문에 이 옵션의 의미가 없어졌다.
+
+    // 하지만 allowSyntheticDefaultImports 는 그래도 켜야하는데
+    // esModuleInterop 을 켜면 allowSyntheticDefaultImports 가 켜지므로
+    // 겸사겸사 esModuleInterop 을 켜는 것이 무난하지 않은가 싶다.
+    "esModuleInterop": true,
+
+    // esModuleInterop 을 켤 경우 자동으로 켜진다.
+    // CommonJS 모듈에 default 가 없어도 오류를 내지 않는다.
+    //"allowSyntheticDefaultImports": true,
 
     // js 파일이 출력될 디렉토리.
     "outDir": "dist",
-    "sourceMap": true,
 
     // 소스 파일의 루트를 어디로 볼 것인가를 결정한다.
     // outDir 디렉토리에 사용할 서브 패스에 영향을 준다.
@@ -28,23 +41,15 @@
     // dist/src/.../*.js 를 실행하도록 했다.
     "rootDir": ".",
 
-    "target": "es2018", // async iterators
-    "module": "es2015",
-
-    // "Node" 또는 "Classic"
-    // Node 프로젝트라면 무조건 "Node" 여야 한다.
-    // Node 방식을 쓰지 않을 수 없다.
-    "moduleResolution": "Node",
-
-    //"esModuleInterop": true,
-
-    "lib": [],
-
     // 절대경로 import 는 TypeScript 까진 가능하다.
     // 하지만 번들러를 동원하지 않고는 출력된 js 를 실행시킬 방법이 없다.
     // 그냥 상대경로 import 를 사용하도록 한다.
     // "baseUrl": "./"
 
+    "sourceMap": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
   },
   "include": [
     "src/**/*.ts"
