@@ -2,15 +2,15 @@
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
-    "target": "es2018", // async iterators
-    "module": "es2015",
+    "target": "esnext", // async iterators
+    "module": "esnext",
 
     // Node 프로젝트라면 무조건 "Node" 여야 한다.
     // Node 방식을 쓰지 않을 수 없다.
     "moduleResolution": "Node",
 
     // 컴파일러가 기본 제공하는 타입셋을 지정한다.
-    // "lib": [],
+    "lib": ["esnext"],
 
     // TypeScript 가 import 를 require 로 변환해서 출력할 시절에는
     // esModuleInterop 을 켜서 모듈 방식간 호환성을 올려야 했다.
