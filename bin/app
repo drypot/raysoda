@@ -1,25 +1,17 @@
 #!/usr/bin/env bash
 
-DIST_DIR=dist/src
 
 function show_usage {
-    echo "bin/app [raysoda|rapixel|osoky|drypot] [dev|live]"
+    echo "bin/app [raysoda|rapixel|osoky|drypot]"
     exit 1
 }
 
-if [ $# -lt 2 ]; then
+if [ $# -lt 1 ]; then
     show_usage
 fi
 
-if [ "$2" = dev ]; then
-    CONFIG_DIR=config
-    export NODE_ENV=development
-elif [ "$2" = live ]; then
-    CONFIG_DIR=config-live
-    export NODE_ENV=production
-else
-    show_usage
-fi
+DIST_DIR=dist/src
+export NODE_ENV=development
 
 set -o xtrace
-node $DIST_DIR/script/run-app.js ${CONFIG_DIR}/${1}-${2}.json
+node $DIST_DIR/script/run-app.js config/${1}-dev.json
