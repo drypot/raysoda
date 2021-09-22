@@ -40,7 +40,7 @@ describe('UserLoginApi', () => {
       await insertUserFix4(udb)
     })
     it('get session script', async () => {
-      const res = await request.get('/api/session-script').expect(200)
+      const res = await request.get('/api/session-init-script').expect(200)
       expect(res.type).toBe('application/javascript')
       expect(res.text).toBe(
         `const _config = {}\n` +
@@ -58,7 +58,7 @@ describe('UserLoginApi', () => {
       expect(res.body.user.id).toBe(1)
     })
     it('get session script after login', async () => {
-      const res = await request.get('/api/session-script').expect(200)
+      const res = await request.get('/api/session-init-script').expect(200)
       expect(res.type).toBe('application/javascript')
       expect(res.text).toBe(
         `const _config = {}\n` +
