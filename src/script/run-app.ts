@@ -93,6 +93,7 @@ async function main() {
   web.start().then(() => {
     //console.log(config)
     console.log('server started.')
+    console.log('http://localhost:' + config.port)
     console.log(config.mainUrl)
   })
 }
