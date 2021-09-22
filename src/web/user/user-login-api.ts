@@ -34,7 +34,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
     })
   }))
 
-  router.get('/api/user/session-script', toCallback(async function (req, res) {
+  router.get('/api/session-script', toCallback(async function (req, res) {
     const config = web.config
     const user = res.locals.user
     const script =
