@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 
-export type Config = {
+export interface Config {
   appName: string
   appNamel: string
   appDesc: string
