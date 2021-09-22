@@ -5,7 +5,7 @@
   "appNamel": "raysoda",
   "appDesc": "One day, one photo.",
 
-  "port": 8050,
+  "port": 2400,
   "cookieSecret": "o;iejf832ndvs",
   "uploadDir": "upload/raysoda",
 

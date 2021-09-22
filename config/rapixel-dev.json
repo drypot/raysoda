@@ -5,7 +5,7 @@
   "appNamel": "rapixel",
   "appDesc": "4K images",
 
-  "port": 8020,
+  "port": 2400,
   "cookieSecret": "o;iejf832ndvs",
   "uploadDir": "upload/rapixel",
 

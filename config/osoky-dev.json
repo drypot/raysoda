@@ -5,7 +5,7 @@
   "appNamel": "osoky",
   "appDesc": "Your randos",
 
-  "port": 8030,
+  "port": 2400,
   "cookieSecret": "o;iejf832ndvs",
   "uploadDir": "upload/osoky",
 

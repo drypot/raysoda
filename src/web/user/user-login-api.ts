@@ -34,6 +34,21 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
     })
   }))
 
+  router.get('/api/user/session-script', toCallback(async function (req, res) {
+    const config = web.config
+    const user = res.locals.user
+    const script =
+      `const _config = {}\n` +
+      `_config.appName = '${config.appName}'\n` +
+      `_config.appNamel = '${config.appNamel}'\n` +
+      `_config.appDesc = '${config.appDesc}'\n` +
+      `_config.mainUrl = '${config.mainUrl}'\n` +
+      `_config.uploadUrl = '${config.uploadUrl}'\n` +
+      `const _user = ` + (user ? JSON.stringify({ id: user.id, name: user.name, home: user.home }) : 'undefined') + '\n'
+    res.type('.js')
+    res.send(script)
+  }))
+
   router.post('/api/user/login', toCallback(async (req, res) => {
     const email = stringFrom(req.body.email).trim()
     const password = stringFrom(req.body.password).trim()
