@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+function show_usage {
+    echo "bin/app-live [raysoda|rapixel|osoky|drypot]"
+    exit 1
+}
+
+if [ $# -lt 1 ]; then
+    show_usage
+fi
+
+DIST_DIR=dist/src
+export NODE_ENV=production
+
+set -o xtrace
+node $DIST_DIR/script/run-app.js config-live/${1}-live.json
