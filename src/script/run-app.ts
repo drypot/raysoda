@@ -30,6 +30,7 @@ import { CounterDB } from '../db/counter/counter-db.js'
 import { registerBannerApi } from '../web/banner/banner-api.js'
 import { BannerDB } from '../db/banner/banner-db.js'
 import { registerAboutApi } from '../web/about/about-api.js'
+import { registerSessionInitScript } from '../web/aux/session-init-script.js'
 
 async function main() {
   const config = configFrom(process.argv[2])
@@ -69,6 +70,8 @@ async function main() {
   registerAboutApi(web)
   registerCounterApi(web, cdb)
   registerBannerApi(web, bdb)
+
+  registerSessionInitScript(web, bdb)
   registerRedirect(web)
 
   registerUserXApi(web, udb, idb, ifm)
