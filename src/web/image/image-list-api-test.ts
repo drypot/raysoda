@@ -69,6 +69,17 @@ describe('Image List Api', () => {
       ]
       await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
     })
+    it('p 1, ps 1', async () => {
+      const res = await request.get('/api/image?p=1&ps=1').expect(200)
+      const r = res.body.list
+      expect(r).toEqual([{
+        id: 10,
+        owner: { id: 1, name: 'User 1', home: 'user1' },
+        cdateStr: '2003-10-10 00:00:00',
+        comment: '10',
+        thumbUrl: 'http://file.raysoda.test:8080/images/0/0/10.jpg'
+      }])
+    })
     it('p 1, ps 128', async () => {
       const res = await request.get('/api/image').expect(200)
       const r = res.body.list
