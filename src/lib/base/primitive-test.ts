@@ -1,6 +1,6 @@
-import { limitNumber, numberFrom, stringFrom } from './primitive.js'
+import { limitNumber, limitNumber2, numberFrom, stringFrom } from './primitive.js'
 
-describe('putInRange', () => {
+describe('limitNumber', () => {
   it('check', () => {
     expect(limitNumber(10, 1, 100)).toBe(10)
     expect(limitNumber(-10, 1, 100)).toBe(1)
@@ -36,6 +36,15 @@ describe('numberFrom', () => {
   it('check from undefined', () => {
     expect(numberFrom(undefined)).toBe(0)
     expect(numberFrom(undefined, 3)).toBe(3)
+  })
+})
+
+describe('limitNumber2', () => {
+  it('check', () => {
+    expect(limitNumber2(null, 10, 1, 100)).toBe(10)
+    expect(limitNumber2('null', 10, 1, 100)).toBe(10)
+    expect(limitNumber2('20', 10, 1, 100)).toBe(20)
+    expect(limitNumber2('200', 10, 1, 100)).toBe(100)
   })
 })
 
