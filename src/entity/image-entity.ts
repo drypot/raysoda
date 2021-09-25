@@ -22,3 +22,16 @@ export function imageOf(params?: Partial<Image>): Image {
     ...params
   }
 }
+
+export interface ImageListItem {
+  id: number
+  owner: {
+    id: number
+    name: string
+    home: string
+  }
+  cdateStr: string
+  vers: number[] | string | null
+  comment: string
+  thumbUrl: string
+}

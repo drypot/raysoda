@@ -77,6 +77,7 @@ describe('Image List Api', () => {
         owner: { id: 1, name: 'User 1', home: 'user1' },
         cdateStr: '2003-10-10 00:00:00',
         comment: '10',
+        vers: null,
         thumbUrl: 'http://file.raysoda.test:8080/images/0/0/10.jpg'
       }])
     })
@@ -111,11 +112,20 @@ describe('Image List Api', () => {
       expect(r[1].id).toBe(1)
     })
     it('d 20030607, ps 4', async () => {
-      const res = await request.get('/api/image?d=20030607&ps=4').expect(200)
+      const res = await request.get('/api/image?d=2003-06-07&ps=4').expect(200)
       const r = res.body.list
       expect(r.length).toBe(4)
       expect(r[0].id).toBe(6)
       expect(r[3].id).toBe(3)
+    })
+    it('d null', async () => {
+      const res = await request.get('/api/image?d=null').expect(200)
+      const r = res.body.list
+      expect(r.length).toBe(10)
+      expect(r[0].id).toBe(10)
+      expect(r[1].id).toBe(9)
+      expect(r[2].id).toBe(8)
+      expect(r[9].id).toBe(1)
     })
   })
 
