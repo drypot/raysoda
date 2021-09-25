@@ -6,9 +6,20 @@ export function today() {
   return d
 }
 
-export function dateFrom(s: string) {
-  const d = new Date(s)
-  d.setHours(0, 0, 0, 0)
+export function dateTimeFrom(s: string | null | undefined) {
+  if (!s) {
+    return null
+  }
+  const dts = Date.parse(s)
+  if (isNaN(dts)) {
+    return null
+  }
+  return new Date(dts)
+}
+
+export function dateFrom(s: string | null | undefined) {
+  const d = dateTimeFrom(s)
+  if (d) d.setHours(0, 0, 0, 0)
   return d
 }
 
