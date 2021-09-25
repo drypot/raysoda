@@ -32,13 +32,10 @@ export function imageHeadFrom(owner: User, ifm: ImageFileManager, image: Image) 
 }
 
 export async function imageHeadListFrom(udb: UserDB, ifm: ImageFileManager, imageL: Image[]) {
-  const hl: ImageHead[] = []
-  for (const image of imageL) {
+  return await Promise.all(imageL.map(async image => {
     const owner = await udb.getCachedById(image.uid)
-    const head = imageHeadFrom(owner as User, ifm, image)
-    hl.push(head)
-  }
-  return hl
+    return imageHeadFrom(owner as User, ifm, image)
+  }))
 }
 
 export async function imageListService(
