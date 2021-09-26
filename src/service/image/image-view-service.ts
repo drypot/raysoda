@@ -5,23 +5,7 @@ import { IMAGE_NOT_EXIST } from './form/image-form.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { dateTimeStringFrom } from '../../lib/base/date2.js'
 import { User } from '../../entity/user.js'
-import { Image } from '../../entity/image.js'
-
-export interface ImageView {
-  id: number
-  owner: {
-    id: number
-    name: string
-    home: string
-  }
-  cdate: number
-  cdateStr: string
-  vers: number[] | string | null
-  comment: string
-  dirUrl: string
-  thumbUrl: string
-  updatable: boolean
-}
+import { Image, ImageDetail } from '../../entity/image.js'
 
 export function imageViewFrom(owner: User, ifm: ImageFileManager, image: Image) {
   return {
@@ -38,7 +22,7 @@ export function imageViewFrom(owner: User, ifm: ImageFileManager, image: Image) 
     dirUrl: ifm.getDirUrlFor(image.id),
     thumbUrl: ifm.getThumbUrlFor(image.id),
     updatable: false
-  } as ImageView
+  } as ImageDetail
 }
 
 export async function imageViewService(

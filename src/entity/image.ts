@@ -23,19 +23,6 @@ export function imageOf(params?: Partial<Image>): Image {
   }
 }
 
-export type ImageListItem = {
-  id: number
-  owner: {
-    id: number
-    name: string
-    home: string
-  }
-  cdateStr: string
-  vers: number[] | string | null
-  comment: string
-  thumbUrl: string
-}
-
 export type ImageMeta = {
   format: string | undefined
   width: number
@@ -56,4 +43,34 @@ export function imageMetaOf(params?: Partial<ImageMeta>): ImageMeta {
 export type WidthHeight = {
   width: number
   height: number
+}
+
+export type ImageListItem = {
+  id: number
+  owner: {
+    id: number
+    name: string
+    home: string
+  }
+  cdateStr: string
+  vers: number[] | string | null
+  comment: string
+  thumbUrl: string
+}
+
+
+export type ImageDetail = {
+  id: number
+  owner: {
+    id: number
+    name: string
+    home: string
+  }
+  cdate: number
+  cdateStr: string
+  vers: number[] | string | null
+  comment: string
+  dirUrl: string
+  thumbUrl: string
+  updatable: boolean
 }

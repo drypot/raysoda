@@ -13,7 +13,7 @@ import { registerImageViewApi } from './image-view-api.js'
 import { AdminLogin, loginForTest, logoutForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
 import { IMAGE_NOT_EXIST } from '../../service/image/form/image-form.js'
 import { dateTimeStringFrom } from '../../lib/base/date2.js'
-import { ImageView } from '../../service/image/image-view-service.js'
+import { ImageDetail } from '../../entity/image.js'
 
 describe('Image View Api', () => {
 
@@ -81,7 +81,7 @@ describe('Image View Api', () => {
     })
     it('get image', async () => {
       const res = await request.get('/api/image/1').expect(200)
-      const image = res.body.image as ImageView
+      const image = res.body.image as ImageDetail
       // image: {
       //   id: 1,
       //   owner: { id: 1, name: 'User 1', home: 'user1' },
