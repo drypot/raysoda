@@ -1,6 +1,6 @@
 import { Config } from '../../config/config.js'
 import { DB } from '../_db/db.js'
-import { Image } from '../../entity/image-entity.js'
+import { Image } from '../../entity/image.js'
 
 export class ImageDB {
 

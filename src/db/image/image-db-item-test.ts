@@ -1,7 +1,7 @@
 import { Config, configFrom } from '../../config/config.js'
 import { DB } from '../_db/db.js'
 import { ImageDB } from './image-db.js'
-import { imageOf } from '../../entity/image-entity.js'
+import { imageOf } from '../../entity/image.js'
 import { dupeOf } from '../../lib/base/object2.js'
 import { dateNull } from '../../lib/base/date2.js'
 

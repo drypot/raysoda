@@ -3,8 +3,8 @@ import { ImageFileManager } from './fileman.js'
 import { Error2 } from '../lib/base/error2.js'
 import { IMAGE_TYPE } from '../service/image/form/image-form.js'
 import { existsSync } from 'fs'
-import { imageMetaOf } from '../entity/image-meta.js'
 import { DrypotFileManager } from './drypot-fileman.js'
+import { imageMetaOf } from '../entity/image.js'
 
 describe('DrypotFileManager', () => {
 

@@ -1,8 +1,8 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { Image, ImageListItem } from '../../entity/image-entity.js'
-import { User } from '../../entity/user-entity.js'
+import { Image, ImageListItem } from '../../entity/image.js'
+import { User } from '../../entity/user.js'
 import { dateTimeStringFrom } from '../../lib/base/date2.js'
 
 export function imageListItemFrom(owner: User, ifm: ImageFileManager, image: Image) {

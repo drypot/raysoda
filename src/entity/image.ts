@@ -1,6 +1,6 @@
 import { dateNull } from '../lib/base/date2.js'
 
-export interface Image {
+export type Image = {
   id: number
   uid: number
   cdate: Date
@@ -23,7 +23,7 @@ export function imageOf(params?: Partial<Image>): Image {
   }
 }
 
-export interface ImageListItem {
+export type ImageListItem = {
   id: number
   owner: {
     id: number
@@ -34,4 +34,26 @@ export interface ImageListItem {
   vers: number[] | string | null
   comment: string
   thumbUrl: string
+}
+
+export type ImageMeta = {
+  format: string | undefined
+  width: number
+  height: number
+  shorter: number
+}
+
+export function imageMetaOf(params?: Partial<ImageMeta>): ImageMeta {
+  return {
+    format: undefined,
+    width: 0,
+    height: 0,
+    shorter: 0,
+    ...params
+  }
+}
+
+export type WidthHeight = {
+  width: number
+  height: number
 }

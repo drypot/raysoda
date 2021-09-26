@@ -4,8 +4,8 @@ import { Error2 } from '../lib/base/error2.js'
 import { IMAGE_SIZE } from '../service/image/form/image-form.js'
 import { identify } from './magick/magick2.js'
 import { existsSync } from 'fs'
-import { imageMetaOf } from '../entity/image-meta.js'
 import { OsokyFileManager } from './osoky-fileman.js'
+import { imageMetaOf } from '../entity/image.js'
 
 describe('OsokyFileManager', () => {
 

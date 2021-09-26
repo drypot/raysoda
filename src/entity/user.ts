@@ -1,6 +1,6 @@
 import { dateNull } from '../lib/base/date2.js'
 
-export interface User {
+export type User = {
   id: number
   name: string
   home: string

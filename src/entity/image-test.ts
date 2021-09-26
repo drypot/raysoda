@@ -1,7 +1,7 @@
-import { imageOf } from './image-entity.js'
+import { imageOf } from './image.js'
 import { dateNull } from '../lib/base/date2.js'
 
-describe('Image Entity', () => {
+describe('Image', () => {
 
   it('create', () => {
     const image = imageOf()

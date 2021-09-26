@@ -4,8 +4,8 @@ import { ImageFileManager } from '../../file/fileman.js'
 import { IMAGE_NOT_EXIST } from './form/image-form.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { dateTimeStringFrom } from '../../lib/base/date2.js'
-import { User } from '../../entity/user-entity.js'
-import { Image } from '../../entity/image-entity.js'
+import { User } from '../../entity/user.js'
+import { Image } from '../../entity/image.js'
 
 export interface ImageView {
   id: number

@@ -8,7 +8,7 @@ import {
   checkPasswordFormat,
   UserRegisterForm
 } from './form/user-form.js'
-import { userOf } from '../../entity/user-entity.js'
+import { userOf } from '../../entity/user.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { makeHash } from '../../lib/base/hash.js'

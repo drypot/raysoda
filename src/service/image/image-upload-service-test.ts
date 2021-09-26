@@ -4,7 +4,7 @@ import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { leftTicket } from './image-upload-service.js'
-import { imageOf } from '../../entity/image-entity.js'
+import { imageOf } from '../../entity/image.js'
 
 describe('Image Service', () => {
 

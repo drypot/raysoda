@@ -1,4 +1,4 @@
-import { userOf } from './user-entity.js'
+import { userOf } from './user.js'
 
 describe('User Entity', () => {
 

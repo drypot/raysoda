@@ -6,8 +6,8 @@ import { IMAGE_SIZE, IMAGE_TYPE } from '../service/image/form/image-form.js'
 import { mkdirRecursive, rmRecursive } from '../lib/base/fs2.js'
 import { exec2 } from '../lib/base/exec2.js'
 import { unlink } from 'fs/promises'
-import { ImageMeta } from '../entity/image-meta.js'
 import { identify } from './magick/magick2.js'
+import { ImageMeta } from '../entity/image.js'
 
 const maxWidth = 2048
 

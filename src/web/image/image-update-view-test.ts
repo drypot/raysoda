@@ -9,7 +9,7 @@ import { registerUserLoginApi } from '../user/user-login-api.js'
 import { loginForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
 import { registerImageUpdateView } from './image-update-view.js'
 import { IMAGE_NOT_EXIST } from '../../service/image/form/image-form.js'
-import { imageOf } from '../../entity/image-entity.js'
+import { imageOf } from '../../entity/image.js'
 
 describe('Image Update View', () => {
 

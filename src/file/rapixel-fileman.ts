@@ -5,8 +5,8 @@ import { deepPathOf } from '../lib/base/deeppath.js'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../service/image/form/image-form.js'
 import { emptyDir, mkdirRecursive, rmRecursive } from '../lib/base/fs2.js'
 import { exec2 } from '../lib/base/exec2.js'
-import { ImageMeta, WidthHeight } from '../entity/image-meta.js'
 import { identify, mogrifyAutoOrient } from './magick/magick2.js'
+import { ImageMeta, WidthHeight } from '../entity/image.js'
 
 const _minWidth = 3840
 const _minHeight = 2160

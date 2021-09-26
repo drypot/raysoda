@@ -9,7 +9,7 @@ import {
   PASSWORD_WRONG
 } from '../../service/user/form/user-form.js'
 import { Error2 } from '../../lib/base/error2.js'
-import { User } from '../../entity/user-entity.js'
+import { User } from '../../entity/user.js'
 import { checkHash } from '../../lib/base/hash.js'
 import { stringFrom } from '../../lib/base/primitive.js'
 

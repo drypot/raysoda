@@ -2,7 +2,7 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { Error2 } from '../../lib/base/error2.js'
 import { IMAGE_NO_FILE, ImageUploadForm } from './form/image-form.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { Image } from '../../entity/image-entity.js'
+import { Image } from '../../entity/image.js'
 import { UserDB } from '../../db/user/user-db.js'
 
 export async function leftTicket(idb: ImageDB, uid: number, now: Date) {
