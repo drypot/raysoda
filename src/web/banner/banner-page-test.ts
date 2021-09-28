@@ -53,18 +53,18 @@ describe('Banner View', () => {
       await vdb.createTable()
     })
     it('banner-update fails if anonymous', async () => {
-      await request.get('/banner-update').expect(302).expect('Location', '/user/login')
+      await request.get('/banner-update').expect(302).expect('Location', '/user-login')
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)
     })
     it('banner-update fails if user', async () => {
-      await request.get('/banner-update').expect(302).expect('Location', '/user/login')
+      await request.get('/banner-update').expect(302).expect('Location', '/user-login')
     })
     it('login as admin', async () => {
       await loginForTest(request, AdminLogin)
     })
-    it('/banner-update', async () => {
+    it('banner-update', async () => {
       await request.get('/banner-update').expect(200).expect(/<title>Update Banners/)
     })
   })

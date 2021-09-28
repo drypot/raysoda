@@ -12,7 +12,7 @@ export function registerBannerApi(web: Express2, bdb: BannerDB) {
     res.json({ banner })
   }))
 
-  router.put('/api/banner', toCallback(async (req, res) => {
+  router.put('/api/banner-update', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     if (!user.admin) throw NOT_AUTHORIZED

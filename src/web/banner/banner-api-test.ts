@@ -64,7 +64,7 @@ describe('Banner Api', () => {
       const form = {
         banner: []
       }
-      const res = await request.put('/api/banner').send(form).expect(200)
+      const res = await request.put('/api/banner-update').send(form).expect(200)
       expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
     it('login as admin', async () => {
@@ -78,7 +78,7 @@ describe('Banner Api', () => {
           { text: 'text3', url: 'url3' },
         ]
       }
-      const res = await request.put('/api/banner').send(form).expect(200)
+      const res = await request.put('/api/banner-update').send(form).expect(200)
       expect(res.body).toEqual({})
     })
     it('logout', async () => {
