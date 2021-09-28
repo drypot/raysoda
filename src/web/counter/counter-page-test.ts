@@ -7,9 +7,9 @@ import { registerUserLoginApi } from '../user/user-login-api.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { CounterDB } from '../../db/counter/counter-db.js'
 import { AdminLogin, loginForTest, User1Login } from '../user/user-login-api-fixture.js'
-import { registerCounterView } from './counter-view.js'
+import { registerCounterPage } from './counter-page.js'
 
-describe('Counter Api', () => {
+describe('Counter Page', () => {
 
   let config: Config
 
@@ -29,7 +29,7 @@ describe('Counter Api', () => {
 
     web = await Express2.from(config).start()
     registerUserLoginApi(web, udb)
-    registerCounterView(web)
+    registerCounterPage(web)
     request = web.spawnRequest()
   })
 
@@ -46,21 +46,21 @@ describe('Counter Api', () => {
 
   describe('counter pages', () => {
 
-    describe('/support/counter', () => {
+    describe('/counter-list', () => {
       it('fails if anonymous', async () => {
-        await request.get('/support/counter').expect(302).expect('Location', '/user/login')
+        await request.get('/counter-list').expect(302).expect('Location', '/user/login')
       })
       it('login as user', async () => {
         await loginForTest(request, User1Login)
       })
       it('fails if user', async () => {
-        await request.get('/support/counter').expect(302).expect('Location', '/user/login')
+        await request.get('/counter-list').expect(302).expect('Location', '/user/login')
       })
       it('login as admin', async () => {
         await loginForTest(request, AdminLogin)
       })
       it('works', async () => {
-        await request.get('/support/counter').expect(200).expect(/<title>Counter/)
+        await request.get('/counter-list').expect(200).expect(/<title>Counter/)
       })
     })
 
