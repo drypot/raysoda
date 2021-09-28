@@ -7,11 +7,11 @@ import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { registerUserLoginApi } from '../user/user-login-api.js'
 import { loginForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
-import { registerImageUpdateView } from './image-update-view.js'
-import { imageOf } from '../../entity/image.js'
+import { registerImageUpdatePage } from './image-update-page.js'
+import { imageOf } from '../../core/image.js'
 import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
 
-describe('Image Update View', () => {
+describe('Image Update Page', () => {
 
   let config: Config
 
@@ -31,7 +31,7 @@ describe('Image Update View', () => {
 
     web = await Express2.from(config).start()
     registerUserLoginApi(web, udb)
-    registerImageUpdateView(web, udb, idb)
+    registerImageUpdatePage(web, udb, idb)
     request = web.spawnRequest()
   })
 

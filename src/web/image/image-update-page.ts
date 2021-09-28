@@ -7,7 +7,7 @@ import { checkImageUpdatable } from '../../service/image/image-update-service.js
 import { numberFrom } from '../../_util/primitive.js'
 import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
 
-export function registerImageUpdateView(web: Express2, udb: UserDB, idb: ImageDB) {
+export function registerImageUpdatePage(web: Express2, udb: UserDB, idb: ImageDB) {
 
   web.router.get('/image/:id([0-9]+)/update', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)

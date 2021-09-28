@@ -5,11 +5,11 @@ import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { ImageDB } from '../../db/image/image-db.js'
-import { registerImageUploadView } from './image-upload-view.js'
+import { registerImageUploadPage } from './image-upload-page.js'
 import { registerUserLoginApi } from '../user/user-login-api.js'
 import { loginForTest, User1Login } from '../user/user-login-api-fixture.js'
 
-describe('Image Upload View', () => {
+describe('Image Upload Page', () => {
 
   let config: Config
 
@@ -29,7 +29,7 @@ describe('Image Upload View', () => {
 
     web = await Express2.from(config).start()
     registerUserLoginApi(web, udb)
-    registerImageUploadView(web, udb, idb)
+    registerImageUploadPage(web, udb, idb)
     request = web.spawnRequest()
   })
 

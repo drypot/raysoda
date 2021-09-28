@@ -7,7 +7,7 @@ import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { registerImageViewApi } from './image-view-api.js'
+import { registerImageViewApi } from './image-detail-api.js'
 
 describe('Image View Api', () => {
 

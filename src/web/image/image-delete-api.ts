@@ -22,5 +22,4 @@ export function registerImageDeleteApi(web: Express2, idb: ImageDB, ifm: ImageFi
     if (err.length) throw err
     res.json({})
   }))
-
 }

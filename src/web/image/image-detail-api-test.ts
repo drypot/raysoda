@@ -9,11 +9,11 @@ import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { registerUserLoginApi } from '../user/user-login-api.js'
 import { registerImageUploadApi } from './image-upload-api.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { registerImageViewApi } from './image-view-api.js'
+import { registerImageViewApi } from './image-detail-api.js'
 import { AdminLogin, loginForTest, logoutForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
 import { dateTimeStringFrom } from '../../_util/date2.js'
-import { ImageDetail } from '../../entity/image.js'
 import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
+import { ImageDetail } from '../../core/image-view.js'
 
 describe('Image View Api', () => {
 

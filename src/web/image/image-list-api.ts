@@ -4,7 +4,7 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { limitNumber, numberFrom } from '../../_util/primitive.js'
 import { imageListByCdateService, imageListService } from '../../service/image/image-list-service.js'
-import { ImageListItem } from '../../entity/image.js'
+import { ImageListItem } from '../../core/image-view.js'
 
 export function registerImageListApi(web: Express2, udb: UserDB, idb: ImageDB, ifm: ImageFileManager) {
 

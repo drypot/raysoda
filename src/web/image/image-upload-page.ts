@@ -5,7 +5,7 @@ import { leftTicket } from '../../service/image/image-upload-service.js'
 import { sessionUserFrom } from '../user/user-login-api.js'
 import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
 
-export function registerImageUploadView(web: Express2, udb: UserDB, idb: ImageDB) {
+export function registerImageUploadPage(web: Express2, udb: UserDB, idb: ImageDB) {
 
   web.router.get('/image/upload', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
