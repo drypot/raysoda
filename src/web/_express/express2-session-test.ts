@@ -51,7 +51,7 @@ describe('Express2', () => {
       res = await request.put('/api/test/session').send({ book: 'book1', price: 11 }).expect(200)
       expect(res.body.err).toBeFalsy()
 
-      res = await request.post('/api/destroy-session')
+      res = await request.post('/api/session-destroy')
       expect(res.body.err).toBeFalsy()
 
       res = await request.get('/api/test/session').send(['book', 'price']).expect(200)

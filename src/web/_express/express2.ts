@@ -201,7 +201,7 @@ export class Express2 {
       res.json(req.cookies)
     })
 
-    this.expr1.post('/api/destroy-session', function (req, res, done) {
+    this.expr1.post('/api/session-destroy', function (req, res, done) {
       req.session.destroy((err: any) => {
         res.json({})
       })
