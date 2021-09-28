@@ -1,6 +1,6 @@
 import { Express2, toCallback } from '../_express/express2.js'
 import { sessionUserFrom } from '../user/user-login-api.js'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../service/user/form/user-form.js'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_error/error-user.js'
 
 export function registerCounterView(web: Express2) {
 

@@ -1,6 +1,6 @@
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { Error2 } from '../../lib/base/error2.js'
+import { Error2 } from '../../_error/error2.js'
 
 
 export async function imageDeleteService(

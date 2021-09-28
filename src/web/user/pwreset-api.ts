@@ -1,14 +1,14 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
 import { PwResetDB } from '../../db/pwreset/pwreset-db.js'
-import { Error2 } from '../../lib/base/error2.js'
-import { Mailer } from '../../lib/mailer/mailer2.js'
+import { Error2 } from '../../_error/error2.js'
+import { Mailer } from '../../mailer/mailer2.js'
 import {
   NewPasswordForm,
   pwResetSendMailService,
   pwResetSetPasswordService
 } from '../../service/user/pwreset-service.js'
-import { stringFrom } from '../../lib/base/primitive.js'
+import { stringFrom } from '../../_util/primitive.js'
 
 export function registerPwResetApi(web: Express2, udb: UserDB, resetDB: PwResetDB, mailer: Mailer) {
 

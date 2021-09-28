@@ -1,10 +1,10 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { USER_NOT_FOUND } from './form/user-form.js'
-import { Error2 } from '../../lib/base/error2.js'
+import { Error2 } from '../../_error/error2.js'
 import { userDeactivateService } from './user-deactivate-service.js'
+import { USER_NOT_FOUND } from '../../_error/error-user.js'
 
 describe('UserService', () => {
 

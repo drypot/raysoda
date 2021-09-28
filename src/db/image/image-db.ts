@@ -1,4 +1,4 @@
-import { Config } from '../../config/config.js'
+import { Config } from '../../_config/config.js'
 import { DB } from '../_db/db.js'
 import { Image } from '../../entity/image.js'
 

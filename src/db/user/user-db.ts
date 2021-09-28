@@ -1,8 +1,8 @@
 import { DB } from '../_db/db.js'
 import { User } from '../../entity/user.js'
-import { Config } from '../../config/config.js'
+import { Config } from '../../_config/config.js'
 
-export interface UserListItem {
+export type UserListItem = {
   id: number
   name: string
   home: string

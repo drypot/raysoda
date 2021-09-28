@@ -1,7 +1,7 @@
-import { configFrom } from '../../config/config.js'
+import { configFrom } from '../../_config/config.js'
 import { Express2 } from './express2.js'
 import { SuperAgentTest } from 'supertest'
-import { INVALID_DATA } from '../../lib/base/error2.js'
+import { INVALID_DATA } from '../../_error/error-basic.js'
 
 describe('Express2', () => {
 

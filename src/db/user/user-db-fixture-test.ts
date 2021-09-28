@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../_db/db.js'
 import { UserDB } from './user-db.js'
 import { insertUserFix1, insertUserFix4 } from './user-db-fixture.js'

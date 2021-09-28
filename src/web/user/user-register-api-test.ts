@@ -1,6 +1,10 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
+import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
+import { Express2 } from '../_express/express2.js'
+import { SuperAgentTest } from 'supertest'
+import { registerUserRegisterApi } from './user-register-api.js'
 import {
   EMAIL_DUPE,
   EMAIL_RANGE,
@@ -9,11 +13,7 @@ import {
   NAME_DUPE,
   NAME_RANGE,
   PASSWORD_RANGE
-} from '../../service/user/form/user-form.js'
-import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { Express2 } from '../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
-import { registerUserRegisterApi } from './user-register-api.js'
+} from '../../_error/error-user.js'
 
 describe('UserRegisterApi', () => {
 

@@ -1,12 +1,6 @@
-import { configFrom } from '../../config/config.js'
+import { configFrom } from '../../_config/config.js'
 import { Express2 } from './express2.js'
 import { SuperAgentTest } from 'supertest'
-
-declare module 'express-session' {
-  interface SessionData {
-    [key: string]: string
-  }
-}
 
 describe('Express2', () => {
 

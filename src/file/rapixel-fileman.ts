@@ -1,12 +1,12 @@
 import { ImageFileManager } from './fileman.js'
-import { Error2 } from '../lib/base/error2.js'
-import { Config } from '../config/config.js'
-import { deepPathOf } from '../lib/base/deeppath.js'
-import { IMAGE_SIZE, IMAGE_TYPE } from '../service/image/form/image-form.js'
-import { emptyDir, mkdirRecursive, rmRecursive } from '../lib/base/fs2.js'
-import { exec2 } from '../lib/base/exec2.js'
+import { Error2 } from '../_error/error2.js'
+import { Config } from '../_config/config.js'
+import { deepPathOf } from '../_util/deeppath.js'
+import { emptyDir, mkdirRecursive, rmRecursive } from '../_util/fs2.js'
+import { exec2 } from '../_util/exec2.js'
 import { identify, mogrifyAutoOrient } from './magick/magick2.js'
 import { ImageMeta, WidthHeight } from '../entity/image.js'
+import { IMAGE_SIZE, IMAGE_TYPE } from '../_error/error-image.js'
 
 const _minWidth = 3840
 const _minHeight = 2160

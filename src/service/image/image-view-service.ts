@@ -1,11 +1,11 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { IMAGE_NOT_EXIST } from './form/image-form.js'
-import { Error2 } from '../../lib/base/error2.js'
-import { dateTimeStringFrom } from '../../lib/base/date2.js'
+import { Error2 } from '../../_error/error2.js'
+import { dateTimeStringFrom } from '../../_util/date2.js'
 import { User } from '../../entity/user.js'
 import { Image, ImageDetail } from '../../entity/image.js'
+import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
 
 export function imageViewFrom(owner: User, ifm: ImageFileManager, image: Image) {
   return {

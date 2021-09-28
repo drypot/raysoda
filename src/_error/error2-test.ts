@@ -1,4 +1,5 @@
-import { Error2, errorOf, findError, INVALID_DATA, UNKNOWN_ERROR } from './error2.js'
+import { Error2, errorOf, findError } from './error2.js'
+import { INVALID_DATA, UNKNOWN_ERROR } from './error-basic.js'
 
 describe('error2', () => {
 

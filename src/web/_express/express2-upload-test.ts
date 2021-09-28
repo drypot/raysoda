@@ -1,8 +1,8 @@
-import { configFrom } from '../../config/config.js'
+import { configFrom } from '../../_config/config.js'
 import { deleteUpload, Express2 } from './express2.js'
 import { SuperAgentTest } from 'supertest'
 import { Multer } from 'multer'
-import { timeout } from '../../lib/base/async2.js'
+import { timeout } from '../../_util/async2.js'
 import { existsSync } from 'fs'
 
 describe('Express2 Upload', () => {

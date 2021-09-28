@@ -1,6 +1,6 @@
 import { ValueDB } from '../value/value-db.js'
 
-export interface Banner {
+export type Banner = {
   text: string
   url: string
 }

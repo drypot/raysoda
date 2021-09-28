@@ -1,8 +1,8 @@
 import { UserDB, UserListItem } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
-import { limitNumber, numberFrom } from '../../lib/base/primitive.js'
+import { limitNumber, numberFrom } from '../../_util/primitive.js'
 import { userListService, userSearchService } from '../../service/user/user-list-service.js'
-import { UrlMaker } from '../../lib/base/url2.js'
+import { UrlMaker } from '../../_util/url2.js'
 
 export function registerUserListView(web: Express2, udb: UserDB) {
 

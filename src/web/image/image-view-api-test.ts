@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
@@ -11,9 +11,9 @@ import { registerImageUploadApi } from './image-upload-api.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { registerImageViewApi } from './image-view-api.js'
 import { AdminLogin, loginForTest, logoutForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
-import { IMAGE_NOT_EXIST } from '../../service/image/form/image-form.js'
-import { dateTimeStringFrom } from '../../lib/base/date2.js'
+import { dateTimeStringFrom } from '../../_util/date2.js'
 import { ImageDetail } from '../../entity/image.js'
+import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
 
 describe('Image View Api', () => {
 

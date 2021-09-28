@@ -1,8 +1,8 @@
 import { DB } from '../_db/db.js'
-import { Config } from '../../config/config.js'
-import { dateStringFrom } from '../../lib/base/date2.js'
+import { Config } from '../../_config/config.js'
+import { dateStringFrom } from '../../_util/date2.js'
 
-export interface CounterRecord {
+export type CounterRecord = {
   d: string
   c: number
 }

@@ -1,7 +1,7 @@
 import { Express2, toCallback } from '../_express/express2.js'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../service/user/form/user-form.js'
 import { sessionUserFrom } from '../user/user-login-api.js'
 import { BannerDB } from '../../db/banner/banner-db.js'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_error/error-user.js'
 
 export function registerBannerApi(web: Express2, bdb: BannerDB) {
 

@@ -10,8 +10,8 @@ import {
   checkPasswordFormat,
   UserUpdateForm
 } from './form/user-form.js'
-import { Error2 } from '../../lib/base/error2.js'
-import { makeHash } from '../../lib/base/hash.js'
+import { Error2 } from '../../_error/error2.js'
+import { makeHash } from '../../_util/hash.js'
 
 export async function userUpdateService(udb: UserDB, id: number, form: UserUpdateForm, err: Error2[]) {
   checkNameFormat(form.name, err)

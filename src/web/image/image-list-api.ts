@@ -2,7 +2,7 @@ import { Express2, toCallback } from '../_express/express2.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { limitNumber, numberFrom } from '../../lib/base/primitive.js'
+import { limitNumber, numberFrom } from '../../_util/primitive.js'
 import { imageListByCdateService, imageListService } from '../../service/image/image-list-service.js'
 import { ImageListItem } from '../../entity/image.js'
 

@@ -1,9 +1,9 @@
-import { configFrom } from '../config/config.js'
-import { Mailer } from '../lib/mailer/mailer2.js'
+import { configFrom } from '../_config/config.js'
+import { Mailer } from '../mailer/mailer2.js'
 import { DB } from '../db/_db/db.js'
 import { UserDB } from '../db/user/user-db.js'
 import { PwResetDB } from '../db/pwreset/pwreset-db.js'
-import { Error2, logError } from '../lib/base/error2.js'
+import { Error2, logError } from '../_error/error2.js'
 import { pwResetSendMailService } from '../service/user/pwreset-service.js'
 import { insertUserFix4 } from '../db/user/user-db-fixture.js'
 

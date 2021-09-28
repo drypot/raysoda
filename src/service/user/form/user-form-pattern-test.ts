@@ -1,9 +1,6 @@
-import { Error2 } from '../../../lib/base/error2.js'
+import { Error2 } from '../../../_error/error2.js'
+import { checkEmailFormat, checkHomeFormat, checkNameFormat, checkPasswordFormat } from './user-form.js'
 import {
-  checkEmailFormat,
-  checkHomeFormat,
-  checkNameFormat,
-  checkPasswordFormat,
   EMAIL_EMPTY,
   EMAIL_RANGE,
   HOME_EMPTY,
@@ -12,7 +9,7 @@ import {
   NAME_RANGE,
   PASSWORD_EMPTY,
   PASSWORD_RANGE
-} from './user-form.js'
+} from '../../../_error/error-user.js'
 
 describe('User Form', () => {
 

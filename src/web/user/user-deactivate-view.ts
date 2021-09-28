@@ -1,7 +1,7 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
-import { NOT_AUTHENTICATED } from '../../service/user/form/user-form.js'
 import { sessionUserFrom } from './user-login-api.js'
+import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
 
 export function registerUserDeactivateView(web: Express2, udb: UserDB) {
 

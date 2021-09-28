@@ -1,16 +1,16 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { PwResetDB } from '../../db/pwreset/pwreset-db.js'
-import { Mailer } from '../../lib/mailer/mailer2.js'
+import { Mailer } from '../../mailer/mailer2.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { NewPasswordForm } from '../../service/user/pwreset-service.js'
-import { INVALID_DATA } from '../../lib/base/error2.js'
-import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../service/user/form/user-form.js'
-import { checkHash } from '../../lib/base/hash.js'
+import { checkHash } from '../../_util/hash.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerPwResetApi } from './pwreset-api.js'
+import { INVALID_DATA } from '../../_error/error-basic.js'
+import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../_error/error-user.js'
 
 describe('Password Reset Service', () => {
 

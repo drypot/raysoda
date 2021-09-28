@@ -2,12 +2,12 @@ import { deleteUpload, Express2 } from '../_express/express2.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageUpdateForm } from '../../service/image/form/image-form.js'
 import { sessionUserFrom } from '../user/user-login-api.js'
-import { NOT_AUTHENTICATED } from '../../service/user/form/user-form.js'
 import { Request } from 'express'
-import { Error2 } from '../../lib/base/error2.js'
+import { Error2 } from '../../_error/error2.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { checkImageUpdatable, imageUpdateService } from '../../service/image/image-update-service.js'
-import { numberFrom } from '../../lib/base/primitive.js'
+import { numberFrom } from '../../_util/primitive.js'
+import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
 
 function imageUpdateFormFrom(req: Request) {
   return {

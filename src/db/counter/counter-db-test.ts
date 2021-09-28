@@ -1,8 +1,8 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { CounterDB } from './counter-db.js'
 import { DB } from '../_db/db.js'
-import { dateStringFrom } from '../../lib/base/date2.js'
-import { dupeOf } from '../../lib/base/object2.js'
+import { dateStringFrom } from '../../_util/date2.js'
+import { dupeOf } from '../../_util/object2.js'
 
 describe('CounterDB', () => {
 

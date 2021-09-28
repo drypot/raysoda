@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -8,8 +8,8 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { registerUserLoginApi } from '../user/user-login-api.js'
 import { loginForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
 import { registerImageUpdateView } from './image-update-view.js'
-import { IMAGE_NOT_EXIST } from '../../service/image/form/image-form.js'
 import { imageOf } from '../../entity/image.js'
+import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
 
 describe('Image Update View', () => {
 

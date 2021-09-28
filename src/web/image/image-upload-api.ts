@@ -3,11 +3,11 @@ import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageUploadForm } from '../../service/image/form/image-form.js'
 import { sessionUserFrom } from '../user/user-login-api.js'
-import { NOT_AUTHENTICATED } from '../../service/user/form/user-form.js'
 import { imageUploadService } from '../../service/image/image-upload-service.js'
 import { Request } from 'express'
-import { Error2 } from '../../lib/base/error2.js'
+import { Error2 } from '../../_error/error2.js'
 import { ImageFileManager } from '../../file/fileman.js'
+import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
 
 function imageUploadFormFrom(req: Request) {
   return {

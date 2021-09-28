@@ -1,7 +1,7 @@
 import { DB } from '../_db/db.js'
-import { Config } from '../../config/config.js'
+import { Config } from '../../_config/config.js'
 
-export interface PwResetRecord {
+export type PwResetRecord = {
   uuid: string
   email: string
   token: string

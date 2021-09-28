@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -8,8 +8,8 @@ import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { ValueDB } from '../../db/value/value-db.js'
 import { BannerDB } from '../../db/banner/banner-db.js'
 import { registerBannerApi } from './banner-api.js'
-import { NOT_AUTHORIZED } from '../../service/user/form/user-form.js'
 import { AdminLogin, loginForTest, logoutForTest, User1Login } from '../user/user-login-api-fixture.js'
+import { NOT_AUTHORIZED } from '../../_error/error-user.js'
 
 describe('Banner Api', () => {
 

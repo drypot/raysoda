@@ -1,12 +1,14 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { PwResetDB, PwResetRecord } from '../../db/pwreset/pwreset-db.js'
-import { Error2, INVALID_DATA } from '../../lib/base/error2.js'
-import { checkPasswordFormat, EMAIL_NOT_FOUND, EMAIL_PATTERN } from './form/user-form.js'
+import { Error2 } from '../../_error/error2.js'
+import { checkPasswordFormat } from './form/user-form.js'
 import crypto from 'crypto'
 import { v4 as uuid } from 'uuid'
-import { Mailer } from '../../lib/mailer/mailer2.js'
-import { makeHash } from '../../lib/base/hash.js'
-import { emailPatternIsOk } from '../../lib/base/email.js'
+import { Mailer } from '../../mailer/mailer2.js'
+import { makeHash } from '../../_util/hash.js'
+import { emailPatternIsOk } from '../../_util/email.js'
+import { INVALID_DATA } from '../../_error/error-basic.js'
+import { EMAIL_NOT_FOUND, EMAIL_PATTERN } from '../../_error/error-user.js'
 
 export async function pwResetSendMailService(
   mailer: Mailer, udb: UserDB, resetDB: PwResetDB, email: string, err: Error2[]
@@ -49,7 +51,7 @@ export async function pwResetSendMailService(
   return mailer.sendMail(mail)
 }
 
-export interface NewPasswordForm {
+export type NewPasswordForm = {
   uuid: string
   token: string
   password: string

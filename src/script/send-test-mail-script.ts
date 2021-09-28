@@ -1,6 +1,6 @@
-import { Mailer } from '../lib/mailer/mailer2.js'
-import { configFrom } from '../config/config.js'
-import { logError } from '../lib/base/error2.js'
+import { Mailer } from '../mailer/mailer2.js'
+import { configFrom } from '../_config/config.js'
+import { logError } from '../_error/error2.js'
 
 async function main() {
   const config = configFrom(process.argv[2])

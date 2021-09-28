@@ -9,9 +9,9 @@ import {
   UserRegisterForm
 } from './form/user-form.js'
 import { userOf } from '../../entity/user.js'
-import { Error2 } from '../../lib/base/error2.js'
+import { Error2 } from '../../_error/error2.js'
 import { UserDB } from '../../db/user/user-db.js'
-import { makeHash } from '../../lib/base/hash.js'
+import { makeHash } from '../../_util/hash.js'
 
 export async function userRegisterService(udb: UserDB, form: UserRegisterForm, err: Error2[]) {
   checkNameFormat(form.name, err)

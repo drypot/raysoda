@@ -3,7 +3,7 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { Image, ImageListItem } from '../../entity/image.js'
 import { User } from '../../entity/user.js'
-import { dateTimeStringFrom } from '../../lib/base/date2.js'
+import { dateTimeStringFrom } from '../../_util/date2.js'
 
 export function imageListItemFrom(owner: User, ifm: ImageFileManager, image: Image) {
   return {

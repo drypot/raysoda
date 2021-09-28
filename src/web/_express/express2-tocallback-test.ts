@@ -1,4 +1,4 @@
-import { configFrom } from '../../config/config.js'
+import { configFrom } from '../../_config/config.js'
 import { Express2, toCallback } from './express2.js'
 import { SuperAgentTest } from 'supertest'
 

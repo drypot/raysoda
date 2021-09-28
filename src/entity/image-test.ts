@@ -1,5 +1,5 @@
 import { imageOf } from './image.js'
-import { dateNull } from '../lib/base/date2.js'
+import { dateNull } from '../_util/date2.js'
 
 describe('Image', () => {
 

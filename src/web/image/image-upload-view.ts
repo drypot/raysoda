@@ -1,9 +1,9 @@
 import { Express2, toCallback } from '../_express/express2.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
-import { NOT_AUTHENTICATED } from '../../service/user/form/user-form.js'
 import { leftTicket } from '../../service/image/image-upload-service.js'
 import { sessionUserFrom } from '../user/user-login-api.js'
+import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
 
 export function registerImageUploadView(web: Express2, udb: UserDB, idb: ImageDB) {
 

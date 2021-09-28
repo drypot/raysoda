@@ -1,5 +1,5 @@
-import { Error2 } from '../lib/base/error2.js'
-import { Config } from '../config/config.js'
+import { Error2 } from '../_error/error2.js'
+import { Config } from '../_config/config.js'
 import { ImageMeta } from '../entity/image.js'
 
 export interface ImageFileManager {

@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerPwResetView } from './pwreset-view.js'

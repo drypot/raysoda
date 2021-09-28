@@ -1,6 +1,6 @@
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { configFrom } from '../../config/config.js'
+import { configFrom } from '../../_config/config.js'
 import { registerAboutApi } from './about-api.js'
 
 describe('About View', () => {

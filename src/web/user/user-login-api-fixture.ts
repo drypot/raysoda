@@ -1,6 +1,6 @@
 import { SuperAgentTest } from 'supertest'
 
-export interface UserLoginForm {
+export type UserLoginForm = {
   email: string
   password: string
   remember?: boolean

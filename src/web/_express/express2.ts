@@ -6,12 +6,17 @@ import session from 'express-session'
 import connectRedis from 'connect-redis'
 import * as http from 'http'
 import supertest from 'supertest'
-import { Config } from '../../config/config.js'
+import { Config } from '../../_config/config.js'
 import newMulter, { Multer } from 'multer'
-import { emptyDirSync, mkdirRecursiveSync } from '../../lib/base/fs2.js'
+import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2.js'
 import { unlinkSync } from 'fs'
-import { errorOf } from '../../lib/base/error2.js'
+import { errorOf } from '../../_error/error2.js'
 
+declare module 'express-session' {
+  interface SessionData {
+    [key: string]: string
+  }
+}
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 
 export class Express2 {

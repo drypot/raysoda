@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -10,10 +10,10 @@ import { ImageFileManager } from '../../file/fileman.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
 import { AdminLogin, loginForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
-import { IMAGE_NOT_EXIST } from '../../service/image/form/image-form.js'
-import { NOT_AUTHORIZED } from '../../service/user/form/user-form.js'
 import { registerImageDeleteApi } from './image-delete-api.js'
 import { existsSync } from 'fs'
+import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
+import { NOT_AUTHORIZED } from '../../_error/error-user.js'
 
 describe('Image Delete Api with RaySoda FileManager', () => {
 

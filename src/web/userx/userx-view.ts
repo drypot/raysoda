@@ -4,9 +4,9 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { Request, Response } from 'express'
 import { User } from '../../entity/user.js'
-import { limitNumber, numberFrom } from '../../lib/base/primitive.js'
+import { limitNumber, numberFrom } from '../../_util/primitive.js'
 import { imageListFrom } from '../../service/image/image-list-service.js'
-import { UrlMaker } from '../../lib/base/url2.js'
+import { UrlMaker } from '../../_util/url2.js'
 
 export function registerUserXApi(web: Express2, udb: UserDB, idb: ImageDB, ifm: ImageFileManager) {
 

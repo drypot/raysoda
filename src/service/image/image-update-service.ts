@@ -1,10 +1,11 @@
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { IMAGE_NOT_EXIST, ImageUpdateForm } from './form/image-form.js'
-import { Error2 } from '../../lib/base/error2.js'
+import { ImageUpdateForm } from './form/image-form.js'
+import { Error2 } from '../../_error/error2.js'
 import { User } from '../../entity/user.js'
-import { NOT_AUTHORIZED } from '../user/form/user-form.js'
 import { Image } from '../../entity/image.js'
+import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
+import { NOT_AUTHORIZED } from '../../_error/error-user.js'
 
 export async function checkImageUpdatable(
   user: User, image: Image | undefined, err: Error2[]

@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -9,10 +9,10 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
 import { loginForTest, User1Login } from '../user/user-login-api-fixture.js'
-import { IMAGE_SIZE } from '../../service/image/form/image-form.js'
 import { identify } from '../../file/magick/magick2.js'
 import { registerImageUpdateApi } from './image-update-api.js'
 import { OsokyFileManager } from '../../file/osoky-fileman.js'
+import { IMAGE_SIZE } from '../../_error/error-image.js'
 
 describe('Image Update Api with Osoky FileManager', () => {
 

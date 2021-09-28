@@ -1,5 +1,5 @@
-import { exec2 } from '../../lib/base/exec2.js'
-import { numberFrom } from '../../lib/base/primitive.js'
+import { exec2 } from '../../_util/exec2.js'
+import { numberFrom } from '../../_util/primitive.js'
 import { imageMetaOf } from '../../entity/image.js'
 
 export async function mogrifyAutoOrient(path: string) {

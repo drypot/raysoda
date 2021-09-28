@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
@@ -7,7 +7,7 @@ import { SuperAgentTest } from 'supertest'
 import { registerUserLoginApi } from './user-login-api.js'
 import { AdminLogin, loginForTest, User1Login } from './user-login-api-fixture.js'
 import { registerUserUpdateApi } from './user-update-api.js'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../service/user/form/user-form.js'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_error/error-user.js'
 
 describe('User Update Api', () => {
 

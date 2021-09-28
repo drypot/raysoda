@@ -1,15 +1,16 @@
 import { UserDB } from '../../db/user/user-db.js'
-import { Config, configFrom } from '../../config/config.js'
+import { Config, configFrom } from '../../_config/config.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { IMAGE_NOT_EXIST, ImageUploadForm } from './form/image-form.js'
+import { ImageUploadForm } from './form/image-form.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
-import { dateTimeStringFrom } from '../../lib/base/date2.js'
+import { dateTimeStringFrom } from '../../_util/date2.js'
 import { DB } from '../../db/_db/db.js'
-import { Error2 } from '../../lib/base/error2.js'
+import { Error2 } from '../../_error/error2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageViewService } from './image-view-service.js'
+import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
 
 describe('Image View Service', () => {
 
