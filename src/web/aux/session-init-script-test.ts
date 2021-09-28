@@ -9,7 +9,7 @@ import { registerSessionInitScript } from './session-init-script.js'
 import { ValueDB } from '../../db/value/value-db.js'
 import { BannerDB } from '../../db/banner/banner-db.js'
 import { registerBannerApi } from '../banner/banner-api.js'
-import { logoutForTest } from '../user/user-login-api-fixture.js'
+import { loginForTest, logoutForTest, User1Login } from '../user/user-login-api-fixture.js'
 
 describe('Session Init Script', () => {
 
@@ -68,9 +68,7 @@ describe('Session Init Script', () => {
       )
     })
     it('login as user1', async () => {
-      const form = { email: 'user1@mail.test', password: '1234', remember: false }
-      const res = await request.post('/api/user/login').send(form).expect(200)
-      expect(res.body.user.id).toBe(1)
+      await loginForTest(request, User1Login)
     })
     it('get session script with login', async () => {
       const res = await request.get('/api/session-init-script').expect(200)
