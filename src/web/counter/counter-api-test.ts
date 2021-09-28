@@ -52,7 +52,7 @@ describe('Counter Api', () => {
       await cdb.createTable()
     })
     it('update', async () => {
-      await request.get('/api/counter/abc/inc?r=http://hello.world')
+      await request.get('/api/counter-inc/abc?r=http://hello.world')
         .expect(302).expect('Location', 'http://hello.world')
     })
     it('check db', async () => {
@@ -61,7 +61,7 @@ describe('Counter Api', () => {
       expect(r).toEqual(1)
     })
     it('update', async () => {
-      await request.get('/api/counter/abc/inc?r=http://hello.world')
+      await request.get('/api/counter-inc/abc?r=http://hello.world')
         .expect(302).expect('Location', 'http://hello.world')
     })
     it('check db', async () => {

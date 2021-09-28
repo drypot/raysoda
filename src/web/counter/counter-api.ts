@@ -5,7 +5,7 @@ import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_error/error-user.js'
 
 export function registerCounterApi(web: Express2, cdb: CounterDB) {
 
-  web.router.get('/api/counter/:id/inc', toCallback(async (req, res) => {
+  web.router.get('/api/counter-inc/:id', toCallback(async (req, res) => {
     await cdb.increaseCounter(req.params.id)
     res.redirect(req.query.r as string)
   }))

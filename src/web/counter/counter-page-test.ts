@@ -48,13 +48,13 @@ describe('Counter Page', () => {
 
     describe('/counter-list', () => {
       it('fails if anonymous', async () => {
-        await request.get('/counter-list').expect(302).expect('Location', '/user/login')
+        await request.get('/counter-list').expect(302).expect('Location', '/user-login')
       })
       it('login as user', async () => {
         await loginForTest(request, User1Login)
       })
       it('fails if user', async () => {
-        await request.get('/counter-list').expect(302).expect('Location', '/user/login')
+        await request.get('/counter-list').expect(302).expect('Location', '/user-login')
       })
       it('login as admin', async () => {
         await loginForTest(request, AdminLogin)
