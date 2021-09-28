@@ -46,7 +46,7 @@ describe('UserDeactivateApi', () => {
     })
 
     it('deactivating fails before login', async () => {
-      const res = await request.del('/api/user/1').expect(200)
+      const res = await request.put('/api/user-deactivate/1').expect(200)
       expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
 
@@ -54,15 +54,15 @@ describe('UserDeactivateApi', () => {
       await loginForTest(request, User1Login)
     })
     it('get login works', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.user.id).toBe(1)
     })
     it('deactivate user', async () => {
-      const res = await request.del('/api/user/1').expect(200)
+      const res = await request.put('/api/user-deactivate/1').expect(200)
       expect(res.body).toEqual({})
     })
     it('get login fails', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('user status must be "d"', async () => {
@@ -74,7 +74,7 @@ describe('UserDeactivateApi', () => {
       await loginForTest(request, User2Login)
     })
     it('deactivating other fails', async () => {
-      const res = await request.del('/api/user/3').expect(200)
+      const res = await request.put('/api/user-deactivate/3').expect(200)
       expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
 
@@ -82,7 +82,7 @@ describe('UserDeactivateApi', () => {
       await loginForTest(request, AdminLogin)
     })
     it('deactivating other works', async () => {
-      const res = await request.del('/api/user/3').expect(200)
+      const res = await request.put('/api/user-deactivate/3').expect(200)
       expect(res.body).toEqual({})
     })
   })

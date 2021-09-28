@@ -15,7 +15,7 @@ import {
   PASSWORD_RANGE
 } from '../../_error/error-user.js'
 
-describe('UserRegisterApi', () => {
+describe('User Register Api', () => {
 
   let config: Config
 
@@ -51,7 +51,7 @@ describe('UserRegisterApi', () => {
     })
     it('post new user', async () => {
       const form = { name: 'User Y', email: 'usery@mail.test', password: '1234' }
-      const res = await request.post('/api/user').send(form).expect(200)
+      const res = await request.post('/api/user-register').send(form).expect(200)
       expect(res.body.id).toBe(5)
     })
     it('check db', async () => {
@@ -62,7 +62,7 @@ describe('UserRegisterApi', () => {
       const s33 = 'x'.repeat(33)
       const s65 = 'x'.repeat(66)
       const form = { name: s33, email: s65, password: s33 }
-      const res = await request.post('/api/user').send(form).expect(200)
+      const res = await request.post('/api/user-register').send(form).expect(200)
       expect(res.body.err).toContain(NAME_RANGE)
       expect(res.body.err).toContain(HOME_RANGE)
       expect(res.body.err).toContain(EMAIL_RANGE)
@@ -70,7 +70,7 @@ describe('UserRegisterApi', () => {
     })
     it('dupe check works', async () => {
       const form = { name: 'User 2', email: 'user2@mail.test', password: '1234' }
-      const res = await request.post('/api/user').send(form).expect(200)
+      const res = await request.post('/api/user-register').send(form).expect(200)
       expect(res.body.err).toContain(NAME_DUPE)
       expect(res.body.err).toContain(HOME_DUPE)
       expect(res.body.err).toContain(EMAIL_DUPE)

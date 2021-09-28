@@ -1,19 +1,20 @@
 import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
+import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi } from './user-login-api.js'
-import { insertUserFix1 } from '../../db/user/user-db-fixture.js'
 import { loginForTest, User1Login } from './user-login-api-fixture.js'
-import { registerUserUpdateView } from './user-update-view.js'
+import { registerUserLoginApi } from './user-login-api.js'
+import { registerUserDeactivatePage } from './user-deactivate-page.js'
 
-describe('UserLoginApi', () => {
+describe('UserDeactivateView', () => {
 
   let config: Config
 
   let db: DB
   let udb: UserDB
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -25,7 +26,7 @@ describe('UserLoginApi', () => {
 
     web = await Express2.from(config).start()
     registerUserLoginApi(web, udb)
-    registerUserUpdateView(web, udb)
+    registerUserDeactivatePage(web, udb)
     request = web.spawnRequest()
   })
 
@@ -34,19 +35,17 @@ describe('UserLoginApi', () => {
     await db.close()
   })
 
-  describe('user update pages', () => {
+  describe('user deactivate page', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
     })
     it('fill fix', async () => {
-      await insertUserFix1(udb)
+      await insertUserFix4(udb)
     })
-    it('login', async () => {
+    it('/user-deactivate should work', async () => {
       await loginForTest(request, User1Login)
-    })
-    it('/user/1/update', async () => {
-      await request.get('/user/1/update').expect(200).expect(/<title>Update/)
+      await request.get('/user-deactivate').expect(200).expect(/<title>Deactivate/)
     })
   })
 

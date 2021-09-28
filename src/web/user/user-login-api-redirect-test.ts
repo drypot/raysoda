@@ -54,7 +54,7 @@ describe('UserLoginApi', () => {
       await request.get('/test/public').expect(200)
     })
     it('access private is redirected to login', async () => {
-      await request.get('/test/private').expect(302).expect('Location', '/user/login')
+      await request.get('/test/private').expect(302).expect('Location', '/user-login')
     })
 
   })

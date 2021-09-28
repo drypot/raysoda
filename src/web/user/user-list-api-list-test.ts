@@ -42,7 +42,7 @@ describe('User List Api', () => {
       await insertUserFix4(udb)
     })
     it('get list', async () => {
-      const res = await request.get('/api/user').expect(200)
+      const res = await request.get('/api/user-list').expect(200)
       const l = res.body.user
       expect(l.length).toBe(4)
       // ordered by pdate desc
@@ -52,7 +52,7 @@ describe('User List Api', () => {
       expect(l[3].home).toBe('admin')
     })
     it('get p 1, ps 3', async () => {
-      const res = await request.get('/api/user?p=1&ps=3').expect(200)
+      const res = await request.get('/api/user-list?p=1&ps=3').expect(200)
       const l = res.body.user
       expect(l.length).toBe(3)
       // ordered by pdate desc

@@ -11,7 +11,7 @@ export function registerUserDeactivateApi(web: Express2, udb: UserDB) {
   const router = web.router
 
   // Deactivate User
-  router.delete('/api/user/:id([0-9]+)', toCallback(async (req, res) => {
+  router.put('/api/user-deactivate/:id([0-9]+)', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
 

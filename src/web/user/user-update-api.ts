@@ -1,7 +1,7 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
 import { hasUpdatePerm, sessionUserFrom } from './user-login-api.js'
-import { UserUpdateForm } from '../../service/user/form/user-form.js'
+import { UserUpdateForm } from '../../service/user/_user-service.js'
 import { Error2 } from '../../_error/error2.js'
 import { userUpdateService } from '../../service/user/user-update-service.js'
 import { Request } from 'express'
@@ -23,7 +23,7 @@ export function registerUserUpdateApi(web: Express2, udb: UserDB) {
 
   const router = web.router
 
-  router.put('/api/user/:id([0-9]+)', toCallback(async (req, res) => {
+  router.put('/api/user-update/:id([0-9]+)', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     const id = numberFrom(req.params.id)

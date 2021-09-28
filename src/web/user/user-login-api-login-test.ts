@@ -44,63 +44,63 @@ describe('UserLoginApi', () => {
     // user change
     it('login as user1', async () => {
       const form = { email: 'user1@mail.test', password: '1234', remember: false }
-      const res = await request.post('/api/user/login').send(form).expect(200)
+      const res = await request.post('/api/user-login').send(form).expect(200)
       expect(res.body.user.id).toBe(1)
     })
     it('get login works', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.user.id).toBe(1)
     })
     it('login as user2', async () => {
       const form = { email: 'user2@mail.test', password: '1234', remember: false }
-      const res = await request.post('/api/user/login').send(form).expect(200)
+      const res = await request.post('/api/user-login').send(form).expect(200)
       expect(res.body.user.id).toBe(2)
     })
     it('get login works', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.user.id).toBe(2)
     })
 
     // permission
     it('login as user1', async () => {
       const form = { email: 'user1@mail.test', password: '1234', remember: false }
-      const res = await request.post('/api/user/login').send(form).expect(200)
+      const res = await request.post('/api/user-login').send(form).expect(200)
       expect(res.body.user.id).toBe(1)
     })
     it('get admin-login fails', async () => {
-      const res = await request.get('/api/user/admin-login').expect(200)
+      const res = await request.get('/api/session-user-as-admin').expect(200)
       expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
     it('login as admin', async () => {
       const form = { email: 'admin@mail.test', password: '1234', remember: false }
-      const res = await request.post('/api/user/login').send(form).expect(200)
+      const res = await request.post('/api/user-login').send(form).expect(200)
       expect(res.body.user.id).toBe(4)
       expect(res.body.user.admin).toBe(true)
     })
     it('get admin-login works', async () => {
-      const res = await request.get('/api/user/admin-login').expect(200)
+      const res = await request.get('/api/session-user-as-admin').expect(200)
       expect(res.body.user.id).toBe(4)
       expect(res.body.user.admin).toBe(true)
     })
 
     // logout
     it('logout', async () => {
-      await request.post('/api/user/logout').expect(200)
+      await request.post('/api/user-logout').expect(200)
     })
     it('get login fails', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
 
     // error
     it('email check works', async () => {
       const form = { email: 'userx@mail.test', password: '1234', remember: false }
-      const res = await request.post('/api/user/login').send(form).expect(200)
+      const res = await request.post('/api/user-login').send(form).expect(200)
       expect(res.body.err).toContain(EMAIL_NOT_FOUND)
     })
     it('password check works', async () => {
       const form = { email: 'user1@mail.test', password: 'xxxx', remember: false }
-      const res = await request.post('/api/user/login').send(form).expect(200)
+      const res = await request.post('/api/user-login').send(form).expect(200)
       expect(res.body.err).toContain(PASSWORD_WRONG)
     })
   })

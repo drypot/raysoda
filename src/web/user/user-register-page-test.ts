@@ -3,9 +3,9 @@ import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserRegisterView } from './user-register-view.js'
+import { registerUserRegisterPage } from './user-register-page.js'
 
-describe('UserRegisterView', () => {
+describe('User Register Page', () => {
 
   let config: Config
 
@@ -22,7 +22,7 @@ describe('UserRegisterView', () => {
     udb = UserDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserRegisterView(web, udb)
+    registerUserRegisterPage(web, udb)
     request = web.spawnRequest()
   })
 
@@ -32,11 +32,11 @@ describe('UserRegisterView', () => {
   })
 
   describe('user register pages ', () => {
-    it('/user/register', async () => {
-      await request.get('/user/register').expect(200).expect(/<title>Register/)
+    it('/user-register', async () => {
+      await request.get('/user-register').expect(200).expect(/<title>Register/)
     })
-    it('/user/register-done', async () => {
-      await request.get('/user/register-done').expect(200).expect(/<title>Registered/)
+    it('/user-register-done', async () => {
+      await request.get('/user-register-done').expect(200).expect(/<title>Registered/)
     })
   })
 

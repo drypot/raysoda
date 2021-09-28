@@ -7,7 +7,7 @@ export function registerUserListApi(web: Express2, udb: UserDB) {
 
   const router = web.router
 
-  router.get('/api/user', toCallback(async (req, res) => {
+  router.get('/api/user-list', toCallback(async (req, res) => {
     let p = limitNumber(numberFrom(req.query.p as string, 1), 1, NaN)
     let ps = limitNumber(numberFrom(req.query.ps as string, 99), 1, 300)
     let q = req.query.q as string || ''

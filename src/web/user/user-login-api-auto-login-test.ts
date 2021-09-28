@@ -44,7 +44,7 @@ describe('UserLoginApi', () => {
     })
 
     it('get login fails before login', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('cookie should be empty', async () => {
@@ -56,7 +56,7 @@ describe('UserLoginApi', () => {
       await loginForTest(request, User1Login, true)
     })
     it('get login works', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.user.id).toBe(1)
     })
     it('cookies are filled', async () => {
@@ -65,10 +65,10 @@ describe('UserLoginApi', () => {
     })
 
     it('destroy session', async () => {
-      await request.post('/api/destroy-session').expect(200)
+      await request.post('/api/session-destroy').expect(200)
     })
     it('get login works (autologin worked)', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.user.id).toBe(1)
     })
     it('cookies still exist', async () => {
@@ -80,7 +80,7 @@ describe('UserLoginApi', () => {
       await logoutForTest(request)
     })
     it('get login fails', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('cookies are empty', async () => {
@@ -92,7 +92,7 @@ describe('UserLoginApi', () => {
       await loginForTest(request, User1Login, true)
     })
     it('get login works', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.err).toBe(undefined)
     })
 
@@ -100,10 +100,10 @@ describe('UserLoginApi', () => {
       await db.query('update user set email = "userx@mail.test" where id = ?', 1)
     })
     it('destroy session', async () => {
-      await request.post('/api/destroy-session').expect(200)
+      await request.post('/api/session-destroy').expect(200)
     })
     it('get login fails (autologin failed)', async () => {
-      const res = await request.get('/api/user/login').expect(200)
+      const res = await request.get('/api/session-user').expect(200)
       expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('cookies are empty', async () => {

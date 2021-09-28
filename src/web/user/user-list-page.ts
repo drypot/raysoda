@@ -4,11 +4,11 @@ import { limitNumber, numberFrom } from '../../_util/primitive.js'
 import { userListService, userSearchService } from '../../service/user/user-list-service.js'
 import { UrlMaker } from '../../_util/url2.js'
 
-export function registerUserListView(web: Express2, udb: UserDB) {
+export function registerUserListPage(web: Express2, udb: UserDB) {
 
   const router = web.router
 
-  router.get('/user', toCallback(async (req, res) => {
+  router.get('/user-list', toCallback(async (req, res) => {
     let p = limitNumber(numberFrom(req.query.p as string, 1), 1, NaN)
     let ps = limitNumber(numberFrom(req.query.ps as string, 99), 1, 300)
     let q = req.query.q as string || ''
@@ -19,7 +19,7 @@ export function registerUserListView(web: Express2, udb: UserDB) {
     } else {
       l = await userListService(udb, p, ps)
     }
-    res.render('user/pug/user-list-view', {
+    res.render('user/pug/user-list', {
       user: l,
       prev: p > 1 ? UrlMaker.from('/users').add('p', p - 1, 1).add('ps', ps, 100).gen() : undefined,
       next: l.length === ps ? UrlMaker.from('/users').add('p', p + 1).add('ps', ps, 100).gen() : undefined,

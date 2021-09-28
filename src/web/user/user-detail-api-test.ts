@@ -4,11 +4,11 @@ import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserViewApi } from './user-view-api.js'
+import { registerUserViewApi } from './user-detail-api.js'
 import { registerUserLoginApi } from './user-login-api.js'
 import { AdminLogin, loginForTest, User1Login } from './user-login-api-fixture.js'
 
-describe('User View Api', () => {
+describe('User Detail Api', () => {
 
   let config: Config
 

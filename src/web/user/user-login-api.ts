@@ -2,7 +2,7 @@ import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
 import { Error2 } from '../../_error/error2.js'
-import { User } from '../../entity/user.js'
+import { User } from '../../core/user.js'
 import { checkHash } from '../../_util/hash.js'
 import { stringFrom } from '../../_util/primitive.js'
 import {
@@ -17,7 +17,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
 
   const router = web.router
 
-  router.get('/api/user/login', toCallback(async function (req, res) {
+  router.get('/api/session-user', toCallback(async function (req, res) {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     res.json({
@@ -25,7 +25,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
     })
   }))
 
-  router.get('/api/user/admin-login', toCallback(async function (req, res) {
+  router.get('/api/session-user-as-admin', toCallback(async function (req, res) {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     if (!user.admin) throw NOT_AUTHORIZED
@@ -34,7 +34,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
     })
   }))
 
-  router.post('/api/user/login', toCallback(async (req, res) => {
+  router.post('/api/user-login', toCallback(async (req, res) => {
     const email = stringFrom(req.body.email).trim()
     const password = stringFrom(req.body.password).trim()
     const remember = !!req.body.remember
@@ -70,7 +70,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
     await createSession(req, res, user)
   })
 
-  router.post('/api/user/logout', toCallback(async (req, res) => {
+  router.post('/api/user-logout', toCallback(async (req, res) => {
     await logoutCurrentSession(req, res)
     res.json({})
   }))
@@ -80,7 +80,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
       err.name === NOT_AUTHENTICATED.name ||
       err.name === NOT_AUTHORIZED.name
     )) {
-      res.redirect('/user/login')
+      res.redirect('/user-login')
     } else {
       done(err)
     }

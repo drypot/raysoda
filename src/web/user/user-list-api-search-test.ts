@@ -43,13 +43,13 @@ describe('User List Api', () => {
       await insertUserFix4(udb)
     })
     it('search user1', async () => {
-      const res = await request.get('/api/user?q=user1').expect(200)
+      const res = await request.get('/api/user-list?q=user1').expect(200)
       const l = res.body.user
       expect(l.length).toBe(1)
       expect(l[0].home).toBe('user1')
     })
     it('search user1@mail.test as user', async () => {
-      const res = await request.get('/api/user?q=user1@mail.test').expect(200)
+      const res = await request.get('/api/user-list?q=user1@mail.test').expect(200)
       const l = res.body.user
       expect(l.length).toBe(0)
     })
@@ -57,13 +57,13 @@ describe('User List Api', () => {
       await loginForTest(request, AdminLogin)
     })
     it('search user1@mail.test as user', async () => {
-      const res = await request.get('/api/user?q=user1@mail.test').expect(200)
+      const res = await request.get('/api/user-list?q=user1@mail.test').expect(200)
       const l = res.body.user
       expect(l.length).toBe(1)
       expect(l[0].home).toBe('user1')
     })
     it('search userx', async () => {
-      const res = await request.get('/api/user?q=userx').expect(200)
+      const res = await request.get('/api/user-list?q=userx').expect(200)
       const l = res.body.user
       expect(l.length).toBe(0)
     })
