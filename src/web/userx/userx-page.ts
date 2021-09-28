@@ -3,25 +3,32 @@ import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { Request, Response } from 'express'
-import { User } from '../../entity/user.js'
+import { User } from '../../core/user.js'
 import { limitNumber, numberFrom } from '../../_util/primitive.js'
 import { imageListFrom } from '../../service/image/image-list-service.js'
 import { UrlMaker } from '../../_util/url2.js'
 
-export function registerUserXApi(web: Express2, udb: UserDB, idb: ImageDB, ifm: ImageFileManager) {
+export function registerUserXPage(web: Express2, udb: UserDB, idb: ImageDB, ifm: ImageFileManager) {
 
-  web.router.get('/user/:id([0-9]+)', toCallback(async (req, res) => {
+  web.router.get('/user-id/:id([0-9]+)', toCallback(async (req, res) => {
     const id = numberFrom(req.params.id)
     const owner = await udb.getCachedById(id)
     if (!owner) return
     await list(idb, ifm, req, res, owner)
   }))
 
-  web.router.get('/:name([^/]+)', toCallback(async (req, res) => {
+  web.router.get('/user/:name([^/]+)', toCallback(async (req, res) => {
     const home = decodeURIComponent(req.params.name)
     const owner = await udb.getCachedByHome(home)
     if (!owner) return
     await list(idb, ifm, req, res, owner)
+  }))
+
+  web.router.get('/:name([^/]+)', toCallback(async (req, res) => {
+    // const home = decodeURIComponent(req.params.name)
+    // const owner = await udb.getCachedByHome(home)
+    // if (!owner) return
+    res.redirect(301, '/user/' + req.params.name)
   }))
 
   async function list(idb: ImageDB, ifm: ImageFileManager, req: Request, res: Response, owner: User) {
@@ -30,7 +37,7 @@ export function registerUserXApi(web: Express2, udb: UserDB, idb: ImageDB, ifm: 
     const ps = limitNumber(numberFrom(req.query.ps as string, 16), 1, 128)
     const il = await idb.findImageListByUser(owner.id, (p - 1) * ps, ps)
     const hl = await imageListFrom(udb, ifm, il)
-    res.render('userx/pug/userx-view', {
+    res.render('userx/pug/userx', {
       owner: owner,
       updatable: user && (user.id === owner.id || user.admin),
       imageList: hl,

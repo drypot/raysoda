@@ -5,11 +5,11 @@ import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { ImageDB } from '../../db/image/image-db.js'
-import { registerUserXApi } from './userx-view.js'
+import { registerUserXPage } from './userx-page.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 
-describe('UserX View', () => {
+describe('UserX Page', () => {
 
   let config: Config
 
@@ -31,7 +31,7 @@ describe('UserX View', () => {
     ifm = RaySodaFileManager.from(config)
 
     web = await Express2.from(config).start()
-    registerUserXApi(web, udb, idb, ifm)
+    registerUserXPage(web, udb, idb, ifm)
     request = web.spawnRequest()
   })
 
@@ -47,20 +47,32 @@ describe('UserX View', () => {
   })
 
   describe('userx view', () => {
-    it('/user/4', async () => {
-      const res = await request.get('/user/4').expect(200)
+    it('/user-id/4', async () => {
+      const res = await request.get('/user-id/4').expect(200)
+      // ...
+    })
+    it('/user/user1', async () => {
+      const res = await request.get('/user/user1').expect(200)
+      // ...
+    })
+    it('/user/USER1', async () => {
+      const res = await request.get('/user/USER1').expect(200)
+      // ...
+    })
+    it('/user/xman', async () => {
+      const res = await request.get('/user/xman').expect(404)
       // ...
     })
     it('/user1', async () => {
-      const res = await request.get('/user1').expect(200)
+      const res = await request.get('/user1').expect(301).expect('Location', '/user/user1')
       // ...
     })
     it('/USER1', async () => {
-      const res = await request.get('/USER1').expect(200)
+      const res = await request.get('/USER1').expect(301).expect('Location', '/user/USER1')
       // ...
     })
     it('/xman', async () => {
-      const res = await request.get('/xman').expect(404)
+      const res = await request.get('/xman').expect(301).expect('Location', '/user/xman')
       // ...
     })
   })
