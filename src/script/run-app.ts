@@ -12,10 +12,10 @@ import { logError } from '../_error/error2.js'
 import { RapixelFileManager } from '../file/rapixel-fileman.js'
 import { OsokyFileManager } from '../file/osoky-fileman.js'
 import { DrypotFileManager } from '../file/drypot-fileman.js'
-import { registerUserXApi } from '../web/userx/userx-view.js'
-import { registerUserViewApi } from '../web/user/user-view-api.js'
+import { registerUserXPage } from '../web/userx/userx-page.js'
+import { registerUserViewApi } from '../web/user/user-detail-api.js'
 import { registerUserRegisterApi } from '../web/user/user-register-api.js'
-import { registerPwResetApi } from '../web/user/pwreset-api.js'
+import { registerPwResetApi } from '../web/user/user-pwreset-api.js'
 import { PwResetDB } from '../db/pwreset/pwreset-db.js'
 import { Mailer } from '../mailer/mailer2.js'
 import { registerUserDeactivateApi } from '../web/user/user-deactivate-api.js'
@@ -24,12 +24,12 @@ import { registerUserUpdateApi } from '../web/user/user-update-api.js'
 import { registerRedirect } from '../web/aux/redirect.js'
 import { registerImageDeleteApi } from '../web/image/image-delete-api.js'
 import { registerImageListApi } from '../web/image/image-list-api.js'
-import { registerImageViewApi } from '../web/image/image-view-api.js'
+import { registerImageViewApi } from '../web/image/image-detail-api.js'
 import { registerCounterApi } from '../web/counter/counter-api.js'
 import { CounterDB } from '../db/counter/counter-db.js'
 import { registerBannerApi } from '../web/banner/banner-api.js'
 import { BannerDB } from '../db/banner/banner-db.js'
-import { registerAboutApi } from '../web/about/about-api.js'
+import { registerAboutPage } from '../web/about/about-page.js'
 import { registerSessionInitScript } from '../web/aux/session-init-script.js'
 
 async function main() {
@@ -67,14 +67,14 @@ async function main() {
   registerUserListApi(web, udb)
   registerPwResetApi(web, udb, rdb, mailer)
 
-  registerAboutApi(web)
+  registerAboutPage(web)
   registerCounterApi(web, cdb)
   registerBannerApi(web, bdb)
 
   registerSessionInitScript(web, bdb)
   registerRedirect(web)
 
-  registerUserXApi(web, udb, idb, ifm)
+  registerUserXPage(web, udb, idb, ifm)
 
   async function closeAll() {
     await web.close()
