@@ -7,8 +7,8 @@ import {
   checkNameFormat,
   checkPasswordFormat,
   UserRegisterForm
-} from './form/user-form.js'
-import { userOf } from '../../entity/user.js'
+} from './_user-service.js'
+import { userOf } from '../../core/user.js'
 import { Error2 } from '../../_error/error2.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { makeHash } from '../../_util/hash.js'

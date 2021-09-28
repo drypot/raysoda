@@ -5,7 +5,7 @@ import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Error2 } from '../../_error/error2.js'
 import { userUpdateService } from './user-update-service.js'
 import { checkHash } from '../../_util/hash.js'
-import { userUpdateFormOf } from './form/user-form.js'
+import { userUpdateFormOf } from './_user-service.js'
 import {
   EMAIL_DUPE,
   EMAIL_RANGE,

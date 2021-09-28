@@ -1,5 +1,5 @@
-import { Error2 } from '../../../_error/error2.js'
-import { checkEmailFormat, checkHomeFormat, checkNameFormat, checkPasswordFormat } from './user-form.js'
+import { Error2 } from '../../_error/error2.js'
+import { checkEmailFormat, checkHomeFormat, checkNameFormat, checkPasswordFormat } from './_user-service.js'
 import {
   EMAIL_EMPTY,
   EMAIL_RANGE,
@@ -9,7 +9,7 @@ import {
   NAME_RANGE,
   PASSWORD_EMPTY,
   PASSWORD_RANGE
-} from '../../../_error/error-user.js'
+} from '../../_error/error-user.js'
 
 describe('User Form', () => {
 

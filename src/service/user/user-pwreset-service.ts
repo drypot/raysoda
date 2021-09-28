@@ -1,7 +1,7 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { PwResetDB, PwResetRecord } from '../../db/pwreset/pwreset-db.js'
 import { Error2 } from '../../_error/error2.js'
-import { checkPasswordFormat } from './form/user-form.js'
+import { checkPasswordFormat } from './_user-service.js'
 import crypto from 'crypto'
 import { v4 as uuid } from 'uuid'
 import { Mailer } from '../../mailer/mailer2.js'

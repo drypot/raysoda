@@ -1,6 +1,6 @@
 import { Config, configFrom } from '../../_config/config.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { ImageUploadForm } from './form/image-form.js'
+import { ImageUploadForm } from './_image-service.js'
 import { existsSync } from 'fs'
 import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'

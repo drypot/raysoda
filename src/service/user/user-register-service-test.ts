@@ -1,7 +1,7 @@
 import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
-import { userRegisterFormOf } from './form/user-form.js'
+import { userRegisterFormOf } from './_user-service.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Error2 } from '../../_error/error2.js'
 import { userRegisterService } from './user-register-service.js'

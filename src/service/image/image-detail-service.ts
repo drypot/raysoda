@@ -3,11 +3,12 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { Error2 } from '../../_error/error2.js'
 import { dateTimeStringFrom } from '../../_util/date2.js'
-import { User } from '../../entity/user.js'
-import { Image, ImageDetail } from '../../entity/image.js'
+import { User } from '../../core/user.js'
+import { Image } from '../../core/image.js'
 import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
+import { ImageDetail } from '../../core/image-view.js'
 
-export function imageViewFrom(owner: User, ifm: ImageFileManager, image: Image) {
+export function imageDetailFrom(owner: User, ifm: ImageFileManager, image: Image) {
   return {
     id: image.id,
     owner: {
@@ -25,7 +26,7 @@ export function imageViewFrom(owner: User, ifm: ImageFileManager, image: Image) 
   } as ImageDetail
 }
 
-export async function imageViewService(
+export async function imageDetailService(
   udb: UserDB, idb: ImageDB, ifm: ImageFileManager, id: number, err: Error2[]
 ) {
   const image = await idb.findImage(id)
@@ -37,5 +38,5 @@ export async function imageViewService(
   if (!owner) {
     throw new Error()
   }
-  return imageViewFrom(owner, ifm, image)
+  return imageDetailFrom(owner, ifm, image)
 }

@@ -1,9 +1,9 @@
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { ImageUpdateForm } from './form/image-form.js'
+import { ImageUpdateForm } from './_image-service.js'
 import { Error2 } from '../../_error/error2.js'
-import { User } from '../../entity/user.js'
-import { Image } from '../../entity/image.js'
+import { User } from '../../core/user.js'
+import { Image } from '../../core/image.js'
 import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
 import { NOT_AUTHORIZED } from '../../_error/error-user.js'
 

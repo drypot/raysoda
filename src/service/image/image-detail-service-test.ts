@@ -1,7 +1,7 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { Config, configFrom } from '../../_config/config.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { ImageUploadForm } from './form/image-form.js'
+import { ImageUploadForm } from './_image-service.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
@@ -9,10 +9,10 @@ import { dateTimeStringFrom } from '../../_util/date2.js'
 import { DB } from '../../db/_db/db.js'
 import { Error2 } from '../../_error/error2.js'
 import { imageUploadService } from './image-upload-service.js'
-import { imageViewService } from './image-view-service.js'
+import { imageDetailService } from './image-detail-service.js'
 import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
 
-describe('Image View Service', () => {
+describe('Image Detail Service', () => {
 
   let config: Config
 
@@ -55,12 +55,12 @@ describe('Image View Service', () => {
     })
     it('get image fails if id invalid', async () => {
       const err: Error2[] = []
-      const image = await imageViewService(udb, idb, ifm, 2, err)
+      const image = await imageDetailService(udb, idb, ifm, 2, err)
       expect(err).toContain(IMAGE_NOT_EXIST)
     })
     it('get image', async () => {
       const err: Error2[] = []
-      const image = await imageViewService(udb, idb, ifm, 1, err)
+      const image = await imageDetailService(udb, idb, ifm, 1, err)
       if (!image) throw new Error()
       // image: {
       //   id: 1,

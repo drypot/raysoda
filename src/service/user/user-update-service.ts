@@ -1,5 +1,5 @@
 import { UserDB } from '../../db/user/user-db.js'
-import { User } from '../../entity/user.js'
+import { User } from '../../core/user.js'
 import {
   checkEmailDupe,
   checkEmailFormat,
@@ -9,7 +9,7 @@ import {
   checkNameFormat,
   checkPasswordFormat,
   UserUpdateForm
-} from './form/user-form.js'
+} from './_user-service.js'
 import { Error2 } from '../../_error/error2.js'
 import { makeHash } from '../../_util/hash.js'
 

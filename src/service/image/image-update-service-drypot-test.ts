@@ -1,6 +1,6 @@
 import { Config, configFrom } from '../../_config/config.js'
 import { identify } from '../../file/magick/magick2.js'
-import { ImageUpdateForm, ImageUploadForm } from './form/image-form.js'
+import { ImageUpdateForm, ImageUploadForm } from './_image-service.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
