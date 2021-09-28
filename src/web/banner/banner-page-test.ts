@@ -8,7 +8,7 @@ import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { ValueDB } from '../../db/value/value-db.js'
 import { BannerDB } from '../../db/banner/banner-db.js'
 import { AdminLogin, loginForTest, User1Login } from '../user/user-login-api-fixture.js'
-import { registerBannerView } from './banner-view.js'
+import { registerBannerPage } from './banner-page.js'
 
 describe('Banner View', () => {
 
@@ -32,7 +32,7 @@ describe('Banner View', () => {
 
     web = await Express2.from(config).start()
     registerUserLoginApi(web, udb)
-    registerBannerView(web, bdb)
+    registerBannerPage(web, bdb)
     request = web.spawnRequest()
   })
 
@@ -52,20 +52,20 @@ describe('Banner View', () => {
       await vdb.dropTable()
       await vdb.createTable()
     })
-    it('/support/banner fails if anonymous', async () => {
-      await request.get('/support/banner').expect(302).expect('Location', '/user/login')
+    it('banner-update fails if anonymous', async () => {
+      await request.get('/banner-update').expect(302).expect('Location', '/user/login')
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)
     })
-    it('/support/banner fails if user', async () => {
-      await request.get('/support/banner').expect(302).expect('Location', '/user/login')
+    it('banner-update fails if user', async () => {
+      await request.get('/banner-update').expect(302).expect('Location', '/user/login')
     })
     it('login as admin', async () => {
       await loginForTest(request, AdminLogin)
     })
-    it('/support/banner', async () => {
-      await request.get('/support/banner').expect(200).expect(/<title>Update Banners/)
+    it('/banner-update', async () => {
+      await request.get('/banner-update').expect(200).expect(/<title>Update Banners/)
     })
   })
 

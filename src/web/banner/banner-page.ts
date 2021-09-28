@@ -3,16 +3,16 @@ import { sessionUserFrom } from '../user/user-login-api.js'
 import { BannerDB } from '../../db/banner/banner-db.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_error/error-user.js'
 
-export function registerBannerView(web: Express2, bdb: BannerDB) {
+export function registerBannerPage(web: Express2, bdb: BannerDB) {
 
   const router = web.router
 
-  router.get('/support/banner', toCallback(async (req, res) => {
+  router.get('/banner-update', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     if (!user.admin) throw NOT_AUTHORIZED
     const banner = await bdb.getBanner()
-    res.render('banner/pug/banner-view', { banner })
+    res.render('banner/pug/banner-update', { banner })
   }))
 
 }
