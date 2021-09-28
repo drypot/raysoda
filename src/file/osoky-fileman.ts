@@ -6,8 +6,8 @@ import { mkdirRecursive, rmRecursive } from '../_util/fs2.js'
 import { exec2 } from '../_util/exec2.js'
 import { unlink } from 'fs/promises'
 import { identify } from './magick/magick2.js'
-import { ImageMeta } from '../entity/image.js'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../_error/error-image.js'
+import { ImageMeta } from '../core/image-meta.js'
 
 const maxWidth = 2048
 

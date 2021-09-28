@@ -5,8 +5,8 @@ import { deepPathOf } from '../_util/deeppath.js'
 import { mkdirRecursive, rmRecursive } from '../_util/fs2.js'
 import { copyFile, unlink } from 'fs/promises'
 import { identify } from './magick/magick2.js'
-import { ImageMeta } from '../entity/image.js'
 import { IMAGE_TYPE } from '../_error/error-image.js'
+import { ImageMeta } from '../core/image-meta.js'
 
 function subDir(id: number) {
   return deepPathOf((id / 1000) >> 0, 2)

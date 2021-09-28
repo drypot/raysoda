@@ -1,5 +1,5 @@
 import { DB } from '../_db/db.js'
-import { User } from '../../entity/user.js'
+import { User } from '../../core/user.js'
 import { Config } from '../../_config/config.js'
 
 export type UserListItem = {

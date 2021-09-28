@@ -1,6 +1,6 @@
 import { Error2 } from '../_error/error2.js'
 import { Config } from '../_config/config.js'
-import { ImageMeta } from '../entity/image.js'
+import { ImageMeta } from '../core/image-meta.js'
 
 export interface ImageFileManager {
 

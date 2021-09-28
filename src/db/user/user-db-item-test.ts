@@ -1,7 +1,7 @@
 import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../_db/db.js'
 import { UserDB } from './user-db.js'
-import { userOf } from '../../entity/user.js'
+import { userOf } from '../../core/user.js'
 
 describe('UserDB', () => {
 
