@@ -9,7 +9,7 @@ import { numberFrom } from '../../_util/primitive.js'
 
 export function registerImagePage(web: Express2, udb: UserDB, idb: ImageDB, ifm: ImageFileManager) {
 
-  web.router.get('/images/:id([0-9]+)', toCallback(async (req, res) => {
+  web.router.get('/image/:id([0-9]+)', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     const id = numberFrom(req.params.id)
     const err: Error2[] = []

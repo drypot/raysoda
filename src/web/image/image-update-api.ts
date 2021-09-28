@@ -18,7 +18,7 @@ function imageUpdateFormFrom(req: Request) {
 
 export function registerImageUpdateApi(web: Express2, idb: ImageDB, ifm: ImageFileManager) {
 
-  web.router.put('/api/image/:id([0-9]+)', web.upload.single('file'), deleteUpload(async (req, res) => {
+  web.router.put('/api/image-update/:id([0-9]+)', web.upload.single('file'), deleteUpload(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     const id = numberFrom(req.params.id)

@@ -64,7 +64,7 @@ describe('Image Update Api with Drypot FileManager', () => {
       await loginForTest(request, User1Login)
     })
     it('upload', async () => {
-      const res = await request.post('/api/image').field('comment', 'c1')
+      const res = await request.post('/api/image-upload').field('comment', 'c1')
         .attach('file', 'sample/svg-sample.svg').expect(200)
       expect(res.body.id).toEqual(1)
     })
@@ -80,7 +80,7 @@ describe('Image Update Api with Drypot FileManager', () => {
       expect(meta.format).toBe('svg')
     })
     it('update', async () => {
-      const res = await request.put('/api/image/1').field('comment', 'c2')
+      const res = await request.put('/api/image-update/1').field('comment', 'c2')
         .attach('file', 'sample/svg-sample-2.svg').expect(200)
       expect(res.body).toEqual({})
     })

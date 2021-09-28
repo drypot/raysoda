@@ -63,15 +63,15 @@ describe('Image Upload Api with Rapixel FileManager', () => {
       await loginForTest(request, User1Login)
     })
     it('upload fails if image is too small', async () => {
-      const res = await request.post('/api/image').attach('file', 'sample/2560x1440.jpg').expect(200)
+      const res = await request.post('/api/image-upload').attach('file', 'sample/2560x1440.jpg').expect(200)
       expect(res.body.err).toContain(IMAGE_SIZE)
     })
     it('upload fails if image is vertical', async () => {
-      const res = await request.post('/api/image').attach('file', 'sample/2160x3840.jpg').expect(200)
+      const res = await request.post('/api/image-upload').attach('file', 'sample/2160x3840.jpg').expect(200)
       expect(res.body.err).toContain(IMAGE_SIZE)
     })
     it('upload 5120x2880', async () => {
-      const res = await request.post('/api/image').field('comment', 'c1')
+      const res = await request.post('/api/image-upload').field('comment', 'c1')
         .attach('file', 'sample/5120x2880.jpg').expect(200)
       expect(res.body.id).toBe(1)
     })
@@ -90,7 +90,7 @@ describe('Image Upload Api with Rapixel FileManager', () => {
       expect((await identify(ifm.getPathFor(1, 1280))).width).toBe(1280)
     })
     it('upload 3840x2160', async () => {
-      const res = await request.post('/api/image').field('comment', 'c2')
+      const res = await request.post('/api/image-upload').field('comment', 'c2')
         .attach('file', 'sample/3840x2160.jpg').expect(200)
       expect(res.body.id).toBe(2)
     })

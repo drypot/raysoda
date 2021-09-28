@@ -63,11 +63,11 @@ describe('Image Upload Api with Drypot FileManager', () => {
       await loginForTest(request, User1Login)
     })
     it('upload fails if jpeg', async () => {
-      const res = await request.post('/api/image').attach('file', 'sample/640x360.jpg').expect(200)
+      const res = await request.post('/api/image-upload').attach('file', 'sample/640x360.jpg').expect(200)
       expect(res.body.err).toContain(IMAGE_TYPE)
     })
     it('upload svg-sample.svg', async () => {
-      const res = await request.post('/api/image').field('comment', 'c1')
+      const res = await request.post('/api/image-upload').field('comment', 'c1')
         .attach('file', 'sample/svg-sample.svg').expect(200)
       expect(res.body.id).toBe(1)
     })

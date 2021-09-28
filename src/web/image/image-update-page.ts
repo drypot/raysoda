@@ -9,7 +9,7 @@ import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
 
 export function registerImageUpdatePage(web: Express2, udb: UserDB, idb: ImageDB) {
 
-  web.router.get('/image/:id([0-9]+)/update', toCallback(async (req, res) => {
+  web.router.get('/image-update/:id([0-9]+)', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     const id = numberFrom(req.params.id)

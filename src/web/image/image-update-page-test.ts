@@ -52,27 +52,27 @@ describe('Image Update Page', () => {
       await idb.createTable()
     })
     it('fails if anonymous', async () => {
-      await request.get('/image/1/update').expect(302).expect('Location', '/user/login')
+      await request.get('/image-update/1').expect(302).expect('Location', '/user-login')
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)
     })
     it('fails if image not exist', async () => {
-      const res = await request.get('/image/1/update').expect(200)
+      const res = await request.get('/image-update/1').expect(200)
       expect(res.body.err).toContain(IMAGE_NOT_EXIST)
     })
     it('insert image', async () => {
       await idb.insertImage(imageOf({ id: 1, uid: 1 }))
     })
     it('succeeds', async () => {
-      const res = await request.get('/image/1/update').expect(200)
+      const res = await request.get('/image-update/1').expect(200)
       expect(res.body.err).toBeUndefined()
     })
     it('login as user2', async () => {
       await loginForTest(request, User2Login)
     })
     it('fails if owner not match', async () => {
-      const res = await request.get('/image/1/update').expect(302).expect('Location', '/user/login')
+      const res = await request.get('/image-update/1').expect(302).expect('Location', '/user-login')
     })
   })
 

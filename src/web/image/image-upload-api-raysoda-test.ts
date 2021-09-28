@@ -61,28 +61,28 @@ describe('Image Upload Api with RaySoda FileManager', () => {
       await ifm.rmRoot()
     })
     it('upload fails if not logged in', async () => {
-      const res = await request.post('/api/image').expect(200)
+      const res = await request.post('/api/image-upload').expect(200)
       expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('login as user1', async () => {
       await loginForTest(request, User1Login)
     })
     it('upload fails if file not sent', async () => {
-      const res = await request.post('/api/image').expect(200)
+      const res = await request.post('/api/image-upload').expect(200)
       expect(res.body.err).toContain(IMAGE_NO_FILE)
     })
     it('upload fails if file is not image', async () => {
-      const res = await request.post('/api/image').attach('file', 'sample/text1.txt').expect(200)
+      const res = await request.post('/api/image-upload').attach('file', 'sample/text1.txt').expect(200)
       expect(res.body.err).toContain(IMAGE_TYPE)
     })
     it('upload fails if image is too small', async () => {
-      const res = await request.post('/api/image').attach('file', 'sample/360x240.jpg').expect(200)
+      const res = await request.post('/api/image-upload').attach('file', 'sample/360x240.jpg').expect(200)
       expect(res.body.err).toContain(IMAGE_SIZE)
 
     })
     it('upload horizontal image', async () => {
       // resize 기능 테스트를 위해 2048 보다 큰 이미지를 업로드한다.
-      const res = await request.post('/api/image')
+      const res = await request.post('/api/image-upload')
         .field('comment', 'h')
         .attach('file', 'sample/2560x1440.jpg')
         .expect(200)
@@ -101,7 +101,7 @@ describe('Image Upload Api with RaySoda FileManager', () => {
       expect(meta.height).toBe(1152)
     })
     it('upload vertical image', async () => {
-      const res = await request.post('/api/image')
+      const res = await request.post('/api/image-upload')
         .field('comment', 'v')
         .attach('file', 'sample/1440x2560.jpg')
         .expect(200)
@@ -120,7 +120,7 @@ describe('Image Upload Api with RaySoda FileManager', () => {
       expect(meta.height).toBe(2048)
     })
     it('upload small image', async () => {
-      const res = await request.post('/api/image')
+      const res = await request.post('/api/image-upload')
         .field('comment', 'small')
         .attach('file', 'sample/640x360.jpg')
         .expect(200)
@@ -139,7 +139,7 @@ describe('Image Upload Api with RaySoda FileManager', () => {
       expect(meta.height).toBe(360)
     })
     it('upload 4th image should fail', async () => {
-      const res = await request.post('/api/image')
+      const res = await request.post('/api/image-upload')
         .field('comment', 'small')
         .attach('file', 'sample/640x360.jpg')
         .expect(200)

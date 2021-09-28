@@ -66,7 +66,7 @@ describe('Image Delete Api with RaySoda FileManager', () => {
       await loginForTest(request, User1Login)
     })
     it('upload 1', async () => {
-      const res = await request.post('/api/image').field('comment', 'c')
+      const res = await request.post('/api/image-upload').field('comment', 'c')
         .attach('file', 'sample/640x360.jpg').expect(200)
       expect(res.body.id).toEqual(1)
     })
@@ -74,18 +74,18 @@ describe('Image Delete Api with RaySoda FileManager', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(true)
     })
     it('delete 1', async () => {
-      const res = await request.delete('/api/image/1').expect(200)
+      const res = await request.delete('/api/image-delete/1').expect(200)
       expect(res.body.err).toBeUndefined()
     })
     it('check file 1 after delete', async () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(false)
     })
     it('delete 1 again, fails', async () => {
-      const res = await request.delete('/api/image/1').expect(200)
+      const res = await request.delete('/api/image-delete/1').expect(200)
       expect(res.body.err).toContain(IMAGE_NOT_EXIST)
     })
     it('upload 2', async () => {
-      const res = await request.post('/api/image').field('comment', 'c')
+      const res = await request.post('/api/image-upload').field('comment', 'c')
         .attach('file', 'sample/640x360.jpg').expect(200)
       expect(res.body.id).toEqual(2)
     })
@@ -93,14 +93,14 @@ describe('Image Delete Api with RaySoda FileManager', () => {
       await loginForTest(request, User2Login)
     })
     it('delete 2 fails, owner not match', async () => {
-      const res = await request.delete('/api/image/2').expect(200)
+      const res = await request.delete('/api/image-delete/2').expect(200)
       expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
     it('login as admin', async () => {
       await loginForTest(request, AdminLogin)
     })
     it('delete 2 by admin', async () => {
-      const res = await request.delete('/api/image/2').expect(200)
+      const res = await request.delete('/api/image-delete/2').expect(200)
       expect(res.body.err).toBeUndefined()
     })
   })

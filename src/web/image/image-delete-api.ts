@@ -10,7 +10,7 @@ import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
 
 export function registerImageDeleteApi(web: Express2, idb: ImageDB, ifm: ImageFileManager) {
 
-  web.router.delete('/api/image/:id([0-9]+)', toCallback(async (req, res) => {
+  web.router.delete('/api/image-delete/:id([0-9]+)', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     const id = numberFrom(req.params.id)

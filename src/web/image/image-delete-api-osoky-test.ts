@@ -64,7 +64,7 @@ describe('Image Delete Api with Osoky FileManager', () => {
       await loginForTest(request, User1Login)
     })
     it('upload 1', async () => {
-      const res = await request.post('/api/image').field('comment', 'c')
+      const res = await request.post('/api/image-upload').field('comment', 'c')
         .attach('file', 'sample/1280x720.jpg').expect(200)
       expect(res.body.id).toEqual(1)
     })
@@ -72,7 +72,7 @@ describe('Image Delete Api with Osoky FileManager', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(true)
     })
     it('delete 1', async () => {
-      const res = await request.delete('/api/image/1').expect(200)
+      const res = await request.delete('/api/image-delete/1').expect(200)
       expect(res.body.err).toBeUndefined()
     })
     it('check file 1 after delete', async () => {

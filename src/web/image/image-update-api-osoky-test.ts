@@ -65,7 +65,7 @@ describe('Image Update Api with Osoky FileManager', () => {
       await loginForTest(request, User1Login)
     })
     it('upload', async () => {
-      const res = await request.post('/api/image').field('comment', 'c1')
+      const res = await request.post('/api/image-upload').field('comment', 'c1')
         .attach('file', 'sample/1280x720.jpg').expect(200)
       expect(res.body.id).toEqual(1)
     })
@@ -82,7 +82,7 @@ describe('Image Update Api with Osoky FileManager', () => {
       expect(meta.height).toBe(720)
     })
     it('update', async () => {
-      const res = await request.put('/api/image/1').field('comment', 'c2')
+      const res = await request.put('/api/image-update/1').field('comment', 'c2')
         .attach('file', 'sample/4096x2304.jpg').expect(200)
       expect(res.body).toEqual({})
     })
@@ -99,7 +99,7 @@ describe('Image Update Api with Osoky FileManager', () => {
       expect(meta.height).toBe(2048)
     })
     it('update fails if image too small', async () => {
-      const res = await request.put('/api/image/1').attach('file', 'sample/640x360.jpg').expect(200)
+      const res = await request.put('/api/image-update/1').attach('file', 'sample/640x360.jpg').expect(200)
       expect(res.body.err).toContain(IMAGE_SIZE)
     })
   })

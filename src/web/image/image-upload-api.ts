@@ -19,7 +19,7 @@ function imageUploadFormFrom(req: Request) {
 
 export function registerImageUploadApi(web: Express2, udb: UserDB, idb: ImageDB, ifm: ImageFileManager) {
 
-  web.router.post('/api/image', web.upload.single('file'), deleteUpload(async (req, res) => {
+  web.router.post('/api/image-upload', web.upload.single('file'), deleteUpload(async (req, res) => {
     const user = sessionUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     const form = imageUploadFormFrom(req)

@@ -8,7 +8,7 @@ import { ImageListItem } from '../../core/image-view.js'
 
 export function registerImageListApi(web: Express2, udb: UserDB, idb: ImageDB, ifm: ImageFileManager) {
 
-  web.router.get('/api/image', toCallback(async (req, res) => {
+  web.router.get('/api/image-list', toCallback(async (req, res) => {
     const p = limitNumber(numberFrom(req.query.p as string, 1), 1, NaN)
     const ps = limitNumber(numberFrom(req.query.ps as string, 16), 1, 128)
     const dts = Date.parse(req.query.d as string)

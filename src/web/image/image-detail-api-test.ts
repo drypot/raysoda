@@ -66,7 +66,7 @@ describe('Image View Api', () => {
       await loginForTest(request, User1Login)
     })
     it('upload image', async () => {
-      const res = await request.post('/api/image')
+      const res = await request.post('/api/image-upload')
         .field('comment', 'c1')
         .attach('file', 'sample/640x360.jpg')
         .expect(200)

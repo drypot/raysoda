@@ -44,19 +44,19 @@ describe('Image Upload Page', () => {
     await insertUserFix4(udb)
   })
 
-  describe('image upload view', () => {
+  describe('image upload page', () => {
     it('init table', async () => {
       await idb.dropTable()
       await idb.createTable()
     })
     it('fails if anonymous', async () => {
-      await request.get('/image/upload').expect(302).expect('Location', '/user/login')
+      await request.get('/image-upload').expect(302).expect('Location', '/user-login')
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)
     })
     it('succeeds', async () => {
-      await request.get('/image/upload').expect(200)
+      await request.get('/image-upload').expect(200)
     })
   })
 
