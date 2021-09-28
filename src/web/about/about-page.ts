@@ -1,6 +1,6 @@
 import { Express2 } from '../_express/express2.js'
 
-export function registerAboutApi(server: Express2) {
+export function registerAboutPage(server: Express2) {
 
   const router = server.router
 

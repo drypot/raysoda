@@ -1,7 +1,7 @@
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { configFrom } from '../../_config/config.js'
-import { registerAboutApi } from './about-page.js'
+import { registerAboutPage } from './about-page.js'
 
 describe('About Page', () => {
 
@@ -11,7 +11,7 @@ describe('About Page', () => {
   beforeAll(async () => {
     const config = configFrom('config/raysoda-test.json')
     server = Express2.from(config)
-    registerAboutApi(server)
+    registerAboutPage(server)
     await server.start()
     request = server.spawnRequest()
   })
