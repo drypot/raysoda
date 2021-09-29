@@ -31,13 +31,13 @@ export function userOf(params?: Partial<User>): User {
   }
 }
 
-export type SessionUser = {
+export type UserMin = {
   id: number
   name: string
   home: string
   admin: boolean
 }
 
-export function sessionUserFrom(user: User) {
+export function userMinOf(user: User) {
   return { id: user.id, name: user.name, home: user.home, admin: user.admin }
 }
