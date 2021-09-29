@@ -30,3 +30,14 @@ export function userOf(params?: Partial<User>): User {
     ...params
   }
 }
+
+export type SessionUser = {
+  id: number
+  name: string
+  home: string
+  admin: boolean
+}
+
+export function sessionUserFrom(user: User) {
+  return { id: user.id, name: user.name, home: user.home, admin: user.admin }
+}

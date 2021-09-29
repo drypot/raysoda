@@ -1,4 +1,4 @@
-export const dateNull = new Date()
+export const dateNull = new Date(0)
 
 export function today() {
   const d = new Date()
