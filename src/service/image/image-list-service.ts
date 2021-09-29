@@ -1,10 +1,10 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { Image } from '../../core/image.js'
-import { User } from '../../core/user.js'
+import { Image } from '../../_type/image.js'
+import { User } from '../../_type/user.js'
 import { dateTimeStringFrom } from '../../_util/date2.js'
-import { ImageListItem } from '../../core/image-view.js'
+import { ImageListItem } from '../../_type/image-view.js'
 
 export function imageListItemFrom(owner: User, ifm: ImageFileManager, image: Image) {
   return {

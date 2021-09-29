@@ -1,8 +1,8 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
-import { Error2 } from '../../_error/error2.js'
-import { User, userMinOf } from '../../core/user.js'
+import { Error2 } from '../../_util/error2.js'
+import { User, userMinOf } from '../../_type/user.js'
 import { checkHash } from '../../_util/hash.js'
 import { stringFrom } from '../../_util/primitive.js'
 import {
@@ -11,7 +11,7 @@ import {
   NOT_AUTHENTICATED,
   NOT_AUTHORIZED,
   PASSWORD_WRONG
-} from '../../_error/error-user.js'
+} from '../../_type/error-user.js'
 
 declare module 'express-session' {
   interface SessionData {

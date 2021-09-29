@@ -1,10 +1,11 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { leftTicket } from './image-upload-service.js'
-import { imageOf } from '../../core/image.js'
+import { imageOf } from '../../_type/image.js'
+import { Config } from '../../_type/config.js'
 
 describe('Image Service', () => {
 

@@ -1,7 +1,8 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../_db/db.js'
 import { ValueDB } from '../value/value-db.js'
 import { BannerDB } from './banner-db.js'
+import { Config } from '../../_type/config.js'
 
 describe('BannerDB', () => {
 

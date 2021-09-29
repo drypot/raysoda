@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -9,6 +9,7 @@ import { ValueDB } from '../../db/value/value-db.js'
 import { BannerDB } from '../../db/banner/banner-db.js'
 import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { registerBannerPage } from './banner-page.js'
+import { Config } from '../../_type/config.js'
 
 describe('Banner Page', () => {
 

@@ -3,7 +3,7 @@ import { Express2, toCallback } from '../_express/express2.js'
 import { userRegisterService } from '../../service/user/user-register-service.js'
 import { Request } from 'express'
 import { UserRegisterForm } from '../../service/user/_user-service.js'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { stringFrom } from '../../_util/primitive.js'
 
 export function userRegisterFormFrom(req: Request) {

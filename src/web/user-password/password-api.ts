@@ -1,7 +1,7 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
 import { PwResetDB } from '../../db/pwreset/pwreset-db.js'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { Mailer } from '../../mailer/mailer2.js'
 import {
   NewPasswordForm,

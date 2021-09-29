@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -12,6 +12,7 @@ import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { registerImageDeleteApi } from './image-delete-api.js'
 import { RapixelFileManager } from '../../file/rapixel-fileman.js'
 import { existsSync } from 'fs'
+import { Config } from '../../_type/config.js'
 
 describe('Image Delete Api with Rapixel FileManager', () => {
 

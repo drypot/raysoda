@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -8,6 +8,7 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { registerImageUploadPage } from './image-upload-page.js'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
+import { Config } from '../../_type/config.js'
 
 describe('Image Upload Page', () => {
 

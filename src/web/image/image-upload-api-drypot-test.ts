@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -11,7 +11,8 @@ import { registerImageUploadApi } from './image-upload-api.js'
 import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { DrypotFileManager } from '../../file/drypot-fileman.js'
 import { identify } from '../../file/magick/magick2.js'
-import { IMAGE_TYPE } from '../../_error/error-image.js'
+import { IMAGE_TYPE } from '../../_type/error-image.js'
+import { Config } from '../../_type/config.js'
 
 describe('Image Upload Api with Drypot FileManager', () => {
 

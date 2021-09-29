@@ -6,11 +6,11 @@ import expressSession from 'express-session'
 import connectRedis from 'connect-redis'
 import * as http from 'http'
 import supertest from 'supertest'
-import { Config } from '../../_config/config.js'
 import newMulter, { Multer } from 'multer'
 import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2.js'
 import { unlinkSync } from 'fs'
-import { errorOf } from '../../_error/error2.js'
+import { errorOf } from '../../_util/error2.js'
+import { Config } from '../../_type/config.js'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 

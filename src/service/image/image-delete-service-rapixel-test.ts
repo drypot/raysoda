@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { ImageUploadForm } from './_image-service.js'
 import { constants, existsSync } from 'fs'
@@ -6,11 +6,12 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { DB } from '../../db/_db/db.js'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageDeleteService } from './image-delete-service.js'
 import { RapixelFileManager } from '../../file/rapixel-fileman.js'
 import { copyFile } from 'fs/promises'
+import { Config } from '../../_type/config.js'
 
 describe('Image Delete Service with Rapixel FileManager', () => {
 

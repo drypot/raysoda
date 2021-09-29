@@ -1,5 +1,5 @@
 import { UserDB } from '../../db/user/user-db.js'
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { ImageUploadForm } from './_image-service.js'
 import { ImageDB } from '../../db/image/image-db.js'
@@ -7,10 +7,11 @@ import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { dateTimeStringFrom } from '../../_util/date2.js'
 import { DB } from '../../db/_db/db.js'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageDetailService } from './image-detail-service.js'
-import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
+import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
+import { Config } from '../../_type/config.js'
 
 describe('Image Detail Service', () => {
 

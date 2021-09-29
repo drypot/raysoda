@@ -1,4 +1,4 @@
-import { errorOf } from './error2.js'
+import { errorOf } from '../_util/error2.js'
 
 export const NOT_AUTHENTICATED = errorOf('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.')
 export const NOT_AUTHORIZED = errorOf('NOT_AUTHORIZED', '사용 권한이 없습니다.')

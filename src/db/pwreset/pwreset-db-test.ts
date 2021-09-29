@@ -1,6 +1,7 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../_db/db.js'
 import { PwResetDB, PwResetRecord } from './pwreset-db.js'
+import { Config } from '../../_type/config.js'
 
 describe('ResetDB', () => {
 

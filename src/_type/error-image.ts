@@ -1,4 +1,4 @@
-import { errorOf } from './error2.js'
+import { errorOf } from '../_util/error2.js'
 
 export const IMAGE_NOT_EXIST = errorOf('IMAGE_NOT_EXIST', '파일이 없습니다.')
 export const IMAGE_NO_FILE = errorOf('IMAGE_NO_FILE', '아미지 파일이 첨부되지 않았습니다.', 'files')

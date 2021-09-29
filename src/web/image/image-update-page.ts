@@ -2,10 +2,10 @@ import { Express2, toCallback } from '../_express/express2.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { sessionUserFrom } from '../user-login/login-api.js'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { checkImageUpdatable } from '../../service/image/image-update-service.js'
 import { numberFrom } from '../../_util/primitive.js'
-import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
+import { NOT_AUTHENTICATED } from '../../_type/error-user.js'
 
 export function registerImageUpdatePage(web: Express2, udb: UserDB, idb: ImageDB) {
 

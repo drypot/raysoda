@@ -1,12 +1,13 @@
 import { Express2, toCallback } from '../_express/express2.js'
 import { BannerDB } from '../../db/banner/banner-db.js'
+import { userMinOf } from '../../_type/user.js'
 
 export function registerSessionInitScript(web: Express2, bdb: BannerDB) {
 
   web.router.get('/api/session-init-script', toCallback(async function (req, res) {
     const config = web.config
     const user = res.locals.user
-    const userString = JSON.stringify(user ? { id: user.id, name: user.name, home: user.home } : null)
+    const userString = JSON.stringify(user ? userMinOf(user) : null)
     const banner = await bdb.getBanner()
     const bannerString = JSON.stringify(banner)
     const script =

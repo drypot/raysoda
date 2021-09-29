@@ -1,11 +1,12 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Express2, toCallback } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi, sessionUserFrom } from './login-api.js'
-import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
+import { NOT_AUTHENTICATED } from '../../_type/error-user.js'
+import { Config } from '../../_type/config.js'
 
 describe('Login Api', () => {
 

@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { identify } from '../../file/magick/magick2.js'
 import { ImageUpdateForm, ImageUploadForm } from './_image-service.js'
 import { ImageFileManager } from '../../file/fileman.js'
@@ -6,10 +6,11 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { DB } from '../../db/_db/db.js'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageUpdateService } from './image-update-service.js'
 import { DrypotFileManager } from '../../file/drypot-fileman.js'
+import { Config } from '../../_type/config.js'
 
 describe('Image Update Service with DrypotFileManager', () => {
 

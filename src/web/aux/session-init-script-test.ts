@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
@@ -10,6 +10,7 @@ import { ValueDB } from '../../db/value/value-db.js'
 import { BannerDB } from '../../db/banner/banner-db.js'
 import { registerBannerApi } from '../banner/banner-api.js'
 import { loginForTest, logoutForTest, User1Login } from '../user-login/login-api-fixture.js'
+import { Config } from '../../_type/config.js'
 
 describe('Session Init Script', () => {
 
@@ -80,7 +81,7 @@ describe('Session Init Script', () => {
         `_config.appDesc = 'One day, one photo.'\n` +
         `_config.mainUrl = 'http://raysoda.test:8080'\n` +
         `_config.uploadUrl = 'http://file.raysoda.test:8080'\n` +
-        `const _user = {"id":1,"name":"User 1","home":"user1"}\n` +
+        `const _user = {"id":1,"name":"User 1","home":"user1","admin":false}\n` +
         `const _banner = []\n`
       )
     })

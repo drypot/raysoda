@@ -1,10 +1,11 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { checkEmailDupe, checkHomeDupe, checkNameDupe } from './_user-service.js'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { insertUserFix1 } from '../../db/user/user-db-fixture.js'
-import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE } from '../../_error/error-user.js'
+import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE } from '../../_type/error-user.js'
+import { Config } from '../../_type/config.js'
 
 describe('User Form', () => {
 

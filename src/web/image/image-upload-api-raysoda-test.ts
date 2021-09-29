@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -11,8 +11,9 @@ import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
 import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { identify } from '../../file/magick/magick2.js'
-import { IMAGE_NO_FILE, IMAGE_SIZE, IMAGE_TYPE } from '../../_error/error-image.js'
-import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
+import { IMAGE_NO_FILE, IMAGE_SIZE, IMAGE_TYPE } from '../../_type/error-image.js'
+import { NOT_AUTHENTICATED } from '../../_type/error-user.js'
+import { Config } from '../../_type/config.js'
 
 describe('Image Upload Api with RaySoda FileManager', () => {
 

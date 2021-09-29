@@ -1,9 +1,5 @@
 import { ValueDB } from '../value/value-db.js'
-
-export type Banner = {
-  text: string
-  url: string
-}
+import { Banner } from '../../_type/banner.js'
 
 export class BannerDB {
   private vdb: ValueDB

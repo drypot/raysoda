@@ -3,7 +3,7 @@ import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { leftTicket } from '../../service/image/image-upload-service.js'
 import { sessionUserFrom } from '../user-login/login-api.js'
-import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
+import { NOT_AUTHENTICATED } from '../../_type/error-user.js'
 
 export function registerImageUploadPage(web: Express2, udb: UserDB, idb: ImageDB) {
 

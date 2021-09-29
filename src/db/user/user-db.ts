@@ -1,6 +1,6 @@
 import { DB } from '../_db/db.js'
-import { User } from '../../core/user.js'
-import { Config } from '../../_config/config.js'
+import { User } from '../../_type/user.js'
+import { Config } from '../../_type/config.js'
 
 export type UserListItem = {
   id: number

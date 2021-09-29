@@ -1,4 +1,4 @@
-import { configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { deleteUpload, Express2 } from './express2.js'
 import { SuperAgentTest } from 'supertest'
 import { Multer } from 'multer'

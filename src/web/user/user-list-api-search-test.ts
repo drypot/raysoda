@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
@@ -7,6 +7,7 @@ import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { AdminLogin, loginForTest } from '../user-login/login-api-fixture.js'
 import { registerUserListApi } from './user-list-api.js'
+import { Config } from '../../_type/config.js'
 
 describe('User List Api', () => {
 

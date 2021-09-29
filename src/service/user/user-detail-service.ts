@@ -1,5 +1,5 @@
 import { UserDB } from '../../db/user/user-db.js'
-import { User } from '../../core/user.js'
+import { User } from '../../_type/user.js'
 
 export async function userDetailService(udb: UserDB, id: number, priv: boolean) {
   const user1 = await udb.getCachedById(id)

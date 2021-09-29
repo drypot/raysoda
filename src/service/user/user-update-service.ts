@@ -1,5 +1,5 @@
 import { UserDB } from '../../db/user/user-db.js'
-import { User } from '../../core/user.js'
+import { User } from '../../_type/user.js'
 import {
   checkEmailDupe,
   checkEmailFormat,
@@ -10,7 +10,7 @@ import {
   checkPasswordFormat,
   UserUpdateForm
 } from './_user-service.js'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { makeHash } from '../../_util/hash.js'
 
 export async function userUpdateService(udb: UserDB, id: number, form: UserUpdateForm, err: Error2[]) {

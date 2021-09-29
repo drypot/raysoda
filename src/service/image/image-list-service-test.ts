@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
@@ -6,6 +6,7 @@ import { ImageFileManager } from '../../file/fileman.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { imageListByCdateService, imageListService } from './image-list-service.js'
+import { Config } from '../../_type/config.js'
 
 describe('Image List Service', () => {
 

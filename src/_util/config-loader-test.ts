@@ -1,4 +1,4 @@
-import { configFrom } from './config.js'
+import { configFrom } from './config-loader.js'
 
 describe('loadConfig', () => {
   it('should work', () => {

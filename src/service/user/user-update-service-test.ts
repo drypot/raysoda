@@ -1,8 +1,8 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { userUpdateService } from './user-update-service.js'
 import { checkHash } from '../../_util/hash.js'
 import { userUpdateFormOf } from './_user-service.js'
@@ -14,7 +14,8 @@ import {
   NAME_DUPE,
   NAME_RANGE,
   PASSWORD_RANGE
-} from '../../_error/error-user.js'
+} from '../../_type/error-user.js'
+import { Config } from '../../_type/config.js'
 
 describe('User Update Service', () => {
 

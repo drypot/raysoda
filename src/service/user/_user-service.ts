@@ -1,4 +1,4 @@
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { emailPatternIsOk } from '../../_util/email.js'
 import {
@@ -14,7 +14,7 @@ import {
   NAME_RANGE,
   PASSWORD_EMPTY,
   PASSWORD_RANGE
-} from '../../_error/error-user.js'
+} from '../../_type/error-user.js'
 
 export type UserRegisterForm = {
   name: string

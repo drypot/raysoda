@@ -1,5 +1,5 @@
 import { Mailer } from './mailer2.js'
-import { configFrom } from '../_config/config.js'
+import { configFrom } from '../_util/config-loader.js'
 
 describe('Mailer', () => {
 

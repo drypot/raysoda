@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -7,6 +7,7 @@ import { registerLoginApi } from '../user-login/login-api.js'
 import { insertUserFix1 } from '../../db/user/user-db-fixture.js'
 import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { registerUserUpdatePage } from './user-update-page.js'
+import { Config } from '../../_type/config.js'
 
 describe('User Update Page', () => {
 

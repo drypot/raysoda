@@ -1,12 +1,12 @@
 import { ImageFileManager } from './fileman.js'
-import { Error2 } from '../_error/error2.js'
-import { Config } from '../_config/config.js'
+import { Error2 } from '../_util/error2.js'
 import { deepPathOf } from '../_util/deeppath.js'
 import { mkdirRecursive, rmRecursive } from '../_util/fs2.js'
 import { copyFile, unlink } from 'fs/promises'
 import { identify } from './magick/magick2.js'
-import { IMAGE_TYPE } from '../_error/error-image.js'
-import { ImageMeta } from '../core/image-meta.js'
+import { IMAGE_TYPE } from '../_type/error-image.js'
+import { ImageMeta } from '../_type/image-meta.js'
+import { Config } from '../_type/config.js'
 
 function subDir(id: number) {
   return deepPathOf((id / 1000) >> 0, 2)

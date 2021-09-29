@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { identify } from '../../file/magick/magick2.js'
 import { ImageUpdateForm, ImageUploadForm } from './_image-service.js'
 import { ImageFileManager } from '../../file/fileman.js'
@@ -7,10 +7,11 @@ import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { DB } from '../../db/_db/db.js'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageUpdateService } from './image-update-service.js'
-import { IMAGE_SIZE } from '../../_error/error-image.js'
+import { IMAGE_SIZE } from '../../_type/error-image.js'
+import { Config } from '../../_type/config.js'
 
 describe('Image Update Service with RaySodaFileManager', () => {
 

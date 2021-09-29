@@ -1,7 +1,8 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../_db/db.js'
 import { UserDB } from './user-db.js'
 import { insertUserFix1 } from './user-db-fixture.js'
+import { Config } from '../../_type/config.js'
 
 describe('UserDB', () => {
 

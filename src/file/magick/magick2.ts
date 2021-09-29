@@ -1,6 +1,6 @@
 import { exec2 } from '../../_util/exec2.js'
 import { numberFrom } from '../../_util/primitive.js'
-import { imageMetaOf } from '../../core/image-meta.js'
+import { imageMetaOf } from '../../_type/image-meta.js'
 
 export async function mogrifyAutoOrient(path: string) {
   await exec2('mogrify -auto-orient ' + path)

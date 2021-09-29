@@ -1,4 +1,4 @@
-import { Config, configFrom } from '../../_config/config.js'
+import { configFrom } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
@@ -9,7 +9,8 @@ import { CounterDB } from '../../db/counter/counter-db.js'
 import { registerCounterApi } from './counter-api.js'
 import { dateStringFrom } from '../../_util/date2.js'
 import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_error/error-user.js'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_type/error-user.js'
+import { Config } from '../../_type/config.js'
 
 describe('Counter Api', () => {
 

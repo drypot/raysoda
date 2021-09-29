@@ -1,5 +1,5 @@
 import mysql, { Connection, QueryOptions } from 'mysql'
-import { Config } from '../../_config/config.js'
+import { Config } from '../../_type/config.js'
 
 export class DB {
 

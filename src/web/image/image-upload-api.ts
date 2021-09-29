@@ -5,9 +5,9 @@ import { ImageUploadForm } from '../../service/image/_image-service.js'
 import { sessionUserFrom } from '../user-login/login-api.js'
 import { imageUploadService } from '../../service/image/image-upload-service.js'
 import { Request } from 'express'
-import { Error2 } from '../../_error/error2.js'
+import { Error2 } from '../../_util/error2.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { NOT_AUTHENTICATED } from '../../_error/error-user.js'
+import { NOT_AUTHENTICATED } from '../../_type/error-user.js'
 
 function imageUploadFormFrom(req: Request) {
   return {
