@@ -3,9 +3,9 @@ import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi } from './user-login-api.js'
+import { registerLoginApi } from '../user-login/login-api.js'
 import { insertUserFix1 } from '../../db/user/user-db-fixture.js'
-import { loginForTest, User1Login } from './user-login-api-fixture.js'
+import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { registerUserUpdatePage } from './user-update-page.js'
 
 describe('User Update Page', () => {
@@ -24,7 +24,7 @@ describe('User Update Page', () => {
     udb = UserDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerUserUpdatePage(web, udb)
     request = web.spawnRequest()
   })

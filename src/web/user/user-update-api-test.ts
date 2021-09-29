@@ -4,8 +4,8 @@ import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi } from './user-login-api.js'
-import { loginForTest, User1Login } from './user-login-api-fixture.js'
+import { registerLoginApi } from '../user-login/login-api.js'
+import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { registerUserUpdateApi } from './user-update-api.js'
 import { checkHash } from '../../_util/hash.js'
 import {
@@ -34,7 +34,7 @@ describe('User Update Api', () => {
     udb = UserDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerUserUpdateApi(web, udb)
     request = web.spawnRequest()
   })

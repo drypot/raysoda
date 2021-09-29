@@ -13,10 +13,10 @@ export const AdminLogin = { email: 'admin@mail.test', password: '1234' }
 
 export async function loginForTest(request: SuperAgentTest, _form: UserLoginForm, remember: boolean = false) {
   const form = { ..._form, remember }
-  const res = await request.post('/api/user-login').send(form).expect(200)
+  const res = await request.post('/api/login').send(form).expect(200)
   if (res.body.err) throw res.body.err
 }
 
 export async function logoutForTest(request: SuperAgentTest) {
-  await request.post('/api/user-logout').expect(200)
+  await request.post('/api/logout').expect(200)
 }

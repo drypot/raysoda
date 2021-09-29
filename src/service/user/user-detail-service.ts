@@ -1,7 +1,7 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { User } from '../../core/user.js'
 
-export async function userViewService(udb: UserDB, id: number, priv: boolean) {
+export async function userDetailService(udb: UserDB, id: number, priv: boolean) {
   const user1 = await udb.getCachedById(id)
   if (!user1) return undefined
   const user2: Partial<User> = {

@@ -6,11 +6,11 @@ import { ImageFileManager } from '../../file/fileman.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
-import { registerUserLoginApi } from '../user/user-login-api.js'
+import { registerLoginApi } from '../user-login/login-api.js'
 import { registerImageUploadApi } from './image-upload-api.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { registerImageViewApi } from './image-detail-api.js'
-import { AdminLogin, loginForTest, logoutForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
+import { AdminLogin, loginForTest, logoutForTest, User1Login, User2Login } from '../user-login/login-api-fixture.js'
 import { dateTimeStringFrom } from '../../_util/date2.js'
 import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
 import { ImageDetail } from '../../core/image-view.js'
@@ -37,7 +37,7 @@ describe('Image View Api', () => {
     ifm = RaySodaFileManager.from(config)
 
     web = await Express2.from(config).useUpload().start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerImageUploadApi(web, udb, idb, ifm)
     registerImageViewApi(web, udb, idb, ifm)
     request = web.spawnRequest()

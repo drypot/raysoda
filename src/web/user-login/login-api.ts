@@ -2,7 +2,7 @@ import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
 import { Error2 } from '../../_error/error2.js'
-import { User } from '../../core/user.js'
+import { User, userMinOf } from '../../core/user.js'
 import { checkHash } from '../../_util/hash.js'
 import { stringFrom } from '../../_util/primitive.js'
 import {
@@ -13,28 +13,40 @@ import {
   PASSWORD_WRONG
 } from '../../_error/error-user.js'
 
-export function registerUserLoginApi(web: Express2, udb: UserDB) {
+declare module 'express-session' {
+  interface SessionData {
+    uid: string
+  }
+}
+
+// declare module '../_express/express2.js' {
+//   interface ExpressLocals {
+//     user: SessionUser | undefined
+//   }
+// }
+
+export function registerLoginApi(web: Express2, udb: UserDB) {
 
   const router = web.router
 
   router.get('/api/session-user', toCallback(async function (req, res) {
-    const user = sessionUserFrom(res)
-    if (!user) throw NOT_AUTHENTICATED
+    const suser = sessionUserFrom(res)
+    if (!suser) throw NOT_AUTHENTICATED
     res.json({
-      user: { id: user.id, name: user.name, home: user.home, admin: user.admin }
+      user: userMinOf(suser)
     })
   }))
 
   router.get('/api/session-user-as-admin', toCallback(async function (req, res) {
-    const user = sessionUserFrom(res)
-    if (!user) throw NOT_AUTHENTICATED
-    if (!user.admin) throw NOT_AUTHORIZED
+    const suser = sessionUserFrom(res)
+    if (!suser) throw NOT_AUTHENTICATED
+    if (!suser.admin) throw NOT_AUTHORIZED
     res.json({
-      user: { id: user.id, name: user.name, home: user.home, admin: user.admin }
+      user: userMinOf(suser)
     })
   }))
 
-  router.post('/api/user-login', toCallback(async (req, res) => {
+  router.post('/api/login', toCallback(async (req, res) => {
     const email = stringFrom(req.body.email).trim()
     const password = stringFrom(req.body.password).trim()
     const remember = !!req.body.remember
@@ -48,7 +60,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
       res.cookie('password', password, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
     }
     res.json({
-      user: { id: user.id, name: user.name, home: user.home, admin: user.admin }
+      user: userMinOf(user)
     })
   }))
 
@@ -70,7 +82,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
     await createSession(req, res, user)
   })
 
-  router.post('/api/user-logout', toCallback(async (req, res) => {
+  router.post('/api/logout', toCallback(async (req, res) => {
     await logoutCurrentSession(req, res)
     res.json({})
   }))
@@ -80,7 +92,7 @@ export function registerUserLoginApi(web: Express2, udb: UserDB) {
       err.name === NOT_AUTHENTICATED.name ||
       err.name === NOT_AUTHORIZED.name
     )) {
-      res.redirect('/user-login')
+      res.redirect('/login')
     } else {
       done(err)
     }

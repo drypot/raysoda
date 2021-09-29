@@ -4,7 +4,7 @@ import { DB } from '../db/_db/db.js'
 import { UserDB } from '../db/user/user-db.js'
 import { PwResetDB } from '../db/pwreset/pwreset-db.js'
 import { Error2, logError } from '../_error/error2.js'
-import { pwResetSendMailService } from '../service/user/user-pwreset-service.js'
+import { pwSendMailService } from '../service/user-password/password-service.js'
 import { insertUserFix4 } from '../db/user/user-db-fixture.js'
 
 let dbToClose: DB
@@ -29,7 +29,7 @@ async function main() {
 
   const email = process.argv[2]
   const err: Error2[] = []
-  await pwResetSendMailService(mailer, udb, rdb, email, err)
+  await pwSendMailService(mailer, udb, rdb, email, err)
   if (err.length) throw err
 }
 

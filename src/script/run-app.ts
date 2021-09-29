@@ -4,7 +4,7 @@ import { DB } from '../db/_db/db.js'
 import { UserDB } from '../db/user/user-db.js'
 import { ImageDB } from '../db/image/image-db.js'
 import { RaySodaFileManager } from '../file/raysoda-fileman.js'
-import { registerUserLoginApi } from '../web/user/user-login-api.js'
+import { registerLoginApi } from '../web/user-login/login-api.js'
 import { registerImageUploadApi } from '../web/image/image-upload-api.js'
 import { registerImageUpdateApi } from '../web/image/image-update-api.js'
 import { ValueDB } from '../db/value/value-db.js'
@@ -15,7 +15,7 @@ import { DrypotFileManager } from '../file/drypot-fileman.js'
 import { registerUserXPage } from '../web/userx/userx-page.js'
 import { registerUserViewApi } from '../web/user/user-detail-api.js'
 import { registerUserRegisterApi } from '../web/user/user-register-api.js'
-import { registerPwResetApi } from '../web/user/user-pwreset-api.js'
+import { registerPasswordApi } from '../web/user-password/password-api.js'
 import { PwResetDB } from '../db/pwreset/pwreset-db.js'
 import { Mailer } from '../mailer/mailer2.js'
 import { registerUserDeactivateApi } from '../web/user/user-deactivate-api.js'
@@ -59,13 +59,13 @@ async function main() {
   registerImageUpdateApi(web, idb, ifm)
   registerImageDeleteApi(web, idb, ifm)
 
-  registerUserLoginApi(web, udb)
+  registerLoginApi(web, udb)
   registerUserRegisterApi(web, udb)
   registerUserViewApi(web, udb)
   registerUserUpdateApi(web, udb)
   registerUserDeactivateApi(web, udb)
   registerUserListApi(web, udb)
-  registerPwResetApi(web, udb, rdb, mailer)
+  registerPasswordApi(web, udb, rdb, mailer)
 
   registerAboutPage(web)
   registerCounterApi(web, cdb)

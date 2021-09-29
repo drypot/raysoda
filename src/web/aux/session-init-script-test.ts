@@ -4,12 +4,12 @@ import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi } from '../user/user-login-api.js'
+import { registerLoginApi } from '../user-login/login-api.js'
 import { registerSessionInitScript } from './session-init-script.js'
 import { ValueDB } from '../../db/value/value-db.js'
 import { BannerDB } from '../../db/banner/banner-db.js'
 import { registerBannerApi } from '../banner/banner-api.js'
-import { loginForTest, logoutForTest, User1Login } from '../user/user-login-api-fixture.js'
+import { loginForTest, logoutForTest, User1Login } from '../user-login/login-api-fixture.js'
 
 describe('Session Init Script', () => {
 
@@ -32,7 +32,7 @@ describe('Session Init Script', () => {
     bdb = BannerDB.from(vdb)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerBannerApi(web, bdb)
     registerSessionInitScript(web, bdb)
     request = web.spawnRequest()

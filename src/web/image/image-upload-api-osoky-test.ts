@@ -3,12 +3,12 @@ import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi } from '../user/user-login-api.js'
+import { registerLoginApi } from '../user-login/login-api.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
-import { loginForTest, User1Login } from '../user/user-login-api-fixture.js'
+import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { identify } from '../../file/magick/magick2.js'
 import { OsokyFileManager } from '../../file/osoky-fileman.js'
 import { IMAGE_SIZE } from '../../_error/error-image.js'
@@ -35,7 +35,7 @@ describe('Image Upload Api with Osoky FileManager', () => {
     ifm = OsokyFileManager.from(config)
 
     web = await Express2.from(config).useUpload().start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerImageUploadApi(web, udb, idb, ifm)
     request = web.spawnRequest()
   })

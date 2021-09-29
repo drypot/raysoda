@@ -3,7 +3,7 @@ import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi } from './user-login-api.js'
+import { registerLoginApi } from '../user-login/login-api.js'
 import { registerUserListPage } from './user-list-page.js'
 
 describe('User List Page', () => {
@@ -22,7 +22,7 @@ describe('User List Page', () => {
     udb = UserDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerUserListPage(web, udb)
     request = web.spawnRequest()
   })

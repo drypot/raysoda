@@ -6,8 +6,8 @@ import { SuperAgentTest } from 'supertest'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { registerImageUploadPage } from './image-upload-page.js'
-import { registerUserLoginApi } from '../user/user-login-api.js'
-import { loginForTest, User1Login } from '../user/user-login-api-fixture.js'
+import { registerLoginApi } from '../user-login/login-api.js'
+import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 
 describe('Image Upload Page', () => {
 
@@ -28,7 +28,7 @@ describe('Image Upload Page', () => {
     idb = ImageDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerImageUploadPage(web, udb, idb)
     request = web.spawnRequest()
   })
@@ -50,7 +50,7 @@ describe('Image Upload Page', () => {
       await idb.createTable()
     })
     it('fails if anonymous', async () => {
-      await request.get('/image-upload').expect(302).expect('Location', '/user-login')
+      await request.get('/image-upload').expect(302).expect('Location', '/login')
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)

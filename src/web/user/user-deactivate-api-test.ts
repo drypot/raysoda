@@ -5,8 +5,8 @@ import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerUserDeactivateApi } from './user-deactivate-api.js'
-import { AdminLogin, loginForTest, User1Login, User2Login } from './user-login-api-fixture.js'
-import { registerUserLoginApi } from './user-login-api.js'
+import { AdminLogin, loginForTest, User1Login, User2Login } from '../user-login/login-api-fixture.js'
+import { registerLoginApi } from '../user-login/login-api.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_error/error-user.js'
 
 describe('UserDeactivateApi', () => {
@@ -26,7 +26,7 @@ describe('UserDeactivateApi', () => {
     udb = UserDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerUserDeactivateApi(web, udb)
     request = web.spawnRequest()
   })

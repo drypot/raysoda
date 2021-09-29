@@ -1,7 +1,7 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { PwResetDB, PwResetRecord } from '../../db/pwreset/pwreset-db.js'
 import { Error2 } from '../../_error/error2.js'
-import { checkPasswordFormat } from './_user-service.js'
+import { checkPasswordFormat } from '../user/_user-service.js'
 import crypto from 'crypto'
 import { v4 as uuid } from 'uuid'
 import { Mailer } from '../../mailer/mailer2.js'
@@ -10,7 +10,7 @@ import { emailPatternIsOk } from '../../_util/email.js'
 import { INVALID_DATA } from '../../_error/error-basic.js'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN } from '../../_error/error-user.js'
 
-export async function pwResetSendMailService(
+export async function pwSendMailService(
   mailer: Mailer, udb: UserDB, resetDB: PwResetDB, email: string, err: Error2[]
 ) {
   if (!emailPatternIsOk(email)) {
@@ -45,7 +45,7 @@ export async function pwResetSendMailService(
     text:
       '\n' +
       'Open the following URL to reset your password.\n\n' +
-      config.mainUrl + '/user-password-reset-3?uuid=' + r.uuid + '&t=' + r.token + '\n\n' +
+      config.mainUrl + '/password-reset-3?uuid=' + r.uuid + '&t=' + r.token + '\n\n' +
       config.appName
   }
   return mailer.sendMail(mail)
@@ -57,7 +57,7 @@ export type NewPasswordForm = {
   password: string
 }
 
-export async function pwResetSetPasswordService(
+export async function pwResetPasswordService(
   udb: UserDB, resetDB: PwResetDB, form: NewPasswordForm, err: Error2[]
 ) {
   checkPasswordFormat(form.password, err)

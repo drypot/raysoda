@@ -6,7 +6,7 @@ import { Error2 } from '../../_error/error2.js'
 import { userDeactivateService } from './user-deactivate-service.js'
 import { USER_NOT_FOUND } from '../../_error/error-user.js'
 
-describe('UserService', () => {
+describe('User Deactivate Service', () => {
 
   let config: Config
   let db: DB

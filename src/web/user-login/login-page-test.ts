@@ -3,9 +3,9 @@ import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginPage } from './user-login-page.js'
+import { registerLoginPage } from './login-page.js'
 
-describe('UserLoginView', () => {
+describe('Login Page', () => {
 
   let config: Config
 
@@ -21,7 +21,7 @@ describe('UserLoginView', () => {
     udb = UserDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginPage(web, udb)
+    registerLoginPage(web, udb)
     request = web.spawnRequest()
   })
 
@@ -32,7 +32,7 @@ describe('UserLoginView', () => {
 
   describe('user login pages', () => {
     it('user-login should work', async () => {
-      await request.get('/user-login').expect(200).expect(/<title>Login/)
+      await request.get('/login').expect(200).expect(/<title>Login/)
     })
   })
 

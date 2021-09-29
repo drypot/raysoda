@@ -1,6 +1,6 @@
 import { Express2, toCallback } from '../_express/express2.js'
 import { CounterDB } from '../../db/counter/counter-db.js'
-import { sessionUserFrom } from '../user/user-login-api.js'
+import { sessionUserFrom } from '../user-login/login-api.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_error/error-user.js'
 
 export function registerCounterApi(web: Express2, cdb: CounterDB) {

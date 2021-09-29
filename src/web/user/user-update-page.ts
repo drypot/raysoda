@@ -1,6 +1,6 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
-import { hasUpdatePerm, sessionUserFrom } from './user-login-api.js'
+import { hasUpdatePerm, sessionUserFrom } from '../user-login/login-api.js'
 import { numberFrom } from '../../_util/primitive.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_error/error-user.js'
 

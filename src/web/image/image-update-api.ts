@@ -1,7 +1,7 @@
 import { deleteUpload, Express2 } from '../_express/express2.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageUpdateForm } from '../../service/image/_image-service.js'
-import { sessionUserFrom } from '../user/user-login-api.js'
+import { sessionUserFrom } from '../user-login/login-api.js'
 import { Request } from 'express'
 import { Error2 } from '../../_error/error2.js'
 import { ImageFileManager } from '../../file/fileman.js'

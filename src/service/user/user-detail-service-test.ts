@@ -2,9 +2,9 @@ import { Config, configFrom } from '../../_config/config.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix1 } from '../../db/user/user-db-fixture.js'
-import { userViewService } from './user-view-service.js'
+import { userDetailService } from './user-detail-service.js'
 
-describe('UserViewService', () => {
+describe('User Detail Service', () => {
 
   let config: Config
   let db: DB
@@ -29,7 +29,7 @@ describe('UserViewService', () => {
       await insertUserFix1(udb)
     })
     it('return user info if id valid', async () => {
-      const user = await userViewService(udb, 1, false)
+      const user = await userDetailService(udb, 1, false)
       if (!user) throw new Error()
       expect(user.id).toBe(1)
       expect(user.home).toBe('user1')
@@ -37,7 +37,7 @@ describe('UserViewService', () => {
       expect(user.adate).toBe(undefined)
     })
     it('return with email if privInfo true', async () => {
-      const user = await userViewService(udb, 1, true)
+      const user = await userDetailService(udb, 1, true)
       if (!user) throw new Error()
       expect(user.id).toBe(1)
       expect(user.home).toBe('user1')
@@ -45,7 +45,7 @@ describe('UserViewService', () => {
       expect(user.adate).toBeDefined()
     })
     it('return undefined if id invalid', async () => {
-      const user = await userViewService(udb, 99, false)
+      const user = await userDetailService(udb, 99, false)
       expect(user).toBe(undefined)
     })
   })

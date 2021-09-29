@@ -5,19 +5,19 @@ import { Error2 } from '../../_error/error2.js'
 import { Mailer } from '../../mailer/mailer2.js'
 import {
   NewPasswordForm,
-  pwResetSendMailService,
-  pwResetSetPasswordService
-} from '../../service/user/user-pwreset-service.js'
+  pwResetPasswordService,
+  pwSendMailService
+} from '../../service/user-password/password-service.js'
 import { stringFrom } from '../../_util/primitive.js'
 
-export function registerPwResetApi(web: Express2, udb: UserDB, resetDB: PwResetDB, mailer: Mailer) {
+export function registerPasswordApi(web: Express2, udb: UserDB, resetDB: PwResetDB, mailer: Mailer) {
 
   const router = web.router
 
   router.post('/api/pwreset-send-mail', toCallback(async (req, res) => {
     const email = stringFrom(req.body.email).trim()
     const err: Error2[] = []
-    await pwResetSendMailService(mailer, udb, resetDB, email, err)
+    await pwSendMailService(mailer, udb, resetDB, email, err)
     if (err.length) throw err
     res.json({})
   }))
@@ -29,7 +29,7 @@ export function registerPwResetApi(web: Express2, udb: UserDB, resetDB: PwResetD
       password: stringFrom(req.body.password).trim()
     }
     const err: Error2[] = []
-    await pwResetSetPasswordService(udb, resetDB, form, err)
+    await pwResetPasswordService(udb, resetDB, form, err)
     if (err.length) throw err
     res.json({})
   }))

@@ -4,8 +4,8 @@ import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { loginForTest, User1Login } from './user-login-api-fixture.js'
-import { registerUserLoginApi } from './user-login-api.js'
+import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
+import { registerLoginApi } from '../user-login/login-api.js'
 import { registerUserDeactivatePage } from './user-deactivate-page.js'
 
 describe('UserDeactivateView', () => {
@@ -25,7 +25,7 @@ describe('UserDeactivateView', () => {
     udb = UserDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerUserDeactivatePage(web, udb)
     request = web.spawnRequest()
   })

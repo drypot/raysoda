@@ -4,43 +4,29 @@ import { PwResetDB } from '../../db/pwreset/pwreset-db.js'
 import { Mailer } from '../../mailer/mailer2.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { NewPasswordForm } from '../../service/user/user-pwreset-service.js'
+import { NewPasswordForm, pwResetPasswordService, pwSendMailService } from './password-service.js'
+import { Error2 } from '../../_error/error2.js'
 import { checkHash } from '../../_util/hash.js'
-import { Express2 } from '../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
-import { registerPwResetApi } from './user-pwreset-api.js'
 import { INVALID_DATA } from '../../_error/error-basic.js'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../_error/error-user.js'
 
-describe('Password Reset Service', () => {
+describe('Password Service', () => {
 
   let config: Config
-
   let db: DB
   let udb: UserDB
   let rdb: PwResetDB
-
   let mailer: Mailer
-
-  let web: Express2
-  let request: SuperAgentTest
 
   beforeAll(async () => {
     config = configFrom('config/app-test.json')
-
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     rdb = PwResetDB.from(db)
-
     mailer = Mailer.from(config).initTransport()
-
-    web = await Express2.from(config).start()
-    registerPwResetApi(web, udb, rdb, mailer)
-    request = web.spawnRequest()
   })
 
   afterAll(async () => {
-    await web.close()
     await db.close()
   })
 
@@ -53,16 +39,19 @@ describe('Password Reset Service', () => {
       await rdb.createTable(false)
     })
     it('send mail, email existence check', async () => {
-      const res = await request.post('/api/pwreset-send-mail').send({ email: 'userx@mail.test' }).expect(200)
-      expect(res.body.err).toContain(EMAIL_NOT_FOUND)
+      const err: Error2[] = []
+      await pwSendMailService(mailer, udb, rdb, 'userx@mail.test', err)
+      expect(err).toContain(EMAIL_NOT_FOUND)
     })
     it('send mail, email format check', async () => {
-      const res = await request.post('/api/pwreset-send-mail').send({ email: 'userx.mail.test' }).expect(200)
-      expect(res.body.err).toContain(EMAIL_PATTERN)
+      const err: Error2[] = []
+      await pwSendMailService(mailer, udb, rdb, 'userx.mail.test', err)
+      expect(err).toContain(EMAIL_PATTERN)
     })
     it('send mail', async () => {
-      const res = await request.post('/api/pwreset-send-mail').send({ email: 'user1@mail.test' }).expect(200)
-      expect(res.body.err).toBe(undefined)
+      const err: Error2[] = []
+      await pwSendMailService(mailer, udb, rdb, 'user1@mail.test', err)
+      expect(err.length).toBe(0)
     })
     const resetRecord = { uuid: '', token: '' }
     it('check db', async () => {
@@ -73,23 +62,27 @@ describe('Password Reset Service', () => {
     })
     it('set password, password format check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '123' }
-      const res = await request.post('/api/pwreset-set-password').send(form).expect(200)
-      expect(res.body.err).toContain(PASSWORD_RANGE)
+      const err: Error2[] = []
+      await pwResetPasswordService(udb, rdb, form, err)
+      expect(err).toContain(PASSWORD_RANGE)
     })
     it('set password, uuid check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '1234', uuid: 'xxxx' }
-      const res = await request.post('/api/pwreset-set-password').send(form).expect(200)
-      expect(res.body.err).toContain(INVALID_DATA)
+      const err: Error2[] = []
+      await pwResetPasswordService(udb, rdb, form, err)
+      expect(err).toContain(INVALID_DATA)
     })
     it('set password, token check', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '1234', token: 'xxxx' }
-      const res = await request.post('/api/pwreset-set-password').send(form).expect(200)
-      expect(res.body.err).toContain(INVALID_DATA)
+      const err: Error2[] = []
+      await pwResetPasswordService(udb, rdb, form, err)
+      expect(err).toContain(INVALID_DATA)
     })
     it('set password', async () => {
       const form: NewPasswordForm = { ...resetRecord, password: '5678' }
-      const res = await request.post('/api/pwreset-set-password').send(form).expect(200)
-      expect(res.body.err).toBe(undefined)
+      const err: Error2[] = []
+      await pwResetPasswordService(udb, rdb, form, err)
+      expect(err.length).toBe(0)
     })
     it('check db', async () => {
       const user = await udb.findUserByEmail('user1@mail.test')

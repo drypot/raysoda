@@ -3,10 +3,10 @@ import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi } from '../user/user-login-api.js'
+import { registerLoginApi } from '../user-login/login-api.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { CounterDB } from '../../db/counter/counter-db.js'
-import { AdminLogin, loginForTest, User1Login } from '../user/user-login-api-fixture.js'
+import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { registerCounterPage } from './counter-page.js'
 
 describe('Counter Page', () => {
@@ -28,7 +28,7 @@ describe('Counter Page', () => {
     cdb = CounterDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerCounterPage(web)
     request = web.spawnRequest()
   })
@@ -48,13 +48,13 @@ describe('Counter Page', () => {
 
     describe('/counter-list', () => {
       it('fails if anonymous', async () => {
-        await request.get('/counter-list').expect(302).expect('Location', '/user-login')
+        await request.get('/counter-list').expect(302).expect('Location', '/login')
       })
       it('login as user', async () => {
         await loginForTest(request, User1Login)
       })
       it('fails if user', async () => {
-        await request.get('/counter-list').expect(302).expect('Location', '/user-login')
+        await request.get('/counter-list').expect(302).expect('Location', '/login')
       })
       it('login as admin', async () => {
         await loginForTest(request, AdminLogin)

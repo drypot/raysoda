@@ -5,8 +5,8 @@ import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerUserViewApi } from './user-detail-api.js'
-import { registerUserLoginApi } from './user-login-api.js'
-import { AdminLogin, loginForTest, User1Login } from './user-login-api-fixture.js'
+import { registerLoginApi } from '../user-login/login-api.js'
+import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 
 describe('User Detail Api', () => {
 
@@ -24,7 +24,7 @@ describe('User Detail Api', () => {
     udb = UserDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerUserViewApi(web, udb)
     request = web.spawnRequest()
   })

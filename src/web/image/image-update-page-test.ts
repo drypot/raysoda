@@ -5,8 +5,8 @@ import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { ImageDB } from '../../db/image/image-db.js'
-import { registerUserLoginApi } from '../user/user-login-api.js'
-import { loginForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
+import { registerLoginApi } from '../user-login/login-api.js'
+import { loginForTest, User1Login, User2Login } from '../user-login/login-api-fixture.js'
 import { registerImageUpdatePage } from './image-update-page.js'
 import { imageOf } from '../../core/image.js'
 import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
@@ -30,7 +30,7 @@ describe('Image Update Page', () => {
     idb = ImageDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerImageUpdatePage(web, udb, idb)
     request = web.spawnRequest()
   })
@@ -52,7 +52,7 @@ describe('Image Update Page', () => {
       await idb.createTable()
     })
     it('fails if anonymous', async () => {
-      await request.get('/image-update/1').expect(302).expect('Location', '/user-login')
+      await request.get('/image-update/1').expect(302).expect('Location', '/login')
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)
@@ -72,7 +72,7 @@ describe('Image Update Page', () => {
       await loginForTest(request, User2Login)
     })
     it('fails if owner not match', async () => {
-      const res = await request.get('/image-update/1').expect(302).expect('Location', '/user-login')
+      const res = await request.get('/image-update/1').expect(302).expect('Location', '/login')
     })
   })
 

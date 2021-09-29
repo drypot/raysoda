@@ -3,12 +3,12 @@ import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi } from '../user/user-login-api.js'
+import { registerLoginApi } from '../user-login/login-api.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { CounterDB } from '../../db/counter/counter-db.js'
 import { registerCounterApi } from './counter-api.js'
 import { dateStringFrom } from '../../_util/date2.js'
-import { AdminLogin, loginForTest, User1Login } from '../user/user-login-api-fixture.js'
+import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_error/error-user.js'
 
 describe('Counter Api', () => {
@@ -30,7 +30,7 @@ describe('Counter Api', () => {
     cdb = CounterDB.from(db)
 
     web = await Express2.from(config).start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerCounterApi(web, cdb)
     request = web.spawnRequest()
   })

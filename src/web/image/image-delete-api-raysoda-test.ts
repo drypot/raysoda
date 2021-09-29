@@ -3,13 +3,13 @@ import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserLoginApi } from '../user/user-login-api.js'
+import { registerLoginApi } from '../user-login/login-api.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
-import { AdminLogin, loginForTest, User1Login, User2Login } from '../user/user-login-api-fixture.js'
+import { AdminLogin, loginForTest, User1Login, User2Login } from '../user-login/login-api-fixture.js'
 import { registerImageDeleteApi } from './image-delete-api.js'
 import { existsSync } from 'fs'
 import { IMAGE_NOT_EXIST } from '../../_error/error-image.js'
@@ -37,7 +37,7 @@ describe('Image Delete Api with RaySoda FileManager', () => {
     ifm = RaySodaFileManager.from(config)
 
     web = await Express2.from(config).useUpload().start()
-    registerUserLoginApi(web, udb)
+    registerLoginApi(web, udb)
     registerImageUploadApi(web, udb, idb, ifm)
     registerImageDeleteApi(web, idb, ifm)
     request = web.spawnRequest()

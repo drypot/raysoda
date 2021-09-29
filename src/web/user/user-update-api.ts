@@ -1,6 +1,6 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
-import { hasUpdatePerm, sessionUserFrom } from './user-login-api.js'
+import { hasUpdatePerm, sessionUserFrom } from '../user-login/login-api.js'
 import { UserUpdateForm } from '../../service/user/_user-service.js'
 import { Error2 } from '../../_error/error2.js'
 import { userUpdateService } from '../../service/user/user-update-service.js'
