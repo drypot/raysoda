@@ -2,7 +2,7 @@ import express, { ErrorRequestHandler, Express, NextFunction, Request, Response,
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import redis from 'redis'
-import session from 'express-session'
+import expressSession from 'express-session'
 import connectRedis from 'connect-redis'
 import * as http from 'http'
 import supertest from 'supertest'
@@ -125,9 +125,9 @@ export class Express2 {
     redisClient.unref()
     redisClient.on('error', console.log)
 
-    const RedisStore = connectRedis(session)
+    const RedisStore = connectRedis(expressSession)
 
-    this.expr1.use(session({
+    this.expr1.use(expressSession({
       store: new RedisStore({ client: redisClient }),
       resave: false,
       saveUninitialized: false,
