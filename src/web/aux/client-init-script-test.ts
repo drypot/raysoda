@@ -5,14 +5,14 @@ import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { Express2 } from '../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { registerSessionInitScript } from './session-init-script.js'
+import { registerSessionInitScript } from './client-init-script.js'
 import { ValueDB } from '../../db/value/value-db.js'
 import { BannerDB } from '../../db/banner/banner-db.js'
 import { registerBannerApi } from '../banner/banner-api.js'
 import { loginForTest, logoutForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { Config } from '../../_type/config.js'
 
-describe('Session Init Script', () => {
+describe('Client Init Script', () => {
 
   let config: Config
 
@@ -55,15 +55,11 @@ describe('Session Init Script', () => {
       await insertUserFix4(udb)
     })
     it('get session script', async () => {
-      const res = await request.get('/api/session-init-script').expect(200)
+      const res = await request.get('/api/client-init-script').expect(200)
       expect(res.type).toBe('application/javascript')
       expect(res.text).toBe(
-        `const _config = {}\n` +
-        `_config.appName = 'RaySoda'\n` +
-        `_config.appNamel = 'raysoda'\n` +
-        `_config.appDesc = 'One day, one photo.'\n` +
-        `_config.mainUrl = 'http://raysoda.test:8080'\n` +
-        `_config.uploadUrl = 'http://file.raysoda.test:8080'\n` +
+        `const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.",` +
+        `"mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}\n` +
         `const _user = null\n` +
         `const _banner = []\n`
       )
@@ -72,15 +68,11 @@ describe('Session Init Script', () => {
       await loginForTest(request, User1Login)
     })
     it('get session script with login', async () => {
-      const res = await request.get('/api/session-init-script').expect(200)
+      const res = await request.get('/api/client-init-script').expect(200)
       expect(res.type).toBe('application/javascript')
       expect(res.text).toBe(
-        `const _config = {}\n` +
-        `_config.appName = 'RaySoda'\n` +
-        `_config.appNamel = 'raysoda'\n` +
-        `_config.appDesc = 'One day, one photo.'\n` +
-        `_config.mainUrl = 'http://raysoda.test:8080'\n` +
-        `_config.uploadUrl = 'http://file.raysoda.test:8080'\n` +
+        `const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.",` +
+        `"mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}\n` +
         `const _user = {"id":1,"name":"User 1","home":"user1","admin":false}\n` +
         `const _banner = []\n`
       )
@@ -92,15 +84,11 @@ describe('Session Init Script', () => {
       await bdb.setBanner([{ text: 'text1', url: 'url1' }])
     })
     it('get session script with banner', async () => {
-      const res = await request.get('/api/session-init-script').expect(200)
+      const res = await request.get('/api/client-init-script').expect(200)
       expect(res.type).toBe('application/javascript')
       expect(res.text).toBe(
-        `const _config = {}\n` +
-        `_config.appName = 'RaySoda'\n` +
-        `_config.appNamel = 'raysoda'\n` +
-        `_config.appDesc = 'One day, one photo.'\n` +
-        `_config.mainUrl = 'http://raysoda.test:8080'\n` +
-        `_config.uploadUrl = 'http://file.raysoda.test:8080'\n` +
+        `const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.",` +
+        `"mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}\n` +
         `const _user = null\n` +
         `const _banner = [{"text":"text1","url":"url1"}]\n`
       )

@@ -30,7 +30,7 @@ import { CounterDB } from '../db/counter/counter-db.js'
 import { registerBannerApi } from '../web/banner/banner-api.js'
 import { BannerDB } from '../db/banner/banner-db.js'
 import { registerAboutPage } from '../web/about/about-page.js'
-import { registerSessionInitScript } from '../web/aux/session-init-script.js'
+import { registerSessionInitScript } from '../web/aux/client-init-script.js'
 
 async function main() {
   const config = configFrom(process.argv[2])
