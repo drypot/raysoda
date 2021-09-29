@@ -178,6 +178,12 @@ export class UserDB {
 
   // Cache
 
+  // 20219-09-29, 아래 user cache 시스템을 날리려다 원복했다.
+  // user cache 는 express session 이 object 를 저장하지 못하는 문제로부터 시작되었다.
+  // 현재는 req.session 에 uid 만 저장한다.
+  // 그리고 매 Request 가 도착할 때마다 res.locals.user 에 cached user 를 연결한다.
+  // user cache 를 날리려면 express session 에 비슷한 cache 시스템을 먼저 설치해야 한다.
+
   private userIdMap = new Map
   private userHomeMap = new Map
 
