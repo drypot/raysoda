@@ -12,12 +12,17 @@ import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2.js'
 import { unlinkSync } from 'fs'
 import { errorOf } from '../../_error/error2.js'
 
-declare module 'express-session' {
-  interface SessionData {
-    [key: string]: string
-  }
-}
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
+
+// export interface ExpressLocals {
+//   api: boolean
+// }
+//
+// declare module 'express' {
+//   export interface Response  {
+//     locals: ExpressLocals
+//   }
+// }
 
 export class Express2 {
 

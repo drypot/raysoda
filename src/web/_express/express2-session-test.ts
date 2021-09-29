@@ -22,7 +22,7 @@ describe('Express2', () => {
       web.router.put('/api/test/session', (req, res) => {
         let body: { [key: string]: string } = req.body
         for (let [k, v] of Object.entries(body)) {
-          req.session[k] = v
+          (req.session as any)[k] = v
         }
         res.json({})
       })
@@ -30,7 +30,7 @@ describe('Express2', () => {
         const keys: string[] = req.body
         const obj: { [key: string]: string | undefined } = {}
         for (let k of keys) {
-          obj[k] = req.session[k]
+          obj[k] = (req.session as any)[k]
         }
         res.json(obj)
       })
