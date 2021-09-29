@@ -56,7 +56,7 @@ describe('Image View Api', () => {
       await ifm.rmRoot()
     })
     it('returns nothing', async () => {
-      const res = await request.get('/api/image/first-image-cdate').expect(200)
+      const res = await request.get('/api/image-first-image-cdate').expect(200)
       expect(Date.now() - res.body.today).toBeLessThan(1000)
       expect(res.body.cdate).toBeUndefined()
     })
@@ -76,7 +76,7 @@ describe('Image View Api', () => {
       await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
     })
     it('returns cdate', async () => {
-      const res = await request.get('/api/image/first-image-cdate').expect(200)
+      const res = await request.get('/api/image-first-image-cdate').expect(200)
       expect(Date.now() - res.body.today).toBeLessThan(1000)
       expect(new Date(res.body.cdate)).toEqual(new Date(2003, 0, 1))
     })
