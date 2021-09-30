@@ -41,3 +41,32 @@ export type UserMin = {
 export function userMinOf(user: User) {
   return { id: user.id, name: user.name, home: user.home, admin: user.admin }
 }
+
+export type UserDetail = {
+  id: number
+  name: string
+  home: string
+  email: string
+  //hash: string
+  status: 'v' | 'd'
+  admin: boolean
+  profile: string
+  cdate: Date
+  adate: Date
+  pdate: Date
+}
+
+export function userDetailOf(user: User): UserDetail {
+  return {
+    id: user.id,
+    name: user.name,
+    home: user.home,
+    email: user.email,
+    status: user.status,
+    admin: user.admin,
+    cdate: user.cdate,
+    adate: user.adate,
+    pdate: user.pdate,
+    profile: user.profile
+  }
+}

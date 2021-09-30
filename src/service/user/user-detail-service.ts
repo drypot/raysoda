@@ -1,23 +1,16 @@
-import { User } from '../../_type/user.js'
+import { userDetailOf } from '../../_type/user.js'
 import { UserCache } from '../../db/user/user-cache.js'
+import { dateNull } from '../../_util/date2.js'
 
-export async function userDetailService(uc: UserCache, id: number, priv: boolean) {
-  const user1 = await uc.getCachedById(id)
-  if (!user1) return undefined
-  const user2: Partial<User> = {
-    id: user1.id,
-    name: user1.name,
-    home: user1.home,
-    //email: user1.email,
-    status: user1.status,
-    cdate: user1.cdate,
-    //adate: user1.adate,
-    pdate: user1.pdate,
-    profile: user1.profile
+export async function userDetailService(uc: UserCache, uid: number, includePrivate: boolean) {
+  const user = await uc.getCachedById(uid)
+  if (!user) {
+    return undefined
   }
-  if (priv) {
-    user2.email = user1.email
-    user2.adate = user1.adate
+  const user2 = userDetailOf(user)
+  if (!includePrivate) {
+    user2.email = ''
+    user2.adate = dateNull
   }
   return user2
 }
