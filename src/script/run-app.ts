@@ -24,7 +24,7 @@ import { registerUserUpdateApi } from '../web/api/user/user-update-api.js'
 import { registerRedirect } from '../web/api/aux/redirect.js'
 import { registerImageDeleteApi } from '../web/api/image/image-delete-api.js'
 import { registerImageListApi } from '../web/api/image/image-list-api.js'
-import { registerImageViewApi } from '../web/api/image/image-detail-api.js'
+import { registerImageDetailApi } from '../web/api/image/image-detail-api.js'
 import { registerCounterApi } from '../web/api/counter/counter-api.js'
 import { CounterDB } from '../db/counter/counter-db.js'
 import { registerBannerApi } from '../web/api/banner/banner-api.js'
@@ -55,9 +55,9 @@ async function main() {
 
   const web = Express2.from(config).useUpload()
 
-  registerImageUploadApi(web, udb, idb, ifm)
-  registerImageViewApi(web, uc, idb, ifm)
   registerImageListApi(web, uc, idb, ifm)
+  registerImageDetailApi(web, uc, idb, ifm)
+  registerImageUploadApi(web, udb, idb, ifm)
   registerImageUpdateApi(web, idb, ifm)
   registerImageDeleteApi(web, idb, ifm)
 
@@ -68,13 +68,13 @@ async function main() {
   registerUserDeactivateApi(web, uc)
   registerUserListApi(web, udb)
   registerPasswordApi(web, uc, rdb, mailer)
-
-  registerAboutPage(web)
   registerCounterApi(web, cdb)
   registerBannerApi(web, bdb)
 
   registerSessionInitScript(web, bdb)
   registerRedirect(web)
+
+  registerAboutPage(web)
 
   registerUserXPage(web, uc, idb, ifm)
 

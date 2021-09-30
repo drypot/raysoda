@@ -7,7 +7,7 @@ import { sessionUserFrom } from '../user-login/login-api.js'
 import { numberFrom } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/user-cache.js'
 
-export function registerImageViewApi(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
+export function registerImageDetailApi(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 
   web.router.get('/api/image/:id([0-9]+)', toCallback(async (req, res) => {
     const user = sessionUserFrom(res)

@@ -7,11 +7,11 @@ import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
 import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
-import { registerImageViewApi } from './image-detail-api.js'
+import { registerImageDetailApi } from './image-detail-api.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/user-cache.js'
 
-describe('Image View Api', () => {
+describe('Image Detail Api', () => {
 
   let config: Config
 
@@ -36,7 +36,7 @@ describe('Image View Api', () => {
     ifm = RaySodaFileManager.from(config)
 
     web = await Express2.from(config).useUpload().start()
-    registerImageViewApi(web, uc, idb, ifm)
+    registerImageDetailApi(web, uc, idb, ifm)
     request = web.spawnRequest()
   })
 
