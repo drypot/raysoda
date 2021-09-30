@@ -4,7 +4,7 @@ import { userDetailService } from '../../../service/user/user-detail-service.js'
 import { numberFrom } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/user-cache.js'
 
-export function registerUserViewApi(web: Express2, uc: UserCache) {
+export function registerUserDetailApi(web: Express2, uc: UserCache) {
 
   const router = web.router
 

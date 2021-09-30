@@ -4,7 +4,7 @@ import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerUserViewApi } from './user-detail-api.js'
+import { registerUserDetailApi } from './user-detail-api.js'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { Config } from '../../../_type/config.js'
@@ -30,7 +30,7 @@ describe('User Detail Api', () => {
 
     web = await Express2.from(config).start()
     registerLoginApi(web, uc)
-    registerUserViewApi(web, uc)
+    registerUserDetailApi(web, uc)
     request = web.spawnRequest()
   })
 
