@@ -1,4 +1,3 @@
-import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
 import { Error2 } from '../../_util/error2.js'
@@ -12,6 +11,7 @@ import {
   NOT_AUTHORIZED,
   PASSWORD_WRONG
 } from '../../_type/error-user.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 declare module 'express-session' {
   interface SessionData {
@@ -25,7 +25,7 @@ declare module 'express-session' {
 //   }
 // }
 
-export function registerLoginApi(web: Express2, udb: UserDB) {
+export function registerLoginApi(web: Express2, uc: UserCache) {
 
   const router = web.router
 
@@ -66,7 +66,7 @@ export function registerLoginApi(web: Express2, udb: UserDB) {
 
   web.autoLogin = toCallback(async (req, res) => {
     if (req.session.uid) {
-      res.locals.user = await udb.getCachedById(Number(req.session.uid))
+      res.locals.user = await uc.getCachedById(Number(req.session.uid))
       return
     }
     const email = req.cookies.email
@@ -99,7 +99,7 @@ export function registerLoginApi(web: Express2, udb: UserDB) {
   }
 
   async function findUserByEmailPassword(email: string, password: string, err: Error2[]) {
-    const user = await udb.getRecachedByEmail(email)
+    const user = await uc.getRecachedByEmail(email)
     if (!user) {
       err.push(EMAIL_NOT_FOUND)
       return
@@ -120,7 +120,7 @@ export function registerLoginApi(web: Express2, udb: UserDB) {
       req.session.regenerate(err => err ? reject(err) : resolve())
     )
     user.adate = new Date()
-    await udb.updateUserADate(user.id, user.adate)
+    await uc.udb.updateUserADate(user.id, user.adate)
     req.session.uid = String(user.id)
     res.locals.user = user
   }

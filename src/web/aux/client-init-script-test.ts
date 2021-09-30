@@ -11,6 +11,7 @@ import { BannerDB } from '../../db/banner/banner-db.js'
 import { registerBannerApi } from '../banner/banner-api.js'
 import { loginForTest, logoutForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Client Init Script', () => {
 
@@ -18,6 +19,8 @@ describe('Client Init Script', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let vdb: ValueDB
   let bdb: BannerDB
 
@@ -29,11 +32,13 @@ describe('Client Init Script', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
+
     vdb = ValueDB.from(db)
     bdb = BannerDB.from(vdb)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerBannerApi(web, bdb)
     registerSessionInitScript(web, bdb)
     request = web.spawnRequest()

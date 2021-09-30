@@ -13,6 +13,7 @@ import { registerImageDeleteApi } from './image-delete-api.js'
 import { existsSync } from 'fs'
 import { DrypotFileManager } from '../../file/drypot-fileman.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Image Delete Api with Drypot FileManager', () => {
 
@@ -20,6 +21,8 @@ describe('Image Delete Api with Drypot FileManager', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let idb: ImageDB
   let ifm: ImageFileManager
 
@@ -31,12 +34,13 @@ describe('Image Delete Api with Drypot FileManager', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
-    idb = ImageDB.from(db)
+    uc = UserCache.from(udb)
 
+    idb = ImageDB.from(db)
     ifm = DrypotFileManager.from(config)
 
     web = await Express2.from(config).useUpload().start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerImageUploadApi(web, udb, idb, ifm)
     registerImageDeleteApi(web, idb, ifm)
     request = web.spawnRequest()

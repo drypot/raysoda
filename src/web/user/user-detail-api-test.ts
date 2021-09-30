@@ -8,6 +8,7 @@ import { registerUserViewApi } from './user-detail-api.js'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('User Detail Api', () => {
 
@@ -15,6 +16,8 @@ describe('User Detail Api', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -23,10 +26,11 @@ describe('User Detail Api', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
-    registerUserViewApi(web, udb)
+    registerLoginApi(web, uc)
+    registerUserViewApi(web, uc)
     request = web.spawnRequest()
   })
 

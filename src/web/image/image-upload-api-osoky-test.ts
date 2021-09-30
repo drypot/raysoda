@@ -13,6 +13,7 @@ import { identify } from '../../file/magick/magick2.js'
 import { OsokyFileManager } from '../../file/osoky-fileman.js'
 import { IMAGE_SIZE } from '../../_type/error-image.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Image Upload Api with Osoky FileManager', () => {
 
@@ -20,6 +21,8 @@ describe('Image Upload Api with Osoky FileManager', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let idb: ImageDB
   let ifm: ImageFileManager
 
@@ -31,12 +34,13 @@ describe('Image Upload Api with Osoky FileManager', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
-    idb = ImageDB.from(db)
+    uc = UserCache.from(udb)
 
+    idb = ImageDB.from(db)
     ifm = OsokyFileManager.from(config)
 
     web = await Express2.from(config).useUpload().start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerImageUploadApi(web, udb, idb, ifm)
     request = web.spawnRequest()
   })

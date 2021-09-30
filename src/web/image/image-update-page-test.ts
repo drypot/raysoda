@@ -11,6 +11,7 @@ import { registerImageUpdatePage } from './image-update-page.js'
 import { imageOf } from '../../_type/image.js'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Image Update Page', () => {
 
@@ -18,6 +19,8 @@ describe('Image Update Page', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let idb: ImageDB
 
   let web: Express2
@@ -28,10 +31,12 @@ describe('Image Update Page', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
+
     idb = ImageDB.from(db)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerImageUpdatePage(web, udb, idb)
     request = web.spawnRequest()
   })

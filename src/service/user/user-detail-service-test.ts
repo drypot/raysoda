@@ -4,17 +4,20 @@ import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix1 } from '../../db/user/user-db-fixture.js'
 import { userDetailService } from './user-detail-service.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('User Detail Service', () => {
 
   let config: Config
   let db: DB
   let udb: UserDB
+  let uc: UserCache
 
   beforeAll(async () => {
     config = configFrom('config/app-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
   })
 
   afterAll(async () => {
@@ -30,7 +33,7 @@ describe('User Detail Service', () => {
       await insertUserFix1(udb)
     })
     it('return user info if id valid', async () => {
-      const user = await userDetailService(udb, 1, false)
+      const user = await userDetailService(uc, 1, false)
       if (!user) throw new Error()
       expect(user.id).toBe(1)
       expect(user.home).toBe('user1')
@@ -38,7 +41,7 @@ describe('User Detail Service', () => {
       expect(user.adate).toBe(undefined)
     })
     it('return with email if privInfo true', async () => {
-      const user = await userDetailService(udb, 1, true)
+      const user = await userDetailService(uc, 1, true)
       if (!user) throw new Error()
       expect(user.id).toBe(1)
       expect(user.home).toBe('user1')
@@ -46,7 +49,7 @@ describe('User Detail Service', () => {
       expect(user.adate).toBeDefined()
     })
     it('return undefined if id invalid', async () => {
-      const user = await userDetailService(udb, 99, false)
+      const user = await userDetailService(uc, 99, false)
       expect(user).toBe(undefined)
     })
   })

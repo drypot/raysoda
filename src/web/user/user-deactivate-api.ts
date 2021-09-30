@@ -1,12 +1,12 @@
-import { UserDB } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
 import { Error2 } from '../../_util/error2.js'
 import { hasUpdatePerm, logoutCurrentSession, sessionUserFrom } from '../user-login/login-api.js'
 import { userDeactivateService } from '../../service/user/user-deactivate-service.js'
 import { numberFrom } from '../../_util/primitive.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_type/error-user.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
-export function registerUserDeactivateApi(web: Express2, udb: UserDB) {
+export function registerUserDeactivateApi(web: Express2, uc: UserCache) {
 
   const router = web.router
 
@@ -19,7 +19,7 @@ export function registerUserDeactivateApi(web: Express2, udb: UserDB) {
     if (!hasUpdatePerm(user, id)) throw NOT_AUTHORIZED
 
     const err: Error2[] = []
-    await userDeactivateService(udb, id, err)
+    await userDeactivateService(uc, id, err)
     if (err.length) throw err
     if (user.id === id) {
       await logoutCurrentSession(req, res)

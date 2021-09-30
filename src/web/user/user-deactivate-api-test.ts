@@ -9,6 +9,7 @@ import { AdminLogin, loginForTest, User1Login, User2Login } from '../user-login/
 import { registerLoginApi } from '../user-login/login-api.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('UserDeactivateApi', () => {
 
@@ -16,6 +17,7 @@ describe('UserDeactivateApi', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
 
   let web: Express2
   let request: SuperAgentTest
@@ -25,10 +27,11 @@ describe('UserDeactivateApi', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
-    registerUserDeactivateApi(web, udb)
+    registerLoginApi(web, uc)
+    registerUserDeactivateApi(web, uc)
     request = web.spawnRequest()
   })
 

@@ -8,6 +8,7 @@ import { insertUserFix1 } from '../../db/user/user-db-fixture.js'
 import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { registerUserUpdatePage } from './user-update-page.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('User Update Page', () => {
 
@@ -15,6 +16,8 @@ describe('User Update Page', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -23,10 +26,11 @@ describe('User Update Page', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
-    registerUserUpdatePage(web, udb)
+    registerLoginApi(web, uc)
+    registerUserUpdatePage(web, uc)
     request = web.spawnRequest()
   })
 

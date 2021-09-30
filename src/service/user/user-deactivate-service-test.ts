@@ -6,17 +6,20 @@ import { Error2 } from '../../_util/error2.js'
 import { userDeactivateService } from './user-deactivate-service.js'
 import { USER_NOT_FOUND } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('User Deactivate Service', () => {
 
   let config: Config
   let db: DB
   let udb: UserDB
+  let uc: UserCache
 
   beforeAll(async () => {
     config = configFrom('config/app-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
   })
 
   afterAll(async () => {
@@ -37,7 +40,7 @@ describe('User Deactivate Service', () => {
     })
     it('deactivate user', async () => {
       const err: Error2[] = []
-      await userDeactivateService(udb, 1, err)
+      await userDeactivateService(uc, 1, err)
       expect(err.length).toBe(0)
     })
     it('user status should be "d"', async () => {
@@ -46,7 +49,7 @@ describe('User Deactivate Service', () => {
     })
     it('deactivating user fails if id invalid', async () => {
       const err: Error2[] = []
-      await userDeactivateService(udb, 999, err)
+      await userDeactivateService(uc, 999, err)
       expect(err).toContain(USER_NOT_FOUND)
     })
   })

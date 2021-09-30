@@ -9,6 +9,7 @@ import { makeHash } from '../../_util/hash.js'
 import { emailPatternIsOk } from '../../_util/email.js'
 import { INVALID_DATA } from '../../_type/error-basic.js'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN } from '../../_type/error-user.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 export async function pwSendMailService(
   mailer: Mailer, udb: UserDB, resetDB: PwResetDB, email: string, err: Error2[]
@@ -58,7 +59,7 @@ export type NewPasswordForm = {
 }
 
 export async function pwResetPasswordService(
-  udb: UserDB, resetDB: PwResetDB, form: NewPasswordForm, err: Error2[]
+  uc: UserCache, resetDB: PwResetDB, form: NewPasswordForm, err: Error2[]
 ) {
   checkPasswordFormat(form.password, err)
   if (err.length) return
@@ -72,7 +73,7 @@ export async function pwResetPasswordService(
     return
   }
   const hash = await makeHash(form.password)
-  await udb.updateHash(r.email, hash)
-  await udb.getRecachedByEmail(r.email)
+  await uc.udb.updateHash(r.email, hash)
+  await uc.getRecachedByEmail(r.email)
   await resetDB.deleteByEmail(r.email)
 }

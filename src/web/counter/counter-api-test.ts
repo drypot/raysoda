@@ -11,6 +11,7 @@ import { dateStringFrom } from '../../_util/date2.js'
 import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Counter Api', () => {
 
@@ -18,6 +19,8 @@ describe('Counter Api', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let cdb: CounterDB
 
   let web: Express2
@@ -28,10 +31,12 @@ describe('Counter Api', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
+
     cdb = CounterDB.from(db)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerCounterApi(web, cdb)
     request = web.spawnRequest()
   })

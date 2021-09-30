@@ -7,6 +7,7 @@ import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from './login-api.js'
 import { EMAIL_NOT_FOUND, NOT_AUTHENTICATED, NOT_AUTHORIZED, PASSWORD_WRONG } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Login Api', () => {
 
@@ -14,6 +15,8 @@ describe('Login Api', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -22,9 +25,10 @@ describe('Login Api', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     request = web.spawnRequest()
   })
 

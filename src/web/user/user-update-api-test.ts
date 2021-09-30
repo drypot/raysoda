@@ -18,6 +18,7 @@ import {
   PASSWORD_RANGE
 } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('User Update Api', () => {
 
@@ -25,6 +26,8 @@ describe('User Update Api', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -33,10 +36,11 @@ describe('User Update Api', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
-    registerUserUpdateApi(web, udb)
+    registerLoginApi(web, uc)
+    registerUserUpdateApi(web, uc)
     request = web.spawnRequest()
   })
 
@@ -74,7 +78,7 @@ describe('User Update Api', () => {
       expect(user.profile).toBe('profile x')
     })
     it('check cache', async () => {
-      const user = await udb.getCachedById(1)
+      const user = await uc.getCachedById(1)
       if (!user) throw new Error()
       expect(user.name).toBe('User X')
       expect(user.home).toBe('userx')
@@ -96,7 +100,7 @@ describe('User Update Api', () => {
       expect(await checkHash('5678', user.hash)).toBe(true)
     })
     it('check cache', async () => {
-      const user = await udb.getCachedById(1)
+      const user = await uc.getCachedById(1)
       if (!user) throw new Error()
       expect(await checkHash('5678', user.hash)).toBe(true)
     })

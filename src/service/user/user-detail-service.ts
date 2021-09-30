@@ -1,8 +1,8 @@
-import { UserDB } from '../../db/user/user-db.js'
 import { User } from '../../_type/user.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
-export async function userDetailService(udb: UserDB, id: number, priv: boolean) {
-  const user1 = await udb.getCachedById(id)
+export async function userDetailService(uc: UserCache, id: number, priv: boolean) {
+  const user1 = await uc.getCachedById(id)
   if (!user1) return undefined
   const user2: Partial<User> = {
     id: user1.id,

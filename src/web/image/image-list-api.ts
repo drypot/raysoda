@@ -1,12 +1,12 @@
 import { Express2, toCallback } from '../_express/express2.js'
-import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { limitedNumberFrom } from '../../_util/primitive.js'
 import { imageListByCdateService, imageListService } from '../../service/image/image-list-service.js'
 import { ImageListItem } from '../../_type/image-view.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
-export function registerImageListApi(web: Express2, udb: UserDB, idb: ImageDB, ifm: ImageFileManager) {
+export function registerImageListApi(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 
   web.router.get('/api/image-list', toCallback(async (req, res) => {
     const p = limitedNumberFrom(req.query.p as string, 1, 1, NaN)
@@ -15,9 +15,9 @@ export function registerImageListApi(web: Express2, udb: UserDB, idb: ImageDB, i
     const d = isNaN(dts) ? null : new Date(dts)
     let list: ImageListItem[]
     if (d) {
-      list = await imageListByCdateService(udb, idb, ifm, d, p, ps)
+      list = await imageListByCdateService(uc, idb, ifm, d, p, ps)
     } else {
-      list = await imageListService(udb, idb, ifm, p, ps)
+      list = await imageListService(uc, idb, ifm, p, ps)
     }
     res.json({
       list: list

@@ -12,6 +12,7 @@ import { registerPasswordApi } from './password-api.js'
 import { INVALID_DATA } from '../../_type/error-basic.js'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Password Api', () => {
 
@@ -19,8 +20,9 @@ describe('Password Api', () => {
 
   let db: DB
   let udb: UserDB
-  let rdb: PwResetDB
+  let uc: UserCache
 
+  let rdb: PwResetDB
   let mailer: Mailer
 
   let web: Express2
@@ -31,12 +33,13 @@ describe('Password Api', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
-    rdb = PwResetDB.from(db)
+    uc = UserCache.from(udb)
 
+    rdb = PwResetDB.from(db)
     mailer = Mailer.from(config).initTransport()
 
     web = await Express2.from(config).start()
-    registerPasswordApi(web, udb, rdb, mailer)
+    registerPasswordApi(web, uc, rdb, mailer)
     request = web.spawnRequest()
   })
 

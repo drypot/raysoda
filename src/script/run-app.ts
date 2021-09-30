@@ -31,6 +31,7 @@ import { registerBannerApi } from '../web/banner/banner-api.js'
 import { BannerDB } from '../db/banner/banner-db.js'
 import { registerAboutPage } from '../web/about/about-page.js'
 import { registerSessionInitScript } from '../web/aux/client-init-script.js'
+import { UserCache } from '../db/user/user-cache.js'
 
 async function main() {
   const config = configFrom(process.argv[2])
@@ -38,6 +39,7 @@ async function main() {
   const db = await DB.from(config).createDatabase()
   const vdb = await ValueDB.from(db).createTable()
   const udb = await UserDB.from(db).createTable()
+  const uc: UserCache = UserCache.from(udb)
   const rdb = await PwResetDB.from(db).createTable()
   const idb = await ImageDB.from(db).createTable()
   const cdb = await CounterDB.from(db).createTable()
@@ -54,18 +56,18 @@ async function main() {
   const web = Express2.from(config).useUpload()
 
   registerImageUploadApi(web, udb, idb, ifm)
-  registerImageViewApi(web, udb, idb, ifm)
-  registerImageListApi(web, udb, idb, ifm)
+  registerImageViewApi(web, uc, idb, ifm)
+  registerImageListApi(web, uc, idb, ifm)
   registerImageUpdateApi(web, idb, ifm)
   registerImageDeleteApi(web, idb, ifm)
 
-  registerLoginApi(web, udb)
+  registerLoginApi(web, uc)
   registerUserRegisterApi(web, udb)
-  registerUserViewApi(web, udb)
-  registerUserUpdateApi(web, udb)
-  registerUserDeactivateApi(web, udb)
+  registerUserViewApi(web, uc)
+  registerUserUpdateApi(web, uc)
+  registerUserDeactivateApi(web, uc)
   registerUserListApi(web, udb)
-  registerPasswordApi(web, udb, rdb, mailer)
+  registerPasswordApi(web, uc, rdb, mailer)
 
   registerAboutPage(web)
   registerCounterApi(web, cdb)
@@ -74,7 +76,7 @@ async function main() {
   registerSessionInitScript(web, bdb)
   registerRedirect(web)
 
-  registerUserXPage(web, udb, idb, ifm)
+  registerUserXPage(web, uc, idb, ifm)
 
   async function closeAll() {
     await web.close()

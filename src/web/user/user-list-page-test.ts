@@ -6,6 +6,7 @@ import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { registerUserListPage } from './user-list-page.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('User List Page', () => {
 
@@ -13,6 +14,8 @@ describe('User List Page', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -21,9 +24,10 @@ describe('User List Page', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerUserListPage(web, udb)
     request = web.spawnRequest()
   })

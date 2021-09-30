@@ -9,6 +9,7 @@ import { CounterDB } from '../../db/counter/counter-db.js'
 import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { registerCounterPage } from './counter-page.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Counter Page', () => {
 
@@ -16,6 +17,8 @@ describe('Counter Page', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let cdb: CounterDB
 
   let web: Express2
@@ -26,10 +29,12 @@ describe('Counter Page', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
+
     cdb = CounterDB.from(db)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerCounterPage(web)
     request = web.spawnRequest()
   })

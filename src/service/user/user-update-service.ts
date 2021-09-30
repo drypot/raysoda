@@ -1,4 +1,3 @@
-import { UserDB } from '../../db/user/user-db.js'
 import { User } from '../../_type/user.js'
 import {
   checkEmailDupe,
@@ -12,8 +11,10 @@ import {
 } from './_user-service.js'
 import { Error2 } from '../../_util/error2.js'
 import { makeHash } from '../../_util/hash.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
-export async function userUpdateService(udb: UserDB, id: number, form: UserUpdateForm, err: Error2[]) {
+export async function userUpdateService(uc: UserCache, id: number, form: UserUpdateForm, err: Error2[]) {
+  const udb = uc.udb
   checkNameFormat(form.name, err)
   checkHomeFormat(form.home, err)
   checkEmailFormat(form.email, err)
@@ -34,5 +35,5 @@ export async function userUpdateService(udb: UserDB, id: number, form: UserUpdat
     update.hash = await makeHash(form.password)
   }
   await udb.updateUser(id, update)
-  udb.deleteCacheById(id)
+  uc.deleteCacheById(id)
 }

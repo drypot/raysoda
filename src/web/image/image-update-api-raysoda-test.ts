@@ -15,6 +15,7 @@ import { registerImageUpdateApi } from './image-update-api.js'
 import { IMAGE_NOT_EXIST, IMAGE_SIZE } from '../../_type/error-image.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Image Update Api with RaySoda FileManager', () => {
 
@@ -22,6 +23,8 @@ describe('Image Update Api with RaySoda FileManager', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let idb: ImageDB
   let ifm: ImageFileManager
 
@@ -33,12 +36,13 @@ describe('Image Update Api with RaySoda FileManager', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
-    idb = ImageDB.from(db)
+    uc = UserCache.from(udb)
 
+    idb = ImageDB.from(db)
     ifm = RaySodaFileManager.from(config)
 
     web = await Express2.from(config).useUpload().start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerImageUploadApi(web, udb, idb, ifm)
     registerImageUpdateApi(web, idb, ifm)
     request = web.spawnRequest()

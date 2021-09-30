@@ -8,6 +8,7 @@ import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { registerUserDeactivatePage } from './user-deactivate-page.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('UserDeactivateView', () => {
 
@@ -15,6 +16,7 @@ describe('UserDeactivateView', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
 
   let web: Express2
   let request: SuperAgentTest
@@ -24,9 +26,10 @@ describe('UserDeactivateView', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerUserDeactivatePage(web, udb)
     request = web.spawnRequest()
   })

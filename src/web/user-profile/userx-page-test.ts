@@ -9,6 +9,7 @@ import { registerUserXPage } from './userx-page.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('UserX Page', () => {
 
@@ -16,6 +17,8 @@ describe('UserX Page', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let idb: ImageDB
   let ifm: ImageFileManager
 
@@ -27,12 +30,13 @@ describe('UserX Page', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
     idb = ImageDB.from(db)
 
     ifm = RaySodaFileManager.from(config)
 
     web = await Express2.from(config).start()
-    registerUserXPage(web, udb, idb, ifm)
+    registerUserXPage(web, uc, idb, ifm)
     request = web.spawnRequest()
   })
 

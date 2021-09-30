@@ -15,6 +15,7 @@ import { dateTimeStringFrom } from '../../_util/date2.js'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
 import { ImageDetail } from '../../_type/image-view.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Image View Api', () => {
 
@@ -22,6 +23,8 @@ describe('Image View Api', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let idb: ImageDB
   let ifm: ImageFileManager
 
@@ -33,14 +36,15 @@ describe('Image View Api', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
-    idb = ImageDB.from(db)
+    uc = UserCache.from(udb)
 
+    idb = ImageDB.from(db)
     ifm = RaySodaFileManager.from(config)
 
     web = await Express2.from(config).useUpload().start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerImageUploadApi(web, udb, idb, ifm)
-    registerImageViewApi(web, udb, idb, ifm)
+    registerImageViewApi(web, uc, idb, ifm)
     request = web.spawnRequest()
   })
 

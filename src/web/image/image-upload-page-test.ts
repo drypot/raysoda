@@ -9,6 +9,7 @@ import { registerImageUploadPage } from './image-upload-page.js'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Image Upload Page', () => {
 
@@ -16,6 +17,8 @@ describe('Image Upload Page', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let idb: ImageDB
 
   let web: Express2
@@ -26,10 +29,12 @@ describe('Image Upload Page', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
+
     idb = ImageDB.from(db)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerImageUploadPage(web, udb, idb)
     request = web.spawnRequest()
   })

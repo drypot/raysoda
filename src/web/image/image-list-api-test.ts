@@ -9,6 +9,7 @@ import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { registerImageListApi } from './image-list-api.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Image List Api', () => {
 
@@ -16,6 +17,8 @@ describe('Image List Api', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let idb: ImageDB
   let ifm: ImageFileManager
 
@@ -27,12 +30,13 @@ describe('Image List Api', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
-    idb = ImageDB.from(db)
+    uc = UserCache.from(udb)
 
+    idb = ImageDB.from(db)
     ifm = RaySodaFileManager.from(config)
 
     web = await Express2.from(config).useUpload().start()
-    registerImageListApi(web, udb, idb, ifm)
+    registerImageListApi(web, uc, idb, ifm)
     request = web.spawnRequest()
   })
 

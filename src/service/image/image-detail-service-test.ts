@@ -12,6 +12,7 @@ import { imageUploadService } from './image-upload-service.js'
 import { imageDetailService } from './image-detail-service.js'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Image Detail Service', () => {
 
@@ -19,6 +20,7 @@ describe('Image Detail Service', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
   let idb: ImageDB
   let ifm: ImageFileManager
 
@@ -26,6 +28,7 @@ describe('Image Detail Service', () => {
     config = configFrom('config/raysoda-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
     idb = ImageDB.from(db)
     ifm = RaySodaFileManager.from(config)
   })
@@ -56,12 +59,12 @@ describe('Image Detail Service', () => {
     })
     it('get image fails if id invalid', async () => {
       const err: Error2[] = []
-      const image = await imageDetailService(udb, idb, ifm, 2, err)
+      const image = await imageDetailService(uc, idb, ifm, 2, err)
       expect(err).toContain(IMAGE_NOT_EXIST)
     })
     it('get image', async () => {
       const err: Error2[] = []
-      const image = await imageDetailService(udb, idb, ifm, 1, err)
+      const image = await imageDetailService(uc, idb, ifm, 1, err)
       if (!image) throw new Error()
       // image: {
       //   id: 1,

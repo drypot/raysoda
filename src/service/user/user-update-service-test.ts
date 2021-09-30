@@ -16,17 +16,20 @@ import {
   PASSWORD_RANGE
 } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('User Update Service', () => {
 
   let config: Config
   let db: DB
   let udb: UserDB
+  let uc: UserCache
 
   beforeAll(async () => {
     config = configFrom('config/app-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
   })
 
   afterAll(async () => {
@@ -47,7 +50,7 @@ describe('User Update Service', () => {
         password: '', profile: 'profile x'
       })
       const err: Error2[] = []
-      await userUpdateService(udb, 1, form, err)
+      await userUpdateService(uc, 1, form, err)
       expect(err.length).toBe(0)
     })
     it('check db', async () => {
@@ -60,7 +63,7 @@ describe('User Update Service', () => {
       expect(user.profile).toBe('profile x')
     })
     it('check cache', async () => {
-      const user = await udb.getCachedById(1)
+      const user = await uc.getCachedById(1)
       if (!user) throw new Error()
       expect(user.name).toBe('User X')
       expect(user.home).toBe('userx')
@@ -74,7 +77,7 @@ describe('User Update Service', () => {
         password: '5678', profile: 'profile x'
       })
       const err: Error2[] = []
-      await userUpdateService(udb, 1, form, err)
+      await userUpdateService(uc, 1, form, err)
       expect(err.length).toBe(0)
     })
     it('check db', async () => {
@@ -84,7 +87,7 @@ describe('User Update Service', () => {
       expect(await checkHash('5678', user.hash)).toBe(true)
     })
     it('check cache', async () => {
-      const user = await udb.getCachedById(1)
+      const user = await uc.getCachedById(1)
       if (!user) throw new Error()
       expect(await checkHash('1234', user.hash)).toBe(false)
       expect(await checkHash('5678', user.hash)).toBe(true)
@@ -96,7 +99,7 @@ describe('User Update Service', () => {
         name: s33, home: s33, email: s65, password: s33, profile: ''
       })
       const err: Error2[] = []
-      await userUpdateService(udb, 1, form, err)
+      await userUpdateService(uc, 1, form, err)
       expect(err).toContain(NAME_RANGE)
       expect(err).toContain(HOME_RANGE)
       expect(err).toContain(EMAIL_RANGE)
@@ -108,7 +111,7 @@ describe('User Update Service', () => {
         password: '', profile: ''
       })
       const err: Error2[] = []
-      await userUpdateService(udb, 1, form, err)
+      await userUpdateService(uc, 1, form, err)
       expect(err).toContain(NAME_DUPE)
       expect(err).toContain(HOME_DUPE)
       expect(err).toContain(EMAIL_DUPE)

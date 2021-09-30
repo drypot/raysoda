@@ -10,6 +10,7 @@ import { BannerDB } from '../../db/banner/banner-db.js'
 import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { registerBannerPage } from './banner-page.js'
 import { Config } from '../../_type/config.js'
+import { UserCache } from '../../db/user/user-cache.js'
 
 describe('Banner Page', () => {
 
@@ -17,6 +18,8 @@ describe('Banner Page', () => {
 
   let db: DB
   let udb: UserDB
+  let uc: UserCache
+
   let vdb: ValueDB
   let bdb: BannerDB
 
@@ -28,11 +31,13 @@ describe('Banner Page', () => {
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
+    uc = UserCache.from(udb)
+
     vdb = ValueDB.from(db)
     bdb = BannerDB.from(vdb)
 
     web = await Express2.from(config).start()
-    registerLoginApi(web, udb)
+    registerLoginApi(web, uc)
     registerBannerPage(web, bdb)
     request = web.spawnRequest()
   })
