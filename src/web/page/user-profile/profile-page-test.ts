@@ -5,11 +5,12 @@ import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
 import { ImageDB } from '../../../db/image/image-db.js'
-import { registerUserXPage } from './profile-page.js'
+import { registerUserProfilePage } from './profile-page.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/user-cache.js'
+import { userOf } from '../../../_type/user.js'
 
 describe('UserX Page', () => {
 
@@ -36,7 +37,7 @@ describe('UserX Page', () => {
     ifm = RaySodaFileManager.from(config)
 
     web = await Express2.from(config).start()
-    registerUserXPage(web, uc, idb, ifm)
+    registerUserProfilePage(web, uc, idb, ifm)
     request = web.spawnRequest()
   })
 
@@ -49,6 +50,8 @@ describe('UserX Page', () => {
     await udb.dropTable()
     await udb.createTable(false)
     await insertUserFix4(udb)
+    const user5 = userOf({ id: 5, name: 'xman/yman', home: 'xman/yman', email: 'xmanyman@mail.test' })
+    udb.insertUser(user5)
   })
 
   describe('userx view', () => {
@@ -68,16 +71,8 @@ describe('UserX Page', () => {
       const res = await request.get('/user/xman').expect(404)
       // ...
     })
-    it('/user1', async () => {
-      const res = await request.get('/user1').expect(301).expect('Location', '/user/user1')
-      // ...
-    })
-    it('/USER1', async () => {
-      const res = await request.get('/USER1').expect(301).expect('Location', '/user/USER1')
-      // ...
-    })
-    it('/xman', async () => {
-      const res = await request.get('/xman').expect(301).expect('Location', '/user/xman')
+    it('/user/xman/yman encoded', async () => {
+      const res = await request.get('/user/' + encodeURIComponent('xman/yman')).expect(200)
       // ...
     })
   })

@@ -9,7 +9,7 @@ import { UrlMaker } from '../../../_util/url2.js'
 import { loginUserFrom } from '../../api/user-login/login-api.js'
 import { UserCache } from '../../../db/user/user-cache.js'
 
-export function registerUserXPage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
+export function registerUserProfilePage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 
   web.router.get('/user-id/:id([0-9]+)', toCallback(async (req, res) => {
     const id = numberFrom(req.params.id)
@@ -23,13 +23,6 @@ export function registerUserXPage(web: Express2, uc: UserCache, idb: ImageDB, if
     const owner = await uc.getCachedByHome(home)
     if (!owner) return
     await renderProfile(req, res, owner)
-  }))
-
-  web.router.get('/:name([^/]+)', toCallback(async (req, res) => {
-    // const home = decodeURIComponent(req.params.name)
-    // const owner = await uc.getCachedByHome(home)
-    // if (!owner) return
-    res.redirect(301, '/user/' + req.params.name)
   }))
 
   async function renderProfile(req: Request, res: Response, owner: User) {
