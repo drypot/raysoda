@@ -1,6 +1,6 @@
 import { UserDB, UserListItem } from '../../db/user/user-db.js'
 import { Express2, toCallback } from '../_express/express2.js'
-import { limitNumber, numberFrom } from '../../_util/primitive.js'
+import { limitedNumberFrom } from '../../_util/primitive.js'
 import { userListService, userSearchService } from '../../service/user/user-list-service.js'
 import { UrlMaker } from '../../_util/url2.js'
 
@@ -9,8 +9,8 @@ export function registerUserListPage(web: Express2, udb: UserDB) {
   const router = web.router
 
   router.get('/user-list', toCallback(async (req, res) => {
-    let p = limitNumber(numberFrom(req.query.p as string, 1), 1, NaN)
-    let ps = limitNumber(numberFrom(req.query.ps as string, 99), 1, 300)
+    let p = limitedNumberFrom(req.query.p as string, 1, 1, NaN)
+    let ps = limitedNumberFrom(req.query.ps as string, 99, 1, 300)
     let q = req.query.q as string || ''
     let admin = res.locals.user && res.locals.user.admin
     let l: UserListItem[]

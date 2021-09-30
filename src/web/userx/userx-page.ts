@@ -4,7 +4,7 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { Request, Response } from 'express'
 import { User } from '../../_type/user.js'
-import { limitNumber, numberFrom } from '../../_util/primitive.js'
+import { limitedNumberFrom, numberFrom } from '../../_util/primitive.js'
 import { imageListFrom } from '../../service/image/image-list-service.js'
 import { UrlMaker } from '../../_util/url2.js'
 
@@ -33,8 +33,8 @@ export function registerUserXPage(web: Express2, udb: UserDB, idb: ImageDB, ifm:
 
   async function list(idb: ImageDB, ifm: ImageFileManager, req: Request, res: Response, owner: User) {
     const user = res.locals.user
-    const p = limitNumber(numberFrom(req.query.p as string, 1), 1, NaN)
-    const ps = limitNumber(numberFrom(req.query.ps as string, 16), 1, 128)
+    const p = limitedNumberFrom(req.query.p as string, 1, 1, NaN)
+    const ps = limitedNumberFrom(req.query.ps as string, 16, 1, 128)
     const il = await idb.findImageListByUser(owner.id, (p - 1) * ps, ps)
     const hl = await imageListFrom(udb, ifm, il)
     res.render('userx/pug/userx', {

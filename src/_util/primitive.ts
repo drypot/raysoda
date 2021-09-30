@@ -1,4 +1,14 @@
 
+export function limitNumber(v: number, min: number, max: number) {
+  if (!isNaN(min)) {
+    v = Math.max(v, min)
+  }
+  if (!isNaN(max)) {
+    v = Math.min(v, max)
+  }
+  return v
+}
+
 export function numberFrom(v: any, def: number = 0) {
   if (v === undefined) {
     return def
@@ -13,17 +23,8 @@ export function numberFrom(v: any, def: number = 0) {
   return v2
 }
 
-export function limitNumber(v: number, min: number, max: number) {
-  if (!isNaN(min)) {
-    v = Math.max(v, min)
-  }
-  if (!isNaN(max)) {
-    v = Math.min(v, max)
-  }
-  return v
-}
 
-export function limitNumber2(v: any, def: number, min: number, max: number) {
+export function limitedNumberFrom(v: any, def: number, min: number, max: number) {
   return limitNumber(numberFrom(v, def), min, max)
 }
 

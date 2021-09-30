@@ -1,4 +1,4 @@
-import { limitNumber, limitNumber2, numberFrom, stringFrom } from './primitive.js'
+import { limitedNumberFrom, limitNumber, numberFrom, stringFrom } from './primitive.js'
 
 describe('limitNumber', () => {
   it('check', () => {
@@ -39,12 +39,12 @@ describe('numberFrom', () => {
   })
 })
 
-describe('limitNumber2', () => {
+describe('limitedNumberFrom', () => {
   it('check', () => {
-    expect(limitNumber2(null, 10, 1, 100)).toBe(10)
-    expect(limitNumber2('null', 10, 1, 100)).toBe(10)
-    expect(limitNumber2('20', 10, 1, 100)).toBe(20)
-    expect(limitNumber2('200', 10, 1, 100)).toBe(100)
+    expect(limitedNumberFrom(null, 10, 1, 100)).toBe(10)
+    expect(limitedNumberFrom('null', 10, 1, 100)).toBe(10)
+    expect(limitedNumberFrom('20', 10, 1, 100)).toBe(20)
+    expect(limitedNumberFrom('200', 10, 1, 100)).toBe(100)
   })
 })
 
