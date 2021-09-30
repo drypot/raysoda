@@ -52,21 +52,21 @@ describe('Counter Page', () => {
 
   describe('counter pages', () => {
 
-    describe('/counter-list', () => {
+    describe('/counter', () => {
       it('fails if anonymous', async () => {
-        await request.get('/counter-list').expect(302).expect('Location', '/login')
+        await request.get('/counter').expect(302).expect('Location', '/login')
       })
       it('login as user', async () => {
         await loginForTest(request, User1Login)
       })
       it('fails if user', async () => {
-        await request.get('/counter-list').expect(302).expect('Location', '/login')
+        await request.get('/counter').expect(302).expect('Location', '/login')
       })
       it('login as admin', async () => {
         await loginForTest(request, AdminLogin)
       })
       it('works', async () => {
-        await request.get('/counter-list').expect(200).expect(/<title>Counter/)
+        await request.get('/counter').expect(200).expect(/<title>Counter/)
       })
     })
 
