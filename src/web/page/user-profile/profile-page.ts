@@ -6,7 +6,7 @@ import { User } from '../../../_type/user.js'
 import { limitedNumberFrom, numberFrom } from '../../../_util/primitive.js'
 import { imageListByUserService } from '../../../service/image/image-list-service.js'
 import { UrlMaker } from '../../../_util/url2.js'
-import { sessionUserFrom } from '../../api/user-login/login-api.js'
+import { loginUserFrom } from '../../api/user-login/login-api.js'
 import { UserCache } from '../../../db/user/user-cache.js'
 
 export function registerUserXPage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
@@ -33,7 +33,7 @@ export function registerUserXPage(web: Express2, uc: UserCache, idb: ImageDB, if
   }))
 
   async function renderProfile(req: Request, res: Response, owner: User) {
-    const user = sessionUserFrom(res)
+    const user = loginUserFrom(res)
     const p = limitedNumberFrom(req.query.p as string, 1, 1, NaN)
     const ps = limitedNumberFrom(req.query.ps as string, 16, 1, 128)
     const hl = await imageListByUserService(uc, idb, ifm, owner.id, p, ps)

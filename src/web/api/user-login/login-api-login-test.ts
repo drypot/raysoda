@@ -53,7 +53,7 @@ describe('Login Api', () => {
       expect(res.body.user.id).toBe(1)
     })
     it('get login works', async () => {
-      const res = await request.get('/api/session-user').expect(200)
+      const res = await request.get('/api/login-user').expect(200)
       expect(res.body.user.id).toBe(1)
     })
     it('login as user2', async () => {
@@ -62,7 +62,7 @@ describe('Login Api', () => {
       expect(res.body.user.id).toBe(2)
     })
     it('get login works', async () => {
-      const res = await request.get('/api/session-user').expect(200)
+      const res = await request.get('/api/login-user').expect(200)
       expect(res.body.user.id).toBe(2)
     })
 
@@ -73,7 +73,7 @@ describe('Login Api', () => {
       expect(res.body.user.id).toBe(1)
     })
     it('get admin-login fails', async () => {
-      const res = await request.get('/api/session-user-as-admin').expect(200)
+      const res = await request.get('/api/login-user-as-admin').expect(200)
       expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
     it('login as admin', async () => {
@@ -83,7 +83,7 @@ describe('Login Api', () => {
       expect(res.body.user.admin).toBe(true)
     })
     it('get admin-login works', async () => {
-      const res = await request.get('/api/session-user-as-admin').expect(200)
+      const res = await request.get('/api/login-user-as-admin').expect(200)
       expect(res.body.user.id).toBe(4)
       expect(res.body.user.admin).toBe(true)
     })
@@ -93,7 +93,7 @@ describe('Login Api', () => {
       await request.post('/api/logout').expect(200)
     })
     it('get login fails', async () => {
-      const res = await request.get('/api/session-user').expect(200)
+      const res = await request.get('/api/login-user').expect(200)
       expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
 

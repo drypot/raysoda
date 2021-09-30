@@ -1,5 +1,5 @@
 import { Express2, toCallback } from '../../_express/express2.js'
-import { hasUpdatePerm, sessionUserFrom } from '../user-login/login-api.js'
+import { hasUpdatePerm, loginUserFrom } from '../user-login/login-api.js'
 import { UserUpdateForm } from '../../../service/user/_user-service.js'
 import { Error2 } from '../../../_util/error2.js'
 import { userUpdateService } from '../../../service/user/user-update-service.js'
@@ -24,7 +24,7 @@ export function registerUserUpdateApi(web: Express2, uc: UserCache) {
   const router = web.router
 
   router.put('/api/user-update/:id([0-9]+)', toCallback(async (req, res) => {
-    const user = sessionUserFrom(res)
+    const user = loginUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     const id = numberFrom(req.params.id)
     if (!hasUpdatePerm(user, id)) throw NOT_AUTHORIZED

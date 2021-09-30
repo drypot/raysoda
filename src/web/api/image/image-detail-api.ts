@@ -3,14 +3,14 @@ import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { imageDetailService } from '../../../service/image/image-detail-service.js'
 import { Error2 } from '../../../_util/error2.js'
-import { sessionUserFrom } from '../user-login/login-api.js'
+import { loginUserFrom } from '../user-login/login-api.js'
 import { numberFrom } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/user-cache.js'
 
 export function registerImageDetailApi(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 
   web.router.get('/api/image/:id([0-9]+)', toCallback(async (req, res) => {
-    const user = sessionUserFrom(res)
+    const user = loginUserFrom(res)
     const id = numberFrom(req.params.id)
     const err: Error2[] = []
     const image = await imageDetailService(uc, idb, ifm, id, err)

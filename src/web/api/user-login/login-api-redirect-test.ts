@@ -4,7 +4,7 @@ import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
 import { Express2, toCallback } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { registerLoginApi, sessionUserFrom } from './login-api.js'
+import { loginUserFrom, registerLoginApi } from './login-api.js'
 import { NOT_AUTHENTICATED } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/user-cache.js'
@@ -43,7 +43,7 @@ describe('Login Api', () => {
         res.send('public')
       })
       web.router.get('/test/private', toCallback(async (req, res) => {
-        const user = await sessionUserFrom(res)
+        const user = await loginUserFrom(res)
         if (!user) throw NOT_AUTHENTICATED
         res.send('private')
       }))

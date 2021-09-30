@@ -29,16 +29,16 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
 
   const router = web.router
 
-  router.get('/api/session-user', toCallback(async function (req, res) {
-    const suser = sessionUserFrom(res)
+  router.get('/api/login-user', toCallback(async function (req, res) {
+    const suser = loginUserFrom(res)
     if (!suser) throw NOT_AUTHENTICATED
     res.json({
       user: userMinOf(suser)
     })
   }))
 
-  router.get('/api/session-user-as-admin', toCallback(async function (req, res) {
-    const suser = sessionUserFrom(res)
+  router.get('/api/login-user-as-admin', toCallback(async function (req, res) {
+    const suser = loginUserFrom(res)
     if (!suser) throw NOT_AUTHENTICATED
     if (!suser.admin) throw NOT_AUTHORIZED
     res.json({
@@ -83,7 +83,7 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
   })
 
   router.post('/api/logout', toCallback(async (req, res) => {
-    await logoutCurrentSession(req, res)
+    await logout(req, res)
     res.json({})
   }))
 
@@ -127,7 +127,7 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
 
 }
 
-export function sessionUserFrom(res: Response) {
+export function loginUserFrom(res: Response) {
   return res.locals.user as User | undefined
 }
 
@@ -135,7 +135,7 @@ export function hasUpdatePerm(op: User, id: number) {
   return op.id === id || op.admin
 }
 
-export async function logoutCurrentSession(req: Request, res: Response) {
+export async function logout(req: Request, res: Response) {
   res.clearCookie('email')
   res.clearCookie('password')
   await new Promise<void>((resolve, reject) =>

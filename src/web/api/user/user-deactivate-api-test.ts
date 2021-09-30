@@ -58,7 +58,7 @@ describe('UserDeactivateApi', () => {
       await loginForTest(request, User1Login)
     })
     it('get login works', async () => {
-      const res = await request.get('/api/session-user').expect(200)
+      const res = await request.get('/api/login-user').expect(200)
       expect(res.body.user.id).toBe(1)
     })
     it('deactivate user', async () => {
@@ -66,7 +66,7 @@ describe('UserDeactivateApi', () => {
       expect(res.body).toEqual({})
     })
     it('get login fails', async () => {
-      const res = await request.get('/api/session-user').expect(200)
+      const res = await request.get('/api/login-user').expect(200)
       expect(res.body.err).toContain(NOT_AUTHENTICATED)
     })
     it('user status must be "d"', async () => {

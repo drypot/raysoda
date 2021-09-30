@@ -2,7 +2,7 @@ import { deleteUpload, Express2 } from '../../_express/express2.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageUploadForm } from '../../../service/image/_image-service.js'
-import { sessionUserFrom } from '../user-login/login-api.js'
+import { loginUserFrom } from '../user-login/login-api.js'
 import { imageUploadService } from '../../../service/image/image-upload-service.js'
 import { Request } from 'express'
 import { Error2 } from '../../../_util/error2.js'
@@ -20,7 +20,7 @@ function imageUploadFormFrom(req: Request) {
 export function registerImageUploadApi(web: Express2, udb: UserDB, idb: ImageDB, ifm: ImageFileManager) {
 
   web.router.post('/api/image-upload', web.upload.single('file'), deleteUpload(async (req, res) => {
-    const user = sessionUserFrom(res)
+    const user = loginUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     const form = imageUploadFormFrom(req)
     const err: Error2[] = []
