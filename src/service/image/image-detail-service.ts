@@ -5,7 +5,7 @@ import { dateTimeStringFrom } from '../../_util/date2.js'
 import { User } from '../../_type/user.js'
 import { Image } from '../../_type/image.js'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
-import { ImageDetail } from '../../_type/image-view.js'
+import { ImageDetail } from '../../_type/image-detail.js'
 import { UserCache } from '../../db/user/user-cache.js'
 
 export function imageDetailFrom(owner: User, ifm: ImageFileManager, image: Image) {

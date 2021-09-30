@@ -5,7 +5,7 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { imageListByCdateService, imageListService } from './image-list-service.js'
+import { imageListByCdateService, imageListByUserService, imageListService } from './image-list-service.js'
 import { Config } from '../../_type/config.js'
 import { UserCache } from '../../db/user/user-cache.js'
 
@@ -92,6 +92,12 @@ describe('Image List Service', () => {
         expect(r.length).toBe(4)
       expect(r[0].id).toBe(6)
       expect(r[3].id).toBe(3)
+    })
+    it('u 1', async () => {
+      const r = await imageListByUserService(uc, idb, ifm, 1, 1, 128)
+        expect(r.length).toBe(5)
+      expect(r[0].id).toBe(10)
+      expect(r[3].id).toBe(7)
     })
   })
 

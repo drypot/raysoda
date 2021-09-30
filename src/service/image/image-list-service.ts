@@ -3,29 +3,27 @@ import { ImageFileManager } from '../../file/fileman.js'
 import { Image } from '../../_type/image.js'
 import { User } from '../../_type/user.js'
 import { dateTimeStringFrom } from '../../_util/date2.js'
-import { ImageListItem } from '../../_type/image-view.js'
+import { ImageDetailMin } from '../../_type/image-detail.js'
 import { UserCache } from '../../db/user/user-cache.js'
 
-export function imageListItemFrom(owner: User, ifm: ImageFileManager, image: Image) {
-  return {
-    id: image.id,
-    owner: {
-      id: owner.id,
-      name: owner.name,
-      home: owner.home
-    },
-    cdateStr: dateTimeStringFrom(image.cdate),
-    vers: image.vers,
-    comment: image.comment,
-    thumbUrl: ifm.getThumbUrlFor(image.id)
-  } as ImageListItem
-}
-
-export async function imageListFrom(uc: UserCache, ifm: ImageFileManager, imageL: Image[]) {
-  return await Promise.all(imageL.map(async image => {
-    const owner = await uc.getCachedById(image.uid)
-    return imageListItemFrom(owner as User, ifm, image)
-  }))
+async function imageListFrom(uc: UserCache, ifm: ImageFileManager, list: Image[]) {
+  return await Promise.all(
+    list.map(async image => {
+      const owner = await uc.getCachedById(image.uid) as User
+      return {
+        id: image.id,
+        owner: {
+          id: owner.id,
+          name: owner.name,
+          home: owner.home
+        },
+        cdateStr: dateTimeStringFrom(image.cdate),
+        vers: image.vers,
+        comment: image.comment,
+        thumbUrl: ifm.getThumbUrlFor(image.id)
+      } as ImageDetailMin
+    })
+  )
 }
 
 export async function imageListService(
@@ -43,8 +41,8 @@ export async function imageListByCdateService(
 }
 
 export async function imageListByUserService(
-  uc: UserCache, idb: ImageDB, ifm: ImageFileManager, owner: User, p: number, ps: number
+  uc: UserCache, idb: ImageDB, ifm: ImageFileManager, uid: number, p: number, ps: number
 ) {
-  const il = await idb.findImageListByUser(owner.id, (p - 1) * ps, ps)
+  const il = await idb.findImageListByUser(uid, (p - 1) * ps, ps)
   return await imageListFrom(uc, ifm, il)
 }

@@ -36,7 +36,7 @@ export function registerUserXPage(web: Express2, uc: UserCache, idb: ImageDB, if
     const user = sessionUserFrom(res)
     const p = limitedNumberFrom(req.query.p as string, 1, 1, NaN)
     const ps = limitedNumberFrom(req.query.ps as string, 16, 1, 128)
-    const hl = await imageListByUserService(uc, idb, ifm, owner, p, ps)
+    const hl = await imageListByUserService(uc, idb, ifm, owner.id, p, ps)
     res.render('user-profile/profile', {
       owner: owner,
       updatable: user && (user.id === owner.id || user.admin),

@@ -13,7 +13,7 @@ import { registerImageViewApi } from './image-detail-api.js'
 import { AdminLogin, loginForTest, logoutForTest, User1Login, User2Login } from '../user-login/login-api-fixture.js'
 import { dateTimeStringFrom } from '../../../_util/date2.js'
 import { IMAGE_NOT_EXIST } from '../../../_type/error-image.js'
-import { ImageDetail } from '../../../_type/image-view.js'
+import { ImageDetail } from '../../../_type/image-detail.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/user-cache.js'
 

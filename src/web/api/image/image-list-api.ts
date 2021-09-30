@@ -3,7 +3,7 @@ import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { limitedNumberFrom } from '../../../_util/primitive.js'
 import { imageListByCdateService, imageListService } from '../../../service/image/image-list-service.js'
-import { ImageListItem } from '../../../_type/image-view.js'
+import { ImageDetailMin } from '../../../_type/image-detail.js'
 import { UserCache } from '../../../db/user/user-cache.js'
 
 export function registerImageListApi(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
@@ -13,7 +13,7 @@ export function registerImageListApi(web: Express2, uc: UserCache, idb: ImageDB,
     const ps = limitedNumberFrom(req.query.ps as string, 16, 1, 128)
     const dts = Date.parse(req.query.d as string)
     const d = isNaN(dts) ? null : new Date(dts)
-    let list: ImageListItem[]
+    let list: ImageDetailMin[]
     if (d) {
       list = await imageListByCdateService(uc, idb, ifm, d, p, ps)
     } else {

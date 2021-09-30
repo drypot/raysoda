@@ -22,5 +22,3 @@ export function imageOf(params?: Partial<Image>): Image {
     ...params
   }
 }
-
-
