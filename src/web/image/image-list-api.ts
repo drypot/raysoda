@@ -15,7 +15,7 @@ export function registerImageListApi(web: Express2, udb: UserDB, idb: ImageDB, i
     const d = isNaN(dts) ? null : new Date(dts)
     let list: ImageListItem[]
     if (d) {
-      list = await imageListByCdateService(udb, idb, ifm, p, ps, d)
+      list = await imageListByCdateService(udb, idb, ifm, d, p, ps)
     } else {
       list = await imageListService(udb, idb, ifm, p, ps)
     }

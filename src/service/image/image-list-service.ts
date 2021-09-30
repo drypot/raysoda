@@ -36,8 +36,15 @@ export async function imageListService(
 }
 
 export async function imageListByCdateService(
-  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, p: number, ps: number, d: Date
+  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, d: Date, p: number, ps: number
 ) {
   const il = await idb.findImageListByCdate(d, (p - 1) * ps, ps)
   return imageListFrom(udb, ifm, il)
+}
+
+export async function imageListByUserService(
+  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, owner: User, p: number, ps: number
+) {
+  const il = await idb.findImageListByUser(owner.id, (p - 1) * ps, ps)
+  return await imageListFrom(udb, ifm, il)
 }

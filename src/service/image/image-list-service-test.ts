@@ -85,8 +85,8 @@ describe('Image List Service', () => {
       expect(r[1].id).toBe(1)
     })
     it('d 20030607, ps 4', async () => {
-      const r = await imageListByCdateService(udb, idb, ifm, 1, 4, new Date('2003-6-7'))
-      expect(r.length).toBe(4)
+      const r = await imageListByCdateService(udb, idb, ifm, new Date('2003-6-7'), 1, 4)
+        expect(r.length).toBe(4)
       expect(r[0].id).toBe(6)
       expect(r[3].id).toBe(3)
     })
