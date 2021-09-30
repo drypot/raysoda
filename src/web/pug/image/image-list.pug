@@ -1,0 +1,81 @@
+extends ../layout/layout
+
+block head-opt
+  meta(property='og:image', content=images.length ? images[0].thumb : '')
+  title #{appName}
+
+block header
+
+block content
+
+  script.
+    $(function () {
+      cimage.initList();
+    });
+
+  .section.page-title
+    h1
+      a(href='/') #{appName}
+
+  if !prev
+    .section
+      .sub-section.top-links
+        a(href='/about') 사이트소개
+        if locals.user
+          //-a(href='/images/new') Upload
+          a(href='/images/new') 사진등록
+          //- a(href='/user/' + user.id) My Photos
+          //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
+          //-a(href='/' + encodeURIComponent(user.home)) My Photos
+          a(href='/' + encodeURIComponent(user.home)) 내사진
+          //-a(href='/users') Users
+          a(href='/users') 회원별
+          //-a(href='/images/years') Years
+          a(href='/images/years') 연도별
+          //-a(href='#' onclick='javascript:cuser.logout(); return false;') Logout
+          a(href='#' onclick='javascript:cuser.logout(); return false;') 접속종료
+        else
+          //-a(href='/login') Login
+          a(href='/login') 로그인
+          //-a(href='/user-register') Register
+          a(href='/user-register') 회원가입
+          //-a(href='/users') Users
+          a(href='/users') 회원별
+          //-a(href='/images/years') Years
+          a(href='/images/years') 연도별
+
+      .sub-section.news
+        for banner in banners
+          a(href=banner.url, target="_blank") #{banner.text}
+          br
+
+  .section.image-thumb-list
+    for image in images
+      .image-thumb.thumb-margin
+        .image
+          a(href='/images/' + image.id)
+            img(src=image.thumb, data-vers= image.vers ? image.vers.join(',') : null)
+        - var c = image.comment.split(/\r\n|\n/, 1)[0];
+        if c
+          .comment= c
+        .uname
+          //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
+          a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
+    .image-thumb.prev-next
+
+  .section
+    .prev-next.thumb-margin
+      if prev
+        a(href=prev)
+          i.fa.fa-angle-left(aria-hidden='true')
+      if next
+        a(href=next)
+          i.fa.fa-angle-right(aria-hidden='true')
+
+  .section.top-links
+    //-if appNamel != 'raysoda'
+    a(href='https://raysoda.com') RaySoda
+    //-if appNamel != 'rapixel'
+    a(href='https://rapixel.com') Rapixel
+    //-if appNamel != 'osoky'
+    a(href='https://osoky.com') Osoky
