@@ -3,7 +3,7 @@ import { BannerDB } from '../../../db/banner/banner-db.js'
 import { userMinOf } from '../../../_type/user.js'
 import { configMinOf } from '../../../_type/config.js'
 
-export function registerSessionInitScript(web: Express2, bdb: BannerDB) {
+export function registerClientInitScript(web: Express2, bdb: BannerDB) {
 
   web.router.get('/api/client-init-script', toCallback(async function (req, res) {
     const configStr = JSON.stringify(configMinOf(web.config))

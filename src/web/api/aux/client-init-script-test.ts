@@ -5,7 +5,7 @@ import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { registerSessionInitScript } from './client-init-script.js'
+import { registerClientInitScript } from './client-init-script.js'
 import { ValueDB } from '../../../db/value/value-db.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
 import { registerBannerApi } from '../banner/banner-api.js'
@@ -40,7 +40,7 @@ describe('Client Init Script', () => {
     web = await Express2.from(config).start()
     registerLoginApi(web, uc)
     registerBannerApi(web, bdb)
-    registerSessionInitScript(web, bdb)
+    registerClientInitScript(web, bdb)
     request = web.spawnRequest()
   })
 
