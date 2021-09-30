@@ -39,7 +39,7 @@ describe('User Detail Api', () => {
     await db.close()
   })
 
-  describe('user view', () => {
+  describe('', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable(false)
@@ -47,11 +47,11 @@ describe('User Detail Api', () => {
     it('fill fix', async () => {
       await insertUserFix4(udb)
     })
-    it('get user works without login', async () => {
+    it('get user without login works', async () => {
       const res = await request.get('/api/user/1').expect(200)
       expect(res.body.user.id).toBe(1)
       expect(res.body.user.home).toBe('user1')
-      expect(res.body.user.email).toBe(undefined)
+      expect(res.body.user.email).toBe('')
     })
     it('login as user', async () => {
       await loginForTest(request, User1Login)
@@ -66,7 +66,7 @@ describe('User Detail Api', () => {
       const res = await request.get('/api/user/2').expect(200)
       expect(res.body.user.id).toBe(2)
       expect(res.body.user.home).toBe('user2')
-      expect(res.body.user.email).toBe(undefined)
+      expect(res.body.user.email).toBe('')
     })
     it('login as admin', async () => {
       await loginForTest(request, AdminLogin)
