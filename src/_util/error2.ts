@@ -7,12 +7,12 @@ export type Error2 = {
   field: string
 }
 
-export function errorOf(name: string, message: string = '', field: string = '') {
+export function errorOf(name: string, message: string = '', field: string = ''): Error2 {
   return {
     name,
     message,
     field
-  } as Error2
+  }
 }
 
 export function findError(list: Error2[], target: Error2) {

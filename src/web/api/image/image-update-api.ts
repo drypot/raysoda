@@ -9,11 +9,11 @@ import { checkImageUpdatable, imageUpdateService } from '../../../service/image/
 import { numberFrom } from '../../../_util/primitive.js'
 import { NOT_AUTHENTICATED } from '../../../_type/error-user.js'
 
-function imageUpdateFormFrom(req: Request) {
+function imageUpdateFormFrom(req: Request): ImageUpdateForm {
   return {
     comment: req.body.comment || '',
     file: req.file?.path
-  } as ImageUpdateForm
+  }
 }
 
 export function registerImageUpdateApi(web: Express2, idb: ImageDB, ifm: ImageFileManager) {

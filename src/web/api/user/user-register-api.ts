@@ -6,13 +6,13 @@ import { UserRegisterForm } from '../../../service/user/_user-service.js'
 import { Error2 } from '../../../_util/error2.js'
 import { stringFrom } from '../../../_util/primitive.js'
 
-export function userRegisterFormFrom(req: Request) {
+export function userRegisterFormFrom(req: Request): UserRegisterForm {
   const body = req.body
   return {
     name: stringFrom(body.name).trim(),
     email: stringFrom(body.email).trim(),
     password: stringFrom(body.password).trim(),
-  } as UserRegisterForm
+  }
 }
 
 export function registerUserRegisterApi(web: Express2, udb: UserDB) {

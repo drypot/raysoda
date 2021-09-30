@@ -30,16 +30,16 @@ export type UserUpdateForm = {
   profile: string
 }
 
-export function userRegisterFormOf(params?: Partial<UserRegisterForm>) {
+export function userRegisterFormOf(params?: Partial<UserRegisterForm>): UserRegisterForm {
   return {
     name: '',
     email: '',
     password: '',
     ...params
-  } as UserRegisterForm
+  }
 }
 
-export function userUpdateFormOf(params?: Partial<UserUpdateForm>) {
+export function userUpdateFormOf(params?: Partial<UserUpdateForm>): UserUpdateForm {
   return {
     name: '',
     home: '',
@@ -47,7 +47,7 @@ export function userUpdateFormOf(params?: Partial<UserUpdateForm>) {
     password: '',
     profile: '',
     ...params
-  } as UserUpdateForm
+  }
 }
 
 export function checkNameFormat(name: string, err: Error2[]) {

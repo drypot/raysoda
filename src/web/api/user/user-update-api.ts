@@ -8,7 +8,7 @@ import { numberFrom, stringFrom } from '../../../_util/primitive.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../_type/error-user.js'
 import { UserCache } from '../../../db/user/user-cache.js'
 
-export function userUpdateFormFrom(req: Request) {
+export function userUpdateFormFrom(req: Request): UserUpdateForm {
   const body = req.body
   return {
     name: stringFrom(body.name).trim(),
@@ -16,7 +16,7 @@ export function userUpdateFormFrom(req: Request) {
     email: stringFrom(body.email).trim(),
     password: stringFrom(body.password).trim(),
     profile: stringFrom(body.profile).trim(),
-  } as UserUpdateForm
+  }
 }
 
 export function registerUserUpdateApi(web: Express2, uc: UserCache) {

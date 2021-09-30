@@ -8,7 +8,7 @@ import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
 import { ImageDetail } from '../../_type/image-detail.js'
 import { UserCache } from '../../db/user/user-cache.js'
 
-export function imageDetailFrom(owner: User, ifm: ImageFileManager, image: Image) {
+export function imageDetailFrom(owner: User, ifm: ImageFileManager, image: Image): ImageDetail {
   return {
     id: image.id,
     owner: {
@@ -23,7 +23,7 @@ export function imageDetailFrom(owner: User, ifm: ImageFileManager, image: Image
     dirUrl: ifm.getDirUrlFor(image.id),
     thumbUrl: ifm.getThumbUrlFor(image.id),
     updatable: false
-  } as ImageDetail
+  }
 }
 
 export async function imageDetailService(

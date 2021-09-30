@@ -48,13 +48,13 @@ export async function imageUploadService(
   // 사진이 여러장 등록될 수 있다.
   const id = idb.getNextImageId()
   const vers = await ifm.saveImage(id, form.file, meta)
-  const image = {
+  const image: Image = {
     id: id,
     uid: uid,
     cdate: form.now,
     vers: vers,
     comment: form.comment,
-  } as Image
+  }
   await idb.insertImage(image)
   await udb.updateUserPDate(uid, form.now)
   return id
