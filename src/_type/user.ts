@@ -14,7 +14,7 @@ export type User = {
   pdate: Date
 }
 
-export function userOf(params?: Partial<User>): User {
+export function getUser(params?: Partial<User>): User {
   return {
     id: 0,
     name: '',
@@ -38,7 +38,7 @@ export type UserMin = {
   admin: boolean
 }
 
-export function userMinOf(user: User) {
+export function getUserMin(user: User) {
   return { id: user.id, name: user.name, home: user.home, admin: user.admin }
 }
 
@@ -56,7 +56,7 @@ export type UserDetail = {
   pdate: Date
 }
 
-export function userDetailOf(user: User): UserDetail {
+export function getUserDetail(user: User): UserDetail {
   return {
     id: user.id,
     name: user.name,
