@@ -1,4 +1,4 @@
-import { readConfigSync } from '../../_util/config-loader.js'
+import { loadConfigSync } from '../../_util/config-loader.js'
 import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
@@ -7,7 +7,7 @@ describe('db.*Table', () => {
   let db: DB
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
   })
 
