@@ -6,6 +6,8 @@
     
     $ npm install
 
+    $ bin/build
+
     ...
 
     $ pm2 restart all
