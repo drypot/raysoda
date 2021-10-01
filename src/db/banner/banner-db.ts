@@ -3,7 +3,7 @@ import { Banner } from '../../_type/banner.js'
 
 export class BannerDB {
   private vdb: ValueDB
-  private bannerList: Banner[] | undefined
+  private bannerList: Banner[] = []
 
   private constructor(vdb: ValueDB) {
     this.vdb = vdb
@@ -13,17 +13,20 @@ export class BannerDB {
     return new BannerDB(vdb)
   }
 
-  async setBannerList(bannerList: Banner[]) {
-    this.bannerList = bannerList
-    await this.vdb.updateValue('banners', this.bannerList)
+  async load() {
+    const list = await this.vdb.findValue('banners')
+    if (list) {
+      this.bannerList = list
+    }
+    return this
   }
 
-  async getBannerList() {
-    if (this.bannerList) {
-      return this.bannerList
-    }
-    this.bannerList = await this.vdb.findValue('banners')
-    this.bannerList ??= []
+  async setBannerList(bannerList: Banner[]) {
+    this.bannerList = bannerList
+    await this.vdb.updateValue('banners', bannerList)
+  }
+
+  getBannerList() {
     return this.bannerList
   }
 }
