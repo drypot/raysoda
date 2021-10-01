@@ -31,7 +31,7 @@ export class UrlMaker {
     return this
   }
 
-  gen() {
+  toString() {
     return this.url
   }
 }

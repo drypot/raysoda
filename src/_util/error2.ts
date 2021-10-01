@@ -1,25 +1,13 @@
 // Error2 를 시리얼라이즈하면 class 정보가 사라진다.
 // 해서 class 대신 plain object 로 만들기로 한다.
 
-export type Error2 = {
-  name: string
-  message: string
-  field: string
-}
+import { ErrorConst } from '../_type/error.js'
 
-export function errorOf(name: string, message: string = '', field: string = ''): Error2 {
+export function getErrorConst(name: string, message: string = '', field: string = ''): ErrorConst {
   return {
     name,
     message,
     field
-  }
-}
-
-export function findError(list: Error2[], target: Error2) {
-  for (const e of list) {
-    if (e.name === target.name) {
-      return e
-    }
   }
 }
 

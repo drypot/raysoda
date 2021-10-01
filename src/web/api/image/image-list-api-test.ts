@@ -1,4 +1,4 @@
-import { configFrom } from '../../../_util/config-loader.js'
+import { readConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { ImageDB } from '../../../db/image/image-db.js'
@@ -26,7 +26,7 @@ describe('Image List Api', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = configFrom('config/raysoda-test.json')
+    config = readConfigSync('config/raysoda-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)

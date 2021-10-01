@@ -1,4 +1,4 @@
-import { configFrom } from '../../../_util/config-loader.js'
+import { readConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { ImageDB } from '../../../db/image/image-db.js'
@@ -11,7 +11,7 @@ import { registerImageUploadApi } from './image-upload-api.js'
 import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
 import { registerImageDetailApi } from './image-detail-api.js'
 import { AdminLogin, loginForTest, logoutForTest, User1Login, User2Login } from '../user-login/login-api-fixture.js'
-import { dateTimeStringFrom } from '../../../_util/date2.js'
+import { dateToDateTimeString } from '../../../_util/date2.js'
 import { IMAGE_NOT_EXIST } from '../../../_type/error-image.js'
 import { ImageDetail } from '../../../_type/image-detail.js'
 import { Config } from '../../../_type/config.js'
@@ -32,7 +32,7 @@ describe('Image Detail Api', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = configFrom('config/raysoda-test.json')
+    config = readConfigSync('config/raysoda-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
@@ -101,7 +101,7 @@ describe('Image Detail Api', () => {
       expect(image.id).toBe(1)
       expect(image.owner).toEqual({ id: 1, name: 'User 1', home: 'user1' })
       expect(Date.now() - image.cdate).toBeLessThan(2000)
-      expect(dateTimeStringFrom(new Date(image.cdate))).toBe(image.cdateStr)
+      expect(dateToDateTimeString(new Date(image.cdate))).toBe(image.cdateStr)
       expect(image.vers).toBeNull()
       expect(image.comment).toBe('c1')
       expect(image.dirUrl).toBe(ifm.getDirUrlFor(1))

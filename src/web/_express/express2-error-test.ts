@@ -1,7 +1,7 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { Express2 } from './express2.js'
 import { SuperAgentTest } from 'supertest'
-import { INVALID_DATA } from '../../_type/error-basic.js'
+import { INVALID_DATA } from '../../_type/error.js'
 
 describe('Express2', () => {
 
@@ -9,7 +9,7 @@ describe('Express2', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    const config = configFrom('config/app-test.json')
+    const config = readConfigSync('config/app-test.json')
     web = await Express2.from(config).start()
     request = web.spawnRequest()
   })

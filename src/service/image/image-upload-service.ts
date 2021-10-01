@@ -1,10 +1,10 @@
 import { ImageDB } from '../../db/image/image-db.js'
-import { Error2 } from '../../_util/error2.js'
 import { ImageUploadForm } from './_image-service.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { Image } from '../../_type/image.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { IMAGE_NO_FILE } from '../../_type/error-image.js'
+import { ErrorConst } from '../../_type/error.js'
 
 export async function leftTicket(idb: ImageDB, uid: number, now: Date) {
   const config = idb.config
@@ -23,7 +23,7 @@ export async function leftTicket(idb: ImageDB, uid: number, now: Date) {
 }
 
 export async function imageUploadService(
-  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, uid: number, form: ImageUploadForm, err: Error2[]
+  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, uid: number, form: ImageUploadForm, err: ErrorConst[]
 ) {
   // check file
   if (!form.file) {

@@ -11,4 +11,4 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-node $DIST_DIR/lib/base/hash-script.js $1
+node $DIST_DIR/script/hash-script.js $1

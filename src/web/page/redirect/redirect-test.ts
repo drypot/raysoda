@@ -1,4 +1,4 @@
-import { configFrom } from '../../../_util/config-loader.js'
+import { readConfigSync } from '../../../_util/config-loader.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerRedirect } from './redirect.js'
@@ -11,7 +11,7 @@ describe('Redirect', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
     web = await Express2.from(config).start()
     registerRedirect(web)
     request = web.spawnRequest()

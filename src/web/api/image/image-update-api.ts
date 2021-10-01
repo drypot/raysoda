@@ -3,11 +3,11 @@ import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageUpdateForm } from '../../../service/image/_image-service.js'
 import { loginUserFrom } from '../user-login/login-api.js'
 import { Request } from 'express'
-import { Error2 } from '../../../_util/error2.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { checkImageUpdatable, imageUpdateService } from '../../../service/image/image-update-service.js'
-import { numberFrom } from '../../../_util/primitive.js'
+import { paramToNumber } from '../../../_util/param.js'
 import { NOT_AUTHENTICATED } from '../../../_type/error-user.js'
+import { ErrorConst } from '../../../_type/error.js'
 
 function imageUpdateFormFrom(req: Request): ImageUpdateForm {
   return {
@@ -21,9 +21,9 @@ export function registerImageUpdateApi(web: Express2, idb: ImageDB, ifm: ImageFi
   web.router.put('/api/image-update/:id([0-9]+)', web.upload.single('file'), deleteUpload(async (req, res) => {
     const user = loginUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
-    const id = numberFrom(req.params.id)
+    const id = paramToNumber(req.params.id)
     const form = imageUpdateFormFrom(req)
-    const err: Error2[] = []
+    const err: ErrorConst[] = []
     const image = await idb.findImage(id)
     await checkImageUpdatable(user, image, err)
     if (err.length) throw err

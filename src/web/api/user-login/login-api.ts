@@ -1,9 +1,8 @@
 import { Express2, toCallback } from '../../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
-import { Error2 } from '../../../_util/error2.js'
 import { User, userMinOf } from '../../../_type/user.js'
 import { checkHash } from '../../../_util/hash.js'
-import { stringFrom } from '../../../_util/primitive.js'
+import { paramToString } from '../../../_util/param.js'
 import {
   ACCOUNT_DEACTIVATED,
   EMAIL_NOT_FOUND,
@@ -12,6 +11,7 @@ import {
   PASSWORD_WRONG
 } from '../../../_type/error-user.js'
 import { UserCache } from '../../../db/user/user-cache.js'
+import { ErrorConst } from '../../../_type/error.js'
 
 declare module 'express-session' {
   interface SessionData {
@@ -47,10 +47,10 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
   }))
 
   router.post('/api/login', toCallback(async (req, res) => {
-    const email = stringFrom(req.body.email).trim()
-    const password = stringFrom(req.body.password).trim()
+    const email = paramToString(req.body.email).trim()
+    const password = paramToString(req.body.password).trim()
     const remember = !!req.body.remember
-    const err: Error2[] = []
+    const err: ErrorConst[] = []
     const user = await findUserByEmailPassword(email, password, err)
     if (err.length) throw err
     if (!user) throw new Error()
@@ -72,7 +72,7 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
     const email = req.cookies.email
     const password = req.cookies.password
     if (!email || !password) return
-    const err: Error2[] = []
+    const err: ErrorConst[] = []
     const user = await findUserByEmailPassword(email, password, err)
     if (!user) {
       res.clearCookie('email')
@@ -98,7 +98,7 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
     }
   }
 
-  async function findUserByEmailPassword(email: string, password: string, err: Error2[]) {
+  async function findUserByEmailPassword(email: string, password: string, err: ErrorConst[]) {
     const user = await uc.getRecachedByEmail(email)
     if (!user) {
       err.push(EMAIL_NOT_FOUND)

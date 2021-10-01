@@ -1,12 +1,12 @@
 import { Mailer } from './mailer2.js'
-import { configFrom } from '../_util/config-loader.js'
+import { readConfigSync } from '../_util/config-loader.js'
 
 describe('Mailer', () => {
 
   let mailer: Mailer
 
   beforeAll(() => {
-    const config = configFrom('config/app-test.json')
+    const config = readConfigSync('config/app-test.json')
     mailer = Mailer.from(config).initTransport()
   })
 

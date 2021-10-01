@@ -1,4 +1,4 @@
-import { configFrom } from '../../../_util/config-loader.js'
+import { readConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
@@ -28,7 +28,7 @@ describe('Client Init Script', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)

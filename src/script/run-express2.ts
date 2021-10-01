@@ -1,8 +1,8 @@
-import { configFrom } from '../_util/config-loader.js'
+import { readConfigSync } from '../_util/config-loader.js'
 import { Express2 } from '../web/_express/express2.js'
-import { INVALID_DATA } from '../_type/error-basic.js'
+import { INVALID_DATA } from '../_type/error.js'
 
-const config = configFrom('config/app-dev.json')
+const config = readConfigSync('config/app-dev.json')
 const web = Express2.from(config)
 
 web.router.get('/test/hello', (req, res) => {

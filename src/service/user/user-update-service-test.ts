@@ -1,8 +1,7 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { Error2 } from '../../_util/error2.js'
 import { userUpdateService } from './user-update-service.js'
 import { checkHash } from '../../_util/hash.js'
 import { userUpdateFormOf } from './_user-service.js'
@@ -17,6 +16,7 @@ import {
 } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
 import { UserCache } from '../../db/user/user-cache.js'
+import { ErrorConst } from '../../_type/error.js'
 
 describe('User Update Service', () => {
 
@@ -26,7 +26,7 @@ describe('User Update Service', () => {
   let uc: UserCache
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     uc = UserCache.from(udb)
@@ -49,7 +49,7 @@ describe('User Update Service', () => {
         name: 'User X', home: 'userx', email: 'userx@mail.test',
         password: '', profile: 'profile x'
       })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       await userUpdateService(uc, 1, form, err)
       expect(err.length).toBe(0)
     })
@@ -76,7 +76,7 @@ describe('User Update Service', () => {
         name: 'User X', home: 'userx', email: 'userx@mail.test',
         password: '5678', profile: 'profile x'
       })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       await userUpdateService(uc, 1, form, err)
       expect(err.length).toBe(0)
     })
@@ -98,7 +98,7 @@ describe('User Update Service', () => {
       const form = userUpdateFormOf({
         name: s33, home: s33, email: s65, password: s33, profile: ''
       })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       await userUpdateService(uc, 1, form, err)
       expect(err).toContain(NAME_RANGE)
       expect(err).toContain(HOME_RANGE)
@@ -110,7 +110,7 @@ describe('User Update Service', () => {
         name: 'User 2', home: 'user2', email: 'user2@mail.test',
         password: '', profile: ''
       })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       await userUpdateService(uc, 1, form, err)
       expect(err).toContain(NAME_DUPE)
       expect(err).toContain(HOME_DUPE)

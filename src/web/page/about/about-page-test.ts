@@ -1,6 +1,6 @@
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { configFrom } from '../../../_util/config-loader.js'
+import { readConfigSync } from '../../../_util/config-loader.js'
 import { registerAboutPage } from './about-page.js'
 
 describe('About Page', () => {
@@ -9,7 +9,7 @@ describe('About Page', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    const config = configFrom('config/raysoda-test.json')
+    const config = readConfigSync('config/raysoda-test.json')
     server = Express2.from(config)
     registerAboutPage(server)
     await server.start()

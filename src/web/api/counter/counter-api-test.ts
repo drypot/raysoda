@@ -1,4 +1,4 @@
-import { configFrom } from '../../../_util/config-loader.js'
+import { readConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
@@ -7,7 +7,7 @@ import { registerLoginApi } from '../user-login/login-api.js'
 import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
 import { CounterDB } from '../../../db/counter/counter-db.js'
 import { registerCounterApi } from './counter-api.js'
-import { dateStringFrom } from '../../../_util/date2.js'
+import { dateToDateString } from '../../../_util/date2.js'
 import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
@@ -27,7 +27,7 @@ describe('Counter Api', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
@@ -62,7 +62,7 @@ describe('Counter Api', () => {
         .expect(302).expect('Location', 'http://hello.world')
     })
     it('check db', async () => {
-      const ds = dateStringFrom(new Date())
+      const ds = dateToDateString(new Date())
       const r = await cdb.findCounter('abc', ds)
       expect(r).toEqual(1)
     })
@@ -71,7 +71,7 @@ describe('Counter Api', () => {
         .expect(302).expect('Location', 'http://hello.world')
     })
     it('check db', async () => {
-      const ds = dateStringFrom(new Date())
+      const ds = dateToDateString(new Date())
       const r = await cdb.findCounter('abc', ds)
       expect(r).toEqual(2)
     })

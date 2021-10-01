@@ -1,4 +1,4 @@
-import { configFrom } from '../../../_util/config-loader.js'
+import { readConfigSync } from '../../../_util/config-loader.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerPasswordPage } from './password-page.js'
@@ -12,7 +12,7 @@ describe('Password Page', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
     web = await Express2.from(config).start()
     registerPasswordPage(web)
     request = web.spawnRequest()

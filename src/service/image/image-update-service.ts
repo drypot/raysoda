@@ -1,14 +1,14 @@
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { ImageUpdateForm } from './_image-service.js'
-import { Error2 } from '../../_util/error2.js'
 import { User } from '../../_type/user.js'
 import { Image } from '../../_type/image.js'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
 import { NOT_AUTHORIZED } from '../../_type/error-user.js'
+import { ErrorConst } from '../../_type/error.js'
 
 export async function checkImageUpdatable(
-  user: User, image: Image | undefined, err: Error2[]
+  user: User, image: Image | undefined, err: ErrorConst[]
 ) {
   if (!image) {
     err.push(IMAGE_NOT_EXIST)
@@ -20,7 +20,7 @@ export async function checkImageUpdatable(
 }
 
 export async function imageUpdateService(
-  idb: ImageDB, ifm: ImageFileManager, id: number, form: ImageUpdateForm, err: Error2[]
+  idb: ImageDB, ifm: ImageFileManager, id: number, form: ImageUpdateForm, err: ErrorConst[]
 ) {
   const image: Partial<Image> = {}
   if (form.file) {

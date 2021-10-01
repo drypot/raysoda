@@ -9,7 +9,7 @@ import supertest from 'supertest'
 import newMulter, { Multer } from 'multer'
 import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2.js'
 import { unlinkSync } from 'fs'
-import { errorOf } from '../../_util/error2.js'
+import { getErrorConst } from '../../_util/error2.js'
 import { Config } from '../../_type/config.js'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
@@ -236,7 +236,7 @@ export class Express2 {
         }
       } else {
         r = {
-          err: [errorOf(err.name, err.message, err.stack)]
+          err: [getErrorConst(err.name, err.message, err.stack)]
         }
       }
       res.json(r)

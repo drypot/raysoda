@@ -1,6 +1,6 @@
-import { Error2 } from '../_util/error2.js'
 import { ImageMeta } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
+import { ErrorConst } from '../_type/error.js'
 
 export interface ImageFileManager {
 
@@ -22,7 +22,7 @@ export interface ImageFileManager {
 
   identify(path: string): Promise<ImageMeta>
 
-  checkMeta(meta: ImageMeta, err: Error2[]): void
+  checkMeta(meta: ImageMeta, err: ErrorConst[]): void
 
   saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null>
 

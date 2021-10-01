@@ -1,4 +1,4 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { identify } from '../../file/magick/magick2.js'
 import { ImageUpdateForm, ImageUploadForm } from './_image-service.js'
 import { ImageFileManager } from '../../file/fileman.js'
@@ -7,11 +7,11 @@ import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { DB } from '../../db/_db/db.js'
-import { Error2 } from '../../_util/error2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageUpdateService } from './image-update-service.js'
 import { IMAGE_SIZE } from '../../_type/error-image.js'
 import { Config } from '../../_type/config.js'
+import { ErrorConst } from '../../_type/error.js'
 
 describe('Image Update Service with RaySodaFileManager', () => {
 
@@ -23,7 +23,7 @@ describe('Image Update Service with RaySodaFileManager', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = configFrom('config/raysoda-test.json')
+    config = readConfigSync('config/raysoda-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     idb = ImageDB.from(db)
@@ -50,7 +50,7 @@ describe('Image Update Service with RaySodaFileManager', () => {
     })
     it('upload image', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'sample/2560x1440.jpg', }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
     })
@@ -68,7 +68,7 @@ describe('Image Update Service with RaySodaFileManager', () => {
     })
     it('update image', async () => {
       const form: ImageUpdateForm = { comment: 'c2', file: 'sample/1440x2560.jpg' }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       await imageUpdateService(idb, ifm, 1, form, err)
     })
     it('check db', async () => {
@@ -85,7 +85,7 @@ describe('Image Update Service with RaySodaFileManager', () => {
     })
     it('update comment only', async () => {
       const form: ImageUpdateForm = { comment: 'only' }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       await imageUpdateService(idb, ifm, 1, form, err)
     })
     it('check db', async () => {
@@ -100,7 +100,7 @@ describe('Image Update Service with RaySodaFileManager', () => {
     })
     it('fails if image too small', async () => {
       const form: ImageUpdateForm = { comment: '', file: 'sample/360x240.jpg' }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       await imageUpdateService(idb, ifm, 1, form, err)
       expect(err).toContain(IMAGE_SIZE)
     })

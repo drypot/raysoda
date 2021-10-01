@@ -1,10 +1,9 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { Error2 } from '../../_util/error2.js'
 import { ImageUploadForm } from './_image-service.js'
 import { identify } from '../../file/magick/magick2.js'
 import { imageUploadService } from './image-upload-service.js'
@@ -13,6 +12,7 @@ import { copyFile } from 'fs/promises'
 import { constants } from 'fs'
 import { IMAGE_SIZE } from '../../_type/error-image.js'
 import { Config } from '../../_type/config.js'
+import { ErrorConst } from '../../_type/error.js'
 
 describe('Image Upload Service with RapixelFileManager', () => {
 
@@ -24,7 +24,7 @@ describe('Image Upload Service with RapixelFileManager', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = configFrom('config/rapixel-test.json')
+    config = readConfigSync('config/rapixel-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     idb = ImageDB.from(db)
@@ -54,21 +54,21 @@ describe('Image Upload Service with RapixelFileManager', () => {
       // tmp 로 복사해 놓고 쓴다.
       await copyFile('sample/2560x1440.jpg', 'tmp/2560x1440.jpg', constants.COPYFILE_FICLONE)
       const form: ImageUploadForm = { now: new Date(), comment: '', file: 'tmp/2560x1440.jpg', }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('upload fails if image is vertical', async () => {
       await copyFile('sample/2160x3840.jpg', 'tmp/2160x3840.jpg', constants.COPYFILE_FICLONE)
       const form: ImageUploadForm = { now: new Date(), comment: '', file: 'tmp/2160x3840.jpg', }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('upload 1', async () => {
       await copyFile('sample/5120x2880.jpg', 'tmp/5120x2880.jpg', constants.COPYFILE_FICLONE)
       const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'tmp/5120x2880.jpg', }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
     })
@@ -89,7 +89,7 @@ describe('Image Upload Service with RapixelFileManager', () => {
     it('upload 2', async () => {
       await copyFile('sample/3840x2160.jpg', 'tmp/3840x2160.jpg', constants.COPYFILE_FICLONE)
       const form: ImageUploadForm = { now: new Date(), comment: 'c2', file: 'tmp/3840x2160.jpg', }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(2)
     })

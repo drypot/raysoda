@@ -13,5 +13,4 @@ describe('hash', () => {
   it('checkHash fails if password invalid', async () => {
     expect(await checkHash('def', hash)).toBe(false)
   })
-
 })

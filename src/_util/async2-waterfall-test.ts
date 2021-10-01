@@ -1,7 +1,7 @@
 import { waterfall } from './async2.js'
 
 describe('waterfall', () => {
-  it('basic structure', (done) => {
+  it('1', (done) => {
     waterfall(
       (done) => {
         done()
@@ -11,7 +11,7 @@ describe('waterfall', () => {
       }
     ).run(done)
   })
-  it('has err handler', (done) => {
+  it('with err handler', (done) => {
     let i = 0
     waterfall(
       (done) => {

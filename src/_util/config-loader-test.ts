@@ -1,15 +1,15 @@
-import { configFrom } from './config-loader.js'
+import { readConfigSync } from './config-loader.js'
 
-describe('loadConfig', () => {
-  it('should work', () => {
-    const config = configFrom('config/config-test.json')
+describe('readConfigSync', () => {
+  it('1', () => {
+    const config = readConfigSync('config/config-test.json')
     expect(config.appName).toBe('Test')
     expect(config.appNamel).toBe('test')
     expect(config.dev).toBeTruthy()
   })
-  it('throw exception if file not found', () => {
+  it('if file not found', () => {
     expect(() => {
-      configFrom('config/not-exist.json')
+      readConfigSync('config/not-exist.json')
     }).toThrow()
   })
 })

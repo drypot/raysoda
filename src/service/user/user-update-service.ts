@@ -9,11 +9,11 @@ import {
   checkPasswordFormat,
   UserUpdateForm
 } from './_user-service.js'
-import { Error2 } from '../../_util/error2.js'
 import { makeHash } from '../../_util/hash.js'
 import { UserCache } from '../../db/user/user-cache.js'
+import { ErrorConst } from '../../_type/error.js'
 
-export async function userUpdateService(uc: UserCache, id: number, form: UserUpdateForm, err: Error2[]) {
+export async function userUpdateService(uc: UserCache, id: number, form: UserUpdateForm, err: ErrorConst[]) {
   const udb = uc.udb
   checkNameFormat(form.name, err)
   checkHomeFormat(form.home, err)

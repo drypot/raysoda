@@ -1,18 +1,18 @@
 import { UserDB } from '../../db/user/user-db.js'
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { ImageUploadForm } from './_image-service.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
-import { dateTimeStringFrom } from '../../_util/date2.js'
+import { dateToDateTimeString } from '../../_util/date2.js'
 import { DB } from '../../db/_db/db.js'
-import { Error2 } from '../../_util/error2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageDetailService } from './image-detail-service.js'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
 import { Config } from '../../_type/config.js'
 import { UserCache } from '../../db/user/user-cache.js'
+import { ErrorConst } from '../../_type/error.js'
 
 describe('Image Detail Service', () => {
 
@@ -25,7 +25,7 @@ describe('Image Detail Service', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = configFrom('config/raysoda-test.json')
+    config = readConfigSync('config/raysoda-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     uc = UserCache.from(udb)
@@ -53,17 +53,17 @@ describe('Image Detail Service', () => {
     })
     it('upload image', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'sample/640x360.jpg', }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
     })
     it('get image fails if id invalid', async () => {
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const image = await imageDetailService(uc, idb, ifm, 2, err)
       expect(err).toContain(IMAGE_NOT_EXIST)
     })
     it('get image', async () => {
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const image = await imageDetailService(uc, idb, ifm, 1, err)
       if (!image) throw new Error()
       // image: {
@@ -80,7 +80,7 @@ describe('Image Detail Service', () => {
       expect(image.id).toBe(1)
       expect(image.owner).toEqual({ id: 1, name: 'User 1', home: 'user1' })
       expect(Date.now() - image.cdate).toBeLessThan(2000)
-      expect(dateTimeStringFrom(new Date(image.cdate))).toBe(image.cdateStr)
+      expect(dateToDateTimeString(new Date(image.cdate))).toBe(image.cdateStr)
       expect(image.vers).toBeNull()
       expect(image.comment).toBe('c1')
       expect(image.dirUrl).toBe(ifm.getDirUrlFor(1))

@@ -1,4 +1,4 @@
-export function deepPathOf(id: number, iter: number) {
+export function getDeepPath(id: number, iter: number) {
   let path = ''
   for (iter--; iter > 0; iter--) {
     path = '/' + id % 1000 + path

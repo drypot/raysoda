@@ -1,16 +1,16 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { Error2 } from '../../_util/error2.js'
 import { ImageUploadForm } from './_image-service.js'
 import { identify } from '../../file/magick/magick2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { DrypotFileManager } from '../../file/drypot-fileman.js'
 import { IMAGE_TYPE } from '../../_type/error-image.js'
 import { Config } from '../../_type/config.js'
+import { ErrorConst } from '../../_type/error.js'
 
 describe('Image Upload Service with DrypotFileManager', () => {
 
@@ -22,7 +22,7 @@ describe('Image Upload Service with DrypotFileManager', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = configFrom('config/drypot-test.json')
+    config = readConfigSync('config/drypot-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     idb = ImageDB.from(db)
@@ -49,13 +49,13 @@ describe('Image Upload Service with DrypotFileManager', () => {
     })
     it('upload fails if jpeg', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: '', file: 'sample/640x360.jpg', }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(err).toContain(IMAGE_TYPE)
     })
     it('upload 1', async () => {
       const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'sample/svg-sample.svg', }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
     })

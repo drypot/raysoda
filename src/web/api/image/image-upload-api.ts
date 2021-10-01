@@ -5,9 +5,9 @@ import { ImageUploadForm } from '../../../service/image/_image-service.js'
 import { loginUserFrom } from '../user-login/login-api.js'
 import { imageUploadService } from '../../../service/image/image-upload-service.js'
 import { Request } from 'express'
-import { Error2 } from '../../../_util/error2.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { NOT_AUTHENTICATED } from '../../../_type/error-user.js'
+import { ErrorConst } from '../../../_type/error.js'
 
 function imageUploadFormFrom(req: Request) {
   return {
@@ -23,7 +23,7 @@ export function registerImageUploadApi(web: Express2, udb: UserDB, idb: ImageDB,
     const user = loginUserFrom(res)
     if (!user) throw NOT_AUTHENTICATED
     const form = imageUploadFormFrom(req)
-    const err: Error2[] = []
+    const err: ErrorConst[] = []
     const id = await imageUploadService(udb, idb, ifm, user.id, form, err)
     if (err.length) throw err
     res.json({ id })

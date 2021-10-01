@@ -1,9 +1,8 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { userRegisterFormOf } from './_user-service.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
-import { Error2 } from '../../_util/error2.js'
 import { userRegisterService } from './user-register-service.js'
 import { checkHash } from '../../_util/hash.js'
 import {
@@ -16,6 +15,7 @@ import {
   PASSWORD_RANGE
 } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
+import { ErrorConst } from '../../_type/error.js'
 
 describe('UserRegisterService', () => {
 
@@ -24,7 +24,7 @@ describe('UserRegisterService', () => {
   let udb: UserDB
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
   })
@@ -45,7 +45,7 @@ describe('UserRegisterService', () => {
       const form = userRegisterFormOf({
         name: 'User X', email: 'userx@mail.test', password: '1234',
       })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const user = await userRegisterService(udb, form, err)
       if (!user) throw new Error()
       expect(user.name).toBe('User X')
@@ -71,7 +71,7 @@ describe('UserRegisterService', () => {
       const form = userRegisterFormOf({
         name: s33, email: s65, password: s33
       })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const user = await userRegisterService(udb, form, err)
       expect(err).toContain(NAME_RANGE)
       expect(err).toContain(HOME_RANGE)
@@ -82,7 +82,7 @@ describe('UserRegisterService', () => {
       const form = userRegisterFormOf({
         name: 'User 2', email: 'user2@mail.test', password: '1234'
       })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const user = await userRegisterService(udb, form, err)
       expect(err).toContain(NAME_DUPE)
       expect(err).toContain(HOME_DUPE)

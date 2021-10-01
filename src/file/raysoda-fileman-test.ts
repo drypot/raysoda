@@ -1,12 +1,12 @@
-import { configFrom } from '../_util/config-loader.js'
+import { readConfigSync } from '../_util/config-loader.js'
 import { ImageFileManager } from './fileman.js'
 import { RaySodaFileManager } from './raysoda-fileman.js'
-import { Error2 } from '../_util/error2.js'
 import { identify } from './magick/magick2.js'
 import { existsSync } from 'fs'
 import { IMAGE_SIZE } from '../_type/error-image.js'
 import { imageMetaOf } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
+import { ErrorConst } from '../_type/error.js'
 
 describe('RaySodaFileManager', () => {
 
@@ -14,7 +14,7 @@ describe('RaySodaFileManager', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
     ifm = RaySodaFileManager.from(config)
   })
 
@@ -44,13 +44,13 @@ describe('RaySodaFileManager', () => {
   describe('check meta', () => {
     it('err if size too small', () => {
       const meta = imageMetaOf({ format: 'jpeg', width: 240, height: 240 })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       ifm.checkMeta(meta, err)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('ok if size valid', () => {
       const meta = imageMetaOf({ format: 'jpeg', width: 241, height: 241 })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       ifm.checkMeta(meta, err)
       expect(err.length).toBe(0)
     })

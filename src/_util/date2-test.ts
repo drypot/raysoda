@@ -1,9 +1,16 @@
-import { dateFrom, dateNoDashStringFrom, dateStringFrom, dateTimeFrom, dateTimeStringFrom, today } from './date2.js'
+import {
+  dateToDateString,
+  dateToDateStringNoDash,
+  dateToDateTimeString,
+  getDateToday,
+  stringToDate,
+  stringToDateTime
+} from './date2.js'
 
-describe('today', () => {
-  it('check', () => {
+describe('getDateToday', () => {
+  it('1', () => {
     const now = new Date()
-    const d = today()
+    const d = getDateToday()
     expect(d.getFullYear()).toBe(now.getFullYear())
     expect(d.getMonth()).toBe(now.getMonth())
     expect(d.getDate()).toBe(now.getDate())
@@ -14,9 +21,9 @@ describe('today', () => {
   })
 })
 
-describe('dateTimeFrom', () => {
-  it('check', () => {
-    const d = dateTimeFrom('1974-05-16 15:30:45') as Date
+describe('stringToDateTime', () => {
+  it('case 1', () => {
+    const d = stringToDateTime('1974-05-16 15:30:45') as Date
     expect(d.getFullYear()).toBe(1974)
     expect(d.getMonth()).toBe(4)
     expect(d.getDate()).toBe(16)
@@ -25,15 +32,15 @@ describe('dateTimeFrom', () => {
     expect(d.getSeconds()).toBe(45)
     expect(d.getMilliseconds()).toBe(0)
   })
-  it('check null', () => {
-    expect(dateFrom('null')).toBeNull()
-    expect(dateFrom('undefined')).toBeNull()
+  it('case null', () => {
+    expect(stringToDate('null')).toBeNull()
+    expect(stringToDate('undefined')).toBeNull()
   })
 })
 
-describe('dateFrom', () => {
-  it('check', () => {
-    const d = dateFrom('1974-05-16') as Date
+describe('stringToDate', () => {
+  it('case 1', () => {
+    const d = stringToDate('1974-05-16') as Date
     expect(d.getFullYear()).toBe(1974)
     expect(d.getMonth()).toBe(4)
     expect(d.getDate()).toBe(16)
@@ -44,23 +51,23 @@ describe('dateFrom', () => {
   })
 })
 
-describe('dateTimeStringFrom', () => {
-  it('check', () => {
+describe('dateToDateTimeString', () => {
+  it('case 1', () => {
     const d = new Date(1974, 4, 16, 12, 0)
-    expect(dateTimeStringFrom(d)).toBe('1974-05-16 12:00:00')
+    expect(dateToDateTimeString(d)).toBe('1974-05-16 12:00:00')
   })
 })
 
-describe('dateStringFrom', () => {
-  it('check', () => {
+describe('dateToDateString', () => {
+  it('case 1', () => {
     const d = new Date(1974, 4, 16, 12, 0)
-    expect(dateStringFrom(d)).toBe('1974-05-16')
+    expect(dateToDateString(d)).toBe('1974-05-16')
   })
 })
 
 describe('dateNoDashStringFrom', () => {
-  it('check', () => {
+  it('case 1', () => {
     const d = new Date(1974, 4, 16, 12, 0)
-    expect(dateNoDashStringFrom(d)).toBe('19740516')
+    expect(dateToDateStringNoDash(d)).toBe('19740516')
   })
 })

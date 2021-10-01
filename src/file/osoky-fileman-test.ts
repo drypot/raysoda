@@ -1,12 +1,12 @@
-import { configFrom } from '../_util/config-loader.js'
+import { readConfigSync } from '../_util/config-loader.js'
 import { ImageFileManager } from './fileman.js'
-import { Error2 } from '../_util/error2.js'
 import { identify } from './magick/magick2.js'
 import { existsSync } from 'fs'
 import { OsokyFileManager } from './osoky-fileman.js'
 import { IMAGE_SIZE } from '../_type/error-image.js'
 import { imageMetaOf } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
+import { ErrorConst } from '../_type/error.js'
 
 describe('OsokyFileManager', () => {
 
@@ -14,7 +14,7 @@ describe('OsokyFileManager', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = configFrom('config/osoky-test.json')
+    config = readConfigSync('config/osoky-test.json')
     ifm = OsokyFileManager.from(config)
   })
 
@@ -44,13 +44,13 @@ describe('OsokyFileManager', () => {
   describe('check meta', () => {
     it('if size too small', () => {
       const meta = imageMetaOf({ format: 'jpeg', width: 639, height: 639, shorter: 639 })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       ifm.checkMeta(meta, err)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('if size valid', () => {
       const meta = imageMetaOf({ format: 'jpeg', width: 640, height: 640, shorter: 640 })
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       ifm.checkMeta(meta, err)
       expect(err.length).toBe(0)
     })

@@ -1,16 +1,17 @@
-import { configFrom } from '../_util/config-loader.js'
+import { readConfigSync } from '../_util/config-loader.js'
 import { Mailer } from '../mailer/mailer2.js'
 import { DB } from '../db/_db/db.js'
 import { UserDB } from '../db/user/user-db.js'
 import { PwResetDB } from '../db/pwreset/pwreset-db.js'
-import { Error2, logError } from '../_util/error2.js'
+import { logError } from '../_util/error2.js'
 import { pwSendMailService } from '../service/user-password/password-service.js'
 import { insertUserFix4 } from '../db/user/user-db-fixture.js'
+import { ErrorConst } from '../_type/error.js'
 
 let dbToClose: DB
 
 async function main() {
-  const config = configFrom('config/app-test.json')
+  const config = readConfigSync('config/app-test.json')
   config.mailServer = 'localhost'
 
   const db = await DB.from(config).createDatabase()
@@ -28,7 +29,7 @@ async function main() {
   const mailer = Mailer.from(config).initTransport()
 
   const email = process.argv[2]
-  const err: Error2[] = []
+  const err: ErrorConst[] = []
   await pwSendMailService(mailer, udb, rdb, email, err)
   if (err.length) throw err
 }

@@ -1,4 +1,4 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { identify } from '../../file/magick/magick2.js'
 import { ImageUpdateForm, ImageUploadForm } from './_image-service.js'
 import { ImageFileManager } from '../../file/fileman.js'
@@ -6,7 +6,6 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { DB } from '../../db/_db/db.js'
-import { Error2 } from '../../_util/error2.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageUpdateService } from './image-update-service.js'
 import { RapixelFileManager } from '../../file/rapixel-fileman.js'
@@ -14,6 +13,7 @@ import { copyFile } from 'fs/promises'
 import { constants } from 'fs'
 import { IMAGE_SIZE } from '../../_type/error-image.js'
 import { Config } from '../../_type/config.js'
+import { ErrorConst } from '../../_type/error.js'
 
 describe('Image Update Service with RapixelFileManager', () => {
 
@@ -25,7 +25,7 @@ describe('Image Update Service with RapixelFileManager', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = configFrom('config/rapixel-test.json')
+    config = readConfigSync('config/rapixel-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     idb = ImageDB.from(db)
@@ -55,7 +55,7 @@ describe('Image Update Service with RapixelFileManager', () => {
       // tmp 로 복사해 놓고 쓴다.
       await copyFile('sample/5120x2880.jpg', 'tmp/5120x2880.jpg', constants.COPYFILE_FICLONE)
       const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'tmp/5120x2880.jpg', }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       const id = await imageUploadService(udb, idb, ifm, 1, form, err)
       expect(id).toBe(1)
     })
@@ -76,7 +76,7 @@ describe('Image Update Service with RapixelFileManager', () => {
     it('update', async () => {
       await copyFile('sample/4096x2304.jpg', 'tmp/4096x2304.jpg', constants.COPYFILE_FICLONE)
       const form: ImageUpdateForm = { comment: 'c2', file: 'tmp/4096x2304.jpg' }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       await imageUpdateService(idb, ifm, 1, form, err)
     })
     it('check db', async () => {
@@ -96,7 +96,7 @@ describe('Image Update Service with RapixelFileManager', () => {
     it('fails if image too small', async () => {
       await copyFile('sample/2560x1440.jpg', 'tmp/2560x1440.jpg', constants.COPYFILE_FICLONE)
       const form: ImageUpdateForm = { comment: '', file: 'tmp/2560x1440.jpg' }
-      const err: Error2[] = []
+      const err: ErrorConst[] = []
       await imageUpdateService(idb, ifm, 1, form, err)
       expect(err).toContain(IMAGE_SIZE)
     })

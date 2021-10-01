@@ -1,12 +1,12 @@
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { Error2 } from '../../_util/error2.js'
-import { dateTimeStringFrom } from '../../_util/date2.js'
+import { dateToDateTimeString } from '../../_util/date2.js'
 import { User } from '../../_type/user.js'
 import { Image } from '../../_type/image.js'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
 import { ImageDetail } from '../../_type/image-detail.js'
 import { UserCache } from '../../db/user/user-cache.js'
+import { ErrorConst } from '../../_type/error.js'
 
 export function imageDetailFrom(owner: User, ifm: ImageFileManager, image: Image): ImageDetail {
   return {
@@ -17,7 +17,7 @@ export function imageDetailFrom(owner: User, ifm: ImageFileManager, image: Image
       home: owner.home
     },
     cdate: image.cdate.getTime(),
-    cdateStr: dateTimeStringFrom(image.cdate),
+    cdateStr: dateToDateTimeString(image.cdate),
     vers: image.vers,
     comment: image.comment,
     dirUrl: ifm.getDirUrlFor(image.id),
@@ -27,7 +27,7 @@ export function imageDetailFrom(owner: User, ifm: ImageFileManager, image: Image
 }
 
 export async function imageDetailService(
-  uc: UserCache, idb: ImageDB, ifm: ImageFileManager, id: number, err: Error2[]
+  uc: UserCache, idb: ImageDB, ifm: ImageFileManager, id: number, err: ErrorConst[]
 ) {
   const image = await idb.findImage(id)
   if (!image) {

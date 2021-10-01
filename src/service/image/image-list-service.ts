@@ -2,7 +2,7 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { Image } from '../../_type/image.js'
 import { User } from '../../_type/user.js'
-import { dateTimeStringFrom } from '../../_util/date2.js'
+import { dateToDateTimeString } from '../../_util/date2.js'
 import { ImageDetailMin } from '../../_type/image-detail.js'
 import { UserCache } from '../../db/user/user-cache.js'
 
@@ -17,7 +17,7 @@ async function imageListFrom(uc: UserCache, ifm: ImageFileManager, list: Image[]
           name: owner.name,
           home: owner.home
         },
-        cdateStr: dateTimeStringFrom(image.cdate),
+        cdateStr: dateToDateTimeString(image.cdate),
         vers: image.vers,
         comment: image.comment,
         thumbUrl: ifm.getThumbUrlFor(image.id)

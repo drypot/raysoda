@@ -1,5 +1,5 @@
 import { Express2 } from '../web/_express/express2.js'
-import { configFrom } from '../_util/config-loader.js'
+import { readConfigSync } from '../_util/config-loader.js'
 import { DB } from '../db/_db/db.js'
 import { UserDB } from '../db/user/user-db.js'
 import { ImageDB } from '../db/image/image-db.js'
@@ -12,8 +12,8 @@ import { logError } from '../_util/error2.js'
 import { RapixelFileManager } from '../file/rapixel-fileman.js'
 import { OsokyFileManager } from '../file/osoky-fileman.js'
 import { DrypotFileManager } from '../file/drypot-fileman.js'
-import { registerUserXPage } from '../web/page/user-profile/profile-page.js'
-import { registerUserViewApi } from '../web/api/user/user-detail-api.js'
+import { registerUserProfilePage } from '../web/page/user-profile/profile-page.js'
+import { registerUserDetailApi } from '../web/api/user/user-detail-api.js'
 import { registerUserRegisterApi } from '../web/api/user/user-register-api.js'
 import { registerPasswordApi } from '../web/api/user-password/password-api.js'
 import { PwResetDB } from '../db/pwreset/pwreset-db.js'
@@ -21,7 +21,7 @@ import { Mailer } from '../mailer/mailer2.js'
 import { registerUserDeactivateApi } from '../web/api/user/user-deactivate-api.js'
 import { registerUserListApi } from '../web/api/user/user-list-api.js'
 import { registerUserUpdateApi } from '../web/api/user/user-update-api.js'
-import { registerRedirect } from '../web/api/aux/redirect.js'
+import { registerRedirect } from '../web/page/redirect/redirect.js'
 import { registerImageDeleteApi } from '../web/api/image/image-delete-api.js'
 import { registerImageListApi } from '../web/api/image/image-list-api.js'
 import { registerImageDetailApi } from '../web/api/image/image-detail-api.js'
@@ -30,11 +30,13 @@ import { CounterDB } from '../db/counter/counter-db.js'
 import { registerBannerApi } from '../web/api/banner/banner-api.js'
 import { BannerDB } from '../db/banner/banner-db.js'
 import { registerAboutPage } from '../web/page/about/about-page.js'
-import { registerSessionInitScript } from '../web/api/aux/client-init-script.js'
+import { registerClientInitScript } from '../web/page/client-init/client-init-script.js'
 import { UserCache } from '../db/user/user-cache.js'
+import { registerBannerPage } from '../web/page/banner/banner-page.js'
+import { registerCounterPage } from '../web/page/counter/counter-page.js'
 
 async function main() {
-  const config = configFrom(process.argv[2])
+  const config = readConfigSync(process.argv[2])
 
   const db = await DB.from(config).createDatabase()
   const vdb = await ValueDB.from(db).createTable()
@@ -63,20 +65,25 @@ async function main() {
 
   registerLoginApi(web, uc)
   registerUserRegisterApi(web, udb)
-  registerUserViewApi(web, uc)
+  registerUserDetailApi(web, uc)
   registerUserUpdateApi(web, uc)
   registerUserDeactivateApi(web, uc)
   registerUserListApi(web, udb)
   registerPasswordApi(web, uc, rdb, mailer)
+
   registerCounterApi(web, cdb)
   registerBannerApi(web, bdb)
 
-  registerSessionInitScript(web, bdb)
-  registerRedirect(web)
 
+  registerClientInitScript(web, bdb)
+
+  registerUserProfilePage(web, uc, idb, ifm)
+
+  registerCounterPage(web)
+  registerBannerPage(web, bdb)
   registerAboutPage(web)
 
-  registerUserXPage(web, uc, idb, ifm)
+  registerRedirect(web)
 
   async function closeAll() {
     await web.close()

@@ -1,8 +1,8 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../_db/db.js'
 import { ImageDB } from './image-db.js'
 import { imageOf } from '../../_type/image.js'
-import { dupeOf } from '../../_util/object2.js'
+import { getDupe } from '../../_util/object2.js'
 import { dateNull } from '../../_util/date2.js'
 import { Config } from '../../_type/config.js'
 
@@ -13,7 +13,7 @@ describe('ImageDB', () => {
   let idb: ImageDB
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
     idb = ImageDB.from(db)
   })
@@ -37,7 +37,7 @@ describe('ImageDB', () => {
     })
     it('find image', async () => {
       const image = await idb.findImage(1)
-      expect(dupeOf(image)).toEqual({
+      expect(getDupe(image)).toEqual({
         id: 1, uid: 0, cdate: dateNull, vers: null, comment: ''
       })
     })
@@ -49,7 +49,7 @@ describe('ImageDB', () => {
     })
     it('find image', async () => {
       const image = await idb.findImage(10)
-      expect(dupeOf(image)).toEqual({
+      expect(getDupe(image)).toEqual({
         id: 10, uid: 100, cdate: dateNull, vers: [5120, 4096], comment: 'text1'
       })
     })
@@ -58,7 +58,7 @@ describe('ImageDB', () => {
     })
     it('find image', async () => {
       const image = await idb.findImage(10)
-      expect(dupeOf(image)).toEqual({
+      expect(getDupe(image)).toEqual({
         id: 10, uid: 100, cdate: dateNull, vers: [5120, 4096], comment: 'text2'
       })
     })
@@ -67,7 +67,7 @@ describe('ImageDB', () => {
     })
     it('find image', async () => {
       const image = await idb.findImage(10)
-      expect(dupeOf(image)).toEqual({
+      expect(getDupe(image)).toEqual({
         id: 10, uid: 100, cdate: dateNull, vers: [4096], comment: 'text2'
       })
     })

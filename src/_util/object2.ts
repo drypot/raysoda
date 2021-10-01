@@ -1,4 +1,4 @@
-export function dupeOf(src: any) {
+export function getDupe(src: any) {
   if (!(src instanceof Object)) {
     return src
   }
@@ -6,7 +6,7 @@ export function dupeOf(src: any) {
     const a: any[] = []
     for (const e of src) {
       if (e instanceof Object) {
-        a.push(dupeOf(e))
+        a.push(getDupe(e))
       } else {
         a.push(e)
       }
@@ -19,7 +19,7 @@ export function dupeOf(src: any) {
   const obj: any = {}
   for (const [k, v] of Object.entries(src)) {
     if (v instanceof Object) {
-      obj[k] = dupeOf(v)
+      obj[k] = getDupe(v)
     } else {
       obj[k] = v
     }

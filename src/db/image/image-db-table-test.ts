@@ -1,4 +1,4 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../_db/db.js'
 import { ImageDB } from './image-db.js'
 import { Config } from '../../_type/config.js'
@@ -10,7 +10,7 @@ describe('ImageDB', () => {
   let idb: ImageDB
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
     idb = ImageDB.from(db)
   })

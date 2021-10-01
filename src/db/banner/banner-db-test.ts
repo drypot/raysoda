@@ -1,4 +1,4 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../_db/db.js'
 import { ValueDB } from '../value/value-db.js'
 import { BannerDB } from './banner-db.js'
@@ -12,7 +12,7 @@ describe('BannerDB', () => {
   let bdb: BannerDB
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
     vdb = ValueDB.from(db)
   })

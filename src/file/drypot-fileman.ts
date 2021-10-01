@@ -1,15 +1,15 @@
 import { ImageFileManager } from './fileman.js'
-import { Error2 } from '../_util/error2.js'
-import { deepPathOf } from '../_util/deeppath.js'
+import { getDeepPath } from '../_util/deeppath.js'
 import { mkdirRecursive, rmRecursive } from '../_util/fs2.js'
 import { copyFile, unlink } from 'fs/promises'
 import { identify } from './magick/magick2.js'
 import { IMAGE_TYPE } from '../_type/error-image.js'
 import { ImageMeta } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
+import { ErrorConst } from '../_type/error.js'
 
 function subDir(id: number) {
-  return deepPathOf((id / 1000) >> 0, 2)
+  return getDeepPath((id / 1000) >> 0, 2)
 }
 
 export class DrypotFileManager implements ImageFileManager {
@@ -59,7 +59,7 @@ export class DrypotFileManager implements ImageFileManager {
     return identify(path)
   }
 
-  checkMeta(meta: ImageMeta, err: Error2[]) {
+  checkMeta(meta: ImageMeta, err: ErrorConst[]) {
     if (meta.format !== 'svg') {
       err.push(IMAGE_TYPE)
     }

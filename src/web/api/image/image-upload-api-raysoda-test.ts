@@ -1,4 +1,4 @@
-import { configFrom } from '../../../_util/config-loader.js'
+import { readConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
@@ -31,7 +31,7 @@ describe('Image Upload Api with RaySoda FileManager', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = configFrom('config/raysoda-test.json')
+    config = readConfigSync('config/raysoda-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)

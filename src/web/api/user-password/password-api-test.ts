@@ -1,4 +1,4 @@
-import { configFrom } from '../../../_util/config-loader.js'
+import { readConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { PwResetDB } from '../../../db/pwreset/pwreset-db.js'
 import { Mailer } from '../../../mailer/mailer2.js'
@@ -9,7 +9,7 @@ import { checkHash } from '../../../_util/hash.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerPasswordApi } from './password-api.js'
-import { INVALID_DATA } from '../../../_type/error-basic.js'
+import { INVALID_DATA } from '../../../_type/error.js'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/user-cache.js'
@@ -29,7 +29,7 @@ describe('Password Api', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)

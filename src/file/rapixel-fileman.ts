@@ -1,12 +1,12 @@
 import { ImageFileManager } from './fileman.js'
-import { Error2 } from '../_util/error2.js'
-import { deepPathOf } from '../_util/deeppath.js'
+import { getDeepPath } from '../_util/deeppath.js'
 import { emptyDir, mkdirRecursive, rmRecursive } from '../_util/fs2.js'
 import { exec2 } from '../_util/exec2.js'
 import { identify, mogrifyAutoOrient } from './magick/magick2.js'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../_type/error-image.js'
 import { ImageMeta, WidthHeight } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
+import { ErrorConst } from '../_type/error.js'
 
 const _minWidth = 3840
 const _minHeight = 2160
@@ -30,7 +30,7 @@ const _vers: WidthHeight[] = [
 ]
 
 function subDir(id: number) {
-  return deepPathOf(id, 3)
+  return getDeepPath(id, 3)
 }
 
 export class RapixelFileManager implements ImageFileManager {
@@ -84,7 +84,7 @@ export class RapixelFileManager implements ImageFileManager {
     return identify(path)
   }
 
-  checkMeta(meta: ImageMeta, err: Error2[]) {
+  checkMeta(meta: ImageMeta, err: ErrorConst[]) {
     if (!meta.format) {
       err.push(IMAGE_TYPE)
       return

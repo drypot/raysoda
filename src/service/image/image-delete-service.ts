@@ -1,9 +1,9 @@
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { Error2 } from '../../_util/error2.js'
+import { ErrorConst } from '../../_type/error.js'
 
 export async function imageDeleteService(
-  idb: ImageDB, ifm: ImageFileManager, id: number, err: Error2[]
+  idb: ImageDB, ifm: ImageFileManager, id: number, err: ErrorConst[]
 ) {
   await idb.deleteImage(id)
   try {

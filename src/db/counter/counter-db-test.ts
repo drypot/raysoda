@@ -1,8 +1,8 @@
-import { configFrom } from '../../_util/config-loader.js'
+import { readConfigSync } from '../../_util/config-loader.js'
 import { CounterDB } from './counter-db.js'
 import { DB } from '../_db/db.js'
-import { dateStringFrom } from '../../_util/date2.js'
-import { dupeOf } from '../../_util/object2.js'
+import { dateToDateString } from '../../_util/date2.js'
+import { getDupe } from '../../_util/object2.js'
 import { Config } from '../../_type/config.js'
 
 describe('CounterDB', () => {
@@ -12,7 +12,7 @@ describe('CounterDB', () => {
   let cdb: CounterDB
 
   beforeAll(async () => {
-    config = configFrom('config/app-test.json')
+    config = readConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
     cdb = CounterDB.from(db)
   })
@@ -38,7 +38,7 @@ describe('CounterDB', () => {
   })
 
   describe('increase', () => {
-    const ds = dateStringFrom(new Date())
+    const ds = dateToDateString(new Date())
     it('init table', async () => {
       await cdb.dropTable()
       await cdb.createTable()
@@ -72,7 +72,7 @@ describe('CounterDB', () => {
     })
     it('check db', async () => {
       const r = await db.queryOne('select * from counter where id=? and d=?', ['cnt1', '2021-08-15'])
-      expect(dupeOf(r)).toEqual({
+      expect(getDupe(r)).toEqual({
         id: 'cnt1', d: '2021-08-15', c: 10
       })
     })
@@ -97,7 +97,7 @@ describe('CounterDB', () => {
     })
     it('find list', async () => {
       const r = await cdb.findCounterList('cnt1', '2003-01-18', '2003-01-20')
-      expect(dupeOf(r)).toEqual([
+      expect(getDupe(r)).toEqual([
         { d: '2003-01-18', c: 20 },
         { d: '2003-01-19', c: 30 },
         { d: '2003-01-20', c: 40 },
@@ -105,13 +105,13 @@ describe('CounterDB', () => {
     })
     it('find list 2', async () => {
       const r = await cdb.findCounterList('cnt2', '2003-01-10', '2003-01-17')
-      expect(dupeOf(r)).toEqual([
+      expect(getDupe(r)).toEqual([
         { d: '2003-01-17', c: 10 },
       ])
     })
     it('find list 3', async () => {
       const r = await cdb.findCounterList('cnt2', '2009-00-00', '2010-00-00')
-      expect(dupeOf(r)).toEqual([])
+      expect(getDupe(r)).toEqual([])
     })
   })
 

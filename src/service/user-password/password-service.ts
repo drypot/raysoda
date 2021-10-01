@@ -1,18 +1,17 @@
 import { UserDB } from '../../db/user/user-db.js'
 import { PwResetDB, PwResetRecord } from '../../db/pwreset/pwreset-db.js'
-import { Error2 } from '../../_util/error2.js'
 import { checkPasswordFormat } from '../user/_user-service.js'
 import crypto from 'crypto'
 import { v4 as uuid } from 'uuid'
 import { Mailer } from '../../mailer/mailer2.js'
 import { makeHash } from '../../_util/hash.js'
 import { emailPatternIsOk } from '../../_util/email.js'
-import { INVALID_DATA } from '../../_type/error-basic.js'
+import { ErrorConst, INVALID_DATA } from '../../_type/error.js'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN } from '../../_type/error-user.js'
 import { UserCache } from '../../db/user/user-cache.js'
 
 export async function pwSendMailService(
-  mailer: Mailer, udb: UserDB, resetDB: PwResetDB, email: string, err: Error2[]
+  mailer: Mailer, udb: UserDB, resetDB: PwResetDB, email: string, err: ErrorConst[]
 ) {
   if (!emailPatternIsOk(email)) {
     err.push(EMAIL_PATTERN)
@@ -59,7 +58,7 @@ export type NewPasswordForm = {
 }
 
 export async function pwResetPasswordService(
-  uc: UserCache, resetDB: PwResetDB, form: NewPasswordForm, err: Error2[]
+  uc: UserCache, resetDB: PwResetDB, form: NewPasswordForm, err: ErrorConst[]
 ) {
   checkPasswordFormat(form.password, err)
   if (err.length) return

@@ -1,21 +1,19 @@
 import { emailPatternIsOk } from './email.js'
 
 describe('emailPatternIsOk', () => {
-
-  it('true if mail is correct', () => {
+  it('correct mail', () => {
     expect(emailPatternIsOk('drypot@mail.test')).toBe(true)
   })
-  it('true with .', () => {
+  it('with .', () => {
     expect(emailPatternIsOk('develop.bj@mail.test')).toBe(true)
   })
-  it('true with -', () => {
+  it('with -', () => {
     expect(emailPatternIsOk('-a-b-c_d-e-f@mail.test')).toBe(true)
   })
-  it('false if mail is incorrect', () => {
+  it('incorrect mail', () => {
     expect(emailPatternIsOk('abc.mail.test')).toBe(false)
   })
-  it('false with *', () => {
+  it('with *', () => {
     expect(emailPatternIsOk('abc*xyz@mail.test')).toBe(false)
   })
-
 })
