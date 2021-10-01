@@ -45,12 +45,23 @@ Mac 에는 postfix가 기본 설치되어 있다.\
 
 ## 메일 발송 테스트
 
+Postfix 시작.
+
+    $ sudo postfix start
+
 `mail` 명령으로.
 
     $ mail -s "mail test" drypot@mail.test
 
-노드 스크립트로.
+노드 스크립트로. 명령을 입력하면 도움말이 나온다.
 
     $ bin/send-test-mail
     $ bin/send-test-reset-mail
 
+메일 확인.
+
+    $ mail
+
+Postfix 종료.
+
+    $ sudo postfix stop
