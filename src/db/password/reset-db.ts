@@ -1,14 +1,8 @@
 import { DB } from '../_db/db.js'
 import { Config } from '../../_type/config.js'
+import { ResetToken } from '../../_type/password.js'
 
-export type PwResetRecord = {
-  uuid: string
-  email: string
-  token: string
-}
-
-export class PwResetDB {
-
+export class ResetDB {
   public config: Config
   private db: DB
 
@@ -18,7 +12,7 @@ export class PwResetDB {
   }
 
   static from(db: DB) {
-    return new PwResetDB(db)
+    return new ResetDB(db)
   }
 
   // Table
@@ -47,22 +41,21 @@ export class PwResetDB {
     await this.db.query('drop table if exists pwreset')
   }
 
-  async insert(form: PwResetRecord) {
-    return this.db.query('insert into pwreset set ?', form)
+  async insert(token: ResetToken) {
+    return this.db.query('insert into pwreset set ?', token)
   }
 
   async findByUuid(uuid: string) {
     const r = await this.db.queryOne('select * from pwreset where uuid = ?', uuid)
-    return r as PwResetRecord | undefined
+    return r as ResetToken | undefined
   }
 
   async findByEmail(email: string) {
     const r = await this.db.queryOne('select * from pwreset where email = ?', email)
-    return r as PwResetRecord | undefined
+    return r as ResetToken | undefined
   }
 
   async deleteByEmail(email: string) {
     return this.db.query('delete from pwreset where email = ?', email)
   }
-
 }

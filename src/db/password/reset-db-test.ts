@@ -1,18 +1,18 @@
-import { readConfigSync } from '../../_util/config-loader.js'
+import { loadConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../_db/db.js'
-import { PwResetDB, PwResetRecord } from './pwreset-db.js'
+import { ResetDB } from './reset-db.js'
 import { Config } from '../../_type/config.js'
+import { ResetToken } from '../../_type/password.js'
 
 describe('ResetDB', () => {
-
   let config: Config
   let db: DB
-  let rdb: PwResetDB
+  let rdb: ResetDB
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
-    rdb = PwResetDB.from(db)
+    rdb = ResetDB.from(db)
   })
 
   afterAll(async () => {
@@ -40,7 +40,7 @@ describe('ResetDB', () => {
     })
   })
 
-  describe('pwreset', () => {
+  describe('token', () => {
     it('init table', async () => {
       await rdb.dropTable()
       await rdb.createTable(false)
@@ -50,7 +50,7 @@ describe('ResetDB', () => {
       expect(r?.email).toBe(undefined)
     })
     it('insert', async () => {
-      const r: PwResetRecord = {
+      const r: ResetToken = {
         uuid: 'uuid1',
         email: 'user1@mail.test',
         token: 'token1'
