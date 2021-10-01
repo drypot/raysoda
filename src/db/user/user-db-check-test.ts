@@ -1,17 +1,16 @@
-import { readConfigSync } from '../../_util/config-loader.js'
+import { loadConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../_db/db.js'
 import { UserDB } from './user-db.js'
-import { insertUserFix1 } from './user-db-fixture.js'
+import { insertUserFix1 } from './fixture/user-fix.js'
 import { Config } from '../../_type/config.js'
 
-describe('UserDB', () => {
-
+describe('UserDB.*Is*', () => {
   let config: Config
   let db: DB
   let udb: UserDB
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
   })
@@ -70,5 +69,4 @@ describe('UserDB', () => {
       expect(dupe).toBe(true)
     })
   })
-
 })

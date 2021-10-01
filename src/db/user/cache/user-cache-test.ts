@@ -1,19 +1,18 @@
-import { readConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../_db/db.js'
-import { UserDB } from './user-db.js'
-import { insertUserFix1 } from './user-db-fixture.js'
-import { Config } from '../../_type/config.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
+import { DB } from '../../_db/db.js'
+import { UserDB } from '../user-db.js'
+import { insertUserFix1 } from '../fixture/user-fix.js'
+import { Config } from '../../../_type/config.js'
 import { UserCache } from './user-cache.js'
 
 describe('UserCache', () => {
-
   let config: Config
   let db: DB
   let udb: UserDB
   let uc: UserCache
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     uc = UserCache.from(udb)
@@ -116,5 +115,4 @@ describe('UserCache', () => {
       expect(user?.id).toBe(undefined)
     })
   })
-
 })

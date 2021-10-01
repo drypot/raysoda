@@ -1,23 +1,16 @@
 import { DB } from '../_db/db.js'
-import { User } from '../../_type/user.js'
+import { User, UserDetailMin } from '../../_type/user.js'
 import { Config } from '../../_type/config.js'
 
-export type UserListItem = {
-  id: number
-  name: string
-  home: string
-}
-
 export class UserDB {
-
   public readonly config: Config
   private readonly db: DB
-  private nextUserId: number
+  private nextId: number
 
   private constructor(db: DB) {
     this.config = db.config
     this.db = db
-    this.nextUserId = 0
+    this.nextId = 0
   }
 
   static from(db: DB) {
@@ -57,8 +50,8 @@ export class UserDB {
         'create index user_pdate on user(pdate desc)'
       )
     }
-    this.nextUserId = await this.db.getMaxId('user')
-    this.nextUserId++
+    this.nextId = await this.db.getMaxId('user')
+    this.nextId++
     return this
   }
 
@@ -71,12 +64,12 @@ export class UserDB {
 
   // ID
 
-  getNextUserId() {
-    return this.nextUserId++
+  getNextId() {
+    return this.nextId++
   }
 
-  setNextUserId(id: number) {
-    this.nextUserId = id
+  setNextId(id: number) {
+    this.nextId = id
   }
 
   // Query
@@ -87,19 +80,19 @@ export class UserDB {
 
   async findUserById(id: number) {
     const r = await this.db.queryOne('select * from user where id = ?', id)
-    if (r) unpackUser(r)
+    if (r) unpack(r)
     return r as User | undefined
   }
 
   async findUserByEmail(email: string) {
     const r = await this.db.queryOne('select * from user where email = ?', email)
-    if (r) unpackUser(r)
+    if (r) unpack(r)
     return r as User | undefined
   }
 
   async findUserByHome(home: string) {
     const r = await this.db.queryOne('select * from user where home = ?', home)
-    if (r) unpackUser(r)
+    if (r) unpack(r)
     return r as User | undefined
   }
 
@@ -108,7 +101,7 @@ export class UserDB {
       'select id, name, home from user order by pdate desc limit ?, ?',
       [offset, ps]
     )
-    return r as UserListItem[]
+    return r as UserDetailMin[]
   }
 
   async searchUser(q: string, offset: number = 0, ps: number = 100, admin: boolean = false) {
@@ -122,7 +115,7 @@ export class UserDB {
       param = [q, q, offset, ps]
     }
     const r = await this.db.query(sql, param)
-    return r as UserListItem[]
+    return r as UserDetailMin[]
   }
 
   async nameIsDupe(id: number, name: string) {
@@ -150,8 +143,8 @@ export class UserDB {
     return r.exist === 1
   }
 
-  async updateUserADate(id: number, now: Date) {
-    const r = await this.db.query('update user set adate = ? where id = ?', [now, id])
+  async updateUser(id: number, update: Partial<User>) {
+    const r = await this.db.query('update user set ? where id = ?', [update, id])
     return r.changedRows as number
   }
 
@@ -160,24 +153,23 @@ export class UserDB {
     return r.changedRows as number
   }
 
-  async updateUser(id: number, update: Partial<User>) {
-    const r = await this.db.query('update user set ? where id = ?', [update, id])
+  async updateADate(id: number, now: Date) {
+    const r = await this.db.query('update user set adate = ? where id = ?', [now, id])
     return r.changedRows as number
   }
 
-  async updateUserStatus(id: number, s: string) {
-    const r = await this.db.query('update user set status = ? where id = ?', [s, id])
-    return r.changedRows as number
-  }
-
-  async updateUserPDate(id: number, d: Date) {
+  async updatePDate(id: number, d: Date) {
     const r = await this.db.query('update user set pdate = ? where id = ?', [d, id])
     return r.changedRows as number
   }
 
+  async updateStatus(id: number, s: string) {
+    const r = await this.db.query('update user set status = ? where id = ?', [s, id])
+    return r.changedRows as number
+  }
 }
 
-function unpackUser(user: User) {
+function unpack(user: User) {
   // admin 컬럼은 bool 타입이고, bool 은 실제로 tinyint(1) 다.
   // 저장할 때는 true, false 를 사용해도 되지만 읽을 때는 number 가 돌아온다.
   user.admin = user.admin as unknown === 1

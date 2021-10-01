@@ -31,14 +31,14 @@ export function getUser(params?: Partial<User>): User {
   }
 }
 
-export type UserMin = {
+export type SessionUser = {
   id: number
   name: string
   home: string
   admin: boolean
 }
 
-export function getUserMin(user: User) {
+export function getSessionUser(user: User): SessionUser {
   return { id: user.id, name: user.name, home: user.home, admin: user.admin }
 }
 
@@ -69,4 +69,10 @@ export function getUserDetail(user: User): UserDetail {
     pdate: user.pdate,
     profile: user.profile
   }
+}
+
+export type UserDetailMin = {
+  id: number
+  name: string
+  home: string
 }
