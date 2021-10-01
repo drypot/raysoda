@@ -4,7 +4,6 @@ import Mail from 'nodemailer/lib/mailer'
 import { Config } from '../_type/config.js'
 
 export class Mailer {
-
   public config: Config
   public transport?: Transporter
 
@@ -16,7 +15,7 @@ export class Mailer {
     return new Mailer(config)
   }
 
-  initTransport(): Mailer {
+  loadSync(): Mailer {
     if (this.config.mailServer === 'aws') {
       const data = fs.readFileSync('config-live/ses-smtp-user.json', 'utf8')
       this.transport = nodemailer.createTransport(JSON.parse(data))
