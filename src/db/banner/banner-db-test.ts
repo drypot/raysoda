@@ -3,7 +3,8 @@ import { DB } from '../_db/db.js'
 import { ValueDB } from '../value/value-db.js'
 import { BannerDB } from './banner-db.js'
 import { Config } from '../../_type/config.js'
-import { getBanner } from '../../_type/banner.js'
+import { Banner } from '../../_type/banner.js'
+import { getDupe } from '../../_util/object2.js'
 
 describe('BannerDB', () => {
   let config: Config
@@ -21,6 +22,10 @@ describe('BannerDB', () => {
     await db.close()
   })
 
+  const list: Banner[] = [
+    { text: 'text1', url: 'url1' }
+  ]
+
   it('init table', async () => {
     await vdb.dropTable()
     await vdb.createTable()
@@ -33,17 +38,17 @@ describe('BannerDB', () => {
     expect(b.length).toBe(0)
   })
   it('set banner', async () => {
-    await bdb.setBannerList([getBanner('text1', 'url1')])
+    await bdb.setBannerList(list)
   })
   it('banner contains item', async () => {
     const b = bdb.getBannerList()
-    expect(b).toEqual([getBanner('text1', 'url1')])
+    expect(getDupe(b)).toEqual(list)
   })
   it('reset bdb', async () => {
     bdb = await BannerDB.from(vdb).load()
   })
   it('banner contains item', async () => {
     const b = bdb.getBannerList()
-    expect(b).toEqual([getBanner('text1', 'url1')])
+    expect(getDupe(b)).toEqual(list)
   })
 })
