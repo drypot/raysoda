@@ -3,10 +3,9 @@ import { Image } from '../../_type/image.js'
 import { Config } from '../../_type/config.js'
 
 export class ImageDB {
-
   public readonly config: Config
   private readonly db: DB
-  private nextImageId: number = 0
+  private nextId: number = 0
 
   private constructor(db: DB) {
     this.config = db.config
@@ -38,8 +37,8 @@ export class ImageDB {
         'create index image_uid_cdate on image(uid, cdate desc)'
       )
     }
-    this.nextImageId = await this.db.getMaxId('image')
-    this.nextImageId++
+    this.nextId = await this.db.getMaxId('image')
+    this.nextId++
     return this
   }
 
@@ -52,18 +51,18 @@ export class ImageDB {
 
   // ID
 
-  getNextImageId() {
-    return this.nextImageId++
+  getNextId() {
+    return this.nextId++
   }
 
-  setNextImageId(id: number) {
-    this.nextImageId = id
+  setNextId(id: number) {
+    this.nextId = id
   }
 
   // Query
 
   async insertImage(image: Image) {
-    const pack = packOf(image)
+    const pack = getPacked(image)
     return this.db.query('insert into image set ?', pack)
   }
 
@@ -115,7 +114,7 @@ export class ImageDB {
   }
 
   async updateImage(id: number, image: Partial<Image>) {
-    const pack = packOf(image)
+    const pack = getPacked(image)
     const r = await this.db.query('update image set ? where id = ?', [pack, id])
     return r.changedRows as number
   }
@@ -126,7 +125,7 @@ export class ImageDB {
 
 }
 
-function packOf(image: Partial<Image>) {
+function getPacked(image: Partial<Image>) {
   const pack = {
     ...image
   }
