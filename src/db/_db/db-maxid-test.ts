@@ -2,7 +2,7 @@ import { loadConfigSync } from '../../_util/config-loader.js'
 import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
-describe('db.getMaxId', () => {
+describe('DB.getMaxId', () => {
   let config: Config
   let db: DB
 

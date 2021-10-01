@@ -2,7 +2,7 @@ import { loadConfigSync } from '../../_util/config-loader.js'
 import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
-describe('db.*Table', () => {
+describe('DB.*Table', () => {
   let config: Config
   let db: DB
 

@@ -2,7 +2,7 @@ import { loadConfigSync } from '../../_util/config-loader.js'
 import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
-describe('db.queryOne', () => {
+describe('DB.queryOne', () => {
   let config: Config
   let db: DB
 
