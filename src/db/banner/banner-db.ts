@@ -3,7 +3,7 @@ import { Banner } from '../../_type/banner.js'
 
 export class BannerDB {
   private vdb: ValueDB
-  private banner: Banner[] | undefined
+  private bannerList: Banner[] | undefined
 
   private constructor(vdb: ValueDB) {
     this.vdb = vdb
@@ -13,17 +13,17 @@ export class BannerDB {
     return new BannerDB(vdb)
   }
 
-  async setBanner(banner: Banner[]) {
-    this.banner = banner
-    await this.vdb.updateValue('banners', this.banner)
+  async setBannerList(bannerList: Banner[]) {
+    this.bannerList = bannerList
+    await this.vdb.updateValue('banners', this.bannerList)
   }
 
-  async getBanner() {
-    if (!this.banner) {
-      this.banner = await this.vdb.findValue('banners')
-      // 다른 문법으로 하니 평션의 리턴값에서 undefined 가 사라지지 않았다.
-      this.banner ??= []
+  async getBannerList() {
+    if (this.bannerList) {
+      return this.bannerList
     }
-    return this.banner
+    this.bannerList = await this.vdb.findValue('banners')
+    this.bannerList ??= []
+    return this.bannerList
   }
 }

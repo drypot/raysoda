@@ -5,7 +5,6 @@ import { BannerDB } from './banner-db.js'
 import { Config } from '../../_type/config.js'
 
 describe('BannerDB', () => {
-
   let config: Config
   let db: DB
   let vdb: ValueDB
@@ -21,32 +20,29 @@ describe('BannerDB', () => {
     await db.close()
   })
 
-  describe('banner', () => {
-    it('init table', async () => {
-      await vdb.dropTable()
-      await vdb.createTable()
-    })
-    it('init bdb', async () => {
-      bdb = BannerDB.from(vdb)
-    })
-    it('banner is empty', async () => {
-      const b = await bdb.getBanner()
-      expect(b.length).toBe(0)
-    })
-    it('set banner', async () => {
-      await bdb.setBanner([{ text: 'text1', url: 'url1' }])
-    })
-    it('banner contains item', async () => {
-      const b = await bdb.getBanner()
-      expect(b.length).toBe(1)
-    })
-    it('reset bdb', () => {
-      bdb = BannerDB.from(vdb)
-    })
-    it('banner contains item', async () => {
-      const b = await bdb.getBanner()
-      expect(b.length).toBe(1)
-    })
+  it('init table', async () => {
+    await vdb.dropTable()
+    await vdb.createTable()
   })
-
+  it('init bdb', async () => {
+    bdb = BannerDB.from(vdb)
+  })
+  it('banner is empty', async () => {
+    const b = await bdb.getBannerList()
+    expect(b.length).toBe(0)
+  })
+  it('set banner', async () => {
+    await bdb.setBannerList([{ text: 'text1', url: 'url1' }])
+  })
+  it('banner contains item', async () => {
+    const b = await bdb.getBannerList()
+    expect(b.length).toBe(1)
+  })
+  it('reset bdb', () => {
+    bdb = BannerDB.from(vdb)
+  })
+  it('banner contains item', async () => {
+    const b = await bdb.getBannerList()
+    expect(b.length).toBe(1)
+  })
 })
