@@ -4,7 +4,6 @@ import { ValueDB } from './value-db.js'
 import { Config } from '../../_type/config.js'
 
 describe('ValueDB', () => {
-
   let config: Config
   let db: DB
   let vdb: ValueDB
@@ -94,5 +93,4 @@ describe('ValueDB', () => {
       expect(v).toBe(null)
     })
   })
-
 })

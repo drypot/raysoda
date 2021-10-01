@@ -2,7 +2,6 @@ import { DB } from '../_db/db.js'
 import { Config } from '../../_type/config.js'
 
 export class ValueDB {
-
   public config: Config
   private db: DB
 
@@ -44,5 +43,4 @@ export class ValueDB {
       await this.db.query('replace into persist values(?, ?)', [id, JSON.stringify(v)])
     }
   }
-
 }
