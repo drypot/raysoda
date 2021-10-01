@@ -1,4 +1,4 @@
-import { readConfigSync } from '../../_util/config-loader.js'
+import { loadConfigSync } from '../../_util/config-loader.js'
 import { CounterDB } from './counter-db.js'
 import { DB } from '../_db/db.js'
 import { dateToDateString } from '../../_util/date2.js'
@@ -6,13 +6,12 @@ import { getDupe } from '../../_util/object2.js'
 import { Config } from '../../_type/config.js'
 
 describe('CounterDB', () => {
-
   let config: Config
   let db: DB
   let cdb: CounterDB
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
     cdb = CounterDB.from(db)
   })
@@ -95,7 +94,7 @@ describe('CounterDB', () => {
       await cdb.replaceCounter('cnt2', new Date(2003, 0, 17), 10)
       await cdb.replaceCounter('cnt2', new Date(2003, 0, 18), 20)
     })
-    it('find list', async () => {
+    it('list 1', async () => {
       const r = await cdb.findCounterList('cnt1', '2003-01-18', '2003-01-20')
       expect(getDupe(r)).toEqual([
         { d: '2003-01-18', c: 20 },
@@ -103,16 +102,19 @@ describe('CounterDB', () => {
         { d: '2003-01-20', c: 40 },
       ])
     })
-    it('find list 2', async () => {
+    it('list 2', async () => {
       const r = await cdb.findCounterList('cnt2', '2003-01-10', '2003-01-17')
       expect(getDupe(r)).toEqual([
         { d: '2003-01-17', c: 10 },
       ])
     })
-    it('find list 3', async () => {
+    it('list 3', async () => {
       const r = await cdb.findCounterList('cnt2', '2009-00-00', '2010-00-00')
       expect(getDupe(r)).toEqual([])
     })
+    it('list undefined', async () => {
+      const r = await cdb.findCounterList('cntx', '2009-00-00', '2010-00-00')
+      expect(getDupe(r)).toEqual([])
+    })
   })
-
 })

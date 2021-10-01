@@ -1,14 +1,9 @@
 import { DB } from '../_db/db.js'
 import { dateToDateString } from '../../_util/date2.js'
 import { Config } from '../../_type/config.js'
-
-export type CounterRecord = {
-  d: string
-  c: number
-}
+import { Counter } from '../../_type/counter.js'
 
 export class CounterDB {
-
   public config: Config
   private db: DB
 
@@ -40,23 +35,23 @@ export class CounterDB {
   }
 
   async increaseCounter(id: string) {
-    let ds = dateToDateString(new Date())
+    let d = dateToDateString(new Date())
     await this.db.query(
       'insert into counter values(?, ?, 1) on duplicate key update c = c + 1',
-      [id, ds],
+      [id, d],
     )
   }
 
-  async replaceCounter(id: string, d: Date, c: number) {
-    let ds = dateToDateString(d)
+  async replaceCounter(id: string, date: Date, count: number) {
+    let d = dateToDateString(date)
     await this.db.query(
       'replace into counter values(?, ?, ?)',
-      [id, ds, c],
+      [id, d, count],
     )
   }
 
-  async findCounter(id: string, ds: string) {
-    const r = await this.db.queryOne('select * from counter where id = ? and d = ?', [id, ds])
+  async findCounter(id: string, d: string) {
+    const r = await this.db.queryOne('select * from counter where id = ? and d = ?', [id, d])
     return r ? r.c as number : undefined
   }
 
@@ -65,7 +60,7 @@ export class CounterDB {
       'select d, c from counter where id = ? and d between ? and ? order by d',
       [id, begin, end]
     )
-    return r as CounterRecord[]
+    return r as Counter[]
   }
 
 }
