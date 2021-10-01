@@ -1,26 +1,26 @@
 export type Config = {
-    appName: string
-    appNamel: string
-    appDesc: string
+  appName: string
+  appNamel: string
+  appDesc: string
 
-    port: number
-    cookieSecret: string
-    uploadDir: string
+  port: number
+  cookieSecret: string
+  uploadDir: string
 
-    mainUrl: string
-    uploadUrl: string
+  mainUrl: string
+  uploadUrl: string
 
-    mysqlServer: string
-    mysqlDatabase: string
-    mysqlUser: string
-    mysqlPassword: string
+  mysqlServer: string
+  mysqlDatabase: string
+  mysqlUser: string
+  mysqlPassword: string
 
-    mailServer: string
+  mailServer: string
 
-    ticketGenInterval: number
-    ticketMax: number
+  ticketGenInterval: number
+  ticketMax: number
 
-    dev: boolean
+  dev: boolean
 }
 
 export type ConfigMin = {
