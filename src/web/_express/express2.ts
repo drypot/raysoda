@@ -9,26 +9,22 @@ import supertest from 'supertest'
 import newMulter, { Multer } from 'multer'
 import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2.js'
 import { unlinkSync } from 'fs'
-import { getErrorConst } from '../../_util/error2.js'
+import { newErrorConst } from '../../_util/error2.js'
 import { Config } from '../../_type/config.js'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 
-// export interface ExpressLocals {
-//   api: boolean
-// }
-//
-// declare module 'express' {
-//   export interface Response  {
-//     locals: ExpressLocals
-//   }
-// }
+declare module 'express-session' {
+  interface SessionData {
+    [key: string]: any
+  }
+}
 
 export class Express2 {
 
   public config: Config
   private readonly httpServer: http.Server
-  private readonly expr1: Express
+  private readonly web: Express
   private multer: Multer | undefined
   public readonly router: Router
 
@@ -41,13 +37,13 @@ export class Express2 {
 
   private constructor(config: Config) {
     this.config = config
-    this.expr1 = express()
+    this.web = express()
     this.router = express.Router()
-    this.httpServer = http.createServer(this.expr1)
+    this.httpServer = http.createServer(this.web)
 
-    this.expr1.disable('x-powered-by')
+    this.web.disable('x-powered-by')
 
-    const locals = this.expr1.locals
+    const locals = this.web.locals
     locals.pretty = true
     locals.appName = config.appName
     locals.appNamel = config.appNamel
@@ -61,13 +57,13 @@ export class Express2 {
   }
 
   setLocals(name: string, value: any) {
-    this.expr1.locals[name] = value
+    this.web.locals[name] = value
     return this
   }
 
   setViewEngine(engine: string, root: string) {
-    this.expr1.set('view engine', engine)
-    this.expr1.set('views', root)
+    this.web.set('view engine', engine)
+    this.web.set('views', root)
     return this
   }
 
@@ -85,7 +81,7 @@ export class Express2 {
   static apiPattern = /^\/api\//
 
   async start() {
-    this.expr1.use(function (req, res, done) {
+    this.web.use(function (req, res, done) {
       res.locals.query = req.query
       res.locals.api = Express2.apiPattern.test(req.path)
       done()
@@ -95,7 +91,6 @@ export class Express2 {
     this.setUpCacheControl()
     this.setUpAutoLoginHandler()
     this.setUpGeneralRouter()
-    this.setUpBasicAPI()
     this.setUpRedirectToLoginHandler()
     this.setUpErrorHandler()
     return new Promise<Express2>((resolve) => {
@@ -120,7 +115,7 @@ export class Express2 {
   }
 
   private setUpSessionHandler() {
-    this.expr1.use(cookieParser())
+    this.web.use(cookieParser())
 
     const redisClient = redis.createClient({
       host: 'localhost',
@@ -132,7 +127,7 @@ export class Express2 {
 
     const RedisStore = connectRedis(expressSession)
 
-    this.expr1.use(expressSession({
+    this.web.use(expressSession({
       store: new RedisStore({ client: redisClient }),
       resave: false,
       saveUninitialized: false,
@@ -141,14 +136,14 @@ export class Express2 {
   }
 
   private setUpBodyParser() {
-    this.expr1.use(bodyParser.urlencoded({ extended: false }))
-    this.expr1.use(bodyParser.json())
+    this.web.use(bodyParser.urlencoded({ extended: false }))
+    this.web.use(bodyParser.json())
   }
 
   private setUpCacheControl() {
     // Cache-Control + etc
 
-    this.expr1.use(function (req, res, done) {
+    this.web.use(function (req, res, done) {
       // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
       // 각 핸들러에서 res.send(), res.json() 으로 Content-Type 을 간접적으로 명시할 수도 있지만
       // 에러 핸들러는 공용으로 사용하기 때문에 이 방식에 의존할 수 없다.
@@ -177,40 +172,12 @@ export class Express2 {
     const handler: ExpressHandler = (req, res, done) => {
       this.autoLogin(req, res, done)
     }
-    this.expr1.use(handler)
+    this.web.use(handler)
   }
 
   private setUpGeneralRouter() {
     // 테스트케이스에서 인스턴스가 기동한 후 핸들러를 추가하는 경우가 있어 router 를 따로 두었다.
-    this.expr1.use(this.router)
-  }
-
-  private setUpBasicAPI() {
-    this.expr1.get('/api/hello', function (req, res, done) {
-      res.json({
-        message: 'hello',
-        time: Date.now()
-      })
-    })
-
-    this.expr1.all('/api/echo', function (req, res, done) {
-      res.json({
-        method: req.method,
-        rtype: req.header('content-type'),
-        query: req.query,
-        body: req.body
-      })
-    })
-
-    this.expr1.get('/api/cookies', function (req, res, done) {
-      res.json(req.cookies)
-    })
-
-    this.expr1.post('/api/session-destroy', function (req, res, done) {
-      req.session.destroy((err: any) => {
-        res.json({})
-      })
-    })
+    this.web.use(this.router)
   }
 
   // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
@@ -218,13 +185,13 @@ export class Express2 {
     const handler: ErrorRequestHandler = (err, req, res, done) => {
       this.redirectToLogin(err, req, res, done)
     }
-    this.expr1.use(handler)
+    this.web.use(handler)
   }
 
   // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
   private setUpErrorHandler() {
     const _this = this
-    this.expr1.use(function (err: any, req: Request, res: Response, done: NextFunction) {
+    this.web.use(function (err: any, req: Request, res: Response, done: NextFunction) {
       let r
       if (err instanceof Array) {
         r = {
@@ -236,7 +203,7 @@ export class Express2 {
         }
       } else {
         r = {
-          err: [getErrorConst(err.name, err.message, err.stack)]
+          err: [newErrorConst(err.name, err.message, err.stack)]
         }
       }
       res.json(r)

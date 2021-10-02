@@ -1,14 +1,13 @@
-import { readConfigSync } from '../../_util/config-loader.js'
+import { loadConfigSync } from '../../_util/config-loader.js'
 import { Express2 } from './express2.js'
 import { SuperAgentTest } from 'supertest'
 
-describe('Express2', () => {
-
+describe('Express2 Session', () => {
   let web: Express2
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    const config = readConfigSync('config/app-test.json')
+    const config = loadConfigSync('config/app-test.json')
     web = await Express2.from(config).start()
     request = web.spawnRequest()
   })
@@ -17,47 +16,35 @@ describe('Express2', () => {
     await web.close()
   })
 
-  describe('session', () => {
-    beforeAll(() => {
-      web.router.put('/api/test/session', (req, res) => {
-        let body: { [key: string]: string } = req.body
-        for (let [k, v] of Object.entries(body)) {
-          (req.session as any)[k] = v
-        }
+  it('setup', () => {
+    web.router.post('/api/destroy', function (req, res, done) {
+      req.session.destroy(() => {
         res.json({})
       })
-      web.router.get('/api/test/session', (req, res) => {
-        const keys: string[] = req.body
-        const obj: { [key: string]: string | undefined } = {}
-        for (let k of keys) {
-          obj[k] = (req.session as any)[k]
-        }
-        res.json(obj)
-      })
     })
-    it('can store/return session vars', async () => {
-      let res: any
-
-      res = await request.put('/api/test/session').send({ book: 'book1', price: 11 }).expect(200)
-      expect(res.body.err).toBeFalsy()
-
-      res = await request.get('/api/test/session').send(['book', 'price']).expect(200)
-      expect(res.body.book).toBe('book1')
-      expect(res.body.price).toBe(11)
+    web.router.put('/api/put', (req, res) => {
+      for (let [k, v] of Object.entries(req.body)) {
+        req.session[k] = v
+      }
+      res.json({})
     })
-    it('should be empty after destroyed', async () => {
-      let res: any
-
-      res = await request.put('/api/test/session').send({ book: 'book1', price: 11 }).expect(200)
-      expect(res.body.err).toBeFalsy()
-
-      res = await request.post('/api/session-destroy')
-      expect(res.body.err).toBeFalsy()
-
-      res = await request.get('/api/test/session').send(['book', 'price']).expect(200)
-      expect(res.body.book).toBeUndefined()
-      expect(res.body.price).toBeUndefined()
+    web.router.get('/api/get', (req, res) => {
+      const obj: any = {}
+      for (const k of req.body) {
+        obj[k] = req.session[k]
+      }
+      res.json(obj)
     })
   })
-
+  it('put/get', async () => {
+    await request.put('/api/put').send({ book: 'book1', price: 11 }).expect(200)
+    const res = await request.get('/api/get').send(['book', 'price']).expect(200)
+    expect(res.body).toEqual({ book: 'book1', price: 11 })
+  })
+  it('empty after destroyed', async () => {
+    await request.put('/api/put').send({ book: 'book1', price: 11 }).expect(200)
+    await request.post('/api/destroy')
+    const res = await request.get('/api/get').send(['book', 'price']).expect(200)
+    expect(res.body).toEqual({})
+  })
 })

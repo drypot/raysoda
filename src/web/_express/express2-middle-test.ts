@@ -1,15 +1,14 @@
-import { readConfigSync } from '../../_util/config-loader.js'
+import { loadConfigSync } from '../../_util/config-loader.js'
 import { Express2 } from './express2.js'
 import { NextFunction, Request, Response } from 'express'
 import { SuperAgentTest } from 'supertest'
 
-describe('Express2', () => {
-
+describe('Express2 Middleware', () => {
   let web: Express2
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    const config = readConfigSync('config/app-test.json')
+    const config = loadConfigSync('config/app-test.json')
     web = await Express2.from(config).start()
     request = web.spawnRequest()
   })
@@ -18,61 +17,55 @@ describe('Express2', () => {
     await web.close()
   })
 
-  describe('middleware', () => {
+  let done1 = false
+  let done2 = false
+  let done3 = false
 
-    let result: {
-      mid1?: string
-      mid2?: string
-      mid3?: string
-    }
+  function reset() {
+    done1 = false
+    done2 = false
+    done3 = false
+  }
 
-    beforeAll(() => {
-      function mid1(req: Request, res: Response, done: NextFunction) {
-        result.mid1 = 'ok'
-        done()
-      }
+  function mid1(req: Request, res: Response, done: NextFunction) {
+    done1 = true
+    done()
+  }
 
-      function mid2(req: Request, res: Response, done: NextFunction) {
-        result.mid2 = 'ok'
-        done()
-      }
+  function mid2(req: Request, res: Response, done: NextFunction) {
+    done2 = true
+    done()
+  }
 
-      function midErr(req: Request, res: Response, done: NextFunction) {
-        done(new Error('some error'))
-      }
+  function midErr(req: Request, res: Response, done: NextFunction) {
+    done(new Error('some error'))
+  }
 
-      web.router.get('/api/test/mw-1-2', mid1, mid2, (req, res, done) => {
-        result.mid3 = 'ok'
-        res.json({})
-      })
-
-      web.router.get('/api/test/mw-1-err-2', mid1, midErr, mid2, (req, res, done) => {
-        result.mid3 = 'ok'
-        res.json({})
-      })
-    })
-
-    beforeEach(() => {
-      result = {}
-    })
-
-    describe('mw-1-2 ', () => {
-      it('should set 1, 2, 3', async () => {
-        const res = await request.get('/api/test/mw-1-2').expect(200)
-        expect(result.mid1).toBe('ok')
-        expect(result.mid2).toBe('ok')
-        expect(result.mid3).toBe('ok')
-      })
-    })
-
-    describe('mw-1-err-2', () => {
-      it('should set 1, 2', async () => {
-        const res = await request.get('/api/test/mw-1-err-2').expect(200)
-        expect(result.mid1).toBe('ok')
-        expect(result.mid2).toBeUndefined()
-        expect(result.mid3).toBeUndefined()
-      })
+  it('setup', () => {
+    web.router.get('/api/api-1-2-3', mid1, mid2, (req, res, done) => {
+      done3 = true
+      res.json({})
     })
   })
-
+  it('api-1-2-3', async () => {
+    await request.get('/api/api-1-2-3').expect(200)
+    expect(done1).toBe(true)
+    expect(done2).toBe(true)
+    expect(done3).toBe(true)
+  })
+  it('setup', () => {
+    web.router.get('/api/api-1-err-2-3', mid1, midErr, mid2, (req, res, done) => {
+      done3 = true
+      res.json({})
+    })
+  })
+  it('reset', () => {
+    reset()
+  })
+  it('api-1-err-2-3', async () => {
+    await request.get('/api/api-1-err-2-3').expect(200)
+    expect(done1).toBe(true)
+    expect(done2).toBe(false)
+    expect(done3).toBe(false)
+  })
 })
