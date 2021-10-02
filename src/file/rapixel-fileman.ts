@@ -1,8 +1,8 @@
 import { ImageFileManager } from './fileman.js'
-import { getDeepPath } from '../_util/deeppath.js'
+import { newDeepPath } from '../_util/deeppath.js'
 import { emptyDir, mkdirRecursive, rmRecursive } from '../_util/fs2.js'
 import { exec2 } from '../_util/exec2.js'
-import { identify, mogrifyAutoOrient } from './magick/magick2.js'
+import { getImageMetaOfFile, mogrifyAutoOrient } from './magick/magick2.js'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../_type/error-image.js'
 import { ImageMeta, WidthHeight } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
@@ -30,15 +30,10 @@ const _vers: WidthHeight[] = [
 ]
 
 function subDir(id: number) {
-  return getDeepPath(id, 3)
+  return newDeepPath(id, 3)
 }
 
 export class RapixelFileManager implements ImageFileManager {
-
-  // identify 에 -auto-orient 를 적용할 수가 없다.
-  // 세로 사진이 들어오는 것을 막기 위해 identify 전에 mogrify 를 한번 해야 한다.
-  public readonly needOrientFix = true
-
   public readonly config: Config
   public readonly dir: string
   public readonly url: string
@@ -54,10 +49,10 @@ export class RapixelFileManager implements ImageFileManager {
   }
 
   async rmRoot() {
-    if (!this.config.dev) {
-      throw (new Error('only available in development mode'))
+    if (this.config.dev) {
+      return rmRecursive(this.dir)
     }
-    return rmRecursive(this.dir)
+    throw (new Error('only available in development mode'))
   }
 
   getDirFor(id: number) {
@@ -80,8 +75,8 @@ export class RapixelFileManager implements ImageFileManager {
     return mogrifyAutoOrient(path)
   }
 
-  async identify(path: string) {
-    return identify(path)
+  async getImageMeta(path: string) {
+    return getImageMetaOfFile(path)
   }
 
   checkMeta(meta: ImageMeta, err: ErrorConst[]) {

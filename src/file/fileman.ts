@@ -20,7 +20,7 @@ export interface ImageFileManager {
 
   beforeIdentify(path: string): Promise<void>
 
-  identify(path: string): Promise<ImageMeta>
+  getImageMeta(path: string): Promise<ImageMeta>
 
   checkMeta(meta: ImageMeta, err: ErrorConst[]): void
 

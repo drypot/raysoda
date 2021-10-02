@@ -1,9 +1,9 @@
 import { ImageFileManager } from './fileman.js'
-import { getDeepPath } from '../_util/deeppath.js'
+import { newDeepPath } from '../_util/deeppath.js'
 import { mkdirRecursive, rmRecursive } from '../_util/fs2.js'
 import { exec2 } from '../_util/exec2.js'
 import { unlink } from 'fs/promises'
-import { identify } from './magick/magick2.js'
+import { getImageMetaOfFile } from './magick/magick2.js'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../_type/error-image.js'
 import { ImageMeta } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
@@ -12,11 +12,10 @@ import { ErrorConst } from '../_type/error.js'
 const maxWidth = 2048
 
 function subDir(id: number) {
-  return getDeepPath((id / 1000) >> 0, 2)
+  return newDeepPath((id / 1000) >> 0, 2)
 }
 
 export class RaySodaFileManager implements ImageFileManager {
-
   public readonly config: Config
   public readonly dir: string
   public readonly url: string
@@ -37,10 +36,10 @@ export class RaySodaFileManager implements ImageFileManager {
   // 쉘에서 수작업으로 만들면 된다.
 
   async rmRoot() {
-    if (!this.config.dev) {
-      throw (new Error('only available in development mode'))
+    if (this.config.dev) {
+      return rmRecursive(this.dir)
     }
-    return rmRecursive(this.dir)
+    throw (new Error('only available in development mode'))
   }
 
   getDirFor(id: number) {
@@ -63,8 +62,8 @@ export class RaySodaFileManager implements ImageFileManager {
     return Promise.resolve()
   }
 
-  async identify(path: string) {
-    return identify(path)
+  async getImageMeta(path: string) {
+    return getImageMetaOfFile(path)
   }
 
   checkMeta(meta: ImageMeta, err: ErrorConst[]) {
@@ -93,5 +92,4 @@ export class RaySodaFileManager implements ImageFileManager {
   async deleteImage(id: number) {
     return unlink(this.getPathFor(id))
   }
-
 }

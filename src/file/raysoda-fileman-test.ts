@@ -1,20 +1,19 @@
-import { readConfigSync } from '../_util/config-loader.js'
+import { loadConfigSync } from '../_util/config-loader.js'
 import { ImageFileManager } from './fileman.js'
 import { RaySodaFileManager } from './raysoda-fileman.js'
-import { identify } from './magick/magick2.js'
+import { getImageMetaOfFile } from './magick/magick2.js'
 import { existsSync } from 'fs'
 import { IMAGE_SIZE } from '../_type/error-image.js'
-import { imageMetaOf } from '../_type/image-meta.js'
+import { newImageMeta } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
 import { ErrorConst } from '../_type/error.js'
 
 describe('RaySodaFileManager', () => {
-
   let config: Config
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
     ifm = RaySodaFileManager.from(config)
   })
 
@@ -43,13 +42,13 @@ describe('RaySodaFileManager', () => {
 
   describe('check meta', () => {
     it('err if size too small', () => {
-      const meta = imageMetaOf({ format: 'jpeg', width: 240, height: 240 })
+      const meta = newImageMeta({ format: 'jpeg', width: 240, height: 240 })
       const err: ErrorConst[] = []
       ifm.checkMeta(meta, err)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('ok if size valid', () => {
-      const meta = imageMetaOf({ format: 'jpeg', width: 241, height: 241 })
+      const meta = newImageMeta({ format: 'jpeg', width: 241, height: 241 })
       const err: ErrorConst[] = []
       ifm.checkMeta(meta, err)
       expect(err.length).toBe(0)
@@ -66,26 +65,26 @@ describe('RaySodaFileManager', () => {
     // saveImage 안에서는 checkMeta 를 하지 않는다.
     // 저장하려하면 저장된다.
     it('save small image', async () => {
-      const meta = await ifm.identify('sample/360x240.jpg')
+      const meta = await ifm.getImageMeta('sample/360x240.jpg')
       await ifm.saveImage(1, 'sample/360x240.jpg', meta)
     })
     it('file exists', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(true)
     })
     it('check meta', async () => {
-      const meta = await identify(ifm.getPathFor(1))
+      const meta = await getImageMetaOfFile(ifm.getPathFor(1))
       expect(meta.width).toBe(360)
       expect(meta.height).toBe(240)
     })
     it('save large image', async () => {
-      const meta = await ifm.identify('sample/2560x1440.jpg')
+      const meta = await ifm.getImageMeta('sample/2560x1440.jpg')
       await ifm.saveImage(1, 'sample/2560x1440.jpg', meta)
     })
     it('file exists', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(true)
     })
     it('check meta', async () => {
-      const meta = await identify(ifm.getPathFor(1))
+      const meta = await getImageMetaOfFile(ifm.getPathFor(1))
       expect(meta.width).toBe(2048)
       expect(meta.height).toBe(1152)
     })

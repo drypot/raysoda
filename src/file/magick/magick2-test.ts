@@ -1,23 +1,17 @@
-import { identify } from './magick2.js'
+import { getImageMetaOfFile } from './magick2.js'
 
-describe('ImageMagick2', () => {
-
-  describe('identify jpeg', () => {
-    it('jpeg', async () => {
-      const meta = await identify('sample/360x240.jpg')
-      expect(meta.format).toBe('jpeg')
-      expect(meta.width).toBe(360)
-      expect(meta.height).toBe(240)
-    })
+describe('getImageMetaOfFile', () => {
+  it('jpeg', async () => {
+    const meta = await getImageMetaOfFile('sample/360x240.jpg')
+    expect(meta.format).toBe('jpeg')
+    expect(meta.width).toBe(360)
+    expect(meta.height).toBe(240)
   })
-
-  describe('identify svg', () => {
-    it('svg', async () => {
-      const meta = await identify('sample/svg-sample.svg')
-      expect(meta.format).toBe('svg')
-      expect(meta.width).toBe(1000)
-      expect(meta.height).toBe(1000)
-    })
+  it('svg', async () => {
+    const meta = await getImageMetaOfFile('sample/svg-sample.svg')
+    expect(meta.format).toBe('svg')
+    expect(meta.width).toBe(1000)
+    expect(meta.height).toBe(1000)
   })
 
   // heic 서포트를 넣으려고 시작했는데 heic 지원은 내 코드를 수정하는 것이 아니라
@@ -35,18 +29,16 @@ describe('ImageMagick2', () => {
   //   })
   // })
 
-  describe('identify none image', () => {
-    it('if file not exist', async () => {
-      const meta = await identify('xxx')
-      expect(meta.format).toBeUndefined()
-      expect(meta.width).toBe(0)
-      expect(meta.height).toBe(0)
-    })
-    it('if file not image', async () => {
-      const meta = await identify('README.md')
-      expect(meta.format).toBeUndefined()
-      expect(meta.width).toBe(0)
-      expect(meta.height).toBe(0)
-    })
+  it('if file not exist', async () => {
+    const meta = await getImageMetaOfFile('xxx')
+    expect(meta.format).toBeUndefined()
+    expect(meta.width).toBe(0)
+    expect(meta.height).toBe(0)
+  })
+  it('if file not image', async () => {
+    const meta = await getImageMetaOfFile('sample/text1.txt')
+    expect(meta.format).toBeUndefined()
+    expect(meta.width).toBe(0)
+    expect(meta.height).toBe(0)
   })
 })

@@ -1,20 +1,19 @@
-import { readConfigSync } from '../_util/config-loader.js'
+import { loadConfigSync } from '../_util/config-loader.js'
 import { ImageFileManager } from './fileman.js'
-import { identify } from './magick/magick2.js'
+import { getImageMetaOfFile } from './magick/magick2.js'
 import { existsSync } from 'fs'
 import { RapixelFileManager } from './rapixel-fileman.js'
 import { IMAGE_SIZE } from '../_type/error-image.js'
-import { imageMetaOf } from '../_type/image-meta.js'
+import { newImageMeta } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
 import { ErrorConst } from '../_type/error.js'
 
 describe('RapixelFileManager', () => {
-
   let config: Config
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = readConfigSync('config/rapixel-test.json')
+    config = loadConfigSync('config/rapixel-test.json')
     ifm = RapixelFileManager.from(config)
   })
 
@@ -43,13 +42,13 @@ describe('RapixelFileManager', () => {
 
   describe('check meta', () => {
     it('if size too small', () => {
-      const meta = imageMetaOf({ format: 'jpeg', width: 2560, height: 1440 })
+      const meta = newImageMeta({ format: 'jpeg', width: 2560, height: 1440 })
       const err: ErrorConst[] = []
       ifm.checkMeta(meta, err)
       expect(err).toContain(IMAGE_SIZE)
     })
     it('if size valid', () => {
-      const meta = imageMetaOf({ format: 'jpeg', width: 3840, height: 2160 })
+      const meta = newImageMeta({ format: 'jpeg', width: 3840, height: 2160 })
       const err: ErrorConst[] = []
       ifm.checkMeta(meta, err)
       expect(err.length).toBe(0)
@@ -64,7 +63,7 @@ describe('RapixelFileManager', () => {
       expect(existsSync(ifm.getPathFor(1, 2560))).toBe(false)
     })
     it('save 5120 image', async () => {
-      const meta = await identify('sample/5120x2880.jpg')
+      const meta = await getImageMetaOfFile('sample/5120x2880.jpg')
       const vers = await ifm.saveImage(1, 'sample/5120x2880.jpg', meta)
       expect(vers).toEqual([5120, 4096, 2560, 1280])
     })
@@ -75,12 +74,12 @@ describe('RapixelFileManager', () => {
       expect(existsSync(ifm.getPathFor(1, 5120))).toBe(true)
     })
     it('check meta', async () => {
-      const meta = await identify(ifm.getPathFor(1, 2560))
+      const meta = await getImageMetaOfFile(ifm.getPathFor(1, 2560))
       expect(meta.width).toBe(2560)
       expect(meta.height).toBe(1440)
     })
     it('save 4096 image', async () => {
-      const meta = await identify('sample/4096x2304.jpg')
+      const meta = await getImageMetaOfFile('sample/4096x2304.jpg')
       const vers = await ifm.saveImage(2, 'sample/4096x2304.jpg', meta)
       expect(vers).toEqual([4096, 2560, 1280])
     })

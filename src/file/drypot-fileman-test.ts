@@ -1,19 +1,18 @@
-import { readConfigSync } from '../_util/config-loader.js'
+import { loadConfigSync } from '../_util/config-loader.js'
 import { ImageFileManager } from './fileman.js'
 import { existsSync } from 'fs'
 import { DrypotFileManager } from './drypot-fileman.js'
 import { IMAGE_TYPE } from '../_type/error-image.js'
-import { imageMetaOf } from '../_type/image-meta.js'
+import { newImageMeta } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
 import { ErrorConst } from '../_type/error.js'
 
 describe('DrypotFileManager', () => {
-
   let config: Config
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = readConfigSync('config/drypot-test.json')
+    config = loadConfigSync('config/drypot-test.json')
     ifm = DrypotFileManager.from(config)
   })
 
@@ -42,13 +41,13 @@ describe('DrypotFileManager', () => {
 
   describe('check meta', () => {
     it('if jpeg', () => {
-      const meta = imageMetaOf({ format: 'jpeg' })
+      const meta = newImageMeta({ format: 'jpeg' })
       const err: ErrorConst[] = []
       ifm.checkMeta(meta, err)
       expect(err).toContain(IMAGE_TYPE)
     })
     it('if svg', () => {
-      const meta = imageMetaOf({ format: 'svg' })
+      const meta = newImageMeta({ format: 'svg' })
       const err: ErrorConst[] = []
       ifm.checkMeta(meta, err)
       expect(err.length).toBe(0)
@@ -63,7 +62,7 @@ describe('DrypotFileManager', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(false)
     })
     it('save small image', async () => {
-      const meta = await ifm.identify('sample/svg-sample.svg')
+      const meta = await ifm.getImageMeta('sample/svg-sample.svg')
       await ifm.saveImage(1, 'sample/svg-sample.svg', meta)
     })
     it('file exists', () => {
