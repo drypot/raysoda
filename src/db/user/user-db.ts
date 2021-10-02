@@ -1,6 +1,7 @@
 import { DB } from '../_db/db.js'
-import { User, UserDetailMin } from '../../_type/user.js'
+import { User } from '../../_type/user.js'
 import { Config } from '../../_type/config.js'
+import { UserForList } from '../../_type/user-view.js'
 
 export class UserDB {
   public readonly config: Config
@@ -101,7 +102,7 @@ export class UserDB {
       'select id, name, home from user order by pdate desc limit ?, ?',
       [offset, ps]
     )
-    return r as UserDetailMin[]
+    return r as UserForList[]
   }
 
   async searchUser(q: string, offset: number = 0, ps: number = 100, admin: boolean = false) {
@@ -115,7 +116,7 @@ export class UserDB {
       param = [q, q, offset, ps]
     }
     const r = await this.db.query(sql, param)
-    return r as UserDetailMin[]
+    return r as UserForList[]
   }
 
   async nameIsDupe(id: number, name: string) {

@@ -1,11 +1,11 @@
-import { newUserDetail } from '../../_type/user.js'
 import { UserCache } from '../../db/user/cache/user-cache.js'
 import { dateNull } from '../../_util/date2.js'
+import { newUserView } from '../../_type/user-view.js'
 
 export async function userDetailService(uc: UserCache, uid: number, includePrivate: boolean) {
   const user = await uc.getCachedById(uid)
   if (user) {
-    const user2 = newUserDetail(user)
+    const user2 = newUserView(user)
     if (includePrivate) {
       return user2
     }
