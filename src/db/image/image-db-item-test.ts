@@ -1,8 +1,8 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../_db/db.js'
 import { ImageDB } from './image-db.js'
-import { getImage } from '../../_type/image.js'
-import { getDupe } from '../../_util/object2.js'
+import { newImage } from '../../_type/image.js'
+import { dupe } from '../../_util/object2.js'
 import { dateNull } from '../../_util/date2.js'
 import { Config } from '../../_type/config.js'
 
@@ -30,24 +30,24 @@ describe('ImageDB.*Image', () => {
     expect(image).toBeUndefined()
   })
   it('insert image 1', async () => {
-    const image = getImage({ id: 1 })
+    const image = newImage({ id: 1 })
     await idb.insertImage(image)
   })
   it('find image 1', async () => {
     const image = await idb.findImage(1)
-    expect(getDupe(image)).toEqual({
+    expect(dupe(image)).toEqual({
       id: 1, uid: 0, cdate: dateNull, vers: null, comment: ''
     })
   })
   it('insert image 10', async () => {
-    const image = getImage({
+    const image = newImage({
       id: 10, uid: 100, cdate: dateNull, vers: [5120, 4096], comment: 'text1'
     })
     await idb.insertImage(image)
   })
   it('find image 10', async () => {
     const image = await idb.findImage(10)
-    expect(getDupe(image)).toEqual({
+    expect(dupe(image)).toEqual({
       id: 10, uid: 100, cdate: dateNull, vers: [5120, 4096], comment: 'text1'
     })
   })
@@ -56,7 +56,7 @@ describe('ImageDB.*Image', () => {
   })
   it('find image 10 comment', async () => {
     const image = await idb.findImage(10)
-    expect(getDupe(image)).toEqual({
+    expect(dupe(image)).toEqual({
       id: 10, uid: 100, cdate: dateNull, vers: [5120, 4096], comment: 'text2'
     })
   })
@@ -65,7 +65,7 @@ describe('ImageDB.*Image', () => {
   })
   it('find image 10 vers', async () => {
     const image = await idb.findImage(10)
-    expect(getDupe(image)).toEqual({
+    expect(dupe(image)).toEqual({
       id: 10, uid: 100, cdate: dateNull, vers: [4096], comment: 'text2'
     })
   })

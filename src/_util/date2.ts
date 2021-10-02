@@ -1,12 +1,12 @@
 export const dateNull = new Date(0)
 
-export function getDateToday() {
+export function newDateToday() {
   const d = new Date()
   d.setHours(0, 0, 0, 0)
   return d
 }
 
-export function stringToDateTime(s: string | null | undefined) {
+export function anyToDateTime(s: string | null | undefined) {
   if (!s) {
     return null
   }
@@ -17,8 +17,8 @@ export function stringToDateTime(s: string | null | undefined) {
   return new Date(dts)
 }
 
-export function stringToDate(s: string | null | undefined) {
-  const d = stringToDateTime(s)
+export function anyToDate(s: string | null | undefined) {
+  const d = anyToDateTime(s)
   if (d) d.setHours(0, 0, 0, 0)
   return d
 }
@@ -31,15 +31,15 @@ function pad(number: number) {
   return r
 }
 
-export function dateToDateTimeString(d: Date) {
+export function dateToStringDateTime(d: Date) {
   return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
     pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds())
 }
 
-export function dateToDateString(d: Date) {
+export function dateToStringDate(d: Date) {
   return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate())
 }
 
-export function dateToDateStringNoDash(d: Date) {
+export function dateToStringDateNoDash(d: Date) {
   return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate())
 }

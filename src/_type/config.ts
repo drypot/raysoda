@@ -32,7 +32,7 @@ export type ConfigMin = {
   uploadUrl: string
 }
 
-export function getConfigMin(config: Config): ConfigMin {
+export function newConfigMin(config: Config): ConfigMin {
   return {
     appName: config.appName,
     appNamel: config.appNamel,

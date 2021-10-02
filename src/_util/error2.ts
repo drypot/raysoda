@@ -3,7 +3,7 @@
 
 import { ErrorConst } from '../_type/error.js'
 
-export function getErrorConst(name: string, message: string = '', field: string = ''): ErrorConst {
+export function newErrorConst(name: string, message: string = '', field: string = ''): ErrorConst {
   return {
     name,
     message,

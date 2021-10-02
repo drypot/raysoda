@@ -1,8 +1,8 @@
-import { getErrorConst } from './error2.js'
+import { newErrorConst } from './error2.js'
 
-describe('getErrorDef', () => {
+describe('newErrorConst', () => {
   it('1', () => {
-    const err = getErrorConst('ERR', 'Message', 'Field')
+    const err = newErrorConst('ERR', 'Message', 'Field')
     expect(err).toEqual({ name: 'ERR', message: 'Message', field: 'Field' })
   })
 })

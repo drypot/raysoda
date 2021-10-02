@@ -1,4 +1,4 @@
-import { getErrorConst } from '../_util/error2.js'
+import { newErrorConst } from '../_util/error2.js'
 
 export type ErrorConst = {
   name: string
@@ -6,4 +6,4 @@ export type ErrorConst = {
   field: string
 }
 
-export const INVALID_DATA = getErrorConst('INVALID_DATA', '비정상적인 값이 입력되었습니다.')
+export const INVALID_DATA = newErrorConst('INVALID_DATA', '비정상적인 값이 입력되었습니다.')

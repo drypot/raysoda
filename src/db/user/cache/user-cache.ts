@@ -50,7 +50,7 @@ export class UserCache {
     return user as User | undefined
   }
 
-  getStrictlyCachedById(id: number) {
+  getCachedByIdStrict(id: number) {
     return this.userIdMap.get(id) as User | undefined
   }
 
@@ -64,16 +64,15 @@ export class UserCache {
     return user as User | undefined
   }
 
-  getStrictlyCachedByHome(home: string) {
+  getCachedByHomeStrict(home: string) {
     return this.userHomeMap.get(home.toLowerCase()) as User | undefined
   }
 
-  async getRecachedByEmail(email: string) {
+  async getCachedByEmailForce(email: string) {
     const user = await this.udb.findUserByEmail(email)
     if (user) {
-      this.deleteCacheById(user.id)
       this.cache(user)
     }
-    return user as User | undefined
+    return user
   }
 }

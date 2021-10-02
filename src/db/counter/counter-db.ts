@@ -1,5 +1,5 @@
 import { DB } from '../_db/db.js'
-import { dateToDateString } from '../../_util/date2.js'
+import { dateToStringDate } from '../../_util/date2.js'
 import { Config } from '../../_type/config.js'
 import { Counter } from '../../_type/counter.js'
 
@@ -35,7 +35,7 @@ export class CounterDB {
   }
 
   async increaseCounter(id: string) {
-    let d = dateToDateString(new Date())
+    let d = dateToStringDate(new Date())
     await this.db.query(
       'insert into counter values(?, ?, 1) on duplicate key update c = c + 1',
       [id, d],
@@ -43,7 +43,7 @@ export class CounterDB {
   }
 
   async replaceCounter(id: string, date: Date, count: number) {
-    let d = dateToDateString(date)
+    let d = dateToStringDate(date)
     await this.db.query(
       'replace into counter values(?, ?, ?)',
       [id, d, count],

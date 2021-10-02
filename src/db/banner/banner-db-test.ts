@@ -4,7 +4,7 @@ import { ValueDB } from '../value/value-db.js'
 import { BannerDB } from './banner-db.js'
 import { Config } from '../../_type/config.js'
 import { Banner } from '../../_type/banner.js'
-import { getDupe } from '../../_util/object2.js'
+import { dupe } from '../../_util/object2.js'
 
 describe('BannerDB', () => {
   let config: Config
@@ -42,13 +42,13 @@ describe('BannerDB', () => {
   })
   it('banner contains item', async () => {
     const b = bdb.getBannerList()
-    expect(getDupe(b)).toEqual(list)
+    expect(dupe(b)).toEqual(list)
   })
   it('reset bdb', async () => {
     bdb = await BannerDB.from(vdb).load()
   })
   it('banner contains item', async () => {
     const b = bdb.getBannerList()
-    expect(getDupe(b)).toEqual(list)
+    expect(dupe(b)).toEqual(list)
   })
 })

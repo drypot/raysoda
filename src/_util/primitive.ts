@@ -9,7 +9,7 @@ export function limitNumber(v: number, min: number, max: number) {
   return v
 }
 
-export function paramToNumber(v: any, def: number = 0) {
+export function anyToNumber(v: any, def: number = 0) {
   if (v === undefined) {
     return def
   }
@@ -24,11 +24,11 @@ export function paramToNumber(v: any, def: number = 0) {
 }
 
 
-export function paramToLimitedNumber(v: any, def: number, min: number, max: number) {
-  return limitNumber(paramToNumber(v, def), min, max)
+export function anyToLimitedNumber(v: any, def: number, min: number, max: number) {
+  return limitNumber(anyToNumber(v, def), min, max)
 }
 
-export function paramToString(v: any, d: string = '') {
+export function anyToString(v: any, d: string = '') {
   if (v === undefined) {
     return d
   }

@@ -5,7 +5,7 @@ export type ImageMeta = {
   shorter: number
 }
 
-export function imageMetaOf(params?: Partial<ImageMeta>): ImageMeta {
+export function newImageMeta(params?: Partial<ImageMeta>): ImageMeta {
   return {
     format: undefined,
     width: 0,

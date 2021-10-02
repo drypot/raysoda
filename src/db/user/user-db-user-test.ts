@@ -1,7 +1,7 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../_db/db.js'
 import { UserDB } from './user-db.js'
-import { getUser } from '../../_type/user.js'
+import { newUser } from '../../_type/user.js'
 import { Config } from '../../_type/config.js'
 
 describe('UserDB.findUser*', () => {
@@ -28,7 +28,7 @@ describe('UserDB.findUser*', () => {
     expect(user?.id).toBe(undefined)
   })
   it('insert user', async () => {
-    const user = getUser({ id: 1, name: 'User 1', home: 'user1', email: 'user1@mail.test' })
+    const user = newUser({ id: 1, name: 'User 1', home: 'user1', email: 'user1@mail.test' })
     await udb.insertUser(user)
   })
   it('user exists', async () => {

@@ -14,7 +14,7 @@ export type User = {
   pdate: Date
 }
 
-export function getUser(params?: Partial<User>): User {
+export function newUser(params?: Partial<User>): User {
   return {
     id: 0,
     name: '',
@@ -38,7 +38,7 @@ export type SessionUser = {
   admin: boolean
 }
 
-export function getSessionUser(user: User): SessionUser {
+export function newSessionUser(user: User): SessionUser {
   return { id: user.id, name: user.name, home: user.home, admin: user.admin }
 }
 
@@ -56,7 +56,7 @@ export type UserDetail = {
   pdate: Date
 }
 
-export function getUserDetail(user: User): UserDetail {
+export function newUserDetail(user: User): UserDetail {
   return {
     id: user.id,
     name: user.name,
