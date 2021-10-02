@@ -11,9 +11,8 @@ import {
 } from '../../_type/error-user.js'
 import { ErrorConst } from '../../_type/error.js'
 
-describe('User Form', () => {
-
-  describe('check name format', () => {
+describe('User Service', () => {
+  describe('checkNameFormat', () => {
     it('err if name empty', () => {
       const err: ErrorConst[] = []
       checkNameFormat('', err)
@@ -38,7 +37,7 @@ describe('User Form', () => {
     })
   })
 
-  describe('check home format', () => {
+  describe('checkHomeFormat', () => {
     it('err if empty', () => {
       const err: ErrorConst[] = []
       checkHomeFormat('', err)
@@ -63,7 +62,7 @@ describe('User Form', () => {
     })
   })
 
-  describe('check email format', () => {
+  describe('checkEmailFormat', () => {
     it('err if empty', () => {
       const err: ErrorConst[] = []
       checkEmailFormat('', err)
@@ -99,7 +98,7 @@ describe('User Form', () => {
     })
   })
 
-  describe('password format', () => {
+  describe('checkPasswordFormat', () => {
     it('ok if password valid', () => {
       const err: ErrorConst[] = []
       checkPasswordFormat('abcd1234', err)
@@ -135,5 +134,4 @@ describe('User Form', () => {
       expect(err).toContain(PASSWORD_RANGE)
     })
   })
-
 })

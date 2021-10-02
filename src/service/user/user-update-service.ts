@@ -6,12 +6,12 @@ import {
   checkHomeFormat,
   checkNameDupe,
   checkNameFormat,
-  checkPasswordFormat,
-  UserUpdateForm
+  checkPasswordFormat
 } from './_user-service.js'
 import { makeHash } from '../../_util/hash.js'
-import { UserCache } from '../../db/user/user-cache.js'
+import { UserCache } from '../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../_type/error.js'
+import { UserUpdateForm } from '../../_type/user-form.js'
 
 export async function userUpdateService(uc: UserCache, id: number, form: UserUpdateForm, err: ErrorConst[]) {
   const udb = uc.udb

@@ -5,13 +5,13 @@ import {
   checkHomeFormat,
   checkNameDupe,
   checkNameFormat,
-  checkPasswordFormat,
-  UserRegisterForm
+  checkPasswordFormat
 } from './_user-service.js'
-import { userOf } from '../../_type/user.js'
+import { newUser } from '../../_type/user.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { makeHash } from '../../_util/hash.js'
 import { ErrorConst } from '../../_type/error.js'
+import { UserRegisterForm } from '../../_type/user-form.js'
 
 export async function userRegisterService(udb: UserDB, form: UserRegisterForm, err: ErrorConst[]) {
   checkNameFormat(form.name, err)
@@ -23,8 +23,8 @@ export async function userRegisterService(udb: UserDB, form: UserRegisterForm, e
   await checkEmailDupe(udb, 0, form.email, err)
   if (err.length) return
   const now = new Date()
-  const user = userOf({
-    id: udb.getNextUserId(),
+  const user = newUser({
+    id: udb.getNextId(),
     name: form.name,
     home: form.name,
     email: form.email,

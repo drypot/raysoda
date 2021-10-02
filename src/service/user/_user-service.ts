@@ -16,40 +16,6 @@ import {
 } from '../../_type/error-user.js'
 import { ErrorConst } from '../../_type/error.js'
 
-export type UserRegisterForm = {
-  name: string
-  email: string
-  password: string
-}
-
-export type UserUpdateForm = {
-  name: string
-  home: string
-  email: string
-  password: string
-  profile: string
-}
-
-export function userRegisterFormOf(params?: Partial<UserRegisterForm>): UserRegisterForm {
-  return {
-    name: '',
-    email: '',
-    password: '',
-    ...params
-  }
-}
-
-export function userUpdateFormOf(params?: Partial<UserUpdateForm>): UserUpdateForm {
-  return {
-    name: '',
-    home: '',
-    email: '',
-    password: '',
-    profile: '',
-    ...params
-  }
-}
-
 export function checkNameFormat(name: string, err: ErrorConst[]) {
   if (name.length === 0) {
     err.push(NAME_EMPTY)

@@ -1,20 +1,19 @@
-import { readConfigSync } from '../../_util/config-loader.js'
+import { loadConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { checkEmailDupe, checkHomeDupe, checkNameDupe } from './_user-service.js'
-import { insertUserFix1 } from '../../db/user/user-db-fixture.js'
+import { insertUserFix1 } from '../../db/user/fixture/user-fix.js'
 import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
 
-describe('User Form', () => {
-
+describe('User Service', () => {
   let config: Config
   let db: DB
   let udb: UserDB
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
   })
@@ -29,7 +28,7 @@ describe('User Form', () => {
     await insertUserFix1(udb)
   })
 
-  describe('check name dupe', () => {
+  describe('checkNameDupe', () => {
     it('err if in use', async () => {
       const err: ErrorConst[] = []
       await checkNameDupe(udb, 0, 'User 1', err)
@@ -57,8 +56,7 @@ describe('User Form', () => {
     })
   })
 
-
-  describe('check home dupe', () => {
+  describe('checkHomeDupe', () => {
     it('err if in use', async () => {
       const err: ErrorConst[] = []
       await checkHomeDupe(udb, 0, 'user1', err)
@@ -86,7 +84,7 @@ describe('User Form', () => {
     })
   })
 
-  describe('check email dupe', () => {
+  describe('checkEmailDupe', () => {
     it('err if email in use', async () => {
       const err: ErrorConst[] = []
       await checkEmailDupe(udb, 0, 'user1@mail.test', err)
