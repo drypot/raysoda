@@ -1,16 +1,14 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { Express2, toCallback } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { loginUserFrom, registerLoginApi } from './login-api.js'
-import { NOT_AUTHENTICATED } from '../../../_type/error-user.js'
+import { getUser, registerLoginApi, shouldBeUser } from './login-api.js'
 import { Config } from '../../../_type/config.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('Login Api', () => {
-
+describe('Login Api Redirect To Login', () => {
   let config: Config
 
   let db: DB
@@ -21,7 +19,7 @@ describe('Login Api', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
@@ -37,31 +35,27 @@ describe('Login Api', () => {
     await db.close()
   })
 
-  describe('redirect to login', () => {
-    beforeAll(() => {
-      web.router.get('/test/public', (req, res) => {
-        res.send('public')
-      })
-      web.router.get('/test/private', toCallback(async (req, res) => {
-        const user = await loginUserFrom(res)
-        if (!user) throw NOT_AUTHENTICATED
-        res.send('private')
-      }))
+  it('setup', () => {
+    web.router.get('/for-guest', (req, res) => {
+      res.send('for-guest')
     })
-    it('init table', async () => {
-      await udb.dropTable()
-      await udb.createTable(false)
-    })
-    it('fill fix', async () => {
-      await insertUserFix4(udb)
-    })
-    it('access public works', async () => {
-      await request.get('/test/public').expect(200)
-    })
-    it('access private is redirected to login', async () => {
-      await request.get('/test/private').expect(302).expect('Location', '/login')
-    })
-
+    web.router.get('/for-user', toCallback(async (req, res) => {
+      const user = getUser(res)
+      shouldBeUser(user)
+      res.send('for-user')
+    }))
   })
-
+  it('init table', async () => {
+    await udb.dropTable()
+    await udb.createTable(false)
+  })
+  it('fill fix', async () => {
+    await insertUserFix4(udb)
+  })
+  it('for-guest', async () => {
+    await request.get('/for-guest').expect(200)
+  })
+  it('for-user', async () => {
+    await request.get('/for-user').expect(302).expect('Location', '/login')
+  })
 })

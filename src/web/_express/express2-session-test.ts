@@ -17,7 +17,7 @@ describe('Express2 Session', () => {
   })
 
   it('setup', () => {
-    web.router.post('/api/destroy', function (req, res, done) {
+    web.router.post('/api/session-destroy', function (req, res, done) {
       req.session.destroy(() => {
         res.json({})
       })
@@ -43,7 +43,7 @@ describe('Express2 Session', () => {
   })
   it('empty after destroyed', async () => {
     await request.put('/api/put').send({ book: 'book1', price: 11 }).expect(200)
-    await request.post('/api/destroy')
+    await request.post('/api/session-destroy')
     const res = await request.get('/api/get').send(['book', 'price']).expect(200)
     expect(res.body).toEqual({})
   })

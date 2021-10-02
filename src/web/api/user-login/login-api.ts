@@ -1,8 +1,8 @@
 import { Express2, toCallback } from '../../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
-import { User, userMinOf } from '../../../_type/user.js'
+import { newUser, User } from '../../../_type/user.js'
 import { checkHash } from '../../../_util/hash.js'
-import { paramToString } from '../../../_util/param.js'
+import { anyToString } from '../../../_util/primitive.js'
 import {
   ACCOUNT_DEACTIVATED,
   EMAIL_NOT_FOUND,
@@ -10,77 +10,106 @@ import {
   NOT_AUTHORIZED,
   PASSWORD_WRONG
 } from '../../../_type/error-user.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
+import { newSessionUser } from '../../../_type/user-session.js'
 
-declare module 'express-session' {
-  interface SessionData {
-    uid: string
-  }
-}
-
-// declare module '../_express/express2.js' {
-//   interface ExpressLocals {
-//     user: SessionUser | undefined
-//   }
-// }
+const guest = newUser({ id: -1, name: 'guest' })
 
 export function registerLoginApi(web: Express2, uc: UserCache) {
-
   const router = web.router
 
-  router.get('/api/login-user', toCallback(async function (req, res) {
-    const suser = loginUserFrom(res)
-    if (!suser) throw NOT_AUTHENTICATED
-    res.json({
-      user: userMinOf(suser)
-    })
-  }))
-
-  router.get('/api/login-user-as-admin', toCallback(async function (req, res) {
-    const suser = loginUserFrom(res)
-    if (!suser) throw NOT_AUTHENTICATED
-    if (!suser.admin) throw NOT_AUTHORIZED
-    res.json({
-      user: userMinOf(suser)
-    })
-  }))
-
   router.post('/api/login', toCallback(async (req, res) => {
-    const email = paramToString(req.body.email).trim()
-    const password = paramToString(req.body.password).trim()
+    const email = anyToString(req.body.email).trim()
+    const password = anyToString(req.body.password).trim()
     const remember = !!req.body.remember
     const err: ErrorConst[] = []
     const user = await findUserByEmailPassword(email, password, err)
-    if (err.length) throw err
-    if (!user) throw new Error()
-    await createSession(req, res, user)
+    if (!user || err.length) throw err
     if (remember) {
       res.cookie('email', email, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
       res.cookie('password', password, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
     }
+    await updateUserStatus(user)
+    await createSession(req, user)
+    setLocalsUser(res, user)
     res.json({
-      user: userMinOf(user)
+      user: newSessionUser(user)
     })
   }))
 
+  async function findUserByEmailPassword(email: string, password: string, err: ErrorConst[]) {
+    const user = await uc.getCachedByEmailForce(email)
+    if (!user) {
+      err.push(EMAIL_NOT_FOUND)
+      return
+    }
+    if (user.status === 'd') {
+      err.push(ACCOUNT_DEACTIVATED)
+      return
+    }
+    if (!await checkHash(password, user.hash)) {
+      err.push(PASSWORD_WRONG)
+      return
+    }
+    return user
+  }
+
+  async function updateUserStatus(user: User) {
+    user.adate = new Date()
+    await uc.udb.updateADate(user.id, user.adate)
+  }
+
+  async function createSession(req: Request, user: User) {
+    await new Promise<void>((resolve, reject) =>
+      req.session.regenerate(err => err ? reject(err) : resolve())
+    )
+    req.session.uid = String(user.id)
+  }
+
+  function setLocalsUser(res: Response, user: User) {
+    res.locals.user = user
+  }
+
   web.autoLogin = toCallback(async (req, res) => {
     if (req.session.uid) {
-      res.locals.user = await uc.getCachedById(Number(req.session.uid))
+      const user = await uc.getCachedById(Number(req.session.uid)) as User
+      setLocalsUser(res, user)
       return
     }
     const email = req.cookies.email
     const password = req.cookies.password
-    if (!email || !password) return
-    const err: ErrorConst[] = []
-    const user = await findUserByEmailPassword(email, password, err)
-    if (!user) {
+    if (email && password) {
+      const err: ErrorConst[] = []
+      const user = await findUserByEmailPassword(email, password, err)
+      if (user) {
+        await updateUserStatus(user)
+        await createSession(req, user)
+        setLocalsUser(res, user)
+        return
+      }
       res.clearCookie('email')
       res.clearCookie('password')
-      return
     }
-    await createSession(req, res, user)
+    setLocalsUser(res, guest)
   })
+
+  router.get('/api/login-info', toCallback(async function (req, res) {
+    const user = getUser(res)
+    shouldBeUser(user)
+    res.json({
+      user: newSessionUser(user)
+    })
+  }))
+
+  router.get('/api/login-info-admin', toCallback(async function (req, res) {
+    const user = getUser(res)
+    shouldBeUser(user)
+    shouldBeAdmin(user)
+    res.json({
+      user: newSessionUser(user)
+    })
+  }))
 
   router.post('/api/logout', toCallback(async (req, res) => {
     await logout(req, res)
@@ -97,38 +126,18 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
       done(err)
     }
   }
-
-  async function findUserByEmailPassword(email: string, password: string, err: ErrorConst[]) {
-    const user = await uc.getRecachedByEmail(email)
-    if (!user) {
-      err.push(EMAIL_NOT_FOUND)
-      return
-    }
-    if (user.status === 'd') {
-      err.push(ACCOUNT_DEACTIVATED)
-      return
-    }
-    if (!await checkHash(password, user.hash)) {
-      err.push(PASSWORD_WRONG)
-      return
-    }
-    return user
-  }
-
-  async function createSession(req: Request, res: Response, user: User) {
-    await new Promise<void>((resolve, reject) =>
-      req.session.regenerate(err => err ? reject(err) : resolve())
-    )
-    user.adate = new Date()
-    await uc.udb.updateUserADate(user.id, user.adate)
-    req.session.uid = String(user.id)
-    res.locals.user = user
-  }
-
 }
 
-export function loginUserFrom(res: Response) {
-  return res.locals.user as User | undefined
+export function getUser(res: Response) {
+  return res.locals.user as User
+}
+
+export function shouldBeUser(user: User) {
+  if (user.id === -1) throw NOT_AUTHENTICATED
+}
+
+export function shouldBeAdmin(user: User) {
+  if (!user.admin) throw NOT_AUTHORIZED
 }
 
 export function hasUpdatePerm(op: User, id: number) {

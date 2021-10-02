@@ -4,14 +4,6 @@ export type UserRegisterForm = {
   password: string
 }
 
-export type UserUpdateForm = {
-  name: string
-  home: string
-  email: string
-  password: string
-  profile: string
-}
-
 export function newUserRegisterForm(params?: Partial<UserRegisterForm>): UserRegisterForm {
   return {
     name: '',
@@ -19,6 +11,14 @@ export function newUserRegisterForm(params?: Partial<UserRegisterForm>): UserReg
     password: '',
     ...params
   }
+}
+
+export type UserUpdateForm = {
+  name: string
+  home: string
+  email: string
+  password: string
+  profile: string
 }
 
 export function newUserUpdateForm(params?: Partial<UserUpdateForm>): UserUpdateForm {
@@ -30,4 +30,10 @@ export function newUserUpdateForm(params?: Partial<UserUpdateForm>): UserUpdateF
     profile: '',
     ...params
   }
+}
+
+export type UserLoginForm = {
+  email: string
+  password: string
+  remember: boolean
 }
