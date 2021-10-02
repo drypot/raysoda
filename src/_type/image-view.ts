@@ -1,4 +1,4 @@
-export type ImageDetail = {
+export type ImageView = {
   id: number
   owner: {
     id: number
@@ -14,7 +14,7 @@ export type ImageDetail = {
   updatable: boolean
 }
 
-export type ImageDetailMin = {
+export type ImageForList = {
   id: number
   owner: {
     id: number

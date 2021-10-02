@@ -1,9 +1,9 @@
-import { readConfigSync } from '../../_util/config-loader.js'
+import { loadConfigSync } from '../../_util/config-loader.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { ImageUploadForm } from './_image-service.js'
+import { ImageUploadForm } from '../../_type/image-form.js'
 import { existsSync } from 'fs'
 import { ImageDB } from '../../db/image/image-db.js'
-import { insertUserFix4 } from '../../db/user/user-db-fixture.js'
+import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { DB } from '../../db/_db/db.js'
@@ -12,17 +12,15 @@ import { imageDeleteService } from './image-delete-service.js'
 import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
 
-describe('Image Delete Service with RaySoda FileManager', () => {
-
+describe('imageDeleteService RaySoda', () => {
   let config: Config
-
   let db: DB
   let udb: UserDB
   let idb: ImageDB
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = readConfigSync('config/raysoda-test.json')
+    config = loadConfigSync('config/raysoda-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     idb = ImageDB.from(db)
@@ -39,37 +37,34 @@ describe('Image Delete Service with RaySoda FileManager', () => {
     await insertUserFix4(udb)
   })
 
-  describe('update image', () => {
-    it('init table', async () => {
-      await idb.dropTable()
-      await idb.createTable(false)
-    })
-    it('remove image dir', async () => {
-      await ifm.rmRoot()
-    })
-    it('upload 1', async () => {
-      const form: ImageUploadForm = { now: new Date(), comment: 'c', file: 'sample/640x360.jpg', }
-      const err: ErrorConst[] = []
-      const id = await imageUploadService(udb, idb, ifm, 1, form, err)
-      expect(id).toBe(1)
-    })
-    it('check file 1', async () => {
-      expect(existsSync(ifm.getPathFor(1))).toBe(true)
-    })
-    it('delete 1', async () => {
-      const err: ErrorConst[] = []
-      await imageDeleteService(idb, ifm, 1, err)
-      expect(err.length).toBe(0)
-    })
-    it('check file 1 after delete', async () => {
-      expect(existsSync(ifm.getPathFor(1))).toBe(false)
-    })
-    it('delete 1 again', async () => {
-      const err: ErrorConst[] = []
-      await imageDeleteService(idb, ifm, 1, err)
-      // Service 는 파일이 없어도 에러 보고를 하지 않는다.
-      expect(err.length).toBe(0)
-    })
+  it('init table', async () => {
+    await idb.dropTable()
+    await idb.createTable(false)
   })
-
+  it('remove image dir', async () => {
+    await ifm.rmRoot()
+  })
+  it('upload 1', async () => {
+    const form: ImageUploadForm = { now: new Date(), comment: 'c', file: 'sample/640x360.jpg', }
+    const err: ErrorConst[] = []
+    const id = await imageUploadService(udb, idb, ifm, 1, form, err)
+    expect(id).toBe(1)
+  })
+  it('check file 1', async () => {
+    expect(existsSync(ifm.getPathFor(1))).toBe(true)
+  })
+  it('delete 1', async () => {
+    const err: ErrorConst[] = []
+    await imageDeleteService(idb, ifm, 1, err)
+    expect(err.length).toBe(0)
+  })
+  it('check file 1 after delete', async () => {
+    expect(existsSync(ifm.getPathFor(1))).toBe(false)
+  })
+  it('delete 1 again', async () => {
+    const err: ErrorConst[] = []
+    await imageDeleteService(idb, ifm, 1, err)
+    // Service 는 파일이 없어도 에러 보고를 하지 않는다.
+    expect(err.length).toBe(0)
+  })
 })

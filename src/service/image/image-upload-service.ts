@@ -1,5 +1,5 @@
 import { ImageDB } from '../../db/image/image-db.js'
-import { ImageUploadForm } from './_image-service.js'
+import { ImageUploadForm } from '../../_type/image-form.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { Image } from '../../_type/image.js'
 import { UserDB } from '../../db/user/user-db.js'
@@ -39,14 +39,14 @@ export async function imageUploadService(
 
   // check meta
   await ifm.beforeIdentify(form.file)
-  const meta = await ifm.identify(form.file)
+  const meta = await ifm.getImageMeta(form.file)
   ifm.checkMeta(meta, err)
   if (err.length) return
 
   // save
   // 파일 저장에 시간이 걸릴 경우 db insert 가 늦어져
   // 사진이 여러장 등록될 수 있다.
-  const id = idb.getNextImageId()
+  const id = idb.getNextId()
   const vers = await ifm.saveImage(id, form.file, meta)
   const image: Image = {
     id: id,
@@ -56,6 +56,6 @@ export async function imageUploadService(
     comment: form.comment,
   }
   await idb.insertImage(image)
-  await udb.updateUserPDate(uid, form.now)
+  await udb.updatePDate(uid, form.now)
   return id
 }

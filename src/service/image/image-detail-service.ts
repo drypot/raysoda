@@ -1,14 +1,14 @@
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { dateToDateTimeString } from '../../_util/date2.js'
+import { dateToStringDateTime } from '../../_util/date2.js'
 import { User } from '../../_type/user.js'
 import { Image } from '../../_type/image.js'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
-import { ImageDetail } from '../../_type/image-detail.js'
-import { UserCache } from '../../db/user/user-cache.js'
+import { ImageView } from '../../_type/image-view.js'
+import { UserCache } from '../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../_type/error.js'
 
-export function imageDetailFrom(owner: User, ifm: ImageFileManager, image: Image): ImageDetail {
+export function newImageDetail(owner: User, ifm: ImageFileManager, image: Image): ImageView {
   return {
     id: image.id,
     owner: {
@@ -17,7 +17,7 @@ export function imageDetailFrom(owner: User, ifm: ImageFileManager, image: Image
       home: owner.home
     },
     cdate: image.cdate.getTime(),
-    cdateStr: dateToDateTimeString(image.cdate),
+    cdateStr: dateToStringDateTime(image.cdate),
     vers: image.vers,
     comment: image.comment,
     dirUrl: ifm.getDirUrlFor(image.id),
@@ -38,5 +38,5 @@ export async function imageDetailService(
   if (!owner) {
     throw new Error()
   }
-  return imageDetailFrom(owner, ifm, image)
+  return newImageDetail(owner, ifm, image)
 }
