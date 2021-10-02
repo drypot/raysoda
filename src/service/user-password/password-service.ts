@@ -1,5 +1,5 @@
 import { UserDB } from '../../db/user/user-db.js'
-import { PwResetDB, PwResetRecord } from '../../db/pwreset/pwreset-db.js'
+import { ResetDB } from '../../db/password/reset-db.js'
 import { checkPasswordFormat } from '../user/_user-service.js'
 import crypto from 'crypto'
 import { v4 as uuid } from 'uuid'
@@ -8,10 +8,11 @@ import { makeHash } from '../../_util/hash.js'
 import { emailPatternIsOk } from '../../_util/email.js'
 import { ErrorConst, INVALID_DATA } from '../../_type/error.js'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN } from '../../_type/error-user.js'
-import { UserCache } from '../../db/user/user-cache.js'
+import { UserCache } from '../../db/user/cache/user-cache.js'
+import { NewPasswordForm, ResetToken } from '../../_type/password.js'
 
-export async function pwSendMailService(
-  mailer: Mailer, udb: UserDB, resetDB: PwResetDB, email: string, err: ErrorConst[]
+export async function passwordSendMailService(
+    mailer: Mailer, udb: UserDB, resetDB: ResetDB, email: string, err: ErrorConst[]
 ) {
   if (!emailPatternIsOk(email)) {
     err.push(EMAIL_PATTERN)
@@ -31,7 +32,7 @@ export async function pwSendMailService(
   })
   // uuid 까지 쓴 것은 좀 과하지 않나 싶다.
   // 다른 시스템에서는 좀 간단히 하는 것으로.
-  const r: PwResetRecord = {
+  const r: ResetToken = {
     uuid: uuid(),
     email,
     token
@@ -51,14 +52,8 @@ export async function pwSendMailService(
   return mailer.sendMail(mail)
 }
 
-export type NewPasswordForm = {
-  uuid: string
-  token: string
-  password: string
-}
-
-export async function pwResetPasswordService(
-  uc: UserCache, resetDB: PwResetDB, form: NewPasswordForm, err: ErrorConst[]
+export async function passwordResetService(
+    uc: UserCache, resetDB: ResetDB, form: NewPasswordForm, err: ErrorConst[]
 ) {
   checkPasswordFormat(form.password, err)
   if (err.length) return
@@ -73,6 +68,6 @@ export async function pwResetPasswordService(
   }
   const hash = await makeHash(form.password)
   await uc.udb.updateHash(r.email, hash)
-  await uc.getRecachedByEmail(r.email)
+  await uc.getCachedByEmailForce(r.email)
   await resetDB.deleteByEmail(r.email)
 }

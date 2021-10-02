@@ -3,3 +3,9 @@ export type ResetToken = {
   email: string
   token: string
 }
+
+export type NewPasswordForm = {
+  uuid: string
+  token: string
+  password: string
+}
