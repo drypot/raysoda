@@ -11,7 +11,7 @@ import { EMAIL_NOT_FOUND, EMAIL_PATTERN } from '../../_type/error-user.js'
 import { UserCache } from '../../db/user/cache/user-cache.js'
 import { NewPasswordForm, ResetToken } from '../../_type/password.js'
 
-export async function passwordSendMailService(
+export async function passwordSendResetMailService(
     mailer: Mailer, udb: UserDB, resetDB: ResetDB, email: string, err: ErrorConst[]
 ) {
   if (!emailPatternIsOk(email)) {

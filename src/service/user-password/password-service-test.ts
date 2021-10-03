@@ -4,7 +4,7 @@ import { ResetDB } from '../../db/password/reset-db.js'
 import { Mailer } from '../../mailer/mailer2.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
-import { passwordResetService, passwordSendMailService } from './password-service.js'
+import { passwordResetService, passwordSendResetMailService } from './password-service.js'
 import { checkHash } from '../../_util/hash.js'
 import { ErrorConst, INVALID_DATA } from '../../_type/error.js'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../_type/error-user.js'
@@ -45,17 +45,17 @@ describe('Password Reset Service', () => {
   })
   it('send mail, email existence check', async () => {
     const err: ErrorConst[] = []
-    await passwordSendMailService(mailer, udb, rdb, 'userx@mail.test', err)
+    await passwordSendResetMailService(mailer, udb, rdb, 'userx@mail.test', err)
     expect(err).toContain(EMAIL_NOT_FOUND)
   })
   it('send mail, email format check', async () => {
     const err: ErrorConst[] = []
-    await passwordSendMailService(mailer, udb, rdb, 'userx.mail.test', err)
+    await passwordSendResetMailService(mailer, udb, rdb, 'userx.mail.test', err)
     expect(err).toContain(EMAIL_PATTERN)
   })
   it('send mail', async () => {
     const err: ErrorConst[] = []
-    await passwordSendMailService(mailer, udb, rdb, 'user1@mail.test', err)
+    await passwordSendResetMailService(mailer, udb, rdb, 'user1@mail.test', err)
     expect(err.length).toBe(0)
   })
   const resetRecord = { uuid: '', token: '' }
