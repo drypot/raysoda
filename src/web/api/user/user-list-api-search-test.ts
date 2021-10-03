@@ -1,16 +1,16 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { AdminLogin, loginForTest } from '../user-login/login-api-fixture.js'
 import { registerUserListApi } from './user-list-api.js'
 import { Config } from '../../../_type/config.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('User List Api', () => {
+describe('UserListApi Search', () => {
 
   let config: Config
 
@@ -22,7 +22,7 @@ describe('User List Api', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
@@ -39,39 +39,37 @@ describe('User List Api', () => {
     await db.close()
   })
 
-  describe('user search', () => {
-    it('init table', async () => {
-      await udb.dropTable()
-      await udb.createTable(false)
-    })
-    it('fill fix', async () => {
-      await insertUserFix4(udb)
-    })
-    it('search user1', async () => {
-      const res = await request.get('/api/user-list?q=user1').expect(200)
-      const l = res.body.user
-      expect(l.length).toBe(1)
-      expect(l[0].home).toBe('user1')
-    })
-    it('search user1@mail.test as user', async () => {
-      const res = await request.get('/api/user-list?q=user1@mail.test').expect(200)
-      const l = res.body.user
-      expect(l.length).toBe(0)
-    })
-    it('login as admin', async () => {
-      await loginForTest(request, AdminLogin)
-    })
-    it('search user1@mail.test as user', async () => {
-      const res = await request.get('/api/user-list?q=user1@mail.test').expect(200)
-      const l = res.body.user
-      expect(l.length).toBe(1)
-      expect(l[0].home).toBe('user1')
-    })
-    it('search userx', async () => {
-      const res = await request.get('/api/user-list?q=userx').expect(200)
-      const l = res.body.user
-      expect(l.length).toBe(0)
-    })
+  it('init table', async () => {
+    await udb.dropTable()
+    await udb.createTable(false)
+  })
+  it('fill fix', async () => {
+    await insertUserFix4(udb)
+  })
+  it('search user1', async () => {
+    const res = await request.get('/api/user-list?q=user1').expect(200)
+    const list = res.body.userList
+    expect(list.length).toBe(1)
+    expect(list[0].home).toBe('user1')
+  })
+  it('search user1@mail.test as user', async () => {
+    const res = await request.get('/api/user-list?q=user1@mail.test').expect(200)
+    const list = res.body.userList
+    expect(list.length).toBe(0)
+  })
+  it('login as admin', async () => {
+    await loginForTest(request, AdminLogin)
+  })
+  it('search user1@mail.test as user', async () => {
+    const res = await request.get('/api/user-list?q=user1@mail.test').expect(200)
+    const list = res.body.userList
+    expect(list.length).toBe(1)
+    expect(list[0].home).toBe('user1')
+  })
+  it('search userx', async () => {
+    const res = await request.get('/api/user-list?q=userx').expect(200)
+    const list = res.body.userList
+    expect(list.length).toBe(0)
   })
 
 })

@@ -1,7 +1,7 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
@@ -9,9 +9,9 @@ import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fi
 import { registerUserUpdateApi } from './user-update-api.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('User Update Api', () => {
+describe('UserUpdateApi', () => {
 
   let config: Config
 
@@ -23,7 +23,7 @@ describe('User Update Api', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)

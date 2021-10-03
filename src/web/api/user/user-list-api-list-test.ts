@@ -1,15 +1,15 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { registerUserListApi } from './user-list-api.js'
 import { Config } from '../../../_type/config.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('User List Api', () => {
+describe('UserListApi', () => {
 
   let config: Config
 
@@ -21,7 +21,7 @@ describe('User List Api', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
@@ -38,33 +38,31 @@ describe('User List Api', () => {
     await db.close()
   })
 
-  describe('user list', () => {
-    it('init table', async () => {
-      await udb.dropTable()
-      await udb.createTable(false)
-    })
-    it('fill fix', async () => {
-      await insertUserFix4(udb)
-    })
-    it('get list', async () => {
-      const res = await request.get('/api/user-list').expect(200)
-      const l = res.body.user
-      expect(l.length).toBe(4)
-      // ordered by pdate desc
-      expect(l[0].home).toBe('user2')
-      expect(l[1].home).toBe('user3')
-      expect(l[2].home).toBe('user1')
-      expect(l[3].home).toBe('admin')
-    })
-    it('get p 1, ps 3', async () => {
-      const res = await request.get('/api/user-list?p=1&ps=3').expect(200)
-      const l = res.body.user
-      expect(l.length).toBe(3)
-      // ordered by pdate desc
-      expect(l[0].home).toBe('user2')
-      expect(l[1].home).toBe('user3')
-      expect(l[2].home).toBe('user1')
-    })
+  it('init table', async () => {
+    await udb.dropTable()
+    await udb.createTable(false)
+  })
+  it('fill fix', async () => {
+    await insertUserFix4(udb)
+  })
+  it('get list', async () => {
+    const res = await request.get('/api/user-list').expect(200)
+    const list = res.body.userList
+    expect(list.length).toBe(4)
+    // ordered by pdate desc
+    expect(list[0].home).toBe('user2')
+    expect(list[1].home).toBe('user3')
+    expect(list[2].home).toBe('user1')
+    expect(list[3].home).toBe('admin')
+  })
+  it('get p 1, ps 3', async () => {
+    const res = await request.get('/api/user-list?p=1&ps=3').expect(200)
+    const list = res.body.userList
+    expect(list.length).toBe(3)
+    // ordered by pdate desc
+    expect(list[0].home).toBe('user2')
+    expect(list[1].home).toBe('user3')
+    expect(list[2].home).toBe('user1')
   })
 
 })
