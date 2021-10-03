@@ -1,11 +1,11 @@
 import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { ADMIN_LOGIN, insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { AdminLogin, loginForTest } from '../user-login/login-api-fixture.js'
+import { loginForTest } from '../user-login/login-api-fixture.js'
 import { registerUserListApi } from './user-list-api.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
@@ -58,7 +58,7 @@ describe('UserListApi Search', () => {
     expect(list.length).toBe(0)
   })
   it('login as admin', async () => {
-    await loginForTest(request, AdminLogin)
+    await loginForTest(request, ADMIN_LOGIN)
   })
   it('search user1@mail.test as user', async () => {
     const res = await request.get('/api/user-list?q=user1@mail.test').expect(200)

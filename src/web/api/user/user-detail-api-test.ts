@@ -1,12 +1,12 @@
 import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerUserDetailApi } from './user-detail-api.js'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
+import { loginForTest } from '../user-login/login-api-fixture.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 
@@ -53,7 +53,7 @@ describe('User Detail Api', () => {
     expect(res.body.user.email).toBe('')
   })
   it('login as user', async () => {
-    await loginForTest(request, User1Login)
+    await loginForTest(request, USER1_LOGIN)
   })
   it('get self works, returns email', async () => {
     const res = await request.get('/api/user/1').expect(200)
@@ -68,7 +68,7 @@ describe('User Detail Api', () => {
     expect(res.body.user.email).toBe('')
   })
   it('login as admin', async () => {
-    await loginForTest(request, AdminLogin)
+    await loginForTest(request, ADMIN_LOGIN)
   })
   it('get other works, returns email', async () => {
     const res = await request.get('/api/user/2').expect(200)

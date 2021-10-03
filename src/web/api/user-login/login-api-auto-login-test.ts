@@ -1,11 +1,11 @@
 import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from './login-api.js'
-import { loginForTest, logoutForTest, User1Login } from './login-api-fixture.js'
+import { loginForTest, logoutForTest } from './login-api-fixture.js'
 import { NOT_AUTHENTICATED } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
@@ -64,7 +64,7 @@ describe('Login Api Auto Login', () => {
   })
 
   it('login', async () => {
-    await loginForTest(request, User1Login, true)
+    await loginForTest(request, USER1_LOGIN, true)
   })
   it('get login', async () => {
     const res = await request.get('/api/login-info').expect(200)
@@ -100,7 +100,7 @@ describe('Login Api Auto Login', () => {
   })
 
   it('login 2', async () => {
-    await loginForTest(request, User1Login, true)
+    await loginForTest(request, USER1_LOGIN, true)
   })
   it('get login', async () => {
     const res = await request.get('/api/login-info').expect(200)

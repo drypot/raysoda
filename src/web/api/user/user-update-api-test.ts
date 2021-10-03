@@ -1,11 +1,11 @@
 import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
+import { loginForTest } from '../user-login/login-api-fixture.js'
 import { registerUserUpdateApi } from './user-update-api.js'
 import { checkHash } from '../../../_util/hash.js'
 import {
@@ -57,7 +57,7 @@ describe('UserUpdateApi', () => {
     await insertUserFix4(udb)
   })
   it('login as user1', async () => {
-    await loginForTest(request, User1Login)
+    await loginForTest(request, USER1_LOGIN)
   })
   it('update user1', async () => {
     const form = {

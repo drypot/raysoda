@@ -4,10 +4,10 @@ import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { CounterDB } from '../../../db/counter/counter-db.js'
 import { registerCounterApi } from './counter-api.js'
-import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
+import { loginForTest } from '../user-login/login-api-fixture.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
@@ -69,14 +69,14 @@ describe('Counter List Api', () => {
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
   it('login as user', async () => {
-    await loginForTest(request, User1Login)
+    await loginForTest(request, USER1_LOGIN)
   })
   it('get fails if user', async () => {
     const res = await request.get(url1).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
-    await loginForTest(request, AdminLogin)
+    await loginForTest(request, ADMIN_LOGIN)
   })
   it('get counter', async () => {
     const res = await request.get(url1).expect(200)

@@ -1,11 +1,11 @@
 import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { AdminLogin, loginForTest, User1Login } from '../user-login/login-api-fixture.js'
+import { loginForTest } from '../user-login/login-api-fixture.js'
 import { registerUserUpdateApi } from './user-update-api.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
@@ -58,7 +58,7 @@ describe('UserUpdateApi', () => {
       await insertUserFix4(udb)
     })
     it('login as user1', async () => {
-      await loginForTest(request, User1Login)
+      await loginForTest(request, USER1_LOGIN)
     })
     it('update user1 works', async () => {
       const res = await request.put('/api/user-update/' + 1).send(form).expect(200)
@@ -75,7 +75,7 @@ describe('UserUpdateApi', () => {
       await insertUserFix4(udb)
     })
     it('login as user1', async () => {
-      await loginForTest(request, User1Login)
+      await loginForTest(request, USER1_LOGIN)
     })
     it('update user2 fails', async () => {
       const res = await request.put('/api/user-update/' + 2).send(form).expect(200)
@@ -92,7 +92,7 @@ describe('UserUpdateApi', () => {
       await insertUserFix4(udb)
     })
     it('login as admin', async () => {
-      await loginForTest(request, AdminLogin)
+      await loginForTest(request, ADMIN_LOGIN)
     })
     it('update user2 works', async () => {
       const res = await request.put('/api/user-update/' + 2).send(form).expect(200)

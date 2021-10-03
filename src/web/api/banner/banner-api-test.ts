@@ -4,11 +4,11 @@ import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { ValueDB } from '../../../db/value/value-db.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
 import { registerBannerApi } from './banner-api.js'
-import { AdminLogin, loginForTest, logoutForTest, User1Login } from '../user-login/login-api-fixture.js'
+import { loginForTest, logoutForTest } from '../user-login/login-api-fixture.js'
 import { NOT_AUTHORIZED } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
@@ -63,7 +63,7 @@ describe('Banner Api', () => {
     expect(res.body.bannerList).toEqual([])
   })
   it('login as user', async () => {
-    await loginForTest(request, User1Login)
+    await loginForTest(request, USER1_LOGIN)
   })
   it('set banner fails', async () => {
     const form = {
@@ -73,7 +73,7 @@ describe('Banner Api', () => {
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
-    await loginForTest(request, AdminLogin)
+    await loginForTest(request, ADMIN_LOGIN)
   })
   it('set banner', async () => {
     const form = {
