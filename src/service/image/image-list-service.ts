@@ -2,7 +2,7 @@ import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { Image } from '../../_type/image.js'
 import { User } from '../../_type/user.js'
-import { dateToStringDateTime } from '../../_util/date2.js'
+import { newDateString } from '../../_util/date2.js'
 import { ImageForList } from '../../_type/image-view.js'
 import { UserCache } from '../../db/user/cache/user-cache.js'
 
@@ -17,7 +17,7 @@ async function newDecoratedImageList(uc: UserCache, ifm: ImageFileManager, list:
           name: owner.name,
           home: owner.home
         },
-        cdateStr: dateToStringDateTime(image.cdate),
+        cdateStr: newDateString(image.cdate),
         vers: image.vers,
         comment: image.comment,
         thumbUrl: ifm.getThumbUrlFor(image.id)

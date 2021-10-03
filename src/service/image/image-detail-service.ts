@@ -1,6 +1,6 @@
 import { ImageDB } from '../../db/image/image-db.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { dateToStringDateTime } from '../../_util/date2.js'
+import { newDateString } from '../../_util/date2.js'
 import { User } from '../../_type/user.js'
 import { Image } from '../../_type/image.js'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
@@ -17,7 +17,7 @@ export function newImageDetail(owner: User, ifm: ImageFileManager, image: Image)
       home: owner.home
     },
     cdate: image.cdate.getTime(),
-    cdateStr: dateToStringDateTime(image.cdate),
+    cdateStr: newDateString(image.cdate),
     vers: image.vers,
     comment: image.comment,
     dirUrl: ifm.getDirUrlFor(image.id),

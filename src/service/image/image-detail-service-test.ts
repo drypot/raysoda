@@ -5,7 +5,7 @@ import { ImageUploadForm } from '../../_type/image-form.js'
 import { ImageDB } from '../../db/image/image-db.js'
 import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
-import { dateToStringDateTime } from '../../_util/date2.js'
+import { newDateString } from '../../_util/date2.js'
 import { DB } from '../../db/_db/db.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageDetailService } from './image-detail-service.js'
@@ -77,7 +77,7 @@ describe('imageDetailService', () => {
     expect(image.id).toBe(1)
     expect(image.owner).toEqual({ id: 1, name: 'User 1', home: 'user1' })
     expect(Date.now() - image.cdate).toBeLessThan(2000)
-    expect(dateToStringDateTime(new Date(image.cdate))).toBe(image.cdateStr)
+    expect(newDateString(new Date(image.cdate))).toBe(image.cdateStr)
     expect(image.vers).toBeNull()
     expect(image.comment).toBe('c1')
     expect(image.dirUrl).toBe(ifm.getDirUrlFor(1))
