@@ -10,6 +10,7 @@ import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 
 describe('Login Api', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -102,4 +103,5 @@ describe('Login Api', () => {
     const res = await request.post('/api/login').send(form).expect(200)
     expect(res.body.err).toContain(PASSWORD_WRONG)
   })
+
 })

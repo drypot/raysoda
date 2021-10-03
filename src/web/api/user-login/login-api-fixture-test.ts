@@ -11,6 +11,7 @@ import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 
 describe('Login Api Fixture', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -57,4 +58,5 @@ describe('Login Api Fixture', () => {
     const res = await request.get('/api/login-info').expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
+
 })

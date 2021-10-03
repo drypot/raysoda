@@ -4,11 +4,12 @@ import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { Express2, toCallback } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
-import { getUser, registerLoginApi, shouldBeUser } from './login-api.js'
+import { getSessionUser, registerLoginApi, shouldBeUser } from './login-api.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 
 describe('Login Api Redirect To Login', () => {
+
   let config: Config
 
   let db: DB
@@ -40,7 +41,7 @@ describe('Login Api Redirect To Login', () => {
       res.send('for-guest')
     })
     web.router.get('/for-user', toCallback(async (req, res) => {
-      const user = getUser(res)
+      const user = getSessionUser(res)
       shouldBeUser(user)
       res.send('for-user')
     }))
@@ -58,4 +59,5 @@ describe('Login Api Redirect To Login', () => {
   it('for-user', async () => {
     await request.get('/for-user').expect(302).expect('Location', '/login')
   })
+
 })

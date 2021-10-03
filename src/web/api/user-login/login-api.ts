@@ -2,93 +2,55 @@ import { Express2, toCallback } from '../../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
 import { newGuest, User, userIsAdmin, userIsUser } from '../../../_type/user.js'
 import { newString } from '../../../_util/primitive.js'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../_type/error-user.js'
+import {
+  ACCOUNT_DEACTIVATED,
+  EMAIL_NOT_FOUND,
+  NOT_AUTHENTICATED,
+  NOT_AUTHORIZED,
+  PASSWORD_WRONG
+} from '../../../_type/error-user.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
-import { newLoginUser } from '../../../_type/user-login.js'
-import { loginService } from '../../../service/user-login/login-service.js'
-
-const guest = newGuest()
+import { newUserForClient } from '../../../_type/user-client.js'
+import { checkHash } from '../../../_util/hash.js'
 
 export function registerLoginApi(web: Express2, uc: UserCache) {
-  const router = web.router
 
-  router.post('/api/login', toCallback(async (req, res) => {
+  web.router.post('/api/login', toCallback(async (req, res) => {
     const email = newString(req.body.email).trim()
     const password = newString(req.body.password).trim()
     const remember = !!req.body.remember
     const err: ErrorConst[] = []
-    const user = await loginService(uc, email, password, err)
+    const user = await loginService(req, res, uc, email, password, remember, err)
     if (!user || err.length) throw err
-    if (remember) {
-      res.cookie('email', email, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
-      res.cookie('password', password, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
-    }
-    await createSession(req, user)
-    setLocalsUser(res, user)
     res.json({
-      user: newLoginUser(user)
+      user: newUserForClient(user)
     })
   }))
-
-  async function createSession(req: Request, user: User) {
-    await new Promise<void>((resolve, reject) =>
-      req.session.regenerate(err => err ? reject(err) : resolve())
-    )
-    req.session.uid = String(user.id)
-  }
-
-  function setLocalsUser(res: Response, user: User) {
-    res.locals.user = user
-  }
 
   web.autoLogin = toCallback(async (req, res) => {
-    // 이미 로그인 되어있는 상태 라면
-    if (req.session.uid) {
-      const user = await uc.getCachedById(Number(req.session.uid)) as User
-      setLocalsUser(res, user)
-      return
-    }
-    const email = req.cookies.email
-    const password = req.cookies.password
-    // 자동 로그인을 위한 쿠키 세팅이 없다면
-    if (!email || !password) {
-      setLocalsUser(res, guest)
-      return
-    }
-    const err: ErrorConst[] = []
-    const user = await loginService(uc, email, password, err)
-    // 자동 로그인 인증이 실패했을 경우
-    if (!user) {
-      res.clearCookie('email')
-      res.clearCookie('password')
-      setLocalsUser(res, guest)
-      return
-    }
-    // 자동 로그인이 성공한 경우
-    await createSession(req, user)
-    setLocalsUser(res, user)
+    await autoLoginService(req, res, uc)
   })
 
-  router.get('/api/login-info', toCallback(async function (req, res) {
-    const user = getUser(res)
+  web.router.get('/api/login-info', toCallback(async function (req, res) {
+    const user = getSessionUser(res)
     shouldBeUser(user)
     res.json({
-      user: newLoginUser(user)
+      user: newUserForClient(user)
     })
   }))
 
-  router.get('/api/login-info-admin', toCallback(async function (req, res) {
-    const user = getUser(res)
+  web.router.get('/api/login-info-admin', toCallback(async function (req, res) {
+    const user = getSessionUser(res)
     shouldBeUser(user)
     shouldBeAdmin(user)
     res.json({
-      user: newLoginUser(user)
+      user: newUserForClient(user)
     })
   }))
 
-  router.post('/api/logout', toCallback(async (req, res) => {
-    await logout(req, res)
+  web.router.post('/api/logout', toCallback(async (req, res) => {
+    await logoutService(req, res)
     res.json({})
   }))
 
@@ -102,9 +64,82 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
       done(err)
     }
   }
+
 }
 
-export function getUser(res: Response) {
+const guest = newGuest()
+
+export async function loginService(
+  req: Request, res: Response, uc: UserCache, email: string, password: string, remember: boolean, err: ErrorConst[]
+) {
+  const user = await uc.getCachedByEmailForce(email)
+  if (!user) {
+    err.push(EMAIL_NOT_FOUND)
+    return
+  }
+  if (user.status === 'd') {
+    err.push(ACCOUNT_DEACTIVATED)
+    return
+  }
+  if (!await checkHash(password, user.hash)) {
+    err.push(PASSWORD_WRONG)
+    return
+  }
+
+  user.adate = new Date()
+  await uc.udb.updateADate(user.id, user.adate)
+
+  if (remember) {
+    res.cookie('email', email, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
+    res.cookie('password', password, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
+  }
+
+  await new Promise<void>((resolve, reject) =>
+    req.session.regenerate(err => err ? reject(err) : resolve())
+  )
+  req.session.uid = String(user.id)
+
+  res.locals.user = user
+
+  return user
+}
+
+async function autoLoginService(req: Request, res: Response, uc: UserCache) {
+  // 이미 로그인 되어있는 상태 라면
+  if (req.session.uid) {
+    const user = await uc.getCachedById(Number(req.session.uid)) as User
+    res.locals.user = user
+    return
+  }
+  res.locals.user = guest
+
+  const email = req.cookies.email
+  const password = req.cookies.password
+
+  // 자동 로그인을 위한 쿠키 세팅이 없다면
+  if (!email || !password) {
+    return
+  }
+
+  const err: ErrorConst[] = []
+  const user = await loginService(req, res, uc, email, password, false, err)
+
+  // 자동 로그인이 실패했다면
+  if (!user) {
+    res.clearCookie('email')
+    res.clearCookie('password')
+  }
+}
+
+export async function logoutService(req: Request, res: Response) {
+  res.clearCookie('email')
+  res.clearCookie('password')
+  await new Promise<void>((resolve, reject) =>
+    req.session.destroy(err => err ? reject(err) : resolve())
+  )
+}
+
+export function getSessionUser(res: Response) {
   return res.locals.user as User
 }
 
@@ -118,12 +153,4 @@ export function shouldBeAdmin(user: User) {
 
 export function hasUpdatePerm(op: User, id: number) {
   return op.id === id || op.admin
-}
-
-export async function logout(req: Request, res: Response) {
-  res.clearCookie('email')
-  res.clearCookie('password')
-  await new Promise<void>((resolve, reject) =>
-    req.session.destroy(err => err ? reject(err) : resolve())
-  )
 }

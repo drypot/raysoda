@@ -11,6 +11,7 @@ import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 
 describe('Login Api Auto Login', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -120,4 +121,5 @@ describe('Login Api Auto Login', () => {
     const res = await request.get('/api/cookies').expect(200)
     expect(res.body.email).toBe(undefined)
   })
+
 })

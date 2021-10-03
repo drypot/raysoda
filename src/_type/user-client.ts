@@ -1,11 +1,11 @@
-export type LoginUser = {
+export type UserForClient = {
   id: number
   name: string
   home: string
   admin: boolean
 }
 
-export function newLoginUser(user: LoginUser): LoginUser {
+export function newUserForClient(user: UserForClient): UserForClient {
   return {
     id: user.id,
     name: user.name,
