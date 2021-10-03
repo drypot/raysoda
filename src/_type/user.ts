@@ -31,3 +31,14 @@ export function newUser(params?: Partial<User>): User {
   }
 }
 
+export function newGuest() {
+  return newUser({ id: -1 })
+}
+
+export function userIsGuest(user: { id: number }) {
+  return user.id === -1
+}
+
+export function userIsNotGuest(user: { id: number }) {
+  return user.id !== -1
+}
