@@ -1,22 +1,21 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
+import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
-import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
+import { loginForTest } from '../user-login/login-api-fixture.js'
 import { registerImageDeleteApi } from './image-delete-api.js'
 import { existsSync } from 'fs'
 import { DrypotFileManager } from '../../../file/drypot-fileman.js'
 import { Config } from '../../../_type/config.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('Image Delete Api with Drypot FileManager', () => {
-
+describe('ImageDeleteApi Drypot', () => {
   let config: Config
 
   let db: DB
@@ -30,7 +29,7 @@ describe('Image Delete Api with Drypot FileManager', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/drypot-test.json')
+    config = loadConfigSync('config/drypot-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
@@ -66,7 +65,7 @@ describe('Image Delete Api with Drypot FileManager', () => {
       await ifm.rmRoot()
     })
     it('login as user1', async () => {
-      await loginForTest(request, User1Login)
+      await loginForTest(request, USER1_LOGIN)
     })
     it('upload 1', async () => {
       const res = await request.post('/api/image-upload').field('comment', 'c')

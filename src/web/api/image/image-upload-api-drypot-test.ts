@@ -1,21 +1,21 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
+import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
-import { loginForTest, User1Login } from '../user-login/login-api-fixture.js'
+import { loginForTest } from '../user-login/login-api-fixture.js'
 import { DrypotFileManager } from '../../../file/drypot-fileman.js'
-import { identify } from '../../../file/magick/magick2.js'
+import { getImageMetaOfFile } from '../../../file/magick/magick2.js'
 import { IMAGE_TYPE } from '../../../_type/error-image.js'
 import { Config } from '../../../_type/config.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('Image Upload Api with Drypot FileManager', () => {
+describe('ImageUploadApi Drypot', () => {
 
   let config: Config
 
@@ -30,7 +30,7 @@ describe('Image Upload Api with Drypot FileManager', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/drypot-test.json')
+    config = loadConfigSync('config/drypot-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
@@ -56,37 +56,35 @@ describe('Image Upload Api with Drypot FileManager', () => {
     await insertUserFix4(udb)
   })
 
-  describe('upload image', () => {
-    it('init table', async () => {
-      await idb.dropTable()
-      await idb.createTable(false)
-    })
-    it('remove image dir', async () => {
-      await ifm.rmRoot()
-    })
-    it('login as user1', async () => {
-      await loginForTest(request, User1Login)
-    })
-    it('upload fails if jpeg', async () => {
-      const res = await request.post('/api/image-upload').attach('file', 'sample/640x360.jpg').expect(200)
-      expect(res.body.err).toContain(IMAGE_TYPE)
-    })
-    it('upload svg-sample.svg', async () => {
-      const res = await request.post('/api/image-upload').field('comment', 'c1')
-        .attach('file', 'sample/svg-sample.svg').expect(200)
-      expect(res.body.id).toBe(1)
-    })
-    it('check db', async () => {
-      const r = await idb.findImage(1)
-      if (!r) throw new Error()
-      expect(r.uid).toBe(1)
-      expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
-      expect(r.comment).toBe('c1')
-    })
-    it('check file', async () => {
-      const meta = await identify(ifm.getPathFor(1))
-      expect(meta.format).toBe('svg')
-    })
+  it('init table', async () => {
+    await idb.dropTable()
+    await idb.createTable(false)
+  })
+  it('remove image dir', async () => {
+    await ifm.rmRoot()
+  })
+  it('login as user1', async () => {
+    await loginForTest(request, USER1_LOGIN)
+  })
+  it('upload fails if jpeg', async () => {
+    const res = await request.post('/api/image-upload').attach('file', 'sample/640x360.jpg').expect(200)
+    expect(res.body.err).toContain(IMAGE_TYPE)
+  })
+  it('upload svg-sample.svg', async () => {
+    const res = await request.post('/api/image-upload').field('comment', 'c1')
+      .attach('file', 'sample/svg-sample.svg').expect(200)
+    expect(res.body.id).toBe(1)
+  })
+  it('check db', async () => {
+    const r = await idb.findImage(1)
+    if (!r) throw new Error()
+    expect(r.uid).toBe(1)
+    expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
+    expect(r.comment).toBe('c1')
+  })
+  it('check file', async () => {
+    const meta = await getImageMetaOfFile(ifm.getPathFor(1))
+    expect(meta.format).toBe('svg')
   })
 
 })

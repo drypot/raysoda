@@ -1,5 +1,8 @@
 export const dateNull = new Date(0)
 
+// undefined 는 JSON 에 들어가지 않으므로
+// null 을 리턴하기로 했다.
+
 export function newDate(s: string | null | undefined) {
   if (!s) {
     return null

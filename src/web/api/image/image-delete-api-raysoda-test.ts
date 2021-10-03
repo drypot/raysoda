@@ -1,24 +1,23 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
 import { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
-import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
+import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
 import { registerImageUploadApi } from './image-upload-api.js'
-import { AdminLogin, loginForTest, User1Login, User2Login } from '../user-login/login-api-fixture.js'
+import { loginForTest } from '../user-login/login-api-fixture.js'
 import { registerImageDeleteApi } from './image-delete-api.js'
 import { existsSync } from 'fs'
 import { IMAGE_NOT_EXIST } from '../../../_type/error-image.js'
 import { NOT_AUTHORIZED } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('Image Delete Api with RaySoda FileManager', () => {
-
+describe('ImageDeleteApi RaySoda', () => {
   let config: Config
 
   let db: DB
@@ -32,7 +31,7 @@ describe('Image Delete Api with RaySoda FileManager', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/raysoda-test.json')
+    config = loadConfigSync('config/raysoda-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
@@ -68,7 +67,7 @@ describe('Image Delete Api with RaySoda FileManager', () => {
       await ifm.rmRoot()
     })
     it('login as user1', async () => {
-      await loginForTest(request, User1Login)
+      await loginForTest(request, USER1_LOGIN)
     })
     it('upload 1', async () => {
       const res = await request.post('/api/image-upload').field('comment', 'c')
@@ -95,14 +94,14 @@ describe('Image Delete Api with RaySoda FileManager', () => {
       expect(res.body.id).toEqual(2)
     })
     it('login as user2', async () => {
-      await loginForTest(request, User2Login)
+      await loginForTest(request, USER2_LOGIN)
     })
     it('delete 2 fails, owner not match', async () => {
       const res = await request.delete('/api/image-delete/2').expect(200)
       expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
     it('login as admin', async () => {
-      await loginForTest(request, AdminLogin)
+      await loginForTest(request, ADMIN_LOGIN)
     })
     it('delete 2 by admin', async () => {
       const res = await request.delete('/api/image-delete/2').expect(200)

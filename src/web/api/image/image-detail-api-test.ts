@@ -1,4 +1,4 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { ImageDB } from '../../../db/image/image-db.js'
@@ -8,17 +8,16 @@ import { SuperAgentTest } from 'supertest'
 import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { registerImageUploadApi } from './image-upload-api.js'
-import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
+import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { registerImageDetailApi } from './image-detail-api.js'
-import { AdminLogin, loginForTest, logoutForTest, User1Login, User2Login } from '../user-login/login-api-fixture.js'
-import { dateToDateTimeString } from '../../../_util/date2.js'
+import { loginForTest, logoutForTest } from '../user-login/login-api-fixture.js'
+import { newDateString } from '../../../_util/date2.js'
 import { IMAGE_NOT_EXIST } from '../../../_type/error-image.js'
-import { ImageDetail } from '../../../_type/image-detail.js'
+import { ImageView } from '../../../_type/image-view.js'
 import { Config } from '../../../_type/config.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
 
 describe('Image Detail Api', () => {
-
   let config: Config
 
   let db: DB
@@ -32,7 +31,7 @@ describe('Image Detail Api', () => {
   let request: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/raysoda-test.json')
+    config = loadConfigSync('config/raysoda-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
@@ -68,7 +67,7 @@ describe('Image Detail Api', () => {
       await ifm.rmRoot()
     })
     it('login as user1', async () => {
-      await loginForTest(request, User1Login)
+      await loginForTest(request, USER1_LOGIN)
     })
     it('upload image', async () => {
       const res = await request.post('/api/image-upload')
@@ -86,7 +85,7 @@ describe('Image Detail Api', () => {
     })
     it('get image', async () => {
       const res = await request.get('/api/image/1').expect(200)
-      const image = res.body.image as ImageDetail
+      const image = res.body.image as ImageView
       // image: {
       //   id: 1,
       //   owner: { id: 1, name: 'User 1', home: 'user1' },
@@ -101,7 +100,7 @@ describe('Image Detail Api', () => {
       expect(image.id).toBe(1)
       expect(image.owner).toEqual({ id: 1, name: 'User 1', home: 'user1' })
       expect(Date.now() - image.cdate).toBeLessThan(2000)
-      expect(dateToDateTimeString(new Date(image.cdate))).toBe(image.cdateStr)
+      expect(newDateString(new Date(image.cdate))).toBe(image.cdateStr)
       expect(image.vers).toBeNull()
       expect(image.comment).toBe('c1')
       expect(image.dirUrl).toBe(ifm.getDirUrlFor(1))
@@ -109,21 +108,21 @@ describe('Image Detail Api', () => {
       expect(image.updatable).toBe(false)
     })
     it('login as user1', async () => {
-      await loginForTest(request, User1Login)
+      await loginForTest(request, USER1_LOGIN)
     })
     it('image is updatable if user1', async () => {
       const res = await request.get('/api/image/1').expect(200)
       expect(res.body.image.updatable).toBe(true)
     })
     it('login as user2', async () => {
-      await loginForTest(request, User2Login)
+      await loginForTest(request, USER2_LOGIN)
     })
     it('image is not updatable if user2', async () => {
       const res = await request.get('/api/image/1').expect(200)
       expect(res.body.image.updatable).toBe(false)
     })
     it('login as admin', async () => {
-      await loginForTest(request, AdminLogin)
+      await loginForTest(request, ADMIN_LOGIN)
     })
     it('image is updatable if admin', async () => {
       const res = await request.get('/api/image/1').expect(200)

@@ -1,17 +1,16 @@
 import { deleteUpload, Express2 } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
-import { ImageUpdateForm } from '../../../service/image/_image-service.js'
-import { loginUserFrom } from '../user-login/login-api.js'
+import { ImageUpdateForm } from '../../../_type/image-form.js'
 import { Request } from 'express'
 import { ImageFileManager } from '../../../file/fileman.js'
-import { checkImageUpdatable, imageUpdateService } from '../../../service/image/image-update-service.js'
-import { paramToNumber } from '../../../_util/param.js'
-import { NOT_AUTHENTICATED } from '../../../_type/error-user.js'
+import { imageUpdateService } from '../../../service/image/image-update-service.js'
+import { newNumber, newString } from '../../../_util/primitive.js'
 import { ErrorConst } from '../../../_type/error.js'
+import { getSessionUser, shouldBeUser } from '../user-login/login-api.js'
 
-function imageUpdateFormFrom(req: Request): ImageUpdateForm {
+function newImageUpdateForm(req: Request): ImageUpdateForm {
   return {
-    comment: req.body.comment || '',
+    comment: newString(req.body.comment),
     file: req.file?.path
   }
 }
@@ -19,15 +18,12 @@ function imageUpdateFormFrom(req: Request): ImageUpdateForm {
 export function registerImageUpdateApi(web: Express2, idb: ImageDB, ifm: ImageFileManager) {
 
   web.router.put('/api/image-update/:id([0-9]+)', web.upload.single('file'), deleteUpload(async (req, res) => {
-    const user = loginUserFrom(res)
-    if (!user) throw NOT_AUTHENTICATED
-    const id = paramToNumber(req.params.id)
-    const form = imageUpdateFormFrom(req)
+    const user = getSessionUser(res)
+    shouldBeUser(user)
+    const id = newNumber(req.params.id)
+    const form = newImageUpdateForm(req)
     const err: ErrorConst[] = []
-    const image = await idb.findImage(id)
-    await checkImageUpdatable(user, image, err)
-    if (err.length) throw err
-    await imageUpdateService(idb, ifm, id, form, err)
+    await imageUpdateService(idb, ifm, user, id, form, err)
     if (err.length) throw err
     res.json({})
   }))
