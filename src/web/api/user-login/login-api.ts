@@ -1,20 +1,14 @@
 import { Express2, toCallback } from '../../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
-import { newUser, User } from '../../../_type/user.js'
-import { checkHash } from '../../../_util/hash.js'
+import { newGuest, User, userIsAdmin, userIsUser } from '../../../_type/user.js'
 import { newString } from '../../../_util/primitive.js'
-import {
-  ACCOUNT_DEACTIVATED,
-  EMAIL_NOT_FOUND,
-  NOT_AUTHENTICATED,
-  NOT_AUTHORIZED,
-  PASSWORD_WRONG
-} from '../../../_type/error-user.js'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../_type/error-user.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
-import { newSessionUser } from '../../../_type/user-session.js'
+import { newLoginUser } from '../../../_type/user-login.js'
+import { loginService } from '../../../service/user-login/login-service.js'
 
-const guest = newUser({ id: -1, name: 'guest' })
+const guest = newGuest()
 
 export function registerLoginApi(web: Express2, uc: UserCache) {
   const router = web.router
@@ -24,41 +18,18 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
     const password = newString(req.body.password).trim()
     const remember = !!req.body.remember
     const err: ErrorConst[] = []
-    const user = await findUserByEmailPassword(email, password, err)
+    const user = await loginService(uc, email, password, err)
     if (!user || err.length) throw err
     if (remember) {
       res.cookie('email', email, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
       res.cookie('password', password, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })
     }
-    await updateUserStatus(user)
     await createSession(req, user)
     setLocalsUser(res, user)
     res.json({
-      user: newSessionUser(user)
+      user: newLoginUser(user)
     })
   }))
-
-  async function findUserByEmailPassword(email: string, password: string, err: ErrorConst[]) {
-    const user = await uc.getCachedByEmailForce(email)
-    if (!user) {
-      err.push(EMAIL_NOT_FOUND)
-      return
-    }
-    if (user.status === 'd') {
-      err.push(ACCOUNT_DEACTIVATED)
-      return
-    }
-    if (!await checkHash(password, user.hash)) {
-      err.push(PASSWORD_WRONG)
-      return
-    }
-    return user
-  }
-
-  async function updateUserStatus(user: User) {
-    user.adate = new Date()
-    await uc.udb.updateADate(user.id, user.adate)
-  }
 
   async function createSession(req: Request, user: User) {
     await new Promise<void>((resolve, reject) =>
@@ -72,6 +43,7 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
   }
 
   web.autoLogin = toCallback(async (req, res) => {
+    // 이미 로그인 되어있는 상태 라면
     if (req.session.uid) {
       const user = await uc.getCachedById(Number(req.session.uid)) as User
       setLocalsUser(res, user)
@@ -79,26 +51,30 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
     }
     const email = req.cookies.email
     const password = req.cookies.password
-    if (email && password) {
-      const err: ErrorConst[] = []
-      const user = await findUserByEmailPassword(email, password, err)
-      if (user) {
-        await updateUserStatus(user)
-        await createSession(req, user)
-        setLocalsUser(res, user)
-        return
-      }
+    // 자동 로그인을 위한 쿠키 세팅이 없다면
+    if (!email || !password) {
+      setLocalsUser(res, guest)
+      return
+    }
+    const err: ErrorConst[] = []
+    const user = await loginService(uc, email, password, err)
+    // 자동 로그인 인증이 실패했을 경우
+    if (!user) {
       res.clearCookie('email')
       res.clearCookie('password')
+      setLocalsUser(res, guest)
+      return
     }
-    setLocalsUser(res, guest)
+    // 자동 로그인이 성공한 경우
+    await createSession(req, user)
+    setLocalsUser(res, user)
   })
 
   router.get('/api/login-info', toCallback(async function (req, res) {
     const user = getUser(res)
     shouldBeUser(user)
     res.json({
-      user: newSessionUser(user)
+      user: newLoginUser(user)
     })
   }))
 
@@ -107,7 +83,7 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
     shouldBeUser(user)
     shouldBeAdmin(user)
     res.json({
-      user: newSessionUser(user)
+      user: newLoginUser(user)
     })
   }))
 
@@ -133,11 +109,11 @@ export function getUser(res: Response) {
 }
 
 export function shouldBeUser(user: User) {
-  if (user.id === -1) throw NOT_AUTHENTICATED
+  if (!userIsUser(user)) throw NOT_AUTHENTICATED
 }
 
 export function shouldBeAdmin(user: User) {
-  if (!user.admin) throw NOT_AUTHORIZED
+  if (!userIsAdmin(user)) throw NOT_AUTHORIZED
 }
 
 export function hasUpdatePerm(op: User, id: number) {

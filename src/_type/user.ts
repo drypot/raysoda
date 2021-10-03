@@ -39,6 +39,10 @@ export function userIsGuest(user: { id: number }) {
   return user.id === -1
 }
 
-export function userIsNotGuest(user: { id: number }) {
+export function userIsUser(user: { id: number }) {
   return user.id !== -1
+}
+
+export function userIsAdmin(user: { admin: boolean }) {
+  return user.admin
 }

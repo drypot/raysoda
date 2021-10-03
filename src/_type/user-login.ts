@@ -1,13 +1,11 @@
-import { User } from './user.js'
-
-export type SessionUser = {
+export type LoginUser = {
   id: number
   name: string
   home: string
   admin: boolean
 }
 
-export function newSessionUser(user: User): SessionUser {
+export function newLoginUser(user: LoginUser): LoginUser {
   return {
     id: user.id,
     name: user.name,
