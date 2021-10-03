@@ -1,7 +1,7 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { CounterDB } from './counter-db.js'
 import { DB } from '../_db/db.js'
-import { dateToStringDate } from '../../_util/date2.js'
+import { newDateStringNoTime } from '../../_util/date2.js'
 import { dupe } from '../../_util/object2.js'
 import { Config } from '../../_type/config.js'
 
@@ -37,27 +37,29 @@ describe('CounterDB', () => {
   })
 
   describe('increase', () => {
-    const ds = dateToStringDate(new Date())
+    const ds = newDateStringNoTime(new Date())
     it('init table', async () => {
       await cdb.dropTable()
       await cdb.createTable()
     })
-    it('increase', async () => {
+    it('increase 1', async () => {
       await cdb.increaseCounter('cnt1')
     })
-    it('find', async () => {
+    it('find 1', async () => {
       const c = await cdb.findCounter('cnt1', ds)
-      expect(c).toBe(1)
+      const d = newDateStringNoTime(new Date())
+      expect(dupe(c)).toEqual({ id: 'cnt1', d: d, c: 1})
     })
-    it('increase', async () => {
+    it('increase 2', async () => {
       await cdb.increaseCounter('cnt1')
     })
-    it('increase', async () => {
+    it('increase 3', async () => {
       await cdb.increaseCounter('cnt1')
     })
-    it('find', async () => {
+    it('find 2', async () => {
       const c = await cdb.findCounter('cnt1', ds)
-      expect(c).toBe(3)
+      const d = newDateStringNoTime(new Date())
+      expect(dupe(c)).toEqual({ id: 'cnt1', d: d, c: 3})
     })
   })
 
@@ -77,7 +79,7 @@ describe('CounterDB', () => {
     })
     it('find', async () => {
       const c = await cdb.findCounter('cnt1', '2021-08-15')
-      expect(c).toBe(10)
+      expect(dupe(c)).toEqual({ id: 'cnt1', d: '2021-08-15', c: 10})
     })
   })
 
@@ -97,15 +99,15 @@ describe('CounterDB', () => {
     it('list 1', async () => {
       const r = await cdb.findCounterList('cnt1', '2003-01-18', '2003-01-20')
       expect(dupe(r)).toEqual([
-        { d: '2003-01-18', c: 20 },
-        { d: '2003-01-19', c: 30 },
-        { d: '2003-01-20', c: 40 },
+        { id: 'cnt1', d: '2003-01-18', c: 20 },
+        { id: 'cnt1', d: '2003-01-19', c: 30 },
+        { id: 'cnt1', d: '2003-01-20', c: 40 },
       ])
     })
     it('list 2', async () => {
       const r = await cdb.findCounterList('cnt2', '2003-01-10', '2003-01-17')
       expect(dupe(r)).toEqual([
-        { d: '2003-01-17', c: 10 },
+        { id: 'cnt2', d: '2003-01-17', c: 10 },
       ])
     })
     it('list 3', async () => {

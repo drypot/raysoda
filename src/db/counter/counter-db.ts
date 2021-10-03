@@ -1,5 +1,5 @@
 import { DB } from '../_db/db.js'
-import { dateToStringDate } from '../../_util/date2.js'
+import { newDateStringNoTime } from '../../_util/date2.js'
 import { Config } from '../../_type/config.js'
 import { Counter } from '../../_type/counter.js'
 
@@ -35,7 +35,7 @@ export class CounterDB {
   }
 
   async increaseCounter(id: string) {
-    let d = dateToStringDate(new Date())
+    let d = newDateStringNoTime(new Date())
     await this.db.query(
       'insert into counter values(?, ?, 1) on duplicate key update c = c + 1',
       [id, d],
@@ -43,7 +43,7 @@ export class CounterDB {
   }
 
   async replaceCounter(id: string, date: Date, count: number) {
-    let d = dateToStringDate(date)
+    let d = newDateStringNoTime(date)
     await this.db.query(
       'replace into counter values(?, ?, ?)',
       [id, d, count],
@@ -52,12 +52,12 @@ export class CounterDB {
 
   async findCounter(id: string, d: string) {
     const r = await this.db.queryOne('select * from counter where id = ? and d = ?', [id, d])
-    return r ? r.c as number : undefined
+    return r as Counter | undefined
   }
 
   async findCounterList(id: string, begin: string, end: string) {
     const r = await this.db.query(
-      'select d, c from counter where id = ? and d between ? and ? order by d',
+      'select id, d, c from counter where id = ? and d between ? and ? order by d',
       [id, begin, end]
     )
     return r as Counter[]
