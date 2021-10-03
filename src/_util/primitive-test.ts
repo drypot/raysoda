@@ -1,4 +1,4 @@
-import { anyToLimitedNumber, anyToNumber, anyToString, limitNumber } from './primitive.js'
+import { limitNumber, newLimitedNumber, newNumber, newString } from './primitive.js'
 
 describe('limitNumber', () => {
   it('1', () => {
@@ -10,67 +10,67 @@ describe('limitNumber', () => {
   })
 })
 
-describe('anyToNumber', () => {
+describe('newNumber', () => {
   it('number', () => {
-    expect(anyToNumber(0)).toBe(0)
-    expect(anyToNumber(0, 3)).toBe(0)
-    expect(anyToNumber(1)).toBe(1)
-    expect(anyToNumber(1, 3)).toBe(1)
+    expect(newNumber(0)).toBe(0)
+    expect(newNumber(0, 3)).toBe(0)
+    expect(newNumber(1)).toBe(1)
+    expect(newNumber(1, 3)).toBe(1)
   })
   it('string', () => {
-    expect(anyToNumber('')).toBe(0)
-    expect(anyToNumber('', 3)).toBe(3)
-    expect(anyToNumber('0')).toBe(0)
-    expect(anyToNumber('0', 3)).toBe(0)
-    expect(anyToNumber('1')).toBe(1)
-    expect(anyToNumber('1', 3)).toBe(1)
+    expect(newNumber('')).toBe(0)
+    expect(newNumber('', 3)).toBe(3)
+    expect(newNumber('0')).toBe(0)
+    expect(newNumber('0', 3)).toBe(0)
+    expect(newNumber('1')).toBe(1)
+    expect(newNumber('1', 3)).toBe(1)
   })
   it('object', () => {
-    expect(anyToNumber({})).toBe(0)
-    expect(anyToNumber({}, 3)).toBe(3)
+    expect(newNumber({})).toBe(0)
+    expect(newNumber({}, 3)).toBe(3)
   })
   it('null', () => {
-    expect(anyToNumber(null)).toBe(0)
-    expect(anyToNumber(null, 3)).toBe(3)
+    expect(newNumber(null)).toBe(0)
+    expect(newNumber(null, 3)).toBe(3)
   })
   it('undefined', () => {
-    expect(anyToNumber(undefined)).toBe(0)
-    expect(anyToNumber(undefined, 3)).toBe(3)
+    expect(newNumber(undefined)).toBe(0)
+    expect(newNumber(undefined, 3)).toBe(3)
   })
 })
 
-describe('anyToLimitedNumber', () => {
+describe('newLimitedNumber', () => {
   it('1', () => {
-    expect(anyToLimitedNumber(null, 10, 1, 100)).toBe(10)
-    expect(anyToLimitedNumber('null', 10, 1, 100)).toBe(10)
-    expect(anyToLimitedNumber('20', 10, 1, 100)).toBe(20)
-    expect(anyToLimitedNumber('200', 10, 1, 100)).toBe(100)
+    expect(newLimitedNumber(null, 10, 1, 100)).toBe(10)
+    expect(newLimitedNumber('null', 10, 1, 100)).toBe(10)
+    expect(newLimitedNumber('20', 10, 1, 100)).toBe(20)
+    expect(newLimitedNumber('200', 10, 1, 100)).toBe(100)
   })
 })
 
-describe('anyToString', () => {
+describe('newString', () => {
   it('number', () => {
-    expect(anyToString(0)).toBe('0')
-    expect(anyToString(0, '3')).toBe('0')
-    expect(anyToString(1)).toBe('1')
-    expect(anyToString(1, '3')).toBe('1')
+    expect(newString(0)).toBe('0')
+    expect(newString(0, '3')).toBe('0')
+    expect(newString(1)).toBe('1')
+    expect(newString(1, '3')).toBe('1')
   })
   it('string', () => {
-    expect(anyToString('')).toBe('')
-    expect(anyToString('', '3')).toBe('')
-    expect(anyToString('1')).toBe('1')
-    expect(anyToString('1', '3')).toBe('1')
+    expect(newString('')).toBe('')
+    expect(newString('', '3')).toBe('')
+    expect(newString('1')).toBe('1')
+    expect(newString('1', '3')).toBe('1')
   })
   it('object', () => {
-    expect(anyToString({})).toBe('[object Object]')
-    expect(anyToString({}, '3')).toBe('[object Object]')
+    expect(newString({})).toBe('[object Object]')
+    expect(newString({}, '3')).toBe('[object Object]')
   })
   it('null', () => {
-    expect(anyToString(null)).toBe('')
-    expect(anyToString(null, '3')).toBe('3')
+    expect(newString(null)).toBe('')
+    expect(newString(null, '3')).toBe('3')
   })
   it('undefined', () => {
-    expect(anyToString(undefined)).toBe('')
-    expect(anyToString(undefined, '3')).toBe('3')
+    expect(newString(undefined)).toBe('')
+    expect(newString(undefined, '3')).toBe('3')
   })
 })

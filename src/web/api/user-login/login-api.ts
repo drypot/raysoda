@@ -2,7 +2,7 @@ import { Express2, toCallback } from '../../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
 import { newUser, User } from '../../../_type/user.js'
 import { checkHash } from '../../../_util/hash.js'
-import { anyToString } from '../../../_util/primitive.js'
+import { newString } from '../../../_util/primitive.js'
 import {
   ACCOUNT_DEACTIVATED,
   EMAIL_NOT_FOUND,
@@ -20,8 +20,8 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
   const router = web.router
 
   router.post('/api/login', toCallback(async (req, res) => {
-    const email = anyToString(req.body.email).trim()
-    const password = anyToString(req.body.password).trim()
+    const email = newString(req.body.email).trim()
+    const password = newString(req.body.password).trim()
     const remember = !!req.body.remember
     const err: ErrorConst[] = []
     const user = await findUserByEmailPassword(email, password, err)
