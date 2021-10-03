@@ -3,7 +3,7 @@ import { ImageFileManager } from '../../file/fileman.js'
 import { ImageUploadForm } from '../../_type/image-form.js'
 import { existsSync } from 'fs'
 import { ImageDB } from '../../db/image/image-db.js'
-import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
+import { ADMIN, insertUserFix4 } from '../../db/user/fixture/user-fix.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { DB } from '../../db/_db/db.js'
 import { imageUploadService } from './image-upload-service.js'
@@ -11,6 +11,7 @@ import { imageDeleteService } from './image-delete-service.js'
 import { OsokyFileManager } from '../../file/osoky-fileman.js'
 import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
+import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
 
 describe('imageDeleteService Osoky', () => {
 
@@ -56,7 +57,7 @@ describe('imageDeleteService Osoky', () => {
   })
   it('delete 1', async () => {
     const err: ErrorConst[] = []
-    await imageDeleteService(idb, ifm, 1, err)
+    await imageDeleteService(idb, ifm, ADMIN, 1, err)
     expect(err.length).toBe(0)
   })
   it('check file 1 after delete', async () => {
@@ -64,9 +65,8 @@ describe('imageDeleteService Osoky', () => {
   })
   it('delete 1 again', async () => {
     const err: ErrorConst[] = []
-    await imageDeleteService(idb, ifm, 1, err)
-    // Service 는 파일이 없어도 에러 보고를 하지 않는다.
-    expect(err.length).toBe(0)
+    await imageDeleteService(idb, ifm, ADMIN, 1, err)
+    expect(err).toContain(IMAGE_NOT_EXIST)
   })
 
 })

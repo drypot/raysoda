@@ -3,7 +3,7 @@ import { getImageMetaOfFile } from '../../file/magick/magick2.js'
 import { ImageUpdateForm, ImageUploadForm } from '../../_type/image-form.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { ImageDB } from '../../db/image/image-db.js'
-import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
+import { ADMIN, insertUserFix4 } from '../../db/user/fixture/user-fix.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { DB } from '../../db/_db/db.js'
 import { imageUploadService } from './image-upload-service.js'
@@ -67,7 +67,7 @@ describe('imageUpdateService Osoky', () => {
   it('update', async () => {
     const form: ImageUpdateForm = { comment: 'c2', file: 'sample/4096x2304.jpg' }
     const err: ErrorConst[] = []
-    await imageUpdateService(idb, ifm, 1, form, err)
+    await imageUpdateService(idb, ifm, ADMIN, 1, form, err)
   })
   it('check db', async () => {
     const r = await idb.findImage(1)
@@ -84,7 +84,7 @@ describe('imageUpdateService Osoky', () => {
   it('fails if image too small', async () => {
     const form: ImageUpdateForm = { comment: '', file: 'sample/640x360.jpg' }
     const err: ErrorConst[] = []
-    await imageUpdateService(idb, ifm, 1, form, err)
+    await imageUpdateService(idb, ifm, ADMIN, 1, form, err)
     expect(err).toContain(IMAGE_SIZE)
   })
 

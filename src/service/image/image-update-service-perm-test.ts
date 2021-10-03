@@ -1,20 +1,18 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
+import { ImageUpdateForm, ImageUploadForm } from '../../_type/image-form.js'
 import { ImageFileManager } from '../../file/fileman.js'
-import { ImageUploadForm } from '../../_type/image-form.js'
-import { constants, existsSync } from 'fs'
 import { ImageDB } from '../../db/image/image-db.js'
-import { ADMIN, insertUserFix4 } from '../../db/user/fixture/user-fix.js'
+import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix.js'
 import { UserDB } from '../../db/user/user-db.js'
+import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { DB } from '../../db/_db/db.js'
 import { imageUploadService } from './image-upload-service.js'
-import { imageDeleteService } from './image-delete-service.js'
-import { RapixelFileManager } from '../../file/rapixel-fileman.js'
-import { copyFile } from 'fs/promises'
+import { imageUpdateService } from './image-update-service.js'
 import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
-import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
+import { NOT_AUTHORIZED } from '../../_type/error-user.js'
 
-describe('imageDeleteService Rapixel', () => {
+describe('imageUpdateService Permission', () => {
 
   let config: Config
   let db: DB
@@ -23,11 +21,11 @@ describe('imageDeleteService Rapixel', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = loadConfigSync('config/rapixel-test.json')
+    config = loadConfigSync('config/raysoda-test.json')
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     idb = ImageDB.from(db)
-    ifm = RapixelFileManager.from(config)
+    ifm = RaySodaFileManager.from(config)
   })
 
   afterAll(async () => {
@@ -47,28 +45,29 @@ describe('imageDeleteService Rapixel', () => {
   it('remove image dir', async () => {
     await ifm.rmRoot()
   })
-  it('upload 1', async () => {
-    await copyFile('sample/3840x2160.jpg', 'tmp/3840x2160.jpg', constants.COPYFILE_FICLONE)
-    const form: ImageUploadForm = { now: new Date(), comment: 'c', file: 'tmp/3840x2160.jpg', }
+  it('upload image', async () => {
+    const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'sample/640x360.jpg', }
     const err: ErrorConst[] = []
     const id = await imageUploadService(udb, idb, ifm, 1, form, err)
     expect(id).toBe(1)
   })
-  it('check file 1', async () => {
-    expect(existsSync(ifm.getPathFor(1, 4096))).toBe(true)
-  })
-  it('delete 1', async () => {
+  it('update by USER1 works', async () => {
+    const form: ImageUpdateForm = { comment: 'c2' }
     const err: ErrorConst[] = []
-    await imageDeleteService(idb, ifm, ADMIN, 1, err)
+    await imageUpdateService(idb, ifm, USER1, 1, form, err)
     expect(err.length).toBe(0)
   })
-  it('check file 1 after delete', async () => {
-    expect(existsSync(ifm.getPathFor(1, 4096))).toBe(false)
-  })
-  it('delete 1 again', async () => {
+  it('update by USER2 fails', async () => {
+    const form: ImageUpdateForm = { comment: 'c2' }
     const err: ErrorConst[] = []
-    await imageDeleteService(idb, ifm, ADMIN, 1, err)
-    expect(err).toContain(IMAGE_NOT_EXIST)
+    await imageUpdateService(idb, ifm, USER2, 1, form, err)
+    expect(err).toContain(NOT_AUTHORIZED)
+  })
+  it('update by ADMIN works', async () => {
+    const form: ImageUpdateForm = { comment: 'c2' }
+    const err: ErrorConst[] = []
+    await imageUpdateService(idb, ifm, ADMIN, 1, form, err)
+    expect(err.length).toBe(0)
   })
 
 })

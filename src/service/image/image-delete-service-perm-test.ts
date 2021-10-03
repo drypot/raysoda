@@ -1,9 +1,8 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { ImageUploadForm } from '../../_type/image-form.js'
-import { existsSync } from 'fs'
 import { ImageDB } from '../../db/image/image-db.js'
-import { ADMIN, insertUserFix4 } from '../../db/user/fixture/user-fix.js'
+import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix.js'
 import { UserDB } from '../../db/user/user-db.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
 import { DB } from '../../db/_db/db.js'
@@ -11,9 +10,9 @@ import { imageUploadService } from './image-upload-service.js'
 import { imageDeleteService } from './image-delete-service.js'
 import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
-import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
+import { NOT_AUTHORIZED } from '../../_type/error-user.js'
 
-describe('imageDeleteService RaySoda', () => {
+describe('imageDeleteService Permission', () => {
 
   let config: Config
   let db: DB
@@ -46,27 +45,41 @@ describe('imageDeleteService RaySoda', () => {
   it('remove image dir', async () => {
     await ifm.rmRoot()
   })
+
   it('upload 1', async () => {
     const form: ImageUploadForm = { now: new Date(), comment: 'c', file: 'sample/640x360.jpg', }
     const err: ErrorConst[] = []
-    const id = await imageUploadService(udb, idb, ifm, 1, form, err)
+    const id = await imageUploadService(udb, idb, ifm, USER1.id, form, err)
     expect(id).toBe(1)
   })
-  it('check file 1', async () => {
-    expect(existsSync(ifm.getPathFor(1))).toBe(true)
-  })
-  it('delete 1', async () => {
+  it('delete by USER1 works', async () => {
     const err: ErrorConst[] = []
-    await imageDeleteService(idb, ifm, ADMIN, 1, err)
+    await imageDeleteService(idb, ifm, USER1, 1, err)
     expect(err.length).toBe(0)
   })
-  it('check file 1 after delete', async () => {
-    expect(existsSync(ifm.getPathFor(1))).toBe(false)
-  })
-  it('delete 1 again', async () => {
+
+  it('upload 2', async () => {
+    const form: ImageUploadForm = { now: new Date(), comment: 'c', file: 'sample/640x360.jpg', }
     const err: ErrorConst[] = []
-    await imageDeleteService(idb, ifm, ADMIN, 1, err)
-    expect(err).toContain(IMAGE_NOT_EXIST)
+    const id = await imageUploadService(udb, idb, ifm, USER1.id, form, err)
+    expect(id).toBe(2)
+  })
+  it('delete by USER2 fails', async () => {
+    const err: ErrorConst[] = []
+    await imageDeleteService(idb, ifm, USER2, 2, err)
+    expect(err).toContain(NOT_AUTHORIZED)
+  })
+
+  it('upload 3', async () => {
+    const form: ImageUploadForm = { now: new Date(), comment: 'c', file: 'sample/640x360.jpg', }
+    const err: ErrorConst[] = []
+    const id = await imageUploadService(udb, idb, ifm, USER1.id, form, err)
+    expect(id).toBe(3)
+  })
+  it('delete by ADMIN works', async () => {
+    const err: ErrorConst[] = []
+    await imageDeleteService(idb, ifm, ADMIN, 3, err)
+    expect(err.length).toBe(0)
   })
 
 })

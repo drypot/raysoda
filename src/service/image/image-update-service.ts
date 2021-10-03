@@ -15,22 +15,30 @@ export async function checkImageUpdatable(
     return
   }
   if (image.uid !== user.id && !user.admin) {
-    throw NOT_AUTHORIZED
+    err.push(NOT_AUTHORIZED)
+    return
   }
 }
 
 export async function imageUpdateService(
-  idb: ImageDB, ifm: ImageFileManager, id: number, form: ImageUpdateForm, err: ErrorConst[]
+  idb: ImageDB, ifm: ImageFileManager, user: User, id: number, form: ImageUpdateForm, err: ErrorConst[]
 ) {
-  const image: Partial<Image> = {}
+  const image = await idb.findImage(id)
+  await checkImageUpdatable(user, image, err)
+  if (err.length) {
+    return
+  }
+  const updateField: Partial<Image> = {}
   if (form.file) {
     await ifm.beforeIdentify(form.file)
     const meta = await ifm.getImageMeta(form.file)
     ifm.checkMeta(meta, err)
-    if (err.length) return
+    if (err.length) {
+      return
+    }
     await ifm.deleteImage(id)
-    image.vers = await ifm.saveImage(id, form.file, meta)
+    updateField.vers = await ifm.saveImage(id, form.file, meta)
   }
-  image.comment = form.comment
-  await idb.updateImage(id, image)
+  updateField.comment = form.comment
+  await idb.updateImage(id, updateField)
 }
