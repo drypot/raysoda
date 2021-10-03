@@ -16,6 +16,7 @@ function subDir(id: number) {
 }
 
 export class RaySodaFileManager implements ImageFileManager {
+
   public readonly config: Config
   public readonly dir: string
   public readonly url: string
@@ -92,4 +93,5 @@ export class RaySodaFileManager implements ImageFileManager {
   async deleteImage(id: number) {
     return unlink(this.getPathFor(id))
   }
+
 }

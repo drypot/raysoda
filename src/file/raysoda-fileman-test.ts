@@ -9,6 +9,7 @@ import { Config } from '../_type/config.js'
 import { ErrorConst } from '../_type/error.js'
 
 describe('RaySodaFileManager', () => {
+
   let config: Config
   let ifm: ImageFileManager
 
@@ -95,4 +96,5 @@ describe('RaySodaFileManager', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(false)
     })
   })
+
 })

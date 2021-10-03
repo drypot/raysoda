@@ -9,6 +9,7 @@ import { UserCache } from '../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../_type/error.js'
 
 describe('userDeactivateService', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -50,4 +51,5 @@ describe('userDeactivateService', () => {
     await userDeactivateService(uc, 999, err)
     expect(err).toContain(USER_NOT_FOUND)
   })
+
 })

@@ -3,6 +3,7 @@ import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
 describe('DB.close', () => {
+
   let config: Config
   let db: DB
 
@@ -23,4 +24,5 @@ describe('DB.close', () => {
   it('close conn again fails', async () => {
     await expectAsync(db.close()).toBeRejected()
   })
+
 })

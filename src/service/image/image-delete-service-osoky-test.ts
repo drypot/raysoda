@@ -13,6 +13,7 @@ import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
 
 describe('imageDeleteService Osoky', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -67,4 +68,5 @@ describe('imageDeleteService Osoky', () => {
     // Service 는 파일이 없어도 에러 보고를 하지 않는다.
     expect(err.length).toBe(0)
   })
+
 })

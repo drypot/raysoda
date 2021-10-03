@@ -14,6 +14,7 @@ import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
 
 describe('imageUpdateService RaySoda', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -101,4 +102,5 @@ describe('imageUpdateService RaySoda', () => {
     await imageUpdateService(idb, ifm, 1, form, err)
     expect(err).toContain(IMAGE_SIZE)
   })
+
 })

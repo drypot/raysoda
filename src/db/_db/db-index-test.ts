@@ -3,6 +3,7 @@ import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
 describe('DB.createIndexIfNotExists', () => {
+
   let config: Config
   let db: DB
 
@@ -31,4 +32,5 @@ describe('DB.createIndexIfNotExists', () => {
   it('create again does not throw', async () => {
     await db.createIndexIfNotExists('create index email on user1(email)')
   })
+
 })

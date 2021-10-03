@@ -23,7 +23,6 @@ export function newNumber(v: any, def: number = 0) {
   return v2
 }
 
-
 export function newLimitedNumber(v: any, def: number, min: number, max: number) {
   return limitNumber(newNumber(v, def), min, max)
 }

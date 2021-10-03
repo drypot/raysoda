@@ -18,6 +18,7 @@ import { ErrorConst } from '../../_type/error.js'
 import { newUserRegisterForm } from '../../_type/user-form.js'
 
 describe('userRegisterService', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -86,4 +87,5 @@ describe('userRegisterService', () => {
     expect(err).toContain(HOME_DUPE)
     expect(err).toContain(EMAIL_DUPE)
   })
+
 })

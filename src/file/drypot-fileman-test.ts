@@ -8,6 +8,7 @@ import { Config } from '../_type/config.js'
 import { ErrorConst } from '../_type/error.js'
 
 describe('DrypotFileManager', () => {
+
   let config: Config
   let ifm: ImageFileManager
 
@@ -75,4 +76,5 @@ describe('DrypotFileManager', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(false)
     })
   })
+
 })

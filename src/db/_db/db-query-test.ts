@@ -3,6 +3,7 @@ import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
 describe('DB.query', () => {
+
   let config: Config
   let db: DB
 
@@ -26,4 +27,5 @@ describe('DB.query', () => {
   it('when sql invalid', async () => {
     await expectAsync(db.query('select xxx')).toBeRejected()
   })
+
 })

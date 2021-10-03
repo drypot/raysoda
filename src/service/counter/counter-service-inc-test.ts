@@ -6,7 +6,8 @@ import { CounterDB } from '../../db/counter/counter-db.js'
 import { counterIncService } from './counter-service.js'
 import { dupe } from '../../_util/object2.js'
 
-describe('Counter Inc Api', () => {
+describe('Counter Api Inc', () => {
+
   let config: Config
   let db: DB
   let cdb: CounterDB
@@ -41,4 +42,5 @@ describe('Counter Inc Api', () => {
     const r = await cdb.findCounter('abc', d)
     expect(dupe(r)).toEqual({ id: 'abc', d: d, c: 2 })
   })
+
 })

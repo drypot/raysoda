@@ -14,6 +14,7 @@ import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 
 describe('Banner Api', () => {
+
   let config: Config
 
   let db: DB
@@ -96,6 +97,7 @@ describe('Banner Api', () => {
       { text: 'text3', url: 'url3' },
     ])
   })
+
 })
 
 

@@ -12,6 +12,7 @@ import {
 import { ErrorConst } from '../../_type/error.js'
 
 describe('User Service', () => {
+
   describe('checkNameFormat', () => {
     it('err if name empty', () => {
       const err: ErrorConst[] = []
@@ -134,4 +135,5 @@ describe('User Service', () => {
       expect(err).toContain(PASSWORD_RANGE)
     })
   })
+
 })

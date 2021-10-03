@@ -9,6 +9,7 @@ import { Config } from '../_type/config.js'
 import { ErrorConst } from '../_type/error.js'
 
 describe('RapixelFileManager', () => {
+
   let config: Config
   let ifm: ImageFileManager
 

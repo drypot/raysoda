@@ -4,6 +4,7 @@ import { ImageDB } from './image-db.js'
 import { Config } from '../../_type/config.js'
 
 describe('ImageDB.*NextId', () => {
+
   let config: Config
   let db: DB
   let idb: ImageDB
@@ -34,4 +35,5 @@ describe('ImageDB.*NextId', () => {
     expect(idb.getNextId()).toBe(10)
     expect(idb.getNextId()).toBe(11)
   })
+
 })

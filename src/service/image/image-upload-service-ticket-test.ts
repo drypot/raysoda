@@ -8,6 +8,7 @@ import { newImage } from '../../_type/image.js'
 import { Config } from '../../_type/config.js'
 
 describe('imageUploadService leftTicket', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -75,6 +76,7 @@ describe('imageUploadService leftTicket', () => {
     expect(ticket).toBe(0)
     expect(hour).toBe(3)
   })
+
 })
 
 

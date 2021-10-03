@@ -1,12 +1,14 @@
 import { getImageMetaOfFile } from './magick2.js'
 
 describe('getImageMetaOfFile', () => {
+
   it('jpeg', async () => {
     const meta = await getImageMetaOfFile('sample/360x240.jpg')
     expect(meta.format).toBe('jpeg')
     expect(meta.width).toBe(360)
     expect(meta.height).toBe(240)
   })
+
   it('svg', async () => {
     const meta = await getImageMetaOfFile('sample/svg-sample.svg')
     expect(meta.format).toBe('svg')
@@ -35,10 +37,12 @@ describe('getImageMetaOfFile', () => {
     expect(meta.width).toBe(0)
     expect(meta.height).toBe(0)
   })
+
   it('if file not image', async () => {
     const meta = await getImageMetaOfFile('sample/text1.txt')
     expect(meta.format).toBeUndefined()
     expect(meta.width).toBe(0)
     expect(meta.height).toBe(0)
   })
+
 })

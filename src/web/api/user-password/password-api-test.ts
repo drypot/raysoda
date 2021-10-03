@@ -15,6 +15,7 @@ import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { NewPasswordForm } from '../../../_type/password.js'
 
 describe('Password Api', () => {
+
   let config: Config
 
   let db: DB
@@ -98,4 +99,5 @@ describe('Password Api', () => {
     if (!user) throw new Error()
     expect(await checkHash('5678', user.hash)).toBe(true)
   })
+
 })

@@ -3,6 +3,7 @@ import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
 describe('DB.getMaxId', () => {
+
   let config: Config
   let db: DB
 
@@ -34,4 +35,5 @@ describe('DB.getMaxId', () => {
   it('getMaxId fails if table not exist', async () => {
     await expectAsync(db.getMaxId('table2')).toBeRejected()
   })
+
 })

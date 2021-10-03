@@ -27,4 +27,5 @@ export interface ImageFileManager {
   saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null>
 
   deleteImage(id: number): Promise<void>
+
 }

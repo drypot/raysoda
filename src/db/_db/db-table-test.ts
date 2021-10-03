@@ -3,6 +3,7 @@ import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
 describe('DB.*Table', () => {
+
   let config: Config
   let db: DB
 
@@ -28,4 +29,5 @@ describe('DB.*Table', () => {
   it('find table returns nothing', async () => {
     expect(await db.findTable('table1')).toBeUndefined()
   })
+
 })

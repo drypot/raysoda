@@ -9,6 +9,7 @@ import { Config } from '../_type/config.js'
 import { ErrorConst } from '../_type/error.js'
 
 describe('OsokyFileManager', () => {
+
   let config: Config
   let ifm: ImageFileManager
 
@@ -81,4 +82,5 @@ describe('OsokyFileManager', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(false)
     })
   })
+
 })

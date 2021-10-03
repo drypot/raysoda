@@ -15,6 +15,7 @@ import { UserCache } from '../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../_type/error.js'
 
 describe('imageDetailService', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -84,4 +85,5 @@ describe('imageDetailService', () => {
     expect(image.thumbUrl).toBe(ifm.getThumbUrlFor(1))
     expect(image.updatable).toBe(false)
   })
+
 })

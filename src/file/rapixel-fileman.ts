@@ -34,6 +34,7 @@ function subDir(id: number) {
 }
 
 export class RapixelFileManager implements ImageFileManager {
+
   public readonly config: Config
   public readonly dir: string
   public readonly url: string

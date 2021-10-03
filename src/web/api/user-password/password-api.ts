@@ -8,6 +8,7 @@ import { ErrorConst } from '../../../_type/error.js'
 import { NewPasswordForm } from '../../../_type/password.js'
 
 export function registerPasswordApi(web: Express2, uc: UserCache, resetDB: ResetDB, mailer: Mailer) {
+
   web.router.post('/api/password-send-reset-mail', toCallback(async (req, res) => {
     const email = newString(req.body.email).trim()
     const err: ErrorConst[] = []
@@ -27,4 +28,5 @@ export function registerPasswordApi(web: Express2, uc: UserCache, resetDB: Reset
     if (err.length) throw err
     res.json({})
   }))
+
 }

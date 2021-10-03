@@ -56,11 +56,6 @@ export class Express2 {
     return new Express2(config)
   }
 
-  setLocals(name: string, value: any) {
-    this.web.locals[name] = value
-    return this
-  }
-
   setViewEngine(engine: string, root: string) {
     this.web.set('view engine', engine)
     this.web.set('views', root)

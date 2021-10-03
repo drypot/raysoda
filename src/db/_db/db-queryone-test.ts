@@ -3,6 +3,7 @@ import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
 describe('DB.queryOne', () => {
+
   let config: Config
   let db: DB
 
@@ -26,4 +27,5 @@ describe('DB.queryOne', () => {
   it('when sql invalid', async () => {
     await expectAsync(db.queryOne('select xxx')).toBeRejected()
   })
+
 })

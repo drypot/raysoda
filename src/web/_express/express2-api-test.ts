@@ -3,6 +3,7 @@ import { Express2 } from './express2.js'
 import { SuperAgentTest } from 'supertest'
 
 describe('Express2 res.locals.api', () => {
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -17,6 +18,7 @@ describe('Express2 res.locals.api', () => {
   })
 
   let count = 0
+
   it('setup /api/test', () => {
     web.router.get('/api/test', (req, res) => {
       expect(res.locals.api).toBe(true)
@@ -39,4 +41,5 @@ describe('Express2 res.locals.api', () => {
     const res = await request.get('/test').expect(200)
     expect(count).toBe(20)
   })
+
 })

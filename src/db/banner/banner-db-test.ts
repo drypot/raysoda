@@ -7,6 +7,7 @@ import { Banner } from '../../_type/banner.js'
 import { dupe } from '../../_util/object2.js'
 
 describe('BannerDB', () => {
+
   let config: Config
   let db: DB
   let vdb: ValueDB
@@ -51,4 +52,5 @@ describe('BannerDB', () => {
     const b = bdb.getBannerList()
     expect(dupe(b)).toEqual(list)
   })
+
 })

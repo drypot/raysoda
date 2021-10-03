@@ -9,6 +9,7 @@ import { UserDB } from '../user-db.js'
 // 없애기 힘들 것 같다.
 
 export class UserCache {
+
   public readonly udb: UserDB
 
   private constructor(udb: UserDB) {
@@ -75,4 +76,5 @@ export class UserCache {
     }
     return user
   }
+
 }

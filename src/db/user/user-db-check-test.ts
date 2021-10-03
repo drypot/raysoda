@@ -5,6 +5,7 @@ import { insertUserFix1 } from './fixture/user-fix.js'
 import { Config } from '../../_type/config.js'
 
 describe('UserDB.*Is*', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -69,4 +70,5 @@ describe('UserDB.*Is*', () => {
       expect(dupe).toBe(true)
     })
   })
+
 })

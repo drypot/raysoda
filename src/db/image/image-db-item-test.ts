@@ -7,6 +7,7 @@ import { dateNull } from '../../_util/date2.js'
 import { Config } from '../../_type/config.js'
 
 describe('ImageDB.*Image', () => {
+
   let config: Config
   let db: DB
   let idb: ImageDB
@@ -76,4 +77,5 @@ describe('ImageDB.*Image', () => {
     const image = await idb.findImage(10)
     expect(image).toBeUndefined()
   })
+
 })

@@ -6,6 +6,7 @@ import { userListService } from './user-list-service.js'
 import { Config } from '../../_type/config.js'
 
 describe('userListService', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -54,4 +55,5 @@ describe('userListService', () => {
     const l = await userListService(udb, 3, 3)
     expect(l.length).toBe(0)
   })
+
 })

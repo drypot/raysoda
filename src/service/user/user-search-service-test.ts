@@ -6,6 +6,7 @@ import { userSearchService } from './user-search-service.js'
 import { Config } from '../../_type/config.js'
 
 describe('userSearchService', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -55,4 +56,5 @@ describe('userSearchService', () => {
     const l = await userSearchService(udb, 'userx')
     expect(l.length).toBe(0)
   })
+
 })

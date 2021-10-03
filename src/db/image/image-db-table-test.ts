@@ -4,6 +4,7 @@ import { ImageDB } from './image-db.js'
 import { Config } from '../../_type/config.js'
 
 describe('ImageDB.*Table', () => {
+
   let config: Config
   let db: DB
   let idb: ImageDB
@@ -39,4 +40,5 @@ describe('ImageDB.*Table', () => {
   it('table not exists', async () => {
     expect(await db.findTable('image')).toBeUndefined()
   })
+
 })

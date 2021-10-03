@@ -4,6 +4,7 @@ import { Config } from '../../_type/config.js'
 import { Counter } from '../../_type/counter.js'
 
 export class CounterDB {
+
   public config: Config
   private db: DB
 

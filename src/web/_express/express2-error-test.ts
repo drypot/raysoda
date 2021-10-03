@@ -4,6 +4,7 @@ import { SuperAgentTest } from 'supertest'
 import { INVALID_DATA } from '../../_type/error.js'
 
 describe('Express2 Error', () => {
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -59,4 +60,5 @@ describe('Express2 Error', () => {
     expect(res.body.err[0].name).toBe('Error')
     expect(res.body.err[0].message).toBe('System Error')
   })
+
 })

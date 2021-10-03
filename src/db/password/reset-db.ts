@@ -3,6 +3,7 @@ import { Config } from '../../_type/config.js'
 import { ResetToken } from '../../_type/password.js'
 
 export class ResetDB {
+
   public config: Config
   private db: DB
 
@@ -58,4 +59,5 @@ export class ResetDB {
   async deleteByEmail(email: string) {
     return this.db.query('delete from pwreset where email = ?', email)
   }
+
 }

@@ -6,6 +6,7 @@ import { Config } from '../../../_type/config.js'
 import { UserCache } from './user-cache.js'
 
 describe('UserCache', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -115,4 +116,5 @@ describe('UserCache', () => {
       expect(user?.id).toBe(undefined)
     })
   })
+
 })

@@ -2,6 +2,7 @@ import { ValueDB } from '../value/value-db.js'
 import { Banner } from '../../_type/banner.js'
 
 export class BannerDB {
+
   private vdb: ValueDB
   private bannerList: Banner[] = []
 
@@ -29,4 +30,5 @@ export class BannerDB {
   getBannerList() {
     return this.bannerList
   }
+
 }

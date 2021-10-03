@@ -13,6 +13,7 @@ import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
 
 describe('imageUploadService Osoky', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -86,6 +87,7 @@ describe('imageUploadService Osoky', () => {
     expect(meta.width).toBe(720)
     expect(meta.height).toBe(720)
   })
+
 })
 
 

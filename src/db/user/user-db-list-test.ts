@@ -5,6 +5,7 @@ import { insertUserFix4 } from './fixture/user-fix.js'
 import { Config } from '../../_type/config.js'
 
 describe('UserDB.findUserList', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -53,4 +54,5 @@ describe('UserDB.findUserList', () => {
     const l = await udb.findUserList(6, 3)
     expect(l.length).toBe(0)
   })
+
 })

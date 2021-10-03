@@ -3,6 +3,7 @@ import { Express2 } from './express2.js'
 import { SuperAgentTest } from 'supertest'
 
 describe('Express2 Echo', () => {
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -40,4 +41,5 @@ describe('Express2 Echo', () => {
     const res = await request.del('/api/echo').expect(200)
     expect(res.body.method).toBe('DELETE')
   })
+
 })

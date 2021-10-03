@@ -5,6 +5,7 @@ import { insertUserFix1, insertUserFix4 } from './user-fix.js'
 import { Config } from '../../../_type/config.js'
 
 describe('User Fixture', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -61,4 +62,5 @@ describe('User Fixture', () => {
       expect(user?.admin).toBe(true)
     })
   })
+
 })

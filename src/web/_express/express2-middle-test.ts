@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from 'express'
 import { SuperAgentTest } from 'supertest'
 
 describe('Express2 Middleware', () => {
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -68,4 +69,5 @@ describe('Express2 Middleware', () => {
     expect(done2).toBe(false)
     expect(done3).toBe(false)
   })
+
 })

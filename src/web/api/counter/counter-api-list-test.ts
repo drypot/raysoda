@@ -13,6 +13,7 @@ import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 
 describe('Counter List Api', () => {
+
   let config: Config
 
   let db: DB
@@ -85,4 +86,5 @@ describe('Counter List Api', () => {
       { d: '2003-01-20', c: 40 },
     ])
   })
+
 })

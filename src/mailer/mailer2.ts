@@ -4,6 +4,7 @@ import Mail from 'nodemailer/lib/mailer'
 import { Config } from '../_type/config.js'
 
 export class Mailer {
+
   public config: Config
   public transport?: Transporter
 
@@ -45,4 +46,5 @@ export class Mailer {
       }
     })
   }
+
 }

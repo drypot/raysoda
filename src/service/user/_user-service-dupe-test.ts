@@ -8,6 +8,7 @@ import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
 
 describe('User Service', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -101,4 +102,5 @@ describe('User Service', () => {
       expect(err.length).toBe(0)
     })
   })
+
 })

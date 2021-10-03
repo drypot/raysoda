@@ -13,6 +13,7 @@ function subDir(id: number) {
 }
 
 export class DrypotFileManager implements ImageFileManager {
+
   public readonly config: Config
   public readonly dir: string
   public readonly url: string

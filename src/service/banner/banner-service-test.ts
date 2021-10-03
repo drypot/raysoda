@@ -7,6 +7,7 @@ import { bannerListService, bannerListUpdateService } from './banner-service.js'
 import { Banner } from '../../_type/banner.js'
 
 describe('Banner Api List', () => {
+
   let config: Config
 
   let db: DB
@@ -49,6 +50,7 @@ describe('Banner Api List', () => {
       { text: 'text3', url: 'url3' },
     ])
   })
+
 })
 
 

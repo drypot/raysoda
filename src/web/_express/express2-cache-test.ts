@@ -3,6 +3,7 @@ import { Express2 } from './express2.js'
 import { SuperAgentTest } from 'supertest'
 
 describe('Express2 Cache', () => {
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -34,4 +35,5 @@ describe('Express2 Cache', () => {
     const res = await request.get('/test/cache-test').expect(200)
     expect(res.get('Cache-Control')).toBe('private')
   })
+
 })

@@ -3,6 +3,7 @@ import { Image } from '../../_type/image.js'
 import { Config } from '../../_type/config.js'
 
 export class ImageDB {
+
   public readonly config: Config
   private readonly db: DB
   private nextId: number = 0

@@ -13,6 +13,7 @@ import { UserCache } from '../../db/user/cache/user-cache.js'
 import { NewPasswordForm } from '../../_type/password.js'
 
 describe('Password Reset Service', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -94,4 +95,5 @@ describe('Password Reset Service', () => {
     if (!user) throw new Error()
     expect(await checkHash('5678', user.hash)).toBe(true)
   })
+
 })

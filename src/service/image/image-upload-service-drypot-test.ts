@@ -13,6 +13,7 @@ import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
 
 describe('imageUploadService Drypot', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -67,6 +68,7 @@ describe('imageUploadService Drypot', () => {
     const meta = await getImageMetaOfFile(ifm.getPathFor(1))
     expect(meta.format).toBe('svg')
   })
+
 })
 
 

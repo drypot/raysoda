@@ -9,6 +9,7 @@ import { dateNull } from '../../_util/date2.js'
 import { User } from '../../_type/user.js'
 
 describe('userDetailService', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -54,4 +55,5 @@ describe('userDetailService', () => {
     const user = await userDetailService(uc, 99, false)
     expect(user).toBe(undefined)
   })
+
 })

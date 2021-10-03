@@ -4,6 +4,7 @@ import { UserDB } from './user-db.js'
 import { Config } from '../../_type/config.js'
 
 describe('UserDB.*Table', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -33,4 +34,5 @@ describe('UserDB.*Table', () => {
   it('table not exists', async () => {
     expect(await db.findTable('user')).toBeUndefined()
   })
+
 })

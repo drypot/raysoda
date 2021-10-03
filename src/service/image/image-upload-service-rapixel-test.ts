@@ -15,6 +15,7 @@ import { Config } from '../../_type/config.js'
 import { ErrorConst } from '../../_type/error.js'
 
 describe('imageUploadService Rapixel', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -104,6 +105,7 @@ describe('imageUploadService Rapixel', () => {
     expect((await getImageMetaOfFile(ifm.getPathFor(2, 2560))).width).toBe(2560)
     expect((await getImageMetaOfFile(ifm.getPathFor(2, 1280))).width).toBe(1280)
   })
+
 })
 
 

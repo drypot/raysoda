@@ -4,6 +4,7 @@ import { UserDB } from './user-db.js'
 import { Config } from '../../_type/config.js'
 
 describe('UserDB.*NextId', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -34,4 +35,5 @@ describe('UserDB.*NextId', () => {
     expect(udb.getNextId()).toBe(10)
     expect(udb.getNextId()).toBe(11)
   })
+
 })

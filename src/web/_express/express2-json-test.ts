@@ -3,6 +3,7 @@ import { Express2 } from './express2.js'
 import { SuperAgentTest } from 'supertest'
 
 describe('Express2 Json', () => {
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -46,4 +47,5 @@ describe('Express2 Json', () => {
     expect(res.type).toBe('application/json')
     expect(res.body).toBeNull()
   })
+
 })

@@ -2,6 +2,7 @@ import { Mailer } from './mailer2.js'
 import { loadConfigSync } from '../_util/config-loader.js'
 
 describe('Mailer', () => {
+
   let mailer: Mailer
 
   beforeAll(() => {
@@ -21,5 +22,6 @@ describe('Mailer', () => {
       expect(sent).toBe(false)
     })
   })
+
 })
 

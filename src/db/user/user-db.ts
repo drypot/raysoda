@@ -4,6 +4,7 @@ import { Config } from '../../_type/config.js'
 import { UserForList } from '../../_type/user-view.js'
 
 export class UserDB {
+
   public readonly config: Config
   private readonly db: DB
   private nextId: number
@@ -168,6 +169,7 @@ export class UserDB {
     const r = await this.db.query('update user set status = ? where id = ?', [s, id])
     return r.changedRows as number
   }
+
 }
 
 function unpack(user: User) {

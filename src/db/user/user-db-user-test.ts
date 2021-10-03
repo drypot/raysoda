@@ -5,6 +5,7 @@ import { newUser } from '../../_type/user.js'
 import { Config } from '../../_type/config.js'
 
 describe('UserDB.findUser*', () => {
+
   let config: Config
   let db: DB
   let udb: UserDB
@@ -55,4 +56,5 @@ describe('UserDB.findUser*', () => {
     const user = await udb.findUserByHome('userX')
     expect(user?.id).toBe(undefined)
   })
+
 })

@@ -3,6 +3,7 @@ import { DB } from './db.js'
 import { Config } from '../../_type/config.js'
 
 describe('DB.*Database', () => {
+
   let config: Config
   let db: DB
 
@@ -33,4 +34,5 @@ describe('DB.*Database', () => {
   it('database not exists', async () => {
     expect(await db.findDatabase(config.mysqlDatabase)).toBeUndefined()
   })
+
 })

@@ -3,6 +3,7 @@ import { Express2, toCallback } from './express2.js'
 import { SuperAgentTest } from 'supertest'
 
 describe('Express2 toCallback', () => {
+
   let web: Express2
   let request: SuperAgentTest
 
@@ -60,4 +61,5 @@ describe('Express2 toCallback', () => {
     const res = await request.get('/api/tocallback-err').expect(200)
     expect(res.body.err[0].message).toBe('fatal error')
   })
+
 })
