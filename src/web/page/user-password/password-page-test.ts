@@ -23,13 +23,13 @@ describe('PasswordPage', () => {
     await web.close()
   })
 
-  it('user-password-reset', async () => {
+  it('1', async () => {
     await sat.get('/password-reset').expect(200).expect(/<title>Password/)
   })
-  it('user-password-reset-2', async () => {
+  it('2', async () => {
     await sat.get('/password-reset-2').expect(200).expect(/<title>Password/)
   })
-  it('/password-reset-3', async () => {
+  it('3', async () => {
     await sat.get('/password-reset-3').expect(200).expect(/<title>Password/)
   })
 

@@ -23,7 +23,7 @@ describe('LoginPage', () => {
     await web.close()
   })
 
-  it('user-login should work', async () => {
+  it('login', async () => {
     await sat.get('/login').expect(200).expect(/<title>Login/)
   })
 
