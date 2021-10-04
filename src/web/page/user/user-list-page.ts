@@ -4,7 +4,7 @@ import { newLimitedNumber, newString } from '../../../_util/primitive.js'
 import { userListService } from '../../../service/user/user-list-service.js'
 import { UrlMaker } from '../../../_util/url2.js'
 import { userSearchService } from '../../../service/user/user-search-service.js'
-import { UserForList } from '../../../_type/user-view.js'
+import { UserForList } from '../../../_type/user-detail.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
 import { userIsAdmin } from '../../../_type/user.js'
 
