@@ -1,19 +1,19 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/user-db-fixture.js'
+import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../../api/user-login/login-api.js'
 import { registerClientInitScript } from './client-init-script.js'
 import { ValueDB } from '../../../db/value/value-db.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
 import { registerBannerApi } from '../../api/banner/banner-api.js'
-import { loginForTest, logoutForTest, User1Login } from '../../api/user-login/login-api-fixture.js'
+import { loginForTest, logoutForTest } from '../../api/user-login/login-api-fixture.js'
 import { Config } from '../../../_type/config.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('Client Init Script', () => {
+describe('ClientInitScript', () => {
 
   let config: Config
 
@@ -25,23 +25,24 @@ describe('Client Init Script', () => {
   let bdb: BannerDB
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
     uc = UserCache.from(udb)
 
     vdb = ValueDB.from(db)
-    bdb = BannerDB.from(vdb)
+    bdb = await BannerDB.from(vdb)
 
-    web = await Express2.from(config).start()
+    web = Express2.from(config)
     registerLoginApi(web, uc)
     registerBannerApi(web, bdb)
     registerClientInitScript(web, bdb)
-    request = web.spawnRequest()
+    await web.start()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -49,56 +50,54 @@ describe('Client Init Script', () => {
     await db.close()
   })
 
-  describe('login', () => {
-    it('init table', async () => {
-      await udb.dropTable()
-      await udb.createTable(false)
-      await vdb.dropTable()
-      await vdb.createTable()
-    })
-    it('fill fix', async () => {
-      await insertUserFix4(udb)
-    })
-    it('get session script', async () => {
-      const res = await request.get('/api/client-init-script').expect(200)
-      expect(res.type).toBe('application/javascript')
-      expect(res.text).toBe(
-        `const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.",` +
-        `"mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}\n` +
-        `const _user = null\n` +
-        `const _banner = []\n`
-      )
-    })
-    it('login as user1', async () => {
-      await loginForTest(request, User1Login)
-    })
-    it('get session script with login', async () => {
-      const res = await request.get('/api/client-init-script').expect(200)
-      expect(res.type).toBe('application/javascript')
-      expect(res.text).toBe(
-        `const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.",` +
-        `"mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}\n` +
-        `const _user = {"id":1,"name":"User 1","home":"user1","admin":false}\n` +
-        `const _banner = []\n`
-      )
-    })
-    it('logout', async () => {
-      await logoutForTest(request)
-    })
-    it('set banner', async () => {
-      await bdb.setBanner([{ text: 'text1', url: 'url1' }])
-    })
-    it('get session script with banner', async () => {
-      const res = await request.get('/api/client-init-script').expect(200)
-      expect(res.type).toBe('application/javascript')
-      expect(res.text).toBe(
-        `const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.",` +
-        `"mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}\n` +
-        `const _user = null\n` +
-        `const _banner = [{"text":"text1","url":"url1"}]\n`
-      )
-    })
-
+  it('init table', async () => {
+    await udb.dropTable()
+    await udb.createTable(false)
+    await vdb.dropTable()
+    await vdb.createTable()
+    await bdb.loadCache()
+  })
+  it('fill fix', async () => {
+    await insertUserFix4(udb)
+  })
+  it('get session script', async () => {
+    const res = await sat.get('/api/client-init-script').expect(200)
+    expect(res.type).toBe('application/javascript')
+    expect(res.text).toBe(
+`const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.","mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}
+const _user = {"id":-1,"name":"","home":"","admin":false}
+const _banner = []
+`
+    )
+  })
+  it('login as user1', async () => {
+    await loginForTest(sat, USER1_LOGIN)
+  })
+  it('get session script with login', async () => {
+    const res = await sat.get('/api/client-init-script').expect(200)
+    expect(res.type).toBe('application/javascript')
+    expect(res.text).toBe(
+`const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.","mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}
+const _user = {"id":1,"name":"User 1","home":"user1","admin":false}
+const _banner = []
+`
+    )
+  })
+  it('logout', async () => {
+    await logoutForTest(sat)
+  })
+  it('set banner', async () => {
+    await bdb.updateBannerList([{ text: 'text1', url: 'url1' }])
+  })
+  it('get session script with banner', async () => {
+    const res = await sat.get('/api/client-init-script').expect(200)
+    expect(res.type).toBe('application/javascript')
+    expect(res.text).toBe(
+`const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.","mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}
+const _user = {"id":-1,"name":"","home":"","admin":false}
+const _banner = [{"text":"text1","url":"url1"}]
+`
+    )
   })
 
 })

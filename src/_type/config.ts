@@ -23,7 +23,7 @@ export type Config = {
   dev: boolean
 }
 
-export type ConfigMin = {
+export type ConfigForClient = {
   appName: string
   appNamel: string
   appDesc: string
@@ -32,7 +32,7 @@ export type ConfigMin = {
   uploadUrl: string
 }
 
-export function newConfigMin(config: Config): ConfigMin {
+export function newConfigForClient(config: Config): ConfigForClient {
   return {
     appName: config.appName,
     appNamel: config.appNamel,
