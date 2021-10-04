@@ -1,40 +1,30 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
-import { DB } from '../../../db/_db/db.js'
-import { UserDB } from '../../../db/user/user-db.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginPage } from './login-page.js'
 import { Config } from '../../../_type/config.js'
 
-describe('Login Page', () => {
+describe('LoginPage', () => {
 
   let config: Config
 
-  let db: DB
-  let udb: UserDB
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-
-    web = await Express2.from(config).start()
-    registerLoginPage(web, udb)
-    request = web.spawnRequest()
+    config = loadConfigSync('config/app-test.json')
+    web = Express2.from(config)
+    registerLoginPage(web)
+    await web.start()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
     await web.close()
-    await db.close()
   })
 
-  describe('user login pages', () => {
-    it('user-login should work', async () => {
-      await request.get('/login').expect(200).expect(/<title>Login/)
-    })
+  it('user-login should work', async () => {
+    await sat.get('/login').expect(200).expect(/<title>Login/)
   })
 
 })
