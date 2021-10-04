@@ -151,6 +151,6 @@ export function shouldBeAdmin(user: User) {
   if (!userIsAdmin(user)) throw NOT_AUTHORIZED
 }
 
-export function hasUpdatePerm(op: User, id: number) {
+export function userHasUpdatePerm(op: User, id: number) {
   return op.id === id || op.admin
 }

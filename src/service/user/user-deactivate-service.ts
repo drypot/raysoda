@@ -1,31 +1,22 @@
-import { NOT_AUTHORIZED, USER_NOT_FOUND } from '../../_type/error-user.js'
 import { UserCache } from '../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../_type/error.js'
-import { User, userIsAdmin } from '../../_type/user.js'
-import { hasUpdatePerm } from '../../web/api/user-login/login-api.js'
+import { User } from '../../_type/user.js'
+import { checkUserUpdatable } from './user-update-service.js'
 
 export async function userDeactivateService(uc: UserCache, user: User, id: number, err: ErrorConst[]) {
-  if (!hasUpdatePerm(user, id)) {
-    err.push(NOT_AUTHORIZED)
+  const user2 = await checkUserUpdatable(uc, user, id, err)
+  if (!user2 || err.length) {
     return
   }
-  const count = await uc.udb.updateStatus(id, 'd')
-  if (!count) {
-    err.push(USER_NOT_FOUND)
-    return
-  }
+  await uc.udb.updateStatus(id, 'd')
   uc.deleteCacheById(id)
 }
 
 export async function userActivateService(uc: UserCache, user: User, id: number, err: ErrorConst[]) {
-  if (!userIsAdmin(user)) {
-    err.push(NOT_AUTHORIZED)
+  const user2 = await checkUserUpdatable(uc, user, id, err)
+  if (!user2 || err.length) {
     return
   }
-  const count = await uc.udb.updateStatus(id, 'v')
-  if (!count) {
-    err.push(USER_NOT_FOUND)
-    return
-  }
+  await uc.udb.updateStatus(id, 'v')
   uc.deleteCacheById(id)
 }

@@ -12,25 +12,33 @@ import { makeHash } from '../../_util/hash.js'
 import { UserCache } from '../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../_type/error.js'
 import { newUserUpdateForm, UserUpdateForm } from '../../_type/user-form.js'
-import { hasUpdatePerm } from '../../web/api/user-login/login-api.js'
+import { userHasUpdatePerm } from '../../web/api/user-login/login-api.js'
 import { NOT_AUTHORIZED, USER_NOT_FOUND } from '../../_type/error-user.js'
 
-export async function userUpdateGetService(uc: UserCache, user: User, id: number, err: ErrorConst[]) {
-  if (!hasUpdatePerm(user, id)) {
-    err.push(NOT_AUTHORIZED)
-    return
-  }
+export async function checkUserUpdatable(uc: UserCache, user: User, id: number, err: ErrorConst[]) {
   const user2 = await uc.getCachedById(id)
   if (!user2) {
     err.push(USER_NOT_FOUND)
+    return
+  }
+  if (!userHasUpdatePerm(user, id)) {
+    err.push(NOT_AUTHORIZED)
+    return
+  }
+  return user2
+}
+
+export async function userUpdateGetService(uc: UserCache, user: User, id: number, err: ErrorConst[]) {
+  const user2 = await checkUserUpdatable(uc, user, id, err)
+  if (!user2 || err.length) {
     return
   }
   return newUserUpdateForm(user2)
 }
 
 export async function userUpdateService(uc: UserCache, user: User, id: number, form: UserUpdateForm, err: ErrorConst[]) {
-  if (!hasUpdatePerm(user, id)) {
-    err.push(NOT_AUTHORIZED)
+  const user2 = await checkUserUpdatable(uc, user, id, err)
+  if (!user2 || err.length) {
     return
   }
 
