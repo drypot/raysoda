@@ -39,10 +39,11 @@ describe('ImageUpdateApi Drypot', () => {
     idb = ImageDB.from(db)
     ifm = DrypotFileManager.from(config)
 
-    web = await Express2.from(config).useUpload().start()
+    web = Express2.from(config).useUpload()
     registerLoginApi(web, uc)
     registerImageUploadApi(web, udb, idb, ifm)
     registerImageUpdateApi(web, idb, ifm)
+    await web.start()
     sat = supertest.agent(web.server)
   })
 

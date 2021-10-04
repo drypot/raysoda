@@ -27,9 +27,10 @@ describe('UserListApi', () => {
     udb = UserDB.from(db)
     uc = UserCache.from(udb)
 
-    web = await Express2.from(config).start()
+    web = Express2.from(config)
     registerLoginApi(web, uc)
     registerUserListApi(web, udb)
+    await web.start()
     sat = supertest.agent(web.server)
   })
 

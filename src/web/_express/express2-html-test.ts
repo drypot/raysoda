@@ -9,7 +9,8 @@ describe('Express2 Html', () => {
 
   beforeAll(async () => {
     const config = loadConfigSync('config/app-test.json')
-    web = await Express2.from(config).start()
+    web = Express2.from(config)
+    await web.start()
     sat = supertest.agent(web.server)
   })
 

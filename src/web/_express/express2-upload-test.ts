@@ -13,7 +13,8 @@ describe('Express2 Upload', () => {
 
   beforeAll(async () => {
     const config = loadConfigSync('config/app-test.json')
-    web = await Express2.from(config).useUpload().start()
+    web = Express2.from(config).useUpload()
+    await web.start()
     upload = web.upload
     sat = supertest.agent(web.server)
   })

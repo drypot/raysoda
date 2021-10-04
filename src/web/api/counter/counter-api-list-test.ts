@@ -34,9 +34,10 @@ describe('Counter List Api', () => {
 
     cdb = CounterDB.from(db)
 
-    web = await Express2.from(config).start()
+    web = Express2.from(config)
     registerLoginApi(web, uc)
     registerCounterApi(web, cdb)
+    await web.start()
     sat = supertest.agent(web.server)
   })
 

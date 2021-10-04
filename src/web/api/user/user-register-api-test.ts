@@ -32,8 +32,9 @@ describe('UserRegisterApi', () => {
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
 
-    web = await Express2.from(config).start()
+    web = Express2.from(config)
     registerUserRegisterApi(web, udb)
+    await web.start()
     sat = supertest.agent(web.server)
   })
 

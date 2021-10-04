@@ -39,9 +39,10 @@ describe('ImageUploadApi Osoky', () => {
     idb = ImageDB.from(db)
     ifm = OsokyFileManager.from(config)
 
-    web = await Express2.from(config).useUpload().start()
+    web = Express2.from(config).useUpload()
     registerLoginApi(web, uc)
     registerImageUploadApi(web, udb, idb, ifm)
+    await web.start()
     sat = supertest.agent(web.server)
   })
 

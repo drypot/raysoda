@@ -38,8 +38,9 @@ describe('Password Api', () => {
     rdb = ResetDB.from(db)
     mailer = Mailer.from(config).loadSync()
 
-    web = await Express2.from(config).start()
+    web = Express2.from(config)
     registerPasswordApi(web, uc, rdb, mailer)
+    await web.start()
     sat = supertest.agent(web.server)
   })
 

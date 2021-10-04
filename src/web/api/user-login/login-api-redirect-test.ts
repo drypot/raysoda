@@ -26,8 +26,9 @@ describe('Login Api Redirect To Login', () => {
     udb = UserDB.from(db)
     uc = UserCache.from(udb)
 
-    web = await Express2.from(config).start()
+    web = Express2.from(config)
     registerLoginApi(web, uc)
+    await web.start()
     sat = supertest.agent(web.server)
   })
 

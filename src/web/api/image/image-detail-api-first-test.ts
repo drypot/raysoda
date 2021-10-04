@@ -35,8 +35,9 @@ describe('ImageDetailApi First Image Cdate', () => {
     idb = ImageDB.from(db)
     ifm = RaySodaFileManager.from(config)
 
-    web = await Express2.from(config).useUpload().start()
+    web = Express2.from(config).useUpload()
     registerImageDetailApi(web, uc, idb, ifm)
+    await web.start()
     sat = supertest.agent(web.server)
   })
 

@@ -37,9 +37,10 @@ describe('Banner Api', () => {
     vdb = ValueDB.from(db)
     bdb = await BannerDB.from(vdb)
 
-    web = await Express2.from(config).start()
+    web = Express2.from(config)
     registerLoginApi(web, uc)
     registerBannerApi(web, bdb)
+    await web.start()
     sat = supertest.agent(web.server)
   })
 
