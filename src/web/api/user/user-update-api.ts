@@ -7,17 +7,6 @@ import { ErrorConst } from '../../../_type/error.js'
 import { UserUpdateForm } from '../../../_type/user-form.js'
 import { getSessionUser, shouldBeUser } from '../user-login/login-api.js'
 
-export function newUserUpdateFormReq(req: Request): UserUpdateForm {
-  const body = req.body
-  return {
-    name: newString(body.name).trim(),
-    home: newString(body.home).trim(),
-    email: newString(body.email).trim(),
-    password: newString(body.password).trim(),
-    profile: newString(body.profile).trim(),
-  }
-}
-
 export function registerUserUpdateApi(web: Express2, uc: UserCache) {
 
   web.router.get('/api/user-update-get/:id([0-9]+)', toCallback(async (req, res) => {
@@ -34,11 +23,22 @@ export function registerUserUpdateApi(web: Express2, uc: UserCache) {
     const user = getSessionUser(res)
     shouldBeUser(user)
     const id = newNumber(req.params.id)
-    const form = newUserUpdateFormReq(req)
+    const form = newUpdateForm(req)
     const err: ErrorConst[] = []
     await userUpdateService(uc, user, id, form, err)
     if (err.length) throw err
     res.json({})
   }))
 
+}
+
+function newUpdateForm(req: Request): UserUpdateForm {
+  const body = req.body
+  return {
+    name: newString(body.name).trim(),
+    home: newString(body.home).trim(),
+    email: newString(body.email).trim(),
+    password: newString(body.password).trim(),
+    profile: newString(body.profile).trim(),
+  }
 }

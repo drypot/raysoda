@@ -1,7 +1,7 @@
 import { DB } from '../_db/db.js'
 import { User } from '../../_type/user.js'
 import { Config } from '../../_type/config.js'
-import { UserForList } from '../../_type/user-view.js'
+import { UserForList } from '../../_type/user-detail.js'
 
 export class UserDB {
 
