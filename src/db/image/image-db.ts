@@ -63,7 +63,7 @@ export class ImageDB {
   // Query
 
   async insertImage(image: Image) {
-    const pack = getPacked(image)
+    const pack = newPack(image)
     return this.db.query('insert into image set ?', pack)
   }
 
@@ -115,7 +115,7 @@ export class ImageDB {
   }
 
   async updateImage(id: number, image: Partial<Image>) {
-    const pack = getPacked(image)
+    const pack = newPack(image)
     const r = await this.db.query('update image set ? where id = ?', [pack, id])
     return r.changedRows as number
   }
@@ -126,18 +126,19 @@ export class ImageDB {
 
 }
 
-function getPacked(image: Partial<Image>) {
-  const pack = {
-    ...image
-  }
-  if ('vers' in image) {
-    pack.vers = JSON.stringify(image.vers)
+function newPack(image: Partial<Image>) {
+  const pack: any = {}
+  for(let [k, v] of Object.entries(image)) {
+    if (k === 'vers') {
+      v = JSON.stringify(v)
+    }
+    pack[k] = v
   }
   return pack
 }
 
 function unpack(image: Image) {
-  image.vers = JSON.parse(image.vers as string)
+  image.vers = JSON.parse(image.vers as unknown as string)
 }
 
 function unpackList(list: any[]) {

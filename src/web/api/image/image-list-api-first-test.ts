@@ -7,11 +7,12 @@ import { Express2 } from '../../_express/express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
 import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
-import { registerImageDetailApi } from './image-detail-api.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
+import { registerImageListApi } from './image-list-api.js'
+import { SITE_OPEN_DATE } from '../../../_type/date-const.js'
 
-describe('ImageDetailApi First Image Cdate', () => {
+describe('ImageListApi FirstImageCdate', () => {
 
   let config: Config
 
@@ -36,7 +37,7 @@ describe('ImageDetailApi First Image Cdate', () => {
     ifm = RaySodaFileManager.from(config)
 
     web = Express2.from(config).useUpload()
-    registerImageDetailApi(web, uc, idb, ifm)
+    registerImageListApi(web, uc, idb, ifm)
     await web.start()
     sat = supertest.agent(web.server)
   })
@@ -59,10 +60,9 @@ describe('ImageDetailApi First Image Cdate', () => {
   it('remove image dir', async () => {
     await ifm.rmRoot()
   })
-  it('returns nothing', async () => {
+  it('get cdate when empty', async () => {
     const res = await sat.get('/api/image-first-image-cdate').expect(200)
-    expect(Date.now() - res.body.today).toBeLessThan(1000)
-    expect(res.body.cdate).toBeUndefined()
+    expect(res.body.cdateNum).toBe(SITE_OPEN_DATE.getTime())
   })
   it('insert fix', async () => {
     const list = [
@@ -79,10 +79,10 @@ describe('ImageDetailApi First Image Cdate', () => {
     ]
     await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
-  it('returns cdate', async () => {
+  it('get cdate after filled', async () => {
     const res = await sat.get('/api/image-first-image-cdate').expect(200)
-    expect(Date.now() - res.body.today).toBeLessThan(1000)
-    expect(new Date(res.body.cdate)).toEqual(new Date(2003, 0, 1))
+    expect(Date.now() - res.body.todayNum).toBeLessThan(1000)
+    expect(res.body.cdateNum).toEqual(new Date(2003, 0, 1).getTime())
   })
 
 })

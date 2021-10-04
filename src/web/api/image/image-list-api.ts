@@ -3,9 +3,10 @@ import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { newLimitedNumber } from '../../../_util/primitive.js'
 import { imageListByCdateService, imageListService } from '../../../service/image/image-list-service.js'
-import { ImageForList } from '../../../_type/image-view.js'
+import { ImageForList } from '../../../_type/image-detail.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { newDate } from '../../../_util/date2.js'
+import { firstImageCdateService } from '../../../service/image/image-detail-service.js'
 
 export function registerImageListApi(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 
@@ -21,6 +22,14 @@ export function registerImageListApi(web: Express2, uc: UserCache, idb: ImageDB,
     }
     res.json({
       list: list
+    })
+  }))
+
+  web.router.get('/api/image-first-image-cdate', toCallback(async (req, res) => {
+    const date = await firstImageCdateService(idb)
+    res.json({
+      todayNum: Date.now(),
+      cdateNum: date.getTime()
     })
   }))
 

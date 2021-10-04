@@ -7,9 +7,8 @@ import { User } from '../../_type/user.js'
 export async function imageDeleteService(
   idb: ImageDB, ifm: ImageFileManager, user: User, id: number, err: ErrorConst[]
 ) {
-  const image = await idb.findImage(id)
-  await checkImageUpdatable(user, image, err)
-  if (err.length) {
+  const image = await checkImageUpdatable(idb, user, id, err)
+  if (!image || err.length) {
     return
   }
   await idb.deleteImage(id)

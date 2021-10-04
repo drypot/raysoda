@@ -3,7 +3,7 @@ import { ImageFileManager } from '../../file/fileman.js'
 import { Image } from '../../_type/image.js'
 import { User } from '../../_type/user.js'
 import { newDateString } from '../../_util/date2.js'
-import { ImageForList } from '../../_type/image-view.js'
+import { ImageForList } from '../../_type/image-detail.js'
 import { UserCache } from '../../db/user/cache/user-cache.js'
 
 async function newDecoratedImageList(uc: UserCache, ifm: ImageFileManager, list: Image[]) {

@@ -6,29 +6,42 @@ import { ErrorConst } from '../../_type/error.js'
 import { User } from '../../_type/user.js'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
 import { NOT_AUTHORIZED } from '../../_type/error-user.js'
+import { userCanUpdateImage } from './_image-service.js'
 
 export async function checkImageUpdatable(
-  user: User, image: Image | undefined, err: ErrorConst[]
+  idb: ImageDB, user: User, id: number, err: ErrorConst[]
 ) {
+  const image = await idb.findImage(id)
   if (!image) {
     err.push(IMAGE_NOT_EXIST)
     return
   }
-  if (image.uid !== user.id && !user.admin) {
+  if (!userCanUpdateImage(user, image)) {
     err.push(NOT_AUTHORIZED)
     return
+  }
+  return image
+}
+
+export async function imageUpdateGetService(idb: ImageDB, user: User, id: number, err: ErrorConst[])
+  : Promise<ImageUpdateForm | undefined> {
+  const image = await checkImageUpdatable(idb, user, id, err)
+  if (!image || err.length) {
+    return
+  }
+  return {
+    comment: image.comment
   }
 }
 
 export async function imageUpdateService(
   idb: ImageDB, ifm: ImageFileManager, user: User, id: number, form: ImageUpdateForm, err: ErrorConst[]
 ) {
-  const image = await idb.findImage(id)
-  await checkImageUpdatable(user, image, err)
-  if (err.length) {
+  const image = await checkImageUpdatable(idb, user, id, err)
+  if (!image || err.length) {
     return
   }
-  const updateField: Partial<Image> = {}
+  const update: Partial<Image> = {}
   if (form.file) {
     await ifm.beforeIdentify(form.file)
     const meta = await ifm.getImageMeta(form.file)
@@ -37,8 +50,8 @@ export async function imageUpdateService(
       return
     }
     await ifm.deleteImage(id)
-    updateField.vers = await ifm.saveImage(id, form.file, meta)
+    update.vers = await ifm.saveImage(id, form.file, meta)
   }
-  updateField.comment = form.comment
-  await idb.updateImage(id, updateField)
+  update.comment = form.comment
+  await idb.updateImage(id, update)
 }

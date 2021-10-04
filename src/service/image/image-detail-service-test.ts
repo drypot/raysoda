@@ -3,9 +3,8 @@ import { loadConfigSync } from '../../_util/config-loader.js'
 import { ImageFileManager } from '../../file/fileman.js'
 import { ImageUploadForm } from '../../_type/image-form.js'
 import { ImageDB } from '../../db/image/image-db.js'
-import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
+import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix.js'
 import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
-import { newDateString } from '../../_util/date2.js'
 import { DB } from '../../db/_db/db.js'
 import { imageUploadService } from './image-upload-service.js'
 import { imageDetailService } from './image-detail-service.js'
@@ -49,41 +48,71 @@ describe('imageDetailService', () => {
   it('remove image dir', async () => {
     await ifm.rmRoot()
   })
+
+  let now: Date
+
   it('upload image', async () => {
-    const form: ImageUploadForm = { now: new Date(), comment: 'c1', file: 'sample/640x360.jpg', }
+    now = new Date
+    const form: ImageUploadForm = { now: now, comment: 'c1', file: 'sample/640x360.jpg', }
     const err: ErrorConst[] = []
-    const id = await imageUploadService(udb, idb, ifm, 1, form, err)
+    const id = await imageUploadService(udb, idb, ifm, USER1.id, form, err)
     expect(id).toBe(1)
+  })
+  it('get image 1 by user1', async () => {
+    const err: ErrorConst[] = []
+    const image = await imageDetailService(uc, idb, ifm, USER1, 1, err)
+    if (!image) throw new Error()
+    expect(image as any).toEqual({
+      id: 1,
+      owner: { id: 1, name: 'User 1', home: 'user1' },
+      cdate: now,
+      cdateNum: 0,
+      cdateStr: '',
+      vers: null,
+      comment: 'c1',
+      dirUrl: 'http://file.raysoda.test:8080/images/0/0',
+      thumbUrl: 'http://file.raysoda.test:8080/images/0/0/1.jpg',
+      updatable: true // ***
+    })
+  })
+  it('get image 1 by user2', async () => {
+    const err: ErrorConst[] = []
+    const image = await imageDetailService(uc, idb, ifm, USER2, 1, err)
+    if (!image) throw new Error()
+    expect(image as any).toEqual({
+      id: 1,
+      owner: { id: 1, name: 'User 1', home: 'user1' },
+      cdate: now,
+      cdateNum: 0,
+      cdateStr: '',
+      vers: null,
+      comment: 'c1',
+      dirUrl: 'http://file.raysoda.test:8080/images/0/0',
+      thumbUrl: 'http://file.raysoda.test:8080/images/0/0/1.jpg',
+      updatable: false // ***
+    })
+  })
+  it('get image 1 by admin', async () => {
+    const err: ErrorConst[] = []
+    const image = await imageDetailService(uc, idb, ifm, ADMIN, 1, err)
+    if (!image) throw new Error()
+    expect(image as any).toEqual({
+      id: 1,
+      owner: { id: 1, name: 'User 1', home: 'user1' },
+      cdate: now,
+      cdateNum: 0,
+      cdateStr: '',
+      vers: null,
+      comment: 'c1',
+      dirUrl: 'http://file.raysoda.test:8080/images/0/0',
+      thumbUrl: 'http://file.raysoda.test:8080/images/0/0/1.jpg',
+      updatable: true // ***
+    })
   })
   it('get image fails if id invalid', async () => {
     const err: ErrorConst[] = []
-    const image = await imageDetailService(uc, idb, ifm, 2, err)
+    const image = await imageDetailService(uc, idb, ifm, USER1, 99, err)
     expect(err).toContain(IMAGE_NOT_EXIST)
-  })
-  it('get image', async () => {
-    const err: ErrorConst[] = []
-    const image = await imageDetailService(uc, idb, ifm, 1, err)
-    if (!image) throw new Error()
-    // image: {
-    //   id: 1,
-    //   owner: { id: 1, name: 'User 1', home: 'user1' },
-    //   cdate: 1630675275332,
-    //   cdateStr: '2021-09-03 22:21:15',
-    //   vers: null,
-    //   comment: 'small',
-    //   dirUrl: 'http://file.raysoda.test:8080/images/0/0',
-    //   thumbUrl: 'http://file.raysoda.test:8080/images/0/0/1.jpg',
-    //   updatable: false
-    // }
-    expect(image.id).toBe(1)
-    expect(image.owner).toEqual({ id: 1, name: 'User 1', home: 'user1' })
-    expect(Date.now() - image.cdate).toBeLessThan(2000)
-    expect(newDateString(new Date(image.cdate))).toBe(image.cdateStr)
-    expect(image.vers).toBeNull()
-    expect(image.comment).toBe('c1')
-    expect(image.dirUrl).toBe(ifm.getDirUrlFor(1))
-    expect(image.thumbUrl).toBe(ifm.getThumbUrlFor(1))
-    expect(image.updatable).toBe(false)
   })
 
 })

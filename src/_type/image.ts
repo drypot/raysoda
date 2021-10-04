@@ -4,7 +4,7 @@ export type Image = {
   id: number
   uid: number
   cdate: Date
-  vers: number[] | string | null
+  vers: number[] | null
   comment: string
 }
 
