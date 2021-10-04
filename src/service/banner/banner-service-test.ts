@@ -19,7 +19,7 @@ describe('Banner Api List', () => {
 
     db = await DB.from(config).createDatabase()
     vdb = ValueDB.from(db)
-    bdb = await BannerDB.from(vdb).loadCache()
+    bdb = await BannerDB.from(vdb)
   })
 
   afterAll(async () => {
@@ -29,6 +29,7 @@ describe('Banner Api List', () => {
   it('init table', async () => {
     await vdb.dropTable()
     await vdb.createTable()
+    await bdb.loadCache()
   })
   it('get banner list', async () => {
     const list = bannerListService(bdb)
