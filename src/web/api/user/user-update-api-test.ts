@@ -1,7 +1,7 @@
 import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
+import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
@@ -15,6 +15,8 @@ import {
   HOME_RANGE,
   NAME_DUPE,
   NAME_RANGE,
+  NOT_AUTHENTICATED,
+  NOT_AUTHORIZED,
   PASSWORD_RANGE
 } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
@@ -57,13 +59,20 @@ describe('UserUpdateApi', () => {
   it('fill fix', async () => {
     await insertUserFix4(udb)
   })
+  it('update user1 without login', async () => {
+    const form = {
+      name: 'User 11'
+    }
+    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    expect(res.body.err).toContain(NOT_AUTHENTICATED)
+  })
   it('login as user1', async () => {
     await loginForTest(sat, USER1_LOGIN)
   })
   it('update user1', async () => {
     const form = {
-      name: 'User X', home: 'userx', email: 'userx@mail.test',
-      password: '5678', profile: 'profile x'
+      name: 'User 11', home: 'user11', email: 'user11@mail.test',
+      password: '5678', profile: 'profile 11'
     }
     const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
     expect(res.body).toEqual({})
@@ -71,25 +80,25 @@ describe('UserUpdateApi', () => {
   it('check db', async () => {
     const user = await udb.findUserById(1)
     if (!user) throw new Error()
-    expect(user.name).toBe('User X')
-    expect(user.home).toBe('userx')
-    expect(user.email).toBe('userx@mail.test')
+    expect(user.name).toBe('User 11')
+    expect(user.home).toBe('user11')
+    expect(user.email).toBe('user11@mail.test')
     expect(await checkHash('5678', user.hash)).toBe(true)
-    expect(user.profile).toBe('profile x')
+    expect(user.profile).toBe('profile 11')
   })
   it('check cache', async () => {
     const user = await uc.getCachedById(1)
     if (!user) throw new Error()
-    expect(user.name).toBe('User X')
-    expect(user.home).toBe('userx')
-    expect(user.email).toBe('userx@mail.test')
+    expect(user.name).toBe('User 11')
+    expect(user.home).toBe('user11')
+    expect(user.email).toBe('user11@mail.test')
     expect(await checkHash('5678', user.hash)).toBe(true)
-    expect(user.profile).toBe('profile x')
+    expect(user.profile).toBe('profile 11')
   })
   it('password can be omitted', async () => {
     const form = {
-      name: 'User X', home: 'userx', email: 'userx@mail.test',
-      password: '', profile: 'profile x'
+      name: 'User 11', home: 'user11', email: 'user11@mail.test',
+      password: '', profile: 'profile 11'
     }
     const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
     expect(res.body).toEqual({})
@@ -125,6 +134,24 @@ describe('UserUpdateApi', () => {
     expect(res.body.err).toContain(NAME_DUPE)
     expect(res.body.err).toContain(HOME_DUPE)
     expect(res.body.err).toContain(EMAIL_DUPE)
+  })
+  it('update user2 by user1', async () => {
+    const form = {
+      name: 'User 22'
+    }
+    const res = await sat.put('/api/user-update/' + 2).send(form).expect(200)
+    expect(res.body.err).toContain(NOT_AUTHORIZED)
+  })
+  it('login as admin', async () => {
+    await loginForTest(sat, ADMIN_LOGIN)
+  })
+  it('update user2 by admin', async () => {
+    const form = {
+      name: 'User 22', home: 'user22', email: 'user22@mail.test',
+      password: '', profile: 'profile 22'
+    }
+    const res = await sat.put('/api/user-update/' + 2).send(form).expect(200)
+    expect(res.body).toEqual({})
   })
 
 })

@@ -57,11 +57,11 @@ describe('UserDeactivateApi', () => {
   it('login', async () => {
     await loginForTest(sat, USER1_LOGIN)
   })
-  it('get login', async () => {
+  it('get login works', async () => {
     const res = await sat.get('/api/login-info').expect(200)
     expect(res.body.user.id).toBe(1)
   })
-  it('deactivate user', async () => {
+  it('deactivate user1', async () => {
     const res = await sat.put('/api/user-deactivate/1').expect(200)
     expect(res.body).toEqual({})
   })

@@ -1,7 +1,7 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { DB } from '../../db/_db/db.js'
 import { UserDB } from '../../db/user/user-db.js'
-import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
+import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix.js'
 import { userUpdateService } from './user-update-service.js'
 import { checkHash } from '../../_util/hash.js'
 import {
@@ -11,6 +11,7 @@ import {
   HOME_RANGE,
   NAME_DUPE,
   NAME_RANGE,
+  NOT_AUTHORIZED,
   PASSWORD_RANGE
 } from '../../_type/error-user.js'
 import { Config } from '../../_type/config.js'
@@ -49,7 +50,7 @@ describe('userUpdateService', () => {
       password: '', profile: 'profile x'
     })
     const err: ErrorConst[] = []
-    await userUpdateService(uc, 1, form, err)
+    await userUpdateService(uc, USER1, 1, form, err)
     expect(err.length).toBe(0)
   })
   it('check db', async () => {
@@ -76,7 +77,7 @@ describe('userUpdateService', () => {
       password: '5678', profile: 'profile x'
     })
     const err: ErrorConst[] = []
-    await userUpdateService(uc, 1, form, err)
+    await userUpdateService(uc, USER1, 1, form, err)
     expect(err.length).toBe(0)
   })
   it('check db', async () => {
@@ -98,7 +99,7 @@ describe('userUpdateService', () => {
       name: s33, home: s33, email: s65, password: s33, profile: ''
     })
     const err: ErrorConst[] = []
-    await userUpdateService(uc, 1, form, err)
+    await userUpdateService(uc, USER1, 1, form, err)
     expect(err).toContain(NAME_RANGE)
     expect(err).toContain(HOME_RANGE)
     expect(err).toContain(EMAIL_RANGE)
@@ -110,10 +111,28 @@ describe('userUpdateService', () => {
       password: '', profile: ''
     })
     const err: ErrorConst[] = []
-    await userUpdateService(uc, 1, form, err)
+    await userUpdateService(uc, USER1, 1, form, err)
     expect(err).toContain(NAME_DUPE)
     expect(err).toContain(HOME_DUPE)
     expect(err).toContain(EMAIL_DUPE)
+  })
+  it('update user1 by user2', async () => {
+    const form = newUserUpdateForm({
+      name: 'User X', home: 'userx', email: 'userx@mail.test',
+      password: '', profile: 'profile x'
+    })
+    const err: ErrorConst[] = []
+    await userUpdateService(uc, USER2, 1, form, err)
+    expect(err).toContain(NOT_AUTHORIZED)
+  })
+  it('update user1 by admin', async () => {
+    const form = newUserUpdateForm({
+      name: 'User X', home: 'userx', email: 'userx@mail.test',
+      password: '', profile: 'profile x'
+    })
+    const err: ErrorConst[] = []
+    await userUpdateService(uc, ADMIN, 1, form, err)
+    expect(err.length).toBe(0)
   })
 
 })
