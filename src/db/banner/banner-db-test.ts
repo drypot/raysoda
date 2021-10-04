@@ -32,24 +32,24 @@ describe('BannerDB', () => {
     await vdb.createTable()
   })
   it('init bdb', async () => {
-    bdb = await BannerDB.from(vdb).load()
+    bdb = await BannerDB.from(vdb).loadCache()
   })
   it('banner is empty', async () => {
-    const b = bdb.getBannerList()
+    const b = bdb.getCached()
     expect(b.length).toBe(0)
   })
   it('set banner', async () => {
-    await bdb.setBannerList(list)
+    await bdb.updateBannerList(list)
   })
   it('banner contains item', async () => {
-    const b = bdb.getBannerList()
+    const b = bdb.getCached()
     expect(dupe(b)).toEqual(list)
   })
   it('reset bdb', async () => {
-    bdb = await BannerDB.from(vdb).load()
+    bdb = await BannerDB.from(vdb).loadCache()
   })
   it('banner contains item', async () => {
-    const b = bdb.getBannerList()
+    const b = bdb.getCached()
     expect(dupe(b)).toEqual(list)
   })
 

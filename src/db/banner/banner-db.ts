@@ -14,7 +14,7 @@ export class BannerDB {
     return new BannerDB(vdb)
   }
 
-  async load() {
+  async loadCache() {
     const list = await this.vdb.findValue('banners')
     if (list) {
       this.bannerList = list
@@ -22,13 +22,13 @@ export class BannerDB {
     return this
   }
 
-  async setBannerList(bannerList: Banner[]) {
-    this.bannerList = bannerList
-    await this.vdb.updateValue('banners', bannerList)
+  getCached() {
+    return this.bannerList
   }
 
-  getBannerList() {
-    return this.bannerList
+  async updateBannerList(list: Banner[]) {
+    await this.vdb.updateValue('banners', list)
+    this.bannerList = list
   }
 
 }

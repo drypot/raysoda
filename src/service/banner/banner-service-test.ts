@@ -19,7 +19,7 @@ describe('Banner Api List', () => {
 
     db = await DB.from(config).createDatabase()
     vdb = ValueDB.from(db)
-    bdb = await BannerDB.from(vdb).load()
+    bdb = await BannerDB.from(vdb).loadCache()
   })
 
   afterAll(async () => {
