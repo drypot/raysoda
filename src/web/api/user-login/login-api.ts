@@ -1,6 +1,6 @@
 import { Express2, toCallback } from '../../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
-import { newGuest, User, userIsAdmin, userIsUser } from '../../../_type/user.js'
+import { User, userIsAdmin, userIsUser } from '../../../_type/user.js'
 import { newString } from '../../../_util/primitive.js'
 import {
   ACCOUNT_DEACTIVATED,
@@ -13,6 +13,7 @@ import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { newUserForClient } from '../../../_type/user-client.js'
 import { checkHash } from '../../../_util/hash.js'
+import { GUEST } from '../../../db/user/fixture/user-fix.js'
 
 export function registerLoginApi(web: Express2, uc: UserCache) {
 
@@ -67,8 +68,6 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
 
 }
 
-const guest = newGuest()
-
 export async function loginService(
   req: Request, res: Response, uc: UserCache, email: string, password: string, remember: boolean, err: ErrorConst[]
 ) {
@@ -111,7 +110,7 @@ async function autoLoginService(req: Request, res: Response, uc: UserCache) {
     res.locals.user = user
     return
   }
-  res.locals.user = guest
+  res.locals.user = GUEST
 
   const email = req.cookies.email
   const password = req.cookies.password
@@ -151,6 +150,6 @@ export function shouldBeAdmin(user: User) {
   if (!userIsAdmin(user)) throw NOT_AUTHORIZED
 }
 
-export function userHasUpdatePerm(op: User, id: number) {
+export function userCanUpdateUser(op: User, id: number) {
   return op.id === id || op.admin
 }
