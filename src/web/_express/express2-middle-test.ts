@@ -1,17 +1,17 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { Express2 } from './express2.js'
 import { NextFunction, Request, Response } from 'express'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 
 describe('Express2 Middleware', () => {
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     const config = loadConfigSync('config/app-test.json')
     web = await Express2.from(config).start()
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -49,7 +49,7 @@ describe('Express2 Middleware', () => {
     })
   })
   it('api-1-2-3', async () => {
-    await request.get('/api/api-1-2-3').expect(200)
+    await sat.get('/api/api-1-2-3').expect(200)
     expect(done1).toBe(true)
     expect(done2).toBe(true)
     expect(done3).toBe(true)
@@ -64,7 +64,7 @@ describe('Express2 Middleware', () => {
     reset()
   })
   it('api-1-err-2-3', async () => {
-    await request.get('/api/api-1-err-2-3').expect(200)
+    await sat.get('/api/api-1-err-2-3').expect(200)
     expect(done1).toBe(true)
     expect(done2).toBe(false)
     expect(done3).toBe(false)

@@ -4,7 +4,7 @@ import { UserDB } from '../../../db/user/user-db.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { registerImageUploadApi } from './image-upload-api.js'
@@ -28,7 +28,7 @@ describe('Image Detail Api', () => {
   let ifm: ImageFileManager
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/raysoda-test.json')
@@ -44,7 +44,7 @@ describe('Image Detail Api', () => {
     registerLoginApi(web, uc)
     registerImageUploadApi(web, udb, idb, ifm)
     registerImageDetailApi(web, uc, idb, ifm)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -67,24 +67,24 @@ describe('Image Detail Api', () => {
       await ifm.rmRoot()
     })
     it('login as user1', async () => {
-      await loginForTest(request, USER1_LOGIN)
+      await loginForTest(sat, USER1_LOGIN)
     })
     it('upload image', async () => {
-      const res = await request.post('/api/image-upload')
+      const res = await sat.post('/api/image-upload')
         .field('comment', 'c1')
         .attach('file', 'sample/640x360.jpg')
         .expect(200)
       expect(res.body.id).toBe(1)
     })
     it('logout', async () => {
-      await logoutForTest(request)
+      await logoutForTest(sat)
     })
     it('get image fails if id invalid', async () => {
-      const res = await request.get('/api/image/2').expect(200)
+      const res = await sat.get('/api/image/2').expect(200)
       expect(res.body.err).toContain(IMAGE_NOT_EXIST)
     })
     it('get image', async () => {
-      const res = await request.get('/api/image/1').expect(200)
+      const res = await sat.get('/api/image/1').expect(200)
       const image = res.body.image as ImageView
       // image: {
       //   id: 1,
@@ -108,24 +108,24 @@ describe('Image Detail Api', () => {
       expect(image.updatable).toBe(false)
     })
     it('login as user1', async () => {
-      await loginForTest(request, USER1_LOGIN)
+      await loginForTest(sat, USER1_LOGIN)
     })
     it('image is updatable if user1', async () => {
-      const res = await request.get('/api/image/1').expect(200)
+      const res = await sat.get('/api/image/1').expect(200)
       expect(res.body.image.updatable).toBe(true)
     })
     it('login as user2', async () => {
-      await loginForTest(request, USER2_LOGIN)
+      await loginForTest(sat, USER2_LOGIN)
     })
     it('image is not updatable if user2', async () => {
-      const res = await request.get('/api/image/1').expect(200)
+      const res = await sat.get('/api/image/1').expect(200)
       expect(res.body.image.updatable).toBe(false)
     })
     it('login as admin', async () => {
-      await loginForTest(request, ADMIN_LOGIN)
+      await loginForTest(sat, ADMIN_LOGIN)
     })
     it('image is updatable if admin', async () => {
-      const res = await request.get('/api/image/1').expect(200)
+      const res = await sat.get('/api/image/1').expect(200)
       expect(res.body.image.updatable).toBe(true)
     })
   })

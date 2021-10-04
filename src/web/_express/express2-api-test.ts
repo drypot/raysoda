@@ -1,16 +1,16 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { Express2 } from './express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 
 describe('Express2 res.locals.api', () => {
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     const config = loadConfigSync('config/app-test.json')
     web = await Express2.from(config).start()
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -27,7 +27,7 @@ describe('Express2 res.locals.api', () => {
     })
   })
   it('api', async () => {
-    const res = await request.get('/api/test').expect(200)
+    const res = await sat.get('/api/test').expect(200)
     expect(count).toBe(10)
   })
   it('setup /test', () => {
@@ -38,7 +38,7 @@ describe('Express2 res.locals.api', () => {
     })
   })
   it('page', async () => {
-    const res = await request.get('/test').expect(200)
+    const res = await sat.get('/test').expect(200)
     expect(count).toBe(20)
   })
 

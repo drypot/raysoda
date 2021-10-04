@@ -6,7 +6,7 @@ import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { checkHash } from '../../../_util/hash.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerPasswordApi } from './password-api.js'
 import { INVALID_DATA } from '../../../_type/error.js'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../../_type/error-user.js'
@@ -26,7 +26,7 @@ describe('Password Api', () => {
   let mailer: Mailer
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -40,7 +40,7 @@ describe('Password Api', () => {
 
     web = await Express2.from(config).start()
     registerPasswordApi(web, uc, rdb, mailer)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -56,15 +56,15 @@ describe('Password Api', () => {
     await rdb.createTable(false)
   })
   it('send mail, email existence check', async () => {
-    const res = await request.post('/api/password-send-reset-mail').send({ email: 'userx@mail.test' }).expect(200)
+    const res = await sat.post('/api/password-send-reset-mail').send({ email: 'userx@mail.test' }).expect(200)
     expect(res.body.err).toContain(EMAIL_NOT_FOUND)
   })
   it('send mail, email format check', async () => {
-    const res = await request.post('/api/password-send-reset-mail').send({ email: 'userx.mail.test' }).expect(200)
+    const res = await sat.post('/api/password-send-reset-mail').send({ email: 'userx.mail.test' }).expect(200)
     expect(res.body.err).toContain(EMAIL_PATTERN)
   })
   it('send mail', async () => {
-    const res = await request.post('/api/password-send-reset-mail').send({ email: 'user1@mail.test' }).expect(200)
+    const res = await sat.post('/api/password-send-reset-mail').send({ email: 'user1@mail.test' }).expect(200)
     expect(res.body.err).toBe(undefined)
   })
   const resetRecord = { uuid: '', token: '' }
@@ -76,22 +76,22 @@ describe('Password Api', () => {
   })
   it('set password, password format check', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '123' }
-    const res = await request.post('/api/password-reset').send(form).expect(200)
+    const res = await sat.post('/api/password-reset').send(form).expect(200)
     expect(res.body.err).toContain(PASSWORD_RANGE)
   })
   it('set password, uuid check', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '1234', uuid: 'xxxx' }
-    const res = await request.post('/api/password-reset').send(form).expect(200)
+    const res = await sat.post('/api/password-reset').send(form).expect(200)
     expect(res.body.err).toContain(INVALID_DATA)
   })
   it('set password, token check', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '1234', token: 'xxxx' }
-    const res = await request.post('/api/password-reset').send(form).expect(200)
+    const res = await sat.post('/api/password-reset').send(form).expect(200)
     expect(res.body.err).toContain(INVALID_DATA)
   })
   it('set password', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '5678' }
-    const res = await request.post('/api/password-reset').send(form).expect(200)
+    const res = await sat.post('/api/password-reset').send(form).expect(200)
     expect(res.body.err).toBe(undefined)
   })
   it('check db', async () => {

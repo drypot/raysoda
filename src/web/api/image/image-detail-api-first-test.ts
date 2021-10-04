@@ -4,7 +4,7 @@ import { UserDB } from '../../../db/user/user-db.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
 import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { registerImageDetailApi } from './image-detail-api.js'
@@ -23,7 +23,7 @@ describe('ImageDetailApi First Image Cdate', () => {
   let ifm: ImageFileManager
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/raysoda-test.json')
@@ -37,7 +37,7 @@ describe('ImageDetailApi First Image Cdate', () => {
 
     web = await Express2.from(config).useUpload().start()
     registerImageDetailApi(web, uc, idb, ifm)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -59,7 +59,7 @@ describe('ImageDetailApi First Image Cdate', () => {
     await ifm.rmRoot()
   })
   it('returns nothing', async () => {
-    const res = await request.get('/api/image-first-image-cdate').expect(200)
+    const res = await sat.get('/api/image-first-image-cdate').expect(200)
     expect(Date.now() - res.body.today).toBeLessThan(1000)
     expect(res.body.cdate).toBeUndefined()
   })
@@ -79,7 +79,7 @@ describe('ImageDetailApi First Image Cdate', () => {
     await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
   it('returns cdate', async () => {
-    const res = await request.get('/api/image-first-image-cdate').expect(200)
+    const res = await sat.get('/api/image-first-image-cdate').expect(200)
     expect(Date.now() - res.body.today).toBeLessThan(1000)
     expect(new Date(res.body.cdate)).toEqual(new Date(2003, 0, 1))
   })

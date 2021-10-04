@@ -3,7 +3,7 @@ import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { registerUserListApi } from './user-list-api.js'
 import { Config } from '../../../_type/config.js'
@@ -18,7 +18,7 @@ describe('UserListApi', () => {
   let uc: UserCache
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -30,7 +30,7 @@ describe('UserListApi', () => {
     web = await Express2.from(config).start()
     registerLoginApi(web, uc)
     registerUserListApi(web, udb)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -46,7 +46,7 @@ describe('UserListApi', () => {
     await insertUserFix4(udb)
   })
   it('get list', async () => {
-    const res = await request.get('/api/user-list').expect(200)
+    const res = await sat.get('/api/user-list').expect(200)
     const list = res.body.userList
     expect(list.length).toBe(4)
     // ordered by pdate desc
@@ -56,7 +56,7 @@ describe('UserListApi', () => {
     expect(list[3].home).toBe('admin')
   })
   it('get p 1, ps 3', async () => {
-    const res = await request.get('/api/user-list?p=1&ps=3').expect(200)
+    const res = await sat.get('/api/user-list?p=1&ps=3').expect(200)
     const list = res.body.userList
     expect(list.length).toBe(3)
     // ordered by pdate desc

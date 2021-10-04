@@ -1,11 +1,10 @@
-import express, { ErrorRequestHandler, Express, NextFunction, Request, Response, Router } from 'express'
+import _express, { ErrorRequestHandler, Express, NextFunction, Request, Response, Router } from 'express'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import redis from 'redis'
 import expressSession from 'express-session'
 import connectRedis from 'connect-redis'
 import * as http from 'http'
-import supertest from 'supertest'
 import newMulter, { Multer } from 'multer'
 import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2.js'
 import { unlinkSync } from 'fs'
@@ -22,11 +21,11 @@ declare module 'express-session' {
 
 export class Express2 {
 
-  public config: Config
-  private readonly httpServer: http.Server
-  private readonly web: Express
-  private multer: Multer | undefined
+  public readonly config: Config
+  public readonly server: http.Server
+  public readonly express: Express
   public readonly router: Router
+  private multer: Multer | undefined
 
   public autoLogin: ExpressHandler = (req, res, done) => {
     done()
@@ -37,13 +36,13 @@ export class Express2 {
 
   private constructor(config: Config) {
     this.config = config
-    this.web = express()
-    this.router = express.Router()
-    this.httpServer = http.createServer(this.web)
+    this.express = _express()
+    this.router = _express.Router()
+    this.server = http.createServer(this.express)
 
-    this.web.disable('x-powered-by')
+    this.express.disable('x-powered-by')
 
-    const locals = this.web.locals
+    const locals = this.express.locals
     locals.pretty = true
     locals.appName = config.appName
     locals.appNamel = config.appNamel
@@ -57,14 +56,18 @@ export class Express2 {
   }
 
   setViewEngine(engine: string, root: string) {
-    this.web.set('view engine', engine)
-    this.web.set('views', root)
+    this.express.set('view engine', engine)
+    this.express.set('views', root)
     return this
   }
 
+  // Upload
+
   useUpload() {
     if (!this.multer) {
-      if (!this.config.uploadDir) throw new Error('config.uploadDir should be defined')
+      if (!this.config.uploadDir) {
+        throw new Error('config.uploadDir should be defined')
+      }
       const tmp = this.config.uploadDir + '/tmp'
       mkdirRecursiveSync(tmp)
       emptyDirSync(tmp)
@@ -73,10 +76,16 @@ export class Express2 {
     return this
   }
 
+  get upload(): Multer {
+    return this.multer as Multer
+  }
+
+  // Start & Close
+
   static apiPattern = /^\/api\//
 
   async start() {
-    this.web.use(function (req, res, done) {
+    this.express.use(function (req, res, done) {
       res.locals.query = req.query
       res.locals.api = Express2.apiPattern.test(req.path)
       done()
@@ -89,7 +98,7 @@ export class Express2 {
     this.setUpRedirectToLoginHandler()
     this.setUpErrorHandler()
     return new Promise<Express2>((resolve) => {
-      this.httpServer.listen(this.config.port, () => {
+      this.server.listen(this.config.port, () => {
         resolve(this)
       })
     })
@@ -97,20 +106,16 @@ export class Express2 {
 
   close() {
     return new Promise<void>((resolve, reject) => {
-      if (!this.httpServer) return resolve()
-      this.httpServer.close((err) => {
+      if (!this.server) return resolve()
+      this.server.close((err) => {
         if (err) return reject(err)
         resolve()
       })
     })
   }
 
-  spawnRequest() {
-    return supertest.agent(this.httpServer)
-  }
-
   private setUpSessionHandler() {
-    this.web.use(cookieParser())
+    this.express.use(cookieParser())
 
     const redisClient = redis.createClient({
       host: 'localhost',
@@ -122,7 +127,7 @@ export class Express2 {
 
     const RedisStore = connectRedis(expressSession)
 
-    this.web.use(expressSession({
+    this.express.use(expressSession({
       store: new RedisStore({ client: redisClient }),
       resave: false,
       saveUninitialized: false,
@@ -131,14 +136,14 @@ export class Express2 {
   }
 
   private setUpBodyParser() {
-    this.web.use(bodyParser.urlencoded({ extended: false }))
-    this.web.use(bodyParser.json())
+    this.express.use(bodyParser.urlencoded({ extended: false }))
+    this.express.use(bodyParser.json())
   }
 
   private setUpCacheControl() {
     // Cache-Control + etc
 
-    this.web.use(function (req, res, done) {
+    this.express.use(function (req, res, done) {
       // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
       // 각 핸들러에서 res.send(), res.json() 으로 Content-Type 을 간접적으로 명시할 수도 있지만
       // 에러 핸들러는 공용으로 사용하기 때문에 이 방식에 의존할 수 없다.
@@ -167,12 +172,12 @@ export class Express2 {
     const handler: ExpressHandler = (req, res, done) => {
       this.autoLogin(req, res, done)
     }
-    this.web.use(handler)
+    this.express.use(handler)
   }
 
   private setUpGeneralRouter() {
     // 테스트케이스에서 인스턴스가 기동한 후 핸들러를 추가하는 경우가 있어 router 를 따로 두었다.
-    this.web.use(this.router)
+    this.express.use(this.router)
   }
 
   // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
@@ -180,13 +185,13 @@ export class Express2 {
     const handler: ErrorRequestHandler = (err, req, res, done) => {
       this.redirectToLogin(err, req, res, done)
     }
-    this.web.use(handler)
+    this.express.use(handler)
   }
 
   // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
   private setUpErrorHandler() {
     const _this = this
-    this.web.use(function (err: any, req: Request, res: Response, done: NextFunction) {
+    this.express.use(function (err: any, req: Request, res: Response, done: NextFunction) {
       let r
       if (err instanceof Array) {
         r = {
@@ -203,10 +208,6 @@ export class Express2 {
       }
       res.json(r)
     })
-  }
-
-  get upload(): Multer {
-    return this.multer as Multer
   }
 
 }

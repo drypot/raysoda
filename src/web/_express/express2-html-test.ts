@@ -1,16 +1,16 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { Express2 } from './express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 
 describe('Express2 Html', () => {
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     const config = loadConfigSync('config/app-test.json')
     web = await Express2.from(config).start()
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -23,7 +23,7 @@ describe('Express2 Html', () => {
     })
   })
   it('can return html', async () => {
-    const res = await request.get('/html').expect(200)
+    const res = await sat.get('/html').expect(200)
     expect(res.type).toBe('text/html')
     expect(res.text).toBe('<p>some text</p>')
   })

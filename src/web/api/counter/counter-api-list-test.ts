@@ -2,7 +2,7 @@ import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { CounterDB } from '../../../db/counter/counter-db.js'
@@ -23,7 +23,7 @@ describe('Counter List Api', () => {
   let cdb: CounterDB
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -37,7 +37,7 @@ describe('Counter List Api', () => {
     web = await Express2.from(config).start()
     registerLoginApi(web, uc)
     registerCounterApi(web, cdb)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -65,25 +65,25 @@ describe('Counter List Api', () => {
   })
   const url1 = '/api/counter-list/cnt1?b=2003-01-18&e=2003-01-20'
   it('get fails if anonymous', async () => {
-    const res = await request.get(url1).expect(200)
+    const res = await sat.get(url1).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
   it('login as user', async () => {
-    await loginForTest(request, USER1_LOGIN)
+    await loginForTest(sat, USER1_LOGIN)
   })
   it('get fails if user', async () => {
-    const res = await request.get(url1).expect(200)
+    const res = await sat.get(url1).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
-    await loginForTest(request, ADMIN_LOGIN)
+    await loginForTest(sat, ADMIN_LOGIN)
   })
   it('get counter', async () => {
-    const res = await request.get(url1).expect(200)
+    const res = await sat.get(url1).expect(200)
     expect(res.body.counterList).toEqual([
-      { d: '2003-01-18', c: 20 },
-      { d: '2003-01-19', c: 30 },
-      { d: '2003-01-20', c: 40 },
+      { id: 'cnt1', d: '2003-01-18', c: 20 },
+      { id: 'cnt1', d: '2003-01-19', c: 30 },
+      { id: 'cnt1', d: '2003-01-20', c: 40 },
     ])
   })
 

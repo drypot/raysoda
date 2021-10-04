@@ -2,7 +2,7 @@ import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { ImageDB } from '../../../db/image/image-db.js'
@@ -28,7 +28,7 @@ describe('ImageDeleteApi RaySoda', () => {
   let ifm: ImageFileManager
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/raysoda-test.json')
@@ -44,7 +44,7 @@ describe('ImageDeleteApi RaySoda', () => {
     registerLoginApi(web, uc)
     registerImageUploadApi(web, udb, idb, ifm)
     registerImageDeleteApi(web, idb, ifm)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -67,10 +67,10 @@ describe('ImageDeleteApi RaySoda', () => {
       await ifm.rmRoot()
     })
     it('login as user1', async () => {
-      await loginForTest(request, USER1_LOGIN)
+      await loginForTest(sat, USER1_LOGIN)
     })
     it('upload 1', async () => {
-      const res = await request.post('/api/image-upload').field('comment', 'c')
+      const res = await sat.post('/api/image-upload').field('comment', 'c')
         .attach('file', 'sample/640x360.jpg').expect(200)
       expect(res.body.id).toEqual(1)
     })
@@ -78,33 +78,33 @@ describe('ImageDeleteApi RaySoda', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(true)
     })
     it('delete 1', async () => {
-      const res = await request.delete('/api/image-delete/1').expect(200)
+      const res = await sat.delete('/api/image-delete/1').expect(200)
       expect(res.body.err).toBeUndefined()
     })
     it('check file 1 after delete', async () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(false)
     })
     it('delete 1 again, fails', async () => {
-      const res = await request.delete('/api/image-delete/1').expect(200)
+      const res = await sat.delete('/api/image-delete/1').expect(200)
       expect(res.body.err).toContain(IMAGE_NOT_EXIST)
     })
     it('upload 2', async () => {
-      const res = await request.post('/api/image-upload').field('comment', 'c')
+      const res = await sat.post('/api/image-upload').field('comment', 'c')
         .attach('file', 'sample/640x360.jpg').expect(200)
       expect(res.body.id).toEqual(2)
     })
     it('login as user2', async () => {
-      await loginForTest(request, USER2_LOGIN)
+      await loginForTest(sat, USER2_LOGIN)
     })
     it('delete 2 fails, owner not match', async () => {
-      const res = await request.delete('/api/image-delete/2').expect(200)
+      const res = await sat.delete('/api/image-delete/2').expect(200)
       expect(res.body.err).toContain(NOT_AUTHORIZED)
     })
     it('login as admin', async () => {
-      await loginForTest(request, ADMIN_LOGIN)
+      await loginForTest(sat, ADMIN_LOGIN)
     })
     it('delete 2 by admin', async () => {
-      const res = await request.delete('/api/image-delete/2').expect(200)
+      const res = await sat.delete('/api/image-delete/2').expect(200)
       expect(res.body.err).toBeUndefined()
     })
   })

@@ -3,7 +3,7 @@ import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { loginForTest } from '../user-login/login-api-fixture.js'
 import { registerUserUpdateApi } from './user-update-api.js'
@@ -29,7 +29,7 @@ describe('UserUpdateApi', () => {
   let uc: UserCache
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -41,7 +41,7 @@ describe('UserUpdateApi', () => {
     web = await Express2.from(config).start()
     registerLoginApi(web, uc)
     registerUserUpdateApi(web, uc)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -57,14 +57,14 @@ describe('UserUpdateApi', () => {
     await insertUserFix4(udb)
   })
   it('login as user1', async () => {
-    await loginForTest(request, USER1_LOGIN)
+    await loginForTest(sat, USER1_LOGIN)
   })
   it('update user1', async () => {
     const form = {
       name: 'User X', home: 'userx', email: 'userx@mail.test',
       password: '5678', profile: 'profile x'
     }
-    const res = await request.put('/api/user-update/' + 1).send(form).expect(200)
+    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
     expect(res.body).toEqual({})
   })
   it('check db', async () => {
@@ -90,7 +90,7 @@ describe('UserUpdateApi', () => {
       name: 'User X', home: 'userx', email: 'userx@mail.test',
       password: '', profile: 'profile x'
     }
-    const res = await request.put('/api/user-update/' + 1).send(form).expect(200)
+    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
     expect(res.body).toEqual({})
   })
   it('check db', async () => {
@@ -109,7 +109,7 @@ describe('UserUpdateApi', () => {
     const form = {
       name: s33, home: s33, email: s65, password: s33, profile: ''
     }
-    const res = await request.put('/api/user-update/' + 1).send(form).expect(200)
+    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
     expect(res.body.err).toContain(NAME_RANGE)
     expect(res.body.err).toContain(HOME_RANGE)
     expect(res.body.err).toContain(EMAIL_RANGE)
@@ -120,7 +120,7 @@ describe('UserUpdateApi', () => {
       name: 'User 2', home: 'user2', email: 'user2@mail.test',
       password: '', profile: ''
     }
-    const res = await request.put('/api/user-update/' + 1).send(form).expect(200)
+    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
     expect(res.body.err).toContain(NAME_DUPE)
     expect(res.body.err).toContain(HOME_DUPE)
     expect(res.body.err).toContain(EMAIL_DUPE)

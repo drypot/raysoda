@@ -11,8 +11,8 @@ export function registerUserListApi(web: Express2, udb: UserDB) {
 
   web.router.get('/api/user-list', toCallback(async (req, res) => {
     const user = getSessionUser(res)
-    const p = newLimitedNumber(req.query.p as string, 1, 1, NaN)
-    const ps = newLimitedNumber(req.query.ps as string, 99, 1, 300)
+    const p = newLimitedNumber(req.query.p, 1, 1, NaN)
+    const ps = newLimitedNumber(req.query.ps, 99, 1, 300)
     const q = newString(req.query.q)
     const admin = userIsAdmin(user)
     let list: UserForList[]

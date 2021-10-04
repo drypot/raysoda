@@ -3,7 +3,7 @@ import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from './login-api.js'
 import { loginForTest, logoutForTest } from './login-api-fixture.js'
 import { NOT_AUTHENTICATED } from '../../../_type/error-user.js'
@@ -17,7 +17,7 @@ describe('Login Api Fixture', () => {
   let udb: UserDB
   let uc: UserCache
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -28,7 +28,7 @@ describe('Login Api Fixture', () => {
 
     web = await Express2.from(config).start()
     registerLoginApi(web, uc)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -45,17 +45,17 @@ describe('Login Api Fixture', () => {
   })
 
   it('login', async () => {
-    await loginForTest(request, USER1_LOGIN)
+    await loginForTest(sat, USER1_LOGIN)
   })
   it('get login', async () => {
-    const res = await request.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/login-info').expect(200)
     expect(res.body.user.id).toBe(1)
   })
   it('logout', async () => {
-    await logoutForTest(request)
+    await logoutForTest(sat)
   })
   it('get login fails', async () => {
-    const res = await request.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/login-info').expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
 

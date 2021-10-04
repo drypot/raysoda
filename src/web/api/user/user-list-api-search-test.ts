@@ -3,7 +3,7 @@ import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { ADMIN_LOGIN, insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { loginForTest } from '../user-login/login-api-fixture.js'
 import { registerUserListApi } from './user-list-api.js'
@@ -19,7 +19,7 @@ describe('UserListApi Search', () => {
   let uc: UserCache
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -31,7 +31,7 @@ describe('UserListApi Search', () => {
     web = await Express2.from(config).start()
     registerLoginApi(web, uc)
     registerUserListApi(web, udb)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -47,27 +47,27 @@ describe('UserListApi Search', () => {
     await insertUserFix4(udb)
   })
   it('search user1', async () => {
-    const res = await request.get('/api/user-list?q=user1').expect(200)
+    const res = await sat.get('/api/user-list?q=user1').expect(200)
     const list = res.body.userList
     expect(list.length).toBe(1)
     expect(list[0].home).toBe('user1')
   })
   it('search user1@mail.test as user', async () => {
-    const res = await request.get('/api/user-list?q=user1@mail.test').expect(200)
+    const res = await sat.get('/api/user-list?q=user1@mail.test').expect(200)
     const list = res.body.userList
     expect(list.length).toBe(0)
   })
   it('login as admin', async () => {
-    await loginForTest(request, ADMIN_LOGIN)
+    await loginForTest(sat, ADMIN_LOGIN)
   })
   it('search user1@mail.test as user', async () => {
-    const res = await request.get('/api/user-list?q=user1@mail.test').expect(200)
+    const res = await sat.get('/api/user-list?q=user1@mail.test').expect(200)
     const list = res.body.userList
     expect(list.length).toBe(1)
     expect(list[0].home).toBe('user1')
   })
   it('search userx', async () => {
-    const res = await request.get('/api/user-list?q=userx').expect(200)
+    const res = await sat.get('/api/user-list?q=userx').expect(200)
     const list = res.body.userList
     expect(list.length).toBe(0)
   })

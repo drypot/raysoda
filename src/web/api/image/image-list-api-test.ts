@@ -4,7 +4,7 @@ import { UserDB } from '../../../db/user/user-db.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { RaySodaFileManager } from '../../../file/raysoda-fileman.js'
 import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { registerImageListApi } from './image-list-api.js'
@@ -23,7 +23,7 @@ describe('ImageListApi', () => {
   let ifm: ImageFileManager
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/raysoda-test.json')
@@ -37,7 +37,7 @@ describe('ImageListApi', () => {
 
     web = await Express2.from(config).useUpload().start()
     registerImageListApi(web, uc, idb, ifm)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -74,7 +74,7 @@ describe('ImageListApi', () => {
     await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
   it('p 1, ps 1', async () => {
-    const res = await request.get('/api/image-list?p=1&ps=1').expect(200)
+    const res = await sat.get('/api/image-list?p=1&ps=1').expect(200)
     const r = res.body.list
     expect(r).toEqual([{
       id: 10,
@@ -86,7 +86,7 @@ describe('ImageListApi', () => {
     }])
   })
   it('p 1, ps 128', async () => {
-    const res = await request.get('/api/image-list').expect(200)
+    const res = await sat.get('/api/image-list').expect(200)
     const r = res.body.list
     expect(r.length).toBe(10)
     expect(r[0].id).toBe(10)
@@ -95,35 +95,35 @@ describe('ImageListApi', () => {
     expect(r[9].id).toBe(1)
   })
   it('p 1, ps 4', async () => {
-    const res = await request.get('/api/image-list?p=1&ps=4').expect(200)
+    const res = await sat.get('/api/image-list?p=1&ps=4').expect(200)
     const r = res.body.list
     expect(r.length).toBe(4)
     expect(r[0].id).toBe(10)
     expect(r[3].id).toBe(7)
   })
   it('p 2, ps 4', async () => {
-    const res = await request.get('/api/image-list?p=2&ps=4').expect(200)
+    const res = await sat.get('/api/image-list?p=2&ps=4').expect(200)
     const r = res.body.list
     expect(r.length).toBe(4)
     expect(r[0].id).toBe(6)
     expect(r[3].id).toBe(3)
   })
   it('p 3, ps 4', async () => {
-    const res = await request.get('/api/image-list?p=3&ps=4').expect(200)
+    const res = await sat.get('/api/image-list?p=3&ps=4').expect(200)
     const r = res.body.list
     expect(r.length).toBe(2)
     expect(r[0].id).toBe(2)
     expect(r[1].id).toBe(1)
   })
   it('d 20030607, ps 4', async () => {
-    const res = await request.get('/api/image-list?d=2003-06-07&ps=4').expect(200)
+    const res = await sat.get('/api/image-list?d=2003-06-07&ps=4').expect(200)
     const r = res.body.list
     expect(r.length).toBe(4)
     expect(r[0].id).toBe(6)
     expect(r[3].id).toBe(3)
   })
   it('d null', async () => {
-    const res = await request.get('/api/image-list?d=null').expect(200)
+    const res = await sat.get('/api/image-list?d=null').expect(200)
     const r = res.body.list
     expect(r.length).toBe(10)
     expect(r[0].id).toBe(10)

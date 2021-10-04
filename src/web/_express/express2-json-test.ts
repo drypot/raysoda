@@ -1,16 +1,16 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { Express2 } from './express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 
 describe('Express2 Json', () => {
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     const config = loadConfigSync('config/app-test.json')
     web = await Express2.from(config).start()
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -23,7 +23,7 @@ describe('Express2 Json', () => {
     })
   })
   it('object', async () => {
-    const res = await request.get('/api/object').expect(200)
+    const res = await sat.get('/api/object').expect(200)
     expect(res.type).toBe('application/json')
     expect(res.body).toEqual({ message: 'hello' })
   })
@@ -33,7 +33,7 @@ describe('Express2 Json', () => {
     })
   })
   it('string', async () => {
-    const res = await request.get('/api/string').expect(200)
+    const res = await sat.get('/api/string').expect(200)
     expect(res.type).toBe('application/json')
     expect(res.body).toBe('hi')
   })
@@ -43,7 +43,7 @@ describe('Express2 Json', () => {
     })
   })
   it('null', async () => {
-    const res = await request.get('/api/null').expect(200)
+    const res = await sat.get('/api/null').expect(200)
     expect(res.type).toBe('application/json')
     expect(res.body).toBeNull()
   })

@@ -3,7 +3,7 @@ import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerUserDeactivateApi } from './user-deactivate-api.js'
 import { loginForTest } from '../user-login/login-api-fixture.js'
 import { registerLoginApi } from '../user-login/login-api.js'
@@ -20,7 +20,7 @@ describe('UserDeactivateApi', () => {
   let uc: UserCache
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -32,7 +32,7 @@ describe('UserDeactivateApi', () => {
     web = await Express2.from(config).start()
     registerLoginApi(web, uc)
     registerUserDeactivateApi(web, uc)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -49,23 +49,23 @@ describe('UserDeactivateApi', () => {
   })
 
   it('deactivating fails before login', async () => {
-    const res = await request.put('/api/user-deactivate/1').expect(200)
+    const res = await sat.put('/api/user-deactivate/1').expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
 
   it('login', async () => {
-    await loginForTest(request, USER1_LOGIN)
+    await loginForTest(sat, USER1_LOGIN)
   })
   it('get login', async () => {
-    const res = await request.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/login-info').expect(200)
     expect(res.body.user.id).toBe(1)
   })
   it('deactivate user', async () => {
-    const res = await request.put('/api/user-deactivate/1').expect(200)
+    const res = await sat.put('/api/user-deactivate/1').expect(200)
     expect(res.body).toEqual({})
   })
   it('get login fails', async () => {
-    const res = await request.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/login-info').expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
   it('user status must be "d"', async () => {
@@ -74,18 +74,18 @@ describe('UserDeactivateApi', () => {
   })
 
   it('login as user2', async () => {
-    await loginForTest(request, USER2_LOGIN)
+    await loginForTest(sat, USER2_LOGIN)
   })
   it('deactivating other fails', async () => {
-    const res = await request.put('/api/user-deactivate/3').expect(200)
+    const res = await sat.put('/api/user-deactivate/3').expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
 
   it('login as admin', async () => {
-    await loginForTest(request, ADMIN_LOGIN)
+    await loginForTest(sat, ADMIN_LOGIN)
   })
   it('deactivating other works', async () => {
-    const res = await request.put('/api/user-deactivate/3').expect(200)
+    const res = await sat.put('/api/user-deactivate/3').expect(200)
     expect(res.body).toEqual({})
   })
 

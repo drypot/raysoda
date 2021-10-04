@@ -3,7 +3,7 @@ import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerUserRegisterApi } from './user-register-api.js'
 import {
   EMAIL_DUPE,
@@ -24,7 +24,7 @@ describe('UserRegisterApi', () => {
   let udb: UserDB
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -34,7 +34,7 @@ describe('UserRegisterApi', () => {
 
     web = await Express2.from(config).start()
     registerUserRegisterApi(web, udb)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -51,7 +51,7 @@ describe('UserRegisterApi', () => {
   })
   it('post new user', async () => {
     const form = { name: 'User Y', email: 'usery@mail.test', password: '1234' }
-    const res = await request.post('/api/user-register').send(form).expect(200)
+    const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.id).toBe(5)
   })
   it('check db', async () => {
@@ -62,7 +62,7 @@ describe('UserRegisterApi', () => {
     const s33 = 'x'.repeat(33)
     const s65 = 'x'.repeat(66)
     const form = { name: s33, email: s65, password: s33 }
-    const res = await request.post('/api/user-register').send(form).expect(200)
+    const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).toContain(NAME_RANGE)
     expect(res.body.err).toContain(HOME_RANGE)
     expect(res.body.err).toContain(EMAIL_RANGE)
@@ -70,7 +70,7 @@ describe('UserRegisterApi', () => {
   })
   it('dupe check works', async () => {
     const form = { name: 'User 2', email: 'user2@mail.test', password: '1234' }
-    const res = await request.post('/api/user-register').send(form).expect(200)
+    const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).toContain(NAME_DUPE)
     expect(res.body.err).toContain(HOME_DUPE)
     expect(res.body.err).toContain(EMAIL_DUPE)

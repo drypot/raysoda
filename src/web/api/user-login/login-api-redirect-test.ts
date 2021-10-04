@@ -3,7 +3,7 @@ import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 import { Express2, toCallback } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { getSessionUser, registerLoginApi, shouldBeUser } from './login-api.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
@@ -17,7 +17,7 @@ describe('Login Api Redirect To Login', () => {
   let uc: UserCache
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -28,7 +28,7 @@ describe('Login Api Redirect To Login', () => {
 
     web = await Express2.from(config).start()
     registerLoginApi(web, uc)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -54,10 +54,10 @@ describe('Login Api Redirect To Login', () => {
     await insertUserFix4(udb)
   })
   it('for-guest', async () => {
-    await request.get('/for-guest').expect(200)
+    await sat.get('/for-guest').expect(200)
   })
   it('for-user', async () => {
-    await request.get('/for-user').expect(302).expect('Location', '/login')
+    await sat.get('/for-user').expect(302).expect('Location', '/login')
   })
 
 })

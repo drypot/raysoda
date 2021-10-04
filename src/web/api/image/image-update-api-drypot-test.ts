@@ -2,7 +2,7 @@ import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../user-login/login-api.js'
 import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { ImageDB } from '../../../db/image/image-db.js'
@@ -27,7 +27,7 @@ describe('ImageUpdateApi Drypot', () => {
   let ifm: ImageFileManager
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/drypot-test.json')
@@ -43,7 +43,7 @@ describe('ImageUpdateApi Drypot', () => {
     registerLoginApi(web, uc)
     registerImageUploadApi(web, udb, idb, ifm)
     registerImageUpdateApi(web, idb, ifm)
-    request = web.spawnRequest()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -65,10 +65,10 @@ describe('ImageUpdateApi Drypot', () => {
     await ifm.rmRoot()
   })
   it('login as user1', async () => {
-    await loginForTest(request, USER1_LOGIN)
+    await loginForTest(sat, USER1_LOGIN)
   })
   it('upload', async () => {
-    const res = await request.post('/api/image-upload').field('comment', 'c1')
+    const res = await sat.post('/api/image-upload').field('comment', 'c1')
       .attach('file', 'sample/svg-sample.svg').expect(200)
     expect(res.body.id).toEqual(1)
   })
@@ -84,7 +84,7 @@ describe('ImageUpdateApi Drypot', () => {
     expect(meta.format).toBe('svg')
   })
   it('update', async () => {
-    const res = await request.put('/api/image-update/1').field('comment', 'c2')
+    const res = await sat.put('/api/image-update/1').field('comment', 'c2')
       .attach('file', 'sample/svg-sample-2.svg').expect(200)
     expect(res.body).toEqual({})
   })
