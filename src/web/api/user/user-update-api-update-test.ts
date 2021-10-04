@@ -22,7 +22,7 @@ import {
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('UserUpdateApi', () => {
+describe('UserUpdateApi Update', () => {
 
   let config: Config
 
