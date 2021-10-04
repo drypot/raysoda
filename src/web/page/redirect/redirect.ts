@@ -29,4 +29,5 @@ export function registerRedirect(web: Express2) {
   web.router.get('/:name([^/]+)', toCallback(async (req, res) => {
     res.redirect(301, '/user/' + encodeURIComponent(req.params.name))
   }))
+
 }
