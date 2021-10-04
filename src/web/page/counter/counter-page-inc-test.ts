@@ -1,5 +1,5 @@
 import { Config } from '../../../_type/config.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { newDateStringNoTime } from '../../../_util/date2.js'
 import { loadConfigSync } from '../../../_util/config-loader.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
@@ -12,7 +12,8 @@ import { registerLoginApi } from '../../api/user-login/login-api.js'
 import { dupe } from '../../../_util/object2.js'
 import { registerCounterPage } from './counter-page.js'
 
-describe('Counter Page Inc', () => {
+describe('CounterPage Inc', () => {
+
   let config: Config
 
   let db: DB
@@ -22,7 +23,7 @@ describe('Counter Page Inc', () => {
   let cdb: CounterDB
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -33,10 +34,11 @@ describe('Counter Page Inc', () => {
 
     cdb = CounterDB.from(db)
 
-    web = await Express2.from(config).start()
+    web = Express2.from(config)
     registerLoginApi(web, uc)
     registerCounterPage(web, cdb)
-    request = web.spawnRequest()
+    await web.start()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -55,7 +57,7 @@ describe('Counter Page Inc', () => {
     await cdb.createTable()
   })
   it('inc 1', async () => {
-    await request.get('/counter-inc/abc?r=http://hello.world')
+    await sat.get('/counter-inc/abc?r=http://hello.world')
       .expect(302).expect('Location', 'http://hello.world')
   })
   it('check db 2', async () => {
@@ -64,7 +66,7 @@ describe('Counter Page Inc', () => {
     expect(dupe(r)).toEqual({ id: 'abc', d: d, c: 1 })
   })
   it('inc 2', async () => {
-    await request.get('/counter-inc/abc?r=http://hello.world')
+    await sat.get('/counter-inc/abc?r=http://hello.world')
       .expect(302).expect('Location', 'http://hello.world')
   })
   it('check db 2', async () => {
@@ -72,4 +74,5 @@ describe('Counter Page Inc', () => {
     const r = await cdb.findCounter('abc', d)
     expect(dupe(r)).toEqual({ id: 'abc', d: d, c: 2 })
   })
+
 })

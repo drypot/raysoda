@@ -2,16 +2,17 @@ import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../../api/user-login/login-api.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
 import { CounterDB } from '../../../db/counter/counter-db.js'
-import { AdminLogin, loginForTest, User1Login } from '../../api/user-login/login-api-fixture.js'
+import { loginForTest } from '../../api/user-login/login-api-fixture.js'
 import { registerCounterPage } from './counter-page.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('Counter Page Form', () => {
+describe('CounterPage List', () => {
+
   let config: Config
 
   let db: DB
@@ -21,7 +22,7 @@ describe('Counter Page Form', () => {
   let cdb: CounterDB
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
@@ -32,10 +33,11 @@ describe('Counter Page Form', () => {
 
     cdb = CounterDB.from(db)
 
-    web = await Express2.from(config).start()
+    web = Express2.from(config)
     registerLoginApi(web, uc)
     registerCounterPage(web, cdb)
-    request = web.spawnRequest()
+    await web.start()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -50,18 +52,19 @@ describe('Counter Page Form', () => {
   })
 
   it('fails if anonymous', async () => {
-    await request.get('/counter').expect(302).expect('Location', '/login')
+    await sat.get('/counter-list').expect(302).expect('Location', '/login')
   })
   it('login as user', async () => {
-    await loginForTest(request, User1Login)
+    await loginForTest(sat, USER1_LOGIN)
   })
   it('fails if user', async () => {
-    await request.get('/counter').expect(302).expect('Location', '/login')
+    await sat.get('/counter-list').expect(302).expect('Location', '/login')
   })
   it('login as admin', async () => {
-    await loginForTest(request, AdminLogin)
+    await loginForTest(sat, ADMIN_LOGIN)
   })
   it('works', async () => {
-    await request.get('/counter').expect(200).expect(/<title>Counter/)
+    await sat.get('/counter-list').expect(200).expect(/<title>Counter/)
   })
+
 })
