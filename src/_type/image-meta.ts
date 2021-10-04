@@ -5,13 +5,12 @@ export type ImageMeta = {
   shorter: number
 }
 
-export function newImageMeta(params?: Partial<ImageMeta>): ImageMeta {
+export function newImageMeta(meta: Partial<ImageMeta>): ImageMeta {
   return {
-    format: undefined,
-    width: 0,
-    height: 0,
-    shorter: 0,
-    ...params
+    format: meta.format,
+    width: meta.width ?? 0,
+    height: meta.height ?? 0,
+    shorter: meta.shorter ?? 0,
   }
 }
 

@@ -14,20 +14,19 @@ export type User = {
   pdate: Date
 }
 
-export function newUser(params?: Partial<User>): User {
+export function newUser(user: Partial<User>): User {
   return {
-    id: 0,
-    name: '',
-    home: '',
-    email: '',
-    hash: '',
-    status: 'v',
-    admin: false,
-    profile: '',
-    cdate: dateNull,
-    adate: dateNull,
-    pdate: dateNull,
-    ...params
+    id: user.id ?? 0,
+    name: user.name ?? '',
+    home: user.home ?? '',
+    email: user.email ?? '',
+    hash: user.hash ?? '',
+    status: user.status ?? 'v',
+    admin: user.admin ?? false,
+    profile: user.profile ?? '',
+    cdate: user.cdate ?? dateNull,
+    adate: user.adate ?? dateNull,
+    pdate: user.pdate ?? dateNull,
   }
 }
 

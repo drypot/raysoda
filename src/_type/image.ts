@@ -12,13 +12,12 @@ export type Image = {
 // JSON.stringify(null) 은 'null' 이지만,
 // JSON.stringify(undefined) 는 출력이 없다. 문제가 생긴다.
 
-export function newImage(params?: Partial<Image>): Image {
+export function newImage(image: Partial<Image>): Image {
   return {
-    id: 0,
-    uid: 0,
-    cdate: dateNull,
-    vers: null,
-    comment: '',
-    ...params
+    id: image.id ?? 0,
+    uid: image.uid ?? 0,
+    cdate: image.cdate ?? dateNull,
+    vers: image.vers ?? null,
+    comment: image.comment ?? '',
   }
 }
