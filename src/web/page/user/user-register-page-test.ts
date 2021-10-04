@@ -1,12 +1,12 @@
-import { readConfigSync } from '../../../_util/config-loader.js'
+import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
-import { SuperAgentTest } from 'supertest'
+import supertest, { SuperAgentTest } from 'supertest'
 import { registerUserRegisterPage } from './user-register-page.js'
 import { Config } from '../../../_type/config.js'
 
-describe('User Register Page', () => {
+describe('UserRegisterPage', () => {
 
   let config: Config
 
@@ -14,17 +14,18 @@ describe('User Register Page', () => {
   let udb: UserDB
 
   let web: Express2
-  let request: SuperAgentTest
+  let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = readConfigSync('config/app-test.json')
+    config = loadConfigSync('config/app-test.json')
 
     db = await DB.from(config).createDatabase()
     udb = UserDB.from(db)
 
-    web = await Express2.from(config).start()
-    registerUserRegisterPage(web, udb)
-    request = web.spawnRequest()
+    web = Express2.from(config)
+    registerUserRegisterPage(web)
+    await web.start()
+    sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
@@ -32,13 +33,11 @@ describe('User Register Page', () => {
     await db.close()
   })
 
-  describe('user register pages ', () => {
-    it('/user-register', async () => {
-      await request.get('/user-register').expect(200).expect(/<title>Register/)
-    })
-    it('/user-register-done', async () => {
-      await request.get('/user-register-done').expect(200).expect(/<title>Registered/)
-    })
+  it('register', async () => {
+    await sat.get('/user-register').expect(200).expect(/<title>Register/)
+  })
+  it('done', async () => {
+    await sat.get('/user-register-done').expect(200).expect(/<title>Registered/)
   })
 
 })

@@ -1,15 +1,12 @@
-import { UserDB } from '../../../db/user/user-db.js'
 import { Express2 } from '../../_express/express2.js'
 
-export function registerUserRegisterPage(web: Express2, udb: UserDB) {
+export function registerUserRegisterPage(web: Express2) {
 
-  const router = web.router
-
-  router.get('/user-register', (req, res) => {
+  web.router.get('/user-register', (req, res) => {
     res.render('user/user-register')
   })
 
-  router.get('/user-register-done', (req, res) => {
+  web.router.get('/user-register-done', (req, res) => {
     res.render('user/user-register-done')
   })
 
