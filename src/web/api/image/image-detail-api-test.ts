@@ -15,6 +15,7 @@ import { IMAGE_NOT_EXIST } from '../../../_type/error-image.js'
 import { ImageDetail, unpackImageDetail } from '../../../_type/image-detail.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
+import { newDateString } from '../../../_util/date2.js'
 
 describe('ImageDetailApi', () => {
   let config: Config
@@ -92,7 +93,7 @@ describe('ImageDetailApi', () => {
       owner: { id: 1, name: 'User 1', home: 'user1' },
       cdate: now,
       cdateNum: now.getTime(),
-      cdateStr: '',
+      cdateStr: newDateString(now),
       vers: null,
       comment: 'c1',
       dirUrl: 'http://file.raysoda.test:8080/images/0/0',

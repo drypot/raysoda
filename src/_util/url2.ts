@@ -12,7 +12,7 @@ export class UrlMaker {
     return new UrlMaker(url)
   }
 
-  add(name: string, value: any, def?: any) {
+  add(name: any, value: any, def?: any) {
     if (def !== undefined && def === value) {
       return this
     }

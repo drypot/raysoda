@@ -22,7 +22,7 @@ describe('Express2 Error', () => {
   it('404 if url not exist', async () => {
     const res = await sat.get('/api/test/undefined-url').expect(404)
   })
-  it('setup', () => {
+  it('setup no action', () => {
     web.router.get('/api/no-action', function (req, res, done) {
       done()
     })
@@ -30,7 +30,7 @@ describe('Express2 Error', () => {
   it('404 if not handled', async () => {
     const res = await sat.get('/api/no-action').expect(404)
   })
-  it('setup', () => {
+  it('setup invalid data', () => {
     web.router.get('/api/invalid-data', function (req, res, done) {
       done(INVALID_DATA)
     })
@@ -40,7 +40,7 @@ describe('Express2 Error', () => {
     expect(res.type).toBe('application/json')
     expect(res.body.err).toContain(INVALID_DATA)
   })
-  it('setup', () => {
+  it('setup invalid data[]', () => {
     web.router.get('/api/invalid-data-array', function (req, res, done) {
       done([INVALID_DATA])
     })
@@ -50,7 +50,7 @@ describe('Express2 Error', () => {
     expect(res.type).toBe('application/json')
     expect(res.body.err).toContain(INVALID_DATA)
   })
-  it('setup', () => {
+  it('setup system error', () => {
     web.router.get('/api/system-error', function (req, res, done) {
       done(new Error('System Error'))
     })
@@ -60,6 +60,15 @@ describe('Express2 Error', () => {
     expect(res.type).toBe('application/json')
     expect(res.body.err[0].name).toBe('Error')
     expect(res.body.err[0].message).toBe('System Error')
+  })
+  it('setup page error', () => {
+    web.router.get('/page-error', function (req, res, done) {
+      done(new Error('Page Error'))
+    })
+  })
+  it('page error', async () => {
+    const res = await sat.get('/page-error').expect(200).expect(/<title>Error/)
+    expect(res.type).toBe('text/html')
   })
 
 })

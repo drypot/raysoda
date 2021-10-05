@@ -1,5 +1,3 @@
-import { newDateString } from '../_util/date2.js'
-
 export type ImageDetail = {
   id: number
   owner: {
@@ -23,10 +21,6 @@ export function packImageDetail(image: ImageDetail) {
 
 export function unpackImageDetail(image: ImageDetail) {
   image.cdate = new Date(image.cdateNum)
-}
-
-export function renderImageDetail(image: ImageDetail) {
-  image.cdateStr = newDateString(image.cdate)
 }
 
 export type ImageForList = {

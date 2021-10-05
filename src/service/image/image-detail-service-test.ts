@@ -12,6 +12,7 @@ import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
 import { Config } from '../../_type/config.js'
 import { UserCache } from '../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../_type/error.js'
+import { newDateString } from '../../_util/date2.js'
 
 describe('imageDetailService', () => {
 
@@ -67,7 +68,7 @@ describe('imageDetailService', () => {
       owner: { id: 1, name: 'User 1', home: 'user1' },
       cdate: now,
       cdateNum: 0,
-      cdateStr: '',
+      cdateStr: newDateString(now),
       vers: null,
       comment: 'c1',
       dirUrl: 'http://file.raysoda.test:8080/images/0/0',
@@ -84,7 +85,7 @@ describe('imageDetailService', () => {
       owner: { id: 1, name: 'User 1', home: 'user1' },
       cdate: now,
       cdateNum: 0,
-      cdateStr: '',
+      cdateStr: newDateString(now),
       vers: null,
       comment: 'c1',
       dirUrl: 'http://file.raysoda.test:8080/images/0/0',
@@ -101,7 +102,7 @@ describe('imageDetailService', () => {
       owner: { id: 1, name: 'User 1', home: 'user1' },
       cdate: now,
       cdateNum: 0,
-      cdateStr: '',
+      cdateStr: newDateString(now),
       vers: null,
       comment: 'c1',
       dirUrl: 'http://file.raysoda.test:8080/images/0/0',

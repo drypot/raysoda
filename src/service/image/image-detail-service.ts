@@ -8,6 +8,7 @@ import { UserCache } from '../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../_type/error.js'
 import { SITE_OPEN_DATE } from '../../_type/date-const.js'
 import { userCanUpdateImage } from './_image-service.js'
+import { newDateString } from '../../_util/date2.js'
 
 export function newImageDetail(ifm: ImageFileManager, user: User, image: Image, owner: User): ImageDetail {
   return {
@@ -19,7 +20,7 @@ export function newImageDetail(ifm: ImageFileManager, user: User, image: Image, 
     },
     cdate: image.cdate,
     cdateNum: 0,
-    cdateStr: '',
+    cdateStr: newDateString(image.cdate),
     vers: image.vers,
     comment: image.comment,
     dirUrl: ifm.getDirUrlFor(image.id),

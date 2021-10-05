@@ -8,7 +8,7 @@ import { UserCache } from '../../db/user/cache/user-cache.js'
 
 async function newDecoratedImageList(uc: UserCache, ifm: ImageFileManager, list: Image[]) {
   return await Promise.all(
-    list.map(async image => {
+    list.map(async (image): Promise<ImageForList> => {
       const owner = await uc.getCachedById(image.uid) as User
       return {
         id: image.id,
@@ -21,7 +21,7 @@ async function newDecoratedImageList(uc: UserCache, ifm: ImageFileManager, list:
         vers: image.vers,
         comment: image.comment,
         thumbUrl: ifm.getThumbUrlFor(image.id)
-      } as ImageForList
+      }
     })
   )
 }

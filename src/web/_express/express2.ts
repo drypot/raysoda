@@ -192,21 +192,18 @@ export class Express2 {
   private setUpErrorHandler() {
     const _this = this
     this.express.use(function (err: any, req: Request, res: Response, done: NextFunction) {
-      let r
       if (err instanceof Array) {
-        r = {
-          err
-        }
+        // do nothing
       } else if ('field' in err) {
-        r = {
-          err: [err]
-        }
+        err = [err]
       } else {
-        r = {
-          err: [newErrorConst(err.name, err.message, err.stack)]
-        }
+        err = [newErrorConst(err.name, err.message, err.stack)]
       }
-      res.json(r)
+      if (res.locals.api) {
+        res.json({ err });
+      } else {
+        res.render('system/error', { err });
+      }
     })
   }
 
