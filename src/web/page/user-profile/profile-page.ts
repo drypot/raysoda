@@ -3,16 +3,16 @@ import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { Request, Response } from 'express'
 import { User } from '../../../_type/user.js'
-import { paramToLimitedNumber, paramToNumber } from '../../../_util/param.js'
+import { newLimitedNumber, newNumber } from '../../../_util/primitive.js'
 import { imageListByUserService } from '../../../service/image/image-list-service.js'
 import { UrlMaker } from '../../../_util/url2.js'
-import { loginUserFrom } from '../../api/user-login/login-api.js'
-import { UserCache } from '../../../db/user/user-cache.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
+import { getSessionUser, userCanUpdateUser } from '../../api/user-login/login-api.js'
 
 export function registerUserProfilePage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 
   web.router.get('/user-id/:id([0-9]+)', toCallback(async (req, res) => {
-    const id = paramToNumber(req.params.id)
+    const id = newNumber(req.params.id)
     const owner = await uc.getCachedById(id)
     if (!owner) return
     await renderProfile(req, res, owner)
@@ -26,16 +26,16 @@ export function registerUserProfilePage(web: Express2, uc: UserCache, idb: Image
   }))
 
   async function renderProfile(req: Request, res: Response, owner: User) {
-    const user = loginUserFrom(res)
-    const p = paramToLimitedNumber(req.query.p as string, 1, 1, NaN)
-    const ps = paramToLimitedNumber(req.query.ps as string, 16, 1, 128)
-    const hl = await imageListByUserService(uc, idb, ifm, owner.id, p, ps)
+    const user = getSessionUser(res)
+    const p = newLimitedNumber(req.query.p, 1, 1, NaN)
+    const ps = newLimitedNumber(req.query.ps, 16, 1, 128)
+    const list = await imageListByUserService(uc, idb, ifm, owner.id, p, ps)
     res.render('user-profile/profile', {
       owner: owner,
-      updatable: user && (user.id === owner.id || user.admin),
-      imageList: hl,
+      updatable: userCanUpdateUser(user, owner.id),
+      imageList: list,
       prev: p > 1 ? UrlMaker.from(req.path).add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,
-      next: hl.length === ps ? UrlMaker.from(req.path).add('p', p + 1).add('ps', ps, 16).toString() : undefined,
+      next: list.length === ps ? UrlMaker.from(req.path).add('p', p + 1).add('ps', ps, 16).toString() : undefined,
       path: req.path,
     })
   }
