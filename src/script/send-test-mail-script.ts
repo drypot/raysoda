@@ -1,10 +1,10 @@
 import { Mailer } from '../mailer/mailer2.js'
-import { readConfigSync } from '../_util/config-loader.js'
+import { loadConfigSync } from '../_util/config-loader.js'
 import { logError } from '../_util/error2.js'
 
 async function main() {
-  const config = readConfigSync(process.argv[2])
-  const mailer = await Mailer.from(config).initTransport()
+  const config = loadConfigSync(process.argv[2])
+  const mailer = await Mailer.from(config).loadSync()
   const mail = {
     from: 'no-reply@raysoda.com',
     to: process.argv[3],

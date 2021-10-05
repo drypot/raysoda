@@ -35,7 +35,7 @@ describe('ImageUploadPage', () => {
 
     web = Express2.from(config)
     registerLoginApi(web, uc)
-    registerImageUploadPage(web, udb, idb)
+    registerImageUploadPage(web, idb)
     await web.start()
     sat = supertest.agent(web.server)
   })

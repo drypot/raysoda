@@ -1,5 +1,5 @@
 import { Express2 } from '../web/_express/express2.js'
-import { readConfigSync } from '../_util/config-loader.js'
+import { loadConfigSync } from '../_util/config-loader.js'
 import { DB } from '../db/_db/db.js'
 import { UserDB } from '../db/user/user-db.js'
 import { ImageDB } from '../db/image/image-db.js'
@@ -16,7 +16,7 @@ import { registerUserProfilePage } from '../web/page/user-profile/profile-page.j
 import { registerUserDetailApi } from '../web/api/user/user-detail-api.js'
 import { registerUserRegisterApi } from '../web/api/user/user-register-api.js'
 import { registerPasswordApi } from '../web/api/user-password/password-api.js'
-import { PwResetDB } from '../db/pwreset/pwreset-db.js'
+import { ResetDB } from '../db/password/reset-db.js'
 import { Mailer } from '../mailer/mailer2.js'
 import { registerUserDeactivateApi } from '../web/api/user/user-deactivate-api.js'
 import { registerUserListApi } from '../web/api/user/user-list-api.js'
@@ -31,21 +31,31 @@ import { registerBannerApi } from '../web/api/banner/banner-api.js'
 import { BannerDB } from '../db/banner/banner-db.js'
 import { registerAboutPage } from '../web/page/about/about-page.js'
 import { registerClientInitScript } from '../web/page/client-init/client-init-script.js'
-import { UserCache } from '../db/user/user-cache.js'
+import { UserCache } from '../db/user/cache/user-cache.js'
 import { registerBannerPage } from '../web/page/banner/banner-page.js'
 import { registerCounterPage } from '../web/page/counter/counter-page.js'
+import { registerImageDetailPage } from '../web/page/image/image-detail-page.js'
+import { registerImageListPage } from '../web/page/image/image-list-page.js'
+import { registerImageUpdatePage } from '../web/page/image/image-update-page.js'
+import { registerImageUploadPage } from '../web/page/image/image-upload-page.js'
+import { registerUserDeactivatePage } from '../web/page/user/user-deactivate-page.js'
+import { registerUserListPage } from '../web/page/user/user-list-page.js'
+import { registerUserRegisterPage } from '../web/page/user/user-register-page.js'
+import { registerUserUpdatePage } from '../web/page/user/user-update-page.js'
+import { registerLoginPage } from '../web/page/user-login/login-page.js'
+import { registerPasswordPage } from '../web/page/user-password/password-page.js'
 
 async function main() {
-  const config = readConfigSync(process.argv[2])
+  const config = loadConfigSync(process.argv[2])
 
   const db = await DB.from(config).createDatabase()
   const vdb = await ValueDB.from(db).createTable()
   const udb = await UserDB.from(db).createTable()
   const uc: UserCache = UserCache.from(udb)
-  const rdb = await PwResetDB.from(db).createTable()
+  const rdb = await ResetDB.from(db).createTable()
   const idb = await ImageDB.from(db).createTable()
   const cdb = await CounterDB.from(db).createTable()
-  const bdb = BannerDB.from(vdb)
+  const bdb = await BannerDB.from(vdb).loadCache()
 
   const ifm =
     config.appNamel === 'rapixel' ? RapixelFileManager.from(config) :
@@ -53,7 +63,7 @@ async function main() {
         config.appNamel === 'drypot' ? DrypotFileManager.from(config) :
           RaySodaFileManager.from(config)
 
-  const mailer = Mailer.from(config).initTransport()
+  const mailer = Mailer.from(config).loadSync()
 
   const web = Express2.from(config).useUpload()
 
@@ -74,12 +84,21 @@ async function main() {
   registerCounterApi(web, cdb)
   registerBannerApi(web, bdb)
 
-
-  registerClientInitScript(web, bdb)
-
+  registerImageListPage(web, uc, idb, ifm, bdb)
+  registerImageDetailPage(web, uc, idb, ifm)
+  registerImageUpdatePage(web, idb)
+  registerImageUploadPage(web, idb)
   registerUserProfilePage(web, uc, idb, ifm)
 
-  registerCounterPage(web)
+  registerLoginPage(web)
+  registerPasswordPage(web)
+  registerUserDeactivatePage(web)
+  registerUserListPage(web, udb)
+  registerUserRegisterPage(web)
+  registerUserUpdatePage(web, uc)
+
+  registerClientInitScript(web, bdb)
+  registerCounterPage(web, cdb)
   registerBannerPage(web, bdb)
   registerAboutPage(web)
 
@@ -97,7 +116,7 @@ async function main() {
 
   process.on('SIGINT', function () {
     closeAll().then(() => {
-      console.log('SIGINT caught')
+      console.log('\nSIGINT caught')
       process.exit(1)
     })
   })

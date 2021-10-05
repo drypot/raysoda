@@ -30,7 +30,7 @@ describe('UserDeactivatePage', () => {
 
     web = Express2.from(config)
     registerLoginApi(web, uc)
-    registerUserDeactivatePage(web, udb)
+    registerUserDeactivatePage(web)
     await web.start()
     sat = supertest.agent(web.server)
   })

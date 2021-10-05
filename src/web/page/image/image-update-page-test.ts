@@ -36,7 +36,7 @@ describe('ImageUpdatePage', () => {
 
     web = Express2.from(config)
     registerLoginApi(web, uc)
-    registerImageUpdatePage(web, udb, idb)
+    registerImageUpdatePage(web, idb)
     await web.start()
     sat = supertest.agent(web.server)
   })
