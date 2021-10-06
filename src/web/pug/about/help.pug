@@ -1,7 +1,7 @@
 extends ../layout/layout
 
 block head-opt
-  title Help - #{appName}
+  title Help - #{config.appName}
 
 block content
 
@@ -19,7 +19,7 @@ block content
       br
 
       | 이메일 :&nbsp;
-      -var email = 'support+' + appNamel + '@raysoda.com'
+      -var email = 'support+' + config.appNamel + '@raysoda.com'
       a(href='mailto:' + email)= email
 
     //-.sub-section

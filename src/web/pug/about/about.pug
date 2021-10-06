@@ -1,16 +1,16 @@
 extends ../layout/layout
 
 block head-opt
-  title About - #{appName}
+  title About - #{config.appName}
 
 block content
 
   .section.page-title
     //-h1 About
-    h1 #{appName}
+    h1 #{config.appName}
 
   .section
-    if appNamel == 'raysoda'
+    if config.appNamel == 'raysoda'
       | 사진 갤러리입니다.
       br
       br
@@ -18,7 +18,7 @@ block content
       br
       br
 
-    if appNamel == 'rapixel'
+    if config.appNamel == 'rapixel'
       | 4K 사진 갤러리입니다.
       br
       br
@@ -29,7 +29,7 @@ block content
       br
       br
 
-    if appNamel == 'osoky'
+    if config.appNamel == 'osoky'
       | 사진 갤러리입니다.
       br
       br
@@ -37,7 +37,7 @@ block content
       br
       br
 
-    if appNamel == 'drypot'
+    if config.appNamel == 'drypot'
       | SVG 이미지 갤러리입니다.
       br
       br

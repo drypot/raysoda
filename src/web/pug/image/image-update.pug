@@ -1,7 +1,7 @@
 extends ../layout/layout
 
 block head-opt
-  title Update Image - #{appName}
+  title Update Image - #{config.appName}
 
 block content
 
@@ -21,7 +21,7 @@ block content
           //-label.control-label Image
           label.control-label 이미지 파일
           input.form-control(type='file', name='file', accept='image/jpeg, image/png, image/tiff')
-          if appNamel == 'drypot'
+          if config.appNamel == 'drypot'
             p.help-block
               | Only SVG files.
         .form-group

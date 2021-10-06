@@ -1,58 +1,53 @@
 doctype html
-html
+html(lang='ko')
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(name='description', content=appDesc)
-    meta(property='og:site_name', content=appName)
+    meta(name='description', content=config.appDesc)
+    meta(property='og:site_name', content=config.appName)
     block head-opt
 
-    link(rel='icon', type='image/png', href='/static/favicon/' + appNamel + '.png?v=1.0.1')
+    link(rel='icon', type='image/png', href='/static/favicon/' + config.appNamel + '.png?v=1.0.1')
 
     link(rel='stylesheet', href='/static/lib/bootstrap-3.4.1-dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/static/lib/font-awesome-4.7.0/css/font-awesome.min.css')
-    link(rel='stylesheet', href='/static/css/base.css?v=1.0.2')
-    link(rel='stylesheet', href='/static/css/' + appNamel + '.css?v=1.0.1')
+    link(rel='stylesheet', href='/build/css/base.css?v=1.0.2')
+    link(rel='stylesheet', href='/build/css/' + config.appNamel + '.css?v=1.0.1')
 
     script(src='/static/lib/jquery-3.5.1.min.js')
     script(src='/static/lib/bootstrap-3.4.1-dist/js/bootstrap.min.js')
 
     script.
-      window.appNamel = '!{appNamel}';
-      window.user = !{locals.user ? JSON.stringify({ id: user.id, name: user.name }) : 'undefined'};
+      config = !{JSON.stringify({ appNamel: config.appNamel })}
+      user = !{JSON.stringify({ id: user.id, name: user.name })}
 
-    script(src='/static/js/cbase.js')
-    script(src='/static/js/cuser.js')
-    script(src='/static/js/cimage.js')
-    script(src='/static/js/csupp.js')
+    //script(src='/static/js/cbase.js')
+    //script(src='/static/js/cuser.js')
+    //script(src='/static/js/cimage.js')
+    //script(src='/static/js/csupp.js')
 
   body
 
     block header
       .section.page-header
         .site-name
-          a(href='/') #{appName}
+          a(href='/') #{config.appName}
 
     block content
 
     .section.page-footer
       .about-list
         ul.list-inline
-          //-li: a(href='/about') About
-          //-li: a(href='/company') Company
-          //-li: a(href='/ad') Advertise
-          //-li: a(href='/privacy') Privacy
-          //-li: a(href='/help') Help
           li: a(href='/about') 사이트소개
           li: a(href='/company') 회사소개
           li: a(href='/ad') 광고
           li: a(href='/privacy') 개인정보처리방침
           li: a(href='/help') 도움말
-      if appNamel == 'raysoda'
+      if config.appNamel == 'raysoda'
         .sponsor
           a(href='/api/counters/adng/inc?r=http://www.natgeokorea.com/magazine' target='_blank') National Geographic
       .site-name
-        a(href='/') #{appName}
+        a(href='/') #{config.appName}
 
     #error-modal.modal
       .modal-dialog

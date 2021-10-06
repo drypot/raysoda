@@ -1,10 +1,10 @@
 extends ../layout/layout
 
 block head-opt
-  meta(property='og:image', content=image.thumb)
-  meta(property='og:title' content=image.user.name)
+  meta(property='og:image', content=image.thumbUrl)
+  meta(property='og:title' content=image.owner.name)
   meta(property='og:description' content=image.comment)
-  title Image !{image.id} - #{appName}
+  title Image !{image.id} - #{config.appName}
 
 block header
 
@@ -17,7 +17,7 @@ block content
 
   .section.image-full
     .image
-      img(src=image.thumb, data-vers= image.vers ? image.vers.join(',') : null)
+      img(src=image.thumbUrl, data-vers=(image.vers ? image.vers.join(',') : null))
 
   .section.image-info
     .sub-section(style='display: none')
@@ -28,7 +28,7 @@ block content
       .comment #{image.comment}
       .cdate !{image.cdateStr.slice(0, 16)}
       .uname
-        a(href='/' + encodeURIComponent(image.user.home)) #{image.user.name}
+        a(href='/' + encodeURIComponent(image.owner.home)) #{image.owner.name}
 
     if image.updatable
       .sub-section

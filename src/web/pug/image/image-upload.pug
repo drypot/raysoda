@@ -1,7 +1,7 @@
 extends ../layout/layout
 
 block head-opt
-  title Upload - #{appName}
+  title Upload - #{config.appName}
 
 block content
 
@@ -33,7 +33,7 @@ block content
             p.help-block
               //-| You can upload #{ticket} more images today.
               br
-              if appNamel == 'drypot'
+              if config.appNamel == 'drypot'
                 | Only SVG files.
           .form-group
             //-label.control-label Comment
@@ -43,7 +43,7 @@ block content
           //-button.btn.btn-primary(name='send', data-loading-text='Sending') Upload
           button.btn.btn-primary(name='send', data-loading-text='전송중') 업로드
           p.help-block
-            if appNamel == 'rapixel'
+            if config.appNamel == 'rapixel'
               br
               | 업로드 완료에 다소 시간이 걸릴 수 있습니다.
 

@@ -2,7 +2,7 @@ extends ../layout/layout
 
 block head-opt
   meta(property='og:image', content=imageList.length ? imageList[0].thumb : '')
-  title #{owner.name} - #{appName}
+  title #{owner.name} - #{config.appName}
 
 block content
   script.
