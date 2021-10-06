@@ -21,7 +21,7 @@ export function registerImageListApi(web: Express2, uc: UserCache, idb: ImageDB,
     })
   }))
 
-  web.router.get('/api/image-first-image-cdate', toCallback(async (req, res) => {
+  web.router.get('/api/first-image-cdate', toCallback(async (req, res) => {
     const date = await firstImageCdateService(idb)
     res.json({
       todayNum: Date.now(),

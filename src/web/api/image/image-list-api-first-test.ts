@@ -61,7 +61,7 @@ describe('ImageListApi FirstImageCdate', () => {
     await ifm.rmRoot()
   })
   it('get cdate when empty', async () => {
-    const res = await sat.get('/api/image-first-image-cdate').expect(200)
+    const res = await sat.get('/api/first-image-cdate').expect(200)
     expect(res.body.cdateNum).toBe(SITE_OPEN_DATE.getTime())
   })
   it('insert fix', async () => {
@@ -80,7 +80,7 @@ describe('ImageListApi FirstImageCdate', () => {
     await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
   it('get cdate after filled', async () => {
-    const res = await sat.get('/api/image-first-image-cdate').expect(200)
+    const res = await sat.get('/api/first-image-cdate').expect(200)
     expect(Date.now() - res.body.todayNum).toBeLessThan(1000)
     expect(res.body.cdateNum).toEqual(new Date(2003, 0, 1).getTime())
   })
