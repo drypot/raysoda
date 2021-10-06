@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-DIST_DIR=dist/src
-node $DIST_DIR/script/run-express2.js
+BUILD_DIR=build/src
+node $BUILD_DIR/script/run-express2.js

@@ -29,16 +29,16 @@
     //"allowSyntheticDefaultImports": true,
 
     // js 파일이 출력될 디렉토리.
-    "outDir": "dist",
+    "outDir": "build",
 
     // 소스 파일의 루트를 어디로 볼 것인가를 결정한다.
     // outDir 디렉토리에 사용할 서브 패스에 영향을 준다.
-    // rootDir 이 "src"일 경우 src/a.ts -> dist/a.js 가 된다.
-    // rootDir 이 "."일 경우 src/a.ts -> dist/src/a.js 가 된다.
+    // rootDir 이 "src"일 경우 src/a.ts -> build/a.js 가 된다.
+    // rootDir 이 "."일 경우 src/a.ts -> build/src/a.js 가 된다.
     // 보통 "src" 정도를 쓰는데 WebStorm 에서 문제가 생겼다.
     // Run Config 에서 $FileDirPathFromParent(src)$ 매크로가 작동하지 않는다.
     // Jasmine 테스트 런을 편하게 하기위해 할 수 없이 rooDir 을 "." 으로 세팅하고
-    // dist/src/.../*.js 를 실행하도록 했다.
+    // build/src/.../*.js 를 실행하도록 했다.
     "rootDir": ".",
 
     // baseUrl 은 import 절대경로 설정시 필요하다.

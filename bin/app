@@ -10,8 +10,8 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-DIST_DIR=dist/src
+BUILD_DIR=build/src
 export NODE_ENV=development
 
 set -o xtrace
-node $DIST_DIR/script/run-app.js config/${1}-dev.json
+node $BUILD_DIR/script/run-app.js config/${1}-dev.json

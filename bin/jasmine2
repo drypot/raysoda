@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-jasmine="node bin/jasmine-runner.mjs"
+jasmine="node src/script/jasmine-runner.mjs"
 
-for arg in "${@-dist}"; do
+for arg in "${@-build}"; do
   if [ -f $arg ]; then
     echo $jasmine $arg
     $jasmine $arg

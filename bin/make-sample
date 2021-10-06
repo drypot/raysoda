@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-node dist/script/make-sample.js
+BUILD_DIR=build/src
+node $BUILD_DIR/script/make-sample.js
