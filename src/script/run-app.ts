@@ -30,7 +30,7 @@ import { CounterDB } from '../db/counter/counter-db.js'
 import { registerBannerApi } from '../web/api/banner/banner-api.js'
 import { BannerDB } from '../db/banner/banner-db.js'
 import { registerAboutPage } from '../web/page/about/about-page.js'
-import { registerClientInitScript } from '../web/page/client-init/client-init-script.js'
+import { registerPageSupport } from '../web/page/_page/page.js'
 import { UserCache } from '../db/user/cache/user-cache.js'
 import { registerBannerPage } from '../web/page/banner/banner-page.js'
 import { registerCounterPage } from '../web/page/counter/counter-page.js'
@@ -84,6 +84,8 @@ async function main() {
   registerCounterApi(web, cdb)
   registerBannerApi(web, bdb)
 
+  registerPageSupport(web, bdb)
+
   registerImageListPage(web, uc, idb, ifm, bdb)
   registerImageDetailPage(web, uc, idb, ifm)
   registerImageUpdatePage(web, idb)
@@ -97,7 +99,6 @@ async function main() {
   registerUserRegisterPage(web)
   registerUserUpdatePage(web, uc)
 
-  registerClientInitScript(web, bdb)
   registerCounterPage(web, cdb)
   registerBannerPage(web, bdb)
   registerAboutPage(web)

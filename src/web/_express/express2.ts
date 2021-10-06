@@ -41,13 +41,7 @@ export class Express2 {
     this.server = http.createServer(this.express)
 
     this.express.disable('x-powered-by')
-
-    const locals = this.express.locals
-    locals.pretty = true
-    locals.appName = config.appName
-    locals.appNamel = config.appNamel
-    locals.appDesc = config.appDesc
-
+    this.express.locals.pretty = true
     this.setViewEngine('pug', 'src/web/pug')
   }
 
@@ -141,22 +135,7 @@ export class Express2 {
   }
 
   private setUpCacheControl() {
-    // Cache-Control + etc
-
     this.express.use(function (req, res, done) {
-      // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
-      // 각 핸들러에서 res.send(), res.json() 으로 Content-Type 을 간접적으로 명시할 수도 있지만
-      // 에러 핸들러는 공용으로 사용하기 때문에 이 방식에 의존할 수 없다.
-      //
-      // req.xhr:
-      //   node + superagent 로 테스트할 시에는 Fail.
-      //
-      // req.is('json'):
-      //   superagent 로 GET 할 경우 매번 type('json') 을 명시해야하며
-      //   그렇게 한다 하여도 Content-Length: 0 인 GET 을 type-is 가 제대로 처리하지 못하고 null 을 리턴한다. Fail.
-      //
-      // 위와 같이 클라이언트에서 보내주는 정보에 의존하는 것은 불안정하다.
-      // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
       if (res.locals.api) {
         // IE 는 웹페이지까지만 refresh 하고 ajax request 는 refresh 하지 않는다.
         res.set('Cache-Control', 'no-cache')
@@ -199,10 +178,26 @@ export class Express2 {
       } else {
         err = [newErrorConst(err.name, err.message, err.stack)]
       }
+
+      // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
+      // 각 핸들러에서 res.send(), res.json() 으로 Content-Type 을 간접적으로 명시할 수도 있지만
+      // 에러 핸들러는 공용으로 사용하기 때문에 이 방식에 의존할 수 없다.
+      //
+      // req.xhr:
+      //   node + superagent 로 테스트할 시에는 Fail.
+      //
+      // req.is('json'):
+      //   superagent 로 GET 할 경우 매번 type('json') 을 명시해야하며
+      //   그렇게 한다 하여도 Content-Length: 0 인 GET 을
+      //   type-is 가 제대로 처리하지 못하고 null 을 리턴한다. Fail.
+      //
+      // 위와 같이 클라이언트에서 보내주는 정보에 의존하는 것은 불안정하다.
+      // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
+
       if (res.locals.api) {
         res.json({ err });
       } else {
-        res.render('system/error', { err });
+        res.render('_page/error', { err });
       }
     })
   }

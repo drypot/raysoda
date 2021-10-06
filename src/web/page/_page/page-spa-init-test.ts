@@ -5,7 +5,7 @@ import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.j
 import { Express2 } from '../../_express/express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../../api/user-login/login-api.js'
-import { registerClientInitScript } from './client-init-script.js'
+import { registerPageSupport } from './page.js'
 import { ValueDB } from '../../../db/value/value-db.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
 import { registerBannerApi } from '../../api/banner/banner-api.js'
@@ -13,7 +13,7 @@ import { loginForTest, logoutForTest } from '../../api/user-login/login-api-fixt
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 
-describe('ClientInitScript', () => {
+describe('SpaInitScript', () => {
 
   let config: Config
 
@@ -40,7 +40,7 @@ describe('ClientInitScript', () => {
     web = Express2.from(config)
     registerLoginApi(web, uc)
     registerBannerApi(web, bdb)
-    registerClientInitScript(web, bdb)
+    registerPageSupport(web, bdb)
     await web.start()
     sat = supertest.agent(web.server)
   })
@@ -61,7 +61,7 @@ describe('ClientInitScript', () => {
     await insertUserFix4(udb)
   })
   it('get session script', async () => {
-    const res = await sat.get('/api/client-init-script').expect(200)
+    const res = await sat.get('/spa-init-script').expect(200)
     expect(res.type).toBe('application/javascript')
     expect(res.text).toBe(
 `const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.","mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}
@@ -74,7 +74,7 @@ const _banner = []
     await loginForTest(sat, USER1_LOGIN)
   })
   it('get session script with login', async () => {
-    const res = await sat.get('/api/client-init-script').expect(200)
+    const res = await sat.get('/spa-init-script').expect(200)
     expect(res.type).toBe('application/javascript')
     expect(res.text).toBe(
 `const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.","mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}
@@ -90,7 +90,7 @@ const _banner = []
     await bdb.updateBannerList([{ text: 'text1', url: 'url1' }])
   })
   it('get session script with banner', async () => {
-    const res = await sat.get('/api/client-init-script').expect(200)
+    const res = await sat.get('/spa-init-script').expect(200)
     expect(res.type).toBe('application/javascript')
     expect(res.text).toBe(
 `const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.","mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}
