@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DIST_DIR=dist/src
+BUILD_DIR=build/src
 
 function show_usage {
     echo "usage: bin/send-test-mail config/app-dev.json drypot@mail.test"
@@ -12,4 +12,4 @@ if [ $# -lt 2 ]; then
     show_usage
 fi
 
-node $DIST_DIR/script/send-test-mail-script.js "$@"
+node $BUILD_DIR/script/send-test-mail-script.js "$@"
