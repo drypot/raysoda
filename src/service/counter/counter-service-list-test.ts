@@ -36,9 +36,9 @@ describe('Counter Api List', () => {
   it('get list', async () => {
     const r = await counterListService(cdb, 'cnt1', '2003-01-18', '2003-01-20')
     expect(dupe(r)).toEqual([
-      { d: '2003-01-18', c: 20 },
-      { d: '2003-01-19', c: 30 },
-      { d: '2003-01-20', c: 40 },
+      { id: 'cnt1', d: '2003-01-18', c: 20 },
+      { id: 'cnt1', d: '2003-01-19', c: 30 },
+      { id: 'cnt1', d: '2003-01-20', c: 40 },
     ])
   })
 
