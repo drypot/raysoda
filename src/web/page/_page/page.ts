@@ -1,9 +1,9 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2 } from '../../_express/express2.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
 import { Config, newConfigForClient } from '../../../_type/config.js'
-import { newUserForClient } from '../../../_type/user-client.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
-import { User } from '../../../_type/user.js'
+import { newUserIdCard, User } from '../../../_type/user.js'
+import { Response } from 'express'
 
 type ResLocals = {
   config: Config
@@ -13,11 +13,10 @@ type ResLocals = {
 export function registerPageSupport(web: Express2, bdb: BannerDB) {
 
   const configStr = JSON.stringify(newConfigForClient(web.config))
-  web.express.locals.config = web.config
 
-  web.router.get('/spa-init-script', toCallback(async function (req, res) {
+  web.router.get('/spa-init-script', function (req, res) {
     const user = getSessionUser(res)
-    const userStr = JSON.stringify(newUserForClient(user))
+    const userStr = JSON.stringify(newUserIdCard(user))
     const bannerStr = JSON.stringify(bdb.getCached())
     const script =
       `const _config = ${configStr}\n` +
@@ -25,6 +24,17 @@ export function registerPageSupport(web: Express2, bdb: BannerDB) {
       `const _banner = ${bannerStr}\n`
     res.type('.js')
     res.send(script)
-  }))
+  })
 
+  web.router.get('/error', function (req, res) {
+    renderHtml(res, '_page/error', { err: [new Error] })
+  })
+
+}
+
+export function renderHtml(res: Response, template: string, obj?: any) {
+  res. render(template, obj)
+  // console.log(eta.config.cache)
+  // @ts-ignore
+  // console.log(eta.config.templates.cache)
 }

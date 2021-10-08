@@ -1,10 +1,11 @@
 import { Express2, toCallback } from '../../_express/express2.js'
 import { logoutService } from '../../api/user-login/login-api.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerLoginPage(web: Express2) {
 
   web.router.get('/login', (req, res) => {
-    res.render('user-login/login')
+    renderHtml(res, 'user-login/login')
   })
 
   web.router.get('/logout', toCallback(async (req, res) => {

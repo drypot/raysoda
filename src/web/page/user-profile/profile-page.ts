@@ -8,6 +8,7 @@ import { imageListByUserService } from '../../../service/image/image-list-servic
 import { UrlMaker } from '../../../_util/url2.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { getSessionUser, userCanUpdateUser } from '../../api/user-login/login-api.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerUserProfilePage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 
@@ -30,7 +31,7 @@ export function registerUserProfilePage(web: Express2, uc: UserCache, idb: Image
     const p = newLimitedNumber(req.query.p, 1, 1, NaN)
     const ps = newLimitedNumber(req.query.ps, 16, 1, 128)
     const list = await imageListByUserService(uc, idb, ifm, owner.id, p, ps)
-    res.render('user-profile/profile', {
+    renderHtml(res, 'user-profile/profile', {
       owner: owner,
       updatable: userCanUpdateUser(user, owner.id),
       imageList: list,

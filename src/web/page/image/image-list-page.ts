@@ -8,6 +8,7 @@ import { imageListByCdateService, imageListService } from '../../../service/imag
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { UrlMaker } from '../../../_util/url2.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerImageListPage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager, bdb: BannerDB) {
 
@@ -23,7 +24,7 @@ export function registerImageListPage(web: Express2, uc: UserCache, idb: ImageDB
     const list = d ?
       await imageListByCdateService(uc, idb, ifm, d, p, ps) :
       await imageListService(uc, idb, ifm, p, ps)
-    res.render('image/image-list', {
+    renderHtml(res, 'image/image-list', {
       imageList: list,
       prev: p > 1 ? UrlMaker.from('/image-list').add('d', ds).add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,
       next: list.length === ps ? UrlMaker.from('/image-list').add('d', ds).add('p', p + 1).add('ps', ps, 16).toString(): undefined,

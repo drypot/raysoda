@@ -1,25 +1,26 @@
 import { Express2 } from '../../_express/express2.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerAboutPage(web: Express2) {
 
   web.router.get('/about', function (req, res) {
-    res.render('about/about')
+    renderHtml(res, 'about/about')
   })
 
   web.router.get('/company', function (req, res) {
-    res.render('about/company')
+    renderHtml(res, 'about/company')
   })
 
   web.router.get('/ad', function (req, res) {
-    res.render('about/ad')
+    renderHtml(res, 'about/ad')
   })
 
   web.router.get('/privacy', function (req, res) {
-    res.render('about/privacy')
+    renderHtml(res, 'about/privacy')
   })
 
   web.router.get('/help', function (req, res) {
-    res.render('about/help')
+    renderHtml(res, 'about/help')
   })
 
 }

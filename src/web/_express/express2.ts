@@ -10,6 +10,7 @@ import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2.js'
 import { unlinkSync } from 'fs'
 import { newErrorConst } from '../../_util/error2.js'
 import { Config } from '../../_type/config.js'
+import * as eta from 'eta'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 
@@ -42,17 +43,24 @@ export class Express2 {
 
     this.express.disable('x-powered-by')
     this.express.locals.pretty = true
-    this.setViewEngine('pug', 'src/web/pug')
+    this.express.locals.config = config
+
+    // this.express.set('view engine', 'pug')
+    // this.express.set('views', 'src/web/template/pug')
+
+    //this.express.engine("eta", eta.renderFile)
+    this.express.set('view engine', 'eta')
+    this.express.set('views', 'src/web/template/eta')
+    //eta.config.autoTrim = [false, 'slurp']
+    eta.config.autoTrim = false
+    eta.config.cache = true
+    if (!config.dev) {
+      eta.config.cache = true
+    }
   }
 
   static from(config: Config) {
     return new Express2(config)
-  }
-
-  setViewEngine(engine: string, root: string) {
-    this.express.set('view engine', engine)
-    this.express.set('views', root)
-    return this
   }
 
   // Upload

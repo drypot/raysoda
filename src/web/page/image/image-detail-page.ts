@@ -6,6 +6,7 @@ import { newNumber } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerImageDetailPage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 
@@ -15,7 +16,7 @@ export function registerImageDetailPage(web: Express2, uc: UserCache, idb: Image
     const err: ErrorConst[] = []
     const image = await imageDetailService(uc, idb, ifm, user, id, err)
     if (!image || err.length) throw err
-    res.render('image/image-detail', { image })
+    renderHtml(res, 'image/image-detail', { image })
   }))
 
 }

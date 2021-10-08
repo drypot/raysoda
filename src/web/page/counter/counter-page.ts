@@ -2,6 +2,7 @@ import { Express2, toCallback } from '../../_express/express2.js'
 import { CounterDB } from '../../../db/counter/counter-db.js'
 import { counterIncService } from '../../../service/counter/counter-service.js'
 import { getSessionUser, shouldBeAdmin, shouldBeUser } from '../../api/user-login/login-api.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerCounterPage(web: Express2, cdb: CounterDB) {
 
@@ -14,7 +15,7 @@ export function registerCounterPage(web: Express2, cdb: CounterDB) {
     const user = getSessionUser(res)
     shouldBeUser(user)
     shouldBeAdmin(user)
-    res.render('counter/counter-list')
+    renderHtml(res, 'counter/counter-list')
   }))
 
 }

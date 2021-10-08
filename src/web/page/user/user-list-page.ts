@@ -7,6 +7,7 @@ import { userSearchService } from '../../../service/user/user-search-service.js'
 import { UserForList } from '../../../_type/user-detail.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
 import { userIsAdmin } from '../../../_type/user.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerUserListPage(web: Express2, udb: UserDB) {
 
@@ -19,7 +20,7 @@ export function registerUserListPage(web: Express2, udb: UserDB) {
     const list: UserForList[] =
       q.length ? await userSearchService(udb, q, p, ps, admin) :
       await userListService(udb, p, ps)
-    res.render('user/user-list', {
+    renderHtml(res, 'user/user-list', {
       user: list,
       prev: p > 1 ? UrlMaker.from('/users').add('p', p - 1, 1).add('ps', ps, 100).toString() : undefined,
       next: list.length === ps ? UrlMaker.from('/users').add('p', p + 1).add('ps', ps, 100).toString() : undefined,
