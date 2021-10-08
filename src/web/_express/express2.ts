@@ -45,18 +45,32 @@ export class Express2 {
     this.express.locals.pretty = true
     this.express.locals.config = config
 
-    // this.express.set('view engine', 'pug')
-    // this.express.set('views', 'src/web/template/pug')
+    //this.usePug()
+    this.useEta()
+  }
 
-    //this.express.engine("eta", eta.renderFile)
+  private useEta() {
     this.express.set('view engine', 'eta')
     this.express.set('views', 'src/web/template/eta')
-    //eta.config.autoTrim = [false, 'slurp']
+
+    // 아래 설정을 하면 eta.es.js 가 Express 에 연결된다.
+    // 아래 설정을 하지 않으면 eta.cjs 가 Express 에 연결된다.
+    // 아래에서 엉뚱한 오브젝트들을 세팅하게 된다.
+    this.express.engine("eta", eta.renderFile)
+
+    eta.config.cache = !this.config.dev
     eta.config.autoTrim = false
-    eta.config.cache = true
-    if (!config.dev) {
-      eta.config.cache = true
-    }
+
+    // eta.config.cache 가 Express cache 설정으로 오버라이딩 된다.
+    // 오버라이딩 된 것을 다시 덮어쓰려면 'view options'를 사용한다.
+    this.express.set('view options', {
+      cache: !this.config.dev,
+    })
+  }
+
+  private usePug() {
+    this.express.set('view engine', 'pug')
+    this.express.set('views', 'src/web/template/pug')
   }
 
   static from(config: Config) {
@@ -203,7 +217,7 @@ export class Express2 {
       // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
 
       if (res.locals.api) {
-        renderJson(res, { err });
+        res.json({ err });
       } else {
         res.render('_page/error', { err });
       }
@@ -235,13 +249,3 @@ export function toCallback(handler: (req: Request, res: Response) => Promise<voi
   }
 }
 
-export function renderJson(res: Response, obj?:any) {
-  res.json(obj)
-}
-
-export function renderHtml(res: Response, template: string, obj?: any) {
-  res.render(template, obj)
-  // console.log(eta.config.cache)
-  // @ts-ignore
-  // console.log(eta.config.templates.cache)
-}
