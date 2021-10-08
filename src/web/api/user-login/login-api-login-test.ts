@@ -1,13 +1,14 @@
 import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
-import { Express2 } from '../../_express/express2.js'
+import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '../../../db/user/fixture/user-fix.js'
+import { Express2, toCallback } from '../../_express/express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerLoginApi } from './login-api.js'
-import { EMAIL_NOT_FOUND, NOT_AUTHENTICATED, NOT_AUTHORIZED, PASSWORD_WRONG } from '../../../_type/error-user.js'
+import { getSessionUser, registerLoginApi, shouldBeAdmin, shouldBeUser } from './login-api.js'
+import { EMAIL_NOT_FOUND, NOT_AUTHORIZED, PASSWORD_WRONG } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
+import { GUEST_ID_CARD } from '../../../_type/user.js'
 
 describe('Login Api', () => {
 
@@ -44,53 +45,61 @@ describe('Login Api', () => {
     await insertUserFix4(udb)
   })
 
-  // login
+  it('setup should be admin', () => {
+    web.router.get('/api/should-be-admin', toCallback(async function (req, res) {
+      const user = getSessionUser(res)
+      shouldBeUser(user)
+      shouldBeAdmin(user)
+      res.json({})
+    }))
+  })
+  // login & login-info
+  it('login-info guest', async () => {
+    const res = await sat.get('/api/login-info').expect(200)
+    expect(res.body.user).toEqual(GUEST_ID_CARD)
+  })
   it('login as user1', async () => {
-    const form = { email: 'user1@mail.test', password: '1234', remember: false }
-    const res = await sat.post('/api/login').send(form).expect(200)
+    const res = await sat.post('/api/login').send(USER1_LOGIN).expect(200)
     expect(res.body).toEqual({ user: { id: 1, name: 'User 1', home: 'user1', admin: false }})
   })
-  it('login-info 1', async () => {
+  it('login-info user1', async () => {
     const res = await sat.get('/api/login-info').expect(200)
     expect(res.body).toEqual({ user: { id: 1, name: 'User 1', home: 'user1', admin: false }})
   })
   it('login as user2', async () => {
-    const form = { email: 'user2@mail.test', password: '1234', remember: false }
-    const res = await sat.post('/api/login').send(form).expect(200)
+    const res = await sat.post('/api/login').send(USER2_LOGIN).expect(200)
     expect(res.body).toEqual({ user: { id: 2, name: 'User 2', home: 'user2', admin: false }})
   })
-  it('login-info 2', async () => {
+  it('login-info user2', async () => {
     const res = await sat.get('/api/login-info').expect(200)
     expect(res.body).toEqual({ user: { id: 2, name: 'User 2', home: 'user2', admin: false }})
   })
 
   // permission
   it('login as user1', async () => {
-    const form = { email: 'user1@mail.test', password: '1234', remember: false }
-    const res = await sat.post('/api/login').send(form).expect(200)
+    const res = await sat.post('/api/login').send(USER1_LOGIN).expect(200)
     expect(res.body.user.id).toBe(1)
   })
-  it('login-info-admin fails', async () => {
-    const res = await sat.get('/api/login-info-admin').expect(200)
+  it('should-be-admin fails', async () => {
+    const res = await sat.get('/api/should-be-admin').expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
-    const form = { email: 'admin@mail.test', password: '1234', remember: false }
-    const res = await sat.post('/api/login').send(form).expect(200)
+    const res = await sat.post('/api/login').send(ADMIN_LOGIN).expect(200)
     expect(res.body).toEqual({ user: { id: 4, name: 'Admin', home: 'admin', admin: true }})
   })
-  it('login-info-admin works', async () => {
-    const res = await sat.get('/api/login-info-admin').expect(200)
-    expect(res.body).toEqual({ user: { id: 4, name: 'Admin', home: 'admin', admin: true }})
+  it('should-be-admin ok', async () => {
+    const res = await sat.get('/api/should-be-admin').expect(200)
+    expect(res.body).toEqual({})
   })
 
   // logout
   it('logout', async () => {
     await sat.post('/api/logout').expect(200)
   })
-  it('login-info fails after logout', async () => {
+  it('login-info after logout, returns guest', async () => {
     const res = await sat.get('/api/login-info').expect(200)
-    expect(res.body.err).toContain(NOT_AUTHENTICATED)
+    expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
 
   // error
@@ -106,3 +115,4 @@ describe('Login Api', () => {
   })
 
 })
+

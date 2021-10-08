@@ -1,6 +1,6 @@
 import { Express2, toCallback } from '../../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
-import { User, userIsAdmin, userIsUser } from '../../../_type/user.js'
+import { GUEST, newUserIdCard, User, userIsAdmin, userIsUser } from '../../../_type/user.js'
 import { newString } from '../../../_util/primitive.js'
 import {
   ACCOUNT_DEACTIVATED,
@@ -11,11 +11,16 @@ import {
 } from '../../../_type/error-user.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
-import { newUserForClient } from '../../../_type/user-client.js'
 import { checkHash } from '../../../_util/hash.js'
-import { GUEST } from '../../../db/user/fixture/user-fix.js'
 
 export function registerLoginApi(web: Express2, uc: UserCache) {
+
+  web.router.get('/api/login-info', toCallback(async function (req, res) {
+    const user = getSessionUser(res)
+    res.json({
+      user: newUserIdCard(user)
+    })
+  }))
 
   web.router.post('/api/login', toCallback(async (req, res) => {
     const email = newString(req.body.email).trim()
@@ -25,30 +30,13 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
     const user = await loginService(req, res, uc, email, password, remember, err)
     if (!user || err.length) throw err
     res.json({
-      user: newUserForClient(user)
+      user: newUserIdCard(user)
     })
   }))
 
   web.autoLogin = toCallback(async (req, res) => {
     await autoLoginService(req, res, uc)
   })
-
-  web.router.get('/api/login-info', toCallback(async function (req, res) {
-    const user = getSessionUser(res)
-    shouldBeUser(user)
-    res.json({
-      user: newUserForClient(user)
-    })
-  }))
-
-  web.router.get('/api/login-info-admin', toCallback(async function (req, res) {
-    const user = getSessionUser(res)
-    shouldBeUser(user)
-    shouldBeAdmin(user)
-    res.json({
-      user: newUserForClient(user)
-    })
-  }))
 
   web.router.post('/api/logout', toCallback(async (req, res) => {
     await logoutService(req, res)

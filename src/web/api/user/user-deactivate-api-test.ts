@@ -10,6 +10,7 @@ import { registerLoginApi } from '../user-login/login-api.js'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
+import { GUEST_ID_CARD } from '../../../_type/user.js'
 
 describe('UserDeactivateApi', () => {
 
@@ -65,9 +66,9 @@ describe('UserDeactivateApi', () => {
     const res = await sat.put('/api/user-deactivate/1').expect(200)
     expect(res.body).toEqual({})
   })
-  it('get login fails', async () => {
+  it('login-info returns guest', async () => {
     const res = await sat.get('/api/login-info').expect(200)
-    expect(res.body.err).toContain(NOT_AUTHENTICATED)
+    expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
   it('user status must be "d"', async () => {
     const user = await udb.findUserById(1)

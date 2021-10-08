@@ -6,9 +6,9 @@ import { Express2 } from '../../_express/express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from './login-api.js'
 import { loginForTest, logoutForTest } from './login-api-fixture.js'
-import { NOT_AUTHENTICATED } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
+import { GUEST_ID_CARD } from '../../../_type/user.js'
 
 describe('Login Api Fixture', () => {
 
@@ -57,7 +57,7 @@ describe('Login Api Fixture', () => {
   })
   it('get login fails', async () => {
     const res = await sat.get('/api/login-info').expect(200)
-    expect(res.body.err).toContain(NOT_AUTHENTICATED)
+    expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
 
 })

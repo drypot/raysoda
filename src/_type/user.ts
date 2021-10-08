@@ -37,3 +37,26 @@ export function userIsUser(user: { id: number }) {
 export function userIsAdmin(user: { admin: boolean }) {
   return user.admin
 }
+
+export const GUEST = newUser({
+  id: -1, name: '', home: '', email: '', hash: '',
+  cdate: new Date(2003, 0, 17), adate: new Date(2003, 0, 17), pdate: new Date(2003, 0, 17)
+})
+
+export type UserIdCard = {
+  id: number
+  name: string
+  home: string
+  admin: boolean
+}
+
+export function newUserIdCard(user: UserIdCard): UserIdCard {
+  return {
+    id: user.id,
+    name: user.name,
+    home: user.home,
+    admin: user.admin
+  }
+}
+
+export const GUEST_ID_CARD = newUserIdCard(GUEST)

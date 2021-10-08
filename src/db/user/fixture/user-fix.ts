@@ -3,10 +3,6 @@ import { UserDB } from '../user-db.js'
 
 const hash1 = '$2a$10$bP0BJpAzAUNFZ2Ejo57Gruhg8LkIQ9./EvfUjjyYqwCf3ZDhQZC1K' /* 1234 */
 
-// GUEST 는 테스트와 라이브 코드에 모두 사용된다.
-export const GUEST = newUser({ id: -1, name: '', home: '', email: '', hash: '',
-  cdate: new Date(2003, 0, 17), adate: new Date(2003, 0, 17), pdate: new Date(2003, 0, 17) })
-
 export const USER1 = newUser({ id: 1, name: 'User 1', home: 'user1', email: 'user1@mail.test', hash: hash1,
   cdate: new Date(2003, 0, 17), adate: new Date(2003, 0, 17), pdate: new Date(2019, 0, 10) })
 export const USER2 = newUser({ id: 2, name: 'User 2', home: 'user2', email: 'user2@mail.test', hash: hash1,
