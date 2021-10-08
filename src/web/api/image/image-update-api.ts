@@ -1,4 +1,4 @@
-import { deleteUpload, Express2, renderJson, toCallback } from '../../_express/express2.js'
+import { deleteUpload, Express2, toCallback } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageUpdateForm } from '../../../_type/image-form.js'
 import { Request } from 'express'
@@ -7,6 +7,7 @@ import { imageUpdateGetService, imageUpdateService } from '../../../service/imag
 import { newNumber, newString } from '../../../_util/primitive.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { getSessionUser, shouldBeUser } from '../user-login/login-api.js'
+import { renderJson } from '../_api/api.js'
 
 export function registerImageUpdateApi(web: Express2, idb: ImageDB, ifm: ImageFileManager) {
 

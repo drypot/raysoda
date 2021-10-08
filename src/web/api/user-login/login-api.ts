@@ -1,4 +1,4 @@
-import { Express2, renderJson, toCallback } from '../../_express/express2.js'
+import { Express2, toCallback } from '../../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
 import { GUEST, newUserIdCard, User, userIsAdmin, userIsUser } from '../../../_type/user.js'
 import { newString } from '../../../_util/primitive.js'
@@ -12,6 +12,7 @@ import {
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { checkHash } from '../../../_util/hash.js'
+import { renderJson } from '../_api/api.js'
 
 export function registerLoginApi(web: Express2, uc: UserCache) {
 

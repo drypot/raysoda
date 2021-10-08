@@ -1,4 +1,4 @@
-import { Express2, renderHtml, toCallback } from '../../_express/express2.js'
+import { Express2, toCallback } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { imageDetailService } from '../../../service/image/image-detail-service.js'
@@ -6,6 +6,7 @@ import { newNumber } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerImageDetailPage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 

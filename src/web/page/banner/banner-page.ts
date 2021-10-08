@@ -1,6 +1,7 @@
-import { Express2, renderHtml, toCallback } from '../../_express/express2.js'
+import { Express2, toCallback } from '../../_express/express2.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
 import { getSessionUser, shouldBeAdmin, shouldBeUser } from '../../api/user-login/login-api.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerBannerPage(web: Express2, bdb: BannerDB) {
 

@@ -1,6 +1,7 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
-import { Express2, renderJson } from './express2.js'
+import { Express2 } from './express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
+import { renderJson } from '../api/_api/api.js'
 
 describe('Express2 Cache', () => {
 

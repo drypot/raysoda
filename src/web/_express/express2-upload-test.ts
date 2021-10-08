@@ -1,9 +1,10 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
-import { deleteUpload, Express2, renderJson } from './express2.js'
+import { deleteUpload, Express2 } from './express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 import { Multer } from 'multer'
 import { timeout } from '../../_util/async2.js'
 import { existsSync } from 'fs'
+import { renderJson } from '../api/_api/api.js'
 
 describe('Express2 Upload', () => {
 

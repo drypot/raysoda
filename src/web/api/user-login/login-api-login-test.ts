@@ -2,13 +2,14 @@ import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '../../../db/user/fixture/user-fix.js'
-import { Express2, renderJson, toCallback } from '../../_express/express2.js'
+import { Express2, toCallback } from '../../_express/express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 import { getSessionUser, registerLoginApi, shouldBeAdmin, shouldBeUser } from './login-api.js'
 import { EMAIL_NOT_FOUND, NOT_AUTHORIZED, PASSWORD_WRONG } from '../../../_type/error-user.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { GUEST_ID_CARD } from '../../../_type/user.js'
+import { renderJson } from '../_api/api.js'
 
 describe('Login Api', () => {
 

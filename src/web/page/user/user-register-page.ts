@@ -1,4 +1,5 @@
-import { Express2, renderHtml } from '../../_express/express2.js'
+import { Express2 } from '../../_express/express2.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerUserRegisterPage(web: Express2) {
 

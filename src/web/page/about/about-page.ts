@@ -1,9 +1,10 @@
-import { Express2, renderHtml } from '../../_express/express2.js'
+import { Express2 } from '../../_express/express2.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerAboutPage(web: Express2) {
 
   web.router.get('/about', function (req, res) {
-    renderHtml(res, 'about/about')
+    renderHtml(res, 'about/about', { abc: new Date() })
   })
 
   web.router.get('/company', function (req, res) {

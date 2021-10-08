@@ -2,13 +2,14 @@ import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
-import { Express2, renderJson } from '../../_express/express2.js'
+import { Express2 } from '../../_express/express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from './login-api.js'
 import { loginForTest, logoutForTest } from './login-api-fixture.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { GUEST_ID_CARD } from '../../../_type/user.js'
+import { renderJson } from '../_api/api.js'
 
 describe('Login Api Auto Login', () => {
 

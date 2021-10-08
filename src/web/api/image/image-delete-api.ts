@@ -1,10 +1,11 @@
-import { Express2, renderJson, toCallback } from '../../_express/express2.js'
+import { Express2, toCallback } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { imageDeleteService } from '../../../service/image/image-delete-service.js'
 import { newNumber } from '../../../_util/primitive.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { getSessionUser, shouldBeUser } from '../user-login/login-api.js'
+import { renderJson } from '../_api/api.js'
 
 export function registerImageDeleteApi(web: Express2, idb: ImageDB, ifm: ImageFileManager) {
 

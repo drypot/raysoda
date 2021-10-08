@@ -1,19 +1,16 @@
-import { Express2, renderHtml } from '../../_express/express2.js'
+import { Express2 } from '../../_express/express2.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
-import { Config, newConfigForClient } from '../../../_type/config.js'
+import { newConfigForClient } from '../../../_type/config.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
-import { newUserIdCard, User } from '../../../_type/user.js'
-
-type ResLocals = {
-  config: Config
-  user: User
-}
+import { newUserIdCard } from '../../../_type/user.js'
+import { Response } from 'express'
 
 export function registerPageSupport(web: Express2, bdb: BannerDB) {
 
   const configStr = JSON.stringify(newConfigForClient(web.config))
 
-  web.router.get('/spa-init-script', function (req, res) {
+  // nginx 설정 편의를 위해 /api 아래에 둔다.
+  web.router.get('/api/spa-init-script', function (req, res) {
     const user = getSessionUser(res)
     const userStr = JSON.stringify(newUserIdCard(user))
     const bannerStr = JSON.stringify(bdb.getCached())
@@ -31,3 +28,6 @@ export function registerPageSupport(web: Express2, bdb: BannerDB) {
 
 }
 
+export function renderHtml(res: Response, template: string, obj?: any) {
+  res.render(template, obj)
+}

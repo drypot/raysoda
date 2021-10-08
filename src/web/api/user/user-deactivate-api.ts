@@ -1,9 +1,10 @@
-import { Express2, renderJson, toCallback } from '../../_express/express2.js'
+import { Express2, toCallback } from '../../_express/express2.js'
 import { userDeactivateService } from '../../../service/user/user-deactivate-service.js'
 import { newNumber } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { getSessionUser, logoutService, shouldBeUser } from '../user-login/login-api.js'
+import { renderJson } from '../_api/api.js'
 
 export function registerUserDeactivateApi(web: Express2, uc: UserCache) {
 

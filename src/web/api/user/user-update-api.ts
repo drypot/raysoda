@@ -1,4 +1,4 @@
-import { Express2, renderJson, toCallback } from '../../_express/express2.js'
+import { Express2, toCallback } from '../../_express/express2.js'
 import { userUpdateGetService, userUpdateService } from '../../../service/user/user-update-service.js'
 import { Request } from 'express'
 import { newNumber, newString } from '../../../_util/primitive.js'
@@ -6,6 +6,7 @@ import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { UserUpdateForm } from '../../../_type/user-form.js'
 import { getSessionUser, shouldBeUser } from '../user-login/login-api.js'
+import { renderJson } from '../_api/api.js'
 
 export function registerUserUpdateApi(web: Express2, uc: UserCache) {
 

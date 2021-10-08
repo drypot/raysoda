@@ -1,9 +1,10 @@
-import { Express2, renderHtml, toCallback } from '../../_express/express2.js'
+import { Express2, toCallback } from '../../_express/express2.js'
 import { newNumber } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { getSessionUser, shouldBeUser } from '../../api/user-login/login-api.js'
 import { userUpdateGetService } from '../../../service/user/user-update-service.js'
 import { ErrorConst } from '../../../_type/error.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerUserUpdatePage(web: Express2, uc: UserCache) {
 

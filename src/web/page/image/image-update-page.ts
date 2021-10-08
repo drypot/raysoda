@@ -1,9 +1,10 @@
-import { Express2, renderHtml, toCallback } from '../../_express/express2.js'
+import { Express2, toCallback } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { newNumber } from '../../../_util/primitive.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { imageUpdateGetService } from '../../../service/image/image-update-service.js'
 import { getSessionUser, shouldBeUser } from '../../api/user-login/login-api.js'
+import { renderHtml } from '../_page/page.js'
 
 export function registerImageUpdatePage(web: Express2, idb: ImageDB) {
 
