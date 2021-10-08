@@ -1,0 +1,43 @@
+<%
+layout('../layout/layout.eta')
+it.title = ''
+%>
+
+block head-opt
+  title User List - <%~ it.config.appName %>
+
+block content
+
+  script.
+    $(function () {
+      cuser.initUserList();
+    });
+
+  .section.page-title
+    h1 회원별
+
+  .section
+    .sub-section
+      form.main.form-inline
+        .form-group
+          input.form-control(name='q', type='text')
+        .form-group
+          button.btn.btn-primary(type='submit') 회원 검색
+
+      .sub-section
+        .user-list
+          if user.length
+            for u in user
+              div: <a href='/' + encodeURIComponent(u.home>) <%~ u.name %>
+          else
+            div 검색 결과가 없습니다.
+
+      .sub-section
+        .prev-next
+          if prev
+            <a href=prev>
+              i.fa.fa-angle-left(aria-hidden='true')
+          if next
+            <a href=next>
+              i.fa.fa-angle-right(aria-hidden='true')
+

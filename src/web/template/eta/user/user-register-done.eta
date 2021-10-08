@@ -1,0 +1,22 @@
+<%
+layout('../layout/layout.eta')
+it.title = ''
+%>
+
+block head-opt
+  title Registered - <%~ it.config.appName %>
+
+block content
+  script.
+    $(function () {
+      cuser.initLogin();
+    });
+
+  .section.page-title
+    h1 등록 완료
+
+  .section
+    사용자 등록이 완료되었습니다.
+
+  .section
+    <a href='/login'> 로그인

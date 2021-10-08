@@ -1,0 +1,32 @@
+<%
+layout('../layout/layout.eta')
+it.title = 'Help'
+%>
+
+<div class="section page-title">
+    <h1>도움말</h1>
+</div>
+
+<div class="section">
+    <div class="sub-section">
+        궁금하신 점은 이메일로 문의 부탁드립니다.
+    </div>
+    <div class="sub-section">
+        페이스북 :&nbsp;
+        <a href='https://www.facebook.com/raysoda.news' target='_blank'>
+            https://www.facebook.com/raysoda.news
+        </a>
+        <br>
+
+        이메일 :&nbsp;
+        <% let email = 'support+' + it.config.appNamel + '@raysoda.com' %>
+        <% let emailLink = 'mailto:' + email %>
+        <a href="<% ~emailLink %>">
+            <% ~email %>
+        </a>
+    </div>
+    <div class="sub-section">
+        회원탈퇴를 원하실 경우 : &nbsp;
+        <a href="/user-deactivate"> 계정사용중지신청</a>
+    </div>
+</div>

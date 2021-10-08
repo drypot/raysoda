@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<%= it.config.appDesc %>">
+    <meta property="og:site_name" content="<%= it.config.appName %>">
+    <% if (it.ogImage) { %>
+        <meta property="og:image" content="<% ~it.ogImage %>">
+    <% } %>
+    <title><%= (it.title ? it.title + ' - ' : '') + it.config.appName %></title>
+    <link rel="icon" type="image/png" href="/static/favicon/<% ~it.config.appNamel %>.png?v=1.0.1">
+    <link rel="stylesheet" href="/static/lib/bootstrap-3.4.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/lib/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/build/css/base.css?v=1.0.2">
+    <link rel="stylesheet" href="/build/css/<% ~it.config.appNamel %>.css?v=1.0.1">
+    <script src="/static/lib/jquery-3.5.1.min.js"></script>
+    <script src="/static/lib/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+    <script>
+      config = <% ~JSON.stringify({ appNamel: it.config.appNamel }) %>;
+      user = <% ~JSON.stringify({ id: it.user.id, name: it.user.name }) %>
+    </script>
+    <!--    <script src="/static/js/cbase.js"></script>-->
+    <!--    <script src="/static/js/cuser.js"></script>-->
+    <!--    <script src="/static/js/cimage.js"></script>-->
+    <!--    <script src="/static/js/csupp.js"></script>-->
+</head>
+<body>
+    <% if (!it.hideHeader) { %>
+        <div class="section page-header">
+            <div class="site-name"><a href="/"><%= it.config.appName %></a></div>
+        </div>
+    <% } %>
+
+    <% ~ it.body %>
+
+    <div class="section page-footer">
+        <div class="about-list">
+            <ul class="list-inline">
+                <li><a href="/about">사이트소개</a></li>
+                <li><a href="/company">회사소개</a></li>
+                <li><a href="/ad">광고</a></li>
+                <li><a href="/privacy">개인정보처리방침</a></li>
+                <li><a href="/help">도움말</a></li>
+            </ul>
+        </div>
+        <div class="sponsor"><a href="/counter-inc/adng?r=http://www.natgeokorea.com/magazine" target="_blank">National
+                Geographic</a></div>
+        <div class="site-name"><a href="/">
+                <% ~it.config.appName %>
+            </a></div>
+    </div>
+
+    <div class="modal" id="error-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fullscreen"></div>
+
+</body>
+</html>
