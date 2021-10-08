@@ -1,4 +1,4 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderJson, toCallback } from '../../_express/express2.js'
 import { userDetailService } from '../../../service/user/user-detail-service.js'
 import { newNumber } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
@@ -15,7 +15,7 @@ export function registerUserDetailApi(web: Express2, uc: UserCache) {
     const detail = await userDetailService(uc, user, id, err)
     if (!detail || err.length) throw err
     packUserDetail(detail)
-    res.json({
+    renderJson(res, {
       user: detail
     })
   }))

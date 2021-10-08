@@ -1,4 +1,4 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderJson, toCallback } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { imageDeleteService } from '../../../service/image/image-delete-service.js'
@@ -15,7 +15,7 @@ export function registerImageDeleteApi(web: Express2, idb: ImageDB, ifm: ImageFi
     const err: ErrorConst[] = []
     await imageDeleteService(idb, ifm, user, id, err)
     if (err.length) throw err
-    res.json({})
+    renderJson(res, {})
   }))
 
 }

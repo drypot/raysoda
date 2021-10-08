@@ -1,4 +1,4 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderHtml, toCallback } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { Request, Response } from 'express'
@@ -8,7 +8,6 @@ import { imageListByCdateService, imageListService } from '../../../service/imag
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { UrlMaker } from '../../../_util/url2.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
-import { renderHtml } from '../_page/page.js'
 
 export function registerImageListPage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager, bdb: BannerDB) {
 

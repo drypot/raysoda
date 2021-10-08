@@ -1,4 +1,4 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderJson, toCallback } from '../../_express/express2.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { newLimitedNumber, newString } from '../../../_util/primitive.js'
 import { userListService } from '../../../service/user/user-list-service.js'
@@ -21,7 +21,7 @@ export function registerUserListApi(web: Express2, udb: UserDB) {
     } else {
       list = await userListService(udb, p, ps)
     }
-    res.json({
+    renderJson(res, {
       userList: list
     })
   }))

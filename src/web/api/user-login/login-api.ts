@@ -1,4 +1,4 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderJson, toCallback } from '../../_express/express2.js'
 import { NextFunction, Request, Response } from 'express'
 import { GUEST, newUserIdCard, User, userIsAdmin, userIsUser } from '../../../_type/user.js'
 import { newString } from '../../../_util/primitive.js'
@@ -17,7 +17,7 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
 
   web.router.get('/api/login-info', toCallback(async function (req, res) {
     const user = getSessionUser(res)
-    res.json({
+    renderJson(res, {
       user: newUserIdCard(user)
     })
   }))
@@ -29,7 +29,7 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
     const err: ErrorConst[] = []
     const user = await loginService(req, res, uc, email, password, remember, err)
     if (!user || err.length) throw err
-    res.json({
+    renderJson(res, {
       user: newUserIdCard(user)
     })
   }))
@@ -40,7 +40,7 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
 
   web.router.post('/api/logout', toCallback(async (req, res) => {
     await logoutService(req, res)
-    res.json({})
+    renderJson(res, {})
   }))
 
   web.redirectToLogin = function (err: any, req: Request, res: Response, done: NextFunction) {

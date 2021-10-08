@@ -1,5 +1,5 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
-import { Express2, toCallback } from './express2.js'
+import { Express2, renderJson, toCallback } from './express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 
 describe('Express2 toCallback', () => {
@@ -21,7 +21,7 @@ describe('Express2 toCallback', () => {
   it('setup promise handler', () => {
     web.router.get('/api/promise-ok', (req, res) => {
       Promise.resolve(10).then(v => {
-        res.json(v)
+        renderJson(res, v)
       })
     })
   })
@@ -32,7 +32,7 @@ describe('Express2 toCallback', () => {
   it('setup promise err handler', () => {
     web.router.get('/api/promise-err', (req, res, done) => {
       Promise.reject(new Error('fatal error')).then(v => {
-        res.json(v)
+        renderJson(res, v)
       }).catch(err => {
         done(err)
       })
@@ -45,7 +45,7 @@ describe('Express2 toCallback', () => {
   it('setup toCallback handler', () => {
     web.router.get('/api/tocallback-ok', toCallback(async (req, res) => {
       const v = await Promise.resolve(10)
-      res.json(v)
+      renderJson(res, v)
     }))
   })
   it('should work', async () => {
@@ -55,7 +55,7 @@ describe('Express2 toCallback', () => {
   it('setup toCallback err handler', () => {
     web.router.get('/api/tocallback-err', toCallback(async (req, res) => {
       const v = await Promise.reject(new Error('fatal error'))
-      res.json(v)
+      renderJson(res, v)
     }))
   })
   it('toCallback err handler', async () => {

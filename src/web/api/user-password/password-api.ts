@@ -1,4 +1,4 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderJson, toCallback } from '../../_express/express2.js'
 import { ResetDB } from '../../../db/password/reset-db.js'
 import { Mailer } from '../../../mailer/mailer2.js'
 import { passwordResetService, passwordSendResetMailService } from '../../../service/user-password/password-service.js'
@@ -14,7 +14,7 @@ export function registerPasswordApi(web: Express2, uc: UserCache, resetDB: Reset
     const err: ErrorConst[] = []
     await passwordSendResetMailService(mailer, uc.udb, resetDB, email, err)
     if (err.length) throw err
-    res.json({})
+    renderJson(res, {})
   }))
 
   web.router.post('/api/password-reset', toCallback(async (req, res) => {
@@ -26,7 +26,7 @@ export function registerPasswordApi(web: Express2, uc: UserCache, resetDB: Reset
     const err: ErrorConst[] = []
     await passwordResetService(uc, resetDB, form, err)
     if (err.length) throw err
-    res.json({})
+    renderJson(res, {})
   }))
 
 }

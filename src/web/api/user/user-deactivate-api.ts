@@ -1,4 +1,4 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderJson, toCallback } from '../../_express/express2.js'
 import { userDeactivateService } from '../../../service/user/user-deactivate-service.js'
 import { newNumber } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
@@ -17,7 +17,7 @@ export function registerUserDeactivateApi(web: Express2, uc: UserCache) {
     if (user.id === id) {
       await logoutService(req, res)
     }
-    res.json({})
+    renderJson(res, {})
   }))
 
 }

@@ -1,5 +1,5 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
-import { Express2 } from './express2.js'
+import { Express2, renderJson } from './express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 
 describe('Express2 Session', () => {
@@ -21,21 +21,21 @@ describe('Express2 Session', () => {
   it('setup', () => {
     web.router.post('/api/session-destroy', function (req, res, done) {
       req.session.destroy(() => {
-        res.json({})
+        renderJson(res, {})
       })
     })
     web.router.put('/api/put', (req, res) => {
       for (let [k, v] of Object.entries(req.body)) {
         req.session[k] = v
       }
-      res.json({})
+      renderJson(res, {})
     })
     web.router.get('/api/get', (req, res) => {
       const obj: any = {}
       for (const k of req.body) {
         obj[k] = req.session[k]
       }
-      res.json(obj)
+      renderJson(res, obj)
     })
   })
   it('put/get', async () => {

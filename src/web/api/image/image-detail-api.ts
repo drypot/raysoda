@@ -1,4 +1,4 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderJson, toCallback } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { imageDetailService } from '../../../service/image/image-detail-service.js'
@@ -17,7 +17,7 @@ export function registerImageDetailApi(web: Express2, uc: UserCache, idb: ImageD
     const image = await imageDetailService(uc, idb, ifm, user, id, err)
     if (!image || err.length) throw err
     packImageDetail(image)
-    res.json({ image })
+    renderJson(res, { image })
   }))
 
 }

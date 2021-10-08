@@ -1,8 +1,7 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderHtml, toCallback } from '../../_express/express2.js'
 import { CounterDB } from '../../../db/counter/counter-db.js'
 import { counterIncService } from '../../../service/counter/counter-service.js'
 import { getSessionUser, shouldBeAdmin, shouldBeUser } from '../../api/user-login/login-api.js'
-import { renderHtml } from '../_page/page.js'
 
 export function registerCounterPage(web: Express2, cdb: CounterDB) {
 

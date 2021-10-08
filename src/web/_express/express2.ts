@@ -188,7 +188,7 @@ export class Express2 {
       }
 
       // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
-      // 각 핸들러에서 res.send(), res.json() 으로 Content-Type 을 간접적으로 명시할 수도 있지만
+      // 각 핸들러에서 res.send(), renderJson(res, ) 으로 Content-Type 을 간접적으로 명시할 수도 있지만
       // 에러 핸들러는 공용으로 사용하기 때문에 이 방식에 의존할 수 없다.
       //
       // req.xhr:
@@ -203,7 +203,7 @@ export class Express2 {
       // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
 
       if (res.locals.api) {
-        res.json({ err });
+        renderJson(res, { err });
       } else {
         res.render('_page/error', { err });
       }
@@ -233,4 +233,15 @@ export function toCallback(handler: (req: Request, res: Response) => Promise<voi
   return (req: Request, res: Response, done: NextFunction) => {
     handler(req, res).then(done, done)
   }
+}
+
+export function renderJson(res: Response, obj?:any) {
+  res.json(obj)
+}
+
+export function renderHtml(res: Response, template: string, obj?: any) {
+  res.render(template, obj)
+  // console.log(eta.config.cache)
+  // @ts-ignore
+  // console.log(eta.config.templates.cache)
 }

@@ -1,4 +1,4 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderJson, toCallback } from '../../_express/express2.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
 import { bannerListService, bannerListUpdateService } from '../../../service/banner/banner-service.js'
 import { Banner } from '../../../_type/banner.js'
@@ -8,7 +8,7 @@ export function registerBannerApi(web: Express2, bdb: BannerDB) {
 
   web.router.get('/api/banner-list', toCallback(async (req, res) => {
     const bannerList = bannerListService(bdb)
-    res.json({ bannerList })
+    renderJson(res, { bannerList })
   }))
 
   web.router.put('/api/banner-update', toCallback(async (req, res) => {
@@ -16,7 +16,7 @@ export function registerBannerApi(web: Express2, bdb: BannerDB) {
     shouldBeUser(user)
     shouldBeAdmin(user)
     await bannerListUpdateService(bdb, req.body.banner as Banner[])
-    res.json({})
+    renderJson(res, {})
   }))
 
 }

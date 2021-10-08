@@ -1,4 +1,4 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2, renderJson, toCallback } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { newLimitedNumber } from '../../../_util/primitive.js'
@@ -16,14 +16,14 @@ export function registerImageListApi(web: Express2, uc: UserCache, idb: ImageDB,
     const list =d ?
       await imageListByCdateService(uc, idb, ifm, d, p, ps) :
       await imageListService(uc, idb, ifm, p, ps)
-    res.json({
+    renderJson(res, {
       list: list
     })
   }))
 
   web.router.get('/api/first-image-cdate', toCallback(async (req, res) => {
     const date = await firstImageCdateService(idb)
-    res.json({
+    renderJson(res, {
       todayNum: Date.now(),
       cdateNum: date.getTime()
     })

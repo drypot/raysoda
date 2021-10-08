@@ -1,5 +1,5 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
-import { Express2 } from './express2.js'
+import { Express2, renderJson } from './express2.js'
 import { NextFunction, Request, Response } from 'express'
 import supertest, { SuperAgentTest } from 'supertest'
 
@@ -46,7 +46,7 @@ describe('Express2 Middleware', () => {
   it('setup', () => {
     web.router.get('/api/api-1-2-3', mid1, mid2, (req, res, done) => {
       done3 = true
-      res.json({})
+      renderJson(res, {})
     })
   })
   it('api-1-2-3', async () => {
@@ -58,7 +58,7 @@ describe('Express2 Middleware', () => {
   it('setup', () => {
     web.router.get('/api/api-1-err-2-3', mid1, midErr, mid2, (req, res, done) => {
       done3 = true
-      res.json({})
+      renderJson(res, {})
     })
   })
   it('reset', () => {

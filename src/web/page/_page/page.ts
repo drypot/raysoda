@@ -1,9 +1,8 @@
-import { Express2 } from '../../_express/express2.js'
+import { Express2, renderHtml } from '../../_express/express2.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
 import { Config, newConfigForClient } from '../../../_type/config.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
 import { newUserIdCard, User } from '../../../_type/user.js'
-import { Response } from 'express'
 
 type ResLocals = {
   config: Config
@@ -32,9 +31,3 @@ export function registerPageSupport(web: Express2, bdb: BannerDB) {
 
 }
 
-export function renderHtml(res: Response, template: string, obj?: any) {
-  res. render(template, obj)
-  // console.log(eta.config.cache)
-  // @ts-ignore
-  // console.log(eta.config.templates.cache)
-}

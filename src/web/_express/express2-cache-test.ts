@@ -1,5 +1,5 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
-import { Express2 } from './express2.js'
+import { Express2, renderJson } from './express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 
 describe('Express2 Cache', () => {
@@ -20,7 +20,7 @@ describe('Express2 Cache', () => {
 
   it('setup /api/cache-test', () => {
     web.router.get('/api/cache-test', function (req, res, done) {
-      res.json({})
+      renderJson(res, {})
     })
   })
   it('for api, should return Cache-Control: no-cache', async () => {

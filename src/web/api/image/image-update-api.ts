@@ -1,4 +1,4 @@
-import { deleteUpload, Express2, toCallback } from '../../_express/express2.js'
+import { deleteUpload, Express2, renderJson, toCallback } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageUpdateForm } from '../../../_type/image-form.js'
 import { Request } from 'express'
@@ -17,7 +17,7 @@ export function registerImageUpdateApi(web: Express2, idb: ImageDB, ifm: ImageFi
     const err: ErrorConst[] = []
     const image = await imageUpdateGetService(idb, user, id, err)
     if (err.length) throw err
-    res.json({ image })
+    renderJson(res, { image })
   }))
 
   web.router.put('/api/image-update/:id([0-9]+)', web.upload.single('file'), deleteUpload(async (req, res) => {
@@ -28,7 +28,7 @@ export function registerImageUpdateApi(web: Express2, idb: ImageDB, ifm: ImageFi
     const err: ErrorConst[] = []
     await imageUpdateService(idb, ifm, user, id, form, err)
     if (err.length) throw err
-    res.json({})
+    renderJson(res, {})
   }))
 
 }

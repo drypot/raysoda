@@ -2,7 +2,7 @@ import { loadConfigSync } from '../../../_util/config-loader.js'
 import { DB } from '../../../db/_db/db.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.js'
-import { Express2 } from '../../_express/express2.js'
+import { Express2, renderJson } from '../../_express/express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from './login-api.js'
 import { loginForTest, logoutForTest } from './login-api-fixture.js'
@@ -47,11 +47,11 @@ describe('Login Api Auto Login', () => {
 
   it('setup', () => {
     web.router.get('/api/cookies', function (req, res, done) {
-      res.json(req.cookies)
+      renderJson(res, req.cookies)
     })
     web.router.post('/api/session-destroy', function (req, res, done) {
       req.session.destroy(() => {
-        res.json({})
+        renderJson(res, {})
       })
     })
   })

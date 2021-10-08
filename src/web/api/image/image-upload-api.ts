@@ -1,4 +1,4 @@
-import { deleteUpload, Express2 } from '../../_express/express2.js'
+import { deleteUpload, Express2, renderJson } from '../../_express/express2.js'
 import { UserDB } from '../../../db/user/user-db.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { ImageUploadForm } from '../../../_type/image-form.js'
@@ -25,7 +25,7 @@ export function registerImageUploadApi(web: Express2, udb: UserDB, idb: ImageDB,
     const err: ErrorConst[] = []
     const id = await imageUploadService(udb, idb, ifm, user.id, form, err)
     if (err.length) throw err
-    res.json({ id })
+    renderJson(res, { id })
   }))
 
 }

@@ -18,7 +18,7 @@
     <script src="/static/lib/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
     <script>
       config = <% ~JSON.stringify({ appNamel: it.config.appNamel }) %>;
-      user = <% ~JSON.stringify({ id: it.user.id, name: it.user.name }) %>
+      user = <% ~ it.user ? JSON.stringify({ id: it.user.id, name: it.user.name }) : 'undefined' %> :
     </script>
     <!--    <script src="/static/js/cbase.js"></script>-->
     <!--    <script src="/static/js/cuser.js"></script>-->
