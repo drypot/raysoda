@@ -2,6 +2,7 @@ import { DB } from '../_db/db.js'
 import { User } from '../../_type/user.js'
 import { Config } from '../../_type/config.js'
 import { UserForList } from '../../_type/user-detail.js'
+import { inProduction } from '../../_util/env2.js'
 
 export class UserDB {
 
@@ -58,7 +59,7 @@ export class UserDB {
   }
 
   async dropTable() {
-    if (!this.config.dev) {
+    if (inProduction()) {
       throw (new Error('only available in development mode'))
     }
     await this.db.query('drop table if exists user')

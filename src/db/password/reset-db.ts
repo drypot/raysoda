@@ -1,6 +1,7 @@
 import { DB } from '../_db/db.js'
 import { Config } from '../../_type/config.js'
 import { ResetToken } from '../../_type/password.js'
+import { inProduction } from '../../_util/env2.js'
 
 export class ResetDB {
 
@@ -36,7 +37,7 @@ export class ResetDB {
   }
 
   async dropTable() {
-    if (!this.config.dev) {
+    if (inProduction()) {
       throw (new Error('only available in development mode'))
     }
     await this.db.query('drop table if exists pwreset')

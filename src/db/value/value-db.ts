@@ -1,5 +1,6 @@
 import { DB } from '../_db/db.js'
 import { Config } from '../../_type/config.js'
+import { inProduction } from '../../_util/env2.js'
 
 export class ValueDB {
 
@@ -27,7 +28,9 @@ export class ValueDB {
   }
 
   async dropTable() {
-    if (!this.config.dev) throw new Error('only available in development mode')
+    if (inProduction()) {
+      throw new Error('only available in development mode')
+    }
     await this.db.query('drop table if exists persist')
     return this
   }

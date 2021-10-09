@@ -2,6 +2,7 @@ import { DB } from '../_db/db.js'
 import { newDateStringNoTime } from '../../_util/date2.js'
 import { Config } from '../../_type/config.js'
 import { Counter } from '../../_type/counter.js'
+import { inProduction } from '../../_util/env2.js'
 
 export class CounterDB {
 
@@ -31,7 +32,9 @@ export class CounterDB {
   }
 
   async dropTable() {
-    if (!this.config.dev) throw new Error('only available in development mode')
+    if (inProduction()) {
+      throw new Error('only available in development mode')
+    }
     await this.db.query('drop table if exists counter')
   }
 

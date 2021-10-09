@@ -1,6 +1,7 @@
 import { DB } from '../_db/db.js'
 import { Image } from '../../_type/image.js'
 import { Config } from '../../_type/config.js'
+import { inProduction } from '../../_util/env2.js'
 
 export class ImageDB {
 
@@ -44,7 +45,7 @@ export class ImageDB {
   }
 
   async dropTable() {
-    if (!this.config.dev) {
+    if (inProduction()) {
       throw (new Error('only available in development mode'))
     }
     await this.db.query('drop table if exists image')

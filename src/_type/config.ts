@@ -19,8 +19,6 @@ export type Config = {
 
   ticketGenInterval: number
   ticketMax: number
-
-  dev: boolean
 }
 
 export type ConfigForClient = {

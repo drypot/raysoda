@@ -8,6 +8,7 @@ import { IMAGE_SIZE, IMAGE_TYPE } from '../_type/error-image.js'
 import { ImageMeta } from '../_type/image-meta.js'
 import { Config } from '../_type/config.js'
 import { ErrorConst } from '../_type/error.js'
+import { inProduction } from '../_util/env2.js'
 
 const maxWidth = 2048
 
@@ -37,10 +38,10 @@ export class RaySodaFileManager implements ImageFileManager {
   // 쉘에서 수작업으로 만들면 된다.
 
   async rmRoot() {
-    if (this.config.dev) {
-      return rmRecursive(this.dir)
+    if (inProduction()) {
+      throw (new Error('only available in development mode'))
     }
-    throw (new Error('only available in development mode'))
+    return rmRecursive(this.dir)
   }
 
   getDirFor(id: number) {

@@ -5,7 +5,6 @@ describe('readConfigSync', () => {
     const config = loadConfigSync('config/config-test.json')
     expect(config.appName).toBe('Test')
     expect(config.appNamel).toBe('test')
-    expect(config.dev).toBeTruthy()
   })
   it('if file not found', () => {
     expect(() => {

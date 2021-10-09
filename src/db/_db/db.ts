@@ -1,5 +1,6 @@
 import mysql, { Connection, QueryOptions } from 'mysql'
 import { Config } from '../../_type/config.js'
+import { inProduction } from '../../_util/env2.js'
 
 export class DB {
 
@@ -72,7 +73,9 @@ export class DB {
   }
 
   async dropDatabase() {
-    if (!this.config.dev) throw (new Error('only available in development mode'))
+    if (inProduction()) {
+      throw (new Error('only available in development mode'))
+    }
     await this.query('drop database if exists ??', this.config.mysqlDatabase)
     return this
   }
