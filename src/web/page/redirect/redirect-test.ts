@@ -3,23 +3,44 @@ import { Express2 } from '../../_express/express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 import { registerRedirect } from './redirect.js'
 import { Config } from '../../../_type/config.js'
+import { DB } from '../../../db/_db/db.js'
+import { UserDB } from '../../../db/user/user-db.js'
+import { UserCache } from '../../../db/user/cache/user-cache.js'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
 
 describe('Redirect', () => {
 
   let config: Config
+
+  let db: DB
+  let udb: UserDB
+  let uc: UserCache
+
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
     config = loadConfigSync('config/app-test.json')
+
+    db = await DB.from(config).createDatabase()
+    udb = UserDB.from(db)
+    uc = UserCache.from(udb)
+
     web = Express2.from(config)
-    registerRedirect(web)
+    registerRedirect(web, uc)
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
     await web.close()
+    await db.close()
+  })
+
+  beforeAll(async () => {
+    await udb.dropTable()
+    await udb.createTable(false)
+    await insertUserFix4(udb)
   })
 
   it('/Com/Photo/View.aspx', async () => {
@@ -51,14 +72,10 @@ describe('Redirect', () => {
     const res = await sat.get('/USER1').expect(301).expect('Location', '/user/USER1')
   })
   it('/xman', async () => {
-    const res = await sat.get('/xman').expect(301).expect('Location', '/user/xman')
+    const res = await sat.get('/xman').expect(404)
   })
   it('/xman/yman', async () => {
     const res = await sat.get('/xman/yman').expect(404)
-  })
-  it('/xman/yman encoded', async () => {
-    const res = await sat.get('/' + encodeURIComponent('xman/yman'))
-      .expect(301).expect('Location', '/user/' + encodeURIComponent('xman/yman'))
   })
 
 })

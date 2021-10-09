@@ -7,3 +7,4 @@ export type ErrorConst = {
 }
 
 export const INVALID_DATA = newErrorConst('INVALID_DATA', '비정상적인 값이 입력되었습니다.')
+export const INVALID_PAGE = newErrorConst('INVALID_PAGE', '요청하신 페이지가 없습니다.')
