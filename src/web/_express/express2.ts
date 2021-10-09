@@ -26,11 +26,13 @@ export class Express2 {
   public readonly server: http.Server
   public readonly express: Express
   public readonly router: Router
+  public logError : boolean = false
   private multer: Multer | undefined
 
   public autoLogin: ExpressHandler = (req, res, done) => {
     done()
   }
+
   public redirectToLogin: ErrorRequestHandler = (err, req, res, done) => {
     done(err)
   }
@@ -251,6 +253,9 @@ export class Express2 {
       // 위와 같이 클라이언트에서 보내주는 정보에 의존하는 것은 불안정하다.
       // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
 
+      if (_this.logError) {
+        console.error(err)
+      }
       if (res.locals.api) {
         res.json({ err })
       } else {
@@ -280,7 +285,6 @@ export function deleteUpload(handler: (req: Request, res: Response) => Promise<v
 
 export function toCallback(handler: (req: Request, res: Response) => Promise<void>) {
   return (req: Request, res: Response, done: NextFunction) => {
-    handler(req, res).then(done, done)
+    handler(req, res).then(null, done)
   }
 }
-

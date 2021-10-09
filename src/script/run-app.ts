@@ -44,6 +44,7 @@ import { registerUserRegisterPage } from '../web/page/user/user-register-page.js
 import { registerUserUpdatePage } from '../web/page/user/user-update-page.js'
 import { registerLoginPage } from '../web/page/user-login/login-page.js'
 import { registerPasswordPage } from '../web/page/user-password/password-page.js'
+import { inDev } from '../_util/env2.js'
 
 async function main() {
   const config = loadConfigSync(process.argv[2])
@@ -66,6 +67,7 @@ async function main() {
   const mailer = Mailer.from(config).loadSync()
 
   const web = Express2.from(config).useUpload()
+  web.logError = inDev()
 
   registerImageListApi(web, uc, idb, ifm)
   registerImageDetailApi(web, uc, idb, ifm)
@@ -103,7 +105,7 @@ async function main() {
   registerBannerPage(web, bdb)
   registerAboutPage(web)
 
-  registerRedirect(web)
+  registerRedirect(web, uc)
 
   async function closeAll() {
     await web.close()

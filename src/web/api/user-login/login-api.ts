@@ -35,16 +35,16 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
     })
   }))
 
-  web.autoLogin = toCallback(async (req, res) => {
-    await autoLoginService(req, res, uc)
-  })
+  web.autoLogin = (req, res, done) => {
+    autoLoginService(req, res, uc).then(done, done)
+  }
 
   web.router.post('/api/logout', toCallback(async (req, res) => {
     await logoutService(req, res)
     renderJson(res, {})
   }))
 
-  web.redirectToLogin = function (err: any, req: Request, res: Response, done: NextFunction) {
+  web.redirectToLogin = (err: any, req: Request, res: Response, done: NextFunction) => {
     if (!res.locals.api && (
       err.name === NOT_AUTHENTICATED.name ||
       err.name === NOT_AUTHORIZED.name
