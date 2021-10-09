@@ -9,7 +9,7 @@ import { EMAIL_NOT_FOUND, NOT_AUTHORIZED, PASSWORD_WRONG } from '../../../_type/
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { GUEST_ID_CARD } from '../../../_type/user.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 describe('Login Api', () => {
 

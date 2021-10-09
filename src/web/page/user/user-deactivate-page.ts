@@ -1,6 +1,6 @@
 import { Express2, toCallback } from '../../_express/express2.js'
 import { getSessionUser, shouldBeUser } from '../../api/user-login/login-api.js'
-import { renderHtml } from '../_page/page.js'
+import { renderHtml } from '../_common/render-html.js'
 
 export function registerUserDeactivatePage(web: Express2) {
 

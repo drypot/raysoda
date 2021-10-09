@@ -3,7 +3,7 @@ import { CounterDB } from '../../../db/counter/counter-db.js'
 import { counterListService } from '../../../service/counter/counter-service.js'
 import { getSessionUser, shouldBeAdmin, shouldBeUser } from '../user-login/login-api.js'
 import { newString } from '../../../_util/primitive.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 export function registerCounterApi(web: Express2, cdb: CounterDB) {
 

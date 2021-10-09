@@ -1,7 +1,6 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { Express2 } from './express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
-import { renderJson } from '../api/_api/api.js'
 
 describe('Express2 res.locals.api', () => {
 
@@ -25,7 +24,7 @@ describe('Express2 res.locals.api', () => {
     web.router.get('/api/test', (req, res) => {
       expect(res.locals.api).toBe(true)
       count = 10
-      renderJson(res, {})
+      res.json({})
     })
   })
   it('api', async () => {
@@ -36,7 +35,7 @@ describe('Express2 res.locals.api', () => {
     web.router.get('/test', (req, res) => {
       expect(res.locals.api).toBe(false)
       count = 20
-      renderJson(res, {})
+      res.json({})
     })
   })
   it('page', async () => {

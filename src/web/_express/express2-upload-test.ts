@@ -4,7 +4,6 @@ import supertest, { SuperAgentTest } from 'supertest'
 import { Multer } from 'multer'
 import { timeout } from '../../_util/async2.js'
 import { existsSync } from 'fs'
-import { renderJson } from '../api/_api/api.js'
 
 describe('Express2 Upload', () => {
 
@@ -29,13 +28,13 @@ describe('Express2 Upload', () => {
 
   it('setup', () => {
     web.router.post('/api/upload-file', upload.single('file'), deleteUpload(async (req, res) => {
-      renderJson(res, {
+      res.json({
         ...req.body,
         file: req.file
       })
     }))
     web.router.post('/api/upload-files', upload.array('files', 12), deleteUpload(async (req, res) => {
-      renderJson(res, {
+      res.json({
         ...req.body,
         files: req.files
       })

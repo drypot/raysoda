@@ -2,7 +2,7 @@ import { Express2, toCallback } from '../../_express/express2.js'
 import { ImageDB } from '../../../db/image/image-db.js'
 import { leftTicket } from '../../../service/image/image-upload-service.js'
 import { getSessionUser, shouldBeUser } from '../../api/user-login/login-api.js'
-import { renderHtml } from '../_page/page.js'
+import { renderHtml } from '../_common/render-html.js'
 
 export function registerImageUploadPage(web: Express2, idb: ImageDB) {
 

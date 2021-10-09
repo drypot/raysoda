@@ -4,7 +4,7 @@ import { newNumber } from '../../../_util/primitive.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { imageUpdateGetService } from '../../../service/image/image-update-service.js'
 import { getSessionUser, shouldBeUser } from '../../api/user-login/login-api.js'
-import { renderHtml } from '../_page/page.js'
+import { renderHtml } from '../_common/render-html.js'
 
 export function registerImageUpdatePage(web: Express2, idb: ImageDB) {
 

@@ -8,7 +8,7 @@ import { imageListByCdateService, imageListService } from '../../../service/imag
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { UrlMaker } from '../../../_util/url2.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
-import { renderHtml } from '../_page/page.js'
+import { renderHtml } from '../_common/render-html.js'
 
 export function registerImageListPage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager, bdb: BannerDB) {
 

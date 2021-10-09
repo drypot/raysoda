@@ -7,7 +7,7 @@ import { Request } from 'express'
 import { ImageFileManager } from '../../../file/fileman.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { getSessionUser, shouldBeUser } from '../user-login/login-api.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 function newImageUploadForm(req: Request) {
   return {

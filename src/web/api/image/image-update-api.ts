@@ -7,7 +7,7 @@ import { imageUpdateGetService, imageUpdateService } from '../../../service/imag
 import { newNumber, newString } from '../../../_util/primitive.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { getSessionUser, shouldBeUser } from '../user-login/login-api.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 export function registerImageUpdateApi(web: Express2, idb: ImageDB, ifm: ImageFileManager) {
 

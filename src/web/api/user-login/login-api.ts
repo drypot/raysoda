@@ -12,7 +12,7 @@ import {
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { checkHash } from '../../../_util/hash.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 export function registerLoginApi(web: Express2, uc: UserCache) {
 

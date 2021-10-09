@@ -7,7 +7,7 @@ import { userSearchService } from '../../../service/user/user-search-service.js'
 import { UserForList } from '../../../_type/user-detail.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
 import { userIsAdmin } from '../../../_type/user.js'
-import { renderHtml } from '../_page/page.js'
+import { renderHtml } from '../_common/render-html.js'
 
 export function registerUserListPage(web: Express2, udb: UserDB) {
 

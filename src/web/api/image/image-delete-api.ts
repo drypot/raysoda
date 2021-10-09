@@ -5,7 +5,7 @@ import { imageDeleteService } from '../../../service/image/image-delete-service.
 import { newNumber } from '../../../_util/primitive.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { getSessionUser, shouldBeUser } from '../user-login/login-api.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 export function registerImageDeleteApi(web: Express2, idb: ImageDB, ifm: ImageFileManager) {
 

@@ -5,7 +5,7 @@ import { insertUserFix4, USER1_LOGIN } from '../../../db/user/fixture/user-fix.j
 import { Express2 } from '../../_express/express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
 import { registerLoginApi } from '../../api/user-login/login-api.js'
-import { registerPageSupport } from './page.js'
+import { registerCommonPage } from './common-page.js'
 import { ValueDB } from '../../../db/value/value-db.js'
 import { BannerDB } from '../../../db/banner/banner-db.js'
 import { registerBannerApi } from '../../api/banner/banner-api.js'
@@ -40,7 +40,7 @@ describe('SpaInitScript', () => {
     web = Express2.from(config)
     registerLoginApi(web, uc)
     registerBannerApi(web, bdb)
-    registerPageSupport(web, bdb)
+    registerCommonPage(web, bdb)
     await web.start()
     sat = supertest.agent(web.server)
   })

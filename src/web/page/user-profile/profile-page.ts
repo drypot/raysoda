@@ -8,7 +8,7 @@ import { imageListByUserService } from '../../../service/image/image-list-servic
 import { UrlMaker } from '../../../_util/url2.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { getSessionUser, userCanUpdateUser } from '../../api/user-login/login-api.js'
-import { renderHtml } from '../_page/page.js'
+import { renderHtml } from '../_common/render-html.js'
 
 export function registerUserProfilePage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 

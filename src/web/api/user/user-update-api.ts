@@ -6,7 +6,7 @@ import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { UserUpdateForm } from '../../../_type/user-form.js'
 import { getSessionUser, shouldBeUser } from '../user-login/login-api.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 export function registerUserUpdateApi(web: Express2, uc: UserCache) {
 

@@ -1,7 +1,6 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { Express2 } from './express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
-import { renderJson } from '../api/_api/api.js'
 
 describe('Express2 Json', () => {
 
@@ -21,7 +20,7 @@ describe('Express2 Json', () => {
 
   it('setup', () => {
     web.router.get('/api/object', function (req, res, done) {
-      renderJson(res, { message: 'hello' })
+      res.json({ message: 'hello' })
     })
   })
   it('object', async () => {
@@ -31,7 +30,7 @@ describe('Express2 Json', () => {
   })
   it('setup', () => {
     web.router.get('/api/string', function (req, res, done) {
-      renderJson(res, 'hi')
+      res.json('hi')
     })
   })
   it('string', async () => {
@@ -41,7 +40,7 @@ describe('Express2 Json', () => {
   })
   it('setup', () => {
     web.router.get('/api/null', function (req, res, done) {
-      renderJson(res, null)
+      res.json(null)
     })
   })
   it('null', async () => {

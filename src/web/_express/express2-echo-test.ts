@@ -1,7 +1,6 @@
 import { loadConfigSync } from '../../_util/config-loader.js'
 import { Express2 } from './express2.js'
 import supertest, { SuperAgentTest } from 'supertest'
-import { renderJson } from '../api/_api/api.js'
 
 describe('Express2 Echo', () => {
 
@@ -21,7 +20,7 @@ describe('Express2 Echo', () => {
 
   it('setup /api/echo', () => {
     web.router.all('/api/echo', function (req, res, done) {
-      renderJson(res, {
+      res.json({
         method: req.method,
         rtype: req.header('content-type'),
         query: req.query,

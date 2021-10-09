@@ -9,7 +9,7 @@ import { loginForTest, logoutForTest } from './login-api-fixture.js'
 import { Config } from '../../../_type/config.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { GUEST_ID_CARD } from '../../../_type/user.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 describe('Login Api Auto Login', () => {
 

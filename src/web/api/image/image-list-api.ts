@@ -6,7 +6,7 @@ import { imageListByCdateService, imageListService } from '../../../service/imag
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { newDate } from '../../../_util/date2.js'
 import { firstImageCdateService } from '../../../service/image/image-detail-service.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 export function registerImageListApi(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 

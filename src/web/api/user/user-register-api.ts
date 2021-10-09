@@ -5,7 +5,7 @@ import { Request } from 'express'
 import { newString } from '../../../_util/primitive.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { UserRegisterForm } from '../../../_type/user-form.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 export function newUserRegisterForm(req: Request): UserRegisterForm {
   const body = req.body

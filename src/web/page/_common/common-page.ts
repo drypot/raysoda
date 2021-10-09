@@ -3,9 +3,9 @@ import { BannerDB } from '../../../db/banner/banner-db.js'
 import { newConfigForClient } from '../../../_type/config.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
 import { newUserIdCard } from '../../../_type/user.js'
-import { Response } from 'express'
+import { renderHtml } from './render-html.js'
 
-export function registerPageSupport(web: Express2, bdb: BannerDB) {
+export function registerCommonPage(web: Express2, bdb: BannerDB) {
 
   const configStr = JSON.stringify(newConfigForClient(web.config))
 
@@ -26,8 +26,4 @@ export function registerPageSupport(web: Express2, bdb: BannerDB) {
     renderHtml(res, '_page/error', { err: [new Error] })
   })
 
-}
-
-export function renderHtml(res: Response, template: string, obj?: any) {
-  res.render(template, obj)
 }

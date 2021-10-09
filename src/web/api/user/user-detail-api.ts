@@ -5,7 +5,7 @@ import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { getSessionUser } from '../user-login/login-api.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { packUserDetail } from '../../../_type/user-detail.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 export function registerUserDetailApi(web: Express2, uc: UserCache) {
 

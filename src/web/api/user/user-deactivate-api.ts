@@ -4,7 +4,7 @@ import { newNumber } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { getSessionUser, logoutService, shouldBeUser } from '../user-login/login-api.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 export function registerUserDeactivateApi(web: Express2, uc: UserCache) {
 

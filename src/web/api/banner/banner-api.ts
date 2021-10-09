@@ -3,7 +3,7 @@ import { BannerDB } from '../../../db/banner/banner-db.js'
 import { bannerListService, bannerListUpdateService } from '../../../service/banner/banner-service.js'
 import { Banner } from '../../../_type/banner.js'
 import { getSessionUser, shouldBeAdmin, shouldBeUser } from '../user-login/login-api.js'
-import { renderJson } from '../_api/api.js'
+import { renderJson } from '../_common/render-json.js'
 
 export function registerBannerApi(web: Express2, bdb: BannerDB) {
 

@@ -6,7 +6,7 @@ import { newNumber } from '../../../_util/primitive.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
 import { ErrorConst } from '../../../_type/error.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
-import { renderHtml } from '../_page/page.js'
+import { renderHtml } from '../_common/render-html.js'
 
 export function registerImageDetailPage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 
