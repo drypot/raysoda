@@ -1,21 +1,21 @@
 <%
-layout('../layout/layout.eta')
+layout('../_common/layout.eta')
 it.title = 'Company'
 %>
 
 <div class="section page-title">
-  <h1>회사소개</h1>
+    <h1>회사소개</h1>
 </div>
 <div class="section">
-  (주)레이소다<br>
-  설립일: 2003년 3월 1일<br>
-  Korea<br><br><br>
-  대표이사, 이흥일<br><br>
-  프로그래머, 박규현<br>
-  <a href="https://raysoda.com/drypot" target="_blank">https://raysoda.com/drypot</a><br><br><br>
+    (주)레이소다<br>
+    설립일: 2003년 3월 1일<br>
+    Korea<br><br><br>
+    대표이사, 이흥일<br><br>
+    프로그래머, 박규현<br>
+    <a href="https://raysoda.com/drypot" target="_blank">https://raysoda.com/drypot</a><br><br><br>
 
-  서비스<br>
-  <a href="https://raysoda.com" target="_blank">https://raysoda.com</a><br>
-  <a href="https://rapixel.com" target="_blank">https://rapixel.com</a><br>
-  <a href="https://osoky.com" target="_blank">https://osoky.com</a><br>
+    서비스<br>
+    <a href="https://raysoda.com" target="_blank">https://raysoda.com</a><br>
+    <a href="https://rapixel.com" target="_blank">https://rapixel.com</a><br>
+    <a href="https://osoky.com" target="_blank">https://osoky.com</a><br>
 </div>

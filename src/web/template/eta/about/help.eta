@@ -1,5 +1,5 @@
 <%
-layout('../layout/layout.eta')
+layout('../_common/layout.eta')
 it.title = 'Help'
 %>
 

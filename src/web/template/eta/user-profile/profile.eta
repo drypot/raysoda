@@ -1,5 +1,5 @@
 <%
-layout('../layout/layout.eta')
+layout('../_common/layout.eta')
 it.title = ''
 %>
 
@@ -26,7 +26,7 @@ block content
 
       if updatable
         .sub-section.top-links
-          <a href='/user/' + owner.id + '/update'> 개인정보수정
+          <a href='/user/' + owner.id + '/update'>개인정보수정
 
       if owner.status === 'd'
         .sub-section

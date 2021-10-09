@@ -1,5 +1,7 @@
-<% layout('../layout/layout') %>
-<% it.title = 'Error' %>
+<%
+layout('./layout')
+it.title = 'Error'
+%>
 
 <div class="section page-title">
     <h1>Error</h1>

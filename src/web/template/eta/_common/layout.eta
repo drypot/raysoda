@@ -18,12 +18,12 @@
     <script src="/static/lib/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
     <script>
       config = <% ~JSON.stringify({ appNamel: it.config.appNamel }) %>;
-      user = <% ~ it.user ? JSON.stringify({ id: it.user.id, name: it.user.name }) : 'undefined' %> :
+      user =  <% ~it.user ? JSON.stringify({ id: it.user.id, name: it.user.name }) : 'undefined' %>
     </script>
-    <!--    <script src="/static/js/cbase.js"></script>-->
-    <!--    <script src="/static/js/cuser.js"></script>-->
-    <!--    <script src="/static/js/cimage.js"></script>-->
-    <!--    <script src="/static/js/csupp.js"></script>-->
+    <script src="/static/js/cbase.js"></script>
+    <script src="/static/js/cuser.js"></script>
+    <script src="/static/js/cimage.js"></script>
+    <script src="/static/js/csupp.js"></script>
 </head>
 <body>
     <% if (!it.hideHeader) { %>
@@ -32,7 +32,7 @@
         </div>
     <% } %>
 
-    <% ~ it.body %>
+    <% ~it.body %>
 
     <div class="section page-footer">
         <div class="about-list">
@@ -44,11 +44,14 @@
                 <li><a href="/help">도움말</a></li>
             </ul>
         </div>
-        <div class="sponsor"><a href="/counter-inc/adng?r=http://www.natgeokorea.com/magazine" target="_blank">National
-                Geographic</a></div>
-        <div class="site-name"><a href="/">
-                <% ~it.config.appName %>
-            </a></div>
+        <div class="sponsor">
+            <a href="/counter-inc/adng?r=http://www.natgeokorea.com/magazine" target="_blank">
+                National Geographic
+            </a>
+        </div>
+        <div class="site-name">
+            <a href="/"><% ~it.config.appName %></a>
+        </div>
     </div>
 
     <div class="modal" id="error-modal">

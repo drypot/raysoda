@@ -1,5 +1,5 @@
 <%
-layout('../layout/layout.eta')
+layout('../_common/layout.eta')
 it.title = 'About'
 %>
 
@@ -9,6 +9,7 @@ it.title = 'About'
 
 <div class="section">
 
+    <%= new Date() %>
     <% if (it.config.appNamel === 'raysoda') { %>
         사진 갤러리입니다.<br><br>
         업로드된 사진은 2048x2048 크기로 리사이즈됩니다.<br><br>

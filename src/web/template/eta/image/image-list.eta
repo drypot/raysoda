@@ -1,100 +1,83 @@
-<% layout('../layout/layout.eta') %>
+<%
+layout('../_common/layout.eta')
+it.title = it.config.appName
+it.ogImage = it.imageList.length ? it.imageList[0].thumbUrl : ''
+%>
 
 <script>
-  // $(function() {
-  //   cimage.initList();
-  // });
+  $(function () {
+    cimage.initList()
+  })
 </script>
 
 <div class="section page-title">
-    <h1><a href="/"><%~ it.config.appName %></a></h1>
+    <h1><a href="/">
+            <% ~ it.config.appName %>
+        </a></h1>
 </div>
 
-<div class="section">
-<div class="sub-section top-links"><a href="/about/site">사이트소개</a><a href="/users/login">로그인</a><a href="/users/register">회원가입</a><a href="/users">회원별</a><a href="/images/years">연도별</a>
-</div>
-<div class="sub-section news"><a href="/api/counters/adng/inc?r=http://www.natgeokorea.com/magazine" target="_blank">현실 세계와 영적 세계의 사이에서 / 내셔널 지오그래픽 10 월호</a><br>
-</div>
-</div>
+<% if (!it.prev) { %>
+    <div class="section">
+        <div class="sub-section top-links">
+            <% if (it.user.id != -1) { %>
+                <a href='/upload-image'>사진등록</a>
+                <a href='/user/<% ~encodeURIComponent(user.home) %>' )>내사진</a>
+                <a href='/user-list'>회원목록</a>
+                <a href='/image-list-by-year'>연도별</a>
+                <a href='/logout'>로그아웃</a>
+            <% } else { %>
+                <a href='/login'>로그인</a>
+                <a href='/register'>회원가입</a>
+                <a href='/user-list'>회원목록</a>
+                <a href='/image-list-by-year'>연도별</a>
+            <% } %>
+            <br>
+            <a href='/about'>사이트소개</a>
+            <a href='/help'>도움말</a>
+        </div>
+
+        <div class="sub-section news">
+            <% for(const banner of bannerList) { %>
+                <a href=banner.url, target="_blank"><%= banner.text %></a><br>
+            <% } %>
+        </div>
+    </div>
+<% } %>
+
 <div class="section image-thumb-list">
-<div class="image-thumb thumb-margin">
-<div class="image"><a href="/images/977467"><img src="https://file.raysoda.com/images/0/977/977467.jpg"></a></div>
-<div class="uname"><a href="/ihophophop">홒</a></div>
+    <% for (const image of it.imageList) { %>
+        <div class="image-thumb thumb-margin">
+            <div class="image">
+                <a href='/image/<% ~image.id %>'>
+                    <img src='<% ~image.thumbUrl %>' data-vers='<% ~image.vers ? image.vers.join(',') : null %>'>
+                </a>
+                <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
+                <% if (c) { %>
+                    <span class="comment"><%= c %></span>
+                <% } %>
+                <div class="uname">
+                    <a href='/user/<% ~encodeURIComponent(image.owner.home) %>'><%= image.owner.name %></a>
+                </div>
+            </div>
+        </div>
+    <% } %>
 </div>
 
-<div class="image-thumb prev-next"></div>
+<div class="image-thumb prev-next">
+    <div class="section">
+        <div class="prev-next thumb-margin">
+            <% if (it.prev) { %>
+                <a href=prev><span class="fa fa-angle-left" aria-hidden='true'></span></a>
+            <% } %>
+            <% if (it.next) { %>
+                <a href=next><span class="fa fa-angle-right" aria-hidden='true'></span></a>
+            <% } %>
+        </div>
+    </div>
 </div>
-<div class="section">
-<div class="prev-next thumb-margin"><a href="/images?p=2"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-</div>
-</div>
-<div class="section top-links"><a href="https://raysoda.com">RaySoda</a><a href="https://rapixel.com">Rapixel</a><a href="https://osoky.com">Osoky</a></div>
 
-
-//<% layout('../layout/layout') %>
-//
-//block head-opt
-//  meta(property='og:image', content=(imageList.length ? imageList[0].thumb : ''))
-//  title <%~ it.config.appName %>
-//
-//block header
-//
-//block content
-//
-//  script.
-//    // $(function () {
-//    //   cimage.initList();
-//    // });
-//
-//  .section.page-title
-//    h1
-//      <a href='/'> <%~ it.config.appName %>
-//
-//  if !prev
-//    .section
-//      .sub-section.top-links
-//        <a href='/about'> 사이트소개
-//        if locals.user
-//          <a href='/upload-image'> 사진등록
-//          <a href='/' + encodeURIComponent(user.home>) 내사진
-//          <a href='/user-list'> 회원목록
-//          <a href='/image-list-by-year'> 연도별
-//          <a href='/logout'> 로그아웃
-//        else
-//          <a href='/login'> 로그인
-//          <a href='/register'> 회원가입
-//          <a href='/user-list'> 회원별
-//          <a href='/image-list-by-year'> 연도별
-//
-//      .sub-section.news
-//        for banner in bannerList
-//          <a href=banner.url, target="_blank"> <%~ banner.text %>
-//          <br>
-//
-//  .section.image-thumb-list
-//    for image in imageList
-//      .image-thumb.thumb-margin
-//        .image
-//          <a href='/image/' + image.id>
-//            img(src=image.thumbUrl, data-vers=(image.vers ? image.vers.join(',') : null))
-//        - var c = image.comment.split(/\r\n|\n/, 1)[0];
-//        if c
-//          .comment= c
-//        .uname
-//          //- user.home 에 '/' 문자 있는 경우도 있으므로 미리 URI 인코딩한다.
-//          <a href='/' + encodeURIComponent(image.owner.home>) <%~ image.owner.name %>
-//    .image-thumb.prev-next
-//
-//  .section
-//    .prev-next.thumb-margin
-//      if prev
-//        <a href=prev>
-//          i.fa.fa-angle-left(aria-hidden='true')
-//      if next
-//        <a href=next>
-//          i.fa.fa-angle-right(aria-hidden='true')
-//
-//  .section.top-links
-//    <a href='https://raysoda.com'> RaySoda
-//    <a href='https://rapixel.com'> Rapixel
-//    <a href='https://osoky.com'> Osoky
+<div class="section top-links">
+    <a href='https://raysoda.com'>RaySoda</a>
+    <a href='https://rapixel.com'>Rapixel</a>
+    <a href='https://osoky.com'>Osoky</a>
+</div>

@@ -1,4 +1,4 @@
-<%layout('../layout/layout.eta') %>
+<%layout('../_common/layout.eta') %>
 <% it.title = '' %>
 
 block head-opt
