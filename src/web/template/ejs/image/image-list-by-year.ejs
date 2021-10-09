@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% it.title = 'Years' %>
+    <%- include('../_layout/head') %>
+</head>
+<body>
+    <%- include('../_layout/header') %>
+
+    <div class="section page-title">
+        <h1>연도별</h1>
+    </div>
+
+    <% const today = new Date() %>
+    <% let sy = today.getFullYear() %>
+    <% let ey = it.firstCdate.getFullYear() %>
+    <% let iy = sy %>
+
+    <div class="section">
+        <% while (iy >= ey) { %>
+            <div class="sub-section">
+                <h2><%- iy %></h2>
+                <ul class="pagination">
+                    <% let sm = iy == sy ? today.getMonth() : 11 %>
+                    <% let em = iy == ey ? it.firstCdate.getMonth() : 0 %>
+                    <% let im = sm %>
+                    <% while (im >= em) { %>
+                        <% let link = '/image-list?d=' + iy + '-' + (im < 9 ? '0' : '') + (im + 1) %>
+                        <li class="page-item">
+                            <a class="page-link" href="<%- link %>"><%- im + 1 %></a>
+                        </li>
+                        <% im-- %>
+                    <% } %>
+                    <% iy-- %>
+                </ul>
+            </div>
+        <% } %>
+    </div>
+
+    <%- include('../_layout/footer') %>
+</body>
+</html>

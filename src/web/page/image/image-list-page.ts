@@ -27,9 +27,21 @@ export function registerImageListPage(web: Express2, uc: UserCache, idb: ImageDB
     renderHtml(res, 'image/image-list', {
       imageList: list,
       prev: p > 1 ? UrlMaker.from('/image-list').add('d', ds).add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,
-      next: list.length === ps ? UrlMaker.from('/image-list').add('d', ds).add('p', p + 1).add('ps', ps, 16).toString(): undefined,
+      next: list.length === ps ? UrlMaker.from('/image-list').add('d', ds).add('p', p + 1).add('ps', ps, 16).toString() : undefined,
       bannerList: bdb.getCached()
-    });
+    })
   }
+
+  let firstCdate: Date;
+
+  web.router.get('/image-list-by-year', toCallback(async (req, res) => {
+    if (!firstCdate) {
+      const image = await idb.findFirstImage()
+      firstCdate = image ? image.cdate : new Date()
+    }
+    renderHtml(res, 'image/image-list-by-year', {
+      firstCdate: new Date()
+    })
+  }))
 
 }
