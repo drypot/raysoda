@@ -45,8 +45,39 @@ export class Express2 {
     this.express.locals.pretty = true
     this.express.locals.config = config
 
+    this.useCache()
+
     //this.usePug()
     this.useEta()
+
+  }
+
+  private useCache() {
+    // 자세한 내용은 Obsidian Express Cache 메모를 확인한다.
+    //
+    // 캐쉬는 Express 에도 있고 템플릿 엔진들에도 있다.
+    // 보통 Express 캐쉬를 쓰면 무난하다.
+    //
+    // Express 캐쉬는 'view cache' 으로 컨트롤하는데
+    // 이 옵션은 NODE_ENV 값에 따라서 자동 설정된다.
+    // 해서 따로 수작업 설정할 필요는 없다.
+    //
+    // console.log(this.express.settings['view cache'])
+    // this.express.set('view cache', true)
+
+    // 템플렛 엔진 자체에도 캐쉬들이 있긴 하다.
+    //
+    // 정 세팅한다면, Eta 의 경우, eta.config.cache 를 쓰는데
+    // 이 값은 eta.renderFile 에서 Express cache 플래그로 오버라이딩 된다.
+    // 그래서 Express 와 쓸 때는 설정할 의미가 없다.
+    //
+    // 오버라이딩 된 것을 다시 덮어쓰려면 Express 'view options'를 사용하면 되지만
+    //
+    // this.express.set('view options', {
+    //   cache: true,
+    // })
+    //
+    // 그냥 Express 기본 캐쉬를 쓰는 것으로.
   }
 
   private useEta() {
@@ -58,14 +89,8 @@ export class Express2 {
     // 아래에서 엉뚱한 오브젝트들을 세팅하게 된다.
     this.express.engine("eta", eta.renderFile)
 
-    eta.config.cache = !this.config.dev
     eta.config.autoTrim = false
 
-    // eta.config.cache 가 Express cache 설정으로 오버라이딩 된다.
-    // 오버라이딩 된 것을 다시 덮어쓰려면 'view options'를 사용한다.
-    this.express.set('view options', {
-      cache: !this.config.dev,
-    })
   }
 
   private usePug() {
