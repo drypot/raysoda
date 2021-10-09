@@ -10,7 +10,7 @@ import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2.js'
 import { unlinkSync } from 'fs'
 import { newErrorConst } from '../../_util/error2.js'
 import { Config } from '../../_type/config.js'
-import * as eta from 'eta'
+import { inProduction } from '../../_util/env2.js'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 
@@ -48,8 +48,8 @@ export class Express2 {
     this.useCache()
 
     //this.usePug()
-    this.useEta()
-
+    //this.useEta()
+    this.useEjs()
   }
 
   private useCache() {
@@ -80,17 +80,27 @@ export class Express2 {
     // 그냥 Express 기본 캐쉬를 쓰는 것으로.
   }
 
+  private useEjs() {
+    this.express.set('view engine', 'ejs')
+    this.express.set('views', 'src/web/template/ejs')
+    this.express.set('view options', {
+      _with: false,
+      localsName: 'it',
+      rmWhitespace: inProduction(),
+    });
+  }
+
   private useEta() {
     this.express.set('view engine', 'eta')
     this.express.set('views', 'src/web/template/eta')
 
-    // 아래 설정을 하면 eta.es.js 가 Express 에 연결된다.
-    // 아래 설정을 하지 않으면 eta.cjs 가 Express 에 연결된다.
-    // 아래에서 엉뚱한 오브젝트들을 세팅하게 된다.
-    this.express.engine("eta", eta.renderFile)
+    // 일단 닫아 놓는다.
+    // eta 를 다시 쓰게 되면 uncomment 한다.
 
-    eta.config.autoTrim = false
-
+    // 아래 설정을 해야 eta.es.js 가 Express 에 연결된다.
+    // 하지 않으면 eta.cjs 가 Express 에 연결된다.
+    //this.express.engine("eta", eta.renderFile)
+    //eta.config.autoTrim = false
   }
 
   private usePug() {
@@ -242,9 +252,9 @@ export class Express2 {
       // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
 
       if (res.locals.api) {
-        res.json({ err });
+        res.json({ err })
       } else {
-        res.render('_page/error', { err });
+        res.render('_common/error', { err })
       }
     })
   }

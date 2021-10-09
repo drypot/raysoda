@@ -3,7 +3,8 @@ import { BannerDB } from '../../../db/banner/banner-db.js'
 import { newConfigForClient } from '../../../_type/config.js'
 import { getSessionUser } from '../../api/user-login/login-api.js'
 import { newUserIdCard } from '../../../_type/user.js'
-import { renderHtml } from './render-html.js'
+import { INVALID_DATA } from '../../../_type/error.js'
+import { inDev } from '../../../_util/env2.js'
 
 export function registerCommonPage(web: Express2, bdb: BannerDB) {
 
@@ -22,8 +23,14 @@ export function registerCommonPage(web: Express2, bdb: BannerDB) {
     res.send(script)
   })
 
-  web.router.get('/error', function (req, res) {
-    renderHtml(res, '_page/error', { err: [new Error] })
-  })
+  if (inDev()) {
+    web.router.get('/error', function (req, res) {
+      throw new Error()
+    })
+
+    web.router.get('/invalid-data', function (req, res) {
+      throw INVALID_DATA
+    })
+  }
 
 }
