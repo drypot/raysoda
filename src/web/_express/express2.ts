@@ -285,6 +285,6 @@ export function deleteUpload(handler: (req: Request, res: Response) => Promise<v
 
 export function toCallback(handler: (req: Request, res: Response) => Promise<void>) {
   return (req: Request, res: Response, done: NextFunction) => {
-    handler(req, res).then(null, done)
+    handler(req, res).catch(done)
   }
 }
