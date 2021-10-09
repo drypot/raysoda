@@ -11,7 +11,7 @@ if [ $# -lt 1 ]; then
 fi
 
 BUILD_DIR=build/src
-export NODE_ENV=development
+#export NODE_ENV=development
 
 set -o xtrace
 node $BUILD_DIR/script/run-app.js config/${1}-dev.json
