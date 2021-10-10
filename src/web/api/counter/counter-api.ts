@@ -7,7 +7,7 @@ import { renderJson } from '../_common/render-json.js'
 
 export function registerCounterApi(web: Express2, cdb: CounterDB) {
 
-  web.router.get('/api/counter-list/:id', toCallback(async (req, res) => {
+  web.router.get('/api/counter/:id', toCallback(async (req, res) => {
     const user = getSessionUser(res)
     shouldBeUser(user)
     shouldBeAdmin(user)
