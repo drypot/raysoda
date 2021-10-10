@@ -46,7 +46,7 @@ export async function userSendResetPasswordMailService(
     text:
       '\n' +
       'Open the following URL to reset your password.\n\n' +
-      config.mainUrl + '/password-reset-3?uuid=' + r.uuid + '&t=' + r.token + '\n\n' +
+      config.mainUrl + '/user-password-reset-3?uuid=' + r.uuid + '&t=' + r.token + '\n\n' +
       config.appName
   }
   return mailer.sendMail(mail)

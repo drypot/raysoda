@@ -5,7 +5,7 @@ import { renderHtml } from '../../_common/render-html.js'
 export function registerUserAuthPage(web: Express2) {
 
   web.router.get('/login', (req, res) => {
-    renderHtml(res, 'user-login/login')
+    renderHtml(res, 'user-auth/login')
   })
 
   web.router.get('/logout', toCallback(async (req, res) => {

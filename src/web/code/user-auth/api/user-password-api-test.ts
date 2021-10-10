@@ -77,22 +77,22 @@ describe('UserPasswordApi', () => {
   })
   it('set password, password format check', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '123' }
-    const res = await sat.post('/api/password-reset').send(form).expect(200)
+    const res = await sat.post('/api/user-password-reset').send(form).expect(200)
     expect(res.body.err).toContain(PASSWORD_RANGE)
   })
   it('set password, uuid check', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '1234', uuid: 'xxxx' }
-    const res = await sat.post('/api/password-reset').send(form).expect(200)
+    const res = await sat.post('/api/user-password-reset').send(form).expect(200)
     expect(res.body.err).toContain(INVALID_DATA)
   })
   it('set password, token check', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '1234', token: 'xxxx' }
-    const res = await sat.post('/api/password-reset').send(form).expect(200)
+    const res = await sat.post('/api/user-password-reset').send(form).expect(200)
     expect(res.body.err).toContain(INVALID_DATA)
   })
   it('set password', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '5678' }
-    const res = await sat.post('/api/password-reset').send(form).expect(200)
+    const res = await sat.post('/api/user-password-reset').send(form).expect(200)
     expect(res.body.err).toBe(undefined)
   })
   it('check db', async () => {

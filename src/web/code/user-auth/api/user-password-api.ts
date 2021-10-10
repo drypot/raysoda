@@ -21,7 +21,7 @@ export function registerUserPasswordApi(web: Express2, uc: UserCache, resetDB: R
     renderJson(res, {})
   }))
 
-  web.router.post('/api/password-reset', toCallback(async (req, res) => {
+  web.router.post('/api/user-password-reset', toCallback(async (req, res) => {
     const form: NewPasswordForm = {
       uuid: newString(req.body.uuid).trim(),
       token: newString(req.body.token).trim(),
