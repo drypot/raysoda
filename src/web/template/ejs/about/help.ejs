@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% it.title = 'Help' %>
+    <% app.title = 'Help' %>
     <%- include('../_layout/head') %>
 </head>
 <body>
@@ -23,7 +23,7 @@
             <br>
 
             이메일 :&nbsp;
-            <% let email = 'support+' + it.config.appNamel + '@raysoda.com' %>
+            <% let email = 'support+' + app.config.appNamel + '@raysoda.com' %>
             <% let emailLink = 'mailto:' + email %>
             <a href="<%-emailLink %>"><%-email %></a>
         </div>

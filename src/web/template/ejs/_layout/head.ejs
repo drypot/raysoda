@@ -1,20 +1,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="<%= it.config.appDesc %>">
-<meta property="og:site_name" content="<%= it.config.appName %>">
-<% if (it.ogImage) { %>
-    <meta property="og:image" content="<%- it.ogImage %>">
+<meta name="description" content="<%= app.config.appDesc %>">
+<meta property="og:site_name" content="<%= app.config.appName %>">
+<% if (app.ogImage) { %>
+    <meta property="og:image" content="<%- app.ogImage %>">
 <% } %>
-<% if (it.ogTitle) { %>
-    <meta property="og:title" content="<%= it.ogTitle %>">
+<% if (app.ogTitle) { %>
+    <meta property="og:title" content="<%= app.ogTitle %>">
 <% } %>
-<% if (it.ogDesc) { %>
-    <meta property="og:description" content="<%= it.ogDesc %>">
+<% if (app.ogDesc) { %>
+    <meta property="og:description" content="<%= app.ogDesc %>">
 <% } %>
 
-<title><%= (it.title ? it.title + ' - ' : '') + it.config.appName %></title>
-<link rel="icon" type="image/png" href="/static/favicon/<%- it.config.appNamel %>.png?v=1.0.1">
+<title><%= (app.title ? app.title + ' - ' : '') + app.config.appName %></title>
+<link rel="icon" type="image/png" href="/static/favicon/<%- app.config.appNamel %>.png?v=1.0.1">
 <link rel="stylesheet" href="/static/lib/bootstrap-3.4.1-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/static/lib/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/build/css/base.css?v=1.0.3">
-<link rel="stylesheet" href="/build/css/<%- it.config.appNamel %>.css?v=1.0.3">
+<link rel="stylesheet" href="/build/css/<%- app.config.appNamel %>.css?v=1.0.3">

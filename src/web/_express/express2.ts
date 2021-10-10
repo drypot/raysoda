@@ -80,7 +80,7 @@ export class Express2 {
     this.express.set('views', 'src/web/template/ejs')
     this.express.set('view options', {
       _with: false,
-      localsName: 'it',
+      localsName: 'app',
       rmWhitespace: inProduction(),
     })
   }

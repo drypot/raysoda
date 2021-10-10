@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% it.title = 'Error' %>
+    <% app.title = 'Error' %>
     <%- include('../_layout/head') %>
 </head>
 <body>
@@ -11,15 +11,15 @@
         <h1>Error</h1>
     </div>
 
-    <% const err = it.err[0] %>
+    <% const err = app.err[0] %>
     <% function def(s) {
         return s ? s : '...'
     } %>
     <% if (err) { %>
         <div class="section error-report">
-            Name: <%- def(it.err[0].name) + '\n' %>
-            Message: <%- def(it.err[0].message) + '\n' %>
-            Field: <%- def(it.err[0].field) %>
+            Name: <%- def(app.err[0].name) + '\n' %>
+            Message: <%- def(app.err[0].message) + '\n' %>
+            Field: <%- def(app.err[0].field) %>
         </div>
     <% } else { %>
         <div class="section error-report">

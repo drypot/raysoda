@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% it.title = 'Image ' + it.image.id %>
-    <% it.ogImage = it.image.thumbUrl %>
-    <% it.ogTitle = it.image.owner.name %>
-    <% it.ogDesc = it.image.comment %>
+    <% app.title = 'Image ' + app.image.id %>
+    <% app.ogImage = app.image.thumbUrl %>
+    <% app.ogTitle = app.image.owner.name %>
+    <% app.ogDesc = app.image.comment %>
     <%- include('../_layout/head') %>
 </head>
 <body>
-    <% it.hideHeader = true %>
+    <% app.hideHeader = true %>
     <%- include('../_layout/header') %>
 
     <div class="section image-full">
         <div class="image">
-            <img src="<%- it.image.thumbUrl %>" data-vers="<%- it.image.vers ? it.image.vers.join(',') : null %>">
+            <img src="<%- app.image.thumbUrl %>" data-vers="<%- app.image.vers ? app.image.vers.join(',') : null %>">
         </div>
     </div>
 
@@ -23,13 +23,13 @@
         </div>
 
         <div class="sub-section"></div>
-        <div class="comment"><%= it.image.comment %></div>
-        <div class="cdate"><%- it.image.cdateStr.slice(0, 16) %></div>
+        <div class="comment"><%= app.image.comment %></div>
+        <div class="cdate"><%- app.image.cdateStr.slice(0, 16) %></div>
         <div class="uname">
-            <a href='/user/<%- encodeURIComponent(it.image.owner.home) %>'><%= it.image.owner.name %></a>
+            <a href='/user/<%- encodeURIComponent(app.image.owner.home) %>'><%= app.image.owner.name %></a>
         </div>
 
-        <% if (it.image.updatable) { %>
+        <% if (app.image.updatable) { %>
             <div class="sub-section">
                 <div class="commands">
                     <button id="update-btn" class="btn btn-success">수정</button>
@@ -44,7 +44,7 @@
     <%- include('../_layout/footer') %>
 
     <script type="application/json" id="imageJson">
-      <%= JSON.stringify(it.image) %>
+      <%= JSON.stringify(app.image) %>
     </script>
     <script>
       $(function () {

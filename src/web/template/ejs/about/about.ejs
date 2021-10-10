@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% it.title = 'About' %>
+    <% app.title = 'About' %>
     <%- include('../_layout/head') %>
 </head>
 <body>
     <%- include('../_layout/header') %>
 
     <div class="section page-title">
-        <h1><%= it.config.appName %></h1>
+        <h1><%= app.config.appName %></h1>
     </div>
 
     <div class="section">
 
-        <% if (it.config.appNamel === 'raysoda') { %>
+        <% if (app.config.appNamel === 'raysoda') { %>
             사진 갤러리입니다.<br><br>
             업로드된 사진은 2048x2048 크기로 리사이즈됩니다.<br><br>
         <% } %>
 
-        <% if (it.config.appNamel === 'rapixel') { %>
+        <% if (app.config.appNamel === 'rapixel') { %>
             4K 사진 갤러리입니다.<br><br>
             업로드될 사진은 3840x2160보다 커야합니다.<br><br>
             업로드된 사진은 16:9 비율로 크롭됩니다.<br><br>
         <% } %>
 
-        <% if (it.config.appNamel === 'osoky') { %>
+        <% if (app.config.appNamel === 'osoky') { %>
             사진 갤러리입니다.<br><br>
             업로드된 사진은 원 모양으로 마스킹됩니다.<br><br>
         <% } %>
 
-        <% if (it.config.appNamel === 'drypot') { %>
+        <% if (app.config.appNamel === 'drypot') { %>
             SVG 이미지 갤러리입니다.<br><br>
         <% } %>
 

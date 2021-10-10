@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% it.title = it.config.appName %>
-    <% it.ogImage = it.imageList.length ? it.imageList[0].thumbUrl : '' %>
+    <% app.title = app.config.appName %>
+    <% app.ogImage = app.imageList.length ? app.imageList[0].thumbUrl : '' %>
     <%- include('../_layout/head') %>
 </head>
 <body>
-    <% it.hideHeader = true %>
+    <% app.hideHeader = true %>
     <%- include('../_layout/header') %>
 
     <div class="section page-title">
-        <h1><a href="/"><%- it.config.appName %></a></h1>
+        <h1><a href="/"><%- app.config.appName %></a></h1>
     </div>
 
-    <% if (!it.prev) { %>
+    <% if (!app.prev) { %>
         <div class="section">
             <div class="sub-section top-links">
-                <% if (it.user.id != -1) { %>
+                <% if (app.user.id != -1) { %>
                     <a href='/upload-image'>사진등록</a>
                     <a href='/user/<%- encodeURIComponent(user.home) %>'>내사진</a>
                     <a href='/user-list'>회원목록</a>
@@ -34,7 +34,7 @@
             </div>
 
             <div class="sub-section news">
-                <% for(const banner of it.bannerList) { %>
+                <% for(const banner of app.bannerList) { %>
                     <a href="<%- banner.url %>" target="_blank"><%= banner.text %></a><br>
                 <% } %>
             </div>
@@ -42,7 +42,7 @@
     <% } %>
 
     <div class="section image-thumb-list">
-        <% for (const image of it.imageList) { %>
+        <% for (const image of app.imageList) { %>
             <div class="image-thumb thumb-margin">
                 <div class="image">
                     <a href="/image/<%- image.id %>">
@@ -63,11 +63,11 @@
 
     <div class="section">
         <div class="prev-next thumb-margin">
-            <% if (it.prev) { %>
-                <a href="<%- it.prev %>"><span class="fa fa-angle-left" aria-hidden='true'></span></a>
+            <% if (app.prev) { %>
+                <a href="<%- app.prev %>"><span class="fa fa-angle-left" aria-hidden='true'></span></a>
             <% } %>
-            <% if (it.next) { %>
-                <a href="<%- it.next %>"><span class="fa fa-angle-right" aria-hidden='true'></span></a>
+            <% if (app.next) { %>
+                <a href="<%- app.next %>"><span class="fa fa-angle-right" aria-hidden='true'></span></a>
             <% } %>
         </div>
     </div>

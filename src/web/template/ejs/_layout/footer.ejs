@@ -14,7 +14,7 @@
         </a>
     </div>
     <div class="site-name">
-        <a href="/"><%= it.config.appName %></a>
+        <a href="/"><%= app.config.appName %></a>
     </div>
 </div>
 
@@ -35,27 +35,14 @@
 
 <div id="fullscreen"></div>
 
-<script src="/static/lib/jquery-3.5.1.min.js"></script>
-<script src="/static/lib/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
 <%# "...</script><script>..." 어택을 막기위해 인코딩해서 출력한다. %>
 <script type="application/json" id="configJson">
-  <%= JSON.stringify({ appNamel: it.config.appNamel }) %>
+  <%= JSON.stringify({ appNamel: app.config.appNamel }) %>
 </script>
 <script type="application/json" id="userJson">
-  <%= it.user ? JSON.stringify({ id: it.user.id, name: it.user.name }) : 'undefined' %>
+  <%= app.user ? JSON.stringify({ id: app.user.id, name: app.user.name }) : 'undefined' %>
 </script>
-<script>
-  function htmlDecode(input) {
-    const doc = new DOMParser().parseFromString(input, "text/html")
-    return doc.documentElement.textContent
-  }
-  function getObjectById(id) {
-    return JSON.parse(htmlDecode(document.getElementById(id).innerText))
-  }
-  config = getObjectById('configJson')
-  user = getObjectById('userJson')
-</script>
-<script src="/static/js/cbase.js"></script>
-<script src="/static/js/cuser.js"></script>
-<script src="/static/js/cimage.js"></script>
-<script src="/static/js/csupp.js"></script>
+
+<script src="/static/lib/jquery-3.6.0.min.js"></script>
+<script src="/static/lib/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+<script src="/build/bundle.js?v=1.0.0"></script>

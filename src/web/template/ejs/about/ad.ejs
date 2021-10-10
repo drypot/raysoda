@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% it.title = 'Advertise' %>
+    <% app.title = 'Advertise' %>
     <%- include('../_layout/head') %>
 </head>
 <body>
@@ -23,7 +23,7 @@
         </div>
         <div class="sub-section">
             광고 신청:
-            <% let email = 'support+' + it.config.appNamel + '@raysoda.com' %>
+            <% let email = 'support+' + app.config.appNamel + '@raysoda.com' %>
             <% let emailLink = 'mailto:' + email %>
             <a href="<%- emailLink %>"><%- email %></a>
         </div>
