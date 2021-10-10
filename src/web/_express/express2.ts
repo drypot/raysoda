@@ -141,7 +141,7 @@ export class Express2 {
     this.setUpCacheControl()
     this.setUpAutoLoginHandler()
     this.setUpGeneralRouter()
-    this.setUp404Handler()
+    this.setUpBasicHandler()
     this.setUpErrorHandler()
     return new Promise<Express2>((resolve) => {
       this.server.listen(this.config.port, () => {
@@ -212,11 +212,20 @@ export class Express2 {
     this.express.use(this.router)
   }
 
-  private setUp404Handler() {
+  private setUpBasicHandler() {
+
+    // 클라이언트에서 Ping 에 사용한다.
+    this.express.get('/api/hello', function (req, res) {
+      res.setHeader('content-type', 'text/plain')
+      res.send('hello')
+    })
+
+    // 404 Error Handler
     this.express.use((req, res, done) => {
       res.status(404)
       done(INVALID_PAGE)
     })
+
   }
 
   public errorHandler: ErrorRequestHandler = (err, req, res, done) => {
