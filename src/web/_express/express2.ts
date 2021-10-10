@@ -11,6 +11,7 @@ import { unlinkSync } from 'fs'
 import { newErrorConst } from '../../_util/error2.js'
 import { Config } from '../../_type/config.js'
 import { inProduction } from '../../_util/env2.js'
+import { INVALID_PAGE } from '../../_type/error.js'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 
@@ -26,16 +27,8 @@ export class Express2 {
   public readonly server: http.Server
   public readonly express: Express
   public readonly router: Router
-  public logError : boolean = false
+  public logError: boolean = false
   private multer: Multer | undefined
-
-  public autoLogin: ExpressHandler = (req, res, done) => {
-    done()
-  }
-
-  public redirectToLogin: ErrorRequestHandler = (err, req, res, done) => {
-    done(err)
-  }
 
   private constructor(config: Config) {
     this.config = config
@@ -89,7 +82,7 @@ export class Express2 {
       _with: false,
       localsName: 'it',
       rmWhitespace: inProduction(),
-    });
+    })
   }
 
   private useEta() {
@@ -148,7 +141,7 @@ export class Express2 {
     this.setUpCacheControl()
     this.setUpAutoLoginHandler()
     this.setUpGeneralRouter()
-    this.setUpRedirectToLoginHandler()
+    this.setUp404Handler()
     this.setUpErrorHandler()
     return new Promise<Express2>((resolve) => {
       this.server.listen(this.config.port, () => {
@@ -206,11 +199,12 @@ export class Express2 {
     })
   }
 
+  public autoLoginHandler: ExpressHandler | undefined
+
   private setUpAutoLoginHandler() {
-    const handler: ExpressHandler = (req, res, done) => {
-      this.autoLogin(req, res, done)
+    if (this.autoLoginHandler) {
+      this.express.use(this.autoLoginHandler)
     }
-    this.express.use(handler)
   }
 
   private setUpGeneralRouter() {
@@ -218,50 +212,50 @@ export class Express2 {
     this.express.use(this.router)
   }
 
-  // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
-  private setUpRedirectToLoginHandler() {
-    const handler: ErrorRequestHandler = (err, req, res, done) => {
-      this.redirectToLogin(err, req, res, done)
-    }
-    this.express.use(handler)
+  private setUp404Handler() {
+    this.express.use((req, res, done) => {
+      res.status(404)
+      done(INVALID_PAGE)
+    })
   }
 
-  // 4인자 에러 핸들러이므로 뒷쪽에 있어야 한다
+  public errorHandler: ErrorRequestHandler = (err, req, res, done) => {
+    if (err instanceof Array) {
+      // do nothing
+    } else if ('field' in err) {
+      err = [err]
+    } else {
+      err = [newErrorConst(err.name, err.message, err.stack)]
+    }
+
+    // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
+    // 각 핸들러에서 res.send(), res.json() 으로 Content-Type 을 간접적으로 명시할 수도 있지만
+    // 에러 핸들러는 공용으로 사용하기 때문에 이 방식에 의존할 수 없다.
+    //
+    // req.xhr:
+    //   node + superagent 로 테스트할 시에는 Fail.
+    //
+    // req.is('json'):
+    //   superagent 로 GET 할 경우 매번 type('json') 을 명시해야하며
+    //   그렇게 한다 하여도 Content-Length: 0 인 GET 을
+    //   type-is 가 제대로 처리하지 못하고 null 을 리턴한다. Fail.
+    //
+    // 위와 같이 클라이언트에서 보내주는 정보에 의존하는 것은 불안정하다.
+    // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
+
+    if (this.logError) {
+      console.error(err)
+    }
+    if (res.locals.api) {
+      res.json({ err })
+    } else {
+      res.render('_common/error', { err })
+    }
+  }
+
+  // 4인자 에러 핸들러는 맨 마지막에 둔다.
   private setUpErrorHandler() {
-    const _this = this
-    this.express.use(function (err: any, req: Request, res: Response, done: NextFunction) {
-      if (err instanceof Array) {
-        // do nothing
-      } else if ('field' in err) {
-        err = [err]
-      } else {
-        err = [newErrorConst(err.name, err.message, err.stack)]
-      }
-
-      // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
-      // 각 핸들러에서 res.send(), res.json() 으로 Content-Type 을 간접적으로 명시할 수도 있지만
-      // 에러 핸들러는 공용으로 사용하기 때문에 이 방식에 의존할 수 없다.
-      //
-      // req.xhr:
-      //   node + superagent 로 테스트할 시에는 Fail.
-      //
-      // req.is('json'):
-      //   superagent 로 GET 할 경우 매번 type('json') 을 명시해야하며
-      //   그렇게 한다 하여도 Content-Length: 0 인 GET 을
-      //   type-is 가 제대로 처리하지 못하고 null 을 리턴한다. Fail.
-      //
-      // 위와 같이 클라이언트에서 보내주는 정보에 의존하는 것은 불안정하다.
-      // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
-
-      if (_this.logError) {
-        console.error(err)
-      }
-      if (res.locals.api) {
-        res.json({ err })
-      } else {
-        res.render('_common/error', { err })
-      }
-    })
+    this.express.use(this.errorHandler)
   }
 
 }

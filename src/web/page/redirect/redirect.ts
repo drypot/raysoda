@@ -1,6 +1,5 @@
-import { Express2, toCallback } from '../../_express/express2.js'
+import { Express2 } from '../../_express/express2.js'
 import { UserCache } from '../../../db/user/cache/user-cache.js'
-import { INVALID_PAGE } from '../../../_type/error.js'
 
 export function registerRedirect(web: Express2, uc: UserCache) {
 
@@ -28,14 +27,14 @@ export function registerRedirect(web: Express2, uc: UserCache) {
     res.redirect(301, '/image/' + req.params.id)
   })
 
-  web.router.get('/:name([^/]+)', toCallback(async (req, res) => {
-    const user = await uc.getCachedByHome(req.params.name)
-    if (user) {
-      res.redirect(301, '/user/' + encodeURIComponent(req.params.name))
-    } else {
-      res.status(404)
-      throw INVALID_PAGE
-    }
-  }))
+  web.router.get('/:name([^/]+)', (req, res, done) => {
+    uc.getCachedByHome(req.params.name).then((user) => {
+      if (user) {
+        res.redirect(301, '/user/' + encodeURIComponent(req.params.name))
+        return
+      }
+      done()
+    }).catch(done)
+  })
 
 }

@@ -1,5 +1,5 @@
 import { Express2, toCallback } from '../../_express/express2.js'
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { GUEST, newUserIdCard, User, userIsAdmin, userIsUser } from '../../../_type/user.js'
 import { newString } from '../../../_util/primitive.js'
 import {
@@ -35,7 +35,7 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
     })
   }))
 
-  web.autoLogin = (req, res, done) => {
+  web.autoLoginHandler = (req, res, done) => {
     autoLoginService(req, res, uc).then(done, done)
   }
 
@@ -44,15 +44,16 @@ export function registerLoginApi(web: Express2, uc: UserCache) {
     renderJson(res, {})
   }))
 
-  web.redirectToLogin = (err: any, req: Request, res: Response, done: NextFunction) => {
-    if (!res.locals.api && (
-      err.name === NOT_AUTHENTICATED.name ||
-      err.name === NOT_AUTHORIZED.name
-    )) {
-      res.redirect('/login')
-    } else {
-      done(err)
+  const defaultErrorHandler = web.errorHandler
+
+  web.errorHandler = (err, req, res, done) => {
+    if (!res.locals.api) {
+      if (err.name === NOT_AUTHENTICATED.name || err.name === NOT_AUTHORIZED.name) {
+        res.redirect('/login')
+        return
+      }
     }
+    defaultErrorHandler(err, req, res, done)
   }
 
 }
