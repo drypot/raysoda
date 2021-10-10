@@ -4,7 +4,7 @@ import { DB } from '../db/_db/db.js'
 import { UserDB } from '../db/user/user-db.js'
 import { ResetDB } from '../db/password/reset-db.js'
 import { logError } from '../_util/error2.js'
-import { passwordSendResetMailService } from '../service/user-password/password-service.js'
+import { userSendResetPasswordMailService } from '../service/user-auth/user-password-service.js'
 import { insertUserFix4 } from '../db/user/fixture/user-fix.js'
 import { ErrorConst } from '../_type/error.js'
 
@@ -30,7 +30,7 @@ async function main() {
 
   const email = process.argv[2]
   const err: ErrorConst[] = []
-  await passwordSendResetMailService(mailer, udb, rdb, email, err)
+  await userSendResetPasswordMailService(mailer, udb, rdb, email, err)
   if (err.length) throw err
 }
 

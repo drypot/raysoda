@@ -4,47 +4,48 @@ import { DB } from '../db/_db/db.js'
 import { UserDB } from '../db/user/user-db.js'
 import { ImageDB } from '../db/image/image-db.js'
 import { RaySodaFileManager } from '../file/raysoda-fileman.js'
-import { registerLoginApi } from '../web/api/user-login/login-api.js'
-import { registerImageUploadApi } from '../web/api/image/image-upload-api.js'
-import { registerImageUpdateApi } from '../web/api/image/image-update-api.js'
+import { registerUserAuthApi } from '../web/code/user-auth/api/user-auth-api.js'
+import { registerImageUploadApi } from '../web/code/image/api/image-upload-api.js'
+import { registerImageUpdateApi } from '../web/code/image/api/image-update-api.js'
 import { ValueDB } from '../db/value/value-db.js'
 import { logError } from '../_util/error2.js'
 import { RapixelFileManager } from '../file/rapixel-fileman.js'
 import { OsokyFileManager } from '../file/osoky-fileman.js'
 import { DrypotFileManager } from '../file/drypot-fileman.js'
-import { registerUserProfilePage } from '../web/page/user-profile/profile-page.js'
-import { registerUserDetailApi } from '../web/api/user/user-detail-api.js'
-import { registerUserRegisterApi } from '../web/api/user/user-register-api.js'
-import { registerPasswordApi } from '../web/api/user-password/password-api.js'
+import { registerUserProfilePage } from '../web/code/user-profile/profile-page.js'
+import { registerUserDetailApi } from '../web/code/user/api/user-detail-api.js'
+import { registerUserRegisterApi } from '../web/code/user/api/user-register-api.js'
+import { registerUserPasswordApi } from '../web/code/user-auth/api/user-password-api.js'
 import { ResetDB } from '../db/password/reset-db.js'
 import { Mailer } from '../mailer/mailer2.js'
-import { registerUserDeactivateApi } from '../web/api/user/user-deactivate-api.js'
-import { registerUserListApi } from '../web/api/user/user-list-api.js'
-import { registerUserUpdateApi } from '../web/api/user/user-update-api.js'
-import { registerRedirect } from '../web/page/redirect/redirect.js'
-import { registerImageDeleteApi } from '../web/api/image/image-delete-api.js'
-import { registerImageListApi } from '../web/api/image/image-list-api.js'
-import { registerImageDetailApi } from '../web/api/image/image-detail-api.js'
-import { registerCounterApi } from '../web/api/counter/counter-api.js'
+import { registerUserDeactivateApi } from '../web/code/user/api/user-deactivate-api.js'
+import { registerUserListApi } from '../web/code/user/api/user-list-api.js'
+import { registerUserUpdateApi } from '../web/code/user/api/user-update-api.js'
+import { registerRedirect } from '../web/code/redirect/redirect.js'
+import { registerImageDeleteApi } from '../web/code/image/api/image-delete-api.js'
+import { registerImageListApi } from '../web/code/image/api/image-list-api.js'
+import { registerImageDetailApi } from '../web/code/image/api/image-detail-api.js'
+import { registerCounterApi } from '../web/code/counter/api/counter-api.js'
 import { CounterDB } from '../db/counter/counter-db.js'
-import { registerBannerApi } from '../web/api/banner/banner-api.js'
+import { registerBannerApi } from '../web/code/banner/api/banner-api.js'
 import { BannerDB } from '../db/banner/banner-db.js'
-import { registerAboutPage } from '../web/page/about/about-page.js'
-import { registerCommonPage } from '../web/page/_common/common-page.js'
+import { registerAboutPage } from '../web/code/about/page/about-page.js'
+import { registerSpaInitApi } from '../web/code/_common/spa-init-api.js'
 import { UserCache } from '../db/user/cache/user-cache.js'
-import { registerBannerPage } from '../web/page/banner/banner-page.js'
-import { registerCounterPage } from '../web/page/counter/counter-page.js'
-import { registerImageDetailPage } from '../web/page/image/image-detail-page.js'
-import { registerImageListPage } from '../web/page/image/image-list-page.js'
-import { registerImageUpdatePage } from '../web/page/image/image-update-page.js'
-import { registerImageUploadPage } from '../web/page/image/image-upload-page.js'
-import { registerUserDeactivatePage } from '../web/page/user/user-deactivate-page.js'
-import { registerUserListPage } from '../web/page/user/user-list-page.js'
-import { registerUserRegisterPage } from '../web/page/user/user-register-page.js'
-import { registerUserUpdatePage } from '../web/page/user/user-update-page.js'
-import { registerLoginPage } from '../web/page/user-login/login-page.js'
-import { registerPasswordPage } from '../web/page/user-password/password-page.js'
+import { registerBannerPage } from '../web/code/banner/page/banner-page.js'
+import { registerCounterPage } from '../web/code/counter/page/counter-page.js'
+import { registerImageDetailPage } from '../web/code/image/page/image-detail-page.js'
+import { registerImageListPage } from '../web/code/image/page/image-list-page.js'
+import { registerImageUpdatePage } from '../web/code/image/page/image-update-page.js'
+import { registerImageUploadPage } from '../web/code/image/page/image-upload-page.js'
+import { registerUserDeactivatePage } from '../web/code/user/page/user-deactivate-page.js'
+import { registerUserListPage } from '../web/code/user/page/user-list-page.js'
+import { registerUserRegisterPage } from '../web/code/user/page/user-register-page.js'
+import { registerUserUpdatePage } from '../web/code/user/page/user-update-page.js'
+import { registerUserAuthPage } from '../web/code/user-auth/page/user-auth-page.js'
+import { registerUserPasswordPage } from '../web/code/user-auth/page/user-password-page.js'
 import { inDev } from '../_util/env2.js'
+import { registerDevUtilPage } from '../web/code/_common/dev-util-page.js'
 
 async function main() {
   const config = loadConfigSync(process.argv[2])
@@ -75,18 +76,18 @@ async function main() {
   registerImageUpdateApi(web, idb, ifm)
   registerImageDeleteApi(web, idb, ifm)
 
-  registerLoginApi(web, uc)
+  registerUserAuthApi(web, uc)
   registerUserRegisterApi(web, udb)
   registerUserDetailApi(web, uc)
   registerUserUpdateApi(web, uc)
   registerUserDeactivateApi(web, uc)
   registerUserListApi(web, udb)
-  registerPasswordApi(web, uc, rdb, mailer)
+  registerUserPasswordApi(web, uc, rdb, mailer)
 
   registerCounterApi(web, cdb)
   registerBannerApi(web, bdb)
 
-  registerCommonPage(web, bdb)
+  registerSpaInitApi(web, bdb)
 
   registerImageListPage(web, uc, idb, ifm, bdb)
   registerImageDetailPage(web, uc, idb, ifm)
@@ -94,8 +95,8 @@ async function main() {
   registerImageUploadPage(web, idb)
   registerUserProfilePage(web, uc, idb, ifm)
 
-  registerLoginPage(web)
-  registerPasswordPage(web)
+  registerUserAuthPage(web)
+  registerUserPasswordPage(web)
   registerUserDeactivatePage(web)
   registerUserListPage(web, udb)
   registerUserRegisterPage(web)
@@ -104,6 +105,8 @@ async function main() {
   registerCounterPage(web, cdb)
   registerBannerPage(web, bdb)
   registerAboutPage(web)
+
+  registerDevUtilPage(web)
 
   registerRedirect(web, uc)
 
