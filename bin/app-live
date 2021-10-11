@@ -9,8 +9,7 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-BUILD_DIR=build/src
 export NODE_ENV=production
 
 set -o xtrace
-node $BUILD_DIR/script/run-app.js config-live/${1}-live.json
+ts-node src/server/script/run-app.ts config-live/${1}-live.json

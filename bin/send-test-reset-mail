@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-BUILD_DIR=build/src
-
 function show_usage {
     echo "usage: bin/send-test-reset-mail user1@mail.test"
     exit 1
@@ -11,4 +9,4 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-node $BUILD_DIR/script/send-test-reset-mail-script.js "$@"
+ts-node src/server/script/send-test-reset-mail-script.ts "$@"

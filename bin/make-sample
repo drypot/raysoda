@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-BUILD_DIR=build/src
-node $BUILD_DIR/script/make-sample.js
+ts-node src/server/script/make-sample.ts

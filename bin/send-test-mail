@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-BUILD_DIR=build/src
-
 function show_usage {
     echo "usage: bin/send-test-mail config/app-dev.json drypot@mail.test"
     echo "usage: bin/send-test-mail config-live/raysoda-live.json drypot@gmail.com"
@@ -12,4 +10,4 @@ if [ $# -lt 2 ]; then
     show_usage
 fi
 
-node $BUILD_DIR/script/send-test-mail-script.js "$@"
+ts-node src/server/script/send-test-mail-script.ts "$@"

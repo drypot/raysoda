@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-BUILD_DIR=build/src
-
 function show_usage {
     echo "bin/make-hash <password>"
     exit 1
@@ -11,4 +9,4 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-node $BUILD_DIR/script/hash-script.js $1
+ts-node src/server/script/hash-script.ts $1
