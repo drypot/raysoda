@@ -1,12 +1,12 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { ImageDB } from '../../../../db/image/image-db.js'
-import { ImageFileManager } from '../../../../file/fileman.js'
-import { imageDeleteService } from '../../../../service/image/image-delete-service.js'
-import { newNumber } from '../../../../_util/primitive.js'
-import { ErrorConst } from '../../../../_type/error.js'
-import { getSessionUser } from '../../user-auth/api/user-auth-api.js'
-import { renderJson } from '../../_common/render-json.js'
-import { shouldBeUser } from '../../../../service/user-auth/user-auth-service.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { ImageDB } from '../../../../db/image/image-db'
+import { ImageFileManager } from '../../../../file/fileman'
+import { imageDeleteService } from '../../../../service/image/image-delete-service'
+import { newNumber } from '../../../../_util/primitive'
+import { ErrorConst } from '../../../../_type/error'
+import { getSessionUser } from '../../user-auth/api/user-auth-api'
+import { renderJson } from '../../_common/render-json'
+import { shouldBeUser } from '../../../../service/user-auth/user-auth-service'
 
 export function registerImageDeleteApi(web: Express2, idb: ImageDB, ifm: ImageFileManager) {
 

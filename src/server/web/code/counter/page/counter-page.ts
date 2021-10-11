@@ -1,9 +1,9 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { CounterDB } from '../../../../db/counter/counter-db.js'
-import { counterIncService } from '../../../../service/counter/counter-service.js'
-import { getSessionUser } from '../../user-auth/api/user-auth-api.js'
-import { renderHtml } from '../../_common/render-html.js'
-import { shouldBeAdmin, shouldBeUser } from '../../../../service/user-auth/user-auth-service.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { CounterDB } from '../../../../db/counter/counter-db'
+import { counterIncService } from '../../../../service/counter/counter-service'
+import { getSessionUser } from '../../user-auth/api/user-auth-api'
+import { renderHtml } from '../../_common/render-html'
+import { shouldBeAdmin, shouldBeUser } from '../../../../service/user-auth/user-auth-service'
 
 export function registerCounterPage(web: Express2, cdb: CounterDB) {
 

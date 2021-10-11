@@ -1,6 +1,6 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { userLogoutService } from '../api/user-auth-api.js'
-import { renderHtml } from '../../_common/render-html.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { userLogoutService } from '../api/user-auth-api'
+import { renderHtml } from '../../_common/render-html'
 
 export function registerUserAuthPage(web: Express2) {
 

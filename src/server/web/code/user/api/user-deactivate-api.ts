@@ -1,11 +1,11 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { userDeactivateService } from '../../../../service/user/user-deactivate-service.js'
-import { newNumber } from '../../../../_util/primitive.js'
-import { UserCache } from '../../../../db/user/cache/user-cache.js'
-import { ErrorConst } from '../../../../_type/error.js'
-import { getSessionUser, userLogoutService } from '../../user-auth/api/user-auth-api.js'
-import { renderJson } from '../../_common/render-json.js'
-import { shouldBeUser } from '../../../../service/user-auth/user-auth-service.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { userDeactivateService } from '../../../../service/user/user-deactivate-service'
+import { newNumber } from '../../../../_util/primitive'
+import { UserCache } from '../../../../db/user/cache/user-cache'
+import { ErrorConst } from '../../../../_type/error'
+import { getSessionUser, userLogoutService } from '../../user-auth/api/user-auth-api'
+import { renderJson } from '../../_common/render-json'
+import { shouldBeUser } from '../../../../service/user-auth/user-auth-service'
 
 export function registerUserDeactivateApi(web: Express2, uc: UserCache) {
 

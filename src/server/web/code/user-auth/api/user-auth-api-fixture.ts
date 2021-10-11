@@ -1,5 +1,5 @@
 import { SuperAgentTest } from 'supertest'
-import { UserLoginForm } from '../../../../_type/user-form.js'
+import { UserLoginForm } from '../../../../_type/user-form'
 
 export async function loginForTest(sat: SuperAgentTest, _form: UserLoginForm, remember: boolean = false) {
   const form = { ..._form, remember }

@@ -1,12 +1,12 @@
-import { loadConfigSync } from '../../../../_util/config-loader.js'
-import { DB } from '../../../../db/_db/db.js'
-import { UserDB } from '../../../../db/user/user-db.js'
-import { Express2 } from '../../../_express/express2.js'
+import { loadConfigSync } from '../../../../_util/config-loader'
+import { DB } from '../../../../db/_db/db'
+import { UserDB } from '../../../../db/user/user-db'
+import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserAuthApi } from '../../user-auth/api/user-auth-api.js'
-import { registerUserListPage } from './user-list-page.js'
-import { Config } from '../../../../_type/config.js'
-import { UserCache } from '../../../../db/user/cache/user-cache.js'
+import { registerUserAuthApi } from '../../user-auth/api/user-auth-api'
+import { registerUserListPage } from './user-list-page'
+import { Config } from '../../../../_type/config'
+import { UserCache } from '../../../../db/user/cache/user-cache'
 
 describe('UserListPage', () => {
 

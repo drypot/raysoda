@@ -1,13 +1,13 @@
-import { UserDB } from '../../../../db/user/user-db.js'
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { newLimitedNumber, newString } from '../../../../_util/primitive.js'
-import { userListService } from '../../../../service/user/user-list-service.js'
-import { UrlMaker } from '../../../../_util/url2.js'
-import { userSearchService } from '../../../../service/user/user-search-service.js'
-import { UserForList } from '../../../../_type/user-detail.js'
-import { getSessionUser } from '../../user-auth/api/user-auth-api.js'
-import { userIsAdmin } from '../../../../_type/user.js'
-import { renderHtml } from '../../_common/render-html.js'
+import { UserDB } from '../../../../db/user/user-db'
+import { Express2, toCallback } from '../../../_express/express2'
+import { newLimitedNumber, newString } from '../../../../_util/primitive'
+import { userListService } from '../../../../service/user/user-list-service'
+import { UrlMaker } from '../../../../_util/url2'
+import { userSearchService } from '../../../../service/user/user-search-service'
+import { UserForList } from '../../../../_type/user-detail'
+import { getSessionUser } from '../../user-auth/api/user-auth-api'
+import { userIsAdmin } from '../../../../_type/user'
+import { renderHtml } from '../../_common/render-html'
 
 export function registerUserListPage(web: Express2, udb: UserDB) {
 

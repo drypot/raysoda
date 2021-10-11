@@ -1,7 +1,7 @@
-import { Express2 } from '../../../_express/express2.js'
+import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { loadConfigSync } from '../../../../_util/config-loader.js'
-import { registerAboutPage } from './about-page.js'
+import { loadConfigSync } from '../../../../_util/config-loader'
+import { registerAboutPage } from './about-page'
 
 describe('AboutPage', () => {
 

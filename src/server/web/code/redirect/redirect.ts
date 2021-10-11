@@ -1,5 +1,5 @@
-import { Express2 } from '../../_express/express2.js'
-import { UserCache } from '../../../db/user/cache/user-cache.js'
+import { Express2 } from '../../_express/express2'
+import { UserCache } from '../../../db/user/cache/user-cache'
 
 export function registerRedirect(web: Express2, uc: UserCache) {
 

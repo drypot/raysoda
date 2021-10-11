@@ -1,13 +1,13 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { userUpdateGetService, userUpdateService } from '../../../../service/user/user-update-service.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { userUpdateGetService, userUpdateService } from '../../../../service/user/user-update-service'
 import { Request } from 'express'
-import { newNumber, newString } from '../../../../_util/primitive.js'
-import { UserCache } from '../../../../db/user/cache/user-cache.js'
-import { ErrorConst } from '../../../../_type/error.js'
-import { UserUpdateForm } from '../../../../_type/user-form.js'
-import { getSessionUser } from '../../user-auth/api/user-auth-api.js'
-import { renderJson } from '../../_common/render-json.js'
-import { shouldBeUser } from '../../../../service/user-auth/user-auth-service.js'
+import { newNumber, newString } from '../../../../_util/primitive'
+import { UserCache } from '../../../../db/user/cache/user-cache'
+import { ErrorConst } from '../../../../_type/error'
+import { UserUpdateForm } from '../../../../_type/user-form'
+import { getSessionUser } from '../../user-auth/api/user-auth-api'
+import { renderJson } from '../../_common/render-json'
+import { shouldBeUser } from '../../../../service/user-auth/user-auth-service'
 
 export function registerUserUpdateApi(web: Express2, uc: UserCache) {
 

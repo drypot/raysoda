@@ -1,10 +1,10 @@
-import { loadConfigSync } from '../../../../_util/config-loader.js'
-import { DB } from '../../../../db/_db/db.js'
-import { UserDB } from '../../../../db/user/user-db.js'
-import { Express2 } from '../../../_express/express2.js'
+import { loadConfigSync } from '../../../../_util/config-loader'
+import { DB } from '../../../../db/_db/db'
+import { UserDB } from '../../../../db/user/user-db'
+import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserRegisterPage } from './user-register-page.js'
-import { Config } from '../../../../_type/config.js'
+import { registerUserRegisterPage } from './user-register-page'
+import { Config } from '../../../../_type/config'
 
 describe('UserRegisterPage', () => {
 

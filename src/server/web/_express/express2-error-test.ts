@@ -1,7 +1,7 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { Express2 } from './express2.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { Express2 } from './express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { INVALID_DATA } from '../../_type/error.js'
+import { INVALID_DATA } from '../../_type/error'
 
 describe('Express2 Error', () => {
 

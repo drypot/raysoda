@@ -1,11 +1,11 @@
-import { UserDB } from '../../../../db/user/user-db.js'
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { userRegisterService } from '../../../../service/user/user-register-service.js'
+import { UserDB } from '../../../../db/user/user-db'
+import { Express2, toCallback } from '../../../_express/express2'
+import { userRegisterService } from '../../../../service/user/user-register-service'
 import { Request } from 'express'
-import { newString } from '../../../../_util/primitive.js'
-import { ErrorConst } from '../../../../_type/error.js'
-import { UserRegisterForm } from '../../../../_type/user-form.js'
-import { renderJson } from '../../_common/render-json.js'
+import { newString } from '../../../../_util/primitive'
+import { ErrorConst } from '../../../../_type/error'
+import { UserRegisterForm } from '../../../../_type/user-form'
+import { renderJson } from '../../_common/render-json'
 
 export function newUserRegisterForm(req: Request): UserRegisterForm {
   const body = req.body

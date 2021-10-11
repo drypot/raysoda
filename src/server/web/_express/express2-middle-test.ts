@@ -1,5 +1,5 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { Express2 } from './express2.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { Express2 } from './express2'
 import { NextFunction, Request, Response } from 'express'
 import supertest, { SuperAgentTest } from 'supertest'
 

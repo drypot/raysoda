@@ -1,13 +1,13 @@
-import { loadConfigSync } from '../../../../_util/config-loader.js'
-import { DB } from '../../../../db/_db/db.js'
-import { UserDB } from '../../../../db/user/user-db.js'
-import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '../../../../db/user/fixture/user-fix.js'
-import { Express2 } from '../../../_express/express2.js'
+import { loadConfigSync } from '../../../../_util/config-loader'
+import { DB } from '../../../../db/_db/db'
+import { UserDB } from '../../../../db/user/user-db'
+import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '../../../../db/user/fixture/user-fix'
+import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserAuthApi } from '../../user-auth/api/user-auth-api.js'
-import { loginForTest } from '../../user-auth/api/user-auth-api-fixture.js'
-import { registerUserUpdateApi } from './user-update-api.js'
-import { checkHash } from '../../../../_util/hash.js'
+import { registerUserAuthApi } from '../../user-auth/api/user-auth-api'
+import { loginForTest } from '../../user-auth/api/user-auth-api-fixture'
+import { registerUserUpdateApi } from './user-update-api'
+import { checkHash } from '../../../../_util/hash'
 import {
   EMAIL_DUPE,
   EMAIL_RANGE,
@@ -18,9 +18,9 @@ import {
   NOT_AUTHENTICATED,
   NOT_AUTHORIZED,
   PASSWORD_RANGE
-} from '../../../../_type/error-user.js'
-import { Config } from '../../../../_type/config.js'
-import { UserCache } from '../../../../db/user/cache/user-cache.js'
+} from '../../../../_type/error-user'
+import { Config } from '../../../../_type/config'
+import { UserCache } from '../../../../db/user/cache/user-cache'
 
 describe('UserUpdateApi Update', () => {
 

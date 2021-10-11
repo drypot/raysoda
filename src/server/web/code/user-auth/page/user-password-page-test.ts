@@ -1,8 +1,8 @@
-import { loadConfigSync } from '../../../../_util/config-loader.js'
-import { Express2 } from '../../../_express/express2.js'
+import { loadConfigSync } from '../../../../_util/config-loader'
+import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserPasswordPage } from './user-password-page.js'
-import { Config } from '../../../../_type/config.js'
+import { registerUserPasswordPage } from './user-password-page'
+import { Config } from '../../../../_type/config'
 
 describe('UserPasswordPage', () => {
 

@@ -1,11 +1,11 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { userDetailService } from '../../../../service/user/user-detail-service.js'
-import { newNumber } from '../../../../_util/primitive.js'
-import { UserCache } from '../../../../db/user/cache/user-cache.js'
-import { getSessionUser } from '../../user-auth/api/user-auth-api.js'
-import { ErrorConst } from '../../../../_type/error.js'
-import { packUserDetail } from '../../../../_type/user-detail.js'
-import { renderJson } from '../../_common/render-json.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { userDetailService } from '../../../../service/user/user-detail-service'
+import { newNumber } from '../../../../_util/primitive'
+import { UserCache } from '../../../../db/user/cache/user-cache'
+import { getSessionUser } from '../../user-auth/api/user-auth-api'
+import { ErrorConst } from '../../../../_type/error'
+import { packUserDetail } from '../../../../_type/user-detail'
+import { renderJson } from '../../_common/render-json'
 
 export function registerUserDetailApi(web: Express2, uc: UserCache) {
 

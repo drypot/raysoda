@@ -1,5 +1,5 @@
-import { Mailer } from './mailer2.js'
-import { loadConfigSync } from '../_util/config-loader.js'
+import { Mailer } from './mailer2'
+import { loadConfigSync } from '../_util/config-loader'
 
 describe('Mailer', () => {
 

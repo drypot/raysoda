@@ -1,10 +1,10 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { BannerDB } from '../../../../db/banner/banner-db.js'
-import { bannerListService, bannerListUpdateService } from '../../../../service/banner/banner-service.js'
-import { Banner } from '../../../../_type/banner.js'
-import { getSessionUser } from '../../user-auth/api/user-auth-api.js'
-import { renderJson } from '../../_common/render-json.js'
-import { shouldBeAdmin, shouldBeUser } from '../../../../service/user-auth/user-auth-service.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { BannerDB } from '../../../../db/banner/banner-db'
+import { bannerListService, bannerListUpdateService } from '../../../../service/banner/banner-service'
+import { Banner } from '../../../../_type/banner'
+import { getSessionUser } from '../../user-auth/api/user-auth-api'
+import { renderJson } from '../../_common/render-json'
+import { shouldBeAdmin, shouldBeUser } from '../../../../service/user-auth/user-auth-service'
 
 export function registerBannerApi(web: Express2, bdb: BannerDB) {
 

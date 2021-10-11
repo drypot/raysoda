@@ -1,18 +1,18 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
+import { Express2, toCallback } from '../../../_express/express2'
 import { Request, Response } from 'express'
-import { GUEST, newUserIdCard, User } from '../../../../_type/user.js'
-import { newString } from '../../../../_util/primitive.js'
+import { GUEST, newUserIdCard, User } from '../../../../_type/user'
+import { newString } from '../../../../_util/primitive'
 import {
   ACCOUNT_DEACTIVATED,
   EMAIL_NOT_FOUND,
   NOT_AUTHENTICATED,
   NOT_AUTHORIZED,
   PASSWORD_WRONG
-} from '../../../../_type/error-user.js'
-import { UserCache } from '../../../../db/user/cache/user-cache.js'
-import { ErrorConst } from '../../../../_type/error.js'
-import { checkHash } from '../../../../_util/hash.js'
-import { renderJson } from '../../_common/render-json.js'
+} from '../../../../_type/error-user'
+import { UserCache } from '../../../../db/user/cache/user-cache'
+import { ErrorConst } from '../../../../_type/error'
+import { checkHash } from '../../../../_util/hash'
+import { renderJson } from '../../_common/render-json'
 
 export function registerUserAuthApi(web: Express2, uc: UserCache) {
 

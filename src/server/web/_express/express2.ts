@@ -6,12 +6,12 @@ import expressSession from 'express-session'
 import connectRedis from 'connect-redis'
 import * as http from 'http'
 import newMulter, { Multer } from 'multer'
-import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2.js'
+import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2'
 import { unlinkSync } from 'fs'
-import { newErrorConst } from '../../_util/error2.js'
-import { Config } from '../../_type/config.js'
-import { inProduction } from '../../_util/env2.js'
-import { INVALID_PAGE } from '../../_type/error.js'
+import { newErrorConst } from '../../_util/error2'
+import { Config } from '../../_type/config'
+import { inProduction } from '../../_util/env2'
+import { INVALID_PAGE } from '../../_type/error'
 
 type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
 

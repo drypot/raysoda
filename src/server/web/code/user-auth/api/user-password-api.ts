@@ -1,15 +1,15 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { ResetDB } from '../../../../db/password/reset-db.js'
-import { Mailer } from '../../../../mailer/mailer2.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { ResetDB } from '../../../../db/password/reset-db'
+import { Mailer } from '../../../../mailer/mailer2'
 import {
   userResetPasswordService,
   userSendResetPasswordMailService
-} from '../../../../service/user-auth/user-password-service.js'
-import { newString } from '../../../../_util/primitive.js'
-import { UserCache } from '../../../../db/user/cache/user-cache.js'
-import { ErrorConst } from '../../../../_type/error.js'
-import { NewPasswordForm } from '../../../../_type/password.js'
-import { renderJson } from '../../_common/render-json.js'
+} from '../../../../service/user-auth/user-password-service'
+import { newString } from '../../../../_util/primitive'
+import { UserCache } from '../../../../db/user/cache/user-cache'
+import { ErrorConst } from '../../../../_type/error'
+import { NewPasswordForm } from '../../../../_type/password'
+import { renderJson } from '../../_common/render-json'
 
 export function registerUserPasswordApi(web: Express2, uc: UserCache, resetDB: ResetDB, mailer: Mailer) {
 

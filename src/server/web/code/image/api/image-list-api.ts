@@ -1,12 +1,12 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { ImageDB } from '../../../../db/image/image-db.js'
-import { ImageFileManager } from '../../../../file/fileman.js'
-import { newLimitedNumber } from '../../../../_util/primitive.js'
-import { imageListByCdateService, imageListService } from '../../../../service/image/image-list-service.js'
-import { UserCache } from '../../../../db/user/cache/user-cache.js'
-import { newDate } from '../../../../_util/date2.js'
-import { firstImageCdateService } from '../../../../service/image/image-detail-service.js'
-import { renderJson } from '../../_common/render-json.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { ImageDB } from '../../../../db/image/image-db'
+import { ImageFileManager } from '../../../../file/fileman'
+import { newLimitedNumber } from '../../../../_util/primitive'
+import { imageListByCdateService, imageListService } from '../../../../service/image/image-list-service'
+import { UserCache } from '../../../../db/user/cache/user-cache'
+import { newDate } from '../../../../_util/date2'
+import { firstImageCdateService } from '../../../../service/image/image-detail-service'
+import { renderJson } from '../../_common/render-json'
 
 export function registerImageListApi(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 

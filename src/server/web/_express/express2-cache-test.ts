@@ -1,5 +1,5 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { Express2 } from './express2.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { Express2 } from './express2'
 import supertest, { SuperAgentTest } from 'supertest'
 
 describe('Express2 Cache', () => {

@@ -1,12 +1,12 @@
-import { loadConfigSync } from '../../../_util/config-loader.js'
-import { Express2 } from '../../_express/express2.js'
+import { loadConfigSync } from '../../../_util/config-loader'
+import { Express2 } from '../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerRedirect } from './redirect.js'
-import { Config } from '../../../_type/config.js'
-import { DB } from '../../../db/_db/db.js'
-import { UserDB } from '../../../db/user/user-db.js'
-import { UserCache } from '../../../db/user/cache/user-cache.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { registerRedirect } from './redirect'
+import { Config } from '../../../_type/config'
+import { DB } from '../../../db/_db/db'
+import { UserDB } from '../../../db/user/user-db'
+import { UserCache } from '../../../db/user/cache/user-cache'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix'
 
 describe('Redirect', () => {
 

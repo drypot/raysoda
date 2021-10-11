@@ -1,7 +1,7 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { getSessionUser } from '../../user-auth/api/user-auth-api.js'
-import { renderHtml } from '../../_common/render-html.js'
-import { shouldBeUser } from '../../../../service/user-auth/user-auth-service.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { getSessionUser } from '../../user-auth/api/user-auth-api'
+import { renderHtml } from '../../_common/render-html'
+import { shouldBeUser } from '../../../../service/user-auth/user-auth-service'
 
 export function registerUserDeactivatePage(web: Express2) {
 

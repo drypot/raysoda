@@ -1,10 +1,10 @@
-import { Express2 } from '../../_express/express2.js'
-import { BannerDB } from '../../../db/banner/banner-db.js'
-import { newConfigForClient } from '../../../_type/config.js'
-import { getSessionUser } from '../user-auth/api/user-auth-api.js'
-import { newUserIdCard } from '../../../_type/user.js'
-import { INVALID_DATA } from '../../../_type/error.js'
-import { inDev } from '../../../_util/env2.js'
+import { Express2 } from '../../_express/express2'
+import { BannerDB } from '../../../db/banner/banner-db'
+import { newConfigForClient } from '../../../_type/config'
+import { getSessionUser } from '../user-auth/api/user-auth-api'
+import { newUserIdCard } from '../../../_type/user'
+import { INVALID_DATA } from '../../../_type/error'
+import { inDev } from '../../../_util/env2'
 
 export function registerSpaInitApi(web: Express2, bdb: BannerDB) {
 
@@ -19,7 +19,7 @@ export function registerSpaInitApi(web: Express2, bdb: BannerDB) {
       `const _config = ${configStr}\n` +
       `const _user = ${userStr}\n` +
       `const _banner = ${bannerStr}\n`
-    res.type('.js')
+    res.type('')
     res.send(script)
   })
 

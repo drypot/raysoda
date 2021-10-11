@@ -1,12 +1,12 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { ImageDB } from '../../../../db/image/image-db.js'
-import { ImageFileManager } from '../../../../file/fileman.js'
-import { imageDetailService } from '../../../../service/image/image-detail-service.js'
-import { newNumber } from '../../../../_util/primitive.js'
-import { UserCache } from '../../../../db/user/cache/user-cache.js'
-import { ErrorConst } from '../../../../_type/error.js'
-import { getSessionUser } from '../../user-auth/api/user-auth-api.js'
-import { renderHtml } from '../../_common/render-html.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { ImageDB } from '../../../../db/image/image-db'
+import { ImageFileManager } from '../../../../file/fileman'
+import { imageDetailService } from '../../../../service/image/image-detail-service'
+import { newNumber } from '../../../../_util/primitive'
+import { UserCache } from '../../../../db/user/cache/user-cache'
+import { ErrorConst } from '../../../../_type/error'
+import { getSessionUser } from '../../user-auth/api/user-auth-api'
+import { renderHtml } from '../../_common/render-html'
 
 export function registerImageDetailPage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager) {
 

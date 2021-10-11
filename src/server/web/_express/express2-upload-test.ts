@@ -1,8 +1,8 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { deleteUpload, Express2 } from './express2.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { deleteUpload, Express2 } from './express2'
 import supertest, { SuperAgentTest } from 'supertest'
 import { Multer } from 'multer'
-import { timeout } from '../../_util/async2.js'
+import { timeout } from '../../_util/async2'
 import { existsSync } from 'fs'
 
 describe('Express2 Upload', () => {

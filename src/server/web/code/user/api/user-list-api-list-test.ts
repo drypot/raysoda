@@ -1,13 +1,13 @@
-import { loadConfigSync } from '../../../../_util/config-loader.js'
-import { DB } from '../../../../db/_db/db.js'
-import { UserDB } from '../../../../db/user/user-db.js'
-import { insertUserFix4 } from '../../../../db/user/fixture/user-fix.js'
-import { Express2 } from '../../../_express/express2.js'
+import { loadConfigSync } from '../../../../_util/config-loader'
+import { DB } from '../../../../db/_db/db'
+import { UserDB } from '../../../../db/user/user-db'
+import { insertUserFix4 } from '../../../../db/user/fixture/user-fix'
+import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserAuthApi } from '../../user-auth/api/user-auth-api.js'
-import { registerUserListApi } from './user-list-api.js'
-import { Config } from '../../../../_type/config.js'
-import { UserCache } from '../../../../db/user/cache/user-cache.js'
+import { registerUserAuthApi } from '../../user-auth/api/user-auth-api'
+import { registerUserListApi } from './user-list-api'
+import { Config } from '../../../../_type/config'
+import { UserCache } from '../../../../db/user/cache/user-cache'
 
 describe('UserListApi', () => {
 

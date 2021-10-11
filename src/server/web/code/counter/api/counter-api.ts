@@ -1,10 +1,10 @@
-import { Express2, toCallback } from '../../../_express/express2.js'
-import { CounterDB } from '../../../../db/counter/counter-db.js'
-import { counterListService } from '../../../../service/counter/counter-service.js'
-import { getSessionUser } from '../../user-auth/api/user-auth-api.js'
-import { newString } from '../../../../_util/primitive.js'
-import { renderJson } from '../../_common/render-json.js'
-import { shouldBeAdmin, shouldBeUser } from '../../../../service/user-auth/user-auth-service.js'
+import { Express2, toCallback } from '../../../_express/express2'
+import { CounterDB } from '../../../../db/counter/counter-db'
+import { counterListService } from '../../../../service/counter/counter-service'
+import { getSessionUser } from '../../user-auth/api/user-auth-api'
+import { newString } from '../../../../_util/primitive'
+import { renderJson } from '../../_common/render-json'
+import { shouldBeAdmin, shouldBeUser } from '../../../../service/user-auth/user-auth-service'
 
 export function registerCounterApi(web: Express2, cdb: CounterDB) {
 

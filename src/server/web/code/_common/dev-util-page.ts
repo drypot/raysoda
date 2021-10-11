@@ -1,6 +1,6 @@
-import { Express2 } from '../../_express/express2.js'
-import { INVALID_DATA } from '../../../_type/error.js'
-import { inDev } from '../../../_util/env2.js'
+import { Express2 } from '../../_express/express2'
+import { INVALID_DATA } from '../../../_type/error'
+import { inDev } from '../../../_util/env2'
 
 export function registerDevUtilPage(web: Express2) {
 
