@@ -1,0 +1,22 @@
+@import "common";
+
+.image-thumb-list {
+  .image-thumb {
+    .image {
+      img {
+        width: 100vw; // width 를 지정해야 svg 가 늘어난다.
+        height: 100vh; // height 100vh 를 지정해 놓지 않으면 ie 에서 찌그러진다.
+      }
+    }
+  }
+}
+
+.image-full {
+  .image {
+    display: block;
+    img {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}

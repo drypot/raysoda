@@ -1,0 +1,286 @@
+@import "common";
+
+// basic layout
+
+html {
+  font-size: 16px;
+  @include narrow {
+    font-size: 16px;
+  }
+  @include normal {
+    font-size: 18px;
+  }
+  @include wide {
+    font-size: 20px;
+  }
+}
+
+body {
+  font-size: 1em;
+  font-family: serif;
+  line-height: 160%;
+  color: $color;
+}
+
+@mixin section {
+  margin: $margin * 1.5 auto; // auto 는 IE9 이상부터
+  @include narrow {
+    margin: $margin * 1.7 auto;
+  }
+  @include normal {
+    margin: $margin * 2 auto;
+  }
+  @include wide {
+    margin: $margin * 2.3 auto;
+  }
+  text-align: center;
+}
+
+.section {
+  @include section;
+  max-width: $width; // 작은화면에서 width 를 쓰면 화면 밖으로 나간다.
+}
+
+.sub-section {
+  margin: $margin auto;
+}
+
+.mini-section {
+  margin: $margin * 0.8 auto;
+}
+
+pre.clean {
+  margin: $margin auto;
+  padding: 0px;
+  border: 0px;
+  background-color: inherit;
+  font-size: inherit;
+}
+
+hr {
+  margin: 0px;
+}
+
+// fullscreen
+
+:-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
+  background: white;
+  width: 100%;
+  height: 100%;
+}
+
+#fullscreen {
+}
+
+// error
+
+.error-report {
+  text-align: left;
+  font-family: monospace;
+  font-size: 80%;
+  background-color: white;
+  white-space: pre;
+}
+
+.modal-body {
+  white-space: pre;
+  overflow: scroll;
+}
+
+// form
+
+form.main {
+  max-width: $form-width;
+  margin: 0 auto;
+  padding: 0em 1em;
+  input[type=file] {
+    width: 100%;
+  }
+  textarea {
+    //font-family: monospace;
+  }
+}
+
+pre.sample {
+  max-width: $form-width;
+  margin: 0 auto;
+  text-align: left;
+}
+
+// table
+
+.basic-table { // 현재 사용 안 됨.
+  table {
+    margin: 0 auto;
+    td {
+      padding: 0px 20px;
+    }
+  }
+}
+
+// home
+
+.site-name {
+  margin: 0.6em auto;
+  font-size: 1.3em;
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+.page-header { // bootstrap 에 같은 이름 클래스가 정의되어 있다;
+  @include ac-link;
+  margin-top: 0px;
+  padding: 0px; // overriding bootstrap
+  border-bottom: 1px solid $line-color;
+}
+
+.page-title {
+  @include ac-link;
+  a:hover {
+    text-decoration: none;
+  }
+  h1 {
+    font-size: 2.5em;
+  }
+}
+
+.top-links {
+  a {
+    padding-left:8px;
+    padding-right:8px;
+  }
+}
+
+.news {
+}
+
+.page-footer {
+  @include ac-link;
+  padding: 0px; // overriding bootstrap
+  border-top: 1px solid $line-color;
+  //border-top: 0px;
+  .about-list {
+    margin: 0.3em auto;
+    ul {
+      margin: 0px;
+      li {
+        padding: 0 5px;
+      }
+    }
+  }
+  .sponsor {
+    margin: 0.6em auto;
+    font-size: 1.1em;
+  }
+}
+
+// image list
+
+.image-thumb-list {
+  max-width: 100%; // section 의 max-width 오버라이딩.
+  .image-thumb {
+    //@include section;
+    text-align: center;
+    @include ac-link;
+    max-width: 100%; // for ie
+    .image {
+      max-width: 100%; // ie 에서는 img 상위 엘리먼트에 max-width 를 적어놓지 않으면 넘친다.
+                       // max-width 대신 width 를 쓰면 높이가 작은 화면에서 rapixel 풀스크린 화살표가 삐져 나간다.
+      display: inline-block; // 자식 이미지 사이즈와 동일한 크기가 된다.
+      position: relative; // fs-mark 를 절대 위치에 표시하려면 부모 엘리먼트가 relative position 이어야 한다.
+      margin-bottom: 0.6em;
+      img {
+        max-width: 100%; // inherit 안 됨. img 태그에 적용해야 화면 밖으로 나가지 않는다.
+        max-height: 100vh; // max-height: 100%; 크롬에서는 작동하지 않음
+      }
+    }
+    .comment {
+      max-width: $width;
+      margin: 0 auto;
+      white-space: pre-line;
+    }
+  }
+}
+
+.thumb-margin {
+  margin: $margin * 2.5 auto; // auto 는 IE9 이상부터
+  @include narrow {
+    margin: $margin * 2.7 auto;
+  }
+  @include normal {
+    margin: $margin * 3 auto;
+  }
+  @include wide {
+    margin: $margin * 3.3 auto;
+  }
+}
+
+.fs-icon {
+  position: absolute;
+  top: 0.3em;
+  right: 0.3em;
+  z-index: 10;
+  font-size: 2.3em;
+  padding: 0.2em;
+  color: white;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.prev-next {
+  a {
+    padding: 0em 1em;
+    font-size: 2em;
+  }
+}
+
+// image view
+
+.image-full {
+  max-width: 100%;
+  margin: 0px auto;
+  text-align: center;
+  .image {
+    max-width: 100%;
+    display: inline-block;
+    position: relative;
+    img {
+      max-width: 100%;
+      cursor:pointer;
+    }
+  }
+}
+
+.image-info {
+  @include ac-link;
+  .comment {
+    margin-bottom: 1.8em;
+    white-space: pre-line;
+  }
+  .cdate {
+    margin-bottom: 1em;
+    font-size: 0.8em;
+  }
+  .uname {
+    margin-bottom: 2em;
+    font-size: 1.4em;
+  }
+  .commands {
+  }
+}
+
+// profile
+
+#profile-text {
+  white-space: pre-line;
+}
+
+// user list
+
+.user-list {
+  div {
+    margin-bottom: 0.3em;
+    word-break: keep-all;
+  }
+}

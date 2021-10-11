@@ -1,0 +1,32 @@
+$color: #333;
+$dim-color: lighten($color, 50%);
+$line-color: lighten($color, 70%);
+
+$margin: 3em;
+$width: 640px;
+
+$form-width: 480px;
+
+@mixin narrow {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin normal {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin wide {
+  @media (min-width: 1400px) {
+    @content;
+  }
+}
+
+@mixin ac-link { // achromatic color link
+  a {
+    color: $color;
+  }
+}
