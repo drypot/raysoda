@@ -9,6 +9,9 @@ package-lock.json
 
 /dist/
 /build/
+/public/build/
+
+/.rollup.cache/
 
 /tmp/
 

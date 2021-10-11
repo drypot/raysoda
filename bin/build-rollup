@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+npx rollup --config rollup.config.js

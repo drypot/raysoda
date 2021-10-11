@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "https://raysoda.com",
   "main": "",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "bin/jasmine"
   },
@@ -34,12 +34,16 @@
   },
   "homepage": "https://github.com/drypot/raysoda#readme",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.0.5",
+    "@rollup/plugin-typescript": "^8.2.5",
+    "@tsconfig/node16": "^1.0.2",
     "@types/bcryptjs": "^2.4.2",
     "@types/connect-redis": "^0.0.17",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
     "@types/jasmine": "^3.8.2",
+    "@types/jquery": "^3.5.6",
     "@types/multer": "^1.4.7",
     "@types/mysql": "^2.15.19",
     "@types/node": "^16.3.1",
@@ -48,9 +52,15 @@
     "@types/superagent": "^4.1.12",
     "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.1",
+    "autoprefixer": "^10.3.7",
     "jasmine": "^3.8.0",
     "jasmine-console-reporter": "^3.1.0",
+    "jquery": "^3.6.0",
+    "postcss": "^8.3.9",
+    "rollup": "^2.58.0",
+    "sass": "^1.42.1",
     "supertest": "^6.1.4",
+    "tailwindcss": "^2.2.16",
     "typescript": "^4.4.3"
   }
 }

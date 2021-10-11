@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+rm -fr public/build/css
+npx sass src/client-css/scss:public/build/css

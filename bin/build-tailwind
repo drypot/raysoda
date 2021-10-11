@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+npx tailwindcss -i src/client-css/tailwind/base.css -o public/build/bundle.css
+
