@@ -11,5 +11,8 @@
     "./**/*"
   ],
   "exclude": [
-  ]
+  ],
+  "ts-node": {
+    "transpileOnly": true
+  }
 }
