@@ -1,0 +1,15 @@
+{
+  // https://github.com/tsconfig/bases/tree/main/bases
+  "extends": "@tsconfig/node16/tsconfig.json",
+
+  "compilerOptions": {
+    "outDir": "../../build/server",
+    "rootDir": ".",
+    "sourceMap": true
+  },
+  "include": [
+    "./**/*"
+  ],
+  "exclude": [
+  ]
+}
