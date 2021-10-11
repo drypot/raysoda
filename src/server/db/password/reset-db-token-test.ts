@@ -1,8 +1,8 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../_db/db.js'
-import { ResetDB } from './reset-db.js'
-import { Config } from '../../_type/config.js'
-import { ResetToken } from '../../_type/password.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../_db/db'
+import { ResetDB } from './reset-db'
+import { Config } from '../../_type/config'
+import { ResetToken } from '../../_type/password'
 
 describe('ResetDB Token', () => {
 

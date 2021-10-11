@@ -1,3 +1,3 @@
 
-export * from './service/context.js'
-export * from './service/user-page.js'
+export * from './service/context'
+export * from './service/user-page'

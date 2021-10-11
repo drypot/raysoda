@@ -1,4 +1,4 @@
-import { checkEmailFormat, checkHomeFormat, checkNameFormat, checkPasswordFormat } from './_user-service.js'
+import { checkEmailFormat, checkHomeFormat, checkNameFormat, checkPasswordFormat } from './_user-service'
 import {
   EMAIL_EMPTY,
   EMAIL_RANGE,
@@ -8,8 +8,8 @@ import {
   NAME_RANGE,
   PASSWORD_EMPTY,
   PASSWORD_RANGE
-} from '../../_type/error-user.js'
-import { ErrorConst } from '../../_type/error.js'
+} from '../../_type/error-user'
+import { ErrorConst } from '../../_type/error'
 
 describe('User Service', () => {
 

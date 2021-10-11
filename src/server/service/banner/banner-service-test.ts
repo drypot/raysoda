@@ -1,10 +1,10 @@
-import { ValueDB } from '../../db/value/value-db.js'
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { Config } from '../../_type/config.js'
-import { BannerDB } from '../../db/banner/banner-db.js'
-import { DB } from '../../db/_db/db.js'
-import { bannerListService, bannerListUpdateService } from './banner-service.js'
-import { Banner } from '../../_type/banner.js'
+import { ValueDB } from '../../db/value/value-db'
+import { loadConfigSync } from '../../_util/config-loader'
+import { Config } from '../../_type/config'
+import { BannerDB } from '../../db/banner/banner-db'
+import { DB } from '../../db/_db/db'
+import { bannerListService, bannerListUpdateService } from './banner-service'
+import { Banner } from '../../_type/banner'
 
 describe('Banner Api List', () => {
 

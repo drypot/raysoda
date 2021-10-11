@@ -1,7 +1,7 @@
-import { DB } from '../_db/db.js'
-import { Image } from '../../_type/image.js'
-import { Config } from '../../_type/config.js'
-import { inProduction } from '../../_util/env2.js'
+import { DB } from '../_db/db'
+import { Image } from '../../_type/image'
+import { Config } from '../../_type/config'
+import { inProduction } from '../../_util/env2'
 
 export class ImageDB {
 

@@ -1,9 +1,9 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../../db/_db/db.js'
-import { UserDB } from '../../db/user/user-db.js'
-import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
-import { userRegisterService } from './user-register-service.js'
-import { checkHash } from '../../_util/hash.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../../db/_db/db'
+import { UserDB } from '../../db/user/user-db'
+import { insertUserFix4 } from '../../db/user/fixture/user-fix'
+import { userRegisterService } from './user-register-service'
+import { checkHash } from '../../_util/hash'
 import {
   EMAIL_DUPE,
   EMAIL_RANGE,
@@ -12,10 +12,10 @@ import {
   NAME_DUPE,
   NAME_RANGE,
   PASSWORD_RANGE
-} from '../../_type/error-user.js'
-import { Config } from '../../_type/config.js'
-import { ErrorConst } from '../../_type/error.js'
-import { newUserRegisterForm } from '../../_type/user-form.js'
+} from '../../_type/error-user'
+import { Config } from '../../_type/config'
+import { ErrorConst } from '../../_type/error'
+import { newUserRegisterForm } from '../../_type/user-form'
 
 describe('userRegisterService', () => {
 

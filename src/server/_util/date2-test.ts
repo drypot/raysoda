@@ -1,4 +1,4 @@
-import { newDate, newDateString, newDateStringNoTime, newDateStringNoTimeNoDash, newTimeZeroDate, } from './date2.js'
+import { newDate, newDateString, newDateStringNoTime, newDateStringNoTimeNoDash, newTimeZeroDate, } from './date2'
 
 describe('newDate', () => {
   it('case 1', () => {

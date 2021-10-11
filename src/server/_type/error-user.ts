@@ -1,4 +1,4 @@
-import { newErrorConst } from '../_util/error2.js'
+import { newErrorConst } from '../_util/error2'
 
 export const NOT_AUTHENTICATED = newErrorConst('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.')
 export const NOT_AUTHORIZED = newErrorConst('NOT_AUTHORIZED', '사용 권한이 없습니다.')

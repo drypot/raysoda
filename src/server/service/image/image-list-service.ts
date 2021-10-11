@@ -1,10 +1,10 @@
-import { ImageDB } from '../../db/image/image-db.js'
-import { ImageFileManager } from '../../file/fileman.js'
-import { Image } from '../../_type/image.js'
-import { User } from '../../_type/user.js'
-import { newDateString } from '../../_util/date2.js'
-import { ImageForList } from '../../_type/image-detail.js'
-import { UserCache } from '../../db/user/cache/user-cache.js'
+import { ImageDB } from '../../db/image/image-db'
+import { ImageFileManager } from '../../file/fileman'
+import { Image } from '../../_type/image'
+import { User } from '../../_type/user'
+import { newDateString } from '../../_util/date2'
+import { ImageForList } from '../../_type/image-detail'
+import { UserCache } from '../../db/user/cache/user-cache'
 
 async function newDecoratedImageList(uc: UserCache, ifm: ImageFileManager, list: Image[]) {
   return await Promise.all(

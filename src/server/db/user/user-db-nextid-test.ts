@@ -1,7 +1,7 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../_db/db.js'
-import { UserDB } from './user-db.js'
-import { Config } from '../../_type/config.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../_db/db'
+import { UserDB } from './user-db'
+import { Config } from '../../_type/config'
 
 describe('UserDB.*NextId', () => {
 

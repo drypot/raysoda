@@ -1,5 +1,5 @@
-import { User } from '../../../_type/user.js'
-import { UserDB } from '../user-db.js'
+import { User } from '../../../_type/user'
+import { UserDB } from '../user-db'
 
 // 20219-09-29, user cache 시스템을 날리려다 원복했다.
 // user cache 는 MongoDB 에 join 없음 문제로 부터 시작된 것 같다.

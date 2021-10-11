@@ -1,7 +1,7 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../_db/db.js'
-import { ImageDB } from './image-db.js'
-import { Config } from '../../_type/config.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../_db/db'
+import { ImageDB } from './image-db'
+import { Config } from '../../_type/config'
 
 describe('ImageDB.*NextId', () => {
 

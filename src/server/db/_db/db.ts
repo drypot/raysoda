@@ -1,6 +1,6 @@
 import mysql, { Connection, QueryOptions } from 'mysql'
-import { Config } from '../../_type/config.js'
-import { inProduction } from '../../_util/env2.js'
+import { Config } from '../../_type/config'
+import { inProduction } from '../../_util/env2'
 
 export class DB {
 

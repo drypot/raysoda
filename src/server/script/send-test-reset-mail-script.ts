@@ -1,12 +1,12 @@
-import { loadConfigSync } from '../_util/config-loader.js'
-import { Mailer } from '../mailer/mailer2.js'
-import { DB } from '../db/_db/db.js'
-import { UserDB } from '../db/user/user-db.js'
-import { ResetDB } from '../db/password/reset-db.js'
-import { logError } from '../_util/error2.js'
-import { userSendResetPasswordMailService } from '../service/user-auth/user-password-service.js'
-import { insertUserFix4 } from '../db/user/fixture/user-fix.js'
-import { ErrorConst } from '../_type/error.js'
+import { loadConfigSync } from '../_util/config-loader'
+import { Mailer } from '../mailer/mailer2'
+import { DB } from '../db/_db/db'
+import { UserDB } from '../db/user/user-db'
+import { ResetDB } from '../db/password/reset-db'
+import { logError } from '../_util/error2'
+import { userSendResetPasswordMailService } from '../service/user-auth/user-password-service'
+import { insertUserFix4 } from '../db/user/fixture/user-fix'
+import { ErrorConst } from '../_type/error'
 
 let dbToClose: DB
 

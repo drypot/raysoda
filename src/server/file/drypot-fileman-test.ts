@@ -1,11 +1,11 @@
-import { loadConfigSync } from '../_util/config-loader.js'
-import { ImageFileManager } from './fileman.js'
+import { loadConfigSync } from '../_util/config-loader'
+import { ImageFileManager } from './fileman'
 import { existsSync } from 'fs'
-import { DrypotFileManager } from './drypot-fileman.js'
-import { IMAGE_TYPE } from '../_type/error-image.js'
-import { newImageMeta } from '../_type/image-meta.js'
-import { Config } from '../_type/config.js'
-import { ErrorConst } from '../_type/error.js'
+import { DrypotFileManager } from './drypot-fileman'
+import { IMAGE_TYPE } from '../_type/error-image'
+import { newImageMeta } from '../_type/image-meta'
+import { Config } from '../_type/config'
+import { ErrorConst } from '../_type/error'
 
 describe('DrypotFileManager', () => {
 

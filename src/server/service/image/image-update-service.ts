@@ -1,12 +1,12 @@
-import { ImageDB } from '../../db/image/image-db.js'
-import { ImageFileManager } from '../../file/fileman.js'
-import { ImageUpdateForm } from '../../_type/image-form.js'
-import { Image } from '../../_type/image.js'
-import { ErrorConst } from '../../_type/error.js'
-import { User } from '../../_type/user.js'
-import { IMAGE_NOT_EXIST } from '../../_type/error-image.js'
-import { NOT_AUTHORIZED } from '../../_type/error-user.js'
-import { userCanUpdateImage } from './_image-service.js'
+import { ImageDB } from '../../db/image/image-db'
+import { ImageFileManager } from '../../file/fileman'
+import { ImageUpdateForm } from '../../_type/image-form'
+import { Image } from '../../_type/image'
+import { ErrorConst } from '../../_type/error'
+import { User } from '../../_type/user'
+import { IMAGE_NOT_EXIST } from '../../_type/error-image'
+import { NOT_AUTHORIZED } from '../../_type/error-user'
+import { userCanUpdateImage } from './_image-service'
 
 export async function checkImageUpdatable(
   idb: ImageDB, user: User, id: number, err: ErrorConst[]

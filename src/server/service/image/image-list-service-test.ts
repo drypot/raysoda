@@ -1,13 +1,13 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../../db/_db/db.js'
-import { UserDB } from '../../db/user/user-db.js'
-import { ImageDB } from '../../db/image/image-db.js'
-import { ImageFileManager } from '../../file/fileman.js'
-import { RaySodaFileManager } from '../../file/raysoda-fileman.js'
-import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
-import { imageListByCdateService, imageListByUserService, imageListService } from './image-list-service.js'
-import { Config } from '../../_type/config.js'
-import { UserCache } from '../../db/user/cache/user-cache.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../../db/_db/db'
+import { UserDB } from '../../db/user/user-db'
+import { ImageDB } from '../../db/image/image-db'
+import { ImageFileManager } from '../../file/fileman'
+import { RaySodaFileManager } from '../../file/raysoda-fileman'
+import { insertUserFix4 } from '../../db/user/fixture/user-fix'
+import { imageListByCdateService, imageListByUserService, imageListService } from './image-list-service'
+import { Config } from '../../_type/config'
+import { UserCache } from '../../db/user/cache/user-cache'
 
 describe('imageList*Service', () => {
 

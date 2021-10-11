@@ -1,5 +1,5 @@
-import { BannerDB } from '../../db/banner/banner-db.js'
-import { Banner } from '../../_type/banner.js'
+import { BannerDB } from '../../db/banner/banner-db'
+import { Banner } from '../../_type/banner'
 
 export function bannerListService(bdb: BannerDB) {
   return bdb.getCached()

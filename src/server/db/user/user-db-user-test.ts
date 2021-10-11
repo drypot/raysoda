@@ -1,8 +1,8 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../_db/db.js'
-import { UserDB } from './user-db.js'
-import { newUser } from '../../_type/user.js'
-import { Config } from '../../_type/config.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../_db/db'
+import { UserDB } from './user-db'
+import { newUser } from '../../_type/user'
+import { Config } from '../../_type/config'
 
 describe('UserDB.findUser*', () => {
 

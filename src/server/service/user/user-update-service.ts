@@ -1,4 +1,4 @@
-import { User } from '../../_type/user.js'
+import { User } from '../../_type/user'
 import {
   checkEmailDupe,
   checkEmailFormat,
@@ -7,13 +7,13 @@ import {
   checkNameDupe,
   checkNameFormat,
   checkPasswordFormat
-} from './_user-service.js'
-import { makeHash } from '../../_util/hash.js'
-import { UserCache } from '../../db/user/cache/user-cache.js'
-import { ErrorConst } from '../../_type/error.js'
-import { newUserUpdateForm, UserUpdateForm } from '../../_type/user-form.js'
-import { NOT_AUTHORIZED, USER_NOT_FOUND } from '../../_type/error-user.js'
-import { userCanUpdateUser } from '../user-auth/user-auth-service.js'
+} from './_user-service'
+import { makeHash } from '../../_util/hash'
+import { UserCache } from '../../db/user/cache/user-cache'
+import { ErrorConst } from '../../_type/error'
+import { newUserUpdateForm, UserUpdateForm } from '../../_type/user-form'
+import { NOT_AUTHORIZED, USER_NOT_FOUND } from '../../_type/error-user'
+import { userCanUpdateUser } from '../user-auth/user-auth-service'
 
 export async function checkUserUpdatable(uc: UserCache, user: User, id: number, err: ErrorConst[]) {
   const user2 = await uc.getCachedById(id)

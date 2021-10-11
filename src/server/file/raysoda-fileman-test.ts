@@ -1,12 +1,12 @@
-import { loadConfigSync } from '../_util/config-loader.js'
-import { ImageFileManager } from './fileman.js'
-import { RaySodaFileManager } from './raysoda-fileman.js'
-import { getImageMetaOfFile } from './magick/magick2.js'
+import { loadConfigSync } from '../_util/config-loader'
+import { ImageFileManager } from './fileman'
+import { RaySodaFileManager } from './raysoda-fileman'
+import { getImageMetaOfFile } from './magick/magick2'
 import { existsSync } from 'fs'
-import { IMAGE_SIZE } from '../_type/error-image.js'
-import { newImageMeta } from '../_type/image-meta.js'
-import { Config } from '../_type/config.js'
-import { ErrorConst } from '../_type/error.js'
+import { IMAGE_SIZE } from '../_type/error-image'
+import { newImageMeta } from '../_type/image-meta'
+import { Config } from '../_type/config'
+import { ErrorConst } from '../_type/error'
 
 describe('RaySodaFileManager', () => {
 

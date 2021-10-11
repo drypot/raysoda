@@ -1,13 +1,13 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../../db/_db/db.js'
-import { UserDB } from '../../db/user/user-db.js'
-import { ADMIN, insertUserFix1, USER1 } from '../../db/user/fixture/user-fix.js'
-import { userDetailService } from './user-detail-service.js'
-import { Config } from '../../_type/config.js'
-import { UserCache } from '../../db/user/cache/user-cache.js'
-import { dateNull } from '../../_util/date2.js'
-import { ErrorConst } from '../../_type/error.js'
-import { GUEST } from '../../_type/user.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../../db/_db/db'
+import { UserDB } from '../../db/user/user-db'
+import { ADMIN, insertUserFix1, USER1 } from '../../db/user/fixture/user-fix'
+import { userDetailService } from './user-detail-service'
+import { Config } from '../../_type/config'
+import { UserCache } from '../../db/user/cache/user-cache'
+import { dateNull } from '../../_util/date2'
+import { ErrorConst } from '../../_type/error'
+import { GUEST } from '../../_type/user'
 
 describe('userDetailService', () => {
 

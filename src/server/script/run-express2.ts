@@ -1,6 +1,6 @@
-import { loadConfigSync } from '../_util/config-loader.js'
-import { Express2 } from '../web/_express/express2.js'
-import { INVALID_DATA } from '../_type/error.js'
+import { loadConfigSync } from '../_util/config-loader'
+import { Express2 } from '../web/_express/express2'
+import { INVALID_DATA } from '../_type/error'
 
 const config = loadConfigSync('config/app-dev.json')
 const web = Express2.from(config)

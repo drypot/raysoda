@@ -1,6 +1,6 @@
-import { DB } from '../_db/db.js'
-import { Config } from '../../_type/config.js'
-import { inProduction } from '../../_util/env2.js'
+import { DB } from '../_db/db'
+import { Config } from '../../_type/config'
+import { inProduction } from '../../_util/env2'
 
 export class ValueDB {
 

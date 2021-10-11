@@ -1,4 +1,4 @@
-import { dateNull } from '../_util/date2.js'
+import { dateNull } from '../_util/date2'
 
 export type Image = {
   id: number

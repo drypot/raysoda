@@ -1,9 +1,9 @@
-import { Config } from '../../_type/config.js'
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { CounterDB } from '../../db/counter/counter-db.js'
-import { DB } from '../../db/_db/db.js'
-import { counterListService } from './counter-service.js'
-import { dupe } from '../../_util/object2.js'
+import { Config } from '../../_type/config'
+import { loadConfigSync } from '../../_util/config-loader'
+import { CounterDB } from '../../db/counter/counter-db'
+import { DB } from '../../db/_db/db'
+import { counterListService } from './counter-service'
+import { dupe } from '../../_util/object2'
 
 describe('Counter Api List', () => {
 

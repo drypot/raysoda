@@ -1,5 +1,5 @@
-import { ValueDB } from '../value/value-db.js'
-import { Banner } from '../../_type/banner.js'
+import { ValueDB } from '../value/value-db'
+import { Banner } from '../../_type/banner'
 
 export class BannerDB {
 

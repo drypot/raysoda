@@ -1,4 +1,4 @@
-import { CounterDB } from '../../db/counter/counter-db.js'
+import { CounterDB } from '../../db/counter/counter-db'
 
 export async function counterIncService(cdb: CounterDB, id: string) {
   await cdb.increaseCounter(id)

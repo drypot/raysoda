@@ -1,11 +1,11 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../../db/_db/db.js'
-import { UserDB } from '../../db/user/user-db.js'
-import { checkEmailDupe, checkHomeDupe, checkNameDupe } from './_user-service.js'
-import { insertUserFix1 } from '../../db/user/fixture/user-fix.js'
-import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE } from '../../_type/error-user.js'
-import { Config } from '../../_type/config.js'
-import { ErrorConst } from '../../_type/error.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../../db/_db/db'
+import { UserDB } from '../../db/user/user-db'
+import { checkEmailDupe, checkHomeDupe, checkNameDupe } from './_user-service'
+import { insertUserFix1 } from '../../db/user/fixture/user-fix'
+import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE } from '../../_type/error-user'
+import { Config } from '../../_type/config'
+import { ErrorConst } from '../../_type/error'
 
 describe('User Service', () => {
 

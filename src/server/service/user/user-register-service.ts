@@ -6,12 +6,12 @@ import {
   checkNameDupe,
   checkNameFormat,
   checkPasswordFormat
-} from './_user-service.js'
-import { newUser } from '../../_type/user.js'
-import { UserDB } from '../../db/user/user-db.js'
-import { makeHash } from '../../_util/hash.js'
-import { ErrorConst } from '../../_type/error.js'
-import { UserRegisterForm } from '../../_type/user-form.js'
+} from './_user-service'
+import { newUser } from '../../_type/user'
+import { UserDB } from '../../db/user/user-db'
+import { makeHash } from '../../_util/hash'
+import { ErrorConst } from '../../_type/error'
+import { UserRegisterForm } from '../../_type/user-form'
 
 export async function userRegisterService(udb: UserDB, form: UserRegisterForm, err: ErrorConst[]) {
   checkNameFormat(form.name, err)

@@ -1,7 +1,7 @@
-import { UserCache } from '../../db/user/cache/user-cache.js'
-import { ErrorConst } from '../../_type/error.js'
-import { User } from '../../_type/user.js'
-import { checkUserUpdatable } from './user-update-service.js'
+import { UserCache } from '../../db/user/cache/user-cache'
+import { ErrorConst } from '../../_type/error'
+import { User } from '../../_type/user'
+import { checkUserUpdatable } from './user-update-service'
 
 export async function userDeactivateService(uc: UserCache, user: User, id: number, err: ErrorConst[]) {
   const user2 = await checkUserUpdatable(uc, user, id, err)

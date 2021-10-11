@@ -1,6 +1,6 @@
-import { ImageMeta } from '../_type/image-meta.js'
-import { Config } from '../_type/config.js'
-import { ErrorConst } from '../_type/error.js'
+import { ImageMeta } from '../_type/image-meta'
+import { Config } from '../_type/config'
+import { ErrorConst } from '../_type/error'
 
 export interface ImageFileManager {
 

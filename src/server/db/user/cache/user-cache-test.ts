@@ -1,9 +1,9 @@
-import { loadConfigSync } from '../../../_util/config-loader.js'
-import { DB } from '../../_db/db.js'
-import { UserDB } from '../user-db.js'
-import { insertUserFix1 } from '../fixture/user-fix.js'
-import { Config } from '../../../_type/config.js'
-import { UserCache } from './user-cache.js'
+import { loadConfigSync } from '../../../_util/config-loader'
+import { DB } from '../../_db/db'
+import { UserDB } from '../user-db'
+import { insertUserFix1 } from '../fixture/user-fix'
+import { Config } from '../../../_type/config'
+import { UserCache } from './user-cache'
 
 describe('UserCache', () => {
 

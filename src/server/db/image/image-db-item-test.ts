@@ -1,10 +1,10 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../_db/db.js'
-import { ImageDB } from './image-db.js'
-import { newImage } from '../../_type/image.js'
-import { dupe } from '../../_util/object2.js'
-import { dateNull } from '../../_util/date2.js'
-import { Config } from '../../_type/config.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../_db/db'
+import { ImageDB } from './image-db'
+import { newImage } from '../../_type/image'
+import { dupe } from '../../_util/object2'
+import { dateNull } from '../../_util/date2'
+import { Config } from '../../_type/config'
 
 describe('ImageDB.*Image', () => {
 

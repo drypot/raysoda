@@ -1,4 +1,4 @@
-import { newErrorConst } from '../_util/error2.js'
+import { newErrorConst } from '../_util/error2'
 
 export type ErrorConst = {
   name: string

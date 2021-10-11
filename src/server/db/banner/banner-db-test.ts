@@ -1,10 +1,10 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../_db/db.js'
-import { ValueDB } from '../value/value-db.js'
-import { BannerDB } from './banner-db.js'
-import { Config } from '../../_type/config.js'
-import { Banner } from '../../_type/banner.js'
-import { dupe } from '../../_util/object2.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../_db/db'
+import { ValueDB } from '../value/value-db'
+import { BannerDB } from './banner-db'
+import { Config } from '../../_type/config'
+import { Banner } from '../../_type/banner'
+import { dupe } from '../../_util/object2'
 
 describe('BannerDB', () => {
 

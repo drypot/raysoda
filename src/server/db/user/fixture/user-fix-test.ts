@@ -1,8 +1,8 @@
-import { loadConfigSync } from '../../../_util/config-loader.js'
-import { DB } from '../../_db/db.js'
-import { UserDB } from '../user-db.js'
-import { insertUserFix1, insertUserFix4 } from './user-fix.js'
-import { Config } from '../../../_type/config.js'
+import { loadConfigSync } from '../../../_util/config-loader'
+import { DB } from '../../_db/db'
+import { UserDB } from '../user-db'
+import { insertUserFix1, insertUserFix4 } from './user-fix'
+import { Config } from '../../../_type/config'
 
 describe('User Fixture', () => {
 

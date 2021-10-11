@@ -1,4 +1,4 @@
-import { UserDB } from '../../db/user/user-db.js'
+import { UserDB } from '../../db/user/user-db'
 
 export async function userSearchService(
   udb: UserDB, q: string = '', p: number = 1, ps: number = 100, admin: boolean = false

@@ -1,5 +1,5 @@
-import { UserDB } from '../../db/user/user-db.js'
-import { emailPatternIsOk } from '../../_util/email.js'
+import { UserDB } from '../../db/user/user-db'
+import { emailPatternIsOk } from '../../_util/email'
 import {
   EMAIL_DUPE,
   EMAIL_EMPTY,
@@ -13,8 +13,8 @@ import {
   NAME_RANGE,
   PASSWORD_EMPTY,
   PASSWORD_RANGE
-} from '../../_type/error-user.js'
-import { ErrorConst } from '../../_type/error.js'
+} from '../../_type/error-user'
+import { ErrorConst } from '../../_type/error'
 
 export function checkNameFormat(name: string, err: ErrorConst[]) {
   if (name.length === 0) {

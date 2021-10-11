@@ -1,6 +1,6 @@
-import { Mailer } from '../mailer/mailer2.js'
-import { loadConfigSync } from '../_util/config-loader.js'
-import { logError } from '../_util/error2.js'
+import { Mailer } from '../mailer/mailer2'
+import { loadConfigSync } from '../_util/config-loader'
+import { logError } from '../_util/error2'
 
 async function main() {
   const config = loadConfigSync(process.argv[2])

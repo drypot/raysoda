@@ -1,11 +1,11 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../../db/_db/db.js'
-import { UserDB } from '../../db/user/user-db.js'
-import { ImageDB } from '../../db/image/image-db.js'
-import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
-import { leftTicket } from './image-upload-service.js'
-import { newImage } from '../../_type/image.js'
-import { Config } from '../../_type/config.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../../db/_db/db'
+import { UserDB } from '../../db/user/user-db'
+import { ImageDB } from '../../db/image/image-db'
+import { insertUserFix4 } from '../../db/user/fixture/user-fix'
+import { leftTicket } from './image-upload-service'
+import { newImage } from '../../_type/image'
+import { Config } from '../../_type/config'
 
 describe('imageUploadService leftTicket', () => {
 

@@ -1,9 +1,9 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../../db/_db/db.js'
-import { UserDB } from '../../db/user/user-db.js'
-import { insertUserFix4 } from '../../db/user/fixture/user-fix.js'
-import { userSearchService } from './user-search-service.js'
-import { Config } from '../../_type/config.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../../db/_db/db'
+import { UserDB } from '../../db/user/user-db'
+import { insertUserFix4 } from '../../db/user/fixture/user-fix'
+import { userSearchService } from './user-search-service'
+import { Config } from '../../_type/config'
 
 describe('userSearchService', () => {
 

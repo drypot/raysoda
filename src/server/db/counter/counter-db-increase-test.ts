@@ -1,9 +1,9 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { CounterDB } from './counter-db.js'
-import { DB } from '../_db/db.js'
-import { newDateStringNoTime } from '../../_util/date2.js'
-import { dupe } from '../../_util/object2.js'
-import { Config } from '../../_type/config.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { CounterDB } from './counter-db'
+import { DB } from '../_db/db'
+import { newDateStringNoTime } from '../../_util/date2'
+import { dupe } from '../../_util/object2'
+import { Config } from '../../_type/config'
 
 describe('CounterDB Increase', () => {
 

@@ -1,12 +1,12 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../../db/_db/db.js'
-import { UserDB } from '../../db/user/user-db.js'
-import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix.js'
-import { userActivateService, userDeactivateService } from './user-deactivate-service.js'
-import { NOT_AUTHORIZED, USER_NOT_FOUND } from '../../_type/error-user.js'
-import { Config } from '../../_type/config.js'
-import { UserCache } from '../../db/user/cache/user-cache.js'
-import { ErrorConst } from '../../_type/error.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../../db/_db/db'
+import { UserDB } from '../../db/user/user-db'
+import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix'
+import { userActivateService, userDeactivateService } from './user-deactivate-service'
+import { NOT_AUTHORIZED, USER_NOT_FOUND } from '../../_type/error-user'
+import { Config } from '../../_type/config'
+import { UserCache } from '../../db/user/cache/user-cache'
+import { ErrorConst } from '../../_type/error'
 
 describe('userDeactivateService', () => {
 

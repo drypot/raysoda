@@ -1,8 +1,8 @@
-import { DB } from '../_db/db.js'
-import { User } from '../../_type/user.js'
-import { Config } from '../../_type/config.js'
-import { UserForList } from '../../_type/user-detail.js'
-import { inProduction } from '../../_util/env2.js'
+import { DB } from '../_db/db'
+import { User } from '../../_type/user'
+import { Config } from '../../_type/config'
+import { UserForList } from '../../_type/user-detail'
+import { inProduction } from '../../_util/env2'
 
 export class UserDB {
 

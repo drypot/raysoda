@@ -1,8 +1,8 @@
-import { DB } from '../_db/db.js'
-import { newDateStringNoTime } from '../../_util/date2.js'
-import { Config } from '../../_type/config.js'
-import { Counter } from '../../_type/counter.js'
-import { inProduction } from '../../_util/env2.js'
+import { DB } from '../_db/db'
+import { newDateStringNoTime } from '../../_util/date2'
+import { Config } from '../../_type/config'
+import { Counter } from '../../_type/counter'
+import { inProduction } from '../../_util/env2'
 
 export class CounterDB {
 

@@ -1,9 +1,9 @@
-import { loadConfigSync } from '../../_util/config-loader.js'
-import { DB } from '../../db/_db/db.js'
-import { UserDB } from '../../db/user/user-db.js'
-import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix.js'
-import { userUpdateService } from './user-update-service.js'
-import { checkHash } from '../../_util/hash.js'
+import { loadConfigSync } from '../../_util/config-loader'
+import { DB } from '../../db/_db/db'
+import { UserDB } from '../../db/user/user-db'
+import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix'
+import { userUpdateService } from './user-update-service'
+import { checkHash } from '../../_util/hash'
 import {
   EMAIL_DUPE,
   EMAIL_RANGE,
@@ -13,11 +13,11 @@ import {
   NAME_RANGE,
   NOT_AUTHORIZED,
   PASSWORD_RANGE
-} from '../../_type/error-user.js'
-import { Config } from '../../_type/config.js'
-import { UserCache } from '../../db/user/cache/user-cache.js'
-import { ErrorConst } from '../../_type/error.js'
-import { newUserUpdateForm } from '../../_type/user-form.js'
+} from '../../_type/error-user'
+import { Config } from '../../_type/config'
+import { UserCache } from '../../db/user/cache/user-cache'
+import { ErrorConst } from '../../_type/error'
+import { newUserUpdateForm } from '../../_type/user-form'
 
 describe('userUpdateService', () => {
 

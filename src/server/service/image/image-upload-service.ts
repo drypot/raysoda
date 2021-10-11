@@ -1,10 +1,10 @@
-import { ImageDB } from '../../db/image/image-db.js'
-import { ImageUploadForm } from '../../_type/image-form.js'
-import { ImageFileManager } from '../../file/fileman.js'
-import { Image } from '../../_type/image.js'
-import { UserDB } from '../../db/user/user-db.js'
-import { IMAGE_NO_FILE } from '../../_type/error-image.js'
-import { ErrorConst } from '../../_type/error.js'
+import { ImageDB } from '../../db/image/image-db'
+import { ImageUploadForm } from '../../_type/image-form'
+import { ImageFileManager } from '../../file/fileman'
+import { Image } from '../../_type/image'
+import { UserDB } from '../../db/user/user-db'
+import { IMAGE_NO_FILE } from '../../_type/error-image'
+import { ErrorConst } from '../../_type/error'
 
 export async function leftTicket(idb: ImageDB, uid: number, now: Date) {
   const config = idb.config
