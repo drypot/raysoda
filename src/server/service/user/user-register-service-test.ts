@@ -1,5 +1,3 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../../db/_db/db'
 import { UserDB } from '../../db/user/user-db'
 import { insertUserFix4 } from '../../db/user/fixture/user-fix'
 import { userRegisterService } from './user-register-service'
@@ -13,29 +11,26 @@ import {
   NAME_RANGE,
   PASSWORD_RANGE
 } from '../../_type/error-user'
-import { Config } from '../../_type/config'
 import { ErrorConst } from '../../_type/error'
 import { newUserRegisterForm } from '../../_type/user-form'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('userRegisterService', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
   })
   it('fill fix', async () => {
     await insertUserFix4(udb)

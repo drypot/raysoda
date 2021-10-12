@@ -1,46 +1,41 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../../db/_db/db'
 import { UserDB } from '../../db/user/user-db'
 import { ImageDB } from '../../db/image/image-db'
-import { ImageFileManager } from '../../file/fileman'
+import { ImageFileManager } from '../../file/_fileman'
 import { insertUserFix4 } from '../../db/user/fixture/user-fix'
 import { ImageUploadForm } from '../../_type/image-form'
 import { getImageMetaOfFile } from '../../file/magick/magick2'
 import { imageUploadService } from './image-upload-service'
 import { OsokyFileManager } from '../../file/osoky-fileman'
 import { IMAGE_SIZE } from '../../_type/error-image'
-import { Config } from '../../_type/config'
 import { ErrorConst } from '../../_type/error'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('imageUploadService Osoky', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
   let idb: ImageDB
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = loadConfigSync('config/osoky-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    idb = ImageDB.from(db)
-    ifm = OsokyFileManager.from(config)
+    omanNewSession('config/osoky-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    idb = await omanGetObject('ImageDB') as ImageDB
+    ifm = await omanGetObject('OsokyFileManager') as OsokyFileManager
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 
   it('init table', async () => {
     await idb.dropTable()
-    await idb.createTable(false)
+    await idb.createTable()
   })
   it('remove image dir', async () => {
     await ifm.rmRoot()

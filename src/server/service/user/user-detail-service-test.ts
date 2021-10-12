@@ -1,35 +1,30 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../../db/_db/db'
 import { UserDB } from '../../db/user/user-db'
 import { ADMIN, insertUserFix1, USER1 } from '../../db/user/fixture/user-fix'
 import { userDetailService } from './user-detail-service'
-import { Config } from '../../_type/config'
 import { UserCache } from '../../db/user/cache/user-cache'
 import { dateNull } from '../../_util/date2'
 import { ErrorConst } from '../../_type/error'
 import { GUEST } from '../../_type/user'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('userDetailService', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
   let uc: UserCache
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    uc = await omanGetObject('UserCache') as UserCache
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
   })
   it('fill fix', async () => {
     await insertUserFix1(udb)

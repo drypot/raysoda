@@ -1,5 +1,5 @@
 import { ImageDB } from '../../db/image/image-db'
-import { ImageFileManager } from '../../file/fileman'
+import { ImageFileManager } from '../../file/_fileman'
 import { Image } from '../../_type/image'
 import { User } from '../../_type/user'
 import { newDateString } from '../../_util/date2'

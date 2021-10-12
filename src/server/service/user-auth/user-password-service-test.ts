@@ -1,5 +1,3 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../../db/_db/db'
 import { ResetDB } from '../../db/password/reset-db'
 import { Mailer } from '../../mailer/mailer2'
 import { UserDB } from '../../db/user/user-db'
@@ -8,41 +6,35 @@ import { userResetPasswordService, userSendResetPasswordMailService } from './us
 import { checkHash } from '../../_util/hash'
 import { ErrorConst, INVALID_DATA } from '../../_type/error'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../_type/error-user'
-import { Config } from '../../_type/config'
 import { UserCache } from '../../db/user/cache/user-cache'
 import { NewPasswordForm } from '../../_type/password'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('Password Reset Service', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
   let uc: UserCache
-
   let rdb: ResetDB
   let mailer: Mailer
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-
-    rdb = ResetDB.from(db)
-    mailer = Mailer.from(config).loadSync()
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    uc = await omanGetObject('UserCache') as UserCache
+    rdb = await omanGetObject('ResetDB') as ResetDB
+    mailer = await omanGetObject('Mailer') as Mailer
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
     await rdb.dropTable()
-    await rdb.createTable(false)
+    await rdb.createTable()
   })
   it('send mail, email existence check', async () => {
     const err: ErrorConst[] = []

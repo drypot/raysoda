@@ -1,46 +1,41 @@
-import { loadConfigSync } from '../../_util/config-loader'
 import { ImageUploadForm } from '../../_type/image-form'
-import { ImageFileManager } from '../../file/fileman'
+import { ImageFileManager } from '../../file/_fileman'
 import { ImageDB } from '../../db/image/image-db'
 import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix'
 import { UserDB } from '../../db/user/user-db'
 import { RaySodaFileManager } from '../../file/raysoda-fileman'
-import { DB } from '../../db/_db/db'
 import { imageUploadService } from './image-upload-service'
 import { imageUpdateGetService } from './image-update-service'
-import { Config } from '../../_type/config'
 import { ErrorConst } from '../../_type/error'
 import { NOT_AUTHORIZED } from '../../_type/error-user'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('imageUpdateGetService', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
   let idb: ImageDB
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = loadConfigSync('config/raysoda-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    idb = ImageDB.from(db)
-    ifm = RaySodaFileManager.from(config)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    idb = await omanGetObject('ImageDB') as ImageDB
+    ifm = await omanGetObject('RaySodaFileManager') as RaySodaFileManager
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 
   it('init table', async () => {
     await idb.dropTable()
-    await idb.createTable(false)
+    await idb.createTable()
   })
   it('remove image dir', async () => {
     await ifm.rmRoot()

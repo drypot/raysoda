@@ -1,13 +1,14 @@
 import { ImageDB } from '../../db/image/image-db'
 import { ImageUploadForm } from '../../_type/image-form'
-import { ImageFileManager } from '../../file/fileman'
+import { ImageFileManager } from '../../file/_fileman'
 import { Image } from '../../_type/image'
 import { UserDB } from '../../db/user/user-db'
 import { IMAGE_NO_FILE } from '../../_type/error-image'
 import { ErrorConst } from '../../_type/error'
+import { omanGetConfig } from '../../oman/oman'
 
 export async function leftTicket(idb: ImageDB, uid: number, now: Date) {
-  const config = idb.config
+  const config = omanGetConfig()
   let ticket = config.ticketMax  // 한번에 받게 되는 티켓 갯수
   let hour = 0  // 새 티켓을 받을 때까지 남은 시간
   const r = await idb.findCdateListByUser(uid, ticket)

@@ -1,29 +1,22 @@
 import { ValueDB } from '../../db/value/value-db'
-import { loadConfigSync } from '../../_util/config-loader'
-import { Config } from '../../_type/config'
 import { BannerDB } from '../../db/banner/banner-db'
-import { DB } from '../../db/_db/db'
 import { bannerListService, bannerListUpdateService } from './banner-service'
 import { Banner } from '../../_type/banner'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
-describe('Banner Api List', () => {
+describe('BannerApi List', () => {
 
-  let config: Config
-
-  let db: DB
   let vdb: ValueDB
   let bdb: BannerDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-
-    db = await DB.from(config).createDatabase()
-    vdb = ValueDB.from(db)
-    bdb = await BannerDB.from(vdb)
+    omanNewSessionForTest()
+    vdb = await omanGetObject('ValueDB') as ValueDB
+    bdb = await omanGetObject('BannerDB') as BannerDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {
@@ -36,11 +29,11 @@ describe('Banner Api List', () => {
     expect(list).toEqual([])
   })
   it('set banner list', async () => {
-     const list: Banner[] = [
-        { text: 'text1', url: 'url1' },
-        { text: 'text2', url: 'url2' },
-        { text: 'text3', url: 'url3' },
-      ]
+    const list: Banner[] = [
+      { text: 'text1', url: 'url1' },
+      { text: 'text2', url: 'url2' },
+      { text: 'text3', url: 'url3' },
+    ]
     await bannerListUpdateService(bdb, list)
   })
   it('get banner list', async () => {

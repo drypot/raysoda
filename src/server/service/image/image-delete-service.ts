@@ -1,5 +1,5 @@
 import { ImageDB } from '../../db/image/image-db'
-import { ImageFileManager } from '../../file/fileman'
+import { ImageFileManager } from '../../file/_fileman'
 import { ErrorConst } from '../../_type/error'
 import { checkImageUpdatable } from './image-update-service'
 import { User } from '../../_type/user'

@@ -1,31 +1,26 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../../db/_db/db'
 import { UserDB } from '../../db/user/user-db'
 import { checkEmailDupe, checkHomeDupe, checkNameDupe } from './_user-service'
 import { insertUserFix1 } from '../../db/user/fixture/user-fix'
 import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE } from '../../_type/error-user'
-import { Config } from '../../_type/config'
 import { ErrorConst } from '../../_type/error'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
-describe('User Service', () => {
+describe('UserService DupeCheck', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix1(udb)
   })
 

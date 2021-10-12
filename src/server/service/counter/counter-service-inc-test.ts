@@ -1,25 +1,20 @@
-import { Config } from '../../_type/config'
-import { DB } from '../../db/_db/db'
 import { newDateStringNoTime } from '../../_util/date2'
-import { loadConfigSync } from '../../_util/config-loader'
 import { CounterDB } from '../../db/counter/counter-db'
 import { counterIncService } from './counter-service'
 import { dupe } from '../../_util/object2'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('Counter Api Inc', () => {
 
-  let config: Config
-  let db: DB
   let cdb: CounterDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    cdb = CounterDB.from(db)
+    omanNewSessionForTest()
+    cdb = await omanGetObject('CounterDB') as CounterDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   const d = newDateStringNoTime(new Date())

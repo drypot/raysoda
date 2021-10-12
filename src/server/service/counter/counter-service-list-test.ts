@@ -1,24 +1,19 @@
-import { Config } from '../../_type/config'
-import { loadConfigSync } from '../../_util/config-loader'
 import { CounterDB } from '../../db/counter/counter-db'
-import { DB } from '../../db/_db/db'
 import { counterListService } from './counter-service'
 import { dupe } from '../../_util/object2'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('Counter Api List', () => {
 
-  let config: Config
-  let db: DB
   let cdb: CounterDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    cdb = CounterDB.from(db)
+    omanNewSessionForTest()
+    cdb = await omanGetObject('CounterDB') as CounterDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {

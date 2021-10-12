@@ -1,45 +1,40 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../../db/_db/db'
 import { UserDB } from '../../db/user/user-db'
 import { ImageDB } from '../../db/image/image-db'
-import { ImageFileManager } from '../../file/fileman'
+import { ImageFileManager } from '../../file/_fileman'
 import { RaySodaFileManager } from '../../file/raysoda-fileman'
 import { insertUserFix4 } from '../../db/user/fixture/user-fix'
 import { imageListByCdateService, imageListByUserService, imageListService } from './image-list-service'
-import { Config } from '../../_type/config'
 import { UserCache } from '../../db/user/cache/user-cache'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('imageList*Service', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
   let uc: UserCache
   let idb: ImageDB
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = loadConfigSync('config/raysoda-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-    idb = ImageDB.from(db)
-    ifm = RaySodaFileManager.from(config)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    uc = await omanGetObject('UserCache') as UserCache
+    idb = await omanGetObject('ImageDB') as ImageDB
+    ifm = await omanGetObject('RaySodaFileManager') as RaySodaFileManager
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 
   it('init table', async () => {
     await idb.dropTable()
-    await idb.createTable(false)
+    await idb.createTable()
   })
   it('remove image dir', async () => {
     await ifm.rmRoot()
@@ -57,7 +52,7 @@ describe('imageList*Service', () => {
       [9, 1, new Date(2003, 8, 9), '9'],
       [10, 1, new Date(2003, 9, 10), '10'],
     ]
-    await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
+    await idb.db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
   it('p 1, ps 128', async () => {
     const r = await imageListService(uc, idb, ifm, 1, 128)

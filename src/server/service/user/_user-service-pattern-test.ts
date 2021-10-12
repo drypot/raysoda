@@ -11,7 +11,7 @@ import {
 } from '../../_type/error-user'
 import { ErrorConst } from '../../_type/error'
 
-describe('User Service', () => {
+describe('UserService Pattern', () => {
 
   describe('checkNameFormat', () => {
     it('err if name empty', () => {

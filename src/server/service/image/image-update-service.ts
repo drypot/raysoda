@@ -1,5 +1,5 @@
 import { ImageDB } from '../../db/image/image-db'
-import { ImageFileManager } from '../../file/fileman'
+import { ImageFileManager } from '../../file/_fileman'
 import { ImageUpdateForm } from '../../_type/image-form'
 import { Image } from '../../_type/image'
 import { ErrorConst } from '../../_type/error'

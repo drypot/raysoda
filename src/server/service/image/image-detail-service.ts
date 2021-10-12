@@ -1,5 +1,5 @@
 import { ImageDB } from '../../db/image/image-db'
-import { ImageFileManager } from '../../file/fileman'
+import { ImageFileManager } from '../../file/_fileman'
 import { User } from '../../_type/user'
 import { Image } from '../../_type/image'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image'

@@ -1,50 +1,45 @@
 import { UserDB } from '../../db/user/user-db'
-import { loadConfigSync } from '../../_util/config-loader'
-import { ImageFileManager } from '../../file/fileman'
+import { ImageFileManager } from '../../file/_fileman'
 import { ImageUploadForm } from '../../_type/image-form'
 import { ImageDB } from '../../db/image/image-db'
 import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix'
 import { RaySodaFileManager } from '../../file/raysoda-fileman'
-import { DB } from '../../db/_db/db'
 import { imageUploadService } from './image-upload-service'
 import { imageDetailService } from './image-detail-service'
 import { IMAGE_NOT_EXIST } from '../../_type/error-image'
-import { Config } from '../../_type/config'
 import { UserCache } from '../../db/user/cache/user-cache'
 import { ErrorConst } from '../../_type/error'
 import { newDateString } from '../../_util/date2'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('imageDetailService', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
   let uc: UserCache
   let idb: ImageDB
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = loadConfigSync('config/raysoda-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-    idb = ImageDB.from(db)
-    ifm = RaySodaFileManager.from(config)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    uc = await omanGetObject('UserCache') as UserCache
+    idb = await omanGetObject('ImageDB') as ImageDB
+    ifm = await omanGetObject('RaySodaFileManager') as RaySodaFileManager
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 
   it('init table', async () => {
     await idb.dropTable()
-    await idb.createTable(false)
+    await idb.createTable()
   })
   it('remove image dir', async () => {
     await ifm.rmRoot()

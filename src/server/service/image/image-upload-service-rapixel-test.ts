@@ -1,8 +1,6 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../../db/_db/db'
 import { UserDB } from '../../db/user/user-db'
 import { ImageDB } from '../../db/image/image-db'
-import { ImageFileManager } from '../../file/fileman'
+import { ImageFileManager } from '../../file/_fileman'
 import { insertUserFix4 } from '../../db/user/fixture/user-fix'
 import { ImageUploadForm } from '../../_type/image-form'
 import { getImageMetaOfFile } from '../../file/magick/magick2'
@@ -11,38 +9,37 @@ import { RapixelFileManager } from '../../file/rapixel-fileman'
 import { copyFile } from 'fs/promises'
 import { constants } from 'fs'
 import { IMAGE_SIZE } from '../../_type/error-image'
-import { Config } from '../../_type/config'
 import { ErrorConst } from '../../_type/error'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000
 
 describe('imageUploadService Rapixel', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
   let idb: ImageDB
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = loadConfigSync('config/rapixel-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    idb = ImageDB.from(db)
-    ifm = RapixelFileManager.from(config)
+    omanNewSession('config/rapixel-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    idb = await omanGetObject('ImageDB') as ImageDB
+    ifm = await omanGetObject('RapixelFileManager') as RapixelFileManager
   })
 
   afterAll(async () => {
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 
   it('init table', async () => {
     await idb.dropTable()
-    await idb.createTable(false)
+    await idb.createTable()
   })
   it('remove image dir', async () => {
     await ifm.rmRoot()
