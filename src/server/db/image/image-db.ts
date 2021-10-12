@@ -14,12 +14,12 @@ export class ImageDB {
   readonly db: DB
   private nextId: number = 0
 
-  private constructor(db: DB) {
-    this.db = db
-  }
-
   static from(db: DB) {
     return new ImageDB(db)
+  }
+
+  private constructor(db: DB) {
+    this.db = db
   }
 
   // Table

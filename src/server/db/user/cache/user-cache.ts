@@ -18,12 +18,12 @@ export class UserCache {
 
   readonly udb: UserDB
 
-  private constructor(udb: UserDB) {
-    this.udb = udb
-  }
-
   static from(udb: UserDB) {
     return new UserCache(udb)
+  }
+
+  private constructor(udb: UserDB) {
+    this.udb = udb
   }
 
   private userIdMap = new Map

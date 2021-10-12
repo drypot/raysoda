@@ -13,12 +13,12 @@ export class ResetDB {
 
   readonly db: DB
 
-  private constructor(db: DB) {
-    this.db = db
-  }
-
   static from(db: DB) {
     return new ResetDB(db)
+  }
+
+  private constructor(db: DB) {
+    this.db = db
   }
 
   // Table

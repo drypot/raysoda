@@ -14,15 +14,19 @@ export const serviceObject: ObjMaker = async () => {
 
 export class DB {
 
-  readonly config: Config
-  private readonly conn: Connection
+  readonly dbName: string
+  readonly conn: Connection
+
+  static from(config: Config) {
+    return new DB(config)
+  }
 
   private constructor(config: Config) {
-    this.config = config
+    this.dbName = config.mysqlDatabase
     this.conn = mysql.createConnection({
-      host: this.config.mysqlServer,
-      user: this.config.mysqlUser,
-      password: this.config.mysqlPassword,
+      host: config.mysqlServer,
+      user: config.mysqlUser,
+      password: config.mysqlPassword,
       charset: 'utf8mb4',
       multipleStatements: true,
       // 광역 typeCast 는 안 하기로 한다.
@@ -32,14 +36,10 @@ export class DB {
     })
   }
 
-  static from(config: Config) {
-    return new DB(config)
-  }
-
   async createDatabase() {
     await this.query(
       'create database if not exists ?? character set utf8mb4',
-      this.config.mysqlDatabase,
+      this.dbName,
     )
     await this.changeCurrentDatabase()
     return this
@@ -48,7 +48,7 @@ export class DB {
   async changeCurrentDatabase(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.conn.changeUser(
-        { database: this.config.mysqlDatabase },
+        { database: this.dbName },
         err => err ? reject(err) : resolve()
       )
     })
@@ -58,7 +58,7 @@ export class DB {
     if (inProduction()) {
       throw (new Error('only available in development mode'))
     }
-    await this.query('drop database if exists ??', this.config.mysqlDatabase)
+    await this.query('drop database if exists ??', this.dbName)
     return this
   }
 

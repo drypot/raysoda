@@ -15,13 +15,13 @@ export class UserDB {
   readonly db: DB
   private nextId: number
 
+  static from(db: DB) {
+    return new UserDB(db)
+  }
+
   private constructor(db: DB) {
     this.db = db
     this.nextId = 0
-  }
-
-  static from(db: DB) {
-    return new UserDB(db)
   }
 
   // Table

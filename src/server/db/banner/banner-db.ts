@@ -13,12 +13,12 @@ export class BannerDB {
   readonly vdb: ValueDB
   private bannerList: Banner[] = []
 
-  private constructor(vdb: ValueDB) {
-    this.vdb = vdb
-  }
-
   static from(vdb: ValueDB) {
     return new BannerDB(vdb)
+  }
+
+  private constructor(vdb: ValueDB) {
+    this.vdb = vdb
   }
 
   async loadCache() {

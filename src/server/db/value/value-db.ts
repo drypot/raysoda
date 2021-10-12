@@ -12,12 +12,12 @@ export class ValueDB {
 
   readonly db: DB
 
-  private constructor(db: DB) {
-    this.db = db
-  }
-
   static from(db: DB) {
     return new ValueDB(db)
+  }
+
+  private constructor(db: DB) {
+    this.db = db
   }
 
   async createTable() {
