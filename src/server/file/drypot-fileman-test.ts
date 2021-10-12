@@ -1,20 +1,22 @@
-import { loadConfigSync } from '../_util/config-loader'
 import { ImageFileManager } from './fileman'
 import { existsSync } from 'fs'
 import { DrypotFileManager } from './drypot-fileman'
 import { IMAGE_TYPE } from '../_type/error-image'
 import { newImageMeta } from '../_type/image-meta'
-import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
+import { objManCloseAllObjects, objManGetObject, objManNewSession } from '../objman/object-man'
 
 describe('DrypotFileManager', () => {
 
-  let config: Config
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = loadConfigSync('config/drypot-test.json')
-    ifm = DrypotFileManager.from(config)
+    objManNewSession('config/drypot-test.json')
+    ifm = await objManGetObject('DrypotFileManager') as DrypotFileManager
+  })
+
+  afterAll(async () => {
+    await objManCloseAllObjects()
   })
 
   describe('path', () => {

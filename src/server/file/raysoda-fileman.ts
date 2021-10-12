@@ -9,21 +9,20 @@ import { ImageMeta } from '../_type/image-meta'
 import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
 import { inProduction } from '../_util/env2'
+import { ObjMaker, objManGetConfig } from '../objman/object-man'
 
 const maxWidth = 2048
 
-function subDir(id: number) {
-  return newDeepPath((id / 1000) >> 0, 2)
+export const serviceObject: ObjMaker = async () => {
+  return RaySodaFileManager.from(objManGetConfig())
 }
 
 export class RaySodaFileManager implements ImageFileManager {
 
-  public readonly config: Config
   public readonly dir: string
   public readonly url: string
 
   protected constructor(config: Config) {
-    this.config = config
     this.dir = config.uploadDir + '/public/images/'
     this.url = config.uploadUrl + '/images/'
   }
@@ -42,6 +41,21 @@ export class RaySodaFileManager implements ImageFileManager {
       throw (new Error('only available in development mode'))
     }
     return rmRecursive(this.dir)
+  }
+
+  async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
+    await mkdirRecursive(this.getDirFor(id))
+    let cmd = 'convert ' + src
+    cmd += ' -quality 92'
+    cmd += ' -auto-orient'
+    cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>'
+    cmd += ' ' + this.getPathFor(id)
+    await exec2(cmd)
+    return null
+  }
+
+  async deleteImage(id: number) {
+    return unlink(this.getPathFor(id))
   }
 
   getDirFor(id: number) {
@@ -80,19 +94,8 @@ export class RaySodaFileManager implements ImageFileManager {
     }
   }
 
-  async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
-    await mkdirRecursive(this.getDirFor(id))
-    let cmd = 'convert ' + src
-    cmd += ' -quality 92'
-    cmd += ' -auto-orient'
-    cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>'
-    cmd += ' ' + this.getPathFor(id)
-    await exec2(cmd)
-    return null
-  }
+}
 
-  async deleteImage(id: number) {
-    return unlink(this.getPathFor(id))
-  }
-
+function subDir(id: number) {
+  return newDeepPath((id / 1000) >> 0, 2)
 }

@@ -8,19 +8,18 @@ import { ImageMeta } from '../_type/image-meta'
 import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
 import { inProduction } from '../_util/env2'
+import { ObjMaker, objManGetConfig } from '../objman/object-man'
 
-function subDir(id: number) {
-  return newDeepPath((id / 1000) >> 0, 2)
+export const serviceObject: ObjMaker = async () => {
+  return DrypotFileManager.from(objManGetConfig())
 }
 
 export class DrypotFileManager implements ImageFileManager {
 
-  public readonly config: Config
-  public readonly dir: string
-  public readonly url: string
+  readonly dir: string
+  readonly url: string
 
   protected constructor(config: Config) {
-    this.config = config
     this.dir = config.uploadDir + '/public/images/'
     this.url = config.uploadUrl + '/images/'
   }
@@ -34,6 +33,16 @@ export class DrypotFileManager implements ImageFileManager {
       throw (new Error('only available in development mode'))
     }
     return rmRecursive(this.dir)
+  }
+
+  async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
+    await mkdirRecursive(this.getDirFor(id))
+    await copyFile(src, this.getPathFor(id))
+    return null
+  }
+
+  async deleteImage(id: number) {
+    return unlink(this.getPathFor(id))
   }
 
   getDirFor(id: number) {
@@ -66,14 +75,9 @@ export class DrypotFileManager implements ImageFileManager {
     }
   }
 
-  async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
-    await mkdirRecursive(this.getDirFor(id))
-    await copyFile(src, this.getPathFor(id))
-    return null
-  }
-
-  async deleteImage(id: number) {
-    return unlink(this.getPathFor(id))
-  }
-
 }
+
+function subDir(id: number) {
+  return newDeepPath((id / 1000) >> 0, 2)
+}
+

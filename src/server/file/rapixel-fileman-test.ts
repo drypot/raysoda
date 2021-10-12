@@ -1,21 +1,23 @@
-import { loadConfigSync } from '../_util/config-loader'
 import { ImageFileManager } from './fileman'
 import { getImageMetaOfFile } from './magick/magick2'
 import { existsSync } from 'fs'
 import { RapixelFileManager } from './rapixel-fileman'
 import { IMAGE_SIZE } from '../_type/error-image'
 import { newImageMeta } from '../_type/image-meta'
-import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
+import { objManCloseAllObjects, objManGetObject, objManNewSession } from '../objman/object-man'
 
 describe('RapixelFileManager', () => {
 
-  let config: Config
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = loadConfigSync('config/rapixel-test.json')
-    ifm = RapixelFileManager.from(config)
+    objManNewSession('config/rapixel-test.json')
+    ifm = await objManGetObject('RapixelFileManager') as RapixelFileManager
+  })
+
+  afterAll(async () => {
+    await objManCloseAllObjects()
   })
 
   describe('path', () => {

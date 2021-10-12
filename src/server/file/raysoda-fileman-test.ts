@@ -1,21 +1,23 @@
-import { loadConfigSync } from '../_util/config-loader'
 import { ImageFileManager } from './fileman'
 import { RaySodaFileManager } from './raysoda-fileman'
 import { getImageMetaOfFile } from './magick/magick2'
 import { existsSync } from 'fs'
 import { IMAGE_SIZE } from '../_type/error-image'
 import { newImageMeta } from '../_type/image-meta'
-import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
+import { objManCloseAllObjects, objManGetObject, objManNewSession } from '../objman/object-man'
 
 describe('RaySodaFileManager', () => {
 
-  let config: Config
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    ifm = RaySodaFileManager.from(config)
+    objManNewSession('config/raysoda-test.json')
+    ifm = await objManGetObject('RaySodaFileManager') as RaySodaFileManager
+  })
+
+  afterAll(async () => {
+    await objManCloseAllObjects()
   })
 
   describe('path', () => {

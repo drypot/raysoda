@@ -1,21 +1,23 @@
-import { loadConfigSync } from '../_util/config-loader'
 import { ImageFileManager } from './fileman'
 import { getImageMetaOfFile } from './magick/magick2'
 import { existsSync } from 'fs'
 import { OsokyFileManager } from './osoky-fileman'
 import { IMAGE_SIZE } from '../_type/error-image'
 import { newImageMeta } from '../_type/image-meta'
-import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
+import { objManCloseAllObjects, objManGetObject, objManNewSession } from '../objman/object-man'
 
 describe('OsokyFileManager', () => {
 
-  let config: Config
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    config = loadConfigSync('config/osoky-test.json')
-    ifm = OsokyFileManager.from(config)
+    objManNewSession('config/osoky-test.json')
+    ifm = await objManGetObject('OsokyFileManager') as OsokyFileManager
+  })
+
+  afterAll(async () => {
+    await objManCloseAllObjects()
   })
 
   describe('path', () => {

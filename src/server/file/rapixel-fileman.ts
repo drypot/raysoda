@@ -8,6 +8,7 @@ import { ImageMeta, WidthHeight } from '../_type/image-meta'
 import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
 import { inProduction } from '../_util/env2'
+import { ObjMaker, objManGetConfig } from '../objman/object-man'
 
 const _minWidth = 3840
 const _minHeight = 2160
@@ -30,18 +31,16 @@ const _vers: WidthHeight[] = [
   //{ width: 640 , height: 360 }
 ]
 
-function subDir(id: number) {
-  return newDeepPath(id, 3)
+export const serviceObject: ObjMaker = async () => {
+  return RapixelFileManager.from(objManGetConfig())
 }
 
 export class RapixelFileManager implements ImageFileManager {
 
-  public readonly config: Config
-  public readonly dir: string
-  public readonly url: string
+  readonly dir: string
+  readonly url: string
 
   protected constructor(config: Config) {
-    this.config = config
     this.dir = config.uploadDir + '/public/images/'
     this.url = config.uploadUrl + '/images/'
   }
@@ -55,40 +54,6 @@ export class RapixelFileManager implements ImageFileManager {
       throw (new Error('only available in development mode'))
     }
     return rmRecursive(this.dir)
-  }
-
-  getDirFor(id: number) {
-    return this.dir + subDir(id)
-  }
-
-  getPathFor(id: number, width: number): string {
-    return this.dir + subDir(id) + '/' + id + '-' + width + '.jpg'
-  }
-
-  getDirUrlFor(id: number): string {
-    return this.url + subDir(id)
-  }
-
-  getThumbUrlFor(id: number): string {
-    return this.url + subDir(id) + '/' + id + '-2560.jpg'
-  }
-
-  async beforeIdentify(path: string) {
-    return mogrifyAutoOrient(path)
-  }
-
-  async getImageMeta(path: string) {
-    return getImageMetaOfFile(path)
-  }
-
-  checkMeta(meta: ImageMeta, err: ErrorConst[]) {
-    if (!meta.format) {
-      err.push(IMAGE_TYPE)
-      return
-    }
-    if (meta.width < _minWidth - 15 || meta.height < _minHeight - 15) {
-      err.push(IMAGE_SIZE)
-    }
   }
 
   async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
@@ -126,4 +91,42 @@ export class RapixelFileManager implements ImageFileManager {
     return emptyDir(this.getDirFor(id))
   }
 
+  getDirFor(id: number) {
+    return this.dir + subDir(id)
+  }
+
+  getPathFor(id: number, width: number): string {
+    return this.dir + subDir(id) + '/' + id + '-' + width + '.jpg'
+  }
+
+  getDirUrlFor(id: number): string {
+    return this.url + subDir(id)
+  }
+
+  getThumbUrlFor(id: number): string {
+    return this.url + subDir(id) + '/' + id + '-2560.jpg'
+  }
+
+  async beforeIdentify(path: string) {
+    return mogrifyAutoOrient(path)
+  }
+
+  async getImageMeta(path: string) {
+    return getImageMetaOfFile(path)
+  }
+
+  checkMeta(meta: ImageMeta, err: ErrorConst[]) {
+    if (!meta.format) {
+      err.push(IMAGE_TYPE)
+      return
+    }
+    if (meta.width < _minWidth - 15 || meta.height < _minHeight - 15) {
+      err.push(IMAGE_SIZE)
+    }
+  }
+
+}
+
+function subDir(id: number) {
+  return newDeepPath(id, 3)
 }
