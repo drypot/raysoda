@@ -5,7 +5,10 @@
   "compilerOptions": {
     "outDir": "../../build/server",
     "rootDir": ".",
-    "sourceMap": true
+    "sourceMap": true,
+
+    // ObjectMaker 자동 등록을 위해 preserve 로 해야한다.
+    "importsNotUsedAsValues": "preserve"
   },
   "include": [
     "./**/*"
