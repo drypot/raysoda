@@ -1,19 +1,17 @@
-import { loadConfigSync } from '../../_util/config-loader'
 import { DB } from './db'
-import { Config } from '../../_type/config'
+import { objManCloseAllObjects, objManGetObject, objManNewSession } from '../../objman/object-man'
 
 describe('DB.getMaxId', () => {
 
-  let config: Config
   let db: DB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
+    objManNewSession('config/app-test.json')
+    db = await objManGetObject('DB') as DB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   it('init table', async () => {

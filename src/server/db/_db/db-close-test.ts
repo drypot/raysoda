@@ -1,15 +1,17 @@
-import { loadConfigSync } from '../../_util/config-loader'
 import { DB } from './db'
-import { Config } from '../../_type/config'
+import { objManGetObject, objManNewSession } from '../../objman/object-man'
 
 describe('DB.close', () => {
 
-  let config: Config
   let db: DB
 
-  beforeAll(() => {
-    config = loadConfigSync('config/app-test.json')
-    db = DB.from(config)
+  beforeAll(async () => {
+    objManNewSession('config/app-test.json')
+    db = await objManGetObject('DB') as DB
+  })
+
+  afterAll(async () => {
+    //await objManCloseAllObjects()
   })
 
   it('when connected, query runs', async () => {

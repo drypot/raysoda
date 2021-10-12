@@ -1,36 +1,34 @@
-import { loadConfigSync } from '../../_util/config-loader'
 import { DB } from './db'
-import { Config } from '../../_type/config'
+import { objManCloseAllObjects, objManGetObject, objManNewSession } from '../../objman/object-man'
 
 describe('DB.createIndexIfNotExists', () => {
 
-  let config: Config
   let db: DB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
+    objManNewSession('config/app-test.json')
+    db = await objManGetObject('DB') as DB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   it('init table', async () => {
-    await db.query('drop table if exists user1')
-    await db.query('create table user1(id int, email varchar(64), primary key (id))')
+    await db.query('drop table if exists table1')
+    await db.query('create table table1(id int, email varchar(64), primary key (id))')
   })
   it('find index returns nothing', async () => {
-    expect(await db.findIndex('user1', 'email')).toBeUndefined()
+    expect(await db.findIndex('table1', 'idxEmail')).toBeUndefined()
   })
   it('create index', async () => {
-    await db.createIndexIfNotExists('create index email on user1(email)')
+    await db.createIndexIfNotExists('create index idxEmail on table1(email)')
   })
   it('find index returns table', async () => {
-    expect(await db.findIndex('user1', 'email')).toBeDefined()
+    expect(await db.findIndex('table1', 'idxEmail')).toBeDefined()
   })
   it('create again does not throw', async () => {
-    await db.createIndexIfNotExists('create index email on user1(email)')
+    await db.createIndexIfNotExists('create index idxEmail on table1(email)')
   })
 
 })

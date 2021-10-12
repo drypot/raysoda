@@ -2,18 +2,18 @@ import { loadConfigSync } from '../_util/config-loader'
 import { Config } from '../_type/config'
 import { objManObjectMapping } from './object-mapping'
 
-export type ObjManObjectMaker = (forTest: boolean) => Promise<any>
-export type ObjManCloseHandler = () => Promise<any>
+export type ObjMaker = () => Promise<any>
+export type ObjCloser = () => Promise<any>
 
 type Manager = {
   config: Config
   objMap: Map<string, any>
-  closeHandlerList: ObjManCloseHandler[]
+  closeHandlerList: ObjCloser[]
 }
 
 let man: Manager
 
-export function objManReset(configPath: string) {
+export function objManNewSession(configPath: string) {
   man = {
     config: loadConfigSync(configPath),
     objMap: new Map<string, any>(),
@@ -22,17 +22,25 @@ export function objManReset(configPath: string) {
   return man.config
 }
 
-export async function objManGetObject(name: string, forTest: boolean = false): Promise<any> {
+export function objManGetConfig() {
+  return man.config
+}
+
+export async function objManGetObject(name: string): Promise<any> {
   let obj = man.objMap.get(name)
   if (!obj) {
-    const m = await import(objManObjectMapping[name])
-    obj = await m.serviceObjManObject(forTest)
+    const path = objManObjectMapping[name]
+    if (!path) {
+      throw new Error('Unknown Object Name')
+    }
+    const m = await import(path)
+    obj = await m.serviceObject()
     man.objMap.set(name, obj)
   }
   return obj
 }
 
-export function objManRegisterCloseHandler(handler: ObjManCloseHandler) {
+export function objManRegisterCloseHandler(handler: ObjCloser) {
   man.closeHandlerList.unshift(handler)
 }
 
