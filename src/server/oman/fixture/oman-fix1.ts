@@ -1,15 +1,15 @@
-import { ObjectMaker, omanRegisterCloseHandler } from '../oman'
+import { omanRegisterCloser, omanRegisterMaker } from '../oman'
 
 export type ObjManFix1 = {
   message: string
 }
 
-export const newOmanObject: ObjectMaker = async () => {
+omanRegisterMaker('ObjManFix1', async () => {
   let obj = {
     message: 'created'
   }
-  omanRegisterCloseHandler(async () => {
+  omanRegisterCloser(async () => {
     obj.message = 'destroyed'
   })
   return obj
-}
+})

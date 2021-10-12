@@ -1,59 +1,82 @@
 import { loadConfigSync } from '../_util/config-loader'
 import { Config } from '../_type/config'
-import { omanObjectMapping } from './oman-mapping'
 import { TEST_CONFIG_PATH } from '../_type/config-path'
 
 export type ObjectMaker = () => Promise<any>
 export type ObjectCloser = () => Promise<any>
 
-type Manager = {
+type Session = {
   config: Config
   objMap: Map<string, any>
-  closeHandlerList: ObjectCloser[]
+  closerList: ObjectCloser[]
 }
 
-let man: Manager
+const debug = true
+const makerMap = new Map<string, ObjectMaker>()
+let session: Session
+
+export function omanRegisterMaker(objName: string, maker: ObjectMaker) {
+  if (makerMap.get(objName)) {
+    throw new Error('Object name already used.')
+  }
+  if (debug) {
+    console.log(`${objName} maker registered.`)
+  }
+  makerMap.set(objName, maker)
+}
 
 export function omanNewSessionForTest() {
   return omanNewSession(TEST_CONFIG_PATH)
 }
 
 export function omanNewSession(configPath: string) {
-  man = {
+  session = {
     config: loadConfigSync(configPath),
     objMap: new Map<string, any>(),
-    closeHandlerList: []
+    closerList: []
   }
-  return man.config
+  return session.config
 }
 
 export function omanGetConfig() {
-  return man.config
+  return session.config
 }
 
 export async function omanGetObject(name: string): Promise<any> {
-  let obj = man.objMap.get(name)
-  if (!obj) {
-    const path = omanObjectMapping[name]
-    if (!path) {
-      throw new Error('Unknown Object Name')
+  let obj = session.objMap.get(name)
+  if (obj) {
+    if (debug) {
+      console.debug(`${name} reused.`)
     }
-    const m = await import(path)
-    obj = await m.newOmanObject()
-    man.objMap.set(name, obj)
+  }
+  if (!obj) {
+    obj = await newObject(name)
+    session.objMap.set(name, obj)
+    if (debug) {
+      console.debug(`New ${name} object registered.`)
+    }
   }
   return obj
 }
 
-export function omanRegisterCloseHandler(handler: ObjectCloser) {
-  man.closeHandlerList.unshift(handler)
+async function newObject(name: string) {
+  const maker = makerMap.get(name)
+  if (!maker) {
+    throw new Error('Unknown Object Name')
+  }
+  return maker()
+}
+
+
+export function omanRegisterCloser(closer: ObjectCloser) {
+  session.closerList.unshift(closer)
 }
 
 export async function omanCloseAllObjects() {
-  const handlerList = man.closeHandlerList
+  const closerList = session.closerList
   // @ts-ignore
-  man = undefined
-  for (const handler of handlerList) {
-    await handler()
+  session = undefined
+  for (const closer of closerList) {
+    await closer()
   }
 }
