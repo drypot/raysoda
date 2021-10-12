@@ -2,6 +2,9 @@ import { UserDB } from '../../db/user/user-db'
 import { insertUserFix4 } from '../../db/user/fixture/user-fix'
 import { userRegisterService } from './user-register-service'
 import { checkHash } from '../../_util/hash'
+import { ErrorConst } from '../../_type/error'
+import { newUserRegisterForm } from '../../_type/user-form'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 import {
   EMAIL_DUPE,
   EMAIL_RANGE,
@@ -10,10 +13,7 @@ import {
   NAME_DUPE,
   NAME_RANGE,
   PASSWORD_RANGE
-} from '../../_type/error-user'
-import { ErrorConst } from '../../_type/error'
-import { newUserRegisterForm } from '../../_type/user-form'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+} from '../../_type/error-const'
 
 describe('userRegisterService', () => {
 

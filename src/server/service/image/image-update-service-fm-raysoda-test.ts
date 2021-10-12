@@ -7,9 +7,9 @@ import { UserDB } from '../../db/user/user-db'
 import { RaySodaFileManager } from '../../file/raysoda-fileman'
 import { imageUploadService } from './image-upload-service'
 import { imageUpdateService } from './image-update-service'
-import { IMAGE_SIZE } from '../../_type/error-image'
 import { ErrorConst } from '../../_type/error'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { IMAGE_SIZE } from '../../_type/error-const'
 
 describe('imageUpdateService RaySoda', () => {
 

@@ -1,10 +1,10 @@
 import { UserDB } from '../../db/user/user-db'
 import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix'
 import { userActivateService, userDeactivateService } from './user-deactivate-service'
-import { NOT_AUTHORIZED, USER_NOT_FOUND } from '../../_type/error-user'
 import { UserCache } from '../../db/user/cache/user-cache'
 import { ErrorConst } from '../../_type/error'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { NOT_AUTHORIZED, USER_NOT_FOUND } from '../../_type/error-const'
 
 describe('userDeactivateService', () => {
 

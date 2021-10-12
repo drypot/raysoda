@@ -3,9 +3,9 @@ import { ImageUploadForm } from '../../_type/image-form'
 import { ImageFileManager } from '../../file/_fileman'
 import { Image } from '../../_type/image'
 import { UserDB } from '../../db/user/user-db'
-import { IMAGE_NO_FILE } from '../../_type/error-image'
 import { ErrorConst } from '../../_type/error'
 import { omanGetConfig } from '../../oman/oman'
+import { IMAGE_NO_FILE } from '../../_type/error-const'
 
 export async function leftTicket(idb: ImageDB, uid: number, now: Date) {
   const config = omanGetConfig()

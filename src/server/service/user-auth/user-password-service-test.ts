@@ -4,11 +4,11 @@ import { UserDB } from '../../db/user/user-db'
 import { insertUserFix4 } from '../../db/user/fixture/user-fix'
 import { userResetPasswordService, userSendResetPasswordMailService } from './user-password-service'
 import { checkHash } from '../../_util/hash'
-import { ErrorConst, INVALID_DATA } from '../../_type/error'
-import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../_type/error-user'
+import { ErrorConst } from '../../_type/error'
 import { UserCache } from '../../db/user/cache/user-cache'
 import { NewPasswordForm } from '../../_type/password'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { EMAIL_NOT_FOUND, EMAIL_PATTERN, INVALID_DATA, PASSWORD_RANGE } from '../../_type/error-const'
 
 describe('Password Reset Service', () => {
 

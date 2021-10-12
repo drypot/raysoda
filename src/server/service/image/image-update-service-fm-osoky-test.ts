@@ -7,9 +7,9 @@ import { UserDB } from '../../db/user/user-db'
 import { imageUploadService } from './image-upload-service'
 import { imageUpdateService } from './image-update-service'
 import { OsokyFileManager } from '../../file/osoky-fileman'
-import { IMAGE_SIZE } from '../../_type/error-image'
 import { ErrorConst } from '../../_type/error'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { IMAGE_SIZE } from '../../_type/error-const'
 
 describe('imageUpdateService Osoky', () => {
 

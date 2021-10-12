@@ -6,10 +6,10 @@ import { v4 as uuid } from 'uuid'
 import { Mailer } from '../../mailer/mailer2'
 import { makeHash } from '../../_util/hash'
 import { emailPatternIsOk } from '../../_util/email'
-import { ErrorConst, INVALID_DATA } from '../../_type/error'
-import { EMAIL_NOT_FOUND, EMAIL_PATTERN } from '../../_type/error-user'
+import { ErrorConst } from '../../_type/error'
 import { UserCache } from '../../db/user/cache/user-cache'
 import { NewPasswordForm, ResetToken } from '../../_type/password'
+import { EMAIL_NOT_FOUND, EMAIL_PATTERN, INVALID_DATA } from '../../_type/error-const'
 
 export async function userSendResetPasswordMailService(
     mailer: Mailer, udb: UserDB, resetDB: ResetDB, email: string, err: ErrorConst[]

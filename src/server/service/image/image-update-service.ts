@@ -4,9 +4,8 @@ import { ImageUpdateForm } from '../../_type/image-form'
 import { Image } from '../../_type/image'
 import { ErrorConst } from '../../_type/error'
 import { User } from '../../_type/user'
-import { IMAGE_NOT_EXIST } from '../../_type/error-image'
-import { NOT_AUTHORIZED } from '../../_type/error-user'
 import { userCanUpdateImage } from './_image-service'
+import { IMAGE_NOT_EXIST, NOT_AUTHORIZED } from '../../_type/error-const'
 
 export async function checkImageUpdatable(
   idb: ImageDB, user: User, id: number, err: ErrorConst[]

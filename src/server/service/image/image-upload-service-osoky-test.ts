@@ -6,9 +6,9 @@ import { ImageUploadForm } from '../../_type/image-form'
 import { getImageMetaOfFile } from '../../file/magick/magick2'
 import { imageUploadService } from './image-upload-service'
 import { OsokyFileManager } from '../../file/osoky-fileman'
-import { IMAGE_SIZE } from '../../_type/error-image'
 import { ErrorConst } from '../../_type/error'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { IMAGE_SIZE } from '../../_type/error-const'
 
 describe('imageUploadService Osoky', () => {
 

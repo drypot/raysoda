@@ -6,9 +6,9 @@ import { ImageUploadForm } from '../../_type/image-form'
 import { getImageMetaOfFile } from '../../file/magick/magick2'
 import { imageUploadService } from './image-upload-service'
 import { DrypotFileManager } from '../../file/drypot-fileman'
-import { IMAGE_TYPE } from '../../_type/error-image'
 import { ErrorConst } from '../../_type/error'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { IMAGE_TYPE } from '../../_type/error-const'
 
 describe('imageUploadService Drypot', () => {
 

@@ -1,9 +1,9 @@
 import { UserDB } from '../../db/user/user-db'
 import { checkEmailDupe, checkHomeDupe, checkNameDupe } from './_user-service'
 import { insertUserFix1 } from '../../db/user/fixture/user-fix'
-import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE } from '../../_type/error-user'
 import { ErrorConst } from '../../_type/error'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE } from '../../_type/error-const'
 
 describe('UserService DupeCheck', () => {
 

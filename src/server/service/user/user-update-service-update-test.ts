@@ -2,6 +2,10 @@ import { UserDB } from '../../db/user/user-db'
 import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix'
 import { userUpdateService } from './user-update-service'
 import { checkHash } from '../../_util/hash'
+import { UserCache } from '../../db/user/cache/user-cache'
+import { ErrorConst } from '../../_type/error'
+import { newUserUpdateForm } from '../../_type/user-form'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 import {
   EMAIL_DUPE,
   EMAIL_RANGE,
@@ -11,11 +15,7 @@ import {
   NAME_RANGE,
   NOT_AUTHORIZED,
   PASSWORD_RANGE
-} from '../../_type/error-user'
-import { UserCache } from '../../db/user/cache/user-cache'
-import { ErrorConst } from '../../_type/error'
-import { newUserUpdateForm } from '../../_type/user-form'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+} from '../../_type/error-const'
 
 describe('userUpdateService', () => {
 

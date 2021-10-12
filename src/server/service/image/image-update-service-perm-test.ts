@@ -7,8 +7,8 @@ import { RaySodaFileManager } from '../../file/raysoda-fileman'
 import { imageUploadService } from './image-upload-service'
 import { imageUpdateService } from './image-update-service'
 import { ErrorConst } from '../../_type/error'
-import { NOT_AUTHORIZED } from '../../_type/error-user'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { NOT_AUTHORIZED } from '../../_type/error-const'
 
 describe('imageUpdateService Permission', () => {
 

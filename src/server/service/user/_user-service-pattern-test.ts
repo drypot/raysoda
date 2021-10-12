@@ -1,4 +1,5 @@
 import { checkEmailFormat, checkHomeFormat, checkNameFormat, checkPasswordFormat } from './_user-service'
+import { ErrorConst } from '../../_type/error'
 import {
   EMAIL_EMPTY,
   EMAIL_RANGE,
@@ -8,8 +9,7 @@ import {
   NAME_RANGE,
   PASSWORD_EMPTY,
   PASSWORD_RANGE
-} from '../../_type/error-user'
-import { ErrorConst } from '../../_type/error'
+} from '../../_type/error-const'
 
 describe('UserService Pattern', () => {
 

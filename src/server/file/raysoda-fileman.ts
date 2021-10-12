@@ -4,12 +4,12 @@ import { mkdirRecursive, rmRecursive } from '../_util/fs2'
 import { exec2 } from '../_util/exec2'
 import { unlink } from 'fs/promises'
 import { getImageMetaOfFile } from './magick/magick2'
-import { IMAGE_SIZE, IMAGE_TYPE } from '../_type/error-image'
 import { ImageMeta } from '../_type/image-meta'
 import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
 import { inProduction } from '../_util/env2'
 import { omanGetConfig, omanRegisterFactory } from '../oman/oman'
+import { IMAGE_SIZE, IMAGE_TYPE } from '../_type/error-const'
 
 const maxWidth = 2048
 

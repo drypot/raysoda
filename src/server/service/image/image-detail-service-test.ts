@@ -6,11 +6,11 @@ import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-
 import { RaySodaFileManager } from '../../file/raysoda-fileman'
 import { imageUploadService } from './image-upload-service'
 import { imageDetailService } from './image-detail-service'
-import { IMAGE_NOT_EXIST } from '../../_type/error-image'
 import { UserCache } from '../../db/user/cache/user-cache'
 import { ErrorConst } from '../../_type/error'
 import { newDateString } from '../../_util/date2'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { IMAGE_NOT_EXIST } from '../../_type/error-const'
 
 describe('imageDetailService', () => {
 

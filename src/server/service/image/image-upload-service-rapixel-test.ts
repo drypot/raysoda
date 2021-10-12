@@ -8,9 +8,9 @@ import { imageUploadService } from './image-upload-service'
 import { RapixelFileManager } from '../../file/rapixel-fileman'
 import { copyFile } from 'fs/promises'
 import { constants } from 'fs'
-import { IMAGE_SIZE } from '../../_type/error-image'
 import { ErrorConst } from '../../_type/error'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { IMAGE_SIZE } from '../../_type/error-const'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000
 

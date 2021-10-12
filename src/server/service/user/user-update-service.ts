@@ -12,8 +12,8 @@ import { makeHash } from '../../_util/hash'
 import { UserCache } from '../../db/user/cache/user-cache'
 import { ErrorConst } from '../../_type/error'
 import { newUserUpdateForm, UserUpdateForm } from '../../_type/user-form'
-import { NOT_AUTHORIZED, USER_NOT_FOUND } from '../../_type/error-user'
 import { userCanUpdateUser } from '../user-auth/user-auth-service'
+import { NOT_AUTHORIZED, USER_NOT_FOUND } from '../../_type/error-const'
 
 export async function checkUserUpdatable(uc: UserCache, user: User, id: number, err: ErrorConst[]) {
   const user2 = await uc.getCachedById(id)

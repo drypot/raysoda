@@ -1,5 +1,12 @@
 import { newErrorConst } from '../_util/error2'
 
+// Base
+
+export const INVALID_DATA = newErrorConst('INVALID_DATA', '비정상적인 값이 입력되었습니다.')
+export const INVALID_PAGE = newErrorConst('INVALID_PAGE', '요청하신 페이지가 없습니다.')
+
+// User
+
 export const NOT_AUTHENTICATED = newErrorConst('NOT_AUTHENTICATED', '먼저 로그인해 주십시오.')
 export const NOT_AUTHORIZED = newErrorConst('NOT_AUTHORIZED', '사용 권한이 없습니다.')
 export const USER_NOT_FOUND = newErrorConst('USER_NOT_FOUND', '사용자를 찾을 수 없습니다.')
@@ -24,3 +31,11 @@ export const PASSWORD_EMPTY = newErrorConst('PASSWORD_EMPTY', '비밀번호를 �
 export const PASSWORD_RANGE = newErrorConst('PASSWORD_RANGE', '비밀번호 길이는 4 ~ 32 글자입니다.', 'password')
 
 export const RESET_TIMEOUT = newErrorConst('RESET_TIMEOUT', '비밀번호 초기화 토큰 유효시간이 지났습니다.')
+
+// Image
+
+export const IMAGE_NOT_EXIST = newErrorConst('IMAGE_NOT_EXIST', '파일이 없습니다.')
+export const IMAGE_NO_FILE = newErrorConst('IMAGE_NO_FILE', '아미지 파일이 첨부되지 않았습니다.', 'files')
+export const IMAGE_SIZE = newErrorConst('IMAGE_SIZE', '이미지의 가로, 세로 크기가 너무 작습니다.', 'files')
+export const IMAGE_TYPE = newErrorConst('IMAGE_TYPE', '인식할 수 없는 파일입니다.', 'files')
+

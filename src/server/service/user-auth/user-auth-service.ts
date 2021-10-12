@@ -1,5 +1,5 @@
 import { User, userIsAdmin, userIsUser } from '../../_type/user'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_type/error-user'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../_type/error-const'
 
 export function shouldBeUser(user: User) {
     if (!userIsUser(user)) throw NOT_AUTHENTICATED

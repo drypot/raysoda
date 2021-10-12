@@ -2,10 +2,10 @@ import { ImageFileManager } from './_fileman'
 import { getImageMetaOfFile } from './magick/magick2'
 import { existsSync } from 'fs'
 import { RapixelFileManager } from './rapixel-fileman'
-import { IMAGE_SIZE } from '../_type/error-image'
 import { newImageMeta } from '../_type/image-meta'
 import { ErrorConst } from '../_type/error'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../oman/oman'
+import { IMAGE_SIZE } from '../_type/error-const'
 
 describe('RapixelFileManager', () => {
 

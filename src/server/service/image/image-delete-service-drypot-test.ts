@@ -8,8 +8,8 @@ import { imageUploadService } from './image-upload-service'
 import { imageDeleteService } from './image-delete-service'
 import { DrypotFileManager } from '../../file/drypot-fileman'
 import { ErrorConst } from '../../_type/error'
-import { IMAGE_NOT_EXIST } from '../../_type/error-image'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { IMAGE_NOT_EXIST } from '../../_type/error-const'
 
 describe('imageDeleteService Drypot', () => {
 

@@ -2,13 +2,13 @@ import { ImageDB } from '../../db/image/image-db'
 import { ImageFileManager } from '../../file/_fileman'
 import { User } from '../../_type/user'
 import { Image } from '../../_type/image'
-import { IMAGE_NOT_EXIST } from '../../_type/error-image'
 import { ImageDetail } from '../../_type/image-detail'
 import { UserCache } from '../../db/user/cache/user-cache'
 import { ErrorConst } from '../../_type/error'
 import { SITE_OPEN_DATE } from '../../_type/date-const'
 import { userCanUpdateImage } from './_image-service'
 import { newDateString } from '../../_util/date2'
+import { IMAGE_NOT_EXIST } from '../../_type/error-const'
 
 export function newImageDetail(ifm: ImageFileManager, user: User, image: Image, owner: User): ImageDetail {
   return {

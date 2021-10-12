@@ -3,8 +3,8 @@ import { dateNull } from '../../_util/date2'
 import { newUserDetail } from '../../_type/user-detail'
 import { ErrorConst } from '../../_type/error'
 import { User } from '../../_type/user'
-import { USER_NOT_FOUND } from '../../_type/error-user'
 import { userCanUpdateUser } from '../user-auth/user-auth-service'
+import { USER_NOT_FOUND } from '../../_type/error-const'
 
 export async function userDetailService(uc: UserCache, user: User, id: number, err: ErrorConst[]) {
   const target = await uc.getCachedById(id)

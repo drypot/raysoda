@@ -1,10 +1,10 @@
 import { ImageFileManager } from './_fileman'
 import { existsSync } from 'fs'
 import { DrypotFileManager } from './drypot-fileman'
-import { IMAGE_TYPE } from '../_type/error-image'
 import { newImageMeta } from '../_type/image-meta'
 import { ErrorConst } from '../_type/error'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../oman/oman'
+import { IMAGE_TYPE } from '../_type/error-const'
 
 describe('DrypotFileManager', () => {
 

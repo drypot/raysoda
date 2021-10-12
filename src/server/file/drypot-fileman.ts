@@ -3,12 +3,12 @@ import { newDeepPath } from '../_util/deeppath'
 import { mkdirRecursive, rmRecursive } from '../_util/fs2'
 import { copyFile, unlink } from 'fs/promises'
 import { getImageMetaOfFile } from './magick/magick2'
-import { IMAGE_TYPE } from '../_type/error-image'
 import { ImageMeta } from '../_type/image-meta'
 import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
 import { inProduction } from '../_util/env2'
 import { omanGetConfig, omanRegisterFactory } from '../oman/oman'
+import { IMAGE_TYPE } from '../_type/error-const'
 
 omanRegisterFactory('DrypotFileManager', async () => {
   return DrypotFileManager.from(omanGetConfig())
