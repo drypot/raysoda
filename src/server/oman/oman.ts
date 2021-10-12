@@ -2,27 +2,27 @@ import { loadConfigSync } from '../_util/config-loader'
 import { Config } from '../_type/config'
 import { TEST_CONFIG_PATH } from '../_type/config-path'
 
-export type ObjectMaker = () => Promise<any>
-export type ObjectCloser = () => Promise<any>
+export type OmanFactory = () => Promise<any>
+export type OmanCloser = () => Promise<any>
 
 type Session = {
   config: Config
   objMap: Map<string, any>
-  closerList: ObjectCloser[]
+  closerList: OmanCloser[]
 }
 
-const debug = true
-const makerMap = new Map<string, ObjectMaker>()
+const debug = false
+const factoryMap = new Map<string, OmanFactory>()
 let session: Session
 
-export function omanRegisterMaker(objName: string, maker: ObjectMaker) {
-  if (makerMap.get(objName)) {
+export function omanRegisterFactory(name: string, factory: OmanFactory) {
+  if (factoryMap.get(name)) {
     throw new Error('Object name already used.')
   }
   if (debug) {
-    console.log(`${objName} maker registered.`)
+    console.log(`${name} maker registered.`)
   }
-  makerMap.set(objName, maker)
+  factoryMap.set(name, factory)
 }
 
 export function omanNewSessionForTest() {
@@ -60,7 +60,7 @@ export async function omanGetObject(name: string): Promise<any> {
 }
 
 async function newObject(name: string) {
-  const maker = makerMap.get(name)
+  const maker = factoryMap.get(name)
   if (!maker) {
     throw new Error('Unknown Object Name')
   }
@@ -68,7 +68,7 @@ async function newObject(name: string) {
 }
 
 
-export function omanRegisterCloser(closer: ObjectCloser) {
+export function omanRegisterCloser(closer: OmanCloser) {
   session.closerList.unshift(closer)
 }
 

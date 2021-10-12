@@ -1,13 +1,13 @@
 import { DB } from '../_db/db'
 import { Image } from '../../_type/image'
 import { inProduction } from '../../_util/env2'
-import { ObjectMaker, omanGetObject } from '../../oman/oman'
+import { omanGetObject, omanRegisterFactory } from '../../oman/oman'
 
-export const newOmanObject: ObjectMaker = async () => {
+omanRegisterFactory('ImageDB', async () => {
   const idb = ImageDB.from(await omanGetObject('DB') as DB)
   await idb.createTable()
   return idb
-}
+})
 
 export class ImageDB {
 

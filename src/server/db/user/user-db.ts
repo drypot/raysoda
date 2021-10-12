@@ -2,13 +2,13 @@ import { DB } from '../_db/db'
 import { User } from '../../_type/user'
 import { UserForList } from '../../_type/user-detail'
 import { inProduction } from '../../_util/env2'
-import { ObjectMaker, omanGetObject } from '../../oman/oman'
+import { omanGetObject, omanRegisterFactory } from '../../oman/oman'
 
-export const newOmanObject: ObjectMaker = async () => {
+omanRegisterFactory('UserDB', async () => {
   const udb = UserDB.from(await omanGetObject('DB') as DB)
   await udb.createTable()
   return udb
-}
+})
 
 export class UserDB {
 

@@ -1,12 +1,12 @@
 import { DB } from '../_db/db'
 import { inProduction } from '../../_util/env2'
-import { ObjectMaker, omanGetObject } from '../../oman/oman'
+import { omanGetObject, omanRegisterFactory } from '../../oman/oman'
 
-export const newOmanObject: ObjectMaker = async () => {
+omanRegisterFactory('ValueDB', async () => {
   const vdb = ValueDB.from(await omanGetObject('DB') as DB)
   await vdb.createTable()
   return vdb
-}
+})
 
 export class ValueDB {
 

@@ -1,10 +1,10 @@
-import { omanRegisterCloser, omanRegisterMaker } from '../oman'
+import { omanRegisterCloser, omanRegisterFactory } from '../oman'
 
 export type ObjManFix1 = {
   message: string
 }
 
-omanRegisterMaker('ObjManFix1', async () => {
+omanRegisterFactory('ObjManFix1', async () => {
   let obj = {
     message: 'created'
   }

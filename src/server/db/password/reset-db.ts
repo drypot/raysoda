@@ -1,13 +1,13 @@
 import { DB } from '../_db/db'
 import { ResetToken } from '../../_type/password'
 import { inProduction } from '../../_util/env2'
-import { ObjectMaker, omanGetObject } from '../../oman/oman'
+import { omanGetObject, omanRegisterFactory } from '../../oman/oman'
 
-export const newOmanObject: ObjectMaker = async () => {
+omanRegisterFactory('ResetDB', async () => {
   const rdb = ResetDB.from(await omanGetObject('DB') as DB)
   await rdb.createTable()
   return rdb
-}
+})
 
 export class ResetDB {
 

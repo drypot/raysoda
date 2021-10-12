@@ -1,12 +1,12 @@
 import { ValueDB } from '../value/value-db'
 import { Banner } from '../../_type/banner'
-import { ObjectMaker, omanGetObject } from '../../oman/oman'
+import { omanGetObject, omanRegisterFactory } from '../../oman/oman'
 
-export const newOmanObject: ObjectMaker = async () => {
+omanRegisterFactory('BannerDB', async () => {
   const bdb = BannerDB.from(await omanGetObject('ValueDB') as ValueDB)
   await bdb.loadCache()
   return bdb
-}
+})
 
 export class BannerDB {
 

@@ -2,13 +2,13 @@ import { DB } from '../_db/db'
 import { newDateStringNoTime } from '../../_util/date2'
 import { Counter } from '../../_type/counter'
 import { inProduction } from '../../_util/env2'
-import { ObjectMaker, omanGetObject } from '../../oman/oman'
+import { omanGetObject, omanRegisterFactory } from '../../oman/oman'
 
-export const newOmanObject: ObjectMaker = async () => {
+omanRegisterFactory('CounterDB', async () => {
   const cdb = CounterDB.from(await omanGetObject('DB') as DB)
   await cdb.createTable()
   return cdb
-}
+})
 
 export class CounterDB {
 
