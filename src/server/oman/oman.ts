@@ -67,7 +67,6 @@ async function newObject(name: string) {
   return maker()
 }
 
-
 export function omanRegisterCloser(closer: OmanCloser) {
   session.closerList.unshift(closer)
 }
