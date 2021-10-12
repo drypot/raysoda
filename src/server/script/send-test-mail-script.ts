@@ -4,7 +4,7 @@ import { logError } from '../_util/error2'
 
 async function main() {
   const config = loadConfigSync(process.argv[2])
-  const mailer = await Mailer.from(config).loadSync()
+  const mailer = await Mailer.from(config)
   const mail = {
     from: 'no-reply@raysoda.com',
     to: process.argv[3],

@@ -1,6 +1,7 @@
 import { loadConfigSync } from '../_util/config-loader'
 import { Config } from '../_type/config'
 import { omanObjectMapping } from './oman-mapping'
+import { TEST_CONFIG_PATH } from '../_type/config-path'
 
 export type ObjectMaker = () => Promise<any>
 export type ObjectCloser = () => Promise<any>
@@ -14,7 +15,7 @@ type Manager = {
 let man: Manager
 
 export function omanNewSessionForTest() {
-  return omanNewSession('config/app-test.json')
+  return omanNewSession(TEST_CONFIG_PATH)
 }
 
 export function omanNewSession(configPath: string) {

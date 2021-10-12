@@ -1,13 +1,17 @@
 import { Mailer } from './mailer2'
-import { loadConfigSync } from '../_util/config-loader'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../oman/oman'
 
 describe('Mailer', () => {
 
   let mailer: Mailer
 
-  beforeAll(() => {
-    const config = loadConfigSync('config/app-test.json')
-    mailer = Mailer.from(config).loadSync()
+  beforeAll(async () => {
+    omanNewSessionForTest()
+    mailer = await omanGetObject('Mailer') as Mailer
+  })
+
+  afterAll(async () => {
+    await omanCloseAllObjects()
   })
 
   describe('sendMail', () => {

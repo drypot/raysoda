@@ -15,7 +15,7 @@
   "mysqlUser": "drypot",
   "mysqlPassword": "",
 
-  "mailServer": "",
+  "mailServerConfigPath": "config/mail-test.json",
 
   "ticketGenInterval": 18,
   "ticketMax": 3

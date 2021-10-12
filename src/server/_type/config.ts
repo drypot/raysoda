@@ -15,7 +15,7 @@ export type Config = {
   mysqlUser: string
   mysqlPassword: string
 
-  mailServer: string
+  mailServerConfigPath: string
 
   ticketGenInterval: number
   ticketMax: number
