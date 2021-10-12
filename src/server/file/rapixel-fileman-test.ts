@@ -5,19 +5,19 @@ import { RapixelFileManager } from './rapixel-fileman'
 import { IMAGE_SIZE } from '../_type/error-image'
 import { newImageMeta } from '../_type/image-meta'
 import { ErrorConst } from '../_type/error'
-import { objManCloseAllObjects, objManGetObject, objManNewSession } from '../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../oman/oman'
 
 describe('RapixelFileManager', () => {
 
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    objManNewSession('config/rapixel-test.json')
-    ifm = await objManGetObject('RapixelFileManager') as RapixelFileManager
+    omanNewSession('config/rapixel-test.json')
+    ifm = await omanGetObject('RapixelFileManager') as RapixelFileManager
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   describe('path', () => {

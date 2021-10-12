@@ -1,17 +1,17 @@
 import { DB } from './db'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('DB.*Database', () => {
 
   let db: DB
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    db = await objManGetObject('DB') as DB
+    omanNewSessionForTest()
+    db = await omanGetObject('DB') as DB
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   it('drop database', async () => {

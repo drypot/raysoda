@@ -1,18 +1,18 @@
 import { CounterDB } from './counter-db'
 import { dupe } from '../../_util/object2'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('CounterDB Replace', () => {
 
   let cdb: CounterDB
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    cdb = await objManGetObject('CounterDB') as CounterDB
+    omanNewSessionForTest()
+    cdb = await omanGetObject('CounterDB') as CounterDB
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {

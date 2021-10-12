@@ -1,18 +1,18 @@
 import { ResetDB } from './reset-db'
 import { ResetToken } from '../../_type/password'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('ResetDB Token', () => {
 
   let rdb: ResetDB
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    rdb = await objManGetObject('ResetDB') as ResetDB
+    omanNewSessionForTest()
+    rdb = await omanGetObject('ResetDB') as ResetDB
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {

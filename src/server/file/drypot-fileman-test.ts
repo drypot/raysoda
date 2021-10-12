@@ -4,19 +4,19 @@ import { DrypotFileManager } from './drypot-fileman'
 import { IMAGE_TYPE } from '../_type/error-image'
 import { newImageMeta } from '../_type/image-meta'
 import { ErrorConst } from '../_type/error'
-import { objManCloseAllObjects, objManGetObject, objManNewSession } from '../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../oman/oman'
 
 describe('DrypotFileManager', () => {
 
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    objManNewSession('config/drypot-test.json')
-    ifm = await objManGetObject('DrypotFileManager') as DrypotFileManager
+    omanNewSession('config/drypot-test.json')
+    ifm = await omanGetObject('DrypotFileManager') as DrypotFileManager
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   describe('path', () => {

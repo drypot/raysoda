@@ -2,10 +2,10 @@ import { DB } from '../_db/db'
 import { newDateStringNoTime } from '../../_util/date2'
 import { Counter } from '../../_type/counter'
 import { inProduction } from '../../_util/env2'
-import { ObjMaker, objManGetObject } from '../../objman/object-man'
+import { ObjectMaker, omanGetObject } from '../../oman/oman'
 
-export const serviceObject: ObjMaker = async () => {
-  const cdb = CounterDB.from(await objManGetObject('DB') as DB)
+export const newOmanObject: ObjectMaker = async () => {
+  const cdb = CounterDB.from(await omanGetObject('DB') as DB)
   await cdb.createTable()
   return cdb
 }

@@ -8,7 +8,7 @@ import { ImageMeta, WidthHeight } from '../_type/image-meta'
 import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
 import { inProduction } from '../_util/env2'
-import { ObjMaker, objManGetConfig } from '../objman/object-man'
+import { ObjectMaker, omanGetConfig } from '../oman/oman'
 
 const _minWidth = 3840
 const _minHeight = 2160
@@ -31,8 +31,8 @@ const _vers: WidthHeight[] = [
   //{ width: 640 , height: 360 }
 ]
 
-export const serviceObject: ObjMaker = async () => {
-  return RapixelFileManager.from(objManGetConfig())
+export const newOmanObject: ObjectMaker = async () => {
+  return RapixelFileManager.from(omanGetConfig())
 }
 
 export class RapixelFileManager implements ImageFileManager {

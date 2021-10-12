@@ -9,12 +9,12 @@ import { ImageMeta } from '../_type/image-meta'
 import { Config } from '../_type/config'
 import { ErrorConst } from '../_type/error'
 import { inProduction } from '../_util/env2'
-import { ObjMaker, objManGetConfig } from '../objman/object-man'
+import { ObjectMaker, omanGetConfig } from '../oman/oman'
 
 const maxWidth = 2048
 
-export const serviceObject: ObjMaker = async () => {
-  return OsokyFileManager.from(objManGetConfig())
+export const newOmanObject: ObjectMaker = async () => {
+  return OsokyFileManager.from(omanGetConfig())
 }
 
 export class OsokyFileManager implements ImageFileManager {

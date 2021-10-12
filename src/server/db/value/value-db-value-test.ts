@@ -1,17 +1,17 @@
 import { ValueDB } from './value-db'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('ValueDB Value', () => {
 
   let vdb: ValueDB
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    vdb = await objManGetObject('ValueDB') as ValueDB
+    omanNewSessionForTest()
+    vdb = await omanGetObject('ValueDB') as ValueDB
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {

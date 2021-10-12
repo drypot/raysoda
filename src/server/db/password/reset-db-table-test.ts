@@ -1,17 +1,17 @@
 import { ResetDB } from './reset-db'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('ResetDB Table', () => {
 
   let rdb: ResetDB
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    rdb = await objManGetObject('ResetDB') as ResetDB
+    omanNewSessionForTest()
+    rdb = await omanGetObject('ResetDB') as ResetDB
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   it('drop table', async () => {

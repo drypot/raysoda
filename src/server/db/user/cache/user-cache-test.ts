@@ -1,18 +1,18 @@
 import { insertUserFix1 } from '../fixture/user-fix'
 import { UserCache } from './user-cache'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../../oman/oman'
 
 describe('UserCache', () => {
 
   let uc: UserCache
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    uc = await objManGetObject('UserCache') as UserCache
+    omanNewSessionForTest()
+    uc = await omanGetObject('UserCache') as UserCache
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {

@@ -1,12 +1,12 @@
 import mysql, { Connection, QueryOptions } from 'mysql'
 import { Config } from '../../_type/config'
 import { inProduction } from '../../_util/env2'
-import { ObjMaker, objManGetConfig, objManRegisterCloseHandler } from '../../objman/object-man'
+import { ObjectMaker, omanGetConfig, omanRegisterCloseHandler } from '../../oman/oman'
 
-export const serviceObject: ObjMaker = async () => {
-  const db = DB.from(objManGetConfig())
+export const newOmanObject: ObjectMaker = async () => {
+  const db = DB.from(omanGetConfig())
   await db.createDatabase()
-  objManRegisterCloseHandler(async () => {
+  omanRegisterCloseHandler(async () => {
     await db.close()
   })
   return db

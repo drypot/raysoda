@@ -1,18 +1,18 @@
 import { UserDB } from './user-db'
 import { insertUserFix4 } from './fixture/user-fix'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('UserDB.searchUser', () => {
 
   let udb: UserDB
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    udb = await objManGetObject('UserDB') as UserDB
+    omanNewSessionForTest()
+    udb = await omanGetObject('UserDB') as UserDB
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {

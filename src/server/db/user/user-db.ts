@@ -2,10 +2,10 @@ import { DB } from '../_db/db'
 import { User } from '../../_type/user'
 import { UserForList } from '../../_type/user-detail'
 import { inProduction } from '../../_util/env2'
-import { ObjMaker, objManGetObject } from '../../objman/object-man'
+import { ObjectMaker, omanGetObject } from '../../oman/oman'
 
-export const serviceObject: ObjMaker = async () => {
-  const udb = UserDB.from(await objManGetObject('DB') as DB)
+export const newOmanObject: ObjectMaker = async () => {
+  const udb = UserDB.from(await omanGetObject('DB') as DB)
   await udb.createTable()
   return udb
 }

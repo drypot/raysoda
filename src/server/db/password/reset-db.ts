@@ -1,10 +1,10 @@
 import { DB } from '../_db/db'
 import { ResetToken } from '../../_type/password'
 import { inProduction } from '../../_util/env2'
-import { ObjMaker, objManGetObject } from '../../objman/object-man'
+import { ObjectMaker, omanGetObject } from '../../oman/oman'
 
-export const serviceObject: ObjMaker = async () => {
-  const rdb = ResetDB.from(await objManGetObject('DB') as DB)
+export const newOmanObject: ObjectMaker = async () => {
+  const rdb = ResetDB.from(await omanGetObject('DB') as DB)
   await rdb.createTable()
   return rdb
 }

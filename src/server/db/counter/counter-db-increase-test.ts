@@ -1,19 +1,19 @@
 import { CounterDB } from './counter-db'
 import { newDateStringNoTime } from '../../_util/date2'
 import { dupe } from '../../_util/object2'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('CounterDB Increase', () => {
 
   let cdb: CounterDB
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    cdb = await objManGetObject('CounterDB') as CounterDB
+    omanNewSessionForTest()
+    cdb = await omanGetObject('CounterDB') as CounterDB
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   const ds = newDateStringNoTime(new Date())

@@ -1,17 +1,17 @@
 import { CounterDB } from './counter-db'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('CounterDB Table', () => {
 
   let cdb: CounterDB
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    cdb = await objManGetObject('CounterDB') as CounterDB
+    omanNewSessionForTest()
+    cdb = await omanGetObject('CounterDB') as CounterDB
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {

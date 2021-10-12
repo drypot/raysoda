@@ -1,17 +1,17 @@
 import { ImageDB } from './image-db'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('ImageDB.*Table', () => {
 
   let idb: ImageDB
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    idb = await objManGetObject('ImageDB') as ImageDB
+    omanNewSessionForTest()
+    idb = await omanGetObject('ImageDB') as ImageDB
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   it('drop table', async () => {

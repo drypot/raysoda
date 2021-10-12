@@ -1,19 +1,19 @@
 import { BannerDB } from './banner-db'
 import { Banner } from '../../_type/banner'
 import { dupe } from '../../_util/object2'
-import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('BannerDB', () => {
 
   let bdb: BannerDB
 
   beforeAll(async () => {
-    objManNewSessionForTest()
-    bdb = await objManGetObject('BannerDB') as BannerDB
+    omanNewSessionForTest()
+    bdb = await omanGetObject('BannerDB') as BannerDB
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   const list: Banner[] = [

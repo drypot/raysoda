@@ -5,19 +5,19 @@ import { existsSync } from 'fs'
 import { IMAGE_SIZE } from '../_type/error-image'
 import { newImageMeta } from '../_type/image-meta'
 import { ErrorConst } from '../_type/error'
-import { objManCloseAllObjects, objManGetObject, objManNewSession } from '../objman/object-man'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../oman/oman'
 
 describe('RaySodaFileManager', () => {
 
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    objManNewSession('config/raysoda-test.json')
-    ifm = await objManGetObject('RaySodaFileManager') as RaySodaFileManager
+    omanNewSession('config/raysoda-test.json')
+    ifm = await omanGetObject('RaySodaFileManager') as RaySodaFileManager
   })
 
   afterAll(async () => {
-    await objManCloseAllObjects()
+    await omanCloseAllObjects()
   })
 
   describe('path', () => {

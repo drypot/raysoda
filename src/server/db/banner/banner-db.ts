@@ -1,9 +1,9 @@
 import { ValueDB } from '../value/value-db'
 import { Banner } from '../../_type/banner'
-import { ObjMaker, objManGetObject } from '../../objman/object-man'
+import { ObjectMaker, omanGetObject } from '../../oman/oman'
 
-export const serviceObject: ObjMaker = async () => {
-  const bdb = BannerDB.from(await objManGetObject('ValueDB') as ValueDB)
+export const newOmanObject: ObjectMaker = async () => {
+  const bdb = BannerDB.from(await omanGetObject('ValueDB') as ValueDB)
   await bdb.loadCache()
   return bdb
 }

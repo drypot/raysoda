@@ -1,6 +1,6 @@
 import { User } from '../../../_type/user'
 import { UserDB } from '../user-db'
-import { ObjMaker, objManGetObject } from '../../../objman/object-man'
+import { ObjectMaker, omanGetObject } from '../../../oman/oman'
 
 // 20219-09-29, user cache 시스템을 날리려다 원복했다.
 // user cache 는 MongoDB 에 join 없음 문제로 부터 시작된 것 같다.
@@ -9,8 +9,8 @@ import { ObjMaker, objManGetObject } from '../../../objman/object-man'
 // 매 Request 가 도착할 때마다 res.locals.user 에 cached user 를 연결한다.
 // 없애기 힘들 것 같다.
 
-export const serviceObject: ObjMaker = async () => {
-  const uc = UserCache.from(await objManGetObject('UserDB') as UserDB)
+export const newOmanObject: ObjectMaker = async () => {
+  const uc = UserCache.from(await omanGetObject('UserDB') as UserDB)
   return uc
 }
 
