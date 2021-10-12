@@ -5,33 +5,42 @@ import { objManObjectMapping } from './object-mapping'
 export type ObjManObjectMaker = (forTest: boolean) => Promise<any>
 export type ObjManCloseHandler = () => Promise<any>
 
-let config: Config
-let objMap: Map<string, any>
-let closeHandlerList: ObjManCloseHandler[]
+type Manager = {
+  config: Config
+  objMap: Map<string, any>
+  closeHandlerList: ObjManCloseHandler[]
+}
+
+let man: Manager
 
 export function objManReset(configPath: string) {
-  config = loadConfigSync(configPath)
-  objMap = new Map<string, any>()
-  closeHandlerList = []
-  return config
+  man = {
+    config: loadConfigSync(configPath),
+    objMap: new Map<string, any>(),
+    closeHandlerList: []
+  }
+  return man.config
 }
 
 export async function objManGetObject(name: string, forTest: boolean = false): Promise<any> {
-  let obj = objMap.get(name)
+  let obj = man.objMap.get(name)
   if (!obj) {
     const m = await import(objManObjectMapping[name])
     obj = await m.serviceObjManObject(forTest)
-    objMap.set(name, obj)
+    man.objMap.set(name, obj)
   }
   return obj
 }
 
 export function objManRegisterCloseHandler(handler: ObjManCloseHandler) {
-  closeHandlerList.unshift(handler)
+  man.closeHandlerList.unshift(handler)
 }
 
 export async function objManCloseAllObjects() {
-  for (const handler of closeHandlerList) {
+  const list = man.closeHandlerList
+  // @ts-ignore
+  man = undefined
+  for (const handler of list) {
     await handler()
   }
 }
