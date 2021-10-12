@@ -2,11 +2,11 @@ import * as fs from 'fs'
 import nodemailer, { Transporter } from 'nodemailer'
 import Mail from 'nodemailer/lib/mailer'
 import { Config } from '../_type/config'
-import { ObjectMaker, omanGetConfig } from '../oman/oman'
+import { omanGetConfig, omanRegisterFactory } from '../oman/oman'
 
-export const newOmanObject: ObjectMaker = async () => {
+omanRegisterFactory('Mailer', async () => {
   return Mailer.from(omanGetConfig())
-}
+})
 
 export class Mailer {
 
