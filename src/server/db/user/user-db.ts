@@ -5,7 +5,7 @@ import { inProduction } from '../../_util/env2'
 import { ObjMaker, objManGetObject } from '../../objman/object-man'
 
 export const serviceObject: ObjMaker = async () => {
-  let udb = UserDB.from(await objManGetObject('DB') as DB)
+  const udb = UserDB.from(await objManGetObject('DB') as DB)
   await udb.createTable()
   return udb
 }

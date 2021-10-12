@@ -5,7 +5,7 @@ import { inProduction } from '../../_util/env2'
 import { ObjMaker, objManGetObject } from '../../objman/object-man'
 
 export const serviceObject: ObjMaker = async () => {
-  let cdb = CounterDB.from(await objManGetObject('DB') as DB)
+  const cdb = CounterDB.from(await objManGetObject('DB') as DB)
   await cdb.createTable()
   return cdb
 }

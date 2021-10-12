@@ -4,7 +4,7 @@ import { inProduction } from '../../_util/env2'
 import { ObjMaker, objManGetObject } from '../../objman/object-man'
 
 export const serviceObject: ObjMaker = async () => {
-  let idb = ImageDB.from(await objManGetObject('DB') as DB)
+  const idb = ImageDB.from(await objManGetObject('DB') as DB)
   await idb.createTable()
   return idb
 }

@@ -4,7 +4,7 @@ import { inProduction } from '../../_util/env2'
 import { ObjMaker, objManGetConfig, objManRegisterCloseHandler } from '../../objman/object-man'
 
 export const serviceObject: ObjMaker = async () => {
-  let db = DB.from(objManGetConfig())
+  const db = DB.from(objManGetConfig())
   await db.createDatabase()
   objManRegisterCloseHandler(async () => {
     await db.close()

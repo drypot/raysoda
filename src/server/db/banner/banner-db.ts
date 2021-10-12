@@ -3,7 +3,7 @@ import { Banner } from '../../_type/banner'
 import { ObjMaker, objManGetObject } from '../../objman/object-man'
 
 export const serviceObject: ObjMaker = async () => {
-  let bdb = BannerDB.from(await objManGetObject('ValueDB') as ValueDB)
+  const bdb = BannerDB.from(await objManGetObject('ValueDB') as ValueDB)
   await bdb.loadCache()
   return bdb
 }

@@ -10,7 +10,7 @@ import { ObjMaker, objManGetObject } from '../../../objman/object-man'
 // 없애기 힘들 것 같다.
 
 export const serviceObject: ObjMaker = async () => {
-  let uc = UserCache.from(await objManGetObject('UserDB') as UserDB)
+  const uc = UserCache.from(await objManGetObject('UserDB') as UserDB)
   return uc
 }
 

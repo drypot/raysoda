@@ -3,7 +3,7 @@ import { inProduction } from '../../_util/env2'
 import { ObjMaker, objManGetObject } from '../../objman/object-man'
 
 export const serviceObject: ObjMaker = async () => {
-  let vdb = ValueDB.from(await objManGetObject('DB') as DB)
+  const vdb = ValueDB.from(await objManGetObject('DB') as DB)
   await vdb.createTable()
   return vdb
 }
