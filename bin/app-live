@@ -12,4 +12,4 @@ fi
 export NODE_ENV=production
 
 set -o xtrace
-ts-node src/server/script/run-app.ts config-live/${1}-live.json
+npx ts-node src/server/script/run-app.ts config-live/${1}-live.json

@@ -9,4 +9,4 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-ts-node src/server/script/send-test-reset-mail-script.ts "$@"
+npx ts-node src/server/script/send-test-reset-mail-script.ts "$@"

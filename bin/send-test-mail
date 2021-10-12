@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function show_usage {
-    echo "usage: bin/send-test-mail config/app-dev.json drypot@mail.test"
+    echo "usage: bin/send-test-mail config/raysoda-dev.json drypot@mail.test"
     echo "usage: bin/send-test-mail config-live/raysoda-live.json drypot@gmail.com"
     exit 1
 }
@@ -10,4 +10,4 @@ if [ $# -lt 2 ]; then
     show_usage
 fi
 
-ts-node src/server/script/send-test-mail-script.ts "$@"
+npx ts-node src/server/script/send-test-mail-script.ts "$@"

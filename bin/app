@@ -13,4 +13,4 @@ fi
 #export NODE_ENV=development
 
 set -o xtrace
-ts-node src/server/script/run-app.ts config/${1}-dev.json
+npx ts-node src/server/script/run-app.ts config/${1}-dev.json

@@ -3,4 +3,4 @@
 # 아래 코드는 한 프로세스에서 모든 테스트를 모아 돌린다.
 # 각각 새 프로세스에서 실행되는 것을 전제로 만들어진 테스트는 jasmine2 로 실행시킨다.
 
-ts-node src/server/script/jasmine-runner.ts "${@-dist}"
+npx ts-node src/server/script/jasmine-runner.ts "${@-dist}"
