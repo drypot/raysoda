@@ -1,24 +1,19 @@
-import { loadConfigSync } from '../../_util/config-loader'
 import { CounterDB } from './counter-db'
-import { DB } from '../_db/db'
 import { newDateStringNoTime } from '../../_util/date2'
 import { dupe } from '../../_util/object2'
-import { Config } from '../../_type/config'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('CounterDB Increase', () => {
 
-  let config: Config
-  let db: DB
   let cdb: CounterDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    cdb = CounterDB.from(db)
+    objManNewSessionForTest()
+    cdb = await objManGetObject('CounterDB') as CounterDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   const ds = newDateStringNoTime(new Date())

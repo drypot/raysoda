@@ -1,28 +1,23 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../_db/db'
 import { ResetDB } from './reset-db'
-import { Config } from '../../_type/config'
 import { ResetToken } from '../../_type/password'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('ResetDB Token', () => {
 
-  let config: Config
-  let db: DB
   let rdb: ResetDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    rdb = ResetDB.from(db)
+    objManNewSessionForTest()
+    rdb = await objManGetObject('ResetDB') as ResetDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   it('init table', async () => {
     await rdb.dropTable()
-    await rdb.createTable(false)
+    await rdb.createTable()
   })
   it('find returns nothing', async () => {
     const r = await rdb.findByUuid('uuid1')

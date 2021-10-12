@@ -13,6 +13,10 @@ type Manager = {
 
 let man: Manager
 
+export function objManNewSessionForTest() {
+  return objManNewSession('config/app-test.json')
+}
+
 export function objManNewSession(configPath: string) {
   man = {
     config: loadConfigSync(configPath),

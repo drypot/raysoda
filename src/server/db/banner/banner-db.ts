@@ -1,9 +1,16 @@
 import { ValueDB } from '../value/value-db'
 import { Banner } from '../../_type/banner'
+import { ObjMaker, objManGetObject } from '../../objman/object-man'
+
+export const serviceObject: ObjMaker = async () => {
+  let bdb = BannerDB.from(await objManGetObject('ValueDB') as ValueDB)
+  await bdb.loadCache()
+  return bdb
+}
 
 export class BannerDB {
 
-  private vdb: ValueDB
+  readonly vdb: ValueDB
   private bannerList: Banner[] = []
 
   private constructor(vdb: ValueDB) {

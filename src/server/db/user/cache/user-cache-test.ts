@@ -1,32 +1,24 @@
-import { loadConfigSync } from '../../../_util/config-loader'
-import { DB } from '../../_db/db'
-import { UserDB } from '../user-db'
 import { insertUserFix1 } from '../fixture/user-fix'
-import { Config } from '../../../_type/config'
 import { UserCache } from './user-cache'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../../objman/object-man'
 
 describe('UserCache', () => {
 
-  let config: Config
-  let db: DB
-  let udb: UserDB
   let uc: UserCache
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
+    objManNewSessionForTest()
+    uc = await objManGetObject('UserCache') as UserCache
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   beforeAll(async () => {
-    await udb.dropTable()
-    await udb.createTable(false)
-    await insertUserFix1(udb)
+    await uc.udb.dropTable()
+    await uc.udb.createTable()
+    await insertUserFix1(uc.udb)
   })
 
   describe('getCachedById', () => {

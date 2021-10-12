@@ -1,14 +1,18 @@
 import { DB } from '../_db/db'
-import { Config } from '../../_type/config'
 import { inProduction } from '../../_util/env2'
+import { ObjMaker, objManGetObject } from '../../objman/object-man'
+
+export const serviceObject: ObjMaker = async () => {
+  let vdb = ValueDB.from(await objManGetObject('DB') as DB)
+  await vdb.createTable()
+  return vdb
+}
 
 export class ValueDB {
 
-  public config: Config
-  private db: DB
+  readonly db: DB
 
   private constructor(db: DB) {
-    this.config = db.config
     this.db = db
   }
 

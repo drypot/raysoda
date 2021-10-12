@@ -1,17 +1,21 @@
 import { DB } from '../_db/db'
 import { User } from '../../_type/user'
-import { Config } from '../../_type/config'
 import { UserForList } from '../../_type/user-detail'
 import { inProduction } from '../../_util/env2'
+import { ObjMaker, objManGetObject } from '../../objman/object-man'
+
+export const serviceObject: ObjMaker = async () => {
+  let udb = UserDB.from(await objManGetObject('DB') as DB)
+  await udb.createTable()
+  return udb
+}
 
 export class UserDB {
 
-  public readonly config: Config
-  private readonly db: DB
+  readonly db: DB
   private nextId: number
 
   private constructor(db: DB) {
-    this.config = db.config
     this.db = db
     this.nextId = 0
   }
@@ -22,8 +26,8 @@ export class UserDB {
 
   // Table
 
-  async createTable(createIndex: boolean = true) {
-    const q =
+  async createTable() {
+    await this.db.query(
       'create table if not exists user(' +
       '  id int not null,' +
       '  name varchar(32) not null,' +
@@ -38,21 +42,19 @@ export class UserDB {
       '  profile text not null,' +
       '  primary key (id)' +
       ')'
-    await this.db.query(q)
-    if (createIndex) {
-      await this.db.createIndexIfNotExists(
-        'create index user_email on user(email)'
-      )
-      await this.db.createIndexIfNotExists(
-        'create index user_name on user(name)'
-      )
-      await this.db.createIndexIfNotExists(
-        'create index user_home on user(home)'
-      )
-      await this.db.createIndexIfNotExists(
-        'create index user_pdate on user(pdate desc)'
-      )
-    }
+    )
+    await this.db.createIndexIfNotExists(
+      'create index user_email on user(email)'
+    )
+    await this.db.createIndexIfNotExists(
+      'create index user_name on user(name)'
+    )
+    await this.db.createIndexIfNotExists(
+      'create index user_home on user(home)'
+    )
+    await this.db.createIndexIfNotExists(
+      'create index user_pdate on user(pdate desc)'
+    )
     this.nextId = await this.db.getMaxId('user')
     this.nextId++
     return this
@@ -67,18 +69,43 @@ export class UserDB {
 
   // ID
 
-  getNextId() {
-    return this.nextId++
-  }
-
   setNextId(id: number) {
     this.nextId = id
+  }
+
+  getNextId() {
+    return this.nextId++
   }
 
   // Query
 
   async insertUser(user: User) {
     return this.db.query('insert into user set ?', user)
+  }
+
+  async updateUser(id: number, update: Partial<User>) {
+    const r = await this.db.query('update user set ? where id = ?', [update, id])
+    return r.changedRows as number
+  }
+
+  async updateHash(email: string, hash: string) {
+    const r = await this.db.query('update user set hash = ? where email = ?', [hash, email])
+    return r.changedRows as number
+  }
+
+  async updateADate(id: number, now: Date) {
+    const r = await this.db.query('update user set adate = ? where id = ?', [now, id])
+    return r.changedRows as number
+  }
+
+  async updatePDate(id: number, d: Date) {
+    const r = await this.db.query('update user set pdate = ? where id = ?', [d, id])
+    return r.changedRows as number
+  }
+
+  async updateStatus(id: number, s: string) {
+    const r = await this.db.query('update user set status = ? where id = ?', [s, id])
+    return r.changedRows as number
   }
 
   async findUserById(id: number) {
@@ -146,41 +173,16 @@ export class UserDB {
     return r.exist === 1
   }
 
-  async updateUser(id: number, update: Partial<User>) {
-    const r = await this.db.query('update user set ? where id = ?', [update, id])
-    return r.changedRows as number
-  }
-
-  async updateHash(email: string, hash: string) {
-    const r = await this.db.query('update user set hash = ? where email = ?', [hash, email])
-    return r.changedRows as number
-  }
-
-  async updateADate(id: number, now: Date) {
-    const r = await this.db.query('update user set adate = ? where id = ?', [now, id])
-    return r.changedRows as number
-  }
-
-  async updatePDate(id: number, d: Date) {
-    const r = await this.db.query('update user set pdate = ? where id = ?', [d, id])
-    return r.changedRows as number
-  }
-
-  async updateStatus(id: number, s: string) {
-    const r = await this.db.query('update user set status = ? where id = ?', [s, id])
-    return r.changedRows as number
-  }
-
-}
-
-function unpack(user: User) {
-  // admin 컬럼은 bool 타입이고, bool 은 실제로 tinyint(1) 다.
-  // 저장할 때는 true, false 를 사용해도 되지만 읽을 때는 number 가 돌아온다.
-  user.admin = user.admin as unknown === 1
 }
 
 function unpackUserList(users: User[]) {
   for (const user of users) {
     user.admin = user.admin as unknown === 1
   }
+}
+
+function unpack(user: User) {
+  // admin 컬럼은 bool 타입이고, bool 은 실제로 tinyint(1) 다.
+  // 저장할 때는 true, false 를 사용해도 되지만 읽을 때는 number 가 돌아온다.
+  user.admin = user.admin as unknown === 1
 }

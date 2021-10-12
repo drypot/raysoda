@@ -1,16 +1,20 @@
 import { DB } from '../_db/db'
 import { newDateStringNoTime } from '../../_util/date2'
-import { Config } from '../../_type/config'
 import { Counter } from '../../_type/counter'
 import { inProduction } from '../../_util/env2'
+import { ObjMaker, objManGetObject } from '../../objman/object-man'
+
+export const serviceObject: ObjMaker = async () => {
+  let cdb = CounterDB.from(await objManGetObject('DB') as DB)
+  await cdb.createTable()
+  return cdb
+}
 
 export class CounterDB {
 
-  public config: Config
-  private db: DB
+  readonly db: DB
 
   private constructor(db: DB) {
-    this.config = db.config
     this.db = db
   }
 
@@ -19,7 +23,7 @@ export class CounterDB {
   }
 
   async createTable() {
-    const q =
+    await this.db.query(
       'create table if not exists counter(' +
       '  id varchar(64) not null,' +
       '  d char(10) not null,' +
@@ -27,7 +31,7 @@ export class CounterDB {
       '  primary key (id, d)' +
       ')' +
       'charset latin1 collate latin1_bin'
-    await this.db.query(q)
+    )
     return this
   }
 

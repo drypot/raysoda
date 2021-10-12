@@ -1,27 +1,22 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../_db/db'
 import { ImageDB } from './image-db'
-import { Config } from '../../_type/config'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('ImageDB.*NextId', () => {
 
-  let config: Config
-  let db: DB
   let idb: ImageDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    idb = ImageDB.from(db)
+    objManNewSessionForTest()
+    idb = await objManGetObject('ImageDB') as ImageDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   it('init table', async () => {
     await idb.dropTable()
-    await idb.createTable(false)
+    await idb.createTable()
   })
   it('get next image id', () => {
     expect(idb.getNextId()).toBe(1)

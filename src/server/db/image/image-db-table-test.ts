@@ -1,44 +1,39 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../_db/db'
 import { ImageDB } from './image-db'
-import { Config } from '../../_type/config'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('ImageDB.*Table', () => {
 
-  let config: Config
-  let db: DB
   let idb: ImageDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    idb = ImageDB.from(db)
+    objManNewSessionForTest()
+    idb = await objManGetObject('ImageDB') as ImageDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   it('drop table', async () => {
     await idb.dropTable()
   })
   it('create table', async () => {
-    await idb.createTable(true)
+    await idb.createTable()
   })
   it('table exists', async () => {
-    expect(await db.findTable('image')).toBeDefined()
+    expect(await idb.db.findTable('image')).toBeDefined()
   })
   it('index exists', async () => {
-    expect(await db.findIndex('image', 'image_cdate')).toBeDefined()
+    expect(await idb.db.findIndex('image', 'image_cdate')).toBeDefined()
   })
   it('index exists 2', async () => {
-    expect(await db.findIndex('image', 'image_uid_cdate')).toBeDefined()
+    expect(await idb.db.findIndex('image', 'image_uid_cdate')).toBeDefined()
   })
   it('drop table', async () => {
     await idb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await db.findTable('image')).toBeUndefined()
+    expect(await idb.db.findTable('image')).toBeUndefined()
   })
 
 })

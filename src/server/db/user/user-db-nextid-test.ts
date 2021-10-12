@@ -1,27 +1,22 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../_db/db'
 import { UserDB } from './user-db'
-import { Config } from '../../_type/config'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('UserDB.*NextId', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
+    objManNewSessionForTest()
+    udb = await objManGetObject('UserDB') as UserDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   it('init table', async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
   })
   it('get next user id', () => {
     expect(udb.getNextId()).toBe(1)

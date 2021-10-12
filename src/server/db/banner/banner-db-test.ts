@@ -1,26 +1,19 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../_db/db'
-import { ValueDB } from '../value/value-db'
 import { BannerDB } from './banner-db'
-import { Config } from '../../_type/config'
 import { Banner } from '../../_type/banner'
 import { dupe } from '../../_util/object2'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('BannerDB', () => {
 
-  let config: Config
-  let db: DB
-  let vdb: ValueDB
   let bdb: BannerDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    vdb = ValueDB.from(db)
+    objManNewSessionForTest()
+    bdb = await objManGetObject('BannerDB') as BannerDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   const list: Banner[] = [
@@ -28,11 +21,11 @@ describe('BannerDB', () => {
   ]
 
   it('init table', async () => {
-    await vdb.dropTable()
-    await vdb.createTable()
+    await bdb.vdb.dropTable()
+    await bdb.vdb.createTable()
   })
-  it('init bdb', async () => {
-    bdb = await BannerDB.from(vdb).loadCache()
+  it('init bdb cache', async () => {
+    bdb = await bdb.loadCache()
   })
   it('banner is empty', async () => {
     const b = bdb.getCached()
@@ -45,8 +38,8 @@ describe('BannerDB', () => {
     const b = bdb.getCached()
     expect(dupe(b)).toEqual(list)
   })
-  it('reset bdb', async () => {
-    bdb = await BannerDB.from(vdb).loadCache()
+  it('new bdb', async () => {
+    bdb = await BannerDB.from(bdb.vdb).loadCache()
   })
   it('banner contains item', async () => {
     const b = bdb.getCached()

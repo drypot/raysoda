@@ -1,41 +1,36 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../_db/db'
 import { ResetDB } from './reset-db'
-import { Config } from '../../_type/config'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('ResetDB Table', () => {
 
-  let config: Config
-  let db: DB
   let rdb: ResetDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    rdb = ResetDB.from(db)
+    objManNewSessionForTest()
+    rdb = await objManGetObject('ResetDB') as ResetDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   it('drop table', async () => {
     await rdb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await db.findTable('pwreset')).toBeUndefined()
+    expect(await rdb.db.findTable('pwreset')).toBeUndefined()
   })
   it('create table', async () => {
-    await rdb.createTable(true)
+    await rdb.createTable()
   })
   it('table exists', async () => {
-    expect(await db.findTable('pwreset')).toBeDefined()
+    expect(await rdb.db.findTable('pwreset')).toBeDefined()
   })
   it('drop table', async () => {
     await rdb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await db.findTable('pwreset')).toBeUndefined()
+    expect(await rdb.db.findTable('pwreset')).toBeUndefined()
   })
 
 })

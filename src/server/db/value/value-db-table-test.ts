@@ -1,22 +1,17 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../_db/db'
 import { ValueDB } from './value-db'
-import { Config } from '../../_type/config'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('ValueDB Table', () => {
 
-  let config: Config
-  let db: DB
   let vdb: ValueDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    vdb = ValueDB.from(db)
+    objManNewSessionForTest()
+    vdb = await objManGetObject('ValueDB') as ValueDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   it('init table', async () => {
@@ -24,13 +19,13 @@ describe('ValueDB Table', () => {
     await vdb.createTable()
   })
   it('table exists', async () => {
-    expect(await db.findTable('persist')).toBeDefined()
+    expect(await vdb.db.findTable('persist')).toBeDefined()
   })
   it('drop table', async () => {
     await vdb.dropTable()
   })
   it('table does not exist', async () => {
-    expect(await db.findTable('persist')).toBeUndefined()
+    expect(await vdb.db.findTable('persist')).toBeUndefined()
   })
 
 })

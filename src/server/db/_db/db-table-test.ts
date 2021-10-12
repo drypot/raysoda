@@ -1,12 +1,12 @@
 import { DB } from './db'
-import { objManCloseAllObjects, objManGetObject, objManNewSession } from '../../objman/object-man'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('DB.*Table', () => {
 
   let db: DB
 
   beforeAll(async () => {
-    objManNewSession('config/app-test.json')
+    objManNewSessionForTest()
     db = await objManGetObject('DB') as DB
   })
 

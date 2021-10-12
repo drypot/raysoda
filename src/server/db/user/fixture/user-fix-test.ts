@@ -23,7 +23,7 @@ describe('User Fixture', () => {
   describe('insertUserFix1', () => {
     it('init table', async () => {
       await udb.dropTable()
-      await udb.createTable(false)
+      await udb.createTable()
     })
     it('user1 not exists', async () => {
       let user = await udb.findUserById(1)
@@ -41,7 +41,7 @@ describe('User Fixture', () => {
   describe('insertUserFix4', () => {
     it('init table', async () => {
       await udb.dropTable()
-      await udb.createTable(false)
+      await udb.createTable()
     })
     it('fill table with fixture 4', async () => {
       await insertUserFix4(udb)

@@ -1,29 +1,24 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../_db/db'
 import { ImageDB } from './image-db'
-import { Config } from '../../_type/config'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('ImageDB.find*List', () => {
 
-  let config: Config
-  let db: DB
   let idb: ImageDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    idb = ImageDB.from(db)
+    objManNewSessionForTest()
+    idb = await objManGetObject('ImageDB') as ImageDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   const d = new Date()
 
   it('init table', async () => {
     await idb.dropTable()
-    await idb.createTable(false)
+    await idb.createTable()
   })
   it('find first image returns nothing', async () => {
     const r = await idb.findFirstImage()
@@ -42,7 +37,7 @@ describe('ImageDB.find*List', () => {
       [9, 1, new Date(2003, 8, 9), '9'],
       [10, 1, new Date(2003, 9, 10), '10'],
     ]
-    await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
+    await idb.db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
   it('find first image returns image', async () => {
     const r = await idb.findFirstImage()

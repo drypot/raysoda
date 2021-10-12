@@ -1,15 +1,19 @@
 import { DB } from '../_db/db'
-import { Config } from '../../_type/config'
 import { ResetToken } from '../../_type/password'
 import { inProduction } from '../../_util/env2'
+import { ObjMaker, objManGetObject } from '../../objman/object-man'
+
+export const serviceObject: ObjMaker = async () => {
+  let rdb = ResetDB.from(await objManGetObject('DB') as DB)
+  await rdb.createTable()
+  return rdb
+}
 
 export class ResetDB {
 
-  public config: Config
-  private db: DB
+  readonly db: DB
 
   private constructor(db: DB) {
-    this.config = db.config
     this.db = db
   }
 
@@ -19,20 +23,18 @@ export class ResetDB {
 
   // Table
 
-  async createTable(createIndex: boolean = true) {
-    const q =
+  async createTable() {
+    await this.db.query(
       'create table if not exists pwreset(' +
       '  uuid char(36) character set latin1 collate latin1_bin not null,' +
       '  email varchar(64) not null,' +
       '  token char(64) character set latin1 collate latin1_bin not null,' +
       '  primary key (uuid)' +
       ')'
-    await this.db.query(q)
-    if (createIndex) {
-      await this.db.createIndexIfNotExists(
-        'create index pwreset_email on pwreset(email)'
-      )
-    }
+    )
+    await this.db.createIndexIfNotExists(
+      'create index pwreset_email on pwreset(email)'
+    )
     return this
   }
 
@@ -47,6 +49,10 @@ export class ResetDB {
     return this.db.query('insert into pwreset set ?', token)
   }
 
+  async deleteByEmail(email: string) {
+    return this.db.query('delete from pwreset where email = ?', email)
+  }
+
   async findByUuid(uuid: string) {
     const r = await this.db.queryOne('select * from pwreset where uuid = ?', uuid)
     return r as ResetToken | undefined
@@ -55,10 +61,6 @@ export class ResetDB {
   async findByEmail(email: string) {
     const r = await this.db.queryOne('select * from pwreset where email = ?', email)
     return r as ResetToken | undefined
-  }
-
-  async deleteByEmail(email: string) {
-    return this.db.query('delete from pwreset where email = ?', email)
   }
 
 }

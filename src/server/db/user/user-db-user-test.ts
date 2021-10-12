@@ -1,28 +1,23 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { DB } from '../_db/db'
 import { UserDB } from './user-db'
 import { newUser } from '../../_type/user'
-import { Config } from '../../_type/config'
+import { objManCloseAllObjects, objManGetObject, objManNewSessionForTest } from '../../objman/object-man'
 
 describe('UserDB.findUser*', () => {
 
-  let config: Config
-  let db: DB
   let udb: UserDB
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
+    objManNewSessionForTest()
+    udb = await objManGetObject('UserDB') as UserDB
   })
 
   afterAll(async () => {
-    await db.close()
+    await objManCloseAllObjects()
   })
 
   it('init table', async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
   })
   it('user not exists', async () => {
     const user = await udb.findUserById(1)

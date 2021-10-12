@@ -14,7 +14,7 @@ export const serviceObject: ObjMaker = async () => {
 
 export class DB {
 
-  public config: Config
+  readonly config: Config
   private readonly conn: Connection
 
   private constructor(config: Config) {

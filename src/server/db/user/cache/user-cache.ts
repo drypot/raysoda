@@ -1,5 +1,6 @@
 import { User } from '../../../_type/user'
 import { UserDB } from '../user-db'
+import { ObjMaker, objManGetObject } from '../../../objman/object-man'
 
 // 20219-09-29, user cache 시스템을 날리려다 원복했다.
 // user cache 는 MongoDB 에 join 없음 문제로 부터 시작된 것 같다.
@@ -8,9 +9,14 @@ import { UserDB } from '../user-db'
 // 매 Request 가 도착할 때마다 res.locals.user 에 cached user 를 연결한다.
 // 없애기 힘들 것 같다.
 
+export const serviceObject: ObjMaker = async () => {
+  let uc = UserCache.from(await objManGetObject('UserDB') as UserDB)
+  return uc
+}
+
 export class UserCache {
 
-  public readonly udb: UserDB
+  readonly udb: UserDB
 
   private constructor(udb: UserDB) {
     this.udb = udb
@@ -26,11 +32,6 @@ export class UserCache {
   resetCache() {
     this.userIdMap = new Map
     this.userHomeMap = new Map
-  }
-
-  cache(user: User) {
-    this.userIdMap.set(user.id, user)
-    this.userHomeMap.set(user.home.toLowerCase(), user)
   }
 
   deleteCacheById(id: number) {
@@ -75,6 +76,11 @@ export class UserCache {
       this.cache(user)
     }
     return user
+  }
+
+  cache(user: User) {
+    this.userIdMap.set(user.id, user)
+    this.userHomeMap.set(user.home.toLowerCase(), user)
   }
 
 }
