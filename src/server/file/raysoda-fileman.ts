@@ -1,4 +1,4 @@
-import { ImageFileManager } from './fileman'
+import { ImageFileManager } from './_fileman'
 import { newDeepPath } from '../_util/deeppath'
 import { mkdirRecursive, rmRecursive } from '../_util/fs2'
 import { exec2 } from '../_util/exec2'
@@ -19,16 +19,16 @@ export const serviceObject: ObjMaker = async () => {
 
 export class RaySodaFileManager implements ImageFileManager {
 
-  public readonly dir: string
-  public readonly url: string
+  readonly dir: string
+  readonly url: string
+
+  static from(config: Config) {
+    return new RaySodaFileManager(config)
+  }
 
   protected constructor(config: Config) {
     this.dir = config.uploadDir + '/public/images/'
     this.url = config.uploadUrl + '/images/'
-  }
-
-  static from(config: Config) {
-    return new RaySodaFileManager(config)
   }
 
   // init 평션을 만들어서 this.dir 을 미리 만들어둘까 하다가 하지 않기로 했다.

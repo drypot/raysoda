@@ -1,4 +1,4 @@
-import { ImageFileManager } from './fileman'
+import { ImageFileManager } from './_fileman'
 import { newDeepPath } from '../_util/deeppath'
 import { emptyDir, mkdirRecursive, rmRecursive } from '../_util/fs2'
 import { exec2 } from '../_util/exec2'
@@ -40,13 +40,13 @@ export class RapixelFileManager implements ImageFileManager {
   readonly dir: string
   readonly url: string
 
+  static from(config: Config) {
+    return new RapixelFileManager(config)
+  }
+
   protected constructor(config: Config) {
     this.dir = config.uploadDir + '/public/images/'
     this.url = config.uploadUrl + '/images/'
-  }
-
-  static from(config: Config) {
-    return new RapixelFileManager(config)
   }
 
   async rmRoot() {

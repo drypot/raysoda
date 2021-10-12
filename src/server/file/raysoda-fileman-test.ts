@@ -1,4 +1,4 @@
-import { ImageFileManager } from './fileman'
+import { ImageFileManager } from './_fileman'
 import { RaySodaFileManager } from './raysoda-fileman'
 import { getImageMetaOfFile } from './magick/magick2'
 import { existsSync } from 'fs'

@@ -1,4 +1,4 @@
-import { ImageFileManager } from './fileman'
+import { ImageFileManager } from './_fileman'
 import { newDeepPath } from '../_util/deeppath'
 import { mkdirRecursive, rmRecursive } from '../_util/fs2'
 import { copyFile, unlink } from 'fs/promises'
@@ -19,13 +19,13 @@ export class DrypotFileManager implements ImageFileManager {
   readonly dir: string
   readonly url: string
 
+  static from(config: Config) {
+    return new DrypotFileManager(config)
+  }
+
   protected constructor(config: Config) {
     this.dir = config.uploadDir + '/public/images/'
     this.url = config.uploadUrl + '/images/'
-  }
-
-  static from(config: Config) {
-    return new DrypotFileManager(config)
   }
 
   async rmRoot() {

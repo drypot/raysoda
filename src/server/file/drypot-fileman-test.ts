@@ -1,4 +1,4 @@
-import { ImageFileManager } from './fileman'
+import { ImageFileManager } from './_fileman'
 import { existsSync } from 'fs'
 import { DrypotFileManager } from './drypot-fileman'
 import { IMAGE_TYPE } from '../_type/error-image'
