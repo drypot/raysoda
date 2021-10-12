@@ -26,8 +26,6 @@ jasmine.loadConfig({
 //   beep: true
 // }))
 
-; (jasmine.jasmine as any).DEFAULT_TIMEOUT_INTERVAL = 15000
-
 let execParams = process.argv.slice(2)
 execParams.forEach((v, i) => {
   if (lstatSync(v).isDirectory()) {
@@ -37,4 +35,4 @@ execParams.forEach((v, i) => {
 
 console.log(execParams)
 
-jasmine.execute(execParams)
+jasmine.execute(execParams).finally()
