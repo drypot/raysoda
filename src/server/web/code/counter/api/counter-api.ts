@@ -5,8 +5,12 @@ import { getSessionUser } from '../../user-auth/api/user-auth-api'
 import { newString } from '../../../../_util/primitive'
 import { renderJson } from '../../_common/render-json'
 import { shouldBeAdmin, shouldBeUser } from '../../../../service/user-auth/user-auth-service'
+import { omanGetObject } from '../../../../oman/oman'
 
-export function registerCounterApi(web: Express2, cdb: CounterDB) {
+export async function useCounterApi() {
+
+  const web = await omanGetObject('Express2') as Express2
+  const cdb = await omanGetObject('CounterDB') as CounterDB
 
   web.router.get('/api/counter/:id', toCallback(async (req, res) => {
     const user = getSessionUser(res)

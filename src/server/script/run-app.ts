@@ -1,118 +1,89 @@
 import { Express2 } from '../web/_express/express2'
-import { loadConfigSync } from '../_util/config-loader'
-import { DB } from '../db/_db/db'
-import { UserDB } from '../db/user/user-db'
-import { ImageDB } from '../db/image/image-db'
-import { RaySodaFileManager } from '../file/raysoda-fileman'
-import { registerUserAuthApi } from '../web/code/user-auth/api/user-auth-api'
-import { registerImageUploadApi } from '../web/code/image/api/image-upload-api'
-import { registerImageUpdateApi } from '../web/code/image/api/image-update-api'
-import { ValueDB } from '../db/value/value-db'
+import { useUserAuthApi } from '../web/code/user-auth/api/user-auth-api'
+import { useImageUploadApi } from '../web/code/image/api/image-upload-api'
+import { useImageUpdateApi } from '../web/code/image/api/image-update-api'
 import { logError } from '../_util/error2'
-import { RapixelFileManager } from '../file/rapixel-fileman'
-import { OsokyFileManager } from '../file/osoky-fileman'
-import { DrypotFileManager } from '../file/drypot-fileman'
-import { registerUserProfilePage } from '../web/code/user-profile/profile-page'
-import { registerUserDetailApi } from '../web/code/user/api/user-detail-api'
-import { registerUserRegisterApi } from '../web/code/user/api/user-register-api'
-import { registerUserPasswordApi } from '../web/code/user-auth/api/user-password-api'
-import { ResetDB } from '../db/password/reset-db'
-import { Mailer } from '../mailer/mailer2'
-import { registerUserDeactivateApi } from '../web/code/user/api/user-deactivate-api'
-import { registerUserListApi } from '../web/code/user/api/user-list-api'
-import { registerUserUpdateApi } from '../web/code/user/api/user-update-api'
-import { registerRedirect } from '../web/code/redirect/redirect'
-import { registerImageDeleteApi } from '../web/code/image/api/image-delete-api'
-import { registerImageListApi } from '../web/code/image/api/image-list-api'
-import { registerImageDetailApi } from '../web/code/image/api/image-detail-api'
-import { registerCounterApi } from '../web/code/counter/api/counter-api'
-import { CounterDB } from '../db/counter/counter-db'
-import { registerBannerApi } from '../web/code/banner/api/banner-api'
-import { BannerDB } from '../db/banner/banner-db'
-import { registerAboutPage } from '../web/code/about/page/about-page'
-import { registerSpaInitApi } from '../web/code/_common/spa-init-api'
-import { UserCache } from '../db/user/cache/user-cache'
-import { registerBannerPage } from '../web/code/banner/page/banner-page'
-import { registerCounterPage } from '../web/code/counter/page/counter-page'
-import { registerImageDetailPage } from '../web/code/image/page/image-detail-page'
-import { registerImageListPage } from '../web/code/image/page/image-list-page'
-import { registerImageUpdatePage } from '../web/code/image/page/image-update-page'
-import { registerImageUploadPage } from '../web/code/image/page/image-upload-page'
-import { registerUserDeactivatePage } from '../web/code/user/page/user-deactivate-page'
-import { registerUserListPage } from '../web/code/user/page/user-list-page'
-import { registerUserRegisterPage } from '../web/code/user/page/user-register-page'
-import { registerUserUpdatePage } from '../web/code/user/page/user-update-page'
-import { registerUserAuthPage } from '../web/code/user-auth/page/user-auth-page'
-import { registerUserPasswordPage } from '../web/code/user-auth/page/user-password-page'
+import { useUserProfilePage } from '../web/code/user-profile/profile-page'
+import { useUserDetailApi } from '../web/code/user/api/user-detail-api'
+import { useUserRegisterApi } from '../web/code/user/api/user-register-api'
+import { useUserPasswordApi } from '../web/code/user-auth/api/user-password-api'
+import { useUserDeactivateApi } from '../web/code/user/api/user-deactivate-api'
+import { useUserListApi } from '../web/code/user/api/user-list-api'
+import { useUserUpdateApi } from '../web/code/user/api/user-update-api'
+import { useRedirect } from '../web/code/redirect/redirect'
+import { useImageDeleteApi } from '../web/code/image/api/image-delete-api'
+import { useImageListApi } from '../web/code/image/api/image-list-api'
+import { useImageDetailApi } from '../web/code/image/api/image-detail-api'
+import { useCounterApi } from '../web/code/counter/api/counter-api'
+import { useBannerApi } from '../web/code/banner/api/banner-api'
+import { useAboutPage } from '../web/code/about/page/about-page'
+import { useSpaInitApi } from '../web/code/_common/spa-init-api'
+import { useBannerPage } from '../web/code/banner/page/banner-page'
+import { useCounterPage } from '../web/code/counter/page/counter-page'
+import { useImageDetailPage } from '../web/code/image/page/image-detail-page'
+import { useImageListPage } from '../web/code/image/page/image-list-page'
+import { useImageUpdatePage } from '../web/code/image/page/image-update-page'
+import { useImageUploadPage } from '../web/code/image/page/image-upload-page'
+import { useUserDeactivatePage } from '../web/code/user/page/user-deactivate-page'
+import { useUserListPage } from '../web/code/user/page/user-list-page'
+import { useUserRegisterPage } from '../web/code/user/page/user-register-page'
+import { useUserUpdatePage } from '../web/code/user/page/user-update-page'
+import { useUserAuthPage } from '../web/code/user-auth/page/user-auth-page'
+import { useUserPasswordPage } from '../web/code/user-auth/page/user-password-page'
 import { inDev } from '../_util/env2'
-import { registerDevUtilPage } from '../web/code/_common/dev-util-page'
+import { useTestPage } from '../web/code/_common/test-page'
+import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '../oman/oman'
 
 async function main() {
-  const config = loadConfigSync(process.argv[2])
+  const configPath = process.argv[2]
 
-  const db = await DB.from(config).createDatabase()
-  const vdb = await ValueDB.from(db).createTable()
-  const udb = await UserDB.from(db).createTable()
-  const uc: UserCache = UserCache.from(udb)
-  const rdb = await ResetDB.from(db).createTable()
-  const idb = await ImageDB.from(db).createTable()
-  const cdb = await CounterDB.from(db).createTable()
-  const bdb = await BannerDB.from(vdb).loadCache()
+  omanNewSession(configPath)
 
-  const ifm =
-    config.appNamel === 'rapixel' ? RapixelFileManager.from(config) :
-      config.appNamel === 'osoky' ? OsokyFileManager.from(config) :
-        config.appNamel === 'drypot' ? DrypotFileManager.from(config) :
-          RaySodaFileManager.from(config)
-
-  const mailer = Mailer.from(config).loadSync()
-
-  const web = Express2.from(config).useUpload()
+  const web = await omanGetObject('Express2') as Express2
   web.logError = inDev()
 
-  registerImageListApi(web, uc, idb, ifm)
-  registerImageDetailApi(web, uc, idb, ifm)
-  registerImageUploadApi(web, udb, idb, ifm)
-  registerImageUpdateApi(web, idb, ifm)
-  registerImageDeleteApi(web, idb, ifm)
+  await useImageListApi()
+  await useImageDetailApi()
+  await useImageUploadApi()
+  await useImageUpdateApi()
+  await useImageDeleteApi()
 
-  registerUserAuthApi(web, uc)
-  registerUserRegisterApi(web, udb)
-  registerUserDetailApi(web, uc)
-  registerUserUpdateApi(web, uc)
-  registerUserDeactivateApi(web, uc)
-  registerUserListApi(web, udb)
-  registerUserPasswordApi(web, uc, rdb, mailer)
+  await useUserAuthApi()
+  await useUserRegisterApi()
+  await useUserDetailApi()
+  await useUserUpdateApi()
+  await useUserDeactivateApi()
+  await useUserListApi()
+  await useUserPasswordApi()
 
-  registerCounterApi(web, cdb)
-  registerBannerApi(web, bdb)
+  await useCounterApi()
+  await useBannerApi()
 
-  registerSpaInitApi(web, bdb)
+  await useSpaInitApi()
 
-  registerImageListPage(web, uc, idb, ifm, bdb)
-  registerImageDetailPage(web, uc, idb, ifm)
-  registerImageUpdatePage(web, idb)
-  registerImageUploadPage(web, idb)
-  registerUserProfilePage(web, uc, idb, ifm)
+  await useImageListPage()
+  await useImageDetailPage()
+  await useImageUpdatePage()
+  await useImageUploadPage()
+  await useUserProfilePage()
 
-  registerUserAuthPage(web)
-  registerUserPasswordPage(web)
-  registerUserDeactivatePage(web)
-  registerUserListPage(web, udb)
-  registerUserRegisterPage(web)
-  registerUserUpdatePage(web, uc)
+  await useUserAuthPage()
+  await useUserPasswordPage()
+  await useUserDeactivatePage()
+  await useUserListPage()
+  await useUserRegisterPage()
+  await useUserUpdatePage()
 
-  registerCounterPage(web, cdb)
-  registerBannerPage(web, bdb)
-  registerAboutPage(web)
+  await useCounterPage()
+  await useBannerPage()
+  await useAboutPage()
 
-  registerDevUtilPage(web)
+  await useTestPage()
 
-  registerRedirect(web, uc)
+  await useRedirect()
 
   async function closeAll() {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   }
 
   process.on('uncaughtException', function (err) {
@@ -121,13 +92,16 @@ async function main() {
   })
 
   process.on('SIGINT', function () {
-    closeAll().then(() => {
-      console.log('\nSIGINT caught')
+    console.log('')
+    console.log('SIGINT caught.')
+    closeAll().finally(() => {
+      console.log('Closed All.')
       process.exit(1)
     })
   })
 
   web.start().then(() => {
+    const config = omanGetConfig()
     //console.log(config)
     console.log('server started.')
     console.log('http://localhost:' + config.port)

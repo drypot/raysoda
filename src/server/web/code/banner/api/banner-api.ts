@@ -5,8 +5,12 @@ import { Banner } from '../../../../_type/banner'
 import { getSessionUser } from '../../user-auth/api/user-auth-api'
 import { renderJson } from '../../_common/render-json'
 import { shouldBeAdmin, shouldBeUser } from '../../../../service/user-auth/user-auth-service'
+import { omanGetObject } from '../../../../oman/oman'
 
-export function registerBannerApi(web: Express2, bdb: BannerDB) {
+export async function useBannerApi() {
+
+  const web = await omanGetObject('Express2') as Express2
+  const bdb = await omanGetObject('BannerDB') as BannerDB
 
   web.router.get('/api/banner-list', toCallback(async (req, res) => {
     const bannerList = bannerListService(bdb)

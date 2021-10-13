@@ -1,54 +1,39 @@
-import { loadConfigSync } from '../../../../_util/config-loader'
-import { DB } from '../../../../db/_db/db'
 import { UserDB } from '../../../../db/user/user-db'
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserAuthApi } from '../../user-auth/api/user-auth-api'
+import { useUserAuthApi } from '../../user-auth/api/user-auth-api'
 import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '../../../../db/user/fixture/user-fix'
 import { CounterDB } from '../../../../db/counter/counter-db'
-import { registerCounterApi } from './counter-api'
+import { useCounterApi } from './counter-api'
 import { loginForTest } from '../../user-auth/api/user-auth-api-fixture'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../../_type/error-user'
-import { Config } from '../../../../_type/config'
-import { UserCache } from '../../../../db/user/cache/user-cache'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../../_type/error-const'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../../../oman/oman'
 
 describe('Counter List Api', () => {
 
-  let config: Config
-
-  let db: DB
   let udb: UserDB
-  let uc: UserCache
-
   let cdb: CounterDB
-
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-
-    cdb = CounterDB.from(db)
-
-    web = Express2.from(config)
-    registerUserAuthApi(web, uc)
-    registerCounterApi(web, cdb)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    cdb = await omanGetObject('CounterDB') as CounterDB
+    web = await omanGetObject('Express2') as Express2
+    await useUserAuthApi()
+    await useCounterApi()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 

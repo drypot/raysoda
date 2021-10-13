@@ -1,45 +1,32 @@
-import { loadConfigSync } from '../../../_util/config-loader'
 import { Express2 } from '../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerRedirect } from './redirect'
-import { Config } from '../../../_type/config'
-import { DB } from '../../../db/_db/db'
+import { useRedirect } from './redirect'
 import { UserDB } from '../../../db/user/user-db'
-import { UserCache } from '../../../db/user/cache/user-cache'
 import { insertUserFix4 } from '../../../db/user/fixture/user-fix'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../../oman/oman'
 
 describe('Redirect', () => {
 
-  let config: Config
-
-  let db: DB
   let udb: UserDB
-  let uc: UserCache
-
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-
-    web = Express2.from(config)
-    registerRedirect(web, uc)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    web = await omanGetObject('Express2') as Express2
+    await useRedirect()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 

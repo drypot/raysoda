@@ -1,7 +1,7 @@
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { loadConfigSync } from '../../../../_util/config-loader'
-import { registerAboutPage } from './about-page'
+import { useAboutPage } from './about-page'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../../../oman/oman'
 
 describe('AboutPage', () => {
 
@@ -9,15 +9,15 @@ describe('AboutPage', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    const config = loadConfigSync('config/raysoda-test.json')
-    web = Express2.from(config)
-    registerAboutPage(web)
+    omanNewSession('config/raysoda-test.json')
+    web = await omanGetObject('Express2') as Express2
+    await useAboutPage()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
+    await omanCloseAllObjects()
   })
 
   it('/about', async () => {

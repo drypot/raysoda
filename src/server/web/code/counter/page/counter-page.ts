@@ -4,8 +4,12 @@ import { counterIncService } from '../../../../service/counter/counter-service'
 import { getSessionUser } from '../../user-auth/api/user-auth-api'
 import { renderHtml } from '../../_common/render-html'
 import { shouldBeAdmin, shouldBeUser } from '../../../../service/user-auth/user-auth-service'
+import { omanGetObject } from '../../../../oman/oman'
 
-export function registerCounterPage(web: Express2, cdb: CounterDB) {
+export async function useCounterPage() {
+
+  const web = await omanGetObject('Express2') as Express2
+  const cdb = await omanGetObject('CounterDB') as CounterDB
 
   web.router.get('/counter-inc/:id', toCallback(async (req, res) => {
     await counterIncService(cdb, req.params.id)
