@@ -1,60 +1,48 @@
-import { loadConfigSync } from '../../../../_util/config-loader'
 import { DB } from '../../../../db/_db/db'
 import { UserDB } from '../../../../db/user/user-db'
 import { ImageDB } from '../../../../db/image/image-db'
-import { ImageFileManager } from '../../../../file/fileman'
+import { ImageFileManager } from '../../../../file/_fileman'
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { RaySodaFileManager } from '../../../../file/raysoda-fileman'
 import { insertUserFix4 } from '../../../../db/user/fixture/user-fix'
-import { registerImageListApi } from './image-list-api'
-import { Config } from '../../../../_type/config'
-import { UserCache } from '../../../../db/user/cache/user-cache'
+import { useImageListApi } from './image-list-api'
+import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '../../../../oman/oman'
+import { omanGetImageFileManager } from '../../../../file/_fileman-loader'
 
 describe('ImageListApi', () => {
 
-  let config: Config
-
   let db: DB
   let udb: UserDB
-  let uc: UserCache
-
   let idb: ImageDB
   let ifm: ImageFileManager
-
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/raysoda-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-
-    idb = ImageDB.from(db)
-    ifm = RaySodaFileManager.from(config)
-
-    web = Express2.from(config).useUpload()
-    registerImageListApi(web, uc, idb, ifm)
+    omanNewSession('config/raysoda-test.json')
+    db = await omanGetObject('DB') as DB
+    udb = await omanGetObject('UserDB') as UserDB
+    idb = await omanGetObject('ImageDB') as ImageDB
+    ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
+    web = await omanGetObject('Express2') as Express2
+    await useImageListApi()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 
   it('init table', async () => {
     await idb.dropTable()
-    await idb.createTable(false)
+    await idb.createTable()
   })
   it('remove image dir', async () => {
     await ifm.rmRoot()

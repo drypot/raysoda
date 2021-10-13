@@ -1,54 +1,45 @@
-import { loadConfigSync } from '../../../../_util/config-loader'
-import { DB } from '../../../../db/_db/db'
 import { UserDB } from '../../../../db/user/user-db'
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
 import { insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '../../../../db/user/fixture/user-fix'
 import { ImageDB } from '../../../../db/image/image-db'
-import { registerUserAuthApi } from '../../user-auth/api/user-auth-api'
+import { useUserAuthApi } from '../../user-auth/api/user-auth-api'
 import { loginForTest } from '../../user-auth/api/user-auth-api-fixture'
-import { registerImageUpdatePage } from './image-update-page'
+import { useImageUpdatePage } from './image-update-page'
 import { newImage } from '../../../../_type/image'
-import { Config } from '../../../../_type/config'
-import { UserCache } from '../../../../db/user/cache/user-cache'
+import { ImageFileManager } from '../../../../file/_fileman'
+import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '../../../../oman/oman'
+import { omanGetImageFileManager } from '../../../../file/_fileman-loader'
+import { useImageUploadApi } from '../api/image-upload-api'
 
 describe('ImageUpdatePage', () => {
 
-  let config: Config
-
-  let db: DB
   let udb: UserDB
-  let uc: UserCache
-
   let idb: ImageDB
-
+  let ifm: ImageFileManager
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/raysoda-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-
-    idb = ImageDB.from(db)
-
-    web = Express2.from(config)
-    registerUserAuthApi(web, uc)
-    registerImageUpdatePage(web, idb)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    idb = await omanGetObject('ImageDB') as ImageDB
+    ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
+    web = await omanGetObject('Express2') as Express2
+    await useUserAuthApi()
+    await useImageUploadApi()
+    await useImageUpdatePage()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 

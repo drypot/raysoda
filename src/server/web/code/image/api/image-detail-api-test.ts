@@ -1,67 +1,53 @@
-import { loadConfigSync } from '../../../../_util/config-loader'
-import { DB } from '../../../../db/_db/db'
 import { UserDB } from '../../../../db/user/user-db'
 import { ImageDB } from '../../../../db/image/image-db'
-import { ImageFileManager } from '../../../../file/fileman'
+import { ImageFileManager } from '../../../../file/_fileman'
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { RaySodaFileManager } from '../../../../file/raysoda-fileman'
-import { registerUserAuthApi } from '../../user-auth/api/user-auth-api'
-import { registerImageUploadApi } from './image-upload-api'
+import { useUserAuthApi } from '../../user-auth/api/user-auth-api'
+import { useImageUploadApi } from './image-upload-api'
 import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '../../../../db/user/fixture/user-fix'
-import { registerImageDetailApi } from './image-detail-api'
+import { useImageDetailApi } from './image-detail-api'
 import { loginForTest, logoutForTest } from '../../user-auth/api/user-auth-api-fixture'
-import { IMAGE_NOT_EXIST } from '../../../../_type/error-image'
 import { ImageDetail, unpackImageDetail } from '../../../../_type/image-detail'
-import { Config } from '../../../../_type/config'
-import { UserCache } from '../../../../db/user/cache/user-cache'
 import { newDateString } from '../../../../_util/date2'
+import { IMAGE_NOT_EXIST } from '../../../../_type/error-const'
+import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '../../../../oman/oman'
+import { omanGetImageFileManager } from '../../../../file/_fileman-loader'
 
 describe('ImageDetailApi', () => {
-  let config: Config
 
-  let db: DB
   let udb: UserDB
-  let uc: UserCache
-
   let idb: ImageDB
   let ifm: ImageFileManager
-
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/raysoda-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-
-    idb = ImageDB.from(db)
-    ifm = RaySodaFileManager.from(config)
-
-    web = Express2.from(config).useUpload()
-    registerUserAuthApi(web, uc)
-    registerImageUploadApi(web, udb, idb, ifm)
-    registerImageDetailApi(web, uc, idb, ifm)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    idb = await omanGetObject('ImageDB') as ImageDB
+    ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
+    web = await omanGetObject('Express2') as Express2
+    await useUserAuthApi()
+    await useImageUploadApi()
+    await useImageDetailApi()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 
   it('init table', async () => {
     await idb.dropTable()
-    await idb.createTable(false)
+    await idb.createTable()
   })
   it('remove image dir', async () => {
     await ifm.rmRoot()

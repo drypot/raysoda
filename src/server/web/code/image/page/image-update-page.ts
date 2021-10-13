@@ -6,8 +6,12 @@ import { imageUpdateGetService } from '../../../../service/image/image-update-se
 import { getSessionUser } from '../../user-auth/api/user-auth-api'
 import { renderHtml } from '../../_common/render-html'
 import { shouldBeUser } from '../../../../service/user-auth/user-auth-service'
+import { omanGetObject } from '../../../../oman/oman'
 
-export function registerImageUpdatePage(web: Express2, idb: ImageDB) {
+export async function useImageUpdatePage() {
+
+  const web = await omanGetObject('Express2') as Express2
+  const idb = await omanGetObject('ImageDB') as ImageDB
 
   web.router.get('/image-update/:id([0-9]+)', toCallback(async (req, res) => {
     const user = getSessionUser(res)

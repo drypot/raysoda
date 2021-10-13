@@ -1,16 +1,23 @@
 import { Express2, toCallback } from '../../../_express/express2'
 import { ImageDB } from '../../../../db/image/image-db'
-import { ImageFileManager } from '../../../../file/fileman'
 import { Request, Response } from 'express'
 import { newLimitedNumber } from '../../../../_util/primitive'
 import { newDate, newDateString } from '../../../../_util/date2'
 import { imageListByCdateService, imageListService } from '../../../../service/image/image-list-service'
-import { UserCache } from '../../../../db/user/cache/user-cache'
 import { UrlMaker } from '../../../../_util/url2'
 import { BannerDB } from '../../../../db/banner/banner-db'
 import { renderHtml } from '../../_common/render-html'
+import { omanGetConfig, omanGetObject } from '../../../../oman/oman'
+import { UserDB } from '../../../../db/user/user-db'
+import { omanGetImageFileManager } from '../../../../file/_fileman-loader'
 
-export function registerImageListPage(web: Express2, uc: UserCache, idb: ImageDB, ifm: ImageFileManager, bdb: BannerDB) {
+export async function useImageListPage() {
+
+  const web = await omanGetObject('Express2') as Express2
+  const udb = await omanGetObject('UserDB') as UserDB
+  const idb = await omanGetObject('ImageDB') as ImageDB
+  const ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
+  const bdb = await omanGetObject('BannerDB') as BannerDB
 
   web.router.get('/', toCallback(listHandler))
 
@@ -22,8 +29,8 @@ export function registerImageListPage(web: Express2, uc: UserCache, idb: ImageDB
     const d = newDate(req.query.d)
     const ds = newDateString(d)
     const list = d ?
-      await imageListByCdateService(uc, idb, ifm, d, p, ps) :
-      await imageListService(uc, idb, ifm, p, ps)
+      await imageListByCdateService(udb, idb, ifm, d, p, ps) :
+      await imageListService(udb, idb, ifm, p, ps)
     renderHtml(res, 'image/image-list', {
       imageList: list,
       prev: p > 1 ? UrlMaker.from('/image-list').add('d', ds).add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,

@@ -1,68 +1,48 @@
-import { loadConfigSync } from '../../../../_util/config-loader'
 import { DB } from '../../../../db/_db/db'
 import { UserDB } from '../../../../db/user/user-db'
 import { ImageDB } from '../../../../db/image/image-db'
-import { ImageFileManager } from '../../../../file/fileman'
+import { ImageFileManager } from '../../../../file/_fileman'
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { RaySodaFileManager } from '../../../../file/raysoda-fileman'
 import { insertUserFix4 } from '../../../../db/user/fixture/user-fix'
-import { Config } from '../../../../_type/config'
-import { UserCache } from '../../../../db/user/cache/user-cache'
-import { ValueDB } from '../../../../db/value/value-db'
-import { BannerDB } from '../../../../db/banner/banner-db'
-import { registerImageListPage } from './image-list-page'
+import { useImageListPage } from './image-list-page'
+import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '../../../../oman/oman'
+import { omanGetImageFileManager } from '../../../../file/_fileman-loader'
 
 describe('ImageListPage', () => {
 
-  let config: Config
-
   let db: DB
   let udb: UserDB
-  let uc: UserCache
-
-  let vdb: ValueDB
-  let bdb: BannerDB
-
   let idb: ImageDB
   let ifm: ImageFileManager
-
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/raysoda-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-
-    vdb = ValueDB.from(db)
-    bdb = await BannerDB.from(vdb)
-
-    idb = ImageDB.from(db)
-    ifm = RaySodaFileManager.from(config)
-
-    web = Express2.from(config).useUpload()
-    registerImageListPage(web, uc, idb, ifm, bdb)
+    omanNewSession('config/raysoda-test.json')
+    db = await omanGetObject('DB') as DB
+    udb = await omanGetObject('UserDB') as UserDB
+    idb = await omanGetObject('ImageDB') as ImageDB
+    ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
+    web = await omanGetObject('Express2') as Express2
+    await useImageListPage()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   beforeAll(async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
   })
 
   it('init table', async () => {
     await idb.dropTable()
-    await idb.createTable(false)
+    await idb.createTable()
   })
   // it('remove image dir', async () => {
   //   await ifm.rmRoot()
