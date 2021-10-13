@@ -1,8 +1,11 @@
 import { Express2, toCallback } from '../../../_express/express2'
 import { userLogoutService } from '../api/user-auth-api'
 import { renderHtml } from '../../_common/render-html'
+import { omanGetObject } from '../../../../oman/oman'
 
-export function registerUserAuthPage(web: Express2) {
+export async function useUserAuthPage() {
+
+  const web = await omanGetObject('Express2') as Express2
 
   web.router.get('/login', (req, res) => {
     renderHtml(res, 'user-auth/login')

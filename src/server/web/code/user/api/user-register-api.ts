@@ -6,6 +6,7 @@ import { newString } from '../../../../_util/primitive'
 import { ErrorConst } from '../../../../_type/error'
 import { UserRegisterForm } from '../../../../_type/user-form'
 import { renderJson } from '../../_common/render-json'
+import { omanGetObject } from '../../../../oman/oman'
 
 export function newUserRegisterForm(req: Request): UserRegisterForm {
   const body = req.body
@@ -16,7 +17,10 @@ export function newUserRegisterForm(req: Request): UserRegisterForm {
   }
 }
 
-export function registerUserRegisterApi(web: Express2, udb: UserDB) {
+export async function useUserRegisterApi() {
+
+  const web = await omanGetObject('Express2') as Express2
+  const udb = await omanGetObject('UserDB') as UserDB
 
   web.router.post('/api/user-register', toCallback(async (req, res) => {
     let form = newUserRegisterForm(req)

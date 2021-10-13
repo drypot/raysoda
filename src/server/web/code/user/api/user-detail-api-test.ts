@@ -1,50 +1,37 @@
-import { loadConfigSync } from '../../../../_util/config-loader'
-import { DB } from '../../../../db/_db/db'
 import { UserDB } from '../../../../db/user/user-db'
 import { ADMIN_LOGIN, insertUserFix4, USER1, USER1_LOGIN } from '../../../../db/user/fixture/user-fix'
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserDetailApi } from './user-detail-api'
-import { registerUserAuthApi } from '../../user-auth/api/user-auth-api'
+import { useUserDetailApi } from './user-detail-api'
+import { useUserAuthApi } from '../../user-auth/api/user-auth-api'
 import { loginForTest } from '../../user-auth/api/user-auth-api-fixture'
-import { Config } from '../../../../_type/config'
-import { UserCache } from '../../../../db/user/cache/user-cache'
 import { unpackUserDetail } from '../../../../_type/user-detail'
 import { dateNull } from '../../../../_util/date2'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../../../oman/oman'
 
 describe('UserDetailApi', () => {
 
-  let config: Config
-
-  let db: DB
   let udb: UserDB
-  let uc: UserCache
-
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-
-    web = Express2.from(config)
-    registerUserAuthApi(web, uc)
-    registerUserDetailApi(web, uc)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    web = await omanGetObject('Express2') as Express2
+    await useUserAuthApi()
+    await useUserDetailApi()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
   })
   it('fill fix', async () => {
     await insertUserFix4(udb)
@@ -74,7 +61,7 @@ describe('UserDetailApi', () => {
   let adate: Date
 
   it('get adate', async () => {
-    const user = await uc.getCachedById(1)
+    const user = await udb.getCachedById(1)
     if (!user) throw new Error()
     adate = user.adate
   })

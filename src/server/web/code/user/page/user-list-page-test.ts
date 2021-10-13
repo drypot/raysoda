@@ -1,41 +1,28 @@
-import { loadConfigSync } from '../../../../_util/config-loader'
-import { DB } from '../../../../db/_db/db'
 import { UserDB } from '../../../../db/user/user-db'
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserAuthApi } from '../../user-auth/api/user-auth-api'
-import { registerUserListPage } from './user-list-page'
-import { Config } from '../../../../_type/config'
-import { UserCache } from '../../../../db/user/cache/user-cache'
+import { useUserAuthApi } from '../../user-auth/api/user-auth-api'
+import { useUserListPage } from './user-list-page'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../../../oman/oman'
 
 describe('UserListPage', () => {
 
-  let config: Config
-
-  let db: DB
   let udb: UserDB
-  let uc: UserCache
-
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-
-    web = Express2.from(config)
-    registerUserAuthApi(web, uc)
-    registerUserListPage(web, udb)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    web = await omanGetObject('Express2') as Express2
+    await useUserAuthApi()
+    await useUserListPage()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   it('user list', async () => {

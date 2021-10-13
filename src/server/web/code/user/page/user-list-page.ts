@@ -8,8 +8,12 @@ import { UserForList } from '../../../../_type/user-detail'
 import { getSessionUser } from '../../user-auth/api/user-auth-api'
 import { userIsAdmin } from '../../../../_type/user'
 import { renderHtml } from '../../_common/render-html'
+import { omanGetObject } from '../../../../oman/oman'
 
-export function registerUserListPage(web: Express2, udb: UserDB) {
+export async function useUserListPage() {
+
+  const web = await omanGetObject('Express2') as Express2
+  const udb = await omanGetObject('UserDB') as UserDB
 
   web.router.get('/user-list', toCallback(async (req, res) => {
     const user = getSessionUser(res)

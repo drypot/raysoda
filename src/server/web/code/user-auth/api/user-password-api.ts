@@ -6,17 +6,23 @@ import {
   userSendResetPasswordMailService
 } from '../../../../service/user-auth/user-password-service'
 import { newString } from '../../../../_util/primitive'
-import { UserCache } from '../../../../db/user/cache/user-cache'
 import { ErrorConst } from '../../../../_type/error'
 import { NewPasswordForm } from '../../../../_type/password'
 import { renderJson } from '../../_common/render-json'
+import { omanGetObject } from '../../../../oman/oman'
+import { UserDB } from '../../../../db/user/user-db'
 
-export function registerUserPasswordApi(web: Express2, uc: UserCache, resetDB: ResetDB, mailer: Mailer) {
+export async function useUserPasswordApi() {
+
+  const web = await omanGetObject('Express2') as Express2
+  const udb = await omanGetObject('UserDB') as UserDB
+  const rdb = await omanGetObject('ResetDB') as ResetDB
+  const mailer = await omanGetObject('Mailer') as Mailer
 
   web.router.post('/api/password-send-reset-mail', toCallback(async (req, res) => {
     const email = newString(req.body.email).trim()
     const err: ErrorConst[] = []
-    await userSendResetPasswordMailService(mailer, uc.udb, resetDB, email, err)
+    await userSendResetPasswordMailService(mailer, udb, rdb, email, err)
     if (err.length) throw err
     renderJson(res, {})
   }))
@@ -28,7 +34,7 @@ export function registerUserPasswordApi(web: Express2, uc: UserCache, resetDB: R
       password: newString(req.body.password).trim()
     }
     const err: ErrorConst[] = []
-    await userResetPasswordService(uc, resetDB, form, err)
+    await userResetPasswordService(udb, rdb, form, err)
     if (err.length) throw err
     renderJson(res, {})
   }))

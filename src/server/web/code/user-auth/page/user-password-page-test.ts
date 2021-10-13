@@ -1,26 +1,26 @@
-import { loadConfigSync } from '../../../../_util/config-loader'
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserPasswordPage } from './user-password-page'
-import { Config } from '../../../../_type/config'
+import { useUserPasswordPage } from './user-password-page'
+import { UserDB } from '../../../../db/user/user-db'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../../../oman/oman'
 
 describe('UserPasswordPage', () => {
 
-  let config: Config
-
+  let udb: UserDB
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-    web = Express2.from(config)
-    registerUserPasswordPage(web)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    web = await omanGetObject('Express2') as Express2
+    await useUserPasswordPage()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
+    await omanCloseAllObjects()
   })
 
   it('1', async () => {

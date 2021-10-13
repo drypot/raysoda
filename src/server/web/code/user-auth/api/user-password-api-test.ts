@@ -1,5 +1,3 @@
-import { loadConfigSync } from '../../../../_util/config-loader'
-import { DB } from '../../../../db/_db/db'
 import { ResetDB } from '../../../../db/password/reset-db'
 import { Mailer } from '../../../../mailer/mailer2'
 import { UserDB } from '../../../../db/user/user-db'
@@ -7,54 +5,42 @@ import { insertUserFix4 } from '../../../../db/user/fixture/user-fix'
 import { checkHash } from '../../../../_util/hash'
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserPasswordApi } from './user-password-api'
-import { INVALID_DATA } from '../../../../_type/error'
-import { EMAIL_NOT_FOUND, EMAIL_PATTERN, PASSWORD_RANGE } from '../../../../_type/error-user'
-import { Config } from '../../../../_type/config'
-import { UserCache } from '../../../../db/user/cache/user-cache'
+import { useUserPasswordApi } from './user-password-api'
 import { NewPasswordForm } from '../../../../_type/password'
+import { EMAIL_NOT_FOUND, EMAIL_PATTERN, INVALID_DATA, PASSWORD_RANGE } from '../../../../_type/error-const'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../../../oman/oman'
+import { useUserAuthApi } from './user-auth-api'
 
 describe('UserPasswordApi', () => {
 
-  let config: Config
-
-  let db: DB
   let udb: UserDB
-  let uc: UserCache
-
   let rdb: ResetDB
   let mailer: Mailer
-
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-    uc = UserCache.from(udb)
-
-    rdb = ResetDB.from(db)
-    mailer = Mailer.from(config).loadSync()
-
-    web = Express2.from(config)
-    registerUserPasswordApi(web, uc, rdb, mailer)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    rdb = await omanGetObject('ResetDB') as ResetDB
+    mailer = await omanGetObject('Mailer') as Mailer
+    web = await omanGetObject('Express2') as Express2
+    await useUserAuthApi()
+    await useUserPasswordApi()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
     await insertUserFix4(udb)
     await rdb.dropTable()
-    await rdb.createTable(false)
+    await rdb.createTable()
   })
   it('send mail, email existence check', async () => {
     const res = await sat.post('/api/password-send-reset-mail').send({ email: 'userx@mail.test' }).expect(200)

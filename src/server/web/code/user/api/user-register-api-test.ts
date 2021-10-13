@@ -1,10 +1,8 @@
-import { loadConfigSync } from '../../../../_util/config-loader'
-import { DB } from '../../../../db/_db/db'
 import { UserDB } from '../../../../db/user/user-db'
 import { insertUserFix4 } from '../../../../db/user/fixture/user-fix'
 import { Express2 } from '../../../_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { registerUserRegisterApi } from './user-register-api'
+import { useUserRegisterApi } from './user-register-api'
 import {
   EMAIL_DUPE,
   EMAIL_RANGE,
@@ -13,39 +11,31 @@ import {
   NAME_DUPE,
   NAME_RANGE,
   PASSWORD_RANGE
-} from '../../../../_type/error-user'
-import { Config } from '../../../../_type/config'
+} from '../../../../_type/error-const'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../../../oman/oman'
 
 describe('UserRegisterApi', () => {
 
-  let config: Config
-
-  let db: DB
   let udb: UserDB
-
   let web: Express2
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    config = loadConfigSync('config/app-test.json')
-
-    db = await DB.from(config).createDatabase()
-    udb = UserDB.from(db)
-
-    web = Express2.from(config)
-    registerUserRegisterApi(web, udb)
+    omanNewSession('config/raysoda-test.json')
+    udb = await omanGetObject('UserDB') as UserDB
+    web = await omanGetObject('Express2') as Express2
+    await useUserRegisterApi()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
-    await db.close()
+    await omanCloseAllObjects()
   })
 
   it('init table', async () => {
     await udb.dropTable()
-    await udb.createTable(false)
+    await udb.createTable()
   })
   it('fill fix', async () => {
     await insertUserFix4(udb)
