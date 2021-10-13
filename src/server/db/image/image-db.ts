@@ -11,7 +11,7 @@ omanRegisterFactory('ImageDB', async () => {
 
 export class ImageDB {
 
-  readonly db: DB
+  private db: DB
   private nextId: number = 0
 
   static from(db: DB) {

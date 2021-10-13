@@ -16,7 +16,7 @@ omanRegisterFactory('UserCache', async () => {
 
 export class UserCache {
 
-  readonly udb: UserDB
+  private udb: UserDB
 
   static from(udb: UserDB) {
     return new UserCache(udb)

@@ -12,7 +12,7 @@ omanRegisterFactory('UserDB', async () => {
 
 export class UserDB {
 
-  readonly db: DB
+  private db: DB
   private nextId: number
 
   static from(db: DB) {

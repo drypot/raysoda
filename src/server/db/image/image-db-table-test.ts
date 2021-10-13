@@ -1,12 +1,15 @@
 import { ImageDB } from './image-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { DB } from '../_db/db'
 
 describe('ImageDB.*Table', () => {
 
+  let db: DB
   let idb: ImageDB
 
   beforeAll(async () => {
     omanNewSessionForTest()
+    db = await omanGetObject('DB') as DB
     idb = await omanGetObject('ImageDB') as ImageDB
   })
 
@@ -21,19 +24,19 @@ describe('ImageDB.*Table', () => {
     await idb.createTable()
   })
   it('table exists', async () => {
-    expect(await idb.db.findTable('image')).toBeDefined()
+    expect(await db.findTable('image')).toBeDefined()
   })
   it('index exists', async () => {
-    expect(await idb.db.findIndex('image', 'image_cdate')).toBeDefined()
+    expect(await db.findIndex('image', 'image_cdate')).toBeDefined()
   })
   it('index exists 2', async () => {
-    expect(await idb.db.findIndex('image', 'image_uid_cdate')).toBeDefined()
+    expect(await db.findIndex('image', 'image_uid_cdate')).toBeDefined()
   })
   it('drop table', async () => {
     await idb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await idb.db.findTable('image')).toBeUndefined()
+    expect(await db.findTable('image')).toBeUndefined()
   })
 
 })

@@ -11,7 +11,7 @@ omanRegisterFactory('ResetDB', async () => {
 
 export class ResetDB {
 
-  readonly db: DB
+  private db: DB
 
   static from(db: DB) {
     return new ResetDB(db)

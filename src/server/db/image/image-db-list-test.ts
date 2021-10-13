@@ -1,12 +1,15 @@
 import { ImageDB } from './image-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { DB } from '../_db/db'
 
 describe('ImageDB.find*List', () => {
 
+  let db: DB
   let idb: ImageDB
 
   beforeAll(async () => {
     omanNewSessionForTest()
+    db = await omanGetObject('DB') as DB
     idb = await omanGetObject('ImageDB') as ImageDB
   })
 
@@ -37,7 +40,7 @@ describe('ImageDB.find*List', () => {
       [9, 1, new Date(2003, 8, 9), '9'],
       [10, 1, new Date(2003, 9, 10), '10'],
     ]
-    await idb.db.query('insert into image(id, uid, cdate, comment) values ?', [list])
+    await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
   it('find first image returns image', async () => {
     const r = await idb.findFirstImage()

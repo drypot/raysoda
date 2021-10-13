@@ -1,12 +1,15 @@
 import { ResetDB } from './reset-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { DB } from '../_db/db'
 
 describe('ResetDB Table', () => {
 
+  let db: DB
   let rdb: ResetDB
 
   beforeAll(async () => {
     omanNewSessionForTest()
+    db = await omanGetObject('DB') as DB
     rdb = await omanGetObject('ResetDB') as ResetDB
   })
 
@@ -18,19 +21,19 @@ describe('ResetDB Table', () => {
     await rdb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await rdb.db.findTable('pwreset')).toBeUndefined()
+    expect(await db.findTable('pwreset')).toBeUndefined()
   })
   it('create table', async () => {
     await rdb.createTable()
   })
   it('table exists', async () => {
-    expect(await rdb.db.findTable('pwreset')).toBeDefined()
+    expect(await db.findTable('pwreset')).toBeDefined()
   })
   it('drop table', async () => {
     await rdb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await rdb.db.findTable('pwreset')).toBeUndefined()
+    expect(await db.findTable('pwreset')).toBeUndefined()
   })
 
 })

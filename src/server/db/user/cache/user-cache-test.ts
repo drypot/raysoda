@@ -1,13 +1,16 @@
 import { insertUserFix1 } from '../fixture/user-fix'
 import { UserCache } from './user-cache'
 import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../../oman/oman'
+import { UserDB } from '../user-db'
 
 describe('UserCache', () => {
 
+  let udb: UserDB
   let uc: UserCache
 
   beforeAll(async () => {
     omanNewSessionForTest()
+    udb = await omanGetObject('UserDB') as UserDB
     uc = await omanGetObject('UserCache') as UserCache
   })
 
@@ -16,9 +19,9 @@ describe('UserCache', () => {
   })
 
   beforeAll(async () => {
-    await uc.udb.dropTable()
-    await uc.udb.createTable()
-    await insertUserFix1(uc.udb)
+    await udb.dropTable()
+    await udb.createTable()
+    await insertUserFix1(udb)
   })
 
   describe('getCachedById', () => {

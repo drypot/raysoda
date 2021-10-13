@@ -12,7 +12,7 @@ omanRegisterFactory('CounterDB', async () => {
 
 export class CounterDB {
 
-  readonly db: DB
+  private db: DB
 
   static from(db: DB) {
     return new CounterDB(db)

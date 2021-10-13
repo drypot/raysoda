@@ -10,7 +10,7 @@ omanRegisterFactory('BannerDB', async () => {
 
 export class BannerDB {
 
-  readonly vdb: ValueDB
+  private vdb: ValueDB
   private bannerList: Banner[] = []
 
   static from(vdb: ValueDB) {
@@ -23,10 +23,7 @@ export class BannerDB {
 
   async loadCache() {
     const list = await this.vdb.findValue('banners')
-    if (list) {
-      this.bannerList = list
-    }
-    return this
+    this.bannerList = list ? list : []
   }
 
   getCached() {

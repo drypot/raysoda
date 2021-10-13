@@ -2,13 +2,16 @@ import { BannerDB } from './banner-db'
 import { Banner } from '../../_type/banner'
 import { dupe } from '../../_util/object2'
 import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { ValueDB } from '../value/value-db'
 
 describe('BannerDB', () => {
 
+  let vdb: ValueDB
   let bdb: BannerDB
 
   beforeAll(async () => {
     omanNewSessionForTest()
+    vdb = await omanGetObject('ValueDB') as ValueDB
     bdb = await omanGetObject('BannerDB') as BannerDB
   })
 
@@ -16,34 +19,35 @@ describe('BannerDB', () => {
     await omanCloseAllObjects()
   })
 
-  const list: Banner[] = [
+  const listFix: Banner[] = [
     { text: 'text1', url: 'url1' }
   ]
 
   it('init table', async () => {
-    await bdb.vdb.dropTable()
-    await bdb.vdb.createTable()
+    await vdb.dropTable()
+    await vdb.createTable()
   })
   it('init bdb cache', async () => {
-    bdb = await bdb.loadCache()
+    await bdb.loadCache()
   })
   it('banner is empty', async () => {
     const b = bdb.getCached()
     expect(b.length).toBe(0)
   })
   it('set banner', async () => {
-    await bdb.updateBannerList(list)
+    await bdb.updateBannerList(listFix)
   })
   it('banner contains item', async () => {
-    const b = bdb.getCached()
-    expect(dupe(b)).toEqual(list)
+    const list = bdb.getCached()
+    expect(dupe(list)).toEqual(listFix)
   })
   it('new bdb', async () => {
-    bdb = await BannerDB.from(bdb.vdb).loadCache()
+    bdb = BannerDB.from(vdb)
+    await bdb.loadCache()
   })
   it('banner contains item', async () => {
-    const b = bdb.getCached()
-    expect(dupe(b)).toEqual(list)
+    const list = bdb.getCached()
+    expect(dupe(list)).toEqual(listFix)
   })
 
 })

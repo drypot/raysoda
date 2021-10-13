@@ -1,12 +1,15 @@
 import { ValueDB } from './value-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { DB } from '../_db/db'
 
 describe('ValueDB Table', () => {
 
+  let db: DB
   let vdb: ValueDB
 
   beforeAll(async () => {
     omanNewSessionForTest()
+    db = await omanGetObject('DB') as DB
     vdb = await omanGetObject('ValueDB') as ValueDB
   })
 
@@ -19,13 +22,13 @@ describe('ValueDB Table', () => {
     await vdb.createTable()
   })
   it('table exists', async () => {
-    expect(await vdb.db.findTable('persist')).toBeDefined()
+    expect(await db.findTable('persist')).toBeDefined()
   })
   it('drop table', async () => {
     await vdb.dropTable()
   })
   it('table does not exist', async () => {
-    expect(await vdb.db.findTable('persist')).toBeUndefined()
+    expect(await db.findTable('persist')).toBeUndefined()
   })
 
 })

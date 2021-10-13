@@ -1,12 +1,15 @@
 import { CounterDB } from './counter-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { DB } from '../_db/db'
 
 describe('CounterDB Table', () => {
 
+  let db: DB
   let cdb: CounterDB
 
   beforeAll(async () => {
     omanNewSessionForTest()
+    db = await omanGetObject('DB') as DB
     cdb = await omanGetObject('CounterDB') as CounterDB
   })
 
@@ -19,13 +22,13 @@ describe('CounterDB Table', () => {
     await cdb.createTable()
   })
   it('table exists', async () => {
-    expect(await cdb.db.findTable('counter')).toBeDefined()
+    expect(await db.findTable('counter')).toBeDefined()
   })
   it('drop table', async () => {
     await cdb.dropTable()
   })
   it('table does not exist', async () => {
-    expect(await cdb.db.findTable('counter')).toBeUndefined()
+    expect(await db.findTable('counter')).toBeUndefined()
   })
 
 })

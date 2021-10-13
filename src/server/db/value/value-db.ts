@@ -10,7 +10,7 @@ omanRegisterFactory('ValueDB', async () => {
 
 export class ValueDB {
 
-  readonly db: DB
+  private db: DB
 
   static from(db: DB) {
     return new ValueDB(db)
