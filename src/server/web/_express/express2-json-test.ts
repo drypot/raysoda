@@ -1,6 +1,6 @@
 import { Express2 } from './express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('Express2 Json', () => {
 
@@ -8,7 +8,7 @@ describe('Express2 Json', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     web = await omanGetObject('Express2') as Express2
     await web.start()
     sat = supertest.agent(web.server)

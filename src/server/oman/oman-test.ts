@@ -1,4 +1,4 @@
-import { omanCloseAllObjects, omanGetObject, omanNewSession, omanNewSessionForTest } from './oman'
+import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from './oman'
 import { ObjManFix1 } from './fixture/oman-fix1'
 
 describe('Oman', () => {
@@ -8,21 +8,22 @@ describe('Oman', () => {
     }).toThrow()
   })
   it('new session', () => {
-    const config = omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
+    const config = omanGetConfig()
     expect(config.appName).toBeDefined()
   })
   it('get object ', async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     const obj1 = await omanGetObject('ObjManFix1') as ObjManFix1
     expect(obj1.message).toBe('created')
     const obj2 = await omanGetObject('ObjManFix1') as ObjManFix1
     expect(obj2).toBe(obj1)
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     const obj4 = await omanGetObject('ObjManFix1') as ObjManFix1
     expect(obj4).not.toBe(obj1)
   })
   it('close handler', async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     const obj1 = await omanGetObject('ObjManFix1') as ObjManFix1
     expect(obj1.message).toBe('created')
     await omanCloseAllObjects()

@@ -1,6 +1,5 @@
 import { loadConfigSync } from '../_util/config-loader'
 import { Config } from '../_type/config'
-import { TEST_CONFIG_PATH } from '../_type/config-path'
 
 export type OmanFactory = () => Promise<any>
 export type OmanCloser = () => Promise<any>
@@ -25,17 +24,12 @@ export function omanRegisterFactory(name: string, factory: OmanFactory) {
   factoryMap.set(name, factory)
 }
 
-export function omanNewSessionForTest() {
-  return omanNewSession(TEST_CONFIG_PATH)
-}
-
 export function omanNewSession(configPath: string) {
   session = {
     config: loadConfigSync(configPath),
     objMap: new Map<string, any>(),
     closerList: []
   }
-  return session.config
 }
 
 export function omanGetConfig() {

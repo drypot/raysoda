@@ -2,7 +2,7 @@ import { ValueDB } from '../../db/value/value-db'
 import { BannerDB } from '../../db/banner/banner-db'
 import { bannerListService, bannerListUpdateService } from './banner-service'
 import { Banner } from '../../_type/banner'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('BannerApi List', () => {
 
@@ -10,7 +10,7 @@ describe('BannerApi List', () => {
   let bdb: BannerDB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     vdb = await omanGetObject('ValueDB') as ValueDB
     bdb = await omanGetObject('BannerDB') as BannerDB
   })

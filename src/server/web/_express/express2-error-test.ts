@@ -1,7 +1,7 @@
 import { Express2 } from './express2'
 import supertest, { SuperAgentTest } from 'supertest'
 import { INVALID_DATA } from '../../_type/error-const'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('Express2 Error', () => {
 
@@ -9,7 +9,7 @@ describe('Express2 Error', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     web = await omanGetObject('Express2') as Express2
     await web.start()
     sat = supertest.agent(web.server)

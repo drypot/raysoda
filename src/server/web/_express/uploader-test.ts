@@ -3,7 +3,7 @@ import supertest, { SuperAgentTest } from 'supertest'
 import { timeout } from '../../_util/async2'
 import { existsSync } from 'fs'
 import { deleteUpload, Uploader } from './uploader'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('Express2 Upload', () => {
 
@@ -12,7 +12,7 @@ describe('Express2 Upload', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     web = await omanGetObject('Express2') as Express2
     uploader = await omanGetObject('Uploader') as Uploader
     await web.start()

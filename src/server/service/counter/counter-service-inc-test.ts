@@ -2,14 +2,14 @@ import { newDateStringNoTime } from '../../_util/date2'
 import { CounterDB } from '../../db/counter/counter-db'
 import { counterIncService } from './counter-service'
 import { dupe } from '../../_util/object2'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('Counter Api Inc', () => {
 
   let cdb: CounterDB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     cdb = await omanGetObject('CounterDB') as CounterDB
   })
 

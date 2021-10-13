@@ -1,14 +1,14 @@
 import { CounterDB } from '../../db/counter/counter-db'
 import { counterListService } from './counter-service'
 import { dupe } from '../../_util/object2'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('Counter Api List', () => {
 
   let cdb: CounterDB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     cdb = await omanGetObject('CounterDB') as CounterDB
   })
 
