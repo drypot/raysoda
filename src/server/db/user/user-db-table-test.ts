@@ -1,12 +1,15 @@
 import { UserDB } from './user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { DB } from '../_db/db'
 
 describe('UserDB.*Table', () => {
 
+  let db: DB
   let udb: UserDB
 
   beforeAll(async () => {
     omanNewSessionForTest()
+    db = await omanGetObject('DB') as DB
     udb = await omanGetObject('UserDB') as UserDB
   })
 
@@ -21,13 +24,13 @@ describe('UserDB.*Table', () => {
     await udb.createTable()
   })
   it('table exists', async () => {
-    expect(await udb.db.findTable('user')).toBeDefined()
+    expect(await db.findTable('user')).toBeDefined()
   })
   it('drop table', async () => {
     await udb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await udb.db.findTable('user')).toBeUndefined()
+    expect(await db.findTable('user')).toBeUndefined()
   })
 
 })

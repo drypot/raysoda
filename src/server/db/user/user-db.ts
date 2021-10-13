@@ -3,6 +3,7 @@ import { User } from '../../_type/user'
 import { UserForList } from '../../_type/user-detail'
 import { inProduction } from '../../_util/env2'
 import { omanGetObject, omanRegisterFactory } from '../../oman/oman'
+import { UserCache } from './user-cache'
 
 omanRegisterFactory('UserDB', async () => {
   const udb = UserDB.from(await omanGetObject('DB') as DB)
@@ -13,6 +14,7 @@ omanRegisterFactory('UserDB', async () => {
 export class UserDB {
 
   private db: DB
+  private cache: UserCache
   private nextId: number
 
   static from(db: DB) {
@@ -21,6 +23,7 @@ export class UserDB {
 
   private constructor(db: DB) {
     this.db = db
+    this.cache = new UserCache()
     this.nextId = 0
   }
 
@@ -84,46 +87,83 @@ export class UserDB {
   }
 
   async updateUser(id: number, update: Partial<User>) {
+    this.cache.deleteCacheById(id)
     const r = await this.db.query('update user set ? where id = ?', [update, id])
     return r.changedRows as number
   }
 
   async updateHash(email: string, hash: string) {
-    const r = await this.db.query('update user set hash = ? where email = ?', [hash, email])
-    return r.changedRows as number
+    const user = await this.findUserByEmail(email)
+    if (user) {
+      this.cache.deleteCacheById(user.id)
+      const r = await this.db.query('update user set hash = ? where email = ?', [hash, email])
+      return r.changedRows as number
+    }
+    return 0
   }
 
   async updateADate(id: number, now: Date) {
+    this.cache.deleteCacheById(id)
     const r = await this.db.query('update user set adate = ? where id = ?', [now, id])
     return r.changedRows as number
   }
 
   async updatePDate(id: number, d: Date) {
+    this.cache.deleteCacheById(id)
     const r = await this.db.query('update user set pdate = ? where id = ?', [d, id])
     return r.changedRows as number
   }
 
   async updateStatus(id: number, s: string) {
+    this.cache.deleteCacheById(id)
     const r = await this.db.query('update user set status = ? where id = ?', [s, id])
     return r.changedRows as number
   }
 
   async findUserById(id: number) {
-    const r = await this.db.queryOne('select * from user where id = ?', id)
-    if (r) unpack(r)
-    return r as User | undefined
+    let user = this.cache.getCacheById(id)
+    if (user) {
+      return user
+    }
+    user = await this.db.queryOne('select * from user where id = ?', id)
+    if (user) {
+      unpack(user)
+      this.cache.cache(user)
+    }
+    return user
+  }
+
+  async findUserByHome(home: string) {
+    let user = this.cache.getCacheByHome(home)
+    if (user) {
+      return user
+    }
+    user = await this.db.queryOne('select * from user where home = ?', home)
+    if (user) {
+      unpack(user)
+      this.cache.cache(user)
+    }
+    return user
   }
 
   async findUserByEmail(email: string) {
     const r = await this.db.queryOne('select * from user where email = ?', email)
-    if (r) unpack(r)
+    if (r) {
+      unpack(r)
+    }
     return r as User | undefined
   }
 
-  async findUserByHome(home: string) {
-    const r = await this.db.queryOne('select * from user where home = ?', home)
-    if (r) unpack(r)
-    return r as User | undefined
+  getCachedById(id: number) {
+    return this.cache.getCacheById(id)
+  }
+
+  getCachedByHome(home: string) {
+    return this.cache.getCacheByHome(home)
+  }
+
+  resetCache() {
+    this.cache.resetCache()
   }
 
   async findUserList(offset: number = 0, ps: number = 100) {
