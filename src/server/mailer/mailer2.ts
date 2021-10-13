@@ -10,8 +10,8 @@ omanRegisterFactory('Mailer', async () => {
 
 export class Mailer {
 
-  public config: Config
-  public transport: Transporter | undefined
+  private config: Config
+  private transport: Transporter | undefined
 
   static from(config: Config) {
     return new Mailer(config)
