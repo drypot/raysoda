@@ -4,20 +4,20 @@ import { ImageFileManager } from '../../file/_fileman'
 import { RaySodaFileManager } from '../../file/raysoda-fileman'
 import { insertUserFix4 } from '../../db/user/fixture/user-fix'
 import { imageListByCdateService, imageListByUserService, imageListService } from './image-list-service'
-import { UserCache } from '../../db/user/cache/user-cache'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { DB } from '../../db/_db/db'
 
 describe('imageList*Service', () => {
 
+  let db: DB
   let udb: UserDB
-  let uc: UserCache
   let idb: ImageDB
   let ifm: ImageFileManager
 
   beforeAll(async () => {
     omanNewSession('config/raysoda-test.json')
+    db = await omanGetObject('DB') as DB
     udb = await omanGetObject('UserDB') as UserDB
-    uc = await omanGetObject('UserCache') as UserCache
     idb = await omanGetObject('ImageDB') as ImageDB
     ifm = await omanGetObject('RaySodaFileManager') as RaySodaFileManager
   })
@@ -52,10 +52,10 @@ describe('imageList*Service', () => {
       [9, 1, new Date(2003, 8, 9), '9'],
       [10, 1, new Date(2003, 9, 10), '10'],
     ]
-    await idb.db.query('insert into image(id, uid, cdate, comment) values ?', [list])
+    await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
   it('p 1, ps 128', async () => {
-    const r = await imageListService(uc, idb, ifm, 1, 128)
+    const r = await imageListService(udb, idb, ifm, 1, 128)
     expect(r.length).toBe(10)
     expect(r[0].id).toBe(10)
     expect(r[1].id).toBe(9)
@@ -63,31 +63,31 @@ describe('imageList*Service', () => {
     expect(r[9].id).toBe(1)
   })
   it('p 1, ps 4', async () => {
-    const r = await imageListService(uc, idb, ifm, 1, 4)
+    const r = await imageListService(udb, idb, ifm, 1, 4)
     expect(r.length).toBe(4)
     expect(r[0].id).toBe(10)
     expect(r[3].id).toBe(7)
   })
   it('p 2, ps 4', async () => {
-    const r = await imageListService(uc, idb, ifm, 2, 4)
+    const r = await imageListService(udb, idb, ifm, 2, 4)
     expect(r.length).toBe(4)
     expect(r[0].id).toBe(6)
     expect(r[3].id).toBe(3)
   })
   it('p 3, ps 4', async () => {
-    const r = await imageListService(uc, idb, ifm, 3, 4)
+    const r = await imageListService(udb, idb, ifm, 3, 4)
     expect(r.length).toBe(2)
     expect(r[0].id).toBe(2)
     expect(r[1].id).toBe(1)
   })
   it('d 20030607, ps 4', async () => {
-    const r = await imageListByCdateService(uc, idb, ifm, new Date('2003-6-7'), 1, 4)
+    const r = await imageListByCdateService(udb, idb, ifm, new Date('2003-6-7'), 1, 4)
     expect(r.length).toBe(4)
     expect(r[0].id).toBe(6)
     expect(r[3].id).toBe(3)
   })
   it('u 1', async () => {
-    const r = await imageListByUserService(uc, idb, ifm, 1, 1, 128)
+    const r = await imageListByUserService(udb, idb, ifm, 1, 1, 128)
     expect(r.length).toBe(5)
     expect(r[0].id).toBe(10)
     expect(r[3].id).toBe(7)

@@ -4,12 +4,12 @@ import { Image } from '../../_type/image'
 import { User } from '../../_type/user'
 import { newDateString } from '../../_util/date2'
 import { ImageForList } from '../../_type/image-detail'
-import { UserCache } from '../../db/user/cache/user-cache'
+import { UserDB } from '../../db/user/user-db'
 
-async function newDecoratedImageList(uc: UserCache, ifm: ImageFileManager, list: Image[]) {
+async function newDecoratedImageList(udb: UserDB, ifm: ImageFileManager, list: Image[]) {
   return await Promise.all(
     list.map(async (image): Promise<ImageForList> => {
-      const owner = await uc.getCachedById(image.uid) as User
+      const owner = await udb.getCachedById(image.uid) as User
       return {
         id: image.id,
         owner: {
@@ -27,22 +27,22 @@ async function newDecoratedImageList(uc: UserCache, ifm: ImageFileManager, list:
 }
 
 export async function imageListService(
-  uc: UserCache, idb: ImageDB, ifm: ImageFileManager, p: number, ps: number
+  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, p: number, ps: number
 ) {
   const il = await idb.findImageList((p - 1) * ps, ps)
-  return newDecoratedImageList(uc, ifm, il)
+  return newDecoratedImageList(udb, ifm, il)
 }
 
 export async function imageListByCdateService(
-  uc: UserCache, idb: ImageDB, ifm: ImageFileManager, d: Date, p: number, ps: number
+  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, d: Date, p: number, ps: number
 ) {
   const il = await idb.findImageListByCdate(d, (p - 1) * ps, ps)
-  return newDecoratedImageList(uc, ifm, il)
+  return newDecoratedImageList(udb, ifm, il)
 }
 
 export async function imageListByUserService(
-  uc: UserCache, idb: ImageDB, ifm: ImageFileManager, uid: number, p: number, ps: number
+  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, uid: number, p: number, ps: number
 ) {
   const il = await idb.findImageListByUser(uid, (p - 1) * ps, ps)
-  return await newDecoratedImageList(uc, ifm, il)
+  return await newDecoratedImageList(udb, ifm, il)
 }

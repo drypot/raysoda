@@ -3,12 +3,12 @@ import { ImageFileManager } from '../../file/_fileman'
 import { User } from '../../_type/user'
 import { Image } from '../../_type/image'
 import { ImageDetail } from '../../_type/image-detail'
-import { UserCache } from '../../db/user/cache/user-cache'
 import { ErrorConst } from '../../_type/error'
 import { SITE_OPEN_DATE } from '../../_type/date-const'
 import { userCanUpdateImage } from './_image-service'
 import { newDateString } from '../../_util/date2'
 import { IMAGE_NOT_EXIST } from '../../_type/error-const'
+import { UserDB } from '../../db/user/user-db'
 
 export function newImageDetail(ifm: ImageFileManager, user: User, image: Image, owner: User): ImageDetail {
   return {
@@ -30,18 +30,20 @@ export function newImageDetail(ifm: ImageFileManager, user: User, image: Image, 
 }
 
 export async function imageDetailService(
-  uc: UserCache, idb: ImageDB, ifm: ImageFileManager, user: User, id: number, err: ErrorConst[]
+  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, user: User, id: number, err: ErrorConst[]
 ) {
+
   const image = await idb.findImage(id)
   if (!image) {
     err.push(IMAGE_NOT_EXIST)
     return
   }
-  const owner = await uc.getCachedById(image.uid)
+  const owner = await udb.getCachedById(image.uid)
   if (!owner) {
     throw new Error()
   }
   return newImageDetail(ifm, user, image, owner)
+
 }
 
 export async function firstImageCdateService(idb: ImageDB) {

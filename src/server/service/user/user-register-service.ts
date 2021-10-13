@@ -14,14 +14,18 @@ import { ErrorConst } from '../../_type/error'
 import { UserRegisterForm } from '../../_type/user-form'
 
 export async function userRegisterService(udb: UserDB, form: UserRegisterForm, err: ErrorConst[]) {
+
   checkNameFormat(form.name, err)
   checkHomeFormat(form.name, err)
   checkEmailFormat(form.email, err)
   checkPasswordFormat(form.password, err)
+
   await checkNameDupe(udb, 0, form.name, err)
   await checkHomeDupe(udb, 0, form.name, err)
   await checkEmailDupe(udb, 0, form.email, err)
+
   if (err.length) return
+
   const now = new Date()
   const user = newUser({
     id: udb.getNextId(),
@@ -35,5 +39,7 @@ export async function userRegisterService(udb: UserDB, form: UserRegisterForm, e
     pdate: new Date(2000, 0, 1)
   })
   await udb.insertUser(user)
+
   return user
+
 }

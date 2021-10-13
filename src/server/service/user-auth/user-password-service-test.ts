@@ -5,7 +5,6 @@ import { insertUserFix4 } from '../../db/user/fixture/user-fix'
 import { userResetPasswordService, userSendResetPasswordMailService } from './user-password-service'
 import { checkHash } from '../../_util/hash'
 import { ErrorConst } from '../../_type/error'
-import { UserCache } from '../../db/user/cache/user-cache'
 import { NewPasswordForm } from '../../_type/password'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, INVALID_DATA, PASSWORD_RANGE } from '../../_type/error-const'
@@ -13,14 +12,12 @@ import { EMAIL_NOT_FOUND, EMAIL_PATTERN, INVALID_DATA, PASSWORD_RANGE } from '..
 describe('Password Reset Service', () => {
 
   let udb: UserDB
-  let uc: UserCache
   let rdb: ResetDB
   let mailer: Mailer
 
   beforeAll(async () => {
     omanNewSession('config/raysoda-test.json')
     udb = await omanGetObject('UserDB') as UserDB
-    uc = await omanGetObject('UserCache') as UserCache
     rdb = await omanGetObject('ResetDB') as ResetDB
     mailer = await omanGetObject('Mailer') as Mailer
   })
@@ -61,25 +58,25 @@ describe('Password Reset Service', () => {
   it('set password, password format check', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '123' }
     const err: ErrorConst[] = []
-    await userResetPasswordService(uc, rdb, form, err)
+    await userResetPasswordService(udb, rdb, form, err)
     expect(err).toContain(PASSWORD_RANGE)
   })
   it('set password, uuid check', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '1234', uuid: 'xxxx' }
     const err: ErrorConst[] = []
-    await userResetPasswordService(uc, rdb, form, err)
+    await userResetPasswordService(udb, rdb, form, err)
     expect(err).toContain(INVALID_DATA)
   })
   it('set password, token check', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '1234', token: 'xxxx' }
     const err: ErrorConst[] = []
-    await userResetPasswordService(uc, rdb, form, err)
+    await userResetPasswordService(udb, rdb, form, err)
     expect(err).toContain(INVALID_DATA)
   })
   it('set password', async () => {
     const form: NewPasswordForm = { ...resetRecord, password: '5678' }
     const err: ErrorConst[] = []
-    await userResetPasswordService(uc, rdb, form, err)
+    await userResetPasswordService(udb, rdb, form, err)
     expect(err.length).toBe(0)
   })
   it('check db', async () => {

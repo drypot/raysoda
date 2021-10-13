@@ -33,11 +33,11 @@ export class UserCache {
     }
   }
 
-  getCacheById(id: number): User | undefined {
+  getCachedById(id: number): User | undefined {
     return this.idMap.get(id)
   }
 
-  getCacheByHome(home: string): User | undefined {
+  getCachedByHome(home: string): User | undefined {
     return this.homeMap.get(home.toLowerCase())
   }
 

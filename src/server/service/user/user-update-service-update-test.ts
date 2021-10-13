@@ -2,7 +2,6 @@ import { UserDB } from '../../db/user/user-db'
 import { ADMIN, insertUserFix4, USER1, USER2 } from '../../db/user/fixture/user-fix'
 import { userUpdateService } from './user-update-service'
 import { checkHash } from '../../_util/hash'
-import { UserCache } from '../../db/user/cache/user-cache'
 import { ErrorConst } from '../../_type/error'
 import { newUserUpdateForm } from '../../_type/user-form'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
@@ -20,12 +19,10 @@ import {
 describe('userUpdateService', () => {
 
   let udb: UserDB
-  let uc: UserCache
 
   beforeAll(async () => {
     omanNewSession('config/raysoda-test.json')
     udb = await omanGetObject('UserDB') as UserDB
-    uc = await omanGetObject('UserCache') as UserCache
   })
 
   afterAll(async () => {
@@ -45,7 +42,7 @@ describe('userUpdateService', () => {
       password: '', profile: 'profile x'
     })
     const err: ErrorConst[] = []
-    await userUpdateService(uc, USER1, 1, form, err)
+    await userUpdateService(udb, USER1, 1, form, err)
     expect(err.length).toBe(0)
   })
   it('check db', async () => {
@@ -58,7 +55,7 @@ describe('userUpdateService', () => {
     expect(user.profile).toBe('profile x')
   })
   it('check cache', async () => {
-    const user = await uc.getCachedById(1)
+    const user = await udb.getCachedById(1)
     if (!user) throw new Error()
     expect(user.name).toBe('User X')
     expect(user.home).toBe('userx')
@@ -72,7 +69,7 @@ describe('userUpdateService', () => {
       password: '5678', profile: 'profile x'
     })
     const err: ErrorConst[] = []
-    await userUpdateService(uc, USER1, 1, form, err)
+    await userUpdateService(udb, USER1, 1, form, err)
     expect(err.length).toBe(0)
   })
   it('check db', async () => {
@@ -82,7 +79,7 @@ describe('userUpdateService', () => {
     expect(await checkHash('5678', user.hash)).toBe(true)
   })
   it('check cache', async () => {
-    const user = await uc.getCachedById(1)
+    const user = await udb.getCachedById(1)
     if (!user) throw new Error()
     expect(await checkHash('1234', user.hash)).toBe(false)
     expect(await checkHash('5678', user.hash)).toBe(true)
@@ -94,7 +91,7 @@ describe('userUpdateService', () => {
       name: s33, home: s33, email: s65, password: s33, profile: ''
     })
     const err: ErrorConst[] = []
-    await userUpdateService(uc, USER1, 1, form, err)
+    await userUpdateService(udb, USER1, 1, form, err)
     expect(err).toContain(NAME_RANGE)
     expect(err).toContain(HOME_RANGE)
     expect(err).toContain(EMAIL_RANGE)
@@ -106,7 +103,7 @@ describe('userUpdateService', () => {
       password: '', profile: ''
     })
     const err: ErrorConst[] = []
-    await userUpdateService(uc, USER1, 1, form, err)
+    await userUpdateService(udb, USER1, 1, form, err)
     expect(err).toContain(NAME_DUPE)
     expect(err).toContain(HOME_DUPE)
     expect(err).toContain(EMAIL_DUPE)
@@ -117,7 +114,7 @@ describe('userUpdateService', () => {
       password: '', profile: 'profile x'
     })
     const err: ErrorConst[] = []
-    await userUpdateService(uc, USER2, 1, form, err)
+    await userUpdateService(udb, USER2, 1, form, err)
     expect(err).toContain(NOT_AUTHORIZED)
   })
   it('update user1 by admin', async () => {
@@ -126,7 +123,7 @@ describe('userUpdateService', () => {
       password: '', profile: 'profile x'
     })
     const err: ErrorConst[] = []
-    await userUpdateService(uc, ADMIN, 1, form, err)
+    await userUpdateService(udb, ADMIN, 1, form, err)
     expect(err.length).toBe(0)
   })
 

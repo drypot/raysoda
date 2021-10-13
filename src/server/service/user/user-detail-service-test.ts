@@ -1,7 +1,6 @@
 import { UserDB } from '../../db/user/user-db'
 import { ADMIN, insertUserFix1, USER1 } from '../../db/user/fixture/user-fix'
 import { userDetailService } from './user-detail-service'
-import { UserCache } from '../../db/user/cache/user-cache'
 import { dateNull } from '../../_util/date2'
 import { ErrorConst } from '../../_type/error'
 import { GUEST } from '../../_type/user'
@@ -10,12 +9,10 @@ import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/o
 describe('userDetailService', () => {
 
   let udb: UserDB
-  let uc: UserCache
 
   beforeAll(async () => {
     omanNewSession('config/raysoda-test.json')
     udb = await omanGetObject('UserDB') as UserDB
-    uc = await omanGetObject('UserCache') as UserCache
   })
 
   afterAll(async () => {
@@ -31,7 +28,7 @@ describe('userDetailService', () => {
   })
   it('get user1 by guest', async () => {
     const err: ErrorConst[] = []
-    const user = await userDetailService(uc, GUEST, 1, err)
+    const user = await userDetailService(udb, GUEST, 1, err)
     if (!user) throw new Error()
     expect(user as any).toEqual({
       id: 1,
@@ -50,7 +47,7 @@ describe('userDetailService', () => {
   })
   it('get user1 by user1', async () => {
     const err: ErrorConst[] = []
-    const user = await userDetailService(uc, USER1, 1, err)
+    const user = await userDetailService(udb, USER1, 1, err)
     if (!user) throw new Error()
     expect(user as any).toEqual({
       id: 1,
@@ -69,7 +66,7 @@ describe('userDetailService', () => {
   })
   it('get user1 by admin', async () => {
     const err: ErrorConst[] = []
-    const user = await userDetailService(uc, ADMIN, 1, err)
+    const user = await userDetailService(udb, ADMIN, 1, err)
     if (!user) throw new Error()
     expect(user as any).toEqual({
       id: 1,
@@ -88,7 +85,7 @@ describe('userDetailService', () => {
   })
   it('get invalid', async () => {
     const err: ErrorConst[] = []
-    const user = await userDetailService(uc, USER1, 99, err)
+    const user = await userDetailService(udb, USER1, 99, err)
     expect(user).toBeUndefined()
   })
 

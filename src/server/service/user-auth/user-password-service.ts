@@ -7,29 +7,34 @@ import { Mailer } from '../../mailer/mailer2'
 import { makeHash } from '../../_util/hash'
 import { emailPatternIsOk } from '../../_util/email'
 import { ErrorConst } from '../../_type/error'
-import { UserCache } from '../../db/user/cache/user-cache'
 import { NewPasswordForm, ResetToken } from '../../_type/password'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, INVALID_DATA } from '../../_type/error-const'
+import { omanGetConfig } from '../../oman/oman'
 
 export async function userSendResetPasswordMailService(
     mailer: Mailer, udb: UserDB, resetDB: ResetDB, email: string, err: ErrorConst[]
 ) {
+
   if (!emailPatternIsOk(email)) {
     err.push(EMAIL_PATTERN)
     return false
   }
+
   const user = await udb.findUserByEmail(email)
   if (!user) {
     err.push(EMAIL_NOT_FOUND)
     return false
   }
+
   await resetDB.deleteByEmail(email)
+
   const token = await new Promise<string>((resolve, reject) => {
     crypto.randomBytes(32, function (err, buf) {
       if (err) return reject(err)
       resolve(buf.toString('hex'))
     })
   })
+
   // uuid 까지 쓴 것은 좀 과하지 않나 싶다.
   // 다른 시스템에서는 좀 간단히 하는 것으로.
   const r: ResetToken = {
@@ -38,7 +43,8 @@ export async function userSendResetPasswordMailService(
     token
   }
   await resetDB.insert(r)
-  const config = mailer.config
+
+  const config = omanGetConfig()
   const mail = {
     from: 'no-reply@raysoda.com',
     to: email,
@@ -49,14 +55,20 @@ export async function userSendResetPasswordMailService(
       config.mainUrl + '/user-password-reset-3?uuid=' + r.uuid + '&t=' + r.token + '\n\n' +
       config.appName
   }
+
   return mailer.sendMail(mail)
+
 }
 
 export async function userResetPasswordService(
-    uc: UserCache, resetDB: ResetDB, form: NewPasswordForm, err: ErrorConst[]
+    udb: UserDB, resetDB: ResetDB, form: NewPasswordForm, err: ErrorConst[]
 ) {
+
   checkPasswordFormat(form.password, err)
-  if (err.length) return
+  if (err.length) {
+    return
+  }
+
   const r = await resetDB.findByUuid(form.uuid)
   if (!r) {
     err.push(INVALID_DATA)
@@ -66,8 +78,10 @@ export async function userResetPasswordService(
     err.push(INVALID_DATA)
     return
   }
+
   const hash = await makeHash(form.password)
-  await uc.udb.updateHash(r.email, hash)
-  await uc.getCachedByEmailForce(r.email)
+
+  await udb.updateHash(r.email, hash)
   await resetDB.deleteByEmail(r.email)
+
 }
