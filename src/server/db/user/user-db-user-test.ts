@@ -1,13 +1,13 @@
 import { UserDB } from './user-db'
 import { newUser } from '../../_type/user'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('UserDB.findUser*', () => {
 
   let udb: UserDB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     udb = await omanGetObject('UserDB') as UserDB
   })
 

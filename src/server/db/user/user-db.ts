@@ -93,13 +93,9 @@ export class UserDB {
   }
 
   async updateHash(email: string, hash: string) {
-    const user = await this.findUserByEmail(email)
-    if (user) {
-      const r = await this.db.query('update user set hash = ? where email = ?', [hash, email])
-      this.cache.deleteCacheById(user.id)
-      return r.changedRows as number
-    }
-    return 0
+    const r = await this.db.query('update user set hash = ? where email = ?', [hash, email])
+    await this.forceCachedByEmail(email)
+    return r.changedRows as number
   }
 
   async updateADate(id: number, now: Date) {
@@ -142,6 +138,14 @@ export class UserDB {
       return user
     }
     user = await this.findUserByHome(home)
+    if (user) {
+      this.cache.cache(user)
+    }
+    return user
+  }
+
+  async forceCachedByEmail(email: string) {
+    const user = await this.findUserByEmail(email)
     if (user) {
       this.cache.cache(user)
     }

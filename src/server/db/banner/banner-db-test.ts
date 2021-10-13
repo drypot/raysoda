@@ -1,7 +1,7 @@
 import { BannerDB } from './banner-db'
 import { Banner } from '../../_type/banner'
 import { dupe } from '../../_util/object2'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 import { ValueDB } from '../value/value-db'
 
 describe('BannerDB', () => {
@@ -10,7 +10,7 @@ describe('BannerDB', () => {
   let bdb: BannerDB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     vdb = await omanGetObject('ValueDB') as ValueDB
     bdb = await omanGetObject('BannerDB') as BannerDB
   })

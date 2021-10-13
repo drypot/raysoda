@@ -1,5 +1,5 @@
 import { ValueDB } from './value-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 import { DB } from '../_db/db'
 
 describe('ValueDB Table', () => {
@@ -8,7 +8,7 @@ describe('ValueDB Table', () => {
   let vdb: ValueDB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     db = await omanGetObject('DB') as DB
     vdb = await omanGetObject('ValueDB') as ValueDB
   })

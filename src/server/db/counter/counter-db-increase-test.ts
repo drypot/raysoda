@@ -1,14 +1,14 @@
 import { CounterDB } from './counter-db'
 import { newDateStringNoTime } from '../../_util/date2'
 import { dupe } from '../../_util/object2'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('CounterDB Increase', () => {
 
   let cdb: CounterDB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     cdb = await omanGetObject('CounterDB') as CounterDB
   })
 

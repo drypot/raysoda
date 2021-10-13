@@ -1,12 +1,12 @@
 import { ValueDB } from './value-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('ValueDB Value', () => {
 
   let vdb: ValueDB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     vdb = await omanGetObject('ValueDB') as ValueDB
   })
 

@@ -1,5 +1,5 @@
 import { UserDB } from './user-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 import { DB } from '../_db/db'
 
 describe('UserDB.*Table', () => {
@@ -8,7 +8,7 @@ describe('UserDB.*Table', () => {
   let udb: UserDB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     db = await omanGetObject('DB') as DB
     udb = await omanGetObject('UserDB') as UserDB
   })

@@ -1,13 +1,13 @@
 import { ResetDB } from './reset-db'
 import { ResetToken } from '../../_type/password'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('ResetDB Token', () => {
 
   let rdb: ResetDB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     rdb = await omanGetObject('ResetDB') as ResetDB
   })
 

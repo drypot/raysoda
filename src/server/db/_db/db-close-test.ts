@@ -1,12 +1,12 @@
 import { DB } from './db'
-import { omanGetObject, omanNewSessionForTest } from '../../oman/oman'
+import { omanGetObject, omanNewSession } from '../../oman/oman'
 
 describe('DB.close', () => {
 
   let db: DB
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     db = await omanGetObject('DB') as DB
   })
 
