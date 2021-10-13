@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# 맥에서 postfix 기동과 종료
+# $ sudo postfix start
+# $ sudo postfix stop
+
 function show_usage {
     echo "usage: bin/send-test-reset-mail user1@mail.test"
     exit 1

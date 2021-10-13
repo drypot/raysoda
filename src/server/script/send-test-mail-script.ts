@@ -1,10 +1,8 @@
 import { Mailer } from '../mailer/mailer2'
-import { loadConfigSync } from '../_util/config-loader'
 import { logError } from '../_util/error2'
 
 async function main() {
-  const config = loadConfigSync(process.argv[2])
-  const mailer = await Mailer.from(config)
+  const mailer = Mailer.from(process.argv[2])
   const mail = {
     from: 'no-reply@raysoda.com',
     to: process.argv[3],
@@ -19,6 +17,6 @@ main().then(() => {
   console.log('mail sent.')
 }).catch((err) => {
   logError(err)
-}).finally(async () => {
+}).finally(() => {
   //
 })

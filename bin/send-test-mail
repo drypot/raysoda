@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
+# 맥에서 postfix 기동과 종료
+# $ sudo postfix start
+# $ sudo postfix stop
+
 function show_usage {
-    echo "usage: bin/send-test-mail config/raysoda-dev.json drypot@mail.test"
-    echo "usage: bin/send-test-mail config-live/raysoda-live.json drypot@gmail.com"
+    echo "usage: bin/send-test-mail config/mail-dev.json drypot@mail.test"
     exit 1
 }
 

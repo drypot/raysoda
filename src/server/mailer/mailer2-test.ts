@@ -1,12 +1,12 @@
 import { Mailer } from './mailer2'
-import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../oman/oman'
+import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../oman/oman'
 
 describe('Mailer', () => {
 
   let mailer: Mailer
 
   beforeAll(async () => {
-    omanNewSessionForTest()
+    omanNewSession('config/raysoda-test.json')
     mailer = await omanGetObject('Mailer') as Mailer
   })
 
