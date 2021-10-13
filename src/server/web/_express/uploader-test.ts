@@ -1,39 +1,39 @@
-import { loadConfigSync } from '../../_util/config-loader'
-import { deleteUpload, Express2 } from './express2'
+import { Express2 } from './express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { Multer } from 'multer'
 import { timeout } from '../../_util/async2'
 import { existsSync } from 'fs'
+import { deleteUpload, Uploader } from './uploader'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('Express2 Upload', () => {
 
   let web: Express2
+  let uploader: Uploader
   let sat: SuperAgentTest
-  let upload: Multer
 
   beforeAll(async () => {
-    const config = loadConfigSync('config/app-test.json')
-    web = Express2.from(config).useUpload()
+    omanNewSessionForTest()
+    web = await omanGetObject('Express2') as Express2
+    uploader = await omanGetObject('Uploader') as Uploader
     await web.start()
-    upload = web.upload
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
+    await omanCloseAllObjects()
   })
 
   const f1 = 'sample/text1.txt'
   const f2 = 'sample/text2.txt'
 
   it('setup', () => {
-    web.router.post('/api/upload-file', upload.single('file'), deleteUpload(async (req, res) => {
+    web.router.post('/api/upload-file', uploader.single('file'), deleteUpload(async (req, res) => {
       res.json({
         ...req.body,
         file: req.file
       })
     }))
-    web.router.post('/api/upload-files', upload.array('files', 12), deleteUpload(async (req, res) => {
+    web.router.post('/api/upload-files', uploader.array('files', 12), deleteUpload(async (req, res) => {
       res.json({
         ...req.body,
         files: req.files

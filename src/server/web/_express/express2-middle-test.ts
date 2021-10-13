@@ -1,7 +1,7 @@
-import { loadConfigSync } from '../../_util/config-loader'
 import { Express2 } from './express2'
 import { NextFunction, Request, Response } from 'express'
 import supertest, { SuperAgentTest } from 'supertest'
+import { omanCloseAllObjects, omanGetObject, omanNewSessionForTest } from '../../oman/oman'
 
 describe('Express2 Middleware', () => {
 
@@ -9,14 +9,14 @@ describe('Express2 Middleware', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    const config = loadConfigSync('config/app-test.json')
-    web = Express2.from(config)
+    omanNewSessionForTest()
+    web = await omanGetObject('Express2') as Express2
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await web.close()
+    await omanCloseAllObjects()
   })
 
   let done1 = false

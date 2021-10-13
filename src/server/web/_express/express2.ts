@@ -5,15 +5,15 @@ import redis from 'redis'
 import expressSession from 'express-session'
 import connectRedis from 'connect-redis'
 import * as http from 'http'
-import newMulter, { Multer } from 'multer'
-import { emptyDirSync, mkdirRecursiveSync } from '../../_util/fs2'
-import { unlinkSync } from 'fs'
+import { Multer } from 'multer'
 import { newErrorConst } from '../../_util/error2'
 import { Config } from '../../_type/config'
 import { inProduction } from '../../_util/env2'
-import { INVALID_PAGE } from '../../_type/error'
+import { omanGetConfig, omanRegisterCloser, omanRegisterFactory } from '../../oman/oman'
+import { INVALID_PAGE } from '../../_type/error-const'
 
-type ExpressHandler = (req: Request, res: Response, done: NextFunction) => void
+export type ExpressCallbackHandler = (req: Request, res: Response, done: NextFunction) => void
+export type ExpressPromiseHandler = (req: Request, res: Response) => Promise<void>
 
 declare module 'express-session' {
   interface SessionData {
@@ -21,14 +21,28 @@ declare module 'express-session' {
   }
 }
 
+omanRegisterFactory('Express2', async () => {
+  const web = Express2.from(omanGetConfig())
+  omanRegisterCloser(async () => {
+    await web.close()
+  })
+  return web
+})
+
 export class Express2 {
 
-  public readonly config: Config
-  public readonly server: http.Server
-  public readonly express: Express
-  public readonly router: Router
-  public logError: boolean = false
+  readonly config: Config
+  readonly server: http.Server
+  readonly express: Express
+  readonly router: Router
+
+  logError = false
+
   private multer: Multer | undefined
+
+  static from(config: Config) {
+    return new Express2(config)
+  }
 
   private constructor(config: Config) {
     this.config = config
@@ -40,14 +54,14 @@ export class Express2 {
     this.express.locals.pretty = true
     this.express.locals.config = config
 
-    this.useCache()
+    this.useViewCache()
 
     //this.usePug()
     //this.useEta()
     this.useEjs()
   }
 
-  private useCache() {
+  private useViewCache() {
     // 자세한 내용은 Obsidian Express Cache 메모를 확인한다.
     //
     // 캐쉬는 Express 에도 있고 템플릿 엔진들에도 있다.
@@ -103,29 +117,6 @@ export class Express2 {
     this.express.set('views', 'src/server/web/template/pug')
   }
 
-  static from(config: Config) {
-    return new Express2(config)
-  }
-
-  // Upload
-
-  useUpload() {
-    if (!this.multer) {
-      if (!this.config.uploadDir) {
-        throw new Error('config.uploadDir should be defined')
-      }
-      const tmp = this.config.uploadDir + '/tmp'
-      mkdirRecursiveSync(tmp)
-      emptyDirSync(tmp)
-      this.multer = newMulter({ dest: tmp })
-    }
-    return this
-  }
-
-  get upload(): Multer {
-    return this.multer as Multer
-  }
-
   // Start & Close
 
   static apiPattern = /^\/api\//
@@ -146,16 +137,6 @@ export class Express2 {
     return new Promise<Express2>((resolve) => {
       this.server.listen(this.config.port, () => {
         resolve(this)
-      })
-    })
-  }
-
-  close() {
-    return new Promise<void>((resolve, reject) => {
-      if (!this.server) return resolve()
-      this.server.close((err) => {
-        if (err) return reject(err)
-        resolve()
       })
     })
   }
@@ -199,7 +180,7 @@ export class Express2 {
     })
   }
 
-  public autoLoginHandler: ExpressHandler | undefined
+  public autoLoginHandler: ExpressCallbackHandler | undefined
 
   private setUpAutoLoginHandler() {
     if (this.autoLoginHandler) {
@@ -267,27 +248,22 @@ export class Express2 {
     this.express.use(this.errorHandler)
   }
 
-}
-
-export function deleteUpload(handler: (req: Request, res: Response) => Promise<void>) {
-  return (req: Request, res: Response, done: NextFunction) => {
-    handler(req, res)
-      .catch(done)
-      .finally(() => {
-        if (req.file) {
-          unlinkSync(req.file.path)
-        }
-        if (req.files) {
-          for (const file of req.files as Express.Multer.File[]) {
-            unlinkSync(file.path)
-          }
-        }
+  close() {
+    return new Promise<void>((resolve, reject) => {
+      if (!this.server)
+        return resolve()
+      this.server.close((err) => {
+        if (err)
+          return reject(err)
+        resolve()
       })
+    })
   }
+
 }
 
-export function toCallback(handler: (req: Request, res: Response) => Promise<void>) {
-  return (req: Request, res: Response, done: NextFunction) => {
+export function toCallback(handler: ExpressPromiseHandler): ExpressCallbackHandler {
+  return (req, res, done) => {
     handler(req, res).catch(done)
   }
 }
