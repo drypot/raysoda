@@ -91,7 +91,7 @@ export class Express2 {
 
   private useEjs() {
     this.express.set('view engine', 'ejs')
-    this.express.set('views', 'src/server/web/template/ejs')
+    this.express.set('views', 'src/server-template/ejs')
     this.express.set('view options', {
       _with: false,
       localsName: 'app',
@@ -101,7 +101,7 @@ export class Express2 {
 
   private useEta() {
     this.express.set('view engine', 'eta')
-    this.express.set('views', 'src/server/web/template/eta')
+    this.express.set('views', 'src/server-template/eta')
 
     // 일단 닫아 놓는다.
     // eta 를 다시 쓰게 되면 uncomment 한다.
@@ -114,7 +114,7 @@ export class Express2 {
 
   private usePug() {
     this.express.set('view engine', 'pug')
-    this.express.set('views', 'src/server/web/template/pug')
+    this.express.set('views', 'src/server-template/pug')
   }
 
   // Start & Close
