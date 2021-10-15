@@ -2,8 +2,17 @@
   "name": "raysoda",
   "version": "3.0.0",
   "description": "https://raysoda.com",
-  "main": "",
   "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drypot/raysoda.git"
+  },
+  "author": "Kyuhyun Park <drypot@gmail.com> (https://drypot.github.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drypot/raysoda/issues"
+  },
+  "homepage": "https://github.com/drypot/raysoda#readme",
   "scripts": {
     "test": "bin/jasmine"
   },
@@ -23,17 +32,8 @@
     "redis": "^3.0.2",
     "uuid": "^8.2.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/drypot/raysoda.git"
-  },
-  "author": "Kyuhyun Park <drypot@gmail.com> (https://drypot.github.io)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/drypot/raysoda/issues"
-  },
-  "homepage": "https://github.com/drypot/raysoda#readme",
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
     "@rollup/plugin-typescript": "^8.2.5",
     "@tsconfig/node16": "^1.0.2",
@@ -56,12 +56,16 @@
     "jasmine": "^3.8.0",
     "jasmine-console-reporter": "^3.1.0",
     "jquery": "^3.6.0",
+    "parcel": "^2.0.0",
     "postcss": "^8.3.9",
+    "postcss-cli": "^9.0.1",
+    "postcss-import": "^14.0.2",
+    "postcss-nested": "^5.0.6",
     "rollup": "^2.58.0",
     "sass": "^1.42.1",
     "supertest": "^6.1.4",
     "tailwindcss": "^2.2.16",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.3"
+    "typescript": "^4.3.5"
   }
 }
