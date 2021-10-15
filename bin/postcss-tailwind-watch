@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-#npx tailwindcss -i src/client-css/tailwind/base.css -o public/build/tailwind.css --watch
-npx postcss src/client-css/tailwind/base.css -c src/client-css/tailwind -o public/build/tailwind.css -w

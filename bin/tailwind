@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+#npx postcss src/client-css/tailwind/base.css -o public/build/tailwind.css -c src/client-css/tailwind
+
+npx tailwindcss -c src/client-css/tailwind/tailwind.config.js -i src/client-css/tailwind/tailwind.css -o public/build/tailwind.css

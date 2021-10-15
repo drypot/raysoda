@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# postcss 통해서 하면 리빌딩 표시를 하지 않아서 불편하다.
+#npx postcss src/client-css/tailwind/tailwind.css -o public/build/tailwind.css -c src/client-css/tailwind -w
+
+npx tailwindcss --watch -c src/client-css/tailwind/tailwind.config.js -i src/client-css/tailwind/tailwind.css -o public/build/tailwind.css

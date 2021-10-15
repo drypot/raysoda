@@ -1,8 +1,8 @@
 module.exports = {
   mode: 'jit',
-  purge: {
-    content: ['src/server-template/ejs/**/*.{ejs}'],
-  },
+  purge: [
+    './src/server-template/ejs/**/*'
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
