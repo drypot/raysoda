@@ -3,9 +3,9 @@ import typescript from '@rollup/plugin-typescript'
 import { defineConfig } from 'rollup'
 
 export default defineConfig({
-  input: 'src/client/main.ts',
+  input: 'src/client/client.ts',
   output: {
-    file: 'public/build/bundle.js',
+    file: 'public/build/client-rollup.js',
     format: 'iife',
     name: 'app',
   },

@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+npx rollup --config src/client/rollup.config.js --watch
