@@ -11,46 +11,49 @@
     <% app.hideHeader = true %>
     <%- include('../_layout/header') %>
 
-    <div class="section image-full ">
-        <div class="image">
-            <img src="<%- app.image.thumbUrl %>" data-vers="<%- app.image.vers ? app.image.vers.join(',') : null %>">
+    <div class="flex flex-col items-center">
+        <div class="max-w-full inline-block relative">
+            <img id="image" class="max-w-full cursor-pointer"
+                 src="<%- app.image.thumbUrl %>"
+                 data-vers="<%- app.image.vers ? app.image.vers.join(',') : null %>">
         </div>
     </div>
 
-    <div class="section image-info ">
+    <div class="column mt-big">
         <div class="sub-section" style="display: none">
             <a href="" id="fs"><span class="glyphicon glyphicon-fullscreen"></span></a>
         </div>
 
-        <div class="sub-section"></div>
-        <div class="comment"><%= app.image.comment %></div>
-        <div class="cdate"><%- app.image.cdateStr.slice(0, 16) %></div>
-        <div class="uname">
+        <% if (app.image.comment) { %>
+            <p class="whitespace-pre-line">
+                <%= app.image.comment %>
+            </p>
+        <% } %>
+        <p class="text-xl link-no-deco">
             <a href='/user/<%- encodeURIComponent(app.image.owner.home) %>'><%= app.image.owner.name %></a>
-        </div>
+        </p>
+        <p class="mt-big">
+            <%- app.image.cdateStr.slice(0, 16) %>
+        </p>
 
         <% if (app.image.updatable) { %>
-            <div class="sub-section">
-                <div class="commands">
-                    <button id="update-btn" class="btn btn-success">수정</button>
-                    <button id="del-btn" class="btn btn-danger">삭제</button>
-                    <button id="del-confirm-btn" class="btn btn-danger hide">삭제 재확인</button>
-                </div>
+            <div class="mt-big space-x-3">
+                <button id="btn-update" class="btn btn-hover-green text-sm">수정</button>
+                <button id="btn-del" class="btn btn-hover-red text-sm">삭제</button>
             </div>
         <% } %>
     </div>
-
 
     <%- include('../_layout/footer') %>
 
     <script type="application/json" id="imageJson">
       <%= JSON.stringify(app.image) %>
+
     </script>
     <script>
-      $(function () {
-        cimage.initView(getObjectById('imageJson'))
-      })
+        // $(function () {
+        //     cimage.initView(getObjectById('imageJson'))
+        // })
     </script>
 </body>
 </html>
-

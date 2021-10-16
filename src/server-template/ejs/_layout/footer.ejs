@@ -1,36 +1,19 @@
-<div class="section page-footer">
-    <div class="about-list">
-        <ul class="list-inline">
-            <li><a href="/about">사이트소개</a></li>
-            <li><a href="/company">회사소개</a></li>
-            <li><a href="/ad">광고</a></li>
-            <li><a href="/privacy">개인정보처리방침</a></li>
-            <li><a href="/help">도움말</a></li>
-        </ul>
+<div class="mt-ultra mb-12 border-t column link-no-deco">
+    <div class="my-3 flex justify-center space-x-3">
+        <a href="/about">사이트소개</a>
+        <a href="/company">회사소개</a>
+        <a href="/ad">광고</a>
+        <a href="/privacy">개인정보처리방침</a>
+        <a href="/help">도움말</a>
     </div>
-    <div class="sponsor">
+    <div class="my-4 leading-none">
         <a href="/counter-inc/adng?r=http://www.natgeokorea.com/magazine" target="_blank">
             National Geographic
         </a>
     </div>
-    <div class="site-name">
+    <h3 class="my-4 leading-none">
         <a href="/"><%= app.config.appName %></a>
-    </div>
-</div>
-
-<div class="modal" id="error-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" type="button" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title"></h4>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
+    </h3>
 </div>
 
 <div id="fullscreen"></div>
@@ -43,6 +26,12 @@
   <%= app.user ? JSON.stringify({ id: app.user.id, name: app.user.name }) : 'undefined' %>
 </script>
 
-<script src="/static/lib/jquery-3.6.0.min.js"></script>
-<script src="/static/lib/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
-<script src="/build/bundle.js?v=1.0.0"></script>
+<!--<script src="/static/lib/jquery-3.6.0.min.js"></script>-->
+<!--<script src="/static/lib/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>-->
+
+<script src="/build/client-rollup.js?v=1.0.0"></script>
+
+<script>
+    console.log(app.user)
+    app.setUpLoginForm()
+</script>

@@ -6,37 +6,30 @@
 </head>
 <body>
     <%- include('../_layout/header') %>
-
-    <div class="section page-title">
-        <h1><%= app.config.appName %></h1>
-    </div>
-
-    <div class="section">
-
+    <h1 class="column"><%= app.config.appName %></h1>
+    <p class="column mt-big leading-10">
         <% if (app.config.appNamel === 'raysoda') { %>
-            사진 갤러리입니다.<br><br>
-            업로드된 사진은 2048x2048 크기로 리사이즈됩니다.<br><br>
+            사진 갤러리입니다.<br>
+            업로드된 사진은 2048x2048 크기로 리사이즈됩니다.<br>
         <% } %>
 
         <% if (app.config.appNamel === 'rapixel') { %>
-            4K 사진 갤러리입니다.<br><br>
-            업로드될 사진은 3840x2160보다 커야합니다.<br><br>
-            업로드된 사진은 16:9 비율로 크롭됩니다.<br><br>
+            4K 사진 갤러리입니다.<br>
+            업로드될 사진은 3840x2160보다 커야합니다.<br>
+            업로드된 사진은 16:9 비율로 크롭됩니다.<br>
         <% } %>
 
         <% if (app.config.appNamel === 'osoky') { %>
-            사진 갤러리입니다.<br><br>
-            업로드된 사진은 원 모양으로 마스킹됩니다.<br><br>
+            사진 갤러리입니다.<br>
+            업로드된 사진은 원 모양으로 마스킹됩니다.<br>
         <% } %>
 
         <% if (app.config.appNamel === 'drypot') { %>
-            SVG 이미지 갤러리입니다.<br><br>
+            SVG 이미지 갤러리입니다.<br>
         <% } %>
 
-        사진은 18시간마다 등록하실 수 있습니다.<br><br>
-
-    </div>
-
+        사진은 18시간마다 등록하실 수 있습니다.<br>
+    </p>
     <%- include('../_layout/footer') %>
 </body>
 </html>

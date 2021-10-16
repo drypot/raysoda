@@ -7,24 +7,21 @@
 <body>
     <%- include('../_layout/header') %>
 
-    <div class="section page-title">
-        <h1>Error</h1>
-    </div>
+    <h1 class="column">Error</h1>
 
-    <% const err = app.err[0] %>
-    <% function def(s) {
-        return s ? s : '...'
-    } %>
+    <%
+        const err = app.err[0]
+        let s = ''
+        if (err) {
+            s += 'Name: ' + err.name + '\n'
+            s += 'Message: ' + err.message + '\n'
+            s += 'Field: ' + err.field.replace(/ *\n */g, '\n') + '\n'
+        }
+    %>
     <% if (err) { %>
-        <div class="section error-report">
-            Name: <%- def(app.err[0].name) + '\n' %>
-            Message: <%- def(app.err[0].message) + '\n' %>
-            Field: <%- def(app.err[0].field) %>
-        </div>
+        <p class="mt-big border rounded-md p-2 max-w-prose mx-auto whitespace-pre overflow-scroll"><%= s %></p>
     <% } else { %>
-        <div class="section error-report">
-            Error is not defined.
-        </div>
+        <p class="mt-big column">Error is not defined.</p>
     <% } %>
 
     <%- include('../_layout/footer') %>

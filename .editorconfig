@@ -18,6 +18,10 @@ trim_trailing_whitespace = false
 indent_size = 2
 tab_width = 2
 
+[*.{ejs,eta}]
+indent_size = 4
+tab_width = 4
+
 [*.{vue,jsx,tsx}]
 indent_size = 2
 tab_width = 2

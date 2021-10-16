@@ -6,29 +6,19 @@
 </head>
 <body>
     <%- include('../_layout/header') %>
-
-    <div class="section page-title">
-        <h1>광고</h1>
-    </div>
-
-    <div class="section">
-        <div class="sub-section">
-            ‘광고 내용 / 업체명’ 한 줄 광고를 게재하실 수 있습니다.
-            <br>
-            광고 내용, 링크, 기간, 사업자등록증을 이메일로 보내주십시오.
-            <br>
-            광고비는 주당 부가세 포함 154,000 원입니다.
-            <br>
-            광고비는 선불입니다.
-        </div>
-        <div class="sub-section">
-            광고 신청:
-            <% let email = 'support+' + app.config.appNamel + '@raysoda.com' %>
-            <% let emailLink = 'mailto:' + email %>
-            <a href="<%- emailLink %>"><%- email %></a>
-        </div>
-    </div>
-
+    <h1 class="column">광고</h1>
+    <p class="column mt-big">
+        ‘광고 내용 / 업체명’ 한 줄 광고를 게재하실 수 있습니다. <br>
+        광고 내용, 링크, 기간, 사업자등록증을 이메일로 보내주십시오. <br>
+        광고비는 주당 부가세 포함 154,000 원입니다. <br>
+        광고비는 선불입니다.
+    </p>
+    <p class="column">
+        광고 신청:
+        <% let email = 'support+' + app.config.appNamel + '@raysoda.com' %>
+        <% let emailLink = 'mailto:' + email %>
+        <a href="<%- emailLink %>"><%- email %></a>
+    </p>
     <%- include('../_layout/footer') %>
 </body>
 </html>

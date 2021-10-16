@@ -9,82 +9,88 @@
     <% app.hideHeader = true %>
     <%- include('../_layout/header') %>
 
-    <div class="section page-title">
-        <h1><a href="/"><%- app.config.appName %></a></h1>
-    </div>
+    <h1 class="column link-no-deco"><a href="/"><%- app.config.appName %></a></h1>
 
     <% if (!app.prev) { %>
-        <div class="section">
-            <div class="sub-section top-links">
-                <% if (app.user.id != -1) { %>
-                    <a href='/upload-image'>사진등록</a>
-                    <a href='/user/<%- encodeURIComponent(user.home) %>'>내사진</a>
-                    <a href='/user-list'>회원목록</a>
-                    <a href='/image-list-by-year'>연도별</a>
-                    <a href='/logout'>로그아웃</a>
-                <% } else { %>
-                    <a href='/login'>로그인</a>
-                    <a href='/register'>회원가입</a>
-                    <a href='/user-list'>회원목록</a>
-                    <a href='/image-list-by-year'>연도별</a>
-                <% } %>
-                <br>
-                <a href='/about'>사이트소개</a>
-                <a href='/help'>도움말</a>
-            </div>
 
-            <div class="sub-section news">
+        <!-- Home Menu -->
+        <div class="mt-big flex justify-center space-x-3">
+            <% if (app.user.id !== -1) { %>
+                <a href='/upload-image'>사진등록</a>
+                <a href='/user/<%- encodeURIComponent(user.home) %>'>내사진</a>
+            <% } else { %>
+                <a href='/login'>로그인</a>
+                <a href='/register'>회원가입</a>
+            <% } %>
+            <a href='/user-list'>회원목록</a>
+            <a href='/image-list-by-year'>연도별사진</a>
+            <% if (app.user.id !== -1) { %>
+                <a href='/logout'>접속종료</a>
+            <% } %>
+        </div>
+        <div class="mt-small flex justify-center space-x-3">
+            <a href='/about'>사이트소개</a>
+            <a href='/help'>도움말</a>
+        </div>
+
+        <!-- Banner List -->
+        <% if (app.bannerList.length) { %>
+            <div class="mt-large flex flex-col">
                 <% for(const banner of app.bannerList) { %>
                     <a href="<%- banner.url %>" target="_blank"><%= banner.text %></a><br>
                 <% } %>
             </div>
-        </div>
+        <% } %>
+
     <% } %>
 
-    <div class="section image-thumb-list">
+    <div class="mt-image-thumb max-w-full text-center">
         <% for (const image of app.imageList) { %>
-            <div class="image-thumb thumb-margin">
-                <div class="image">
+            <div class="mt-image-thumb first:mt-0 link-no-deco">
+                <!-- 이미지 좌상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. -->
+                <!-- inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. -->
+                <div class="inline-block relative">
                     <a href="/image/<%- image.id %>">
-                        <img src="<%- image.thumbUrl %>" data-vers="<%- image.vers ? image.vers.join(',') : null %>">
+                        <img class="max-w-full max-h-screen"
+                             src="<%- image.thumbUrl %>"
+                             data-vers="<%- image.vers ? image.vers.join(',') : null %>">
                     </a>
                     <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
                     <% if (c) { %>
-                        <span class="comment"><%= c %></span>
+                        <div class="mt-4"><%= c %></div>
                     <% } %>
-                </div>
-                <div class="uname">
-                    <a href='/user/<%- encodeURIComponent(image.owner.home) %>'><%= image.owner.name %></a>
+                    <div class="mt-4">
+                        <a href='/user/<%- encodeURIComponent(image.owner.home) %>'><%= image.owner.name %></a>
+                    </div>
                 </div>
             </div>
         <% } %>
-        <div class="image-thumb prev-next"></div>
     </div>
 
-    <div class="section">
-        <div class="prev-next thumb-margin">
-            <% if (app.prev) { %>
-                <a href="<%- app.prev %>"><span class="fa fa-angle-left" aria-hidden='true'></span></a>
-            <% } %>
-            <% if (app.next) { %>
-                <a href="<%- app.next %>"><span class="fa fa-angle-right" aria-hidden='true'></span></a>
-            <% } %>
-        </div>
+    <div class="mt-image-thumb flex justify-center">
+        <% if (app.prev) { %>
+            <a href="<%- app.prev %>" class="mr-12">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+        <% } %>
+        <% if (app.next) { %>
+            <a href="<%- app.next %>">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </a>
+        <% } %>
     </div>
 
-    <div class="section top-links">
+    <div class="mt-image-thumb flex justify-center space-x-6">
         <a href='https://raysoda.com'>RaySoda</a>
         <a href='https://rapixel.com'>Rapixel</a>
         <a href='https://osoky.com'>Osoky</a>
     </div>
 
     <%- include('../_layout/footer') %>
-
-    <script>
-      $(function () {
-        cimage.initList()
-      })
-    </script>
 
 </body>
 </html>
