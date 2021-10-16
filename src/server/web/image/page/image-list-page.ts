@@ -33,8 +33,8 @@ export async function useImageListPage() {
       await imageListService(udb, idb, ifm, p, ps)
     renderHtml(res, 'image/image-list', {
       imageList: list,
-      prev: p > 1 ? UrlMaker.from('/image-list').add('d', ds).add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,
-      next: list.length === ps ? UrlMaker.from('/image-list').add('d', ds).add('p', p + 1).add('ps', ps, 16).toString() : undefined,
+      prev: p > 1 ? UrlMaker.from('/image-list').add('d', ds, '').add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,
+      next: list.length === ps ? UrlMaker.from('/image-list').add('d', ds, '').add('p', p + 1).add('ps', ps, 16).toString() : undefined,
       bannerList: bdb.getCached()
     })
   }
