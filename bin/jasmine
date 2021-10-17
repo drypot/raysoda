@@ -3,4 +3,8 @@
 # 아래 코드는 한 프로세스에서 모든 테스트를 모아 돌린다.
 # 각각 새 프로세스에서 실행되는 것을 전제로 만들어진 테스트는 jasmine2 로 실행시킨다.
 
-npx ts-node src/server/script/jasmine-runner.ts "${@-dist}"
+export NODE_ENV=development
+export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
+export TS_NODE_PROJECT=src/server/tsconfig.json
+
+node src/server/ts/script/jasmine-runner.ts "${@-dist}"

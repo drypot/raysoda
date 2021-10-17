@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-rm -fr build/server
-npx tsc --project src/server/tsconfig.json --watch

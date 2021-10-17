@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function show_usage {
-    echo "bin/make-hash <password>"
+    echo "bin/raysoda-live [raysoda|rapixel|osoky|drypot]"
     exit 1
 }
 
@@ -9,8 +9,9 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-#export NODE_ENV=development
+export NODE_ENV=production
 export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
 export TS_NODE_PROJECT=src/server/tsconfig.json
 
-node src/server/ts/script/hash-script.ts $1
+set -o xtrace
+node src/server/ts/script/raysoda.ts config-live/${1}-live.json

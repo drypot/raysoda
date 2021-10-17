@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-export NODE_ENV=development
+#export NODE_ENV=development
 export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
 export TS_NODE_PROJECT=src/server/tsconfig.json
 
-node src/server/ts/script/make-sample.ts
+# 실행될 커맨드를 화면에 출력한다.
+set -o xtrace
+
+node "${@}"

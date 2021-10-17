@@ -18,6 +18,11 @@ elif [ "$2" = live ]; then
 else
     show_usage
 fi
+
+export NODE_ENV=production
+export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
+export TS_NODE_PROJECT=src/server/tsconfig.json
+
 args=(
     start
     bin/pm2-runner.mjs

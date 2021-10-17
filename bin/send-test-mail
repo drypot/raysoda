@@ -13,4 +13,8 @@ if [ $# -lt 2 ]; then
     show_usage
 fi
 
-npx ts-node src/server/script/send-test-mail-script.ts "$@"
+export NODE_ENV=development
+export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
+export TS_NODE_PROJECT=src/server/tsconfig.json
+
+node src/server/ts/script/send-test-mail-script.ts "$@"

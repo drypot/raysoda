@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-npx sass src/client-css/bootstrap/bootstrap.scss public/build/bootstrap.css
+
+node_modules/.bin/sass src/client/css/bootstrap/bootstrap.scss public/build/bootstrap.css

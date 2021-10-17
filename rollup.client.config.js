@@ -3,7 +3,7 @@ import typescript from '@rollup/plugin-typescript'
 import { defineConfig } from 'rollup'
 
 export default defineConfig({
-  input: 'src/client/client.ts',
+  input: 'src/client/ts/client.ts',
   output: {
     file: 'public/build/client-rollup.js',
     format: 'iife',
@@ -11,7 +11,7 @@ export default defineConfig({
   },
   watch: {
     include: [
-      "src/client/**/*.ts"
+      "src/client/ts/**/*"
     ]
   },
   plugins: [

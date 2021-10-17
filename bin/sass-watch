@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+
 rm -fr public/build/sass
-npx sass --watch src/client-css/scss:public/build/sass
+node_modules/.bin/sass --watch src/client/css/scss:public/build/sass
