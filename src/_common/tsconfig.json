@@ -5,39 +5,30 @@
   // server, client, 각 파트 서브 디렉토리에 둬야한다.
 
   "compilerOptions": {
-    "outDir": "../../build/server",
+    "outDir": "../../build/_common",
     "rootDir": "ts",
 
     // paths 를 쓰려면 baseUrl 을 설정해야 한다.
     // baseUrl 은 tsconfig.json 파일 위치가 기준이다.
     "baseUrl": ".",
     "paths": {
-      "@server/*": ["ts/*"],
-      "@common/*": ["../_common/ts/*"]
+      "@common/*": ["ts/*"],
     },
 
-    "target": "es2021",
-    "module": "commonjs",
-    "lib": ["esnext"],
+    "target": "es2017", // async, await
+    "module": "esnext",
 
-    // ObjectMaker 자동 등록을 위해 preserve 로 해야한다.
-    "importsNotUsedAsValues": "preserve",
+    // 공용 라이브러리 필수 설정
+    "composite": true,
+    "declaration": true,
 
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "sourceMap": true
+    "sourceMap": true,
   },
   "include": [
-    "ts/**/*"
-  ],
-  "exclude": [
-  ],
-  "references": [
-    { "path": "../_common/tsconfig.json" }
-  ],
-  "ts-node": {
-    "transpileOnly": true
-  },
+    "ts/**/*",
+  ]
 }

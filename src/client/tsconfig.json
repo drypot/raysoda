@@ -1,30 +1,35 @@
 {
   // https://github.com/tsconfig/bases/tree/main/bases
-  //"extends": "@tsconfig/create-react-app/tsconfig.json",
+
+  // WebStorm 에 tsconfig.js 를 인식시켜야 하기 때문에 프로젝트 루트에 두지 못한다.
+  // server, client, 각 파트 서브 디렉토리에 둬야한다.
 
   "compilerOptions": {
     "outDir": "../../build/client",
-    "rootDir": ".",
-    "sourceMap": true,
+    "rootDir": "ts",
 
-    "lib": ["dom", "dom.iterable", "esnext"],
+    // paths 를 쓰려면 baseUrl 을 설정해야 한다.
+    // baseUrl 은 tsconfig.json 파일 위치가 기준이다.
+    "baseUrl": ".",
+    "paths": {
+      "@client/*": ["ts/*"],
+      "@common/*": ["../_common/ts/*"],
+    },
+
+    "target": "es2017", // async, await
     "module": "esnext",
-    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
 
-    //"allowJs": true,
-    "allowSyntheticDefaultImports": true,
+    "strict": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    //"jsx": "react-jsx",
-    "moduleResolution": "node",
-    //"noEmit": true,
-    "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
   },
   "include": [
-    "./**/*",
+    "ts/**/*",
+  ],
+  "references": [
+    { "path": "../_common/tsconfig.json" }
   ]
 }
