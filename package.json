@@ -58,6 +58,7 @@
     "supertest": "^6.1.4",
     "tailwindcss": "^2.2.16",
     "ts-node": "^10.2.1",
+    "tsconfig-paths": "^3.11.0",
     "typescript": "^4.3.5"
   }
 }
