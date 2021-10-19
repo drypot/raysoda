@@ -1,0 +1,46 @@
+@use 'util/media' as *;
+@use 'util/space' as *;
+
+$form-width: 480px;
+
+//
+//.btn {
+//  @apply bg-gray-400 text-white font-bold py-1 px-4 rounded
+//}
+//
+//.btn-hover-green {
+//  @apply hover:bg-green-400
+//}
+//
+//.btn-hover-red {
+//  @apply hover:bg-red-400
+//}
+//
+//
+//form {
+//  max-width: 480px;
+//}
+//
+//label {
+//  display: block;
+//  margin-top: 1.5rem;
+//}
+//
+//label:first {
+//  margin-top: 0;
+//}
+//
+//label-inline {
+//  display: inline-flex;
+//  align-items: center;
+//}
+
+/* input[type=text] {
+  @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm
+  @apply focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
+}
+
+input[type=checkbox] {
+  @apply rounded border-gray-300 text-indigo-600 shadow-sm
+  @apply focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50
+} */

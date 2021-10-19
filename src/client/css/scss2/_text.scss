@@ -1,0 +1,98 @@
+@use 'util/media' as *;
+@use 'util/space' as *;
+
+$color: #333;
+$dim-color: lighten($color, 50%);
+
+html {
+  @apply text-base lg:text-lg xl:text-xl 2xl:text-2xl
+}
+
+body {
+  @apply font-serif text-gray-800
+}
+
+html {
+  font-size: 16px;
+  @include m640 {
+    font-size: 16px;
+  }
+  @include m768 {
+    font-size: 16px;
+  }
+  @include m1024 {
+    font-size: 18px;
+  }
+  @include m1280 {
+    font-size: 20px;
+  }
+  @include m1536 {
+    font-size: 24px;
+  }
+}
+
+body {
+  font-family: serif;
+  color: $color;
+  background-color: white;
+}
+
+h1 {
+  margin-top: 5rem;
+  font-size: 2.25rem;
+  font-weight: normal;
+}
+
+h2 {
+  margin-top: 4rem;
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+
+h3 {
+  margin-top: 2rem;
+  font-size: 1.25rem;
+  font-weight: normal;
+}
+
+p {
+  margin-top: 2rem;
+  line-height: 2rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.link-no-deco a, a.link-no-deco  {
+  color: $color;
+}
+
+.line-height-100 {
+  line-height: 1em;
+}
+
+.line-height-big {
+  line-height: 3.2em;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.space-x > * {
+  margin-left: 0.7em;
+  margin-right: 0.7em;
+}
+
+.grid-column {
+  display:inline-grid;
+  grid-auto-flow: column;
+  grid-gap: 1.5em;
+}

@@ -1,0 +1,42 @@
+/*
+@include m640 {
+}
+@include m768 {
+}
+@include m1024 {
+}
+@include m1280 {
+}
+@include m1536 {
+}
+*/
+
+@mixin m640 {
+  @media (min-width: 640px) {
+    @content;
+  }
+}
+
+@mixin m768 {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin m1024 {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin m1280 {
+  @media (min-width: 1280px) {
+    @content;
+  }
+}
+
+@mixin m1536 {
+  @media (min-width: 1536px) {
+    @content;
+  }
+}

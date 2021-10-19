@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-node_modules/.bin/sass src/client/css/bootstrap/bootstrap.scss public/build/bootstrap.css
