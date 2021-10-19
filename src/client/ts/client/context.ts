@@ -24,6 +24,3 @@ export function isGuest() {
 export const pathSlice = window.location.pathname.slice(1).split('/')
 export const searchParams = new URLSearchParams(window.location.search)
 
-export const $window = $(window)
-export const $document = $(document)
-

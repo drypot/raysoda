@@ -26,12 +26,4 @@
   <%= app.user ? JSON.stringify({ id: app.user.id, name: app.user.name }) : 'undefined' %>
 </script>
 
-<!--<script src="/static/lib/jquery-3.6.0.min.js"></script>-->
-<!--<script src="/static/lib/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>-->
-
 <script src="/build/client-rollup.js?v=1.0.0"></script>
-
-<script>
-    console.log(app.user)
-    app.setUpLoginForm()
-</script>
