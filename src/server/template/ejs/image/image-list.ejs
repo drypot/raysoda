@@ -14,7 +14,7 @@
     <% if (!app.prev) { %>
 
         <!-- Home Menu -->
-        <div class="mt-big flex justify-center space-x-3">
+        <div class="mt-big flex-center space-x">
             <% if (app.user.id !== -1) { %>
                 <a href='/upload-image'>사진등록</a>
                 <a href='/user/<%- encodeURIComponent(user.home) %>'>내사진</a>
@@ -28,7 +28,7 @@
                 <a href='/logout'>접속종료</a>
             <% } %>
         </div>
-        <div class="mt-small flex justify-center space-x-3">
+        <div class="flex-center mt-small space-x">
             <a href='/about'>사이트소개</a>
             <a href='/help'>도움말</a>
         </div>
@@ -44,9 +44,9 @@
 
     <% } %>
 
-    <div class="mt-image-thumb max-w-full text-center">
+    <div class="max-w-full text-center link-no-deco">
         <% for (const image of app.imageList) { %>
-            <div class="mt-image-thumb first:mt-0 link-no-deco">
+            <div class="mt-deep">
                 <!-- 이미지 좌상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. -->
                 <!-- inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. -->
                 <div class="inline-block relative">
@@ -57,9 +57,9 @@
                     </a>
                     <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
                     <% if (c) { %>
-                        <div class="mt-4"><%= c %></div>
+                        <div class="mt-xsmall"><%= c %></div>
                     <% } %>
-                    <div class="mt-4">
+                    <div class="mt-xsmall">
                         <a href='/user/<%- encodeURIComponent(image.owner.home) %>'><%= image.owner.name %></a>
                     </div>
                 </div>
@@ -67,24 +67,26 @@
         <% } %>
     </div>
 
-    <div class="mt-image-thumb flex justify-center">
-        <% if (app.prev) { %>
-            <a href="<%- app.prev %>" class="mr-12">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-            </a>
-        <% } %>
-        <% if (app.next) { %>
-            <a href="<%- app.next %>">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-            </a>
-        <% } %>
-    </div>
+    <% if (app.prev || app.next) { %>
+        <div class="mt-deep flex-center">
+            <% if (app.prev) { %>
+                <a href="<%- app.prev %>" class="mr-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </a>
+            <% } %>
+            <% if (app.next) { %>
+                <a href="<%- app.next %>">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            <% } %>
+        </div>
+    <% } %>
 
-    <div class="mt-image-thumb flex justify-center space-x-6">
+    <div class="mt-deep flex-center space-x">
         <a href='https://raysoda.com'>RaySoda</a>
         <a href='https://rapixel.com'>Rapixel</a>
         <a href='https://osoky.com'>Osoky</a>

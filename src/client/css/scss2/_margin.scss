@@ -1,0 +1,89 @@
+@use 'media' as *;
+
+$border-color: lighten(#333, 70%);
+
+.max-w-320px  { max-width: 320px; }
+.max-w-480px  { max-width: 480px; }
+.max-w-640px  { max-width: 640px; }
+.max-w-768px  { max-width: 768px; }
+.max-w-1024px { max-width: 1024px; }
+.max-w-1280px { max-width: 1280px; }
+.max-w-1536px { max-width: 1536px; }
+.max-w-full   { max-width: 100%; }
+
+.max-h-screen { max-height: 100vh; }
+
+.m-0 { margin: 0; }
+
+.mt-500 { margin-top: 5rem; }
+.mt-400 { margin-top: 4rem; }
+.mt-300 { margin-top: 3rem; }
+.mt-200 { margin-top: 2rem;  }
+.mt-100 { margin-top: 1rem; }
+
+.mb-500 { margin-bottom: 5rem; }
+.mb-400 { margin-bottom: 4rem; }
+.mb-300 { margin-bottom: 3rem; }
+.mb-200 { margin-bottom: 2rem; }
+.mb-100 { margin-bottom: 1rem; }
+
+.mt-ultra  { margin-top: 5rem; }
+.mt-big    { margin-top: 4rem; }
+.mt-large  { margin-top: 3rem; }
+.mt-normal { margin-top: 2rem; }
+.mt-small  { margin-top: 1rem; }
+.mt-xsmall  { margin-top: 0.7rem; }
+
+.mb-ultra  { margin-bottom: 5rem; }
+.mb-big    { margin-bottom: 4rem; }
+.mb-large  { margin-bottom: 3rem; }
+.mb-normal { margin-bottom: 2rem; }
+.mb-small  { margin-bottom: 1rem; }
+.mb-xsmall  { margin-bottom: 0.7rem; }
+
+.my-ultra  { margin-top: 5rem; margin-bottom: 5rem; }
+.my-big    { margin-top: 4rem; margin-bottom: 4rem; }
+.my-large  { margin-top: 3rem; margin-bottom: 3rem; }
+.my-normal { margin-top: 2rem; margin-bottom: 2rem; }
+.my-small  { margin-top: 1rem; margin-bottom: 1rem; }
+
+.mt-deep {
+  margin-top: 7rem;
+  @include m640 {
+    margin-top: 8rem;
+  }
+  @include m768 {
+    margin-top: 9rem;
+  }
+  @include m1024 {
+    margin-top: 10rem;
+  }
+  @include m1280 {
+    margin-top: 11rem;
+  }
+  @include m1536 {
+    margin-top: 11rem;
+  }
+}
+
+.pt-300 { padding-top: 3rem; }
+.pt-200 { padding-top: 2rem; }
+.pt-100 { padding-top: 1rem; }
+.pt-70  { padding-top: 0.7rem; }
+
+.pb-300 { padding-bottom: 3rem; }
+.pb-200 { padding-bottom: 2rem; }
+.pb-100 { padding-bottom: 1rem; }
+.pb-70  { padding-bottom: 0.7rem; }
+
+.py-300 { padding-top: 3rem; padding-bottom: 3rem; }
+.py-200 { padding-top: 2rem; padding-bottom: 2rem; }
+.py-100 { padding-top: 1rem; padding-bottom: 1rem; }
+
+.border-b {
+  border-bottom: 1px solid $border-color;
+}
+
+.border-t {
+  border-top: 1px solid $border-color;
+}

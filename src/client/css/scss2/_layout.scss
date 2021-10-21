@@ -1,12 +1,19 @@
-@use 'util/media' as *;
-@use 'util/margin' as *;
-@use 'text' as *;
+@use 'media' as *;
+@use 'margin' as *;
 
 .column {
   max-width: 65ch;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
 }
 
 .flex-center {
@@ -30,3 +37,14 @@
   grid-gap: 1.5em;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
