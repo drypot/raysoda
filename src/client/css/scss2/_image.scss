@@ -1,13 +1,7 @@
 @use 'util/media' as *;
-@use 'util/space' as *;
+@use 'util/margin' as *;
 @use 'text' as *;
 
-.column {
-  max-width: 65ch;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
 
 .mt-image-thumb {
   margin-top: 7rem;
