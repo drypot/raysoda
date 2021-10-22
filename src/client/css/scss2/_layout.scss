@@ -22,13 +22,9 @@
   align-items: center;
 }
 
-.space-x {
-  > * {
-    margin-left: 1rem;
-  }
-  > *:first-child {
-    margin-left: 0;
-  }
+.space-x > * {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .grid-column {
