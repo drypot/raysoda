@@ -1,19 +1,32 @@
-<div class="column mt-deep mb-large border-t link-no-deco">
-    <div class="inline-flex mt-small space-x">
+<div class="center mt-deep mb-lg border-t link-no-deco">
+    <div class="inline-flex mt-sm space-x">
         <a href="/about">사이트소개</a>
         <a href="/company">회사소개</a>
         <a href="/ad">광고</a>
         <a href="/privacy">개인정보처리방침</a>
         <a href="/help">도움말</a>
     </div>
-    <h4 class="mt-100">
+    <h4 class="mt-1r">
         <a href="/counter-inc/adng?r=http://www.natgeokorea.com/magazine" target="_blank">
             National Geographic
         </a>
     </h4>
-    <h3 class="mt-100">
+    <h3 class="mt-1r">
         <a href="/"><%= app.config.appName %></a>
     </h3>
+</div>
+
+<div id="modal-bg" class="modal-bg">
+    <div id="modal-dialog" class="modal-dialog">
+        <h2></h2>
+        <p></p>
+        <div class="btn-group flex-center space-x">
+            <button id="modal-gray-btn" class="btn-gray">취소</button>
+            <button id="modal-green-btn" class="btn-green">정보</button>
+            <button id="modal-blue-btn" class="btn-blue">확인</button>
+            <button id="modal-red-btn" class="btn-red">삭제</button>
+        </div>
+    </div>
 </div>
 
 <div id="fullscreen"></div>

@@ -7,7 +7,7 @@
 <body>
     <%- include('../_layout/header') %>
 
-    <h1 class="column">Error</h1>
+    <h1 class="text-center">Error</h1>
 
     <%
         const err = app.err[0]
@@ -19,9 +19,9 @@
         }
     %>
     <% if (err) { %>
-        <p class="mt-big border rounded-md p-2 max-w-prose mx-auto whitespace-pre overflow-scroll"><%= s %></p>
+        <p class="mt-xl border rounded-md p-2 max-w-prose mx-auto whitespace-pre overflow-scroll"><%= s %></p>
     <% } else { %>
-        <p class="mt-big column">Error is not defined.</p>
+        <p class="mt-xl center">Error is not defined.</p>
     <% } %>
 
     <%- include('../_layout/footer') %>

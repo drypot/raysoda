@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="column mt-big">
+    <div class="mt-xl center">
         <div class="sub-section" style="display: none">
             <a href="" id="fs"><span class="glyphicon glyphicon-fullscreen"></span></a>
         </div>
@@ -32,12 +32,12 @@
         <p class="text-xl link-no-deco">
             <a href='/user/<%- encodeURIComponent(app.image.owner.home) %>'><%= app.image.owner.name %></a>
         </p>
-        <p class="mt-big">
+        <p class="mt-xl">
             <%- app.image.cdateStr.slice(0, 16) %>
         </p>
 
         <% if (app.image.updatable) { %>
-            <div class="mt-big space-x-3">
+            <div class="mt-xl space-x-3">
                 <button id="btn-update" class="btn btn-hover-green text-sm">수정</button>
                 <button id="btn-del" class="btn btn-hover-red text-sm">삭제</button>
             </div>

@@ -9,12 +9,14 @@
     <% app.hideHeader = true %>
     <%- include('../_layout/header') %>
 
-    <h1 class="column link-no-deco"><a href="/"><%- app.config.appName %></a></h1>
+    <h1 class="text-center">
+        <a href="/" class="link-no-deco"><%- app.config.appName %></a>
+    </h1>
 
     <% if (!app.prev) { %>
 
         <!-- Home Menu -->
-        <div class="mt-big flex-center space-x">
+        <div class="mt-2xl flex-center space-x">
             <% if (app.user.id !== -1) { %>
                 <a href='/upload-image'>사진등록</a>
                 <a href='/user/<%- encodeURIComponent(user.home) %>'>내사진</a>
@@ -28,14 +30,14 @@
                 <a href='/logout'>접속종료</a>
             <% } %>
         </div>
-        <div class="flex-center mt-small space-x">
+        <div class="flex-center mt-sm space-x">
             <a href='/about'>사이트소개</a>
             <a href='/help'>도움말</a>
         </div>
 
         <!-- Banner List -->
         <% if (app.bannerList.length) { %>
-            <div class="mt-large flex flex-col">
+            <div class="mt-lg flex flex-col">
                 <% for(const banner of app.bannerList) { %>
                     <a href="<%- banner.url %>" target="_blank"><%= banner.text %></a><br>
                 <% } %>
@@ -57,9 +59,9 @@
                     </a>
                     <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
                     <% if (c) { %>
-                        <div class="mt-xsmall"><%= c %></div>
+                        <div class="mt-xs"><%= c %></div>
                     <% } %>
-                    <div class="mt-xsmall">
+                    <div class="mt-xs">
                         <a href='/user/<%- encodeURIComponent(image.owner.home) %>'><%= image.owner.name %></a>
                     </div>
                 </div>

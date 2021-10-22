@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% app.title = 'Login' %>
+    <%- include('../_layout/head') %>
+</head>
+<body>
+    <%- include('../_layout/header') %>
+
+    <h1 class="text-center">로그인</h1>
+
+    <form class="mt-xl form max-w-16r">
+        <label>
+            <span>이메일</span>
+            <input type="text" name="email">
+        </label>
+        <label>
+            <span>비밀번호</span>
+            <input type="password" name="password">
+        </label>
+        <label class="inline-label">
+            <input type="checkbox" name="remember">
+            <span>자동로그인</span>
+        </label>
+        <div class="mt-lg flex-center">
+            <button class="btn-blue" name="send" data-sending="전송중">로그인</button>
+        </div>
+    </form>
+
+    <p class="mt-xl flex-center flex-column space-y">
+        <a href='/user-register'>회원가입</a>
+        <a href='/user/reset-pass'>비밀번호초기화</a>
+    </p>
+
+    <%- include('../_layout/footer') %>
+    <script>
+        // app.initLoginPage()
+    </script>
+</body>
+</html>
