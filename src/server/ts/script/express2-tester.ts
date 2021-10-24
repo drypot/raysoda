@@ -1,21 +1,8 @@
 import { Express2 } from '@server/web/_express/express2'
 import { loadConfigSync } from '@common/util/config-loader'
-import { INVALID_DATA } from '@common/type/error-const'
 
 const config = loadConfigSync('config/app-dev.json')
 const web = Express2.from(config)
-
-web.router.get('/hello', (req, res) => {
-  res.send('<html><body><h1>Hello</h1></body></html>')
-})
-
-web.router.get('/page-error', function (req, res, done) {
-  done(new Error('Error Sample'))
-})
-
-web.router.get('/api/invalid-data', function (req, res, done) {
-  done(INVALID_DATA)
-})
 
 process.on('uncaughtException', function (err) {
   console.error(err.stack)

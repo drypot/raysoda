@@ -7,9 +7,9 @@ import connectRedis from 'connect-redis'
 import * as http from 'http'
 import { newErrorConst } from '@common/util/error2'
 import { Config } from '@common/type/config'
-import { inProduction } from '@common/util/env2'
+import { inDev, inProduction } from '@common/util/env2'
 import { omanGetConfig, omanRegisterCloser, omanRegisterFactory } from '../../oman/oman'
-import { INVALID_PAGE } from '@common/type/error-const'
+import { INVALID_DATA, INVALID_PAGE } from '@common/type/error-const'
 
 export type ExpressCallbackHandler = (req: Request, res: Response, done: NextFunction) => void
 export type ExpressPromiseHandler = (req: Request, res: Response) => Promise<void>
@@ -198,6 +198,33 @@ export class Express2 {
       res.send('hello')
     })
 
+    // 테스트용.
+    if (inDev()) {
+      this.express.get('/api/no-action', function (req, res, done) {
+        done()
+      })
+
+      this.express.get('/api/invalid-data', function (req, res, done) {
+        done(INVALID_DATA)
+      })
+
+      this.express.get('/api/invalid-data-array', function (req, res, done) {
+        done([INVALID_DATA])
+      })
+
+      this.express.get('/api/system-error', function (req, res, done) {
+        done(new Error('System Error'))
+      })
+
+      this.express.get('/hello', (req, res) => {
+        res.send('<html><body><h1>Hello</h1></body></html>')
+      })
+
+      this.express.get('/page-error', function (req, res, done) {
+        done(new Error('Page Error'))
+      })
+    }
+
     // 404 Error Handler
     this.express.use((req, res, done) => {
       res.status(404)
@@ -212,7 +239,7 @@ export class Express2 {
     } else if ('field' in err) {
       err = [err]
     } else {
-      err = [newErrorConst(err.name, err.message, err.stack)]
+      err = [newErrorConst(err.name, err.message + err.stack, '')]
     }
 
     // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
