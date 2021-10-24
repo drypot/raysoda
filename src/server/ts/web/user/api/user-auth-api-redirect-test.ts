@@ -1,4 +1,4 @@
-import { getSessionUser, useUserAuthApi } from '@server/web/user-auth/api/user-auth-api'
+import { getSessionUser, useUserAuthApi } from '@server/web/user/api/user-auth-api'
 import { Express2, toCallback } from '@server/web/_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
 import { insertUserFix4 } from '@server/db/user/fixture/user-fix'

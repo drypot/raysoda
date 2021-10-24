@@ -1,5 +1,5 @@
 import { Express2 } from '@server/web/_express/express2'
-import { getSessionUser } from '@server/web/user-auth/api/user-auth-api'
+import { getSessionUser } from '@server/web/user/api/user-auth-api'
 import { newUserIdCard } from '@common/type/user'
 import { BannerDB } from '@server/db/banner/banner-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'

@@ -1,6 +1,6 @@
 import { userListService } from '@server/service/user/user-list-service'
 import { Express2, toCallback } from '@server/web/_express/express2'
-import { getSessionUser } from '@server/web/user-auth/api/user-auth-api'
+import { getSessionUser } from '@server/web/user/api/user-auth-api'
 import { UserForList } from '@common/type/user-detail'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'

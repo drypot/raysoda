@@ -1,6 +1,6 @@
 import { leftTicket } from '@server/service/image/image-upload-service'
 import { Express2, toCallback } from '@server/web/_express/express2'
-import { getSessionUser } from '@server/web/user-auth/api/user-auth-api'
+import { getSessionUser } from '@server/web/user/api/user-auth-api'
 import { renderHtml } from '@server/web/_common/render-html'
 import { ImageDB } from '@server/db/image/image-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'

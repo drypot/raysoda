@@ -2,7 +2,7 @@ import { UserDB } from '@server/db/user/user-db'
 import { Express2 } from '@server/web/_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
-import { useUserPasswordPage } from '@server/web/user-auth/page/user-password-page'
+import { useUserPasswordPage } from '@server/web/user/page/user-password-page'
 
 describe('UserPasswordPage', () => {
 

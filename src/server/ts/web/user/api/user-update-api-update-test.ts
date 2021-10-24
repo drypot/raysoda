@@ -14,9 +14,9 @@ import {
 } from '@common/type/error-const'
 import { checkHash } from '@common/util/hash'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
-import { useUserAuthApi } from '@server/web/user-auth/api/user-auth-api'
+import { useUserAuthApi } from '@server/web/user/api/user-auth-api'
 import { Express2 } from '@server/web/_express/express2'
-import { loginForTest } from '@server/web/user-auth/api/user-auth-api-fixture'
+import { loginForTest } from '@server/web/user/api/user-auth-api-fixture'
 import { UserDB } from '@server/db/user/user-db'
 
 describe('UserUpdateApi Update', () => {

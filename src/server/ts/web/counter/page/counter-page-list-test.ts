@@ -3,9 +3,9 @@ import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '@server/db/user/fixtur
 import { useCounterPage } from '@server/web/counter/page/counter-page'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { CounterDB } from '@server/db/counter/counter-db'
-import { useUserAuthApi } from '@server/web/user-auth/api/user-auth-api'
+import { useUserAuthApi } from '@server/web/user/api/user-auth-api'
 import { Express2 } from '@server/web/_express/express2'
-import { loginForTest } from '@server/web/user-auth/api/user-auth-api-fixture'
+import { loginForTest } from '@server/web/user/api/user-auth-api-fixture'
 import { UserDB } from '@server/db/user/user-db'
 
 describe('CounterPage List', () => {

@@ -1,5 +1,5 @@
 import { ErrorConst } from '@common/type/error'
-import { getSessionUser, userLogoutService } from '@server/web/user-auth/api/user-auth-api'
+import { getSessionUser, userLogoutService } from '@server/web/user/api/user-auth-api'
 import { Express2, toCallback } from '@server/web/_express/express2'
 import { newNumber } from '@common/util/primitive'
 import { omanGetObject } from '@server/oman/oman'

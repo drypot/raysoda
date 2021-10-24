@@ -1,6 +1,6 @@
 import { CounterDB } from '@server/db/counter/counter-db'
 import { Express2, toCallback } from '@server/web/_express/express2'
-import { getSessionUser } from '@server/web/user-auth/api/user-auth-api'
+import { getSessionUser } from '@server/web/user/api/user-auth-api'
 import { shouldBeAdmin, shouldBeUser } from '@server/service/user-auth/user-auth-service'
 import { renderHtml } from '@server/web/_common/render-html'
 import { omanGetObject } from '@server/oman/oman'

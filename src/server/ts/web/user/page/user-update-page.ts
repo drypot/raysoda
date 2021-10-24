@@ -1,6 +1,6 @@
 import { ErrorConst } from '@common/type/error'
 import { Express2, toCallback } from '@server/web/_express/express2'
-import { getSessionUser } from '@server/web/user-auth/api/user-auth-api'
+import { getSessionUser } from '@server/web/user/api/user-auth-api'
 import { userUpdateGetService } from '@server/service/user/user-update-service'
 import { renderHtml } from '@server/web/_common/render-html'
 import { newNumber } from '@common/util/primitive'

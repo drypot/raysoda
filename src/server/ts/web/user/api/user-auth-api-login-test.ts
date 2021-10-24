@@ -3,7 +3,7 @@ import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '@server/d
 import { EMAIL_NOT_FOUND, NOT_AUTHORIZED, PASSWORD_WRONG } from '@common/type/error-const'
 import { Express2, toCallback } from '@server/web/_express/express2'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
-import { getSessionUser, useUserAuthApi } from '@server/web/user-auth/api/user-auth-api'
+import { getSessionUser, useUserAuthApi } from '@server/web/user/api/user-auth-api'
 import { shouldBeAdmin, shouldBeUser } from '@server/service/user-auth/user-auth-service'
 import { GUEST_ID_CARD } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'

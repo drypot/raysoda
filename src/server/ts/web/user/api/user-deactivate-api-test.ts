@@ -3,9 +3,9 @@ import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '@server/d
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '@common/type/error-const'
 import { useUserDeactivateApi } from '@server/web/user/api/user-deactivate-api'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
-import { useUserAuthApi } from '@server/web/user-auth/api/user-auth-api'
+import { useUserAuthApi } from '@server/web/user/api/user-auth-api'
 import { Express2 } from '@server/web/_express/express2'
-import { loginForTest } from '@server/web/user-auth/api/user-auth-api-fixture'
+import { loginForTest } from '@server/web/user/api/user-auth-api-fixture'
 import { GUEST_ID_CARD } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'
 

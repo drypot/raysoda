@@ -1,9 +1,9 @@
-import { useUserAuthApi } from '@server/web/user-auth/api/user-auth-api'
+import { useUserAuthApi } from '@server/web/user/api/user-auth-api'
 import { useUserDeactivatePage } from '@server/web/user/page/user-deactivate-page'
 import { Express2 } from '@server/web/_express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
 import { insertUserFix4, USER1_LOGIN } from '@server/db/user/fixture/user-fix'
-import { loginForTest } from '@server/web/user-auth/api/user-auth-api-fixture'
+import { loginForTest } from '@server/web/user/api/user-auth-api-fixture'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
