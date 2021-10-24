@@ -46,7 +46,7 @@ describe('UserAuthApi Redirect To Login', () => {
     await sat.get('/for-guest').expect(200)
   })
   it('for-user', async () => {
-    await sat.get('/for-user').expect(302).expect('Location', '/login')
+    await sat.get('/for-user').expect(302).expect('Location', '/user-login')
   })
 
 })

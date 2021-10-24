@@ -38,14 +38,14 @@ describe('UserAuthApi Fixture', () => {
     await loginForTest(sat, USER1_LOGIN)
   })
   it('get login', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.user.id).toBe(1)
   })
   it('logout', async () => {
     await logoutForTest(sat)
   })
   it('get login fails', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
 

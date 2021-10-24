@@ -46,7 +46,7 @@ describe('UserDeactivateApi', () => {
     await loginForTest(sat, USER1_LOGIN)
   })
   it('get login works', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.user.id).toBe(1)
   })
   it('deactivate user1', async () => {
@@ -54,7 +54,7 @@ describe('UserDeactivateApi', () => {
     expect(res.body).toEqual({})
   })
   it('login-info returns guest', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
   it('user status must be "d"', async () => {

@@ -37,21 +37,21 @@ describe('UserAuthPage', () => {
   })
 
   it('login', async () => {
-    await sat.get('/login').expect(200).expect(/<title>Login/)
+    await sat.get('/user-login').expect(200).expect(/<title>Login/)
   })
 
   it('login as user1', async () => {
     await loginForTest(sat, USER1_LOGIN)
   })
   it('login-info 1', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.err).toBeUndefined()
   })
   it('logout', async () => {
     await sat.get('/logout').expect(302).expect('Location', '/')
   })
   it('login-info fails', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
 

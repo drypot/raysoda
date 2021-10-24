@@ -22,14 +22,14 @@ export async function useUserAuthApi() {
   const web = await omanGetObject('Express2') as Express2
   const udb = await omanGetObject('UserDB') as UserDB
 
-  web.router.get('/api/login-info', toCallback(async function (req, res) {
+  web.router.get('/api/user-login-info', toCallback(async function (req, res) {
     const user = getSessionUser(res)
     renderJson(res, {
       user: newUserIdCard(user)
     })
   }))
 
-  web.router.post('/api/login', toCallback(async (req, res) => {
+  web.router.post('/api/user-login', toCallback(async (req, res) => {
     const form: UserLoginForm = {
       email: newString(req.body.email).trim(),
       password: newString(req.body.password).trim(),
@@ -47,7 +47,7 @@ export async function useUserAuthApi() {
     userAutoLoginService(req, res, udb).then(done, done)
   }
 
-  web.router.post('/api/logout', toCallback(async (req, res) => {
+  web.router.post('/api/user-logout', toCallback(async (req, res) => {
     await userLogoutService(req, res)
     renderJson(res, {})
   }))
@@ -57,7 +57,7 @@ export async function useUserAuthApi() {
   web.errorHandler = (err, req, res, done) => {
     if (!res.locals.api) {
       if (err.name === NOT_AUTHENTICATED.name || err.name === NOT_AUTHORIZED.name) {
-        res.redirect('/login')
+        res.redirect('/user-login')
         return
       }
     }

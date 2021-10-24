@@ -48,7 +48,7 @@ describe('ImageUpdatePage', () => {
     await idb.createTable()
   })
   it('fails if anonymous', async () => {
-    await sat.get('/image-update/1').expect(302).expect('Location', '/login')
+    await sat.get('/image-update/1').expect(302).expect('Location', '/user-login')
   })
   it('login as user', async () => {
     await loginForTest(sat, USER1_LOGIN)

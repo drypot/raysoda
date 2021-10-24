@@ -49,7 +49,7 @@ describe('UserAuthApi Auto Login', () => {
     })
   })
   it('get login fails before login', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
   it('cookie should be empty', async () => {
@@ -61,7 +61,7 @@ describe('UserAuthApi Auto Login', () => {
     await loginForTest(sat, USER1_LOGIN, true)
   })
   it('get login', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.user.id).toBe(1)
   })
   it('cookies are filled', async () => {
@@ -73,7 +73,7 @@ describe('UserAuthApi Auto Login', () => {
     await sat.post('/api/session-destroy').expect(200)
   })
   it('autologin works after destroy session', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.user.id).toBe(1)
   })
   it('cookies still exist', async () => {
@@ -85,7 +85,7 @@ describe('UserAuthApi Auto Login', () => {
     await logoutForTest(sat)
   })
   it('autologin not works after logout', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
   it('cookies are empty', async () => {
@@ -97,7 +97,7 @@ describe('UserAuthApi Auto Login', () => {
     await loginForTest(sat, USER1_LOGIN, true)
   })
   it('get login before db email change', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.err).toBe(undefined)
   })
 
@@ -108,7 +108,7 @@ describe('UserAuthApi Auto Login', () => {
     await sat.post('/api/session-destroy').expect(200)
   })
   it('autologin fails after db email change', async () => {
-    const res = await sat.get('/api/login-info').expect(200)
+    const res = await sat.get('/api/user-login-info').expect(200)
     expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
   it('cookies are empty', async () => {

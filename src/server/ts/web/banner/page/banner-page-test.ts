@@ -45,13 +45,13 @@ describe('BannerPage', () => {
     await bdb.loadCache()
   })
   it('banner-update fails if anonymous', async () => {
-    await sat.get('/banner-update').expect(302).expect('Location', '/login')
+    await sat.get('/banner-update').expect(302).expect('Location', '/user-login')
   })
   it('login as user', async () => {
     await loginForTest(sat, USER1_LOGIN)
   })
   it('banner-update fails if user', async () => {
-    await sat.get('/banner-update').expect(302).expect('Location', '/login')
+    await sat.get('/banner-update').expect(302).expect('Location', '/user-login')
   })
   it('login as admin', async () => {
     await loginForTest(sat, ADMIN_LOGIN)

@@ -37,13 +37,13 @@ describe('CounterPage List', () => {
   })
 
   it('fails if anonymous', async () => {
-    await sat.get('/counter-list').expect(302).expect('Location', '/login')
+    await sat.get('/counter-list').expect(302).expect('Location', '/user-login')
   })
   it('login as user', async () => {
     await loginForTest(sat, USER1_LOGIN)
   })
   it('fails if user', async () => {
-    await sat.get('/counter-list').expect(302).expect('Location', '/login')
+    await sat.get('/counter-list').expect(302).expect('Location', '/user-login')
   })
   it('login as admin', async () => {
     await loginForTest(sat, ADMIN_LOGIN)
