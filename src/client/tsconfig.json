@@ -18,7 +18,7 @@
 
     "target": "es2017", // async, await
     "module": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "esnext"],
 
     "strict": true,
     "esModuleInterop": true,

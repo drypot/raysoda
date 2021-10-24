@@ -16,7 +16,7 @@
       "@common/*": ["../_common/ts/*"]
     },
 
-    "target": "es2021",
+    "target": "esnext",
     "module": "commonjs",
     "lib": ["esnext"],
 
