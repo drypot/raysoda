@@ -3,7 +3,7 @@ export const MODAL_CANCEL = 'cancel'
 export const MODAL_INFO = 'info'
 export const MODAL_DELETE = 'delete'
 
-export type ModalCallback = (result: string) => {}
+export type ModalCallback = ((result: string) => void) | (() => void)
 
 const bg = document.getElementById("modal-bg") as HTMLElement
 const dlg = document.getElementById("modal-dialog") as HTMLElement
@@ -47,27 +47,29 @@ redBtn.onclick = () => {
   closeModal(MODAL_DELETE)
 }
 
-export function openOkModal(title: string, text: string, handler: ModalCallback) {
+export function openOkModal(title: string, text: string, handler?: ModalCallback) {
   hideAllButtons()
   showElement(blueBtn)
-  showModal(title, text, handler)
+  openModal(title, text, handler)
 }
 
-export function openDeleteModal(title: string, text: string, handler: ModalCallback) {
+export function openDeleteModal(title: string, text: string, handler?: ModalCallback) {
   hideAllButtons()
   showElement(grayBtn)
   showElement(redBtn)
-  showModal(title, text, handler)
+  openModal(title, text, handler)
+}
+
+export function openErrorModal(err: any, handler?: ModalCallback) {
+  openOkModal(err.name, err.message, handler)
 }
 
 function hideAllButtons() {
   const btnList = dlg.querySelectorAll('button')
-  for (const btn of btnList) {
-    hideElement(btn)
-  }
+  Array.from(btnList).forEach(btn => hideElement(btn))
 }
 
-function showModal(title: string, text: string, handler: ModalCallback) {
+function openModal(title: string, text: string, handler?: ModalCallback) {
   handlerSave = handler
   titleEl.textContent = title
   textEl.textContent = text

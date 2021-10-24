@@ -70,3 +70,9 @@
   background: #ddd;
   top: 2px;
 }
+
+button:disabled,
+button:disabled:hover {
+  background: #ccc;
+  color: #fff;
+}

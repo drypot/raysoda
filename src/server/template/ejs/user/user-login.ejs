@@ -9,10 +9,10 @@
 
     <h1 class="text-center">로그인</h1>
 
-    <form class="mt-xl form max-w-16r">
+    <form id="loginForm" class="mt-xl form max-w-xs">
         <label>
             <span>이메일</span>
-            <input type="text" name="email">
+            <input type="text" name="email" autofocus>
         </label>
         <label>
             <span>비밀번호</span>
@@ -23,7 +23,7 @@
             <span>자동로그인</span>
         </label>
         <div class="mt-lg flex-center">
-            <button class="btn-blue" name="send" data-sending="전송중">로그인</button>
+            <button class="btn-blue" name="send">로그인</button>
         </div>
     </form>
 
@@ -34,7 +34,7 @@
 
     <%- include('../_layout/footer') %>
     <script>
-        // app.initLoginPage()
+        app.initUserLoginPage()
     </script>
 </body>
 </html>

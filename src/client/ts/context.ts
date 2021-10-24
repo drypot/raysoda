@@ -14,8 +14,8 @@ function getEmbeddedObjectById(id: string) {
 export const config = getEmbeddedObjectById('configJson') as ConfigForClient
 export const user = getEmbeddedObjectById('userJson') as UserIdCard
 
-console.log(JSON.stringify(config))
-console.log(JSON.stringify(user))
+// console.log(JSON.stringify(config))
+// console.log(JSON.stringify(user))
 
 export function isGuest() {
   return user.id === -1
