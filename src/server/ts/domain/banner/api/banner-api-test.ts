@@ -45,7 +45,7 @@ describe('Banner Api', () => {
     await vdb.createTable()
     await bdb.loadCache()
   })
-  it('get banner empty', async () => {
+  it('get empty banner list', async () => {
     const res = await sat.get('/api/banner-list').expect(200)
     expect(res.body.bannerList).toEqual([])
   })
@@ -53,16 +53,14 @@ describe('Banner Api', () => {
     await loginForTest(sat, USER1_LOGIN)
   })
   it('set banner fails', async () => {
-    const form = {
-      banner: []
-    }
+    const form = { banner: [] }
     const res = await sat.put('/api/banner-update').send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
     await loginForTest(sat, ADMIN_LOGIN)
   })
-  it('set banner', async () => {
+  it('set banner list', async () => {
     const form = {
       banner: [
         { text: 'text1', url: 'url1' },
@@ -76,7 +74,7 @@ describe('Banner Api', () => {
   it('logout', async () => {
     await logoutForTest(sat)
   })
-  it('get banner filled', async () => {
+  it('get filled banner', async () => {
     const res = await sat.get('/api/banner-list').expect(200)
     expect(res.body.bannerList).toEqual([
       { text: 'text1', url: 'url1' },
@@ -86,5 +84,3 @@ describe('Banner Api', () => {
   })
 
 })
-
-
