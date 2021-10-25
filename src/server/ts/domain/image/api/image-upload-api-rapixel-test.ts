@@ -95,6 +95,7 @@ describe('ImageUploadApi Rapixel', () => {
     expect(r.vers).toEqual([4096, 2560, 1280])
   })
   it('check file', async () => {
+    expect((await getImageMetaOfFile(ifm.getPathFor(2, 5120))).width).toBe(0)
     expect((await getImageMetaOfFile(ifm.getPathFor(2, 4096))).width).toBe(4096)
     expect((await getImageMetaOfFile(ifm.getPathFor(2, 2560))).width).toBe(2560)
     expect((await getImageMetaOfFile(ifm.getPathFor(2, 1280))).width).toBe(1280)

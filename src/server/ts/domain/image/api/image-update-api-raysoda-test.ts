@@ -81,7 +81,7 @@ describe('ImageUpdateApi RaySoda', () => {
     expect(meta.width).toBe(1152)
     expect(meta.height).toBe(2048)
   })
-  it('update comment', async () => {
+  it('update comment only', async () => {
     const res = await sat.put('/api/image-update/1').field('comment', 'only').expect(200)
     expect(res.body).toEqual({})
   })

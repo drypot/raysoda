@@ -11,6 +11,7 @@ import { omanGetImageFileManager } from '@server/file/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { UserDB } from '@server/db/user/user-db'
 import { useImageUploadApi } from '@server/domain/image/api/image-upload-api'
+import { IMAGE_NOT_EXIST } from '@common/type/error-const'
 
 describe('ImageDeleteApi Drypot', () => {
 
@@ -43,32 +44,34 @@ describe('ImageDeleteApi Drypot', () => {
     await insertUserFix4(udb)
   })
 
-  describe('update image', () => {
-    it('init table', async () => {
-      await idb.dropTable()
-      await idb.createTable()
-    })
-    it('remove image dir', async () => {
-      await ifm.rmRoot()
-    })
-    it('login as user1', async () => {
-      await loginForTest(sat, USER1_LOGIN)
-    })
-    it('upload 1', async () => {
-      const res = await sat.post('/api/image-upload').field('comment', 'c')
-        .attach('file', 'sample/svg-sample.svg').expect(200)
-      expect(res.body.id).toEqual(1)
-    })
-    it('check file 1', async () => {
-      expect(existsSync(ifm.getPathFor(1))).toBe(true)
-    })
-    it('delete 1', async () => {
-      const res = await sat.delete('/api/image-delete/1').expect(200)
-      expect(res.body.err).toBeUndefined()
-    })
-    it('check file 1 after delete', async () => {
-      expect(existsSync(ifm.getPathFor(1))).toBe(false)
-    })
+  it('init table', async () => {
+    await idb.dropTable()
+    await idb.createTable()
+  })
+  it('remove image dir', async () => {
+    await ifm.rmRoot()
+  })
+  it('login as user1', async () => {
+    await loginForTest(sat, USER1_LOGIN)
+  })
+  it('upload 1', async () => {
+    const res = await sat.post('/api/image-upload').field('comment', 'c')
+      .attach('file', 'sample/svg-sample.svg').expect(200)
+    expect(res.body.id).toEqual(1)
+  })
+  it('check file 1', async () => {
+    expect(existsSync(ifm.getPathFor(1))).toBe(true)
+  })
+  it('delete 1', async () => {
+    const res = await sat.delete('/api/image-delete/1').expect(200)
+    expect(res.body.err).toBeUndefined()
+  })
+  it('check file 1 after delete', async () => {
+    expect(existsSync(ifm.getPathFor(1))).toBe(false)
+  })
+  it('delete 1 again', async () => {
+    const res = await sat.delete('/api/image-delete/1').expect(200)
+    expect(res.body.err).toContain(IMAGE_NOT_EXIST)
   })
 
 })
