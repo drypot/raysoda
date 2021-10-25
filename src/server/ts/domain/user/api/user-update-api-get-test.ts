@@ -45,7 +45,13 @@ describe('UserUpdateApi Get', () => {
   it('get user1', async () => {
     const res = await sat.get('/api/user-update-get/' + 1).expect(200)
     expect(res.body).toEqual({
-      user: { name: 'User 1', home: 'user1', email: 'user1@mail.test', password: '', profile: '' }
+      user: {
+        name: 'User 1',
+        home: 'user1',
+        email: 'user1@mail.test',
+        password: '',
+        profile: ''
+      }
     })
   })
   it('get user2 by user1', async () => {
@@ -58,7 +64,13 @@ describe('UserUpdateApi Get', () => {
   it('get user2 by admin', async () => {
     const res = await sat.get('/api/user-update-get/' + 2).expect(200)
     expect(res.body).toEqual({
-      user: { name: 'User 2', home: 'user2', email: 'user2@mail.test', password: '', profile: '' }
+      user: {
+        name: 'User 2',
+        home: 'user2',
+        email: 'user2@mail.test',
+        password: '',
+        profile: ''
+      }
     })
   })
 

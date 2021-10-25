@@ -3,12 +3,11 @@ import { UserForList } from '@common/type/user-detail'
 import { Express2, toCallback } from '@server/express/express2'
 import { userIsAdmin } from '@common/type/user'
 import { newLimitedNumber, newString } from '@common/util/primitive'
-import { userListService } from '@server/domain/user/_service/user-list-service'
+import { userListService, userSearchService } from '@server/domain/user/_service/user-list-service'
 import { getSessionUser } from '@server/domain/user/api/user-auth-api'
 import { UrlMaker } from '@common/util/url2'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { userSearchService } from '@server/domain/user/_service/user-search-service'
 
 export async function useUserListPage() {
 

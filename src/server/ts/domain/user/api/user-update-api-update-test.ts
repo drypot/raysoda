@@ -5,6 +5,7 @@ import {
   EMAIL_DUPE,
   EMAIL_RANGE,
   HOME_DUPE,
+  HOME_EMPTY,
   HOME_RANGE,
   NAME_DUPE,
   NAME_RANGE,
@@ -18,6 +19,7 @@ import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import { loginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { UserDB } from '@server/db/user/user-db'
+import { UserUpdateForm } from '@common/type/user-form'
 
 describe('UserUpdateApi Update', () => {
 
@@ -46,6 +48,7 @@ describe('UserUpdateApi Update', () => {
   it('fill fix', async () => {
     await insertUserFix4(udb)
   })
+
   it('update user1 without login', async () => {
     const form = {
       name: 'User 11'
@@ -53,11 +56,12 @@ describe('UserUpdateApi Update', () => {
     const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
+
   it('login as user1', async () => {
     await loginForTest(sat, USER1_LOGIN)
   })
   it('update user1', async () => {
-    const form = {
+    const form: UserUpdateForm = {
       name: 'User 11', home: 'user11', email: 'user11@mail.test',
       password: '5678', profile: 'profile 11'
     }
@@ -83,7 +87,7 @@ describe('UserUpdateApi Update', () => {
     expect(user.profile).toBe('profile 11')
   })
   it('password can be omitted', async () => {
-    const form = {
+    const form: UserUpdateForm = {
       name: 'User 11', home: 'user11', email: 'user11@mail.test',
       password: '', profile: 'profile 11'
     }
@@ -100,6 +104,18 @@ describe('UserUpdateApi Update', () => {
     if (!user) throw new Error()
     expect(await checkHash('5678', user.hash)).toBe(true)
   })
+
+  it('dupe check works', async () => {
+    const form = {
+      name: 'User 2', home: 'user2', email: 'user2@mail.test',
+      password: '', profile: ''
+    }
+    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    expect(res.body.err).toContain(NAME_DUPE)
+    expect(res.body.err).toContain(HOME_DUPE)
+    expect(res.body.err).toContain(EMAIL_DUPE)
+  })
+
   it('format check works', async () => {
     const s33 = 'x'.repeat(33)
     const s65 = 'x'.repeat(66)
@@ -112,27 +128,34 @@ describe('UserUpdateApi Update', () => {
     expect(res.body.err).toContain(EMAIL_RANGE)
     expect(res.body.err).toContain(PASSWORD_RANGE)
   })
-  it('dupe check works', async () => {
-    const form = {
-      name: 'User 2', home: 'user2', email: 'user2@mail.test',
-      password: '', profile: ''
-    }
+
+  // home 외 다른 포멧 체크는 register 에 있다.
+
+  it('empty home fails', async () => {
+    const form = { home: '' }
     const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
-    expect(res.body.err).toContain(NAME_DUPE)
-    expect(res.body.err).toContain(HOME_DUPE)
-    expect(res.body.err).toContain(EMAIL_DUPE)
+    expect(res.body.err).toContain(HOME_EMPTY)
   })
-  it('update user2 by user1', async () => {
-    const form = {
-      name: 'User 22'
-    }
+  it('length 32 home ok', async () => {
+    const form = { home: 'x'.repeat(32) }
+    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    expect(res.body.err).not.toContain(HOME_RANGE)
+  })
+  it('length 33 home fails', async () => {
+    const form = { home: 'x'.repeat(33) }
+    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    expect(res.body.err).toContain(HOME_RANGE)
+  })
+
+  it('update user2 by user1 fails', async () => {
+    const form = { name: 'User 22' }
     const res = await sat.put('/api/user-update/' + 2).send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
     await loginForTest(sat, ADMIN_LOGIN)
   })
-  it('update user2 by admin', async () => {
+  it('update user2 by admin works', async () => {
     const form = {
       name: 'User 22', home: 'user22', email: 'user22@mail.test',
       password: '', profile: 'profile 22'

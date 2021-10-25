@@ -4,3 +4,10 @@ export async function userListService(udb: UserDB, p: number = 1, ps: number = 1
   let offset = (p - 1) * ps
   return await udb.findUserList(offset, ps)
 }
+
+export async function userSearchService(
+  udb: UserDB, q: string = '', p: number = 1, ps: number = 100, admin: boolean = false
+) {
+  let offset = (p - 1) * ps
+  return await udb.searchUser(q, offset, ps, admin)
+}

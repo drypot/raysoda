@@ -1,4 +1,4 @@
-import { userListService } from '@server/domain/user/_service/user-list-service'
+import { userListService, userSearchService } from '@server/domain/user/_service/user-list-service'
 import { Express2, toCallback } from '@server/express/express2'
 import { getSessionUser } from '@server/domain/user/api/user-auth-api'
 import { UserForList } from '@common/type/user-detail'
@@ -6,7 +6,6 @@ import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { renderJson } from '@server/express/render-json'
 import { userIsAdmin } from '@common/type/user'
-import { userSearchService } from '@server/domain/user/_service/user-search-service'
 import { newLimitedNumber, newString } from '@common/util/primitive'
 
 export async function useUserListApi() {

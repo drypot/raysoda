@@ -40,6 +40,18 @@ describe('UserListApi Search', () => {
     expect(list.length).toBe(1)
     expect(list[0].home).toBe('user1')
   })
+  it('search USER1', async () => {
+    const res = await sat.get('/api/user-list?q=USER1').expect(200)
+    const list = res.body.userList
+    expect(list.length).toBe(1)
+    expect(list[0].home).toBe('user1')
+  })
+  it('search User 1', async () => {
+    const res = await sat.get('/api/user-list?q=User 1').expect(200)
+    const list = res.body.userList
+    expect(list.length).toBe(1)
+    expect(list[0].home).toBe('user1')
+  })
   it('search user1@mail.test as user', async () => {
     const res = await sat.get('/api/user-list?q=user1@mail.test').expect(200)
     const list = res.body.userList

@@ -33,7 +33,7 @@ describe('UserListApi', () => {
   it('fill fix', async () => {
     await insertUserFix4(udb)
   })
-  it('get list', async () => {
+  it('default opt', async () => {
     const res = await sat.get('/api/user-list').expect(200)
     const list = res.body.userList
     expect(list.length).toBe(4)
@@ -43,7 +43,7 @@ describe('UserListApi', () => {
     expect(list[2].home).toBe('user1')
     expect(list[3].home).toBe('admin')
   })
-  it('get p 1, ps 3', async () => {
+  it('p 1, ps 3', async () => {
     const res = await sat.get('/api/user-list?p=1&ps=3').expect(200)
     const list = res.body.userList
     expect(list.length).toBe(3)
@@ -51,6 +51,18 @@ describe('UserListApi', () => {
     expect(list[0].home).toBe('user2')
     expect(list[1].home).toBe('user3')
     expect(list[2].home).toBe('user1')
+  })
+  it('p 2, ps 3', async () => {
+    const res = await sat.get('/api/user-list?p=2&ps=3').expect(200)
+    const list = res.body.userList
+    expect(list.length).toBe(1)
+    // ordered by pdate desc
+    expect(list[0].home).toBe('admin')
+  })
+  it('p 3, ps 3', async () => {
+    const res = await sat.get('/api/user-list?p=3&ps=3').expect(200)
+    const list = res.body.userList
+    expect(list.length).toBe(0)
   })
 
 })
