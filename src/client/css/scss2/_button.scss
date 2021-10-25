@@ -1,3 +1,4 @@
+@use 'var' as *;
 
 .btn {
   font-family: sans-serif;
@@ -13,66 +14,66 @@
 
 .btn-blue {
   @extend .btn;
-  background: #3498db;
+  background: $color-blue;
   color: #fff;
 }
 
 .btn-blue:hover {
-  background: #2980b9;
+  background: $color-blue-dim;
 }
 
 .btn-blue:active {
-  background: #2980b9;
+  background: $color-blue-dim;
   top: 2px;
 }
 
 .btn-green {
   @extend .btn;
-  background: #2ecc71;
+  background: $color-green;
   color: #fff;
 }
 
 .btn-green:hover {
-  background: #27ae60;
+  background: $color-green-dim;
 }
 
 .btn-green:active {
-  background: #27ae60;
+  background: $color-green-dim;
   top: 2px;
 }
 
 .btn-red {
   @extend .btn;
-  background: #e74c3c;
+  background: $color-red;
   color: #fff;
 }
 
 .btn-red:hover {
-  background: #c0392b;
+  background: $color-red-dim;
 }
 
 .btn-red:active {
-  background: #c0392b;
+  background: $color-red-dim;
   top: 2px;
 }
 
 .btn-gray {
   @extend .btn;
-  background: #eee;
+  background: $color-gray;
   color: #444;
 }
 
 .btn-gray:hover {
-  background: #ddd;
+  background: $color-green-dim;
 }
 
 .btn-gray:active {
-  background: #ddd;
+  background: $color-green-dim;
   top: 2px;
 }
 
 button:disabled,
 button:disabled:hover {
-  background: #ccc;
+  background: $color-disabled;
   color: #fff;
 }

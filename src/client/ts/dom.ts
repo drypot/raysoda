@@ -1,4 +1,6 @@
-export type HTMLElementMap = {
+import { ErrorConst } from '@common/type/error'
+
+export type ControlMap = {
   [key: string]: HTMLElement
 }
 
@@ -7,8 +9,8 @@ export function elementByName(name: string) {
 }
 
 export function grabForm(name: string) {
-  const r: HTMLElementMap = {}
-  r._form = document.querySelector(name) as HTMLElement
+  const r: ControlMap = {}
+  r.form = document.querySelector(name) as HTMLElement
 
   const list = document.querySelectorAll(
     `${name} input, ${name} textarea, ${name} select, ${name} button`
@@ -23,32 +25,28 @@ export function grabForm(name: string) {
   return r
 }
 
-
-// formty.clearAlerts = function ($form) {
-//   $form.find('.has-error').removeClass('has-error')
-//   $form.find('.text-danger').remove()
-// }
-//
-// formty.addAlert = function ($control, msg) {
-//   let $group = $control.closest('.form-group')
-//   $group.addClass('has-error')
-//   $group.append($('<p>').addClass('help-block text-danger').text(msg))
-// }
-//
-// formty.addAlerts = function ($form, errors) {
-//   for (let i = 0; i < errors.length; i++) {
-//     let error = errors[i]
-//     formty.addAlert($form.find('[name="' + error.field + '"]'), error.message)
-//   }
-// }
-
-export function reportFormError(form:HTMLElementMap, body: any) {
-  const errList = body.err
-
+export function reportFormError(form:ControlMap, errs: ErrorConst[]) {
+  for (const err of errs) {
+    const ctrlNode = form[err.field]
+    const errNode = newErrorNode(err.message)
+    if (ctrlNode) {
+      ctrlNode.after(errNode)
+    } else {
+      form.form.prepend(errNode)
+    }
+  }
 }
 
-export function clearFormError(form:HTMLElementMap) {
+function newErrorNode(message: string) {
+  const err = document.createElement('p')
+  err.classList.add('error')
+  err.textContent = message
+  return err
+}
 
+export function clearFormError(form:HTMLElement) {
+  const list = form.querySelectorAll('.error')
+  Array.from(list).forEach(el => el.remove())
 }
 
 export function disableSubmit(el: Element) {

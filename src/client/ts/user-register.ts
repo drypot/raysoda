@@ -1,10 +1,10 @@
 import { clearFormError, ControlMap, disableSubmit, enableSubmit, grabForm, reportFormError } from '@client/dom'
-import { UserLoginForm } from '@common/type/user-form'
+import { UserRegisterForm } from '@common/type/user-form'
 import { openErrorModal } from '@client/modal'
 import { checkResponseError } from '@client/fetch'
 
-export function initUserLoginPage() {
-  const form = grabForm('#loginForm')
+export function initUserRegisterPage() {
+  const form = grabForm('#registerForm')
   form.send.onclick = (e) => {
     sendForm(form)
     e.preventDefault()
@@ -12,10 +12,10 @@ export function initUserLoginPage() {
 }
 
 function sendForm(form: ControlMap) {
-  const data: UserLoginForm = {
+  const data: UserRegisterForm = {
+    name: (form.name as HTMLInputElement).value,
     email: (form.email as HTMLInputElement).value,
     password: (form.password as HTMLInputElement).value,
-    remember: (form.remember as HTMLInputElement).checked
   }
   const opt: RequestInit = {
     method: 'POST',
@@ -24,17 +24,17 @@ function sendForm(form: ControlMap) {
   }
   clearFormError(form.form)
   disableSubmit(form.send)
-  fetch('/api/user-login', opt)
+  fetch('/api/user-register', opt)
     .then(checkResponseError)
     .then(res => res.json())
     .then(body => {
       if (body.err) {
         enableSubmit(form.send)
-        reportFormError(form, body)
+        reportFormError(form, body.err)
         return
       }
       console.log('Success')
-      // window.location = '/'
+      // window.location = '/user-register-done'
     })
     .catch(err => {
       openErrorModal(err, () => {

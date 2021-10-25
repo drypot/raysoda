@@ -22,12 +22,12 @@
                 <a href='/user/<%- encodeURIComponent(user.home) %>'>내사진</a>
             <% } else { %>
                 <a href='/user-login'>로그인</a>
-                <a href='/register'>회원가입</a>
+                <a href='/user-register'>회원가입</a>
             <% } %>
             <a href='/user-list'>회원목록</a>
             <a href='/image-list-by-year'>연도별사진</a>
             <% if (app.user.id !== -1) { %>
-                <a href='/logout'>접속종료</a>
+                <a href='/user-logout'>접속종료</a>
             <% } %>
         </div>
         <div class="flex-center mt-sm space-x">
