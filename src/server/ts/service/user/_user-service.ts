@@ -53,19 +53,27 @@ export function checkPasswordFormat(password: string, err: ErrorConst[]) {
 export async function checkNameDupe(
   userdb: UserDB, id: number, name: string, err: ErrorConst[]
 ) {
-  if (await userdb.nameIsDupe(id, name)) err.push(NAME_DUPE)
-  if (await userdb.homeIsDupe(id, name)) err.push(NAME_DUPE)
+  if (await userdb.nameIsDupe(id, name)) {
+    err.push(NAME_DUPE)
+  } else if (await userdb.homeIsDupe(id, name)) {
+    err.push(NAME_DUPE)
+  }
 }
 
 export async function checkHomeDupe(
   userdb: UserDB, id: number, home: string, err: ErrorConst[]
 ) {
-  if (await userdb.nameIsDupe(id, home)) err.push(HOME_DUPE)
-  if (await userdb.homeIsDupe(id, home)) err.push(HOME_DUPE)
+  if (await userdb.nameIsDupe(id, home)) {
+    err.push(HOME_DUPE)
+  } else if (await userdb.homeIsDupe(id, home)) {
+    err.push(HOME_DUPE)
+  }
 }
 
 export async function checkEmailDupe(
   userdb: UserDB, id: number, email: string, err: ErrorConst[]
 ) {
-  if (await userdb.emailIsDupe(id, email)) err.push(EMAIL_DUPE)
+  if (await userdb.emailIsDupe(id, email)) {
+    err.push(EMAIL_DUPE)
+  }
 }

@@ -3,8 +3,6 @@ import { UserRegisterForm } from '@common/type/user-form'
 import {
   checkEmailDupe,
   checkEmailFormat,
-  checkHomeDupe,
-  checkHomeFormat,
   checkNameDupe,
   checkNameFormat,
   checkPasswordFormat
@@ -16,12 +14,10 @@ import { UserDB } from '@server/db/user/user-db'
 export async function userRegisterService(udb: UserDB, form: UserRegisterForm, err: ErrorConst[]) {
 
   checkNameFormat(form.name, err)
-  checkHomeFormat(form.name, err)
   checkEmailFormat(form.email, err)
   checkPasswordFormat(form.password, err)
 
   await checkNameDupe(udb, 0, form.name, err)
-  await checkHomeDupe(udb, 0, form.name, err)
   await checkEmailDupe(udb, 0, form.email, err)
 
   if (err.length) return

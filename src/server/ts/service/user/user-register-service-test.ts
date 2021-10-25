@@ -1,13 +1,5 @@
 import { userRegisterService } from '@server/service/user/user-register-service'
-import {
-  EMAIL_DUPE,
-  EMAIL_RANGE,
-  HOME_DUPE,
-  HOME_RANGE,
-  NAME_DUPE,
-  NAME_RANGE,
-  PASSWORD_RANGE
-} from '@common/type/error-const'
+import { EMAIL_DUPE, EMAIL_RANGE, NAME_DUPE, NAME_RANGE, PASSWORD_RANGE } from '@common/type/error-const'
 import { checkHash } from '@common/util/hash'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { ErrorConst } from '@common/type/error'
@@ -35,7 +27,7 @@ describe('userRegisterService', () => {
   it('fill fix', async () => {
     await insertUserFix4(udb)
   })
-  it('register user', async () => {
+  it('register user works', async () => {
     const form = newUserRegisterForm({
       name: 'User X', email: 'userx@mail.test', password: '1234',
     })
@@ -68,18 +60,31 @@ describe('userRegisterService', () => {
     const err: ErrorConst[] = []
     const user = await userRegisterService(udb, form, err)
     expect(err).toContain(NAME_RANGE)
-    expect(err).toContain(HOME_RANGE)
     expect(err).toContain(EMAIL_RANGE)
     expect(err).toContain(PASSWORD_RANGE)
   })
-  it('dupe check works', async () => {
+  it('duped name fails', async () => {
     const form = newUserRegisterForm({
-      name: 'User 2', email: 'user2@mail.test', password: '1234'
+      name: 'User 2', email: 'usery@mail.test', password: '1234'
     })
     const err: ErrorConst[] = []
     const user = await userRegisterService(udb, form, err)
     expect(err).toContain(NAME_DUPE)
-    expect(err).toContain(HOME_DUPE)
+  })
+  it('duped home fails', async () => {
+    const form = newUserRegisterForm({
+      name: 'user2', email: 'usery@mail.test', password: '1234'
+    })
+    const err: ErrorConst[] = []
+    const user = await userRegisterService(udb, form, err)
+    expect(err).toContain(NAME_DUPE)
+  })
+  it('duped email fails', async () => {
+    const form = newUserRegisterForm({
+      name: 'usery', email: 'user2@mail.test', password: '1234'
+    })
+    const err: ErrorConst[] = []
+    const user = await userRegisterService(udb, form, err)
     expect(err).toContain(EMAIL_DUPE)
   })
 
