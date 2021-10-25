@@ -1,4 +1,4 @@
-import { NOT_AUTHORIZED, USER_NOT_FOUND } from '@common/type/error-const'
+import { INVALID_DATA, NOT_AUTHORIZED, USER_NOT_FOUND } from '@common/type/error-const'
 import { User } from '@common/type/user'
 import {
   checkEmailDupe,
@@ -65,4 +65,17 @@ export async function userUpdateService(udb: UserDB, user: User, id: number, for
     update.hash = await makeHash(form.password)
   }
   await udb.updateUser(id, update)
+}
+
+export async function userUpdateStatusService(udb: UserDB, user: User, id: number, status: string, err: ErrorConst[]) {
+  const user2 = await udb.getCachedById(id)
+  await checkUserUpdatable(udb, user, user2, err)
+  if (!user2 || err.length) {
+    return
+  }
+  if (status === 'v' || status === 'd') {
+    await udb.updateStatus(id, status)
+    return
+  }
+  err.push(INVALID_DATA)
 }

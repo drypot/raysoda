@@ -2,8 +2,12 @@ import { newNumber, newString } from '@common/util/primitive'
 import { Express2, toCallback } from '@server/express/express2'
 import { UserUpdateForm } from '@common/type/user-form'
 import { ErrorConst } from '@common/type/error'
-import { getSessionUser } from '@server/domain/user/api/user-auth-api'
-import { userUpdateGetService, userUpdateService } from '@server/domain/user/_service/user-update-service'
+import { getSessionUser, userLogoutService } from '@server/domain/user/api/user-auth-api'
+import {
+  userUpdateGetService,
+  userUpdateService,
+  userUpdateStatusService
+} from '@server/domain/user/_service/user-update-service'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { renderJson } from '@server/express/render-json'
@@ -33,6 +37,20 @@ export async function useUserUpdateApi() {
     const err: ErrorConst[] = []
     await userUpdateService(udb, user, id, form, err)
     if (err.length) throw err
+    renderJson(res, {})
+  }))
+
+  web.router.put('/api/user-update-status/:id([0-9]+)', toCallback(async (req, res) => {
+    const user = getSessionUser(res)
+    shouldBeUser(user)
+    const id = newNumber(req.params.id)
+    const status = newString(req.body.status)
+    const err: ErrorConst[] = []
+    await userUpdateStatusService(udb, user, id, status, err)
+    if (err.length) throw err
+    if (user.id === id) {
+      await userLogoutService(req, res)
+    }
     renderJson(res, {})
   }))
 

@@ -1,38 +1,36 @@
-import { useUserDeactivatePage } from '@server/web/user/page/user-deactivate-page'
-import { useUserUpdateApi } from '@server/web/user/api/user-update-api'
-import { useBannerApi } from '@server/web/banner/api/banner-api'
-import { useUserPasswordPage } from '@server/web/user/page/user-password-page'
-import { useCounterPage } from '@server/web/counter/page/counter-page'
-import { useUserPasswordApi } from '@server/web/user/api/user-password-api'
-import { useAboutPage } from '@server/web/about/page/about-page'
-import { useUserProfilePage } from '@server/web/user-profile/profile-page'
+import { useUserDeactivatePage } from '@server/domain/user/page/user-deactivate-page'
+import { useUserUpdateApi } from '@server/domain/user/api/user-update-api'
+import { useBannerApi } from '@server/domain/banner/api/banner-api'
+import { useUserPasswordPage } from '@server/domain/user/page/user-password-page'
+import { useCounterPage } from '@server/domain/counter/page/counter-page'
+import { useUserPasswordApi } from '@server/domain/user/api/user-password-api'
+import { useAboutPage } from '@server/domain/about/page/about-page'
+import { useUserProfilePage } from '@server/domain/user-profile/profile-page'
 import { inDev } from '@common/util/env2'
-import { useUserListPage } from '@server/web/user/page/user-list-page'
-import { useImageListApi } from '@server/web/image/api/image-list-api'
-import { useImageUpdateApi } from '@server/web/image/api/image-update-api'
-import { useImageUploadPage } from '@server/web/image/page/image-upload-page'
-import { Express2 } from '@server/web/_express/express2'
-import { useUserAuthPage } from '@server/web/user/page/user-auth-page'
-import { useUserListApi } from '@server/web/user/api/user-list-api'
-import { useSpaInitApi } from '@server/web/_common/spa-init-api'
-import { useImageDetailPage } from '@server/web/image/page/image-detail-page'
+import { useUserListPage } from '@server/domain/user/page/user-list-page'
+import { useImageListApi } from '@server/domain/image/api/image-list-api'
+import { useImageUpdateApi } from '@server/domain/image/api/image-update-api'
+import { useImageUploadPage } from '@server/domain/image/page/image-upload-page'
+import { Express2 } from '@server/express/express2'
+import { useUserAuthPage } from '@server/domain/user/page/user-auth-page'
+import { useUserListApi } from '@server/domain/user/api/user-list-api'
+import { useSpaInitApi } from '@server/domain/spa/spa-init-api'
+import { useImageDetailPage } from '@server/domain/image/page/image-detail-page'
 import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '@server/oman/oman'
-import { useRedirect } from '@server/web/redirect/redirect'
-import { useUserUpdatePage } from '@server/web/user/page/user-update-page'
-import { useImageUpdatePage } from '@server/web/image/page/image-update-page'
-import { useImageDeleteApi } from '@server/web/image/api/image-delete-api'
-import { useUserRegisterPage } from '@server/web/user/page/user-register-page'
-import { useTestPage } from '@server/web/_common/test-page'
-import { useUserDeactivateApi } from '@server/web/user/api/user-deactivate-api'
-import { useUserAuthApi } from '@server/web/user/api/user-auth-api'
-import { useImageDetailApi } from '@server/web/image/api/image-detail-api'
+import { useRedirect } from '@server/domain/redirect/redirect'
+import { useUserUpdatePage } from '@server/domain/user/page/user-update-page'
+import { useImageUpdatePage } from '@server/domain/image/page/image-update-page'
+import { useImageDeleteApi } from '@server/domain/image/api/image-delete-api'
+import { useUserRegisterPage } from '@server/domain/user/page/user-register-page'
+import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
+import { useImageDetailApi } from '@server/domain/image/api/image-detail-api'
 import { logError } from '@common/util/error2'
-import { useUserRegisterApi } from '@server/web/user/api/user-register-api'
-import { useUserDetailApi } from '@server/web/user/api/user-detail-api'
-import { useImageUploadApi } from '@server/web/image/api/image-upload-api'
-import { useBannerPage } from '@server/web/banner/page/banner-page'
-import { useImageListPage } from '@server/web/image/page/image-list-page'
-import { useCounterApi } from '@server/web/counter/api/counter-api'
+import { useUserRegisterApi } from '@server/domain/user/api/user-register-api'
+import { useUserDetailApi } from '@server/domain/user/api/user-detail-api'
+import { useImageUploadApi } from '@server/domain/image/api/image-upload-api'
+import { useBannerPage } from '@server/domain/banner/page/banner-page'
+import { useImageListPage } from '@server/domain/image/page/image-list-page'
+import { useCounterApi } from '@server/domain/counter/api/counter-api'
 
 async function main() {
   const configPath = process.argv[2]
@@ -52,7 +50,6 @@ async function main() {
   await useUserRegisterApi()
   await useUserDetailApi()
   await useUserUpdateApi()
-  await useUserDeactivateApi()
   await useUserListApi()
   await useUserPasswordApi()
 
@@ -77,8 +74,6 @@ async function main() {
   await useCounterPage()
   await useBannerPage()
   await useAboutPage()
-
-  await useTestPage()
 
   await useRedirect()
 
