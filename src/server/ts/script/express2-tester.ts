@@ -1,4 +1,4 @@
-import { Express2 } from '@server/web/_express/express2'
+import { Express2 } from '@server/express/express2'
 import { loadConfigSync } from '@common/util/config-loader'
 
 const config = loadConfigSync('config/app-dev.json')
@@ -18,6 +18,6 @@ web.start().then(() => {
   console.log('express: listening ' + config.port)
   const mainUrl = config.mainUrl
   console.log(mainUrl + '/hello')
-  console.log(mainUrl + '/page-error')
+  console.log(mainUrl + '/system-error')
   console.log(mainUrl + '/api/invalid-data')
 })
