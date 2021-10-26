@@ -1,36 +1,72 @@
 import { ErrorConst } from '@common/type/error'
 
-export type ControlMap = {
-  [key: string]: HTMLElement
+export type Form = {
+  form: HTMLFormElement,
+  all: {
+    [key: string]: HTMLElement
+  }
+  input: {
+    [key: string]: HTMLInputElement
+  },
+  text: {
+    [key: string]: HTMLTextAreaElement
+  }
+  select: {
+    [key: string]: HTMLSelectElement
+  }
+  button: {
+    [key: string]: HTMLButtonElement
+  },
 }
 
-export function elementByName(name: string) {
-  return document.getElementsByName(name)[0]
+export type SubmitHandler = (form: Form) => void
+
+export function linkSubmitHandler(query: string, handler: SubmitHandler) {
+  const form = grabForm(query)
+  form.button.send.onclick = (e) => {
+    handler(form)
+    e.preventDefault()
+  }
 }
 
-export function grabForm(name: string) {
-  const r: ControlMap = {}
-  r.form = document.querySelector(name) as HTMLElement
-
-  const list = document.querySelectorAll(
-    `${name} input, ${name} textarea, ${name} select, ${name} button`
-  )
-  Array.from(list).forEach(el => {
-    const name = el.getAttribute('name')
-    if (name) {
-      r[name] = el as HTMLElement
-    }
+export function grabForm(query: string) {
+  const form: Form = {
+    form: document.querySelector(query) as HTMLFormElement,
+    all: {},
+    input: {},
+    text: {},
+    select: {},
+    button: {}
+  }
+  Array.from(document.querySelectorAll(query + ' input')).forEach(el => {
+    const name = el.getAttribute('name') as string
+    form.input[name] = el as HTMLInputElement
+    form.all[name] = el as HTMLElement
   })
-
-  return r
+  Array.from(document.querySelectorAll(query + ' textarea')).forEach(el => {
+    const name = el.getAttribute('name') as string
+    form.text[name] = el as HTMLTextAreaElement
+    form.all[name] = el as HTMLElement
+  })
+  Array.from(document.querySelectorAll(query + ' select')).forEach(el => {
+    const name = el.getAttribute('name') as string
+    form.select[name] = el as HTMLSelectElement
+    form.all[name] = el as HTMLElement
+  })
+  Array.from(document.querySelectorAll(query + ' button')).forEach(el => {
+    const name = el.getAttribute('name') as string
+    form.button[name] = el as HTMLButtonElement
+    form.all[name] = el as HTMLElement
+  })
+  return form
 }
 
-export function reportFormError(form:ControlMap, errs: ErrorConst[]) {
+export function reportFormError(form: Form, errs: ErrorConst[]) {
   for (const err of errs) {
-    const ctrlNode = form[err.field]
+    const inputNode = form.all[err.field]
     const errNode = newErrorNode(err.message)
-    if (ctrlNode) {
-      ctrlNode.after(errNode)
+    if (inputNode) {
+      inputNode.closest('label')?.after(errNode)
     } else {
       form.form.prepend(errNode)
     }
@@ -44,13 +80,13 @@ function newErrorNode(message: string) {
   return err
 }
 
-export function clearFormError(form:HTMLElement) {
-  const list = form.querySelectorAll('.error')
+export function clearFormError(form: Form) {
+  const list = form.form.querySelectorAll('.error')
   Array.from(list).forEach(el => el.remove())
 }
 
-export function disableSubmit(el: Element) {
-  const btn = el as HTMLButtonElement
+export function disableSubmitButton(form: Form) {
+  const btn = form.button.send
   if (!btn.disabled) {
     btn.dataset.innerText = btn.innerText
     btn.innerText = '전송중'
@@ -58,8 +94,8 @@ export function disableSubmit(el: Element) {
   }
 }
 
-export function enableSubmit(el: Element) {
-  const btn = el as HTMLButtonElement
+export function enableSubmitButton(form: Form) {
+  const btn = form.button.send
   if (btn.disabled) {
     btn.innerText = btn.dataset.innerText as string
     btn.disabled = false
