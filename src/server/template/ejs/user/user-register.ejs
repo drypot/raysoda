@@ -7,25 +7,26 @@
 <body>
     <%- include('../_layout/header') %>
 
-    <h1 class="text-center">회원 가입</h1>
-
-    <form id="registerForm" class="mt-xl form max-w-xs">
-        <label>
-            <span>이름</span>
-            <input type="text" name="name" maxlength=32 autofocus>
-        </label>
-        <label>
-            <span>이메일</span>
-            <input type="text" name="email" maxlength=64>
-        </label>
-        <label>
-            <span>비밀번호</span>
-            <input type="password" name="password" maxlength=64>
-        </label>
-        <div class="mt-lg flex-center">
-            <button class="btn-blue" name="send">등록</button>
-        </div>
-    </form>
+    <div class="wrapper">
+        <h1>회원 가입</h1>
+        <form id="registerForm" class="form max-w-xs">
+            <label>
+                <span>사용자 이름</span>
+                <input type="text" name="name" maxlength=32 autofocus>
+            </label>
+            <label>
+                <span>이메일</span>
+                <input type="text" name="email" maxlength=64>
+            </label>
+            <label>
+                <span>비밀번호</span>
+                <input type="password" name="password" maxlength=64>
+            </label>
+            <div class="mt-lg flex-center">
+                <button class="btn-blue" name="send">등록</button>
+            </div>
+        </form>
+    </div>
 
     <%- include('../_layout/footer') %>
     <script>

@@ -7,31 +7,33 @@
 <body>
     <%- include('../_layout/header') %>
 
-    <h1 class="text-center"><%= app.config.appName %></h1>
+    <div class="wrapper">
+        <h1><%= app.config.appName %></h1>
 
-    <p class="mt-xl wrapper line-height-xl">
-        <% if (app.config.appNamel === 'raysoda') { %>
-            사진 갤러리입니다.<br>
-            업로드된 사진은 2048x2048 크기로 리사이즈됩니다.<br>
-        <% } %>
+        <p class="lh-lg">
+            <% if (app.config.appNamel === 'raysoda') { %>
+                사진 갤러리입니다.<br>
+                업로드된 사진은 2048x2048 크기로 리사이즈됩니다.<br>
+            <% } %>
 
-        <% if (app.config.appNamel === 'rapixel') { %>
-            4K 사진 갤러리입니다.<br>
-            업로드될 사진은 3840x2160보다 커야합니다.<br>
-            업로드된 사진은 16:9 비율로 크롭됩니다.<br>
-        <% } %>
+            <% if (app.config.appNamel === 'rapixel') { %>
+                4K 사진 갤러리입니다.<br>
+                업로드될 사진은 3840x2160보다 커야합니다.<br>
+                업로드된 사진은 16:9 비율로 크롭됩니다.<br>
+            <% } %>
 
-        <% if (app.config.appNamel === 'osoky') { %>
-            사진 갤러리입니다.<br>
-            업로드된 사진은 원 모양으로 마스킹됩니다.<br>
-        <% } %>
+            <% if (app.config.appNamel === 'osoky') { %>
+                사진 갤러리입니다.<br>
+                업로드된 사진은 원 모양으로 마스킹됩니다.<br>
+            <% } %>
 
-        <% if (app.config.appNamel === 'drypot') { %>
-            SVG 이미지 갤러리입니다.<br>
-        <% } %>
+            <% if (app.config.appNamel === 'drypot') { %>
+                SVG 이미지 갤러리입니다.<br>
+            <% } %>
 
-        사진은 18시간마다 등록하실 수 있습니다.<br>
-    </p>
+            사진은 18시간마다 등록하실 수 있습니다.<br>
+        </p>
+    </div>
 
     <%- include('../_layout/footer') %>
 </body>

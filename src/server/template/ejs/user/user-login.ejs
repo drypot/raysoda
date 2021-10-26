@@ -7,30 +7,30 @@
 <body>
     <%- include('../_layout/header') %>
 
-    <h1 class="text-center">로그인</h1>
-
-    <form id="loginForm" class="mt-xl form max-w-xs">
-        <label>
-            <span>이메일</span>
-            <input type="text" name="email" maxlength=64 autofocus>
-        </label>
-        <label>
-            <span>비밀번호</span>
-            <input type="password" name="password" maxlength=64>
-        </label>
-        <label class="inline-label">
-            <input type="checkbox" name="remember">
-            <span>자동로그인</span>
-        </label>
-        <div class="mt-lg flex-center">
-            <button class="btn-blue" name="send">로그인</button>
-        </div>
-    </form>
-
-    <p class="mt-xl flex-center flex-column space-y">
-        <a href='/user-register'>회원가입</a>
-        <a href='/user/reset-pass'>비밀번호초기화</a>
-    </p>
+    <div class="wrapper">
+        <h1>로그인</h1>
+        <form id="loginForm" class="mt-xl form max-w-xs">
+            <label>
+                <span>이메일</span>
+                <input type="text" name="email" maxlength=64 autofocus>
+            </label>
+            <label>
+                <span>비밀번호</span>
+                <input type="password" name="password" maxlength=64>
+            </label>
+            <label class="inline-label">
+                <input type="checkbox" name="remember">
+                <span>자동로그인</span>
+            </label>
+            <div class="mt-lg flex-center">
+                <button class="btn-blue" name="send">로그인</button>
+            </div>
+        </form>
+        <p class="mt-xl flex-center flex-column space-y">
+            <a href='/user-register'>회원가입</a>
+            <a href='/user-password-reset'>비밀번호 초기화</a>
+        </p>
+    </div>
 
     <%- include('../_layout/footer') %>
     <script>

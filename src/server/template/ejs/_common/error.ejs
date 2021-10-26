@@ -7,22 +7,26 @@
 <body>
     <%- include('../_layout/header') %>
 
-    <h1 class="text-center">Error</h1>
+    <div class="wrapper">
+        <h1>Error</h1>
 
-    <%
+        <%
         const err = app.err[0]
         let s = ''
+        console.log(err)
         if (err) {
-            s += 'Name: ' + err.name + '\n'
-            s += 'Message: ' + err.message + '\n'
-            s += 'Field: ' + err.field.replace(/ *\n */g, '\n') + '\n'
+            if (err.name) s+= err.name + '\n'
+            if (err.message) s += err.message.replace(/ *\n */g, '\n') + '\n'
+            if (err.field) s += err.field + '\n'
         }
-    %>
-    <% if (err) { %>
-        <p class="mt-xl border rounded-md p-2 max-w-prose mx-auto whitespace-pre overflow-scroll"><%= s %></p>
-    <% } else { %>
-        <p class="mt-xl wrapper">Error is not defined.</p>
-    <% } %>
+        %>
+        <% if (err) { %>
+            <p class="code-dump max-w-full"><%= s %></p>
+        <% } else { %>
+            <p>Error is not defined.</p>
+        <% } %>
+
+    </div>
 
     <%- include('../_layout/footer') %>
 </body>
