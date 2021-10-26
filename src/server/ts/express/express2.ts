@@ -224,6 +224,10 @@ export class Express2 {
         throw INVALID_DATA
       })
 
+      this.express.get('/invalid-data-array', function (req, res) {
+        throw [INVALID_DATA]
+      })
+
       this.express.get('/system-error', function (req, res) {
         throw new Error('System Error')
       })
@@ -238,12 +242,12 @@ export class Express2 {
   }
 
   public errorHandler: ErrorRequestHandler = (err, req, res, done) => {
-    if (err instanceof Array) {
+    if (err instanceof Error) {
+      err = [newErrorConst(err.name, /*err.message + */ err.stack, '')]
+    } else if (err instanceof Array) {
       // do nothing
-    } else if ('field' in err) {
-      err = [err]
     } else {
-      err = [newErrorConst(err.name, err.message + err.stack, '')]
+      err = [err]
     }
 
     // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
