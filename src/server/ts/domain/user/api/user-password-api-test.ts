@@ -8,7 +8,7 @@ import { NewPasswordForm, PasswordMailLog } from '@common/type/password'
 import { PwMailDB } from '@server/db/password/pwmail-db'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
+import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 
 describe('UserPwResetApi', () => {
@@ -38,7 +38,7 @@ describe('UserPwResetApi', () => {
   it('init table', async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
     await rdb.dropTable()
     await rdb.createTable()
   })

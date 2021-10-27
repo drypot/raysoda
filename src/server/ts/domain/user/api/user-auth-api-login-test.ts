@@ -1,10 +1,10 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, USER2_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { EMAIL_NOT_FOUND, NOT_AUTHORIZED, PASSWORD_WRONG } from '@common/type/error-const'
 import { Express2, toCallback } from '@server/express/express2'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
-import { getSessionUser, useUserAuthApi } from '@server/domain/user/api/user-auth-api'
-import { shouldBeAdmin, shouldBeUser } from '@server/domain/user/_service/user-auth-service'
+import { userGetSessionUser, useUserAuthApi } from '@server/domain/user/api/user-auth-api'
+import { userAssertAdmin, userAssertLogin } from '@server/domain/user/_service/user-auth'
 import { GUEST_ID_CARD } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'
 import { renderJson } from '@server/express/render-json'
@@ -33,14 +33,14 @@ describe('UserAuthApi', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('setup should be admin', () => {
     web.router.get('/api/should-be-admin', toCallback(async function (req, res) {
-      const user = getSessionUser(res)
-      shouldBeUser(user)
-      shouldBeAdmin(user)
+      const user = userGetSessionUser(res)
+      userAssertLogin(user)
+      userAssertAdmin(user)
       renderJson(res, {})
     }))
   })
@@ -50,7 +50,7 @@ describe('UserAuthApi', () => {
     expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
   it('login as user1', async () => {
-    const res = await sat.post('/api/user-login').send(USER1_LOGIN).expect(200)
+    const res = await sat.post('/api/user-login').send(USER1_LOGIN_FORM).expect(200)
     expect(res.body).toEqual({ user: { id: 1, name: 'User 1', home: 'user1', admin: false }})
   })
   it('login-info user1', async () => {
@@ -58,7 +58,7 @@ describe('UserAuthApi', () => {
     expect(res.body).toEqual({ user: { id: 1, name: 'User 1', home: 'user1', admin: false }})
   })
   it('login as user2', async () => {
-    const res = await sat.post('/api/user-login').send(USER2_LOGIN).expect(200)
+    const res = await sat.post('/api/user-login').send(USER2_LOGIN_FORM).expect(200)
     expect(res.body).toEqual({ user: { id: 2, name: 'User 2', home: 'user2', admin: false }})
   })
   it('login-info user2', async () => {
@@ -68,7 +68,7 @@ describe('UserAuthApi', () => {
 
   // permission
   it('login as user1', async () => {
-    const res = await sat.post('/api/user-login').send(USER1_LOGIN).expect(200)
+    const res = await sat.post('/api/user-login').send(USER1_LOGIN_FORM).expect(200)
     expect(res.body.user.id).toBe(1)
   })
   it('should-be-admin fails', async () => {
@@ -76,7 +76,7 @@ describe('UserAuthApi', () => {
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
-    const res = await sat.post('/api/user-login').send(ADMIN_LOGIN).expect(200)
+    const res = await sat.post('/api/user-login').send(ADMIN_LOGIN_FORM).expect(200)
     expect(res.body).toEqual({ user: { id: 4, name: 'Admin', home: 'admin', admin: true }})
   })
   it('should-be-admin ok', async () => {

@@ -12,7 +12,7 @@ import {
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { Express2 } from '@server/express/express2'
 import { useUserRegisterApi } from '@server/domain/user/api/user-register-api'
-import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
+import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { checkHash } from '@common/util/hash'
 
@@ -40,7 +40,7 @@ describe('UserRegisterApi', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('post new user works', async () => {

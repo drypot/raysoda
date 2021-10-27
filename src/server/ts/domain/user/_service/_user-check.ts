@@ -16,7 +16,7 @@ import { emailPatternIsOk } from '@common/util/email'
 import { ErrorConst } from '@common/type/error'
 import { UserDB } from '@server/db/user/user-db'
 
-export function checkNameFormat(name: string, err: ErrorConst[]) {
+export function userCheckName(name: string, err: ErrorConst[]) {
   if (name.length === 0) {
     err.push(NAME_EMPTY)
   } else if (name.length > 32) {
@@ -24,7 +24,7 @@ export function checkNameFormat(name: string, err: ErrorConst[]) {
   }
 }
 
-export function checkHomeFormat(home: string, err: ErrorConst[]) {
+export function userCheckHome(home: string, err: ErrorConst[]) {
   if (home.length === 0) {
     err.push(HOME_EMPTY)
   } else if (home.length > 32) {
@@ -32,7 +32,7 @@ export function checkHomeFormat(home: string, err: ErrorConst[]) {
   }
 }
 
-export function checkEmailFormat(email: string, err: ErrorConst[]) {
+export function userCheckEmail(email: string, err: ErrorConst[]) {
   if (email.length === 0) {
     err.push(EMAIL_EMPTY)
   } else if (email.length > 64 || email.length < 8) {
@@ -42,7 +42,7 @@ export function checkEmailFormat(email: string, err: ErrorConst[]) {
   }
 }
 
-export function checkPasswordFormat(password: string, err: ErrorConst[]) {
+export function userCheckPassword(password: string, err: ErrorConst[]) {
   if (password.length === 0) {
     err.push(PASSWORD_EMPTY)
   } else if (password.length > 32 || password.length < 4) {
@@ -50,7 +50,7 @@ export function checkPasswordFormat(password: string, err: ErrorConst[]) {
   }
 }
 
-export async function checkNameDupe(
+export async function userCheckNameDupe(
   userdb: UserDB, id: number, name: string, err: ErrorConst[]
 ) {
   if (await userdb.nameIsDupe(id, name)) {
@@ -60,7 +60,7 @@ export async function checkNameDupe(
   }
 }
 
-export async function checkHomeDupe(
+export async function userCheckHomeDupe(
   userdb: UserDB, id: number, home: string, err: ErrorConst[]
 ) {
   if (await userdb.nameIsDupe(id, home)) {
@@ -70,7 +70,7 @@ export async function checkHomeDupe(
   }
 }
 
-export async function checkEmailDupe(
+export async function userCheckEmailDupe(
   userdb: UserDB, id: number, email: string, err: ErrorConst[]
 ) {
   if (await userdb.emailIsDupe(id, email)) {

@@ -2,8 +2,8 @@ import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { useUserDeactivatePage } from '@server/domain/user/page/user-deactivate-page'
 import { Express2 } from '@server/express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { insertUserFix4, USER1_LOGIN } from '@server/db/user/fixture/user-fix'
-import { loginForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
@@ -32,10 +32,10 @@ describe('UserDeactivatePage', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
   it('deactivate', async () => {
-    await loginForTest(sat, USER1_LOGIN)
+    await userLoginForTest(sat, USER1_LOGIN_FORM)
     await sat.get('/user-deactivate').expect(200).expect(/<title>Deactivate/)
   })
 

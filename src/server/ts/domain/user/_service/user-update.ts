@@ -1,21 +1,21 @@
 import { INVALID_DATA, NOT_AUTHORIZED, USER_NOT_FOUND } from '@common/type/error-const'
 import { User } from '@common/type/user'
 import {
-  checkEmailDupe,
-  checkEmailFormat,
-  checkHomeDupe,
-  checkHomeFormat,
-  checkNameDupe,
-  checkNameFormat,
-  checkPasswordFormat
-} from '@server/domain/user/_service/_user-service'
+  userCheckEmail,
+  userCheckEmailDupe,
+  userCheckHome,
+  userCheckHomeDupe,
+  userCheckName,
+  userCheckNameDupe,
+  userCheckPassword
+} from '@server/domain/user/_service/_user-check'
 import { newUserUpdateForm, UserUpdateForm } from '@common/type/user-form'
 import { ErrorConst } from '@common/type/error'
-import { userCanUpdateUser } from '@server/domain/user/_service/user-auth-service'
+import { userCanUpdateUser } from '@server/domain/user/_service/user-auth'
 import { makeHash } from '@common/util/hash'
 import { UserDB } from '@server/db/user/user-db'
 
-export async function checkUserUpdatable(udb: UserDB, user: User, user2: User | undefined, err: ErrorConst[]) {
+export async function userCheckUpdatable(udb: UserDB, user: User, user2: User | undefined, err: ErrorConst[]) {
   if (!user2) {
     err.push(USER_NOT_FOUND)
     return
@@ -26,31 +26,31 @@ export async function checkUserUpdatable(udb: UserDB, user: User, user2: User | 
   }
 }
 
-export async function userUpdateGetService(udb: UserDB, user: User, id: number, err: ErrorConst[]) {
+export async function userGetForUpdate(udb: UserDB, user: User, id: number, err: ErrorConst[]) {
   const user2 = await udb.getCachedById(id)
-  await checkUserUpdatable(udb, user, user2, err)
+  await userCheckUpdatable(udb, user, user2, err)
   if (!user2 || err.length) {
     return
   }
   return newUserUpdateForm(user2)
 }
 
-export async function userUpdateService(udb: UserDB, user: User, id: number, form: UserUpdateForm, err: ErrorConst[]) {
+export async function userUpdate(udb: UserDB, user: User, id: number, form: UserUpdateForm, err: ErrorConst[]) {
   const user2 = await udb.getCachedById(id)
-  await checkUserUpdatable(udb, user, user2, err)
+  await userCheckUpdatable(udb, user, user2, err)
   if (!user2 || err.length) {
     return
   }
 
-  checkNameFormat(form.name, err)
-  checkHomeFormat(form.home, err)
-  checkEmailFormat(form.email, err)
+  userCheckName(form.name, err)
+  userCheckHome(form.home, err)
+  userCheckEmail(form.email, err)
   if (form.password) {
-    checkPasswordFormat(form.password, err)
+    userCheckPassword(form.password, err)
   }
-  await checkNameDupe(udb, id, form.name, err)
-  await checkHomeDupe(udb, id, form.home, err)
-  await checkEmailDupe(udb, id, form.email, err)
+  await userCheckNameDupe(udb, id, form.name, err)
+  await userCheckHomeDupe(udb, id, form.home, err)
+  await userCheckEmailDupe(udb, id, form.email, err)
   if (err.length > 0) {
     return
   }
@@ -67,9 +67,9 @@ export async function userUpdateService(udb: UserDB, user: User, id: number, for
   await udb.updateUser(id, update)
 }
 
-export async function userUpdateStatusService(udb: UserDB, user: User, id: number, status: string, err: ErrorConst[]) {
+export async function userUpdateStatus(udb: UserDB, user: User, id: number, status: string, err: ErrorConst[]) {
   const user2 = await udb.getCachedById(id)
-  await checkUserUpdatable(udb, user, user2, err)
+  await userCheckUpdatable(udb, user, user2, err)
   if (!user2 || err.length) {
     return
   }

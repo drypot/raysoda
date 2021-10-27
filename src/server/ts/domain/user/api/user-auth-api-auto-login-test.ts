@@ -1,9 +1,9 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { insertUserFix4, USER1_LOGIN } from '@server/db/user/fixture/user-fix'
+import { USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { loginForTest, logoutForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { userLoginForTest, userLogoutForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { GUEST_ID_CARD } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'
 import { renderJson } from '@server/express/render-json'
@@ -35,7 +35,7 @@ describe('UserAuthApi Auto Login', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('setup', () => {
@@ -58,7 +58,7 @@ describe('UserAuthApi Auto Login', () => {
   })
 
   it('login with remember', async () => {
-    await loginForTest(sat, USER1_LOGIN, true)
+    await userLoginForTest(sat, USER1_LOGIN_FORM, true)
   })
   it('get login', async () => {
     const res = await sat.get('/api/user-login-info').expect(200)
@@ -82,7 +82,7 @@ describe('UserAuthApi Auto Login', () => {
   })
 
   it('logout', async () => {
-    await logoutForTest(sat)
+    await userLogoutForTest(sat)
   })
   it('autologin not works after logout', async () => {
     const res = await sat.get('/api/user-login-info').expect(200)
@@ -94,7 +94,7 @@ describe('UserAuthApi Auto Login', () => {
   })
 
   it('login before db email change', async () => {
-    await loginForTest(sat, USER1_LOGIN, true)
+    await userLoginForTest(sat, USER1_LOGIN_FORM, true)
   })
   it('get login before db email change', async () => {
     const res = await sat.get('/api/user-login-info').expect(200)

@@ -1,5 +1,5 @@
 import { omanGetObject } from '@server/oman/oman'
-import { userLogoutService } from '@server/domain/user/api/user-auth-api'
+import { userLogout } from '@server/domain/user/api/user-auth-api'
 import { Express2, toCallback } from '@server/express/express2'
 import { renderHtml } from '@server/express/render-html'
 
@@ -12,7 +12,7 @@ export async function useUserAuthPage() {
   })
 
   web.router.get('/user-logout', toCallback(async (req, res) => {
-    await userLogoutService(req, res)
+    await userLogout(req, res)
     res.redirect('/')
   }))
 

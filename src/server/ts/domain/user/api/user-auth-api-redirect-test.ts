@@ -1,10 +1,10 @@
-import { getSessionUser, useUserAuthApi } from '@server/domain/user/api/user-auth-api'
+import { userGetSessionUser, useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2, toCallback } from '@server/express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
+import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
-import { shouldBeUser } from '@server/domain/user/_service/user-auth-service'
+import { userAssertLogin } from '@server/domain/user/_service/user-auth'
 
 describe('UserAuthApi Redirect To Login', () => {
 
@@ -30,8 +30,8 @@ describe('UserAuthApi Redirect To Login', () => {
       res.send('for-guest')
     })
     web.router.get('/for-user', toCallback(async (req, res) => {
-      const user = getSessionUser(res)
-      shouldBeUser(user)
+      const user = userGetSessionUser(res)
+      userAssertLogin(user)
       res.send('for-user')
     }))
   })
@@ -40,7 +40,7 @@ describe('UserAuthApi Redirect To Login', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
   it('for-guest', async () => {
     await sat.get('/for-guest').expect(200)

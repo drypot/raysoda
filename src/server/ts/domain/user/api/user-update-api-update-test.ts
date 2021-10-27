@@ -1,6 +1,6 @@
 import supertest, { SuperAgentTest } from 'supertest'
 import { useUserUpdateApi } from '@server/domain/user/api/user-update-api'
-import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import {
   EMAIL_DUPE,
   EMAIL_RANGE,
@@ -17,7 +17,7 @@ import { checkHash } from '@common/util/hash'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { loginForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { UserDB } from '@server/db/user/user-db'
 import { UserUpdateForm } from '@common/type/user-form'
 
@@ -46,7 +46,7 @@ describe('UserUpdateApi Update', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('update user1 without login', async () => {
@@ -58,7 +58,7 @@ describe('UserUpdateApi Update', () => {
   })
 
   it('login as user1', async () => {
-    await loginForTest(sat, USER1_LOGIN)
+    await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('update user1', async () => {
     const form: UserUpdateForm = {
@@ -153,7 +153,7 @@ describe('UserUpdateApi Update', () => {
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
-    await loginForTest(sat, ADMIN_LOGIN)
+    await userLoginForTest(sat, ADMIN_LOGIN_FORM)
   })
   it('update user2 by admin works', async () => {
     const form = {

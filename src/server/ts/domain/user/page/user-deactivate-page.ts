@@ -1,16 +1,16 @@
 import { Express2, toCallback } from '@server/express/express2'
-import { getSessionUser } from '@server/domain/user/api/user-auth-api'
+import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { renderHtml } from '@server/express/render-html'
 import { omanGetObject } from '@server/oman/oman'
-import { shouldBeUser } from '@server/domain/user/_service/user-auth-service'
+import { userAssertLogin } from '@server/domain/user/_service/user-auth'
 
 export async function useUserDeactivatePage() {
 
   const web = await omanGetObject('Express2') as Express2
 
   web.router.get('/user-deactivate', toCallback(async (req, res) => {
-    const user = getSessionUser(res)
-    shouldBeUser(user)
+    const user = userGetSessionUser(res)
+    userAssertLogin(user)
     renderHtml(res, 'user/user-deactivate')
   }))
 

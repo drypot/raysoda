@@ -1,8 +1,8 @@
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { loginForTest } from '@server/domain/user/api/user-auth-api-fixture'
-import { ADMIN_LOGIN, insertUserFix4 } from '@server/db/user/fixture/user-fix'
+import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { ADMIN_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { useUserListApi } from '@server/domain/user/api/user-list-api'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
@@ -32,7 +32,7 @@ describe('UserListApi Search', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
   it('search user1', async () => {
     const res = await sat.get('/api/user-list?q=user1').expect(200)
@@ -58,7 +58,7 @@ describe('UserListApi Search', () => {
     expect(list.length).toBe(0)
   })
   it('login as admin', async () => {
-    await loginForTest(sat, ADMIN_LOGIN)
+    await userLoginForTest(sat, ADMIN_LOGIN_FORM)
   })
   it('search user1@mail.test as user', async () => {
     const res = await sat.get('/api/user-list?q=user1@mail.test').expect(200)

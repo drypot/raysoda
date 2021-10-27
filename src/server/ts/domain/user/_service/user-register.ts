@@ -1,24 +1,24 @@
 import { ErrorConst } from '@common/type/error'
 import { UserRegisterForm } from '@common/type/user-form'
 import {
-  checkEmailDupe,
-  checkEmailFormat,
-  checkNameDupe,
-  checkNameFormat,
-  checkPasswordFormat
-} from '@server/domain/user/_service/_user-service'
+  userCheckEmail,
+  userCheckEmailDupe,
+  userCheckName,
+  userCheckNameDupe,
+  userCheckPassword
+} from '@server/domain/user/_service/_user-check'
 import { newUser } from '@common/type/user'
 import { makeHash } from '@common/util/hash'
 import { UserDB } from '@server/db/user/user-db'
 
-export async function userRegisterService(udb: UserDB, form: UserRegisterForm, err: ErrorConst[]) {
+export async function userRegister(udb: UserDB, form: UserRegisterForm, err: ErrorConst[]) {
 
-  checkNameFormat(form.name, err)
-  checkEmailFormat(form.email, err)
-  checkPasswordFormat(form.password, err)
+  userCheckName(form.name, err)
+  userCheckEmail(form.email, err)
+  userCheckPassword(form.password, err)
 
-  await checkNameDupe(udb, 0, form.name, err)
-  await checkEmailDupe(udb, 0, form.email, err)
+  await userCheckNameDupe(udb, 0, form.name, err)
+  await userCheckEmailDupe(udb, 0, form.email, err)
 
   if (err.length) return
 

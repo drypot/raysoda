@@ -1,5 +1,5 @@
 import { NewPasswordForm } from '@common/type/password'
-import { checkPasswordFormat } from '@server/domain/user/_service/_user-service'
+import { userCheckPassword } from '@server/domain/user/_service/_user-check'
 import { Mailer } from '@server/mailer/mailer2'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, INVALID_DATA } from '@common/type/error-const'
 import { emailPatternIsOk } from '@common/util/email'
@@ -10,7 +10,7 @@ import { makeHash } from '@common/util/hash'
 import { UserDB } from '@server/db/user/user-db'
 import { omanGetConfig } from '@server/oman/oman'
 
-export async function pwSendMail(
+export async function userSendPasswordMail(
   mailer: Mailer, udb: UserDB, rdb: PwMailDB, email: string, err: ErrorConst[]
 ) {
 
@@ -47,7 +47,7 @@ export async function pwSendMail(
 
 }
 
-export async function pwReset(
+export async function userResetPassword(
   udb: UserDB, rdb: PwMailDB, form: NewPasswordForm, err: ErrorConst[]
 ) {
 
@@ -55,7 +55,7 @@ export async function pwReset(
   const random = form.random
   const password = form.password
 
-  checkPasswordFormat(password, err)
+  userCheckPassword(password, err)
   if (err.length) {
     return
   }

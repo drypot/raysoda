@@ -23,7 +23,7 @@ export async function useUserAuthApi() {
   const udb = await omanGetObject('UserDB') as UserDB
 
   web.router.get('/api/user-login-info', toCallback(async function (req, res) {
-    const user = getSessionUser(res)
+    const user = userGetSessionUser(res)
     renderJson(res, {
       user: newUserIdCard(user)
     })
@@ -36,7 +36,7 @@ export async function useUserAuthApi() {
       remember: !!req.body.remember
     }
     const err: ErrorConst[] = []
-    const user = await userLoginService(req, res, udb, form, err)
+    const user = await userLogin(req, res, udb, form, err)
     if (!user || err.length) throw err
     renderJson(res, {
       user: newUserIdCard(user)
@@ -44,11 +44,11 @@ export async function useUserAuthApi() {
   }))
 
   web.autoLoginHandler = (req, res, done) => {
-    userAutoLoginService(req, res, udb).then(done, done)
+    userAutoLogin(req, res, udb).then(done, done)
   }
 
   web.router.post('/api/user-logout', toCallback(async (req, res) => {
-    await userLogoutService(req, res)
+    await userLogout(req, res)
     renderJson(res, {})
   }))
 
@@ -66,7 +66,7 @@ export async function useUserAuthApi() {
 
 }
 
-export async function userLoginService(
+export async function userLogin(
   req: Request, res: Response, udb: UserDB, form: UserLoginForm, err: ErrorConst[]
 ) {
 
@@ -105,7 +105,7 @@ export async function userLoginService(
 
 }
 
-async function userAutoLoginService(req: Request, res: Response, udb: UserDB) {
+async function userAutoLogin(req: Request, res: Response, udb: UserDB) {
 
   // 이미 로그인 되어있는 상태 라면
   if (req.session.uid) {
@@ -129,7 +129,7 @@ async function userAutoLoginService(req: Request, res: Response, udb: UserDB) {
     remember: false
   }
   const err: ErrorConst[] = []
-  const user = await userLoginService(req, res, udb, form, err)
+  const user = await userLogin(req, res, udb, form, err)
 
   // 자동 로그인이 실패했다면
   if (!user) {
@@ -138,7 +138,7 @@ async function userAutoLoginService(req: Request, res: Response, udb: UserDB) {
   }
 }
 
-export async function userLogoutService(req: Request, res: Response) {
+export async function userLogout(req: Request, res: Response) {
   res.clearCookie('email')
   res.clearCookie('password')
   await new Promise<void>((resolve, reject) =>
@@ -146,6 +146,6 @@ export async function userLogoutService(req: Request, res: Response) {
   )
 }
 
-export function getSessionUser(res: Response) {
+export function userGetSessionUser(res: Response) {
   return res.locals.user as User
 }
