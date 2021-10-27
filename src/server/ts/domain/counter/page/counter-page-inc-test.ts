@@ -6,7 +6,7 @@ import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman
 import { CounterDB } from '@server/db/counter/counter-db'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
+import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 
 describe('CounterPage Inc', () => {
@@ -34,7 +34,7 @@ describe('CounterPage Inc', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('init table', async () => {
