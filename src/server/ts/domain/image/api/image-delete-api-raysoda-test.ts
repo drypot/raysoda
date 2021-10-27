@@ -1,12 +1,12 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, USER2_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { useImageDeleteApi } from '@server/domain/image/api/image-delete-api'
 import { IMAGE_NOT_EXIST, NOT_AUTHORIZED } from '@common/type/error-const'
 import { ImageFileManager } from '@server/file/_fileman'
 import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { loginForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { existsSync } from 'fs'
 import { omanGetImageFileManager } from '@server/file/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
@@ -41,7 +41,7 @@ describe('ImageDeleteApi RaySoda', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('init table', async () => {
@@ -52,7 +52,7 @@ describe('ImageDeleteApi RaySoda', () => {
     await ifm.rmRoot()
   })
   it('login as user1', async () => {
-    await loginForTest(sat, USER1_LOGIN)
+    await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('upload 1', async () => {
     const res = await sat.post('/api/image-upload').field('comment', 'c')
@@ -79,14 +79,14 @@ describe('ImageDeleteApi RaySoda', () => {
     expect(res.body.id).toEqual(2)
   })
   it('login as user2', async () => {
-    await loginForTest(sat, USER2_LOGIN)
+    await userLoginForTest(sat, USER2_LOGIN_FORM)
   })
   it('delete 2 fails, owner not match', async () => {
     const res = await sat.delete('/api/image-delete/2').expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
-    await loginForTest(sat, ADMIN_LOGIN)
+    await userLoginForTest(sat, ADMIN_LOGIN_FORM)
   })
   it('delete 2 by admin', async () => {
     const res = await sat.delete('/api/image-delete/2').expect(200)

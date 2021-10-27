@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { insertUserFix4, USER1_LOGIN } from '@server/db/user/fixture/user-fix'
+import { USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { IMAGE_SIZE } from '@common/type/error-const'
 import { getImageMetaOfFile } from '@server/file/magick/magick2'
 import { ImageFileManager } from '@server/file/_fileman'
@@ -7,7 +7,7 @@ import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } fro
 import { useImageUpdateApi } from '@server/domain/image/api/image-update-api'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { loginForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { omanGetImageFileManager } from '@server/file/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { UserDB } from '@server/db/user/user-db'
@@ -42,7 +42,7 @@ describe('ImageUpdateApi Osoky', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('init table', async () => {
@@ -53,7 +53,7 @@ describe('ImageUpdateApi Osoky', () => {
     await ifm.rmRoot()
   })
   it('login as user1', async () => {
-    await loginForTest(sat, USER1_LOGIN)
+    await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('upload', async () => {
     const res = await sat.post('/api/image-upload').field('comment', 'c1')

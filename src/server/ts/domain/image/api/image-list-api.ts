@@ -1,4 +1,4 @@
-import { imageListByCdateService, imageListService } from '@server/domain/image/_service/image-list-service'
+import { imageGetList, imageGetListByCdate } from '@server/domain/image/_service/image-list'
 import { Express2, toCallback } from '@server/express/express2'
 import { omanGetImageFileManager } from '@server/file/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
@@ -6,7 +6,7 @@ import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { renderJson } from '@server/express/render-json'
 import { newDate } from '@common/util/date2'
-import { firstImageCdateService } from '@server/domain/image/_service/image-detail-service'
+import { imageGetFirstCdate } from '@server/domain/image/_service/image-detail'
 import { newLimitedNumber } from '@common/util/primitive'
 
 export async function useImageListApi() {
@@ -21,15 +21,15 @@ export async function useImageListApi() {
     const ps = newLimitedNumber(req.query.ps, 16, 1, 128)
     const d = newDate(req.query.d)
     const list =d ?
-      await imageListByCdateService(udb, idb, ifm, d, p, ps) :
-      await imageListService(udb, idb, ifm, p, ps)
+      await imageGetListByCdate(udb, idb, ifm, d, p, ps) :
+      await imageGetList(udb, idb, ifm, p, ps)
     renderJson(res, {
       list: list
     })
   }))
 
   web.router.get('/api/first-image-cdate', toCallback(async (req, res) => {
-    const date = await firstImageCdateService(idb)
+    const date = await imageGetFirstCdate(idb)
     renderJson(res, {
       todayNum: Date.now(),
       cdateNum: date.getTime()

@@ -29,7 +29,7 @@ export function newImageDetail(ifm: ImageFileManager, user: User, image: Image, 
   }
 }
 
-export async function imageDetailService(
+export async function imageGetDetail(
   udb: UserDB, idb: ImageDB, ifm: ImageFileManager, user: User, id: number, err: ErrorConst[]
 ) {
 
@@ -43,10 +43,9 @@ export async function imageDetailService(
     throw new Error()
   }
   return newImageDetail(ifm, user, image, owner)
-
 }
 
-export async function firstImageCdateService(idb: ImageDB) {
+export async function imageGetFirstCdate(idb: ImageDB) {
   const image = await idb.findFirstImage()
   return image?.cdate ?? SITE_OPEN_DATE
 }

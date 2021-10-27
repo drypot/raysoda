@@ -1,6 +1,6 @@
-import { imageListByUserService } from '@server/domain/image/_service/image-list-service'
+import { imageGetListByUser } from '@server/domain/image/_service/image-list'
 import { ImageDB } from '@server/db/image/image-db'
-import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
+import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { RaySodaFileManager } from '@server/file/raysoda-fileman'
@@ -29,7 +29,7 @@ describe('imageList*Service', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('init table', async () => {
@@ -59,7 +59,7 @@ describe('imageList*Service', () => {
 
   // 아래는 user-profile 에서 사용되는 펑션만 테스트한다.
   it('u 1', async () => {
-    const r = await imageListByUserService(udb, idb, ifm, 1, 1, 128)
+    const r = await imageGetListByUser(udb, idb, ifm, 1, 1, 128)
     expect(r.length).toBe(5)
     expect(r[0].id).toBe(10)
     expect(r[3].id).toBe(7)

@@ -26,21 +26,21 @@ async function newDecoratedImageList(udb: UserDB, ifm: ImageFileManager, list: I
   )
 }
 
-export async function imageListService(
+export async function imageGetList(
   udb: UserDB, idb: ImageDB, ifm: ImageFileManager, p: number, ps: number
 ) {
   const il = await idb.findImageList((p - 1) * ps, ps)
   return newDecoratedImageList(udb, ifm, il)
 }
 
-export async function imageListByCdateService(
+export async function imageGetListByCdate(
   udb: UserDB, idb: ImageDB, ifm: ImageFileManager, d: Date, p: number, ps: number
 ) {
   const il = await idb.findImageListByCdate(d, (p - 1) * ps, ps)
   return newDecoratedImageList(udb, ifm, il)
 }
 
-export async function imageListByUserService(
+export async function imageGetListByUser(
   udb: UserDB, idb: ImageDB, ifm: ImageFileManager, uid: number, p: number, ps: number
 ) {
   const il = await idb.findImageListByUser(uid, (p - 1) * ps, ps)

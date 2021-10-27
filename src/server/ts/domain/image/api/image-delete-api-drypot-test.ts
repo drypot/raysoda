@@ -1,11 +1,11 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { insertUserFix4, USER1_LOGIN } from '@server/db/user/fixture/user-fix'
+import { USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { useImageDeleteApi } from '@server/domain/image/api/image-delete-api'
 import { ImageFileManager } from '@server/file/_fileman'
 import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { loginForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { existsSync } from 'fs'
 import { omanGetImageFileManager } from '@server/file/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
@@ -41,7 +41,7 @@ describe('ImageDeleteApi Drypot', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('init table', async () => {
@@ -52,7 +52,7 @@ describe('ImageDeleteApi Drypot', () => {
     await ifm.rmRoot()
   })
   it('login as user1', async () => {
-    await loginForTest(sat, USER1_LOGIN)
+    await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('upload 1', async () => {
     const res = await sat.post('/api/image-upload').field('comment', 'c')

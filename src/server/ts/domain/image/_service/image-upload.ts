@@ -7,7 +7,7 @@ import { Image } from '@common/type/image'
 import { ImageFileManager } from '@server/file/_fileman'
 import { omanGetConfig } from '@server/oman/oman'
 
-export async function leftTicket(idb: ImageDB, uid: number, now: Date) {
+export async function imageGetLeftTicket(idb: ImageDB, uid: number, now: Date) {
   const config = omanGetConfig()
   let ticket = config.ticketMax  // 한번에 받게 되는 티켓 갯수
   let hour = 0  // 새 티켓을 받을 때까지 남은 시간
@@ -23,7 +23,7 @@ export async function leftTicket(idb: ImageDB, uid: number, now: Date) {
   return { ticket, hour }
 }
 
-export async function imageUploadService(
+export async function imageUpload(
   udb: UserDB, idb: ImageDB, ifm: ImageFileManager, uid: number, form: ImageUploadForm, err: ErrorConst[]
 ) {
   // check file
@@ -35,7 +35,7 @@ export async function imageUploadService(
   // check ticket
   // ticket 이 없을 경우 err 추가 없이 그냥 return.
   // 폼에서 한번 안내하기도 해서 현재는 이렇게 하고 있다.
-  const { ticket, hour } = await leftTicket(idb, uid, form.now)
+  const { ticket, hour } = await imageGetLeftTicket(idb, uid, form.now)
   if (!ticket) return
 
   // check meta

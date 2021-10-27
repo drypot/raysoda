@@ -1,12 +1,12 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { insertUserFix4, USER1_LOGIN } from '@server/db/user/fixture/user-fix'
+import { USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { IMAGE_NO_FILE, IMAGE_SIZE, IMAGE_TYPE, NOT_AUTHENTICATED } from '@common/type/error-const'
 import { getImageMetaOfFile } from '@server/file/magick/magick2'
 import { ImageFileManager } from '@server/file/_fileman'
 import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { loginForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { omanGetImageFileManager } from '@server/file/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { UserDB } from '@server/db/user/user-db'
@@ -39,7 +39,7 @@ describe('ImageUploadApi RaySoda', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('init table', async () => {
@@ -54,7 +54,7 @@ describe('ImageUploadApi RaySoda', () => {
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
   it('login as user1', async () => {
-    await loginForTest(sat, USER1_LOGIN)
+    await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('upload fails if file not sent', async () => {
     const res = await sat.post('/api/image-upload').expect(200)

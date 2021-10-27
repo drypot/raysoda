@@ -1,4 +1,4 @@
-import { imageListByCdateService, imageListService } from '@server/domain/image/_service/image-list-service'
+import { imageGetList, imageGetListByCdate } from '@server/domain/image/_service/image-list'
 import { newDate, newDateString } from '@common/util/date2'
 import { renderHtml } from '@server/express/render-html'
 import { Express2, toCallback } from '@server/express/express2'
@@ -29,8 +29,8 @@ export async function useImageListPage() {
     const d = newDate(req.query.d)
     const ds = newDateString(d)
     const list = d ?
-      await imageListByCdateService(udb, idb, ifm, d, p, ps) :
-      await imageListService(udb, idb, ifm, p, ps)
+      await imageGetListByCdate(udb, idb, ifm, d, p, ps) :
+      await imageGetList(udb, idb, ifm, p, ps)
     renderHtml(res, 'image/image-list', {
       imageList: list,
       prev: p > 1 ? UrlMaker.from('/image-list').add('d', ds, '').add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,

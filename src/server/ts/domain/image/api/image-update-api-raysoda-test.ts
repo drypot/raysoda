@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '@server/db/user/fixture/user-fix'
+import { USER1_LOGIN_FORM, USER2_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { IMAGE_NOT_EXIST, IMAGE_SIZE, NOT_AUTHENTICATED, NOT_AUTHORIZED } from '@common/type/error-const'
 import { getImageMetaOfFile } from '@server/file/magick/magick2'
 import { ImageFileManager } from '@server/file/_fileman'
@@ -7,7 +7,7 @@ import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } fro
 import { useImageUpdateApi } from '@server/domain/image/api/image-update-api'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { loginForTest, logoutForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { userLoginForTest, userLogoutForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { omanGetImageFileManager } from '@server/file/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { UserDB } from '@server/db/user/user-db'
@@ -41,7 +41,7 @@ describe('ImageUpdateApi RaySoda', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('init table', async () => {
@@ -52,7 +52,7 @@ describe('ImageUpdateApi RaySoda', () => {
     await ifm.rmRoot()
   })
   it('login as user1', async () => {
-    await loginForTest(sat, USER1_LOGIN)
+    await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('upload', async () => {
     const res = await sat.post('/api/image-upload').field('comment', 'c1')
@@ -104,14 +104,14 @@ describe('ImageUpdateApi RaySoda', () => {
     expect(res.body.err).toContain(IMAGE_NOT_EXIST)
   })
   it('logout', async () => {
-    await logoutForTest(sat)
+    await userLogoutForTest(sat)
   })
   it('update fails if not logged in', async () => {
     const res = await sat.put('/api/image-update/1').expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
   it('login as user2', async () => {
-    await loginForTest(sat, USER2_LOGIN)
+    await userLoginForTest(sat, USER2_LOGIN_FORM)
   })
   it('update fails if owner not match', async () => {
     const res = await sat.put('/api/image-update/1').expect(200)

@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN, insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, USER2_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { newDateString } from '@common/util/date2'
 import { ImageDetail, unpackImageDetail } from '@common/type/image-detail'
 import { ImageFileManager } from '@server/file/_fileman'
@@ -8,7 +8,7 @@ import { IMAGE_NOT_EXIST } from '@common/type/error-const'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import { useImageDetailApi } from '@server/domain/image/api/image-detail-api'
-import { loginForTest, logoutForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { userLoginForTest, userLogoutForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { omanGetImageFileManager } from '@server/file/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { UserDB } from '@server/db/user/user-db'
@@ -42,7 +42,7 @@ describe('ImageDetailApi', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('init table', async () => {
@@ -53,7 +53,7 @@ describe('ImageDetailApi', () => {
     await ifm.rmRoot()
   })
   it('login as user1', async () => {
-    await loginForTest(sat, USER1_LOGIN)
+    await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('upload image', async () => {
     const res = await sat.post('/api/image-upload')
@@ -88,21 +88,21 @@ describe('ImageDetailApi', () => {
     })
   })
   it('login as user2', async () => {
-    await loginForTest(sat, USER2_LOGIN)
+    await userLoginForTest(sat, USER2_LOGIN_FORM)
   })
   it('get image by user2', async () => {
     const res = await sat.get('/api/image/1').expect(200)
     expect(res.body.image.updatable).toBe(false)
   })
   it('login as admin', async () => {
-    await loginForTest(sat, ADMIN_LOGIN)
+    await userLoginForTest(sat, ADMIN_LOGIN_FORM)
   })
   it('get image by admin', async () => {
     const res = await sat.get('/api/image/1').expect(200)
     expect(res.body.image.updatable).toBe(true)
   })
   it('logout', async () => {
-    await logoutForTest(sat)
+    await userLogoutForTest(sat)
   })
   it('get image by guest', async () => {
     const res = await sat.get('/api/image/1').expect(200)

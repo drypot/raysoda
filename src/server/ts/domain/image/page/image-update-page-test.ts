@@ -1,12 +1,12 @@
 import { useImageUpdatePage } from '@server/domain/image/page/image-update-page'
 import supertest, { SuperAgentTest } from 'supertest'
-import { insertUserFix4, USER1_LOGIN, USER2_LOGIN } from '@server/db/user/fixture/user-fix'
+import { USER1_LOGIN_FORM, USER2_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { newImage } from '@common/type/image'
 import { ImageFileManager } from '@server/file/_fileman'
 import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { loginForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { omanGetImageFileManager } from '@server/file/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { UserDB } from '@server/db/user/user-db'
@@ -40,7 +40,7 @@ describe('ImageUpdatePage', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
 
   it('init table', async () => {
@@ -51,7 +51,7 @@ describe('ImageUpdatePage', () => {
     await sat.get('/image-update/1').expect(302).expect('Location', '/user-login')
   })
   it('login as user', async () => {
-    await loginForTest(sat, USER1_LOGIN)
+    await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('fails if image not exist', async () => {
     const res = await sat.get('/image-update/1').expect(200).expect(/<title>Error/)
@@ -64,7 +64,7 @@ describe('ImageUpdatePage', () => {
     expect(res.body.err).toBeUndefined()
   })
   it('login as user2', async () => {
-    await loginForTest(sat, USER2_LOGIN)
+    await userLoginForTest(sat, USER2_LOGIN_FORM)
   })
   it('fails if owner not match', async () => {
     const res = await sat.get('/image-update/1').expect(200).expect(/<title>Error/)

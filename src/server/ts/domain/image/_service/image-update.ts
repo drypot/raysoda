@@ -7,7 +7,7 @@ import { ImageUpdateForm } from '@common/type/image-form'
 import { Image } from '@common/type/image'
 import { ImageFileManager } from '@server/file/_fileman'
 
-export async function checkImageUpdatable(
+export async function imageCheckUpdatable(
   idb: ImageDB, user: User, id: number, err: ErrorConst[]
 ) {
   const image = await idb.findImage(id)
@@ -22,9 +22,9 @@ export async function checkImageUpdatable(
   return image
 }
 
-export async function imageUpdateGetService(idb: ImageDB, user: User, id: number, err: ErrorConst[])
+export async function imageGetForUpdate(idb: ImageDB, user: User, id: number, err: ErrorConst[])
   : Promise<ImageUpdateForm | undefined> {
-  const image = await checkImageUpdatable(idb, user, id, err)
+  const image = await imageCheckUpdatable(idb, user, id, err)
   if (!image || err.length) {
     return
   }
@@ -33,10 +33,10 @@ export async function imageUpdateGetService(idb: ImageDB, user: User, id: number
   }
 }
 
-export async function imageUpdateService(
+export async function imageUpdate(
   idb: ImageDB, ifm: ImageFileManager, user: User, id: number, form: ImageUpdateForm, err: ErrorConst[]
 ) {
-  const image = await checkImageUpdatable(idb, user, id, err)
+  const image = await imageCheckUpdatable(idb, user, id, err)
   if (!image || err.length) {
     return
   }
