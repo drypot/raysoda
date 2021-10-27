@@ -53,16 +53,6 @@ export class ImageDB {
     await this.db.query('drop table if exists image')
   }
 
-  // ID
-
-  setNextId(id: number) {
-    this.nextId = id
-  }
-
-  getNextId() {
-    return this.nextId++
-  }
-
   // Query
 
   async insertImage(image: Image) {
@@ -125,6 +115,16 @@ export class ImageDB {
       [uid, limit]
     )
     return r as { id: number, cdate: Date }[]
+  }
+
+  // ID
+
+  setNextId(id: number) {
+    this.nextId = id
+  }
+
+  getNextId() {
+    return this.nextId++
   }
 
 }
