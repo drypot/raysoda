@@ -1,4 +1,4 @@
-import { insertUserFix1 } from '@server/db/user/fixture/user-fix'
+import { userFixInsert1 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
@@ -18,7 +18,7 @@ describe('UserDB.*Is*', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await insertUserFix1(udb)
+    await userFixInsert1(udb)
   })
 
   describe('nameIsDupe', () => {

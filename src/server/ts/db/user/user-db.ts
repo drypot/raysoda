@@ -70,16 +70,6 @@ export class UserDB {
     await this.db.query('drop table if exists user')
   }
 
-  // ID
-
-  setNextId(id: number) {
-    this.nextId = id
-  }
-
-  getNextId() {
-    return this.nextId++
-  }
-
   // Query
 
   async insertUser(user: User) {
@@ -223,6 +213,16 @@ export class UserDB {
       [email, id]
     )
     return r.exist === 1
+  }
+
+  // ID
+
+  setNextId(id: number) {
+    this.nextId = id
+  }
+
+  getNextId() {
+    return this.nextId++
   }
 
 }

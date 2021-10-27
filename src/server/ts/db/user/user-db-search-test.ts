@@ -1,4 +1,4 @@
-import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
+import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
@@ -20,7 +20,7 @@ describe('UserDB.searchUser', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
   it('search user1', async () => {
     const l = await udb.searchUser('user1')

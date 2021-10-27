@@ -1,4 +1,4 @@
-import { insertUserFix1, insertUserFix4 } from '@server/db/user/fixture/user-fix'
+import { userFixInsert1, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
@@ -15,7 +15,7 @@ describe('User Fixture', () => {
     await omanCloseAllObjects()
   })
 
-  describe('insertUserFix1', () => {
+  describe('userFixInsert1', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable()
@@ -25,7 +25,7 @@ describe('User Fixture', () => {
       expect(user?.id).toBe(undefined)
     })
     it('insert fixture 1', async () => {
-      await insertUserFix1(udb)
+      await userFixInsert1(udb)
     })
     it('user1 exists', async () => {
       let user = await udb.findUserById(1)
@@ -33,13 +33,13 @@ describe('User Fixture', () => {
     })
   })
 
-  describe('insertUserFix4', () => {
+  describe('userFixInsert4', () => {
     it('init table', async () => {
       await udb.dropTable()
       await udb.createTable()
     })
     it('fill table with fixture 4', async () => {
-      await insertUserFix4(udb)
+      await userFixInsert4(udb)
     })
     it('user1 should exist', async () => {
       let user = await udb.findUserById(1)
