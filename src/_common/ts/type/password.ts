@@ -1,11 +1,11 @@
-export type ResetToken = {
-  uuid: string
+export type PasswordMailLog = {
+  id: number
   email: string
-  token: string
+  random: string
 }
 
 export type NewPasswordForm = {
-  uuid: string
-  token: string
+  id: number
+  random: string
   password: string
 }

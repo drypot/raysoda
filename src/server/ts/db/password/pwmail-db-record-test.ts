@@ -1,50 +1,52 @@
-import { ResetDB } from '@server/db/password/reset-db'
-import { ResetToken } from '@common/type/password'
+import { PwMailDB } from '@server/db/password/pwmail-db'
+import { PasswordMailLog } from '@common/type/password'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
-describe('ResetDB Token', () => {
+describe('PwMailDB Token', () => {
 
-  let rdb: ResetDB
+  let rdb: PwMailDB
 
   beforeAll(async () => {
     omanNewSession('config/raysoda-test.json')
-    rdb = await omanGetObject('ResetDB') as ResetDB
+    rdb = await omanGetObject('PwMailDB') as PwMailDB
   })
 
   afterAll(async () => {
     await omanCloseAllObjects()
   })
 
+  const random = 'x'.repeat(32)
+
   it('init table', async () => {
     await rdb.dropTable()
     await rdb.createTable()
   })
-  it('find returns nothing', async () => {
-    const r = await rdb.findByUuid('uuid1')
-    expect(r?.email).toBe(undefined)
-  })
   it('insert', async () => {
-    const r: ResetToken = {
-      uuid: 'uuid1',
+    const r: PasswordMailLog = {
+      id: rdb.getNextId(),
       email: 'user1@mail.test',
-      token: 'token1'
+      random: random
     }
     await rdb.insert(r)
   })
-  it('find by uuid', async () => {
-    const r = await rdb.findByUuid('uuid1')
+  it('find by id', async () => {
+    const r = await rdb.findById(1)
+    expect(r?.id).toBe(1)
     expect(r?.email).toBe('user1@mail.test')
+    expect(r?.random).toBe(random)
   })
   it('find by email', async () => {
     const r = await rdb.findByEmail('user1@mail.test')
+    expect(r?.id).toBe(1)
     expect(r?.email).toBe('user1@mail.test')
+    expect(r?.random).toBe(random)
   })
   it('delete', async () => {
     await rdb.deleteByEmail('user1@mail.test')
   })
   it('find returns nothing', async () => {
-    const r3 = await rdb.findByUuid('uuid1')
-    expect(r3?.email).toBe(undefined)
+    const r = await rdb.findByEmail('user1@mail.test')
+    expect(r).toBe(undefined)
   })
 
 })

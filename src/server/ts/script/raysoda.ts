@@ -1,7 +1,7 @@
 import { useUserDeactivatePage } from '@server/domain/user/page/user-deactivate-page'
 import { useUserUpdateApi } from '@server/domain/user/api/user-update-api'
 import { useBannerApi } from '@server/domain/banner/api/banner-api'
-import { useUserPasswordPage } from '@server/domain/user/page/user-password-page'
+import { useUserPwResetPage } from '@server/domain/user/page/user-password-page'
 import { useCounterPage } from '@server/domain/counter/page/counter-page'
 import { useUserPasswordApi } from '@server/domain/user/api/user-password-api'
 import { useAboutPage } from '@server/domain/about/page/about-page'
@@ -65,7 +65,7 @@ async function main() {
   await useUserProfilePage()
 
   await useUserAuthPage()
-  await useUserPasswordPage()
+  await useUserPwResetPage()
   await useUserDeactivatePage()
   await useUserListPage()
   await useUserRegisterPage()
