@@ -3,13 +3,13 @@ import { User } from '@common/type/user'
 import { renderHtml } from '@server/express/render-html'
 import { newLimitedNumber, newNumber } from '@common/util/primitive'
 import { Express2, toCallback } from '@server/express/express2'
-import { userCanUpdateUser } from '@server/domain/user/_service/user-auth-service'
-import { getSessionUser } from '@server/domain/user/api/user-auth-api'
+import { userCanUpdateUser } from '@server/domain/user/_service/user-auth'
+import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { omanGetImageFileManager } from '@server/file/_fileman-loader'
 import { UrlMaker } from '@common/util/url2'
 import { ImageDB } from '@server/db/image/image-db'
 import { UserDB } from '@server/db/user/user-db'
-import { imageListByUserService } from '@server/domain/image/_service/image-list-service'
+import { imageGetListByUser } from '@server/domain/image/_service/image-list'
 import { Request, Response } from 'express'
 
 export async function useUserProfilePage() {
@@ -34,10 +34,10 @@ export async function useUserProfilePage() {
   }))
 
   async function renderProfile(req: Request, res: Response, owner: User) {
-    const user = getSessionUser(res)
+    const user = userGetSessionUser(res)
     const p = newLimitedNumber(req.query.p, 1, 1, NaN)
     const ps = newLimitedNumber(req.query.ps, 16, 1, 128)
-    const list = await imageListByUserService(udb, idb, ifm, owner.id, p, ps)
+    const list = await imageGetListByUser(udb, idb, ifm, owner.id, p, ps)
     renderHtml(res, 'user-profile/profile', {
       owner: owner,
       updatable: userCanUpdateUser(user, owner.id),
