@@ -1,5 +1,5 @@
 import { Express2 } from '@server/express/express2'
-import { getSessionUser } from '@server/domain/user/api/user-auth-api'
+import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { newUserIdCard } from '@common/type/user'
 import { BannerDB } from '@server/db/banner/banner-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
@@ -15,7 +15,7 @@ export async function useSpaInitApi() {
 
   // nginx 설정 편의를 위해 /api 아래에 둔다.
   web.router.get('/api/spa-init-script', function (req, res) {
-    const user = getSessionUser(res)
+    const user = userGetSessionUser(res)
     const userStr = JSON.stringify(newUserIdCard(user))
     const bannerStr = JSON.stringify(bdb.getCached())
     const script =

@@ -1,11 +1,11 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { insertUserFix4, USER1_LOGIN } from '@server/db/user/fixture/user-fix'
+import { USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { useBannerApi } from '@server/domain/banner/api/banner-api'
 import { ValueDB } from '@server/db/value/value-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { loginForTest, logoutForTest } from '@server/domain/user/api/user-auth-api-fixture'
+import { userLoginForTest, userLogoutForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { BannerDB } from '@server/db/banner/banner-db'
 import { useSpaInitApi } from '@server/domain/spa/spa-init-api'
 import { UserDB } from '@server/db/user/user-db'
@@ -43,7 +43,7 @@ describe('SpaInitScript', () => {
     await bdb.loadCache()
   })
   it('fill fix', async () => {
-    await insertUserFix4(udb)
+    await userFixInsert4(udb)
   })
   it('get session script', async () => {
     const res = await sat.get('/api/spa-init-script').expect(200)
@@ -56,7 +56,7 @@ const _banner = []
     )
   })
   it('login as user1', async () => {
-    await loginForTest(sat, USER1_LOGIN)
+    await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('get session script with login', async () => {
     const res = await sat.get('/api/spa-init-script').expect(200)
@@ -69,7 +69,7 @@ const _banner = []
     )
   })
   it('logout', async () => {
-    await logoutForTest(sat)
+    await userLogoutForTest(sat)
   })
   it('set banner', async () => {
     await bdb.updateBannerList([{ text: 'text1', url: 'url1' }])
