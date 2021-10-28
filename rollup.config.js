@@ -3,21 +3,23 @@ import typescript from '@rollup/plugin-typescript'
 import { defineConfig } from 'rollup'
 
 export default defineConfig({
-  input: 'src/client/ts/_all.ts',
+  input: 'src/ts/client/all.ts',
   output: {
     file: 'public/build/client-rollup.js',
+    sourcemap: true,
     format: 'iife',
     name: 'app',
   },
   watch: {
     include: [
-      "src/client/ts/**/*"
+      "src/ts/common/**/*",
+      "src/ts/client/**/*"
     ]
   },
   plugins: [
     typescript({
-      tsconfig: "src/client/tsconfig.json",
-      "sourceMap": true,
+      //tsconfig: "src/client/tsconfig.json",
+      tsconfig: "tsconfig.rollup.json",
     }),
     //nodeResolve(),
   ]
