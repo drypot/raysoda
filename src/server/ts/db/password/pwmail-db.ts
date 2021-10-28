@@ -48,6 +48,7 @@ export class PwMailDB {
       '  id int not null,' +
       '  email varchar(64) not null,' +
       '  random char(32) character set latin1 collate latin1_bin not null,' +
+      '  cdate datetime(3) not null,' +
       '  primary key (id)' +
       ')'
     )

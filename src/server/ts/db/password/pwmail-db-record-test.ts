@@ -16,6 +16,7 @@ describe('PwMailDB Token', () => {
   })
 
   const random = 'x'.repeat(32)
+  const now = new Date()
 
   it('init table', async () => {
     await rdb.dropTable()
@@ -25,7 +26,8 @@ describe('PwMailDB Token', () => {
     const r: PasswordMailLog = {
       id: rdb.getNextId(),
       email: 'user1@mail.test',
-      random: random
+      random: random,
+      cdate: now
     }
     await rdb.insert(r)
   })
@@ -34,12 +36,14 @@ describe('PwMailDB Token', () => {
     expect(r?.id).toBe(1)
     expect(r?.email).toBe('user1@mail.test')
     expect(r?.random).toBe(random)
+    expect(r?.cdate).toEqual(now)
   })
   it('find by email', async () => {
     const r = await rdb.findByEmail('user1@mail.test')
     expect(r?.id).toBe(1)
     expect(r?.email).toBe('user1@mail.test')
     expect(r?.random).toBe(random)
+    expect(r?.cdate).toEqual(now)
   })
   it('delete', async () => {
     await rdb.deleteByEmail('user1@mail.test')

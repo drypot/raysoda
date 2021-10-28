@@ -29,7 +29,7 @@ export const EMAIL_DUPE = newErrorConst('EMAIL_DUPE', '이미 등록되어 있�
 export const PASSWORD_EMPTY = newErrorConst('PASSWORD_EMPTY', '비밀번호를 입력해 주십시오.', 'password')
 export const PASSWORD_RANGE = newErrorConst('PASSWORD_RANGE', '비밀번호 길이는 4 ~ 32 글자입니다.', 'password')
 
-export const RESET_TIMEOUT = newErrorConst('RESET_TIMEOUT', '비밀번호 초기화 토큰 유효시간이 지났습니다.')
+export const PASSWORD_RESET_TIMEOUT = newErrorConst('PASSWORD_RESET_TIMEOUT', '비밀번호 초기화 유효시간이 지났습니다.')
 
 // Image
 
