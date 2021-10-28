@@ -40,7 +40,7 @@ describe('Express2 Error', () => {
     expect(res.type).toBe('application/json')
     expect(res.body.err[0].name).toBe('Error')
     expect(res.body.err[0].message).toMatch(/System Error/)
-    expect(res.body.err[0].field).toBe('')
+    expect(res.body.err[0].field).toBe('_system')
   })
   it('page system error', async () => {
     const res = await sat.get('/system-error').expect(200).expect(/<title>Error/)

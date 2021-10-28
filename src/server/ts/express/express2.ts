@@ -243,7 +243,7 @@ export class Express2 {
 
   public errorHandler: ErrorRequestHandler = (err, req, res, done) => {
     if (err instanceof Error) {
-      err = [newErrorConst(err.name, /*err.message + */ err.stack, '')]
+      err = [newErrorConst(err.name, /*err.message + */ err.stack, '_system')]
     } else if (err instanceof Array) {
       // do nothing
     } else {
