@@ -9,14 +9,14 @@
 
     <div class="wrapper">
         <h1>로그인</h1>
-        <form id="loginForm" class="mt-xl form max-w-xs">
+        <form id="loginForm" class="form max-w-xs">
             <label>
                 <span>이메일</span>
                 <input type="text" name="email" maxlength=64 autofocus>
             </label>
             <label>
                 <span>비밀번호</span>
-                <input type="password" name="password" maxlength=64>
+                <input type="password" name="password" maxlength=32>
             </label>
             <label class="inline-label">
                 <input type="checkbox" name="remember">
@@ -28,13 +28,13 @@
         </form>
         <p class="mt-xl flex-center flex-column space-y">
             <a href='/user-register'>회원가입</a>
-            <a href='/user-password-reset'>비밀번호 초기화</a>
+            <a href='/user-password-mail'>비밀번호 초기화</a>
         </p>
     </div>
 
     <%- include('../_layout/footer') %>
     <script>
-        app.initUserLoginPage()
+        app.initUserLoginForm()
     </script>
 </body>
 </html>
