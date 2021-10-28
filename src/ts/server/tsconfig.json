@@ -1,0 +1,43 @@
+{
+  // https://github.com/tsconfig/bases/tree/main/bases
+
+  // WebStorm 에 tsconfig.js 를 인식시켜야 하기 때문에 프로젝트 루트에 두지 못한다.
+  // server, client, 각 파트 서브 디렉토리에 둬야한다.
+
+  "compilerOptions": {
+    "outDir": "../../../build/server",
+    "rootDir": ".",
+
+    // paths 를 쓰려면 baseUrl 을 설정해야 한다.
+    // baseUrl 은 tsconfig.json 파일 위치가 기준이다.
+    "baseUrl": ".",
+    "paths": {
+      "@server/*": ["./*"],
+      "@common/*": ["../common/*"]
+    },
+
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": ["esnext"],
+
+    // ObjectMaker 자동 등록을 위해 preserve 로 해야한다.
+    "importsNotUsedAsValues": "preserve",
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true
+  },
+  "include": [
+    "./**/*"
+  ],
+  "exclude": [
+  ],
+  "references": [
+    { "path": "../common/tsconfig.json"}
+  ],
+  "ts-node": {
+    "transpileOnly": true
+  }
+}

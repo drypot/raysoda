@@ -1,0 +1,34 @@
+{
+  // https://github.com/tsconfig/bases/tree/main/bases
+
+  // WebStorm 에 tsconfig.js 를 인식시켜야 하기 때문에 프로젝트 루트에 두지 못한다.
+  // server, client, 각 파트 서브 디렉토리에 둬야한다.
+
+  "compilerOptions": {
+    "outDir": "../../../build/common",
+    "rootDir": ".",
+
+    // paths 를 쓰려면 baseUrl 을 설정해야 한다.
+    // baseUrl 은 tsconfig.json 파일 위치가 기준이다.
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": ["./*"]
+    },
+
+    "target": "es2017", // async, await
+    "module": "esnext",
+
+    // 공용 라이브러리 필수 설정
+    "composite": true,
+    "declaration": true,
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true
+  },
+  "include": [
+    "./**/*"
+  ]
+}
