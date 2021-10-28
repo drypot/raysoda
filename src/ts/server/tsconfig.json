@@ -1,4 +1,5 @@
 {
+  // https://www.typescriptlang.org/tsconfig
   // https://github.com/tsconfig/bases/tree/main/bases
 
   // WebStorm 에 tsconfig.js 를 인식시켜야 하기 때문에 프로젝트 루트에 두지 못한다.
