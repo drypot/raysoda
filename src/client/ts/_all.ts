@@ -1,4 +1,6 @@
 export * from './context'
+export * from './dom'
 export * from './modal'
 export * from './user-login'
 export * from './user-register'
+export * from './user-password'

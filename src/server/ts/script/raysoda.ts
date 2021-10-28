@@ -31,6 +31,7 @@ import { useImageUploadApi } from '@server/domain/image/api/image-upload-api'
 import { useBannerPage } from '@server/domain/banner/page/banner-page'
 import { useImageListPage } from '@server/domain/image/page/image-list-page'
 import { useCounterApi } from '@server/domain/counter/api/counter-api'
+import { useSamplePage } from '@server/domain/_layout/sample-page'
 
 async function main() {
   const configPath = process.argv[2]
@@ -76,6 +77,10 @@ async function main() {
   await useAboutPage()
 
   await useRedirect()
+
+  if (inDev()) {
+    await useSamplePage()
+  }
 
   async function closeAll() {
     await omanCloseAllObjects()

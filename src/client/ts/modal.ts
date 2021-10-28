@@ -7,8 +7,8 @@ export type ModalCallback = ((result: string) => void) | (() => void)
 
 const bg = document.getElementById("modal-bg") as HTMLElement
 const dlg = document.getElementById("modal-dialog") as HTMLElement
-const titleEl = dlg.querySelector('h2') as HTMLElement
-const textEl = dlg.querySelector('p') as HTMLElement
+const titleEl = document.getElementById("modal-title") as HTMLElement
+const messageEl = document.getElementById("modal-message") as HTMLElement
 const grayBtn = document.getElementById("modal-gray-btn") as HTMLElement
 const greenBtn = document.getElementById("modal-green-btn") as HTMLElement
 const blueBtn = document.getElementById("modal-blue-btn") as HTMLElement
@@ -50,6 +50,7 @@ redBtn.onclick = () => {
 export function openOkModal(title: string, text: string, handler?: ModalCallback) {
   hideAllButtons()
   showElement(blueBtn)
+  messageForNormal()
   openModal(title, text, handler)
 }
 
@@ -57,11 +58,15 @@ export function openDeleteModal(title: string, text: string, handler?: ModalCall
   hideAllButtons()
   showElement(grayBtn)
   showElement(redBtn)
+  messageForNormal()
   openModal(title, text, handler)
 }
 
 export function openErrorModal(err: any, handler?: ModalCallback) {
-  openOkModal(err.name, err.message, handler)
+  hideAllButtons()
+  showElement(blueBtn)
+  messageForSystemError()
+  openModal(err.name, err.message, handler)
 }
 
 function hideAllButtons() {
@@ -72,7 +77,7 @@ function hideAllButtons() {
 function openModal(title: string, text: string, handler?: ModalCallback) {
   handlerSave = handler
   titleEl.textContent = title
-  textEl.textContent = text
+  messageEl.textContent = text
   showElement(bg)
 }
 
@@ -89,4 +94,12 @@ function showElement(e: HTMLElement) {
 
 function hideElement(e: HTMLElement) {
   e.style.display = 'none'
+}
+
+function messageForSystemError() {
+  messageEl.className = 'code-dump text-left'
+}
+
+function messageForNormal() {
+  messageEl.className = 'text-center'
 }

@@ -1,7 +1,6 @@
 import { Express2 } from '@server/express/express2'
 import { renderHtml } from '@server/express/render-html'
 import { omanGetObject } from '@server/oman/oman'
-import { inDev } from '@common/util/env2'
 
 export async function useAboutPage() {
 
@@ -26,16 +25,6 @@ export async function useAboutPage() {
   web.router.get('/help', function (req, res) {
     renderHtml(res, 'about/help')
   })
-
-  if (inDev()) {
-    web.router.get('/layout-sample-en', function (req, res) {
-      renderHtml(res, 'about/layout-sample-en')
-    })
-
-    web.router.get('/layout-sample-kr', function (req, res) {
-      renderHtml(res, 'about/layout-sample-kr')
-    })
-  }
 
 }
 

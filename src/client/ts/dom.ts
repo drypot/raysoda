@@ -1,4 +1,5 @@
 import { ErrorConst } from '@common/type/error'
+import { openErrorModal } from '@client/modal'
 
 export type Form = {
   form: HTMLFormElement,
@@ -62,15 +63,30 @@ export function grabForm(query: string) {
 }
 
 export function reportFormError(form: Form, errs: ErrorConst[]) {
-  for (const err of errs) {
-    const inputNode = form.all[err.field]
-    const errNode = newErrorNode(err.message)
-    if (inputNode) {
-      inputNode.closest('label')?.after(errNode)
-    } else {
-      form.form.prepend(errNode)
-    }
+  reportNext(form, errs, 0)
+}
+
+function reportNext(form: Form, errs: ErrorConst[], i: number) {
+  if (i === errs.length)
+    return
+
+  const err = errs[i]
+
+  if (err.field === '_system') {
+    openErrorModal(err, () => {
+      reportNext(form, errs, i + 1)
+    })
+    return
   }
+
+  const inputNode = form.all[err.field]
+  const errNode = newErrorNode(err.message)
+  if (inputNode) {
+    inputNode.closest('label')?.after(errNode)
+  } else {
+    form.form.prepend(errNode)
+  }
+  reportNext(form, errs, i+1)
 }
 
 function newErrorNode(message: string) {
@@ -100,4 +116,8 @@ export function enableSubmitButton(form: Form) {
     btn.innerText = btn.dataset.innerText as string
     btn.disabled = false
   }
+}
+
+export function elementById(id: string) {
+  return document.getElementById(id)
 }

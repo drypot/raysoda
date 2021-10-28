@@ -7,7 +7,7 @@
 <body>
     <%- include('../_layout/header') %>
 
-    <div class="wrapper">
+    <div class="wrapper px-0">
         <h1>Error</h1>
 
         <%
@@ -21,7 +21,7 @@
         }
         %>
         <% if (err) { %>
-            <p class="code-dump max-w-full"><%= s %></p>
+            <p class="code-dump max-w-full text-left"><%= s %></p>
         <% } else { %>
             <p>Error is not defined.</p>
         <% } %>
