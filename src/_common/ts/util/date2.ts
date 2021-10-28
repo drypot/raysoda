@@ -48,3 +48,23 @@ export function newDateStringNoTimeNoDash(d: Date | null | undefined) {
   }
   return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate())
 }
+
+export function dateDiffMs(a:Date, b:Date) {
+  return a.getTime() - b.getTime()
+}
+
+export function dateDiffSecond(a:Date, b:Date) {
+  return Math.ceil((a.getTime() - b.getTime()) / 1000)
+}
+
+export function dateDiffMins(a:Date, b:Date) {
+  return Math.ceil((a.getTime() - b.getTime()) / 1000 / 60)
+}
+
+export function dateDiffHours(a:Date, b:Date) {
+  return Math.ceil((a.getTime() - b.getTime()) / 1000 / 60 / 60)
+}
+
+export function dateDiffDays(a:Date, b:Date) {
+  return Math.ceil((a.getTime() - b.getTime()) / 1000 / 60 / 60 / 24)
+}
