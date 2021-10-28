@@ -1,0 +1,22 @@
+@use 'var' as *;
+@use 'media' as *;
+
+// Line Height
+
+.lh-sm { line-height: 1; }
+.lh-md { line-height: 2; }
+.lh-lg { line-height: 3; }
+.lh-xl { line-height: 4; }
+
+// Text Align
+
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+
+// Link Deco
+
+.link-no-deco,
+.link-no-deco a {
+  color: $color-body;
+}

@@ -1,0 +1,49 @@
+@use 'var' as *;
+@use 'media' as *;
+
+// display
+
+.none { display: none; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+
+// flex
+
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.space-x > * {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.space-y > * {
+  margin-top: 0.5rem;
+}
+
+.space-y > *:first-child {
+  margin-top: 0;
+}
+
+// grid
+
+.grid-column {
+  display:inline-grid;
+  grid-auto-flow: column;
+  grid-gap: 1.5em;
+}
+
+// position
+
+.relative { position: relative; }
+.absolute { position: absolute; }

@@ -1,4 +1,7 @@
-.modal-bg {
+@use 'var' as *;
+@use 'media' as *;
+
+#modal-bg {
   display: none;
   position: fixed;
   z-index: 1;
@@ -11,7 +14,7 @@
   background-color: rgba(0,0,0,0.4);
 }
 
-.modal-dialog {
+#modal-dialog {
   background-color: #fefefe;
   width: 90%;
   max-width: 65ch;
@@ -21,18 +24,12 @@
   border-radius: 0.6rem;
 }
 
-.modal-dialog > h2 {
+#modal-title {
   margin-top: 0.8rem;
   text-align: center;
   //border-bottom: 1px solid #999;
 }
 
-.modal-dialog > p {
+#modal-message {
   margin-top: 0.8rem;
-  text-align: center;
-}
-
-.modal-dialog > .btn-group {
-  margin-top: 1.2rem;
-  margin-bottom: 0.8rem;
 }

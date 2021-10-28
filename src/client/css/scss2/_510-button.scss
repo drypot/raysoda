@@ -1,4 +1,5 @@
 @use 'var' as *;
+@use 'media' as *;
 
 .btn {
   font-family: sans-serif;
@@ -64,11 +65,11 @@
 }
 
 .btn-gray:hover {
-  background: $color-green-dim;
+  background: $color-gray-dim;
 }
 
 .btn-gray:active {
-  background: $color-green-dim;
+  background: $color-gray-dim;
   top: 2px;
 }
 

@@ -1,0 +1,17 @@
+@use 'var' as *;
+@use 'media' as *;
+
+html {
+  font-size: 16px;
+  @include m640  { font-size: 16px; }
+  @include m768  { font-size: 16px; }
+  @include m1024 { font-size: 18px; }
+  @include m1280 { font-size: 20px; }
+  @include m1536 { font-size: 24px; }
+}
+
+body {
+  font-family: serif;
+  color: $color-body;
+  background-color: white;
+}
