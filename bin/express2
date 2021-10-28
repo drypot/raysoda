@@ -2,6 +2,6 @@
 
 export NODE_ENV=development
 export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-export TS_NODE_PROJECT=src/server/tsconfig.json
+export TS_NODE_PROJECT=src/ts/server/tsconfig.json
 
-node src/server/ts/script/express2-tester.ts
+node src/ts/server/script/run-express2.ts

@@ -11,9 +11,9 @@ fi
 
 export NODE_ENV=development
 export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-export TS_NODE_PROJECT=src/server/tsconfig.json
+export TS_NODE_PROJECT=src/ts/server/tsconfig.json
 
 # 실행될 커맨드를 화면에 출력한다.
 set -o xtrace
 
-node src/server/ts/script/raysoda.ts config/${1}-dev.json
+node src/ts/server/script/run-raysoda.ts config/${1}-dev.json

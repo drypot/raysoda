@@ -21,7 +21,7 @@ fi
 
 export NODE_ENV=production
 export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-export TS_NODE_PROJECT=src/server/tsconfig.json
+export TS_NODE_PROJECT=src/ts/server/tsconfig.json
 
 args=(
     start
