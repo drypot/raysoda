@@ -43,17 +43,17 @@ describe('User Fixture', () => {
     })
     it('user1 should exist', async () => {
       let user = await udb.findUserById(1)
-      expect(user?.home).toBe('user1')
+      expect(user?.name).toBe('user1')
       expect(user?.admin).toBe(false)
     })
     it('user3 should exist', async () => {
       let user = await udb.findUserById(3)
-      expect(user?.home).toBe('user3')
+      expect(user?.name).toBe('user3')
       expect(user?.admin).toBe(false)
     })
     it('admin should exist', async () => {
       let user = await udb.findUserById(4)
-      expect(user?.home).toBe('admin')
+      expect(user?.name).toBe('admin')
       expect(user?.admin).toBe(true)
     })
   })
