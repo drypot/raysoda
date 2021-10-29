@@ -80,18 +80,26 @@ function reportNext(form: Form, errs: ErrorConst[], i: number) {
   }
 
   const inputNode = form.all[err.field]
-  const errNode = newErrorNode(err.message)
   if (inputNode) {
+    const errNode = newFieldError(err.message)
     inputNode.closest('label')?.after(errNode)
   } else {
-    form.form.prepend(errNode)
+    const errNode = newNoFieldError(err.message)
+    form.button.send.closest('.btn-group')?.before(errNode)
   }
   reportNext(form, errs, i+1)
 }
 
-function newErrorNode(message: string) {
+function newFieldError(message: string) {
   const err = document.createElement('p')
-  err.classList.add('error')
+  err.classList.add('field-error')
+  err.textContent = message
+  return err
+}
+
+function newNoFieldError(message: string) {
+  const err = document.createElement('p')
+  err.classList.add('nofield-error')
   err.textContent = message
   return err
 }
