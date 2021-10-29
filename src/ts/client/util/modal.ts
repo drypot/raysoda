@@ -1,7 +1,5 @@
 export const MODAL_OK = 'ok'
 export const MODAL_CANCEL = 'cancel'
-export const MODAL_INFO = 'info'
-export const MODAL_DELETE = 'delete'
 
 export type ModalCallback = ((result: string) => void) | (() => void)
 
@@ -9,10 +7,8 @@ const bg = document.getElementById("modal-bg") as HTMLElement
 const dlg = document.getElementById("modal-dialog") as HTMLElement
 const titleEl = document.getElementById("modal-title") as HTMLElement
 const messageEl = document.getElementById("modal-message") as HTMLElement
-const grayBtn = document.getElementById("modal-gray-btn") as HTMLElement
-const greenBtn = document.getElementById("modal-green-btn") as HTMLElement
-const blueBtn = document.getElementById("modal-blue-btn") as HTMLElement
-const redBtn = document.getElementById("modal-red-btn") as HTMLElement
+const cancelBtn = document.getElementById("modal-cancel-btn") as HTMLElement
+const okBtn = document.getElementById("modal-ok-btn") as HTMLElement
 
 let handlerSave: ModalCallback | undefined
 
@@ -31,47 +27,36 @@ window.addEventListener('keydown', (e) => {
   }
 })
 
-grayBtn.onclick = () => {
+cancelBtn.onclick = () => {
   closeModal(MODAL_CANCEL)
 }
 
-greenBtn.onclick = () => {
-  closeModal(MODAL_INFO)
-}
-
-blueBtn.onclick = () => {
+okBtn.onclick = () => {
   closeModal(MODAL_OK)
 }
 
-redBtn.onclick = () => {
-  closeModal(MODAL_DELETE)
-}
-
-export function openOkModal(title: string, text: string, handler?: ModalCallback) {
-  hideAllButtons()
-  showElement(blueBtn)
-  messageForNormal()
+export function openBlueModal(title: string, text: string, btn:string, handler?: ModalCallback) {
+  showElement(cancelBtn)
+  okBtn.innerText = btn
+  okBtn.className = 'btn btn-blue'
+  messageEl.className = 'text-center'
   openModal(title, text, handler)
 }
 
-export function openDeleteModal(title: string, text: string, handler?: ModalCallback) {
-  hideAllButtons()
-  showElement(grayBtn)
-  showElement(redBtn)
-  messageForNormal()
+export function openRedModal(title: string, text: string, btn:string, handler?: ModalCallback) {
+  showElement(cancelBtn)
+  okBtn.innerText = btn
+  okBtn.className = 'btn btn-red'
+  messageEl.className = 'text-center'
   openModal(title, text, handler)
 }
 
 export function openErrorModal(err: any, handler?: ModalCallback) {
-  hideAllButtons()
-  showElement(blueBtn)
-  messageForSystemError()
+  hideElement(cancelBtn)
+  okBtn.innerText = '확인'
+  okBtn.className = 'btn btn-blue'
+  messageEl.className = 'code-dump text-left'
   openModal(err.name, err.message, handler)
-}
-
-function hideAllButtons() {
-  const btnList = dlg.querySelectorAll('button')
-  Array.from(btnList).forEach(btn => hideElement(btn))
 }
 
 function openModal(title: string, text: string, handler?: ModalCallback) {
@@ -94,12 +79,4 @@ function showElement(e: HTMLElement) {
 
 function hideElement(e: HTMLElement) {
   e.style.display = 'none'
-}
-
-function messageForSystemError() {
-  messageEl.className = 'code-dump text-left'
-}
-
-function messageForNormal() {
-  messageEl.className = 'text-center'
 }

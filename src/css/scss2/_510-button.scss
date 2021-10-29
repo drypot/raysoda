@@ -2,79 +2,32 @@
 @use 'media' as *;
 
 .btn {
-  font-family: sans-serif;
+  position: relative;
   padding: 0.6rem 1.2rem 0.5rem;
   border-radius: 0.25rem;
   border: none;
 
-  position: relative;
+  font-family: sans-serif;
+
+  background: $color-gray;
+  color: #444;
+
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   transition: all 0.3s;
 }
 
-.btn-blue {
-  @extend .btn;
-  background: $color-blue;
-  color: #fff;
-}
+.btn:hover  { background: $color-gray-dim; }
+.btn:active { background: $color-gray-dim; top: 2px; }
 
-.btn-blue:hover {
-  background: $color-blue-dim;
-}
+.btn-blue         { background: $color-blue; color: #fff; }
+.btn-blue:hover   { background: $color-blue-dim; }
+.btn-blue:active  { background: $color-blue-dim; }
 
-.btn-blue:active {
-  background: $color-blue-dim;
-  top: 2px;
-}
+.btn-green        { background: $color-green; color: #fff; }
+.btn-green:hover  { background: $color-green-dim; }
+.btn-green:active { background: $color-green-dim; }
 
-.btn-green {
-  @extend .btn;
-  background: $color-green;
-  color: #fff;
-}
-
-.btn-green:hover {
-  background: $color-green-dim;
-}
-
-.btn-green:active {
-  background: $color-green-dim;
-  top: 2px;
-}
-
-.btn-red {
-  @extend .btn;
-  background: $color-red;
-  color: #fff;
-}
-
-.btn-red:hover {
-  background: $color-red-dim;
-}
-
-.btn-red:active {
-  background: $color-red-dim;
-  top: 2px;
-}
-
-.btn-gray {
-  @extend .btn;
-  background: $color-gray;
-  color: #444;
-}
-
-.btn-gray:hover {
-  background: $color-gray-dim;
-}
-
-.btn-gray:active {
-  background: $color-gray-dim;
-  top: 2px;
-}
-
-button:disabled,
-button:disabled:hover {
-  background: $color-disabled;
-  color: #fff;
-}
+.btn-red          { background: $color-red; color: #fff; }
+.btn-red:hover    { background: $color-red-dim; }
+.btn-red:active   { background: $color-red-dim; }

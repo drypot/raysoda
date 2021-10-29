@@ -10,30 +10,32 @@
     <div class="wrapper">
         <h1>Sample Modal</h1>
         <div class="inline-flex flex-column space-y">
-            <button id="okBtn" class="btn-blue">Ok Modal</button>
-            <button id="delBtn" class="btn-blue">Delete Modal</button>
-            <button id="errBtn" class="btn-blue">Error Modal</button>
+            <button id="blueModalBtn" class="btn">Blue Modal</button>
+            <button id="redModalBtn" class="btn">Red Modal</button>
+            <button id="errModalBtn" class="btn">Error Modal</button>
         </div>
     </div>
 
     <%- include('../_layout/footer') %>
 
     <script>
-        app.elementById('okBtn').onclick = () => {
-            app.openOkModal(
+        app.elementById('blueModalBtn').onclick = () => {
+            app.openBlueModal(
                 'Hi',
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+                '확인',
                 modalResult
             )
         }
-        app.elementById('delBtn').onclick = () => {
-            app.openDeleteModal(
+        app.elementById('redModalBtn').onclick = () => {
+            app.openRedModal(
                 'Warning',
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+                '삭제',
                 modalResult
             )
         }
-        app.elementById('errBtn').onclick = () => {
+        app.elementById('errModalBtn').onclick = () => {
             app.openErrorModal(
                 {
                     name: 'Error',

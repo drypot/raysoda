@@ -1,0 +1,8 @@
+@use 'var' as *;
+@use 'media' as *;
+
+button:disabled,
+button:disabled:hover {
+  background: $color-disabled;
+  color: #fff;
+}
