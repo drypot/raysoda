@@ -47,13 +47,13 @@ export class UserDB {
       ')'
     )
     await this.db.createIndexIfNotExists(
-      'create index user_email on user(email)'
+      'create unique index user_email on user(email)'
     )
     await this.db.createIndexIfNotExists(
-      'create index user_name on user(name)'
+      'create unique index user_name on user(name)'
     )
     await this.db.createIndexIfNotExists(
-      'create index user_home on user(home)'
+      'create unique index user_home on user(home)'
     )
     await this.db.createIndexIfNotExists(
       'create index user_pdate on user(pdate desc)'
