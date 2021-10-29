@@ -1,6 +1,6 @@
-import { userFixInsert1 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { newUser } from '@common/type/user'
 
 describe('UserDB.*Is*', () => {
 
@@ -15,54 +15,84 @@ describe('UserDB.*Is*', () => {
     await omanCloseAllObjects()
   })
 
-  beforeAll(async () => {
-    await udb.dropTable()
-    await udb.createTable()
-    await userFixInsert1(udb)
-  })
-
   describe('nameIsDupe', () => {
-    it('false if not dupe', async () => {
-      const dupe = await udb.nameIsDupe(0, 'User X')
-      expect(dupe).toBe(false)
+    it('init db', async () => {
+      await udb.dropTable()
+      await udb.createTable()
     })
-    it('false if same entity', async () => {
-      const dupe = await udb.nameIsDupe(1, 'User 1')
-      expect(dupe).toBe(false)
+    it('insert for name dupe test', async () => {
+      const user = newUser({ id: 1, name: 'name1' })
+      await udb.insertUser(user)
     })
-    it('true if dupe', async () => {
-      const dupe = await udb.nameIsDupe(0, 'User 1')
+    it('dupe, true', async () => {
+      const dupe = await udb.nameIsDupe(0, 'name1')
       expect(dupe).toBe(true)
+    })
+    it('dupe case, true', async () => {
+      const dupe = await udb.nameIsDupe(0, 'NAME1')
+      expect(dupe).toBe(true)
+    })
+    it('not dupe, false', async () => {
+      const dupe = await udb.nameIsDupe(0, 'namex')
+      expect(dupe).toBe(false)
+    })
+    it('self, false', async () => {
+      const dupe = await udb.nameIsDupe(1, 'name1')
+      expect(dupe).toBe(false)
     })
   })
 
   describe('homeIsDupe', () => {
-    it('false if not dupe', async () => {
-      const dupe = await udb.homeIsDupe(0, 'userx')
-      expect(dupe).toBe(false)
+    it('init db', async () => {
+      await udb.dropTable()
+      await udb.createTable()
     })
-    it('false if same entity', async () => {
-      const dupe = await udb.homeIsDupe(1, 'user1')
-      expect(dupe).toBe(false)
+    it('insert for name dupe test', async () => {
+      const user = newUser({ id: 1, home: 'home1' })
+      await udb.insertUser(user)
     })
-    it('true if dupe', async () => {
-      const dupe = await udb.homeIsDupe(0, 'user1')
+    it('dupe, true', async () => {
+      const dupe = await udb.homeIsDupe(0, 'home1')
       expect(dupe).toBe(true)
+    })
+    it('dupe case, true', async () => {
+      const dupe = await udb.homeIsDupe(0, 'HOME1')
+      expect(dupe).toBe(true)
+    })
+    it('not dupe, false', async () => {
+      const dupe = await udb.homeIsDupe(0, 'homex')
+      expect(dupe).toBe(false)
+    })
+    it('self, false', async () => {
+      const dupe = await udb.homeIsDupe(1, 'home1')
+      expect(dupe).toBe(false)
     })
   })
 
   describe('emailIsDupe', () => {
-    it('false if not dupe', async () => {
-      const dupe = await udb.emailIsDupe(0, 'userx@mail.test')
-      expect(dupe).toBe(false)
+    it('init db', async () => {
+      await udb.dropTable()
+      await udb.createTable()
     })
-    it('false if same entity', async () => {
-      const dupe = await udb.emailIsDupe(1, 'user1@mail.test')
-      expect(dupe).toBe(false)
+    it('insert for name dupe test', async () => {
+      const user = newUser({ id: 1, email: 'mail1@mail.test' })
+      await udb.insertUser(user)
     })
-    it('true if dupe', async () => {
-      const dupe = await udb.emailIsDupe(0, 'user1@mail.test')
+    it('dupe, true', async () => {
+      const dupe = await udb.emailIsDupe(0, 'mail1@mail.test')
       expect(dupe).toBe(true)
+    })
+    it('dupe case, true', async () => {
+      const dupe = await udb.emailIsDupe(0, 'MAIL1@MAIL.TEST')
+      expect(dupe).toBe(true)
+    })
+    it('not dupe, false', async () => {
+      const dupe = await udb.emailIsDupe(0, 'mailx@mail.test')
+      expect(dupe).toBe(false)
+    })
+    it('self, false', async () => {
+      const dupe = await udb.emailIsDupe(1, 'mail1@mail.test')
+      expect(dupe).toBe(false)
     })
   })
 
