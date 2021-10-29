@@ -1,6 +1,6 @@
 import { newNumber, newString } from '@common/util/primitive'
 import { Express2, toCallback } from '@server/express/express2'
-import { UserUpdateForm } from '@common/type/user-form'
+import { UserUpdateForm, UserUpdateStatusForm } from '@common/type/user-form'
 import { ErrorConst } from '@common/type/error'
 import { userGetSessionUser, userLogout } from '@server/domain/user/api/user-auth-api'
 import { userGetForUpdate, userUpdate, userUpdateStatus } from '@server/domain/user/_service/user-update'
@@ -25,26 +25,27 @@ export async function useUserUpdateApi() {
     renderJson(res, { user: user2 })
   }))
 
-  web.router.put('/api/user-update/:id([0-9]+)', toCallback(async (req, res) => {
+  web.router.put('/api/user-update', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
     userAssertLogin(user)
-    const id = newNumber(req.params.id)
-    const form = newUpdateForm(req)
+    const form = newUserUpdateFormFromReq(req)
     const err: ErrorConst[] = []
-    await userUpdate(udb, user, id, form, err)
+    await userUpdate(udb, user, form, err)
     if (err.length) throw err
     renderJson(res, {})
   }))
 
-  web.router.put('/api/user-update-status/:id([0-9]+)', toCallback(async (req, res) => {
+  web.router.put('/api/user-update-status', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
     userAssertLogin(user)
-    const id = newNumber(req.params.id)
-    const status = newString(req.body.status)
+    const form: UserUpdateStatusForm = {
+      id: newNumber(req.body.id),
+      status: newString(req.body.status) === 'v' ? 'v' : 'd'
+    }
     const err: ErrorConst[] = []
-    await userUpdateStatus(udb, user, id, status, err)
+    await userUpdateStatus(udb, user, form, err)
     if (err.length) throw err
-    if (user.id === id) {
+    if (user.id === form.id) {
       await userLogout(req, res)
     }
     renderJson(res, {})
@@ -52,9 +53,10 @@ export async function useUserUpdateApi() {
 
 }
 
-function newUpdateForm(req: Request): UserUpdateForm {
+function newUserUpdateFormFromReq(req: Request): UserUpdateForm {
   const body = req.body
   return {
+    id: newNumber(body.id),
     name: newString(body.name).trim(),
     home: newString(body.home).trim(),
     email: newString(body.email).trim(),

@@ -8,6 +8,7 @@ import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { GUEST_ID_CARD } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'
 import { useUserUpdateApi } from '@server/domain/user/api/user-update-api'
+import { UserUpdateStatusForm } from '@common/type/user-form'
 
 describe('UserDeactivateApi', () => {
 
@@ -38,8 +39,8 @@ describe('UserDeactivateApi', () => {
   })
 
   it('deactivating fails before login', async () => {
-    const form = { status: 'd' }
-    const res = await sat.put('/api/user-update-status/1').send(form).expect(200)
+    const form: UserUpdateStatusForm = { id: 1, status: 'd' }
+    const res = await sat.put('/api/user-update-status').send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
 
@@ -51,8 +52,8 @@ describe('UserDeactivateApi', () => {
     expect(user?.status).toBe('v')
   })
   it('deactivate user1', async () => {
-    const form = { status: 'd' }
-    const res = await sat.put('/api/user-update-status/1').send(form).expect(200)
+    const form: UserUpdateStatusForm = { id: 1, status: 'd' }
+    const res = await sat.put('/api/user-update-status').send(form).expect(200)
     expect(res.body).toEqual({})
   })
   it('login-info returns guest', async () => {
@@ -72,8 +73,8 @@ describe('UserDeactivateApi', () => {
     await userLoginForTest(sat, USER2_LOGIN_FORM)
   })
   it('deactivating other fails', async () => {
-    const form = { status: 'd' }
-    const res = await sat.put('/api/user-update-status/3').send(form).expect(200)
+    const form: UserUpdateStatusForm = { id: 3, status: 'd' }
+    const res = await sat.put('/api/user-update-status').send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
 
@@ -85,8 +86,8 @@ describe('UserDeactivateApi', () => {
     expect(user?.status).toBe('v')
   })
   it('deactivating other by admin', async () => {
-    const form = { status: 'd' }
-    const res = await sat.put('/api/user-update-status/3').send(form).expect(200)
+    const form = { id: 3, status: 'd' }
+    const res = await sat.put('/api/user-update-status').send(form).expect(200)
     expect(res.body).toEqual({})
   })
   it('user3 status should be "d"', async () => {
@@ -94,8 +95,8 @@ describe('UserDeactivateApi', () => {
     expect(user?.status).toBe('d')
   })
   it('reactivating other by admin', async () => {
-    const form = { status: 'v' }
-    const res = await sat.put('/api/user-update-status/3').send(form).expect(200)
+    const form = { id: 3, status: 'v' }
+    const res = await sat.put('/api/user-update-status').send(form).expect(200)
     expect(res.body).toEqual({})
   })
   it('user3 status should be "v"', async () => {

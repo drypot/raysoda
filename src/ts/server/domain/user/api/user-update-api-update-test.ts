@@ -51,9 +51,10 @@ describe('UserUpdateApi Update', () => {
 
   it('update user1 without login', async () => {
     const form = {
+      id: 1,
       name: 'User 11'
     }
-    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    const res = await sat.put('/api/user-update').send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
 
@@ -62,10 +63,10 @@ describe('UserUpdateApi Update', () => {
   })
   it('update user1', async () => {
     const form: UserUpdateForm = {
-      name: 'User 11', home: 'user11', email: 'user11@mail.test',
+      id: 1, name: 'User 11', home: 'user11', email: 'user11@mail.test',
       password: '5678', profile: 'profile 11'
     }
-    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    const res = await sat.put('/api/user-update').send(form).expect(200)
     expect(res.body).toEqual({})
   })
   it('check db', async () => {
@@ -88,10 +89,10 @@ describe('UserUpdateApi Update', () => {
   })
   it('password can be omitted', async () => {
     const form: UserUpdateForm = {
-      name: 'User 11', home: 'user11', email: 'user11@mail.test',
+      id: 1, name: 'User 11', home: 'user11', email: 'user11@mail.test',
       password: '', profile: 'profile 11'
     }
-    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    const res = await sat.put('/api/user-update').send(form).expect(200)
     expect(res.body).toEqual({})
   })
   it('check db', async () => {
@@ -106,11 +107,11 @@ describe('UserUpdateApi Update', () => {
   })
 
   it('dupe check works', async () => {
-    const form = {
-      name: 'User 2', home: 'user2', email: 'user2@mail.test',
+    const form: UserUpdateForm = {
+      id: 1, name: 'User 2', home: 'user2', email: 'user2@mail.test',
       password: '', profile: ''
     }
-    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    const res = await sat.put('/api/user-update').send(form).expect(200)
     expect(res.body.err).toContain(NAME_DUPE)
     expect(res.body.err).toContain(HOME_DUPE)
     expect(res.body.err).toContain(EMAIL_DUPE)
@@ -119,10 +120,10 @@ describe('UserUpdateApi Update', () => {
   it('format check works', async () => {
     const s33 = 'x'.repeat(33)
     const s65 = 'x'.repeat(66)
-    const form = {
-      name: s33, home: s33, email: s65, password: s33, profile: ''
+    const form: UserUpdateForm = {
+      id: 1, name: s33, home: s33, email: s65, password: s33, profile: ''
     }
-    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    const res = await sat.put('/api/user-update').send(form).expect(200)
     expect(res.body.err).toContain(NAME_RANGE)
     expect(res.body.err).toContain(HOME_RANGE)
     expect(res.body.err).toContain(EMAIL_RANGE)
@@ -132,24 +133,24 @@ describe('UserUpdateApi Update', () => {
   // home 외 다른 포멧 체크는 register 에 있다.
 
   it('empty home fails', async () => {
-    const form = { home: '' }
-    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    const form = { id: 1, home: '' }
+    const res = await sat.put('/api/user-update').send(form).expect(200)
     expect(res.body.err).toContain(HOME_EMPTY)
   })
   it('length 32 home ok', async () => {
-    const form = { home: 'x'.repeat(32) }
-    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    const form = { id: 1, home: 'x'.repeat(32) }
+    const res = await sat.put('/api/user-update').send(form).expect(200)
     expect(res.body.err).not.toContain(HOME_RANGE)
   })
   it('length 33 home fails', async () => {
-    const form = { home: 'x'.repeat(33) }
-    const res = await sat.put('/api/user-update/' + 1).send(form).expect(200)
+    const form = { id: 1, home: 'x'.repeat(33) }
+    const res = await sat.put('/api/user-update').send(form).expect(200)
     expect(res.body.err).toContain(HOME_RANGE)
   })
 
   it('update user2 by user1 fails', async () => {
-    const form = { name: 'User 22' }
-    const res = await sat.put('/api/user-update/' + 2).send(form).expect(200)
+    const form = { id: 2, name: 'User 22' }
+    const res = await sat.put('/api/user-update').send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
@@ -157,10 +158,10 @@ describe('UserUpdateApi Update', () => {
   })
   it('update user2 by admin works', async () => {
     const form = {
-      name: 'User 22', home: 'user22', email: 'user22@mail.test',
+      id: 2, name: 'User 22', home: 'user22', email: 'user22@mail.test',
       password: '', profile: 'profile 22'
     }
-    const res = await sat.put('/api/user-update/' + 2).send(form).expect(200)
+    const res = await sat.put('/api/user-update').send(form).expect(200)
     expect(res.body).toEqual({})
   })
 
