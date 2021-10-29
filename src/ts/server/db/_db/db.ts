@@ -73,7 +73,7 @@ export class DB {
     })
   }
 
-  private static indexPattern = /create\s+index\s+(\w+)\s+on\s+(\w+)/i
+  private static indexPattern = /create\s+(?:unique\s+)?index\s+(\w+)\s+on\s+(\w+)/i
 
   async createIndexIfNotExists(query: string) {
     const match = query.match(DB.indexPattern)
