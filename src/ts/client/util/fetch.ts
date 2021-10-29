@@ -12,6 +12,17 @@ export function sendPost(url: string, form: Form, data: any, cb: (data: any) => 
   callFetch(url, opt, form, cb)
 }
 
+export function sendPut(url: string, form: Form, data: any, cb: (data: any) => void) {
+  const opt: RequestInit = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  }
+  clearFormError(form)
+  disableSubmitButton(form)
+  callFetch(url, opt, form, cb)
+}
+
 function callFetch(url: string, opt: RequestInit, form: Form, cb: (data: any) => void) {
   fetch(url, opt)
     .then(checkResponseError)

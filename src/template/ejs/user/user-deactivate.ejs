@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% app.title = 'Deactivate Account' %>
+    <%- include('../_layout/head') %>
+</head>
+<body>
+    <%- include('../_layout/header') %>
+
+    <div class="wrapper">
+        <h1>계정 사용 중지</h1>
+        <p>
+            계정 사용이 중지되면 더이상 로그인하실 수 없습니다.<br>
+            이미지는 자동 삭제되지 않습니다.<br>
+            삭제를 원하는 이미지들은 미리 삭제해 주십시오.<br>
+            같은 이름으로 타인이 재가입하는 것을 막기 위해 회원구분정보는 유지됩니다.
+        </p>
+        <form id="deactivateForm" class="form">
+            <div class="btn-group">
+                <button name="send" class="btn btn-red">계정 사용 중지</button>
+            </div>
+        </form>
+    </div>
+
+    <%- include('../_layout/footer') %>
+    <script>
+        app.initUserDeactivateForm()
+    </script>
+</body>
+</html>

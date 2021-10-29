@@ -38,5 +38,8 @@ describe('UserDeactivatePage', () => {
     await userLoginForTest(sat, USER1_LOGIN_FORM)
     await sat.get('/user-deactivate').expect(200).expect(/<title>Deactivate/)
   })
+  it('deactivate-done', async () => {
+    await sat.get('/user-deactivate-done').expect(200).expect(/<title>Deactivate/)
+  })
 
 })

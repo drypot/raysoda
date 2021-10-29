@@ -10,7 +10,7 @@ export const NOT_AUTHENTICATED = newErrorConst('NOT_AUTHENTICATED', '먼저 로�
 export const NOT_AUTHORIZED = newErrorConst('NOT_AUTHORIZED', '사용 권한이 없습니다.')
 export const USER_NOT_FOUND = newErrorConst('USER_NOT_FOUND', '사용자를 찾을 수 없습니다.')
 export const EMAIL_NOT_FOUND = newErrorConst('EMAIL_NOT_FOUND', '등록되지 않은 이메일입니다.', 'email')
-export const ACCOUNT_DEACTIVATED = newErrorConst('ACCOUNT_DEACTIVATED', '사용중지된 계정입니다.', 'email')
+export const ACCOUNT_DEACTIVATED = newErrorConst('ACCOUNT_DEACTIVATED', '사용 중지된 계정입니다.', 'email')
 export const PASSWORD_WRONG = newErrorConst('PASSWORD_WRONG', '비밀번호가 틀렸습니다.', 'password')
 
 export const NAME_EMPTY = newErrorConst('NAME_EMPTY', '이름을 입력해 주십시오.', 'name')

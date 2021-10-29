@@ -14,4 +14,8 @@ export async function useUserDeactivatePage() {
     renderHtml(res, 'user/user-deactivate')
   }))
 
+  web.router.get('/user-deactivate-done', toCallback(async (req, res) => {
+    renderHtml(res, 'user/user-deactivate-done')
+  }))
+
 }
