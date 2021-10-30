@@ -39,7 +39,7 @@ describe('UserDB.update', () => {
   })
   it('update name', async () => {
     const form: Partial<User> = {
-      name: 'name2', home: 'home2', email: 'mail2@mail.test'
+      name: 'name11', home: 'home11', email: 'mail11@mail.test'
     }
     await udb.updateUserById(1, form)
   })
@@ -47,7 +47,7 @@ describe('UserDB.update', () => {
     const user = await udb.getCachedById(1)
     if (!user) throw new Error()
     expect(dupe(user)).toEqual({
-      id: 1, name: 'name2', home: 'home2', email: 'mail2@mail.test',
+      id: 1, name: 'name11', home: 'home11', email: 'mail11@mail.test',
       hash: '$2a$10$bP0BJpAzAUNFZ2Ejo57Gruhg8LkIQ9./EvfUjjyYqwCf3ZDhQZC1K',
       status: 'v', admin: false,
       cdate: new Date(2003, 0, 17),
@@ -60,13 +60,13 @@ describe('UserDB.update', () => {
     const form: Partial<User> = {
       hash: 'xxx'
     }
-    await udb.updateUserByEmail('mail2@mail.test', form)
+    await udb.updateUserByEmail('mail11@mail.test', form)
   })
   it('check db after update hash', async () => {
     const user = await udb.getCachedById(1)
     if (!user) throw new Error()
     expect(dupe(user)).toEqual({
-      id: 1, name: 'name2', home: 'home2', email: 'mail2@mail.test',
+      id: 1, name: 'name11', home: 'home11', email: 'mail11@mail.test',
       hash: 'xxx',
       status: 'v', admin: false,
       cdate: new Date(2003, 0, 17),
@@ -85,7 +85,7 @@ describe('UserDB.update', () => {
     const user = await udb.getCachedById(1)
     if (!user) throw new Error()
     expect(dupe(user)).toEqual({
-      id: 1, name: 'name2', home: 'home2', email: 'mail2@mail.test',
+      id: 1, name: 'name11', home: 'home11', email: 'mail11@mail.test',
       hash: 'xxx',
       status: 'd', admin: true,
       cdate: new Date(2003, 0, 17),
@@ -105,7 +105,7 @@ describe('UserDB.update', () => {
     const user = await udb.getCachedById(1)
     if (!user) throw new Error()
     expect(dupe(user)).toEqual({
-      id: 1, name: 'name2', home: 'home2', email: 'mail2@mail.test',
+      id: 1, name: 'name11', home: 'home11', email: 'mail11@mail.test',
       hash: 'xxx',
       status: 'd', admin: true,
       cdate: new Date(2003, 0, 17),
