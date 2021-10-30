@@ -84,7 +84,7 @@ export async function userLogin(
     return
   }
 
-  await udb.updateADate(user.id, new Date())
+  await udb.updateUserById(user.id, { adate: new Date() })
 
   if (form.remember) {
     res.cookie('email', form.email, { maxAge: 99 * 365 * 24 * 60 * 60 * 1000, httpOnly: true })

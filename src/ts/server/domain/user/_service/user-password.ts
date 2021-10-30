@@ -75,7 +75,7 @@ export async function userPasswordReset(
 
   const email = r.email
   const hash = await makeHash(password)
-  await udb.updateHash(email, hash)
+  await udb.updateUserByEmail(email, { hash })
 
   await mdb.deleteByEmail(email)
 }

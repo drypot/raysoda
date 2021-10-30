@@ -1,7 +1,7 @@
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN, USER1, USER2, USER3, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { useUserListApi } from '@server/domain/user/api/user-list-api'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
@@ -38,26 +38,26 @@ describe('UserListApi', () => {
     const list = res.body.userList
     expect(list.length).toBe(4)
     // ordered by pdate desc
-    expect(list[0].home).toBe('user2')
-    expect(list[1].home).toBe('user3')
-    expect(list[2].home).toBe('user1')
-    expect(list[3].home).toBe('admin')
+    expect(list[0].home).toBe(USER2.home)
+    expect(list[1].home).toBe(USER3.home)
+    expect(list[2].home).toBe(USER1.home)
+    expect(list[3].home).toBe(ADMIN.home)
   })
   it('p 1, ps 3', async () => {
     const res = await sat.get('/api/user-list?p=1&ps=3').expect(200)
     const list = res.body.userList
     expect(list.length).toBe(3)
     // ordered by pdate desc
-    expect(list[0].home).toBe('user2')
-    expect(list[1].home).toBe('user3')
-    expect(list[2].home).toBe('user1')
+    expect(list[0].home).toBe(USER2.home)
+    expect(list[1].home).toBe(USER3.home)
+    expect(list[2].home).toBe(USER1.home)
   })
   it('p 2, ps 3', async () => {
     const res = await sat.get('/api/user-list?p=2&ps=3').expect(200)
     const list = res.body.userList
     expect(list.length).toBe(1)
     // ordered by pdate desc
-    expect(list[0].home).toBe('admin')
+    expect(list[0].home).toBe(ADMIN.home)
   })
   it('p 3, ps 3', async () => {
     const res = await sat.get('/api/user-list?p=3&ps=3').expect(200)

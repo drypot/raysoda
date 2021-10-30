@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { USER1, USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
@@ -66,7 +66,7 @@ describe('UserAuthApi Auto Login', () => {
   })
   it('cookies are filled', async () => {
     const res = await sat.get('/api/cookies').expect(200)
-    expect(res.body.email).toBe('user1@mail.test')
+    expect(res.body.email).toBe(USER1.email)
   })
 
   it('destroy session', async () => {
@@ -78,7 +78,7 @@ describe('UserAuthApi Auto Login', () => {
   })
   it('cookies still exist', async () => {
     const res = await sat.get('/api/cookies').expect(200)
-    expect(res.body.email).toBe('user1@mail.test')
+    expect(res.body.email).toBe(USER1.email)
   })
 
   it('logout', async () => {

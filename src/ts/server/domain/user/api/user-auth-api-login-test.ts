@@ -1,5 +1,13 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, USER2_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import {
+  ADMIN,
+  ADMIN_LOGIN_FORM,
+  USER1,
+  USER1_LOGIN_FORM,
+  USER2,
+  USER2_LOGIN_FORM,
+  userFixInsert4
+} from '@server/db/user/fixture/user-fix'
 import { EMAIL_NOT_FOUND, NOT_AUTHORIZED, PASSWORD_WRONG } from '@common/type/error-const'
 import { Express2, toCallback } from '@server/express/express2'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
@@ -51,19 +59,19 @@ describe('UserAuthApi', () => {
   })
   it('login as user1', async () => {
     const res = await sat.post('/api/user-login').send(USER1_LOGIN_FORM).expect(200)
-    expect(res.body).toEqual({ user: { id: 1, name: 'User 1', home: 'user1', admin: false }})
+    expect(res.body).toEqual({ user: { id: 1, name: USER1.name, home: USER1.home, admin: false }})
   })
   it('login-info user1', async () => {
     const res = await sat.get('/api/user-login-info').expect(200)
-    expect(res.body).toEqual({ user: { id: 1, name: 'User 1', home: 'user1', admin: false }})
+    expect(res.body).toEqual({ user: { id: 1, name: USER1.name, home: USER1.home, admin: false }})
   })
   it('login as user2', async () => {
     const res = await sat.post('/api/user-login').send(USER2_LOGIN_FORM).expect(200)
-    expect(res.body).toEqual({ user: { id: 2, name: 'User 2', home: 'user2', admin: false }})
+    expect(res.body).toEqual({ user: { id: 2, name: USER2.name, home: USER2.home, admin: false }})
   })
   it('login-info user2', async () => {
     const res = await sat.get('/api/user-login-info').expect(200)
-    expect(res.body).toEqual({ user: { id: 2, name: 'User 2', home: 'user2', admin: false }})
+    expect(res.body).toEqual({ user: { id: 2, name: USER2.name, home: USER2.home, admin: false }})
   })
 
   // permission
@@ -77,7 +85,7 @@ describe('UserAuthApi', () => {
   })
   it('login as admin', async () => {
     const res = await sat.post('/api/user-login').send(ADMIN_LOGIN_FORM).expect(200)
-    expect(res.body).toEqual({ user: { id: 4, name: 'Admin', home: 'admin', admin: true }})
+    expect(res.body).toEqual({ user: { id: 4, name: ADMIN.name, home: ADMIN.home, admin: true }})
   })
   it('should-be-admin ok', async () => {
     const res = await sat.get('/api/should-be-admin').expect(200)
@@ -100,7 +108,7 @@ describe('UserAuthApi', () => {
     expect(res.body.err).toContain(EMAIL_NOT_FOUND)
   })
   it('invalid password', async () => {
-    const form = { email: 'user1@mail.test', password: 'xxxx', remember: false }
+    const form = { email: USER1.email, password: 'xxxx', remember: false }
     const res = await sat.post('/api/user-login').send(form).expect(200)
     expect(res.body.err).toContain(PASSWORD_WRONG)
   })

@@ -41,8 +41,8 @@ describe('UserDetailApi', () => {
     unpackUserDetail(res.body.user)
     expect(res.body.user).toEqual({
       id: 1,
-      name: 'User 1',
-      home: 'user1',
+      name: USER1.name,
+      home: USER1.home,
       status: 'v',
       admin: false,
       profile: '',
@@ -70,8 +70,8 @@ describe('UserDetailApi', () => {
     unpackUserDetail(res.body.user)
     expect(res.body.user).toEqual({
       id: 1,
-      name: 'User 1',
-      home: 'user1',
+      name: USER1.name,
+      home: USER1.home,
       status: 'v',
       admin: false,
       profile: '',
@@ -92,8 +92,8 @@ describe('UserDetailApi', () => {
     expect(res.body).toEqual({
       user: {
         id: 1,
-        name: 'User 1',
-        home: 'user1',
+        name: USER1.name,
+        home: USER1.home,
         status: 'v',
         admin: false,
         profile: '',
