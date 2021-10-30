@@ -1,7 +1,7 @@
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
-describe('UserDB.*NextId', () => {
+describe('UserDB NextId', () => {
 
   let udb: UserDB
 

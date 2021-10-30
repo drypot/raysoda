@@ -2,7 +2,7 @@ import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { DB } from '@server/db/_db/db'
 
-describe('UserDB.*Table', () => {
+describe('UserDB Table', () => {
 
   let db: DB
   let udb: UserDB

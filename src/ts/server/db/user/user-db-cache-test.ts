@@ -70,7 +70,7 @@ describe('UserDB Cache', () => {
       expect(user?.profile).toBe('')
     })
     it('update user1', async () => {
-      await udb.updateUser(1, { profile: 'yyy' })
+      await udb.updateUserById(1, { profile: 'yyy' })
     })
     it('cache not exists after update', () => {
       const user = udb.getCachedByIdStrict(1)

@@ -76,33 +76,15 @@ export class UserDB {
     return this.db.query('insert into user set ?', user)
   }
 
-  async updateUser(id: number, update: Partial<User>) {
-    const r = await this.db.query('update user set ? where id = ?', [update, id])
+  async updateUserById(id: number, user: Partial<User>) {
+    const r = await this.db.query('update user set ? where id = ?', [user, id])
     this.cache.deleteCacheById(id)
     return r.changedRows as number
   }
 
-  async updateHash(email: string, hash: string) {
-    const r = await this.db.query('update user set hash = ? where email = ?', [hash, email])
+  async updateUserByEmail(email: string, user: Partial<User>) {
+    const r = await this.db.query('update user set ? where email = ?', [user, email])
     await this.forceCachedByEmail(email)
-    return r.changedRows as number
-  }
-
-  async updateADate(id: number, now: Date) {
-    const r = await this.db.query('update user set adate = ? where id = ?', [now, id])
-    this.cache.deleteCacheById(id)
-    return r.changedRows as number
-  }
-
-  async updatePDate(id: number, d: Date) {
-    const r = await this.db.query('update user set pdate = ? where id = ?', [d, id])
-    this.cache.deleteCacheById(id)
-    return r.changedRows as number
-  }
-
-  async updateStatus(id: number, s: string) {
-    const r = await this.db.query('update user set status = ? where id = ?', [s, id])
-    this.cache.deleteCacheById(id)
     return r.changedRows as number
   }
 

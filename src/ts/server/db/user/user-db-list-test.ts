@@ -2,7 +2,7 @@ import { ADMIN, USER1, USER2, USER3, userFixInsert4 } from '@server/db/user/fixt
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
-describe('UserDB.findUserList', () => {
+describe('UserDB List', () => {
 
   let udb: UserDB
 
