@@ -1,4 +1,4 @@
-import { userFixInsert1 } from '@server/db/user/fixture/user-fix'
+import { USER1, userFixInsert1 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
@@ -44,16 +44,16 @@ describe('UserDB Cache', () => {
       udb.resetCache()
     })
     it('user1 not exists in cache', () => {
-      const user = udb.getCachedByHomeStrict('user1')
+      const user = udb.getCachedByHomeStrict(USER1.home)
       expect(user).toBe(undefined)
     })
     it('loads user1', async () => {
-      const user = await udb.getCachedByHome('user1')
-      expect(user?.home).toBe('user1')
+      const user = await udb.getCachedByHome(USER1.home)
+      expect(user?.home).toBe(USER1.home)
     })
     it('user1 exists in cache', () => {
-      const user = udb.getCachedByHomeStrict('user1')
-      expect(user?.home).toBe('user1')
+      const user = udb.getCachedByHomeStrict(USER1.home)
+      expect(user?.home).toBe(USER1.home)
     })
   })
 

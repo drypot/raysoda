@@ -21,7 +21,7 @@ describe('UserCache', () => {
     expect(user?.id).toBe(1)
   })
   it('user1 exists by home', () => {
-    const user = cache.getCachedByHome('user1')
+    const user = cache.getCachedByHome(USER1.home)
     expect(user?.id).toBe(1)
   })
   it('delete user1', () => {

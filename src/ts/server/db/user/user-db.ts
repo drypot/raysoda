@@ -150,19 +150,25 @@ export class UserDB {
     return this.cache.getCachedByHome(home)
   }
 
-  async findUserById(id: number): Promise<User | undefined> {
+  async findUserById(id: number) {
     const r = await this.db.queryOne('select * from user where id = ?', id)
     if (r) unpack(r)
-    return r
+    return r as User | undefined
   }
 
-  async findUserByEmail(email: string): Promise<User | undefined> {
+  async findUserByEmail(email: string) {
     const r = await this.db.queryOne('select * from user where email = ?', email)
     if (r) unpack(r)
     return r as User | undefined
   }
 
-  async findUserByHome(home: string): Promise<User | undefined> {
+  async findUserByName(name: string) {
+    const r = await this.db.queryOne('select * from user where name = ?', name)
+    if (r) unpack(r)
+    return r as User | undefined
+  }
+
+  async findUserByHome(home: string) {
     const r = await this.db.queryOne('select * from user where home = ?', home)
     if (r) unpack(r)
     return r as User | undefined
@@ -188,31 +194,6 @@ export class UserDB {
     }
     const r = await this.db.query(sql, param)
     return r as UserForList[]
-  }
-
-  async nameIsDupe(id: number, name: string) {
-    const r = await this.db.queryOne(
-      'select exists(select * from user where name = ? and id != ?) as exist',
-      [name, id]
-    )
-    return r.exist === 1
-  }
-
-  async homeIsDupe(id: number, home: string) {
-    const r = await this.db.queryOne(
-      'select exists(select * from user where home = ? and id != ?) as exist',
-      [home, id]
-    )
-    return r.exist === 1
-
-  }
-
-  async emailIsDupe(id: number, email: string) {
-    const r = await this.db.queryOne(
-      'select exists(select * from user where email = ? and id != ?) as exist',
-      [email, id]
-    )
-    return r.exist === 1
   }
 
   // ID

@@ -1,4 +1,4 @@
-import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { USER1, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
@@ -22,32 +22,37 @@ describe('UserDB.searchUser', () => {
   it('fill fix', async () => {
     await userFixInsert4(udb)
   })
-  it('search user1', async () => {
-    const l = await udb.searchUser('user1')
+  it('search by name', async () => {
+    const l = await udb.searchUser(USER1.name)
     expect(l.length).toBe(1)
-    expect(l[0].home).toBe('user1')
+    expect(l[0].name).toBe(USER1.name)
   })
-  it('search USER1', async () => {
-    const l = await udb.searchUser('USER1')
+  it('search by name case', async () => {
+    const l = await udb.searchUser(USER1.name.toUpperCase())
     expect(l.length).toBe(1)
-    expect(l[0].home).toBe('user1')
+    expect(l[0].name).toBe(USER1.name)
   })
-  it('search User 1', async () => {
-    const l = await udb.searchUser('User 1')
+  it('search by home', async () => {
+    const l = await udb.searchUser(USER1.home)
     expect(l.length).toBe(1)
-    expect(l[0].home).toBe('user1')
+    expect(l[0].home).toBe(USER1.home)
   })
-  it('search user1@mail.test as user', async () => {
-    const l = await udb.searchUser('user1@mail.test')
+  it('search by home case', async () => {
+    const l = await udb.searchUser(USER1.home.toUpperCase())
+    expect(l.length).toBe(1)
+    expect(l[0].home).toBe(USER1.home)
+  })
+  it('search by email as user fails', async () => {
+    const l = await udb.searchUser(USER1.email)
     expect(l.length).toBe(0)
   })
-  it('search user1@mail.test as admin', async () => {
-    const l = await udb.searchUser('user1@mail.test', 0, 100, true)
+  it('search by email as admin works', async () => {
+    const l = await udb.searchUser(USER1.email, 0, 100, true)
     expect(l.length).toBe(1)
-    expect(l[0].home).toBe('user1')
+    expect(l[0].name).toBe(USER1.name)
   })
-  it('search userx', async () => {
-    const l = await udb.searchUser('userx')
+  it('search invalid empty', async () => {
+    const l = await udb.searchUser('xxx')
     expect(l.length).toBe(0)
   })
 
