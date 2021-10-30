@@ -1,4 +1,4 @@
-import { userFixInsert1, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN, USER1, USER3, userFixInsert1, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
@@ -22,14 +22,14 @@ describe('User Fixture', () => {
     })
     it('user1 not exists', async () => {
       let user = await udb.findUserById(1)
-      expect(user?.id).toBe(undefined)
+      expect(user).toBe(undefined)
     })
     it('insert fixture 1', async () => {
       await userFixInsert1(udb)
     })
     it('user1 exists', async () => {
       let user = await udb.findUserById(1)
-      expect(user?.id).toBe(1)
+      expect(user?.name).toBe(USER1.name)
     })
   })
 
@@ -43,17 +43,17 @@ describe('User Fixture', () => {
     })
     it('user1 should exist', async () => {
       let user = await udb.findUserById(1)
-      expect(user?.name).toBe('user1')
+      expect(user?.name).toBe(USER1.name)
       expect(user?.admin).toBe(false)
     })
     it('user3 should exist', async () => {
       let user = await udb.findUserById(3)
-      expect(user?.name).toBe('user3')
+      expect(user?.name).toBe(USER3.name)
       expect(user?.admin).toBe(false)
     })
     it('admin should exist', async () => {
       let user = await udb.findUserById(4)
-      expect(user?.name).toBe('admin')
+      expect(user?.name).toBe(ADMIN.name)
       expect(user?.admin).toBe(true)
     })
   })
