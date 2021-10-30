@@ -1,12 +1,9 @@
 import {
-  EMAIL_DUPE,
   EMAIL_EMPTY,
   EMAIL_PATTERN,
   EMAIL_RANGE,
-  HOME_DUPE,
   HOME_EMPTY,
   HOME_RANGE,
-  NAME_DUPE,
   NAME_EMPTY,
   NAME_RANGE,
   PASSWORD_EMPTY,
@@ -14,7 +11,6 @@ import {
 } from '@common/type/error-const'
 import { emailPatternIsOk } from '@common/util/email'
 import { ErrorConst } from '@common/type/error'
-import { UserDB } from '@server/db/user/user-db'
 
 export function userCheckName(name: string, err: ErrorConst[]) {
   if (name.length === 0) {
@@ -47,33 +43,5 @@ export function userCheckPassword(password: string, err: ErrorConst[]) {
     err.push(PASSWORD_EMPTY)
   } else if (password.length > 32 || password.length < 4) {
     err.push(PASSWORD_RANGE)
-  }
-}
-
-export async function userCheckNameDupe(
-  userdb: UserDB, id: number, name: string, err: ErrorConst[]
-) {
-  if (await userdb.nameIsDupe(id, name)) {
-    err.push(NAME_DUPE)
-  } else if (await userdb.homeIsDupe(id, name)) {
-    err.push(NAME_DUPE)
-  }
-}
-
-export async function userCheckHomeDupe(
-  userdb: UserDB, id: number, home: string, err: ErrorConst[]
-) {
-  if (await userdb.nameIsDupe(id, home)) {
-    err.push(HOME_DUPE)
-  } else if (await userdb.homeIsDupe(id, home)) {
-    err.push(HOME_DUPE)
-  }
-}
-
-export async function userCheckEmailDupe(
-  userdb: UserDB, id: number, email: string, err: ErrorConst[]
-) {
-  if (await userdb.emailIsDupe(id, email)) {
-    err.push(EMAIL_DUPE)
   }
 }

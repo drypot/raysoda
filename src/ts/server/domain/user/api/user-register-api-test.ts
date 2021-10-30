@@ -3,8 +3,7 @@ import {
   EMAIL_DUPE,
   EMAIL_PATTERN,
   EMAIL_RANGE,
-  NAME_DUPE,
-  NAME_EMPTY,
+  HOME_RANGE,
   NAME_RANGE,
   PASSWORD_EMPTY,
   PASSWORD_RANGE
@@ -15,6 +14,7 @@ import { useUserRegisterApi } from '@server/domain/user/api/user-register-api'
 import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { checkHash } from '@common/util/hash'
+import { UserRegisterForm } from '@common/type/user-form'
 
 describe('UserRegisterApi', () => {
 
@@ -43,113 +43,121 @@ describe('UserRegisterApi', () => {
     await userFixInsert4(udb)
   })
 
-  it('post new user works', async () => {
-    const form = { name: 'User X', email: 'userx@mail.test', password: '1234' }
+  it('register new user works', async () => {
+    const form: UserRegisterForm = { email: 'userx@mail.test', password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
-    expect(res.body.user.id).toBe(5)
+    expect(res.body.user.id).toBeDefined()
   })
   it('check db', async () => {
     const user = await udb.findUserByEmail('userx@mail.test')
     if (!user) throw new Error()
     expect(user.id).toBe(5)
-    expect(user.name).toBe('User X')
-    expect(user.home).toBe('User X')
     expect(user.email).toBe('userx@mail.test')
+    expect(user.name).toBe('userx')
+    expect(user.home).toBe('userx')
     expect(await checkHash('1234', user.hash)).toBe(true)
     expect(user.status).toBe('v')
     expect(user.admin).toBe(false)
   })
 
-  it('duped name fails', async () => {
-    const form = { name: 'User 2', email: 'usery@mail.test', password: '1234' }
+  // name 이나 home 이 점유되어 있으면 뒤에 숫자를 계속 붙여서 시도한다.
+  it('duped name should work', async () => {
+    const form: UserRegisterForm = { email: 'userx@mail2.test', password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
-    expect(res.body.err).toContain(NAME_DUPE)
+    expect(res.body.err).toBeUndefined()
   })
-  it('duped home fails', async () => {
-    const form = { name: 'user2', email: 'usery@mail.test', password: '1234' }
+  it('check db', async () => {
+    const user = await udb.findUserById(6)
+    if (!user) throw new Error()
+    expect(user.email).toBe('userx@mail2.test')
+    expect(user.name).toMatch(/userx[0-9]/)
+    expect(user.home).toMatch(/userx[0-9]/)
+  })
+
+  it('register 31 length name works', async () => {
+    const form: UserRegisterForm = { email: 'u'.repeat(31) + '@mail.test', password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
-    expect(res.body.err).toContain(NAME_DUPE)
+    expect(res.body.err).toBeUndefined()
   })
+  it('register 31 length name again works', async () => {
+    const form: UserRegisterForm = { email: 'u'.repeat(31) + '@mail2.test', password: '1234' }
+    const res = await sat.post('/api/user-register').send(form).expect(200)
+    expect(res.body.err).toBeUndefined()
+  })
+
+  it('register 32 length name works', async () => {
+    const form: UserRegisterForm = { email: 'u'.repeat(32) + '@mail.test', password: '1234' }
+    const res = await sat.post('/api/user-register').send(form).expect(200)
+    expect(res.body.err).toBeUndefined()
+  })
+  it('register 32 length name again fails', async () => {
+    const form: UserRegisterForm = { email: 'u'.repeat(32) + '@mail2.test', password: '1234' }
+    const res = await sat.post('/api/user-register').send(form).expect(200)
+    expect(res.body.err).toContain(NAME_RANGE)
+    expect(res.body.err).toContain(HOME_RANGE)
+  })
+
   it('duped email fails', async () => {
-    const form = { name: 'User Y', email: 'user2@mail.test', password: '1234' }
+    const form: UserRegisterForm = { email: 'userx@mail.test', password: '1234' }
+    const res = await sat.post('/api/user-register').send(form).expect(200)
+    expect(res.body.err).toContain(EMAIL_DUPE)
+  })
+  it('duped case email fails', async () => {
+    const form: UserRegisterForm = { email: 'USERX@MAIL.TEST', password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).toContain(EMAIL_DUPE)
   })
 
-  it('empty name fails', async () => {
-    const form = { name: '', email: 'user2@mail.test', password: '1234' }
-    const res = await sat.post('/api/user-register').send(form).expect(200)
-    expect(res.body.err).toContain(NAME_EMPTY)
-  })
-  it('length 32 name ok', async () => {
-    const form = { name: 'x'.repeat(32), email: 'user2@mail.test', password: '1234' }
-    const res = await sat.post('/api/user-register').send(form).expect(200)
-    expect(res.body.err).not.toContain(NAME_RANGE)
-  })
-  it('length 33 name fails', async () => {
-    const form = { name: 'x'.repeat(33), email: 'user2@mail.test', password: '1234' }
-    const res = await sat.post('/api/user-register').send(form).expect(200)
-    expect(res.body.err).toContain(NAME_RANGE)
-  })
-
-  // home 포멧 체크는 update 에서 한다.
-
   it('length 7 email fails', async () => {
-    const form = { name: 'user2', email: 'x'.repeat(7), password: '1234' }
+    const form: UserRegisterForm = { email: 'x'.repeat(7), password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).toContain(EMAIL_RANGE)
   })
   it('length 8 email ok', async () => {
-    const form = { name: 'user2', email: 'x'.repeat(8), password: '1234' }
+    const form: UserRegisterForm = { email: 'x'.repeat(8), password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).not.toContain(EMAIL_RANGE)
   })
   it('length 64 email ok', async () => {
-    const form = { name: 'user2', email: 'x'.repeat(64), password: '1234' }
+    const form: UserRegisterForm = { email: 'x'.repeat(64), password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).not.toContain(EMAIL_RANGE)
   })
   it('length 65 email fails', async () => {
-    const form = { name: 'user2', email: 'x'.repeat(65), password: '1234' }
+    const form: UserRegisterForm = { email: 'x'.repeat(65), password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).toContain(EMAIL_RANGE)
   })
   it('invalid email format fails', async () => {
-    const form = { name: 'user2', email: 'x'.repeat(8), password: '1234' }
+    const form: UserRegisterForm = { email: 'x'.repeat(8), password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).toContain(EMAIL_PATTERN)
   })
-  it('valid email format ok', async () => {
-    const form = { name: 'user2', email: 'xxx@xxx.com', password: '1234' }
-    const res = await sat.post('/api/user-register').send(form).expect(200)
-    expect(res.body.err).not.toContain(EMAIL_PATTERN)
-  })
 
   it('empty password fails', async () => {
-    const form = { name: 'user2', email: 'user2@mail.test', password: '' }
+    const form: UserRegisterForm = { email: 'user2@mail.test', password: '' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).toContain(PASSWORD_EMPTY)
   })
   it('length 3 password fails', async () => {
-    const form = { name: 'user2', email: 'user2@mail.test', password: 'x'.repeat(3) }
+    const form: UserRegisterForm = { email: 'user2@mail.test', password: 'x'.repeat(3) }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).toContain(PASSWORD_RANGE)
   })
   it('length 4 password ok', async () => {
-    const form = { name: 'user2', email: 'user2@mail.test', password: 'x'.repeat(4) }
+    const form: UserRegisterForm = { email: 'user2@mail.test', password: 'x'.repeat(4) }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).not.toContain(PASSWORD_RANGE)
   })
   it('length 32 password ok', async () => {
-    const form = { name: 'user2', email: 'user2@mail.test', password: 'x'.repeat(32) }
+    const form: UserRegisterForm = { email: 'user2@mail.test', password: 'x'.repeat(32) }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).not.toContain(PASSWORD_RANGE)
   })
   it('length 33 password ok', async () => {
-    const form = { name: 'user2', email: 'user2@mail.test', password: 'x'.repeat(33) }
+    const form: UserRegisterForm = { email: 'user2@mail.test', password: 'x'.repeat(33) }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).toContain(PASSWORD_RANGE)
   })
-
 
 })

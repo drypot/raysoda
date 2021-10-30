@@ -6,16 +6,6 @@ import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { renderJson } from '@server/express/render-json'
 import { newString } from '@common/util/primitive'
-import { Request } from 'express'
-
-export function newUserRegisterFormFromReq(req: Request): UserRegisterForm {
-  const body = req.body
-  return {
-    name: newString(body.name).trim(),
-    email: newString(body.email).trim(),
-    password: newString(body.password).trim(),
-  }
-}
 
 export async function useUserRegisterApi() {
 
@@ -23,7 +13,11 @@ export async function useUserRegisterApi() {
   const udb = await omanGetObject('UserDB') as UserDB
 
   web.router.post('/api/user-register', toCallback(async (req, res) => {
-    let form = newUserRegisterFormFromReq(req)
+    const body = req.body
+    const form: UserRegisterForm = {
+      email: newString(body.email).trim(),
+      password: newString(body.password).trim()
+    }
     const err: ErrorConst[] = []
     const user = await userRegister(udb, form, err)
     if (!user || err.length) throw err

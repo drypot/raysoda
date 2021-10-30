@@ -1,12 +1,10 @@
 export type UserRegisterForm = {
-  name: string
   email: string
   password: string
 }
 
 export function newUserRegisterForm(form: Partial<UserRegisterForm>): UserRegisterForm {
   return {
-    name: form.name ?? '',
     email: form.email ?? '',
     password: form.password ?? '',
   }
