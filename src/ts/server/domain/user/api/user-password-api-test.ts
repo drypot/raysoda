@@ -14,7 +14,7 @@ import { NewPasswordForm, PasswordMailLog } from '@common/type/password'
 import { PwMailDB } from '@server/db/password/pwmail-db'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { USER1, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { dateNull } from '@common/type/date-const'
 
@@ -57,15 +57,15 @@ describe('UserPwResetApi', () => {
     const res = await sat.post('/api/user-password-mail').send({ email: 'userx.mail.test' }).expect(200)
     expect(res.body.err).toContain(EMAIL_PATTERN)
   })
-  it('send mail', async () => {
-    const res = await sat.post('/api/user-password-mail').send({ email: 'user1@mail.test' }).expect(200)
+  it('send mail works', async () => {
+    const res = await sat.post('/api/user-password-mail').send({ email: USER1.email }).expect(200)
     expect(res.body).toEqual({})
   })
 
   let rec: PasswordMailLog = { id: 0, email: '', random: '', cdate: dateNull }
 
   it('check db', async () => {
-    const r = await rdb.findByEmail('user1@mail.test')
+    const r = await rdb.findByEmail(USER1.email)
     if (!r) throw new Error()
     rec = r
   })
@@ -90,7 +90,7 @@ describe('UserPwResetApi', () => {
     expect(res.body).toEqual({})
   })
   it('check db', async () => {
-    const user = await udb.findUserByEmail('user1@mail.test')
+    const user = await udb.findUserByEmail(USER1.email)
     if (!user) throw new Error()
     expect(await checkHash('5678', user.hash)).toBe(true)
   })

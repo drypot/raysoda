@@ -10,24 +10,23 @@ export function newUserRegisterForm(form: Partial<UserRegisterForm>): UserRegist
   }
 }
 
+export type UserLoginForm = {
+  email: string
+  password: string
+  remember: boolean
+}
+
 export type UserUpdateForm = {
   id: number
   name: string
   home: string
   email: string
-  password: string
   profile: string
 }
 
-export function newUserUpdateForm(user: Partial<UserUpdateForm>): UserUpdateForm {
-  return {
-    id: user.id ?? 0,
-    name: user.name ?? '',
-    home: user.home ?? '',
-    email: user.email ?? '',
-    password: user.password ?? '',
-    profile: user.profile ?? '',
-  }
+export type UserUpdatePasswordForm = {
+  id: number
+  password: string
 }
 
 export type UserUpdateStatusForm = {
@@ -35,8 +34,3 @@ export type UserUpdateStatusForm = {
   status: 'v' | 'd'
 }
 
-export type UserLoginForm = {
-  email: string
-  password: string
-  remember: boolean
-}

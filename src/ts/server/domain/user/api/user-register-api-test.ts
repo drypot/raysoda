@@ -43,13 +43,15 @@ describe('UserRegisterApi', () => {
     await userFixInsert4(udb)
   })
 
+  // Register works.
+
   it('register new user works', async () => {
     const form: UserRegisterForm = { email: 'userx@mail.test', password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.user.id).toBeDefined()
   })
   it('check db', async () => {
-    const user = await udb.findUserByEmail('userx@mail.test')
+    const user = await udb.findUserById(5)
     if (!user) throw new Error()
     expect(user.id).toBe(5)
     expect(user.email).toBe('userx@mail.test')
@@ -60,7 +62,8 @@ describe('UserRegisterApi', () => {
     expect(user.admin).toBe(false)
   })
 
-  // name 이나 home 이 점유되어 있으면 뒤에 숫자를 계속 붙여서 시도한다.
+  // Check name, home.
+
   it('duped name should work', async () => {
     const form: UserRegisterForm = { email: 'userx@mail2.test', password: '1234' }
     const res = await sat.post('/api/user-register').send(form).expect(200)
@@ -96,6 +99,8 @@ describe('UserRegisterApi', () => {
     expect(res.body.err).toContain(NAME_RANGE)
     expect(res.body.err).toContain(HOME_RANGE)
   })
+
+  // Check email.
 
   it('duped email fails', async () => {
     const form: UserRegisterForm = { email: 'userx@mail.test', password: '1234' }
@@ -133,6 +138,8 @@ describe('UserRegisterApi', () => {
     const res = await sat.post('/api/user-register').send(form).expect(200)
     expect(res.body.err).toContain(EMAIL_PATTERN)
   })
+
+  // Check password.
 
   it('empty password fails', async () => {
     const form: UserRegisterForm = { email: 'user2@mail.test', password: '' }
