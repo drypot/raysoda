@@ -2,14 +2,14 @@
 <html lang="ko">
 <head>
     <% app.title = 'Register' %>
-    <%- include('../_layout/head') %>
+    <%- include('../_common/head') %>
 </head>
 <body>
-    <%- include('../_layout/header') %>
+    <%- include('../_common/header') %>
 
     <div class="wrapper">
         <h1>회원 가입</h1>
-        <form id="registerForm" class="form max-w-xs">
+        <form id="registerForm" class="form-flow max-w-xs">
             <label>
                 <span>이메일</span>
                 <input type="text" name="email" maxlength=64>
@@ -25,7 +25,7 @@
         </form>
     </div>
 
-    <%- include('../_layout/footer') %>
+    <%- include('../_common/footer') %>
     <script>
         app.initUserRegisterForm()
     </script>

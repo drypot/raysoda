@@ -3,11 +3,11 @@
 <head>
     <% app.title = app.config.appName %>
     <% app.ogImage = app.imageList.length ? app.imageList[0].thumbUrl : '' %>
-    <%- include('../_layout/head') %>
+    <%- include('../_common/head') %>
 </head>
 <body>
     <% app.hideHeader = true %>
-    <%- include('../_layout/header') %>
+    <%- include('../_common/header') %>
 
     <div class="wrapper">
         <h1><a href="/" class="link-no-deco"><%- app.config.appName %></a></h1>
@@ -69,26 +69,7 @@
         <% } %>
     </div>
 
-    <% if (app.prev || app.next) { %>
-        <div class="mt-deep flex-center">
-            <% if (app.prev) { %>
-                <a href="<%- app.prev %>" class="mr-12">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                    </svg>
-                </a>
-            <% } %>
-            <% if (app.next) { %>
-                <a href="<%- app.next %>">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </a>
-            <% } %>
-        </div>
-    <% } %>
+    <%- include('../_common/prev-next') %>
 
     <div class="mt-deep flex-center space-x">
         <a href='https://raysoda.com'>RaySoda</a>
@@ -96,7 +77,7 @@
         <a href='https://osoky.com'>Osoky</a>
     </div>
 
-    <%- include('../_layout/footer') %>
+    <%- include('../_common/footer') %>
 </body>
 </html>
 

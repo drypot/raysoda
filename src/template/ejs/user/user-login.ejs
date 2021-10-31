@@ -2,14 +2,14 @@
 <html lang="ko">
 <head>
     <% app.title = 'Login' %>
-    <%- include('../_layout/head') %>
+    <%- include('../_common/head') %>
 </head>
 <body>
-    <%- include('../_layout/header') %>
+    <%- include('../_common/header') %>
 
     <div class="wrapper">
         <h1>로그인</h1>
-        <form id="loginForm" class="form max-w-xs">
+        <form id="loginForm" class="form-flow max-w-xs">
             <label>
                 <span>이메일</span>
                 <input type="text" name="email" maxlength=64 autofocus>
@@ -18,7 +18,7 @@
                 <span>비밀번호</span>
                 <input type="password" name="password" maxlength=32>
             </label>
-            <label class="inline-label">
+            <label class="flex-label">
                 <input type="checkbox" name="remember">
                 <span>자동로그인</span>
             </label>
@@ -33,7 +33,7 @@
         </p>
     </div>
 
-    <%- include('../_layout/footer') %>
+    <%- include('../_common/footer') %>
     <script>
         app.initUserLoginForm()
     </script>
