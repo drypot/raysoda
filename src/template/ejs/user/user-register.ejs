@@ -11,10 +11,6 @@
         <h1>회원 가입</h1>
         <form id="registerForm" class="form max-w-xs">
             <label>
-                <span>사용자 이름</span>
-                <input type="text" name="name" maxlength=32 autofocus>
-            </label>
-            <label>
                 <span>이메일</span>
                 <input type="text" name="email" maxlength=64>
             </label>
@@ -22,6 +18,7 @@
                 <span>비밀번호</span>
                 <input type="password" name="password" maxlength=32>
             </label>
+            <div class="error-group"></div>
             <div class="btn-group">
                 <button class="btn btn-blue" name="send">등록</button>
             </div>

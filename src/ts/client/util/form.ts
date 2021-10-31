@@ -20,13 +20,37 @@ export type Form = {
   },
 }
 
-export type SubmitHandler = (form: Form) => void
-
-export function linkSubmitHandler(query: string, handler: SubmitHandler) {
-  const form = grabForm(query)
+export function submitHelper(
+  formQuery: string,
+  callFetch: (form: Form) => Promise<any>,
+  handleResult: (body: any) => void
+) {
+  const form = grabForm(formQuery)
   form.button.send.onclick = (e) => {
-    handler(form)
+    submit()
     e.preventDefault()
+  }
+  return
+
+  function submit() {
+    clearFormError(form)
+    disableSubmitButton(form)
+    callFetch(form).then(body => {
+      if (body.err) {
+        reportFormError(form, body.err)
+        enableSubmitButton(form)
+        return
+      }
+      handleResult(body)
+    }).catch(err => {
+      if (err) {
+        openErrorModal(err, () => {
+          enableSubmitButton(form)
+        })
+      } else {
+        enableSubmitButton(form)
+      }
+    })
   }
 }
 
@@ -62,7 +86,7 @@ export function grabForm(query: string) {
   return form
 }
 
-export function reportFormError(form: Form, errs: ErrorConst[]) {
+function reportFormError(form: Form, errs: ErrorConst[]) {
   reportNext(form, errs, 0)
 }
 
@@ -79,37 +103,29 @@ function reportNext(form: Form, errs: ErrorConst[], i: number) {
     return
   }
 
-  const inputNode = form.all[err.field]
-  if (inputNode) {
-    const errNode = newFieldError(err.message)
-    inputNode.closest('label')?.after(errNode)
+  const field = form.all[err.field]
+  const error = newError(err.message)
+  if (field) {
+    field.parentElement?.after(error)
   } else {
-    const errNode = newNoFieldError(err.message)
-    form.button.send.closest('.btn-group')?.before(errNode)
+    form.form.querySelector('.error-group')?.append(error)
   }
-  reportNext(form, errs, i+1)
+  reportNext(form, errs, i + 1)
 }
 
-function newFieldError(message: string) {
-  const err = document.createElement('p')
-  err.classList.add('field-error')
+function newError(message: string) {
+  const err = document.createElement('div')
+  err.classList.add('error')
   err.textContent = message
   return err
 }
 
-function newNoFieldError(message: string) {
-  const err = document.createElement('p')
-  err.classList.add('nofield-error')
-  err.textContent = message
-  return err
-}
-
-export function clearFormError(form: Form) {
+function clearFormError(form: Form) {
   const list = form.form.querySelectorAll('.error')
   Array.from(list).forEach(el => el.remove())
 }
 
-export function disableSubmitButton(form: Form) {
+function disableSubmitButton(form: Form) {
   const btn = form.button.send
   if (!btn.disabled) {
     btn.dataset.innerText = btn.innerText
@@ -118,11 +134,10 @@ export function disableSubmitButton(form: Form) {
   }
 }
 
-export function enableSubmitButton(form: Form) {
+function enableSubmitButton(form: Form) {
   const btn = form.button.send
   if (btn.disabled) {
     btn.innerText = btn.dataset.innerText as string
     btn.disabled = false
   }
 }
-

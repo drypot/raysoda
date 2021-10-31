@@ -53,16 +53,13 @@ input[type=checkbox] {
   margin-right: 0.3rem;
 }
 
-.field-error {
+.error {
   margin-top: 1rem;
-  line-height: 1.15;
   color: $color-red;
 }
 
-.nofield-error {
-  margin-top: 2rem;
-  line-height: 1.15;
-  color: $color-red;
+.form .error-group {
+  margin-top: 3rem;
 }
 
 .form .btn-group {

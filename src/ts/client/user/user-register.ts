@@ -1,18 +1,19 @@
-import { Form, linkSubmitHandler } from '@client/util/form'
+import { Form, submitHelper, } from '@client/util/form'
 import { UserRegisterForm } from '@common/type/user-form'
-import { sendPost } from '@client/util/fetch'
+import { postJson } from '@client/util/fetch'
 
 export function initUserRegisterForm() {
-  linkSubmitHandler('#registerForm', submit)
+  submitHelper('#registerForm', submit, result)
 }
 
 function submit(form: Form) {
   const data: UserRegisterForm = {
-    name: form.input.name.value,
     email: form.input.email.value,
     password: form.input.password.value,
   }
-  sendPost('/api/user-register', form, data, body => {
-    window.location.href = '/user-register-done'
-  })
+  return postJson('/api/user-register', data)
+}
+
+function result(body: any) {
+  window.location.href = '/user-register-done'
 }

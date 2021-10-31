@@ -1,52 +1,41 @@
-import { clearFormError, disableSubmitButton, enableSubmitButton, Form, reportFormError } from '@client/util/form'
-import { openErrorModal } from '@client/util/modal'
-
-export function sendPost(url: string, form: Form, data: any, cb: (data: any) => void) {
+export function postJson(url: string, data: any) {
   const opt: RequestInit = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   }
-  clearFormError(form)
-  disableSubmitButton(form)
-  callFetch(url, opt, form, cb)
+  return callFetch(url, opt)
 }
 
-export function sendPut(url: string, form: Form, data: any, cb: (data: any) => void) {
+export function putJson(url: string, data: any) {
   const opt: RequestInit = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   }
-  clearFormError(form)
-  disableSubmitButton(form)
-  callFetch(url, opt, form, cb)
+  return callFetch(url, opt)
 }
 
-function callFetch(url: string, opt: RequestInit, form: Form, cb: (data: any) => void) {
-  fetch(url, opt)
-    .then(checkResponseError)
-    .then(res => res.json())
-    .then(body => {
-      if (body.err) {
-        enableSubmitButton(form)
-        reportFormError(form, body.err)
-        return
+function callFetch(url: string, opt: RequestInit) {
+  return fetch(url, opt)
+    .then(res => {
+      if (res.status < 200 || res.status >= 300) {
+        throw new Error(res.statusText)
       }
-      cb(body)
+      return res
     })
-    .catch(err => {
-      openErrorModal(err, () => {
-        enableSubmitButton(form)
-      })
-    })
+    .then(res => res.json())
 }
 
-function checkResponseError(res: Response) {
-  if (res.status >= 200 && res.status <= 299) {
-    return res
-  } else {
-    throw Error(res.statusText)
-  }
-}
+/*
+var input = document.querySelector('input[type="file"]')
 
+var data = new FormData()
+data.append('file', input.files[0])
+data.append('user', 'hubot')
+
+fetch('/avatars', {
+  method: 'POST',
+  body: data
+})
+ */

@@ -1,9 +1,9 @@
-import { Form, linkSubmitHandler } from '@client/util/form'
+import { Form, submitHelper } from '@client/util/form'
 import { UserLoginForm } from '@common/type/user-form'
-import { sendPost } from '@client/util/fetch'
+import { postJson } from '@client/util/fetch'
 
 export function initUserLoginForm() {
-  linkSubmitHandler('#loginForm', submit)
+  submitHelper('#loginForm', submit, result)
 }
 
 function submit(form: Form) {
@@ -12,21 +12,9 @@ function submit(form: Form) {
     password: form.input.password.value,
     remember: form.input.remember.checked
   }
-  sendPost('/api/user-login', form, data, body => {
-    window.location.href = '/'
-  })
+  return postJson('/api/user-login', data)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+function result(body: any) {
+  window.location.href = '/'
+}
