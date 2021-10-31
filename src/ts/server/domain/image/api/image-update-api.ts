@@ -10,7 +10,6 @@ import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { renderJson } from '@server/express/render-json'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
 import { imageGetForUpdate, imageUpdate } from '@server/domain/image/_service/image-update'
-import { Request } from 'express'
 
 export async function useImageUpdateApi() {
 
@@ -22,30 +21,30 @@ export async function useImageUpdateApi() {
   web.router.get('/api/image-update-get/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
     userAssertLogin(user)
+
     const id = newNumber(req.params.id)
     const err: ErrorConst[] = []
     const image = await imageGetForUpdate(idb, user, id, err)
     if (err.length) throw err
+
     renderJson(res, { image })
   }))
 
-  web.router.put('/api/image-update/:id([0-9]+)', uploader.single('file'), deleteUpload(async (req, res) => {
+  web.router.put('/api/image-update', uploader.single('file'), deleteUpload(async (req, res) => {
     const user = userGetSessionUser(res)
     userAssertLogin(user)
-    const id = newNumber(req.params.id)
-    const form = newUpdateForm(req)
+
+    const form: ImageUpdateForm = {
+      id: newNumber(req.body.id),
+      comment: newString(req.body.comment),
+    }
+    const file = newString(req.file?.path)
     const err: ErrorConst[] = []
-    await imageUpdate(idb, ifm, user, id, form, err)
+    await imageUpdate(idb, ifm, user, form, file, err)
     if (err.length) throw err
+
     renderJson(res, {})
   }))
 
-}
-
-function newUpdateForm(req: Request): ImageUpdateForm {
-  return {
-    comment: newString(req.body.comment),
-    file: req.file?.path
-  }
 }
 

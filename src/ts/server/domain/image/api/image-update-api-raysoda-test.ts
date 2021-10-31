@@ -51,12 +51,13 @@ describe('ImageUpdateApi RaySoda', () => {
   it('remove image dir', async () => {
     await ifm.rmRoot()
   })
+
   it('login as user1', async () => {
     await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('upload', async () => {
-    const res = await sat.post('/api/image-upload').field('comment', 'c1')
-      .attach('file', 'sample/2560x1440.jpg').expect(200)
+    const res = await sat.post('/api/image-upload')
+      .field('id', 1).field('comment', 'c1').attach('file', 'sample/2560x1440.jpg').expect(200)
     expect(res.body.id).toEqual(1)
   })
   it('check file', async () => {
@@ -65,8 +66,8 @@ describe('ImageUpdateApi RaySoda', () => {
     expect(meta.height).toBe(1152)
   })
   it('update', async () => {
-    const res = await sat.put('/api/image-update/1').field('comment', 'c2')
-      .attach('file', 'sample/1440x2560.jpg').expect(200)
+    const res = await sat.put('/api/image-update')
+      .field('id', 1).field('comment', 'c2').attach('file', 'sample/1440x2560.jpg').expect(200)
     expect(res.body).toEqual({})
   })
   it('check db', async () => {
@@ -81,8 +82,10 @@ describe('ImageUpdateApi RaySoda', () => {
     expect(meta.width).toBe(1152)
     expect(meta.height).toBe(2048)
   })
+
   it('update comment only', async () => {
-    const res = await sat.put('/api/image-update/1').field('comment', 'only').expect(200)
+    const res = await sat.put('/api/image-update')
+      .field('id', 1).field('comment', 'only').expect(200)
     expect(res.body).toEqual({})
   })
   it('check db', async () => {
@@ -95,26 +98,30 @@ describe('ImageUpdateApi RaySoda', () => {
     expect(meta.width).toBe(1152)
     expect(meta.height).toBe(2048)
   })
+
   it('update fails if image too small', async () => {
-    const res = await sat.put('/api/image-update/1').attach('file', 'sample/360x240.jpg').expect(200)
+    const res = await sat.put('/api/image-update')
+      .field('id', 1).attach('file', 'sample/360x240.jpg').expect(200)
     expect(res.body.err).toContain(IMAGE_SIZE)
   })
   it('update fails if image not exist', async () => {
-    const res = await sat.put('/api/image-update/2').expect(200)
+    const res = await sat.put('/api/image-update').field('id', 2).expect(200)
     expect(res.body.err).toContain(IMAGE_NOT_EXIST)
   })
+
   it('logout', async () => {
     await userLogoutForTest(sat)
   })
   it('update fails if not logged in', async () => {
-    const res = await sat.put('/api/image-update/1').expect(200)
+    const res = await sat.put('/api/image-update').field('id', 1).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
+
   it('login as user2', async () => {
     await userLoginForTest(sat, USER2_LOGIN_FORM)
   })
   it('update fails if owner not match', async () => {
-    const res = await sat.put('/api/image-update/1').expect(200)
+    const res = await sat.put('/api/image-update').field('id', 1).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
 
