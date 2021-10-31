@@ -1,4 +1,3 @@
-import { ImageUploadPack } from '@common/type/image-form'
 import { deleteUpload, Uploader } from '@server/express/uploader'
 import { ErrorConst } from '@common/type/error'
 import { Express2 } from '@server/express/express2'
@@ -11,6 +10,7 @@ import { renderJson } from '@server/express/render-json'
 import { imageUpload } from '@server/domain/image/_service/image-upload'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
 import { newString } from '@common/util/primitive'
+import { ImageUploadForm } from '@common/type/image-form'
 
 export async function useImageUploadApi() {
 
@@ -24,13 +24,12 @@ export async function useImageUploadApi() {
     const user = userGetSessionUser(res)
     userAssertLogin(user)
 
-    const pack: ImageUploadPack = {
-      user,
+    const form: ImageUploadForm = {
       comment: newString(req.body.comment),
-      file: newString(req.file?.path)
     }
+    const file = newString(req.file?.path)
     const err: ErrorConst[] = []
-    const id = await imageUpload(udb, idb, ifm, pack, err)
+    const id = await imageUpload(udb, idb, ifm, user, form, file, err)
     if (err.length) throw err
 
     renderJson(res, { id })
