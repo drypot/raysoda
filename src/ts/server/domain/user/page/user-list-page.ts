@@ -24,9 +24,9 @@ export async function useUserListPage() {
       q.length ? await userSearch(udb, q, p, ps, admin) :
       await userGetList(udb, p, ps)
     renderHtml(res, 'user/user-list', {
-      user: list,
-      prev: p > 1 ? UrlMaker.from('/users').add('p', p - 1, 1).add('ps', ps, 100).toString() : undefined,
-      next: list.length === ps ? UrlMaker.from('/users').add('p', p + 1).add('ps', ps, 100).toString() : undefined,
+      userList: list,
+      prev: p > 1 ? UrlMaker.from('/user-list').add('p', p - 1, 1).add('ps', ps, 100).toString() : undefined,
+      next: list.length === ps ? UrlMaker.from('/user-list').add('p', p + 1).add('ps', ps, 100).toString() : undefined,
     })
   }))
 

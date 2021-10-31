@@ -6,8 +6,10 @@
   padding: 0.6rem 1.2rem 0.5rem;
   border-radius: 0.25rem;
   border: none;
+  height: 2.5rem; // form input 과 높이를 맞춘다.
 
   font-family: sans-serif;
+  white-space: nowrap;
 
   background: $color-gray;
   color: #444;

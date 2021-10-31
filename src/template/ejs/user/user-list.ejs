@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% app.title = 'User List' %>
+    <%- include('../_common/head') %>
+</head>
+<body>
+    <%- include('../_common/header') %>
+
+    <div class="wrapper">
+        <h1>회원 목록</h1>
+
+        <form class="form-flow max-w-sm">
+            <label class="flex-label">
+                <input type="text" name="q" autofocus>
+                <button type="submit" class="btn btn-blue ml-2">회원 검색</button>
+            </label>
+        </form>
+
+        <div class="mt-xl text-xl">
+            <% if (app.userList.length) { %>
+                <% for (const user of app.userList) { %>
+                    <a href="/user/<%- encodeURIComponent(user.home) %>"><%= user.name %></a><br>
+                <% } %>
+            <% } else { %>
+                검색 결과가 없습니다.
+            <% } %>
+        </div>
+
+        <%- include('../_common/prev-next') %>
+    </div>
+
+    <%- include('../_common/footer') %>
+    <script>
+        app.initUserListForm()
+    </script>
+</body>
+</html>
