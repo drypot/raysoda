@@ -1,4 +1,4 @@
-import { ImageUploadForm } from '@common/type/image-form'
+import { ImageUploadPack } from '@common/type/image-form'
 import { deleteUpload, Uploader } from '@server/express/uploader'
 import { ErrorConst } from '@common/type/error'
 import { Express2 } from '@server/express/express2'
@@ -10,15 +10,7 @@ import { UserDB } from '@server/db/user/user-db'
 import { renderJson } from '@server/express/render-json'
 import { imageUpload } from '@server/domain/image/_service/image-upload'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
-import { Request } from 'express'
-
-function newImageUploadForm(req: Request) {
-  return {
-    now: new Date(),
-    comment: req.body.comment || '',
-    file: req.file?.path
-  } as ImageUploadForm
-}
+import { newString } from '@common/util/primitive'
 
 export async function useImageUploadApi() {
 
@@ -31,11 +23,19 @@ export async function useImageUploadApi() {
   web.router.post('/api/image-upload', uploader.single('file'), deleteUpload(async (req, res) => {
     const user = userGetSessionUser(res)
     userAssertLogin(user)
-    const form = newImageUploadForm(req)
+
+    const pack: ImageUploadPack = {
+      user,
+      comment: newString(req.body.comment),
+      file: newString(req.file?.path)
+    }
     const err: ErrorConst[] = []
-    const id = await imageUpload(udb, idb, ifm, user.id, form, err)
+    const id = await imageUpload(udb, idb, ifm, pack, err)
     if (err.length) throw err
+
     renderJson(res, { id })
   }))
 
 }
+
+

@@ -1,6 +1,6 @@
 import { ErrorConst } from '@common/type/error'
 import { ImageDB } from '@server/db/image/image-db'
-import { ImageUploadForm } from '@common/type/image-form'
+import { ImageUploadPack } from '@common/type/image-form'
 import { UserDB } from '@server/db/user/user-db'
 import { IMAGE_NO_FILE } from '@common/type/error-const'
 import { Image } from '@common/type/image'
@@ -24,23 +24,27 @@ export async function imageGetLeftTicket(idb: ImageDB, uid: number, now: Date) {
 }
 
 export async function imageUpload(
-  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, uid: number, form: ImageUploadForm, err: ErrorConst[]
+  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, pack: ImageUploadPack, err: ErrorConst[]
 ) {
-  // check file
-  if (!form.file) {
+  const { user, comment, file } = pack
+  const uid = user.id
+  const now = new Date()
+
+  // Check file
+  if (file.length === 0) {
     err.push(IMAGE_NO_FILE)
     return
   }
 
-  // check ticket
+  // Check ticket
   // ticket 이 없을 경우 err 추가 없이 그냥 return.
   // 폼에서 한번 안내하기도 해서 현재는 이렇게 하고 있다.
-  const { ticket, hour } = await imageGetLeftTicket(idb, uid, form.now)
+  const { ticket, hour } = await imageGetLeftTicket(idb, uid, now)
   if (!ticket) return
 
-  // check meta
-  await ifm.beforeIdentify(form.file)
-  const meta = await ifm.getImageMeta(form.file)
+  // Check meta
+  await ifm.beforeIdentify(file)
+  const meta = await ifm.getImageMeta(file)
   ifm.checkMeta(meta, err)
   if (err.length) return
 
@@ -48,15 +52,16 @@ export async function imageUpload(
   // 파일 저장에 시간이 걸릴 경우 db insert 가 늦어져
   // 사진이 여러장 등록될 수 있다.
   const id = idb.getNextId()
-  const vers = await ifm.saveImage(id, form.file, meta)
+  const vers = await ifm.saveImage(id, file, meta)
   const image: Image = {
-    id: id,
-    uid: uid,
-    cdate: form.now,
+    id,
+    uid,
+    cdate: now,
     vers: vers,
-    comment: form.comment,
+    comment,
   }
   await idb.insertImage(image)
-  await udb.updatePDate(uid, form.now)
+  await udb.updateUserById(uid, { pdate: now })
+
   return id
 }

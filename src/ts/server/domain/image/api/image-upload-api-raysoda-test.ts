@@ -49,6 +49,7 @@ describe('ImageUploadApi RaySoda', () => {
   it('remove image dir', async () => {
     await ifm.rmRoot()
   })
+
   it('upload fails if not logged in', async () => {
     const res = await sat.post('/api/image-upload').expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
@@ -69,6 +70,7 @@ describe('ImageUploadApi RaySoda', () => {
     expect(res.body.err).toContain(IMAGE_SIZE)
 
   })
+
   it('upload horizontal image', async () => {
     // resize 기능 테스트를 위해 2048 보다 큰 이미지를 업로드한다.
     const res = await sat.post('/api/image-upload')
@@ -89,6 +91,7 @@ describe('ImageUploadApi RaySoda', () => {
     expect(meta.width).toBe(2048)
     expect(meta.height).toBe(1152)
   })
+
   it('upload vertical image', async () => {
     const res = await sat.post('/api/image-upload')
       .field('comment', 'v')
@@ -108,6 +111,7 @@ describe('ImageUploadApi RaySoda', () => {
     expect(meta.width).toBe(1152)
     expect(meta.height).toBe(2048)
   })
+
   it('upload small image', async () => {
     const res = await sat.post('/api/image-upload')
       .field('comment', 'small')
@@ -127,6 +131,7 @@ describe('ImageUploadApi RaySoda', () => {
     expect(meta.width).toBe(640)
     expect(meta.height).toBe(360)
   })
+
   it('upload 4th image should fail', async () => {
     const res = await sat.post('/api/image-upload')
       .field('comment', 'small')
