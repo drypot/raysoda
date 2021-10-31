@@ -2,10 +2,10 @@
 <html lang="ko">
 <head>
     <% app.title = 'Sample Modal' %>
-    <%- include('../_layout/head') %>
+    <%- include('../_common/head') %>
 </head>
 <body>
-    <%- include('../_layout/header') %>
+    <%- include('../_common/header') %>
 
     <div class="wrapper">
         <h1>Sample Modal</h1>
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <%- include('../_layout/footer') %>
+    <%- include('../_common/footer') %>
 
     <script>
         app.elementById('blueModalBtn').onclick = () => {
