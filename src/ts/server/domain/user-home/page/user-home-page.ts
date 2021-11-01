@@ -12,7 +12,7 @@ import { UserDB } from '@server/db/user/user-db'
 import { imageGetListByUser } from '@server/domain/image/_service/image-list'
 import { Request, Response } from 'express'
 
-export async function useUserProfilePage() {
+export async function useUserHomePage() {
 
   const web = await omanGetObject('Express2') as Express2
   const udb = await omanGetObject('UserDB') as UserDB
@@ -23,22 +23,22 @@ export async function useUserProfilePage() {
     const id = newNumber(req.params.id)
     const owner = await udb.getCachedById(id)
     if (!owner) return
-    await renderProfile(req, res, owner)
+    await renderHome(req, res, owner)
   }))
 
   web.router.get('/user/:name([^/]+)', toCallback(async (req, res) => {
     const home = decodeURIComponent(req.params.name)
     const owner = await udb.getCachedByHome(home)
     if (!owner) return
-    await renderProfile(req, res, owner)
+    await renderHome(req, res, owner)
   }))
 
-  async function renderProfile(req: Request, res: Response, owner: User) {
+  async function renderHome(req: Request, res: Response, owner: User) {
     const user = userGetSessionUser(res)
     const p = newLimitedNumber(req.query.p, 1, 1, NaN)
     const ps = newLimitedNumber(req.query.ps, 16, 1, 128)
     const list = await imageGetListByUser(udb, idb, ifm, owner.id, p, ps)
-    renderHtml(res, 'user-profile/profile', {
+    renderHtml(res, 'user-home/user-home', {
       owner: owner,
       updatable: userCanUpdateUser(user, owner.id),
       imageList: list,

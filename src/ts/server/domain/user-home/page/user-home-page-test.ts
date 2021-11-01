@@ -1,6 +1,6 @@
 import { UserDB } from '@server/db/user/user-db'
 import supertest, { SuperAgentTest } from 'supertest'
-import { useUserProfilePage } from '@server/domain/user-profile/profile-page'
+import { useUserHomePage } from '@server/domain/user-home/page/user-home-page'
 import { ImageFileManager } from '@server/fileman/_fileman'
 import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { Express2 } from '@server/express/express2'
@@ -9,7 +9,7 @@ import { ImageDB } from '@server/db/image/image-db'
 import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { newUser } from '@common/type/user'
 
-describe('UserProfilePage', () => {
+describe('User Home Page', () => {
 
   let udb: UserDB
   let idb: ImageDB
@@ -23,7 +23,7 @@ describe('UserProfilePage', () => {
     idb = await omanGetObject('ImageDB') as ImageDB
     ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
     web = await omanGetObject('Express2') as Express2
-    await useUserProfilePage()
+    await useUserHomePage()
     await web.start()
     sat = supertest.agent(web.server)
   })

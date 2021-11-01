@@ -5,7 +5,7 @@ import { useUserPwResetPage } from '@server/domain/user/page/user-password-page'
 import { useCounterPage } from '@server/domain/counter/page/counter-page'
 import { useUserPasswordApi } from '@server/domain/user/api/user-password-api'
 import { useAboutPage } from '@server/domain/about/page/about-page'
-import { useUserProfilePage } from '@server/domain/user-profile/profile-page'
+import { useUserHomePage } from '@server/domain/user-home/page/user-home-page'
 import { inDev } from '@common/util/env2'
 import { useUserListPage } from '@server/domain/user/page/user-list-page'
 import { useImageListApi } from '@server/domain/image/api/image-list-api'
@@ -63,7 +63,7 @@ async function main() {
   await useImageDetailPage()
   await useImageUpdatePage()
   await useImageUploadPage()
-  await useUserProfilePage()
+  await useUserHomePage()
 
   await useUserAuthPage()
   await useUserPwResetPage()
