@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% app.title = app.owner.name %>
+    <% app.ogImage = app.imageList.length ? app.imageList[0].thumbUrl : '' %>
+    <%- include('../_common/head') %>
+</head>
+<body>
+    <%- include('../_common/header') %>
+
+    <div class="wrapper">
+        <h1 class="link-no-deco">
+            <a href="/user/<%- encodeURIComponent(app.owner.home) %>">
+                <%= app.owner.name %>
+            </a>
+        </h1>
+
+        <% if (!app.prev) { %>
+            <div class="fs-lg lh-lg">
+                <div id="profile"><%= app.owner.profile %></div>
+                <% if (app.updatable) { %>
+                    <div class="mt-lg">
+                        <a href='/user-update/<%= app.owner.id %>'>개인정보수정</a><br>
+                        <a href='/user-update-password/<%= app.owner.id %>'>비밀번호수정</a><br>
+                        <% if (app.user.admin) { %>
+                            <a href='/user-update-status/<%= app.owner.id %>'>상태수정</a><br>
+                        <% } %>
+                    </div>
+                <% } %>
+                <% if (app.owner.status === 'd') { %>
+                    <div class="mt-lg">Deactivated Account</div>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+
+    <% if (app.imageList.length) { %>
+        <div class="max-w-full text-center link-no-deco">
+            <% for (const image of app.imageList) { %>
+                <div class="mt-deep">
+                    <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>
+                    <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
+                    <div class="inline-block relative image-card">
+                        <a href="/image/<%- image.id %>">
+                            <img class="max-w-full max-h-screen"
+                                 src="<%- image.thumbUrl %>"
+                                 data-vers="<%- image.vers ? image.vers.join(',') : null %>">
+                        </a>
+                        <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
+                        <% if (c) { %>
+                            <div class="mt-xs comment"><%= c %></div>
+                        <% } %>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <%- include('../_common/prev-next') %>
+    <% } %>
+
+    <%- include('../_common/footer') %>
+    <script>
+        app.initUserHome()
+        app.initImageList()
+    </script>
+</body>
+</html>
