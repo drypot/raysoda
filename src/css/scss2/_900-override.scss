@@ -6,3 +6,8 @@ button:disabled:hover {
   background: $color-disabled;
   color: #fff;
 }
+
+.link-no-deco,
+.link-no-deco a {
+  color: $color-body;
+}

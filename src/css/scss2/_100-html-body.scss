@@ -15,3 +15,7 @@ body {
   color: $color-body;
   background-color: white;
 }
+
+:-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
+  background: black;
+}

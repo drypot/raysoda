@@ -3,22 +3,28 @@
 
 // Font Size
 
-.text-xs	{ font-size: 0.75rem;  line-height: 1rem; }
-.text-sm	{ font-size: 0.875rem; line-height: 1.25rem; }
-.text-md	{ font-size: 1rem;     line-height: 1.5rem; }
-.text-lg	{ font-size: 1.125rem; line-height: 1.75rem; }
-.text-xl	{ font-size: 1.25rem;  line-height: 1.75rem; }
-.text-2xl	{ font-size: 1.5rem;   line-height: 2rem; }
-.text-3xl	{ font-size: 1.875rem; line-height: 2.25rem; }
-.text-4xl	{ font-size: 2.25rem;  line-height: 2.5rem; }
-.text-5xl	{ font-size: 3rem;     line-height: 1; }
+// line-height 에는 em, rem 등 단위를 쓰지말고 가능한 수치로만 세팅한다.
+// 단위를 쓰면 다른 클래스를 적용해서 font-size 를 변경했을 때 괴랄해진다.
+
+.fs-xs	{ font-size: 0.75rem;  }
+.fs-sm	{ font-size: 0.875rem; }
+.fs-md	{ font-size: 1rem;     }
+.fs-lg	{ font-size: 1.125rem; }
+.fs-xl	{ font-size: 1.25rem;  }
+.fs-2xl	{ font-size: 1.5rem;   }
+.fs-3xl	{ font-size: 1.875rem; }
+.fs-4xl	{ font-size: 2.25rem;  }
+.fs-5xl	{ font-size: 3rem;     }
 
 // Line Height
 
-.lh-sm { line-height: 1; }
-.lh-md { line-height: 2; }
-.lh-lg { line-height: 3; }
-.lh-xl { line-height: 4; }
+.lh-xs  { line-height: 1;   }
+.lh-sm  { line-height: 1.25;   }
+.lh-md  { line-height: 1.5; }
+.lh-lg  { line-height: 2;   }
+.lh-xl  { line-height: 2.5; }
+.lh-2xl { line-height: 3;   }
+.lh-3xl { line-height: 4;   }
 
 // Text Align
 
@@ -26,10 +32,13 @@
 .text-left   { text-align: left; }
 .text-right  { text-align: right; }
 
-// Link Deco
+// Color
 
-.link-no-deco,
-.link-no-deco a {
-  color: $color-body;
-}
+.color-white { color: $color-white; }
+.color-black { color: $color-black; }
 
+//
+
+.z-0	{ z-index: 0;  }
+.z-1	{ z-index: 1; }
+.z-2	{ z-index: 2; }

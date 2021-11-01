@@ -10,7 +10,7 @@
     <%- include('../_common/header') %>
 
     <div class="wrapper">
-        <h1><a href="/" class="link-no-deco"><%- app.config.appName %></a></h1>
+        <h1 class="link-no-deco"><a href="/"><%- app.config.appName %></a></h1>
 
         <% if (!app.prev) { %>
 
@@ -18,7 +18,7 @@
             <div class="flex-center space-x">
                 <% if (app.user.id !== -1) { %>
                     <a href='/upload-image'>사진등록</a>
-                    <a href='/user/<%- encodeURIComponent(app.user.home) %>'>내사진</a>
+                    <a href='/user/<%- encodeURIComponent(app.user.home) %>'>사용자홈</a>
                 <% } else { %>
                     <a href='/user-login'>로그인</a>
                     <a href='/user-register'>회원가입</a>
@@ -49,9 +49,9 @@
     <div class="max-w-full text-center link-no-deco">
         <% for (const image of app.imageList) { %>
             <div class="mt-deep">
-                <!-- 이미지 좌상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. -->
-                <!-- inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. -->
-                <div class="inline-block relative">
+                <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>
+                <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
+                <div class="inline-block relative image-card">
                     <a href="/image/<%- image.id %>">
                         <img class="max-w-full max-h-screen"
                              src="<%- image.thumbUrl %>"
@@ -59,7 +59,7 @@
                     </a>
                     <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
                     <% if (c) { %>
-                        <div class="mt-xs"><%= c %></div>
+                        <div class="mt-xs comment"><%= c %></div>
                     <% } %>
                     <div class="mt-xs">
                         <a href='/user/<%- encodeURIComponent(image.owner.home) %>'><%= image.owner.name %></a>
@@ -78,6 +78,10 @@
     </div>
 
     <%- include('../_common/footer') %>
+    <script>
+        app.initImageList()
+    </script>
+    hhih
 </body>
 </html>
 
