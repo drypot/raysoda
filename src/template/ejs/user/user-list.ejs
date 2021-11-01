@@ -17,7 +17,7 @@
             </label>
         </form>
 
-        <div class="mt-xl text-xl">
+        <div class="mt-xl fs-xl lh-md">
             <% if (app.userList.length) { %>
                 <% for (const user of app.userList) { %>
                     <a href="/user/<%- encodeURIComponent(user.home) %>"><%= user.name %></a><br>
