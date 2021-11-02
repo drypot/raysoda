@@ -36,39 +36,39 @@ describe('UserUpdateApi Get', () => {
     await userFixInsert4(udb)
   })
   it('get user1 without login', async () => {
-    const res = await sat.get('/api/user-update-get/' + 1).expect(200)
+    const res = await sat.get('/api/user-update-profile-get/' + 1).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
   it('login as user1', async () => {
     await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('get user1', async () => {
-    const res = await sat.get('/api/user-update-get/' + 1).expect(200)
+    const res = await sat.get('/api/user-update-profile-get/' + 1).expect(200)
     expect(res.body).toEqual({
       user: {
-        name: 'User 1',
-        home: 'user1',
-        email: 'user1@mail.test',
-        password: '',
+        id: 1,
+        name: 'name1',
+        home: 'home1',
+        email: 'mail1@mail.test',
         profile: ''
       }
     })
   })
   it('get user2 by user1', async () => {
-    const res = await sat.get('/api/user-update-get/' + 2).expect(200)
+    const res = await sat.get('/api/user-update-profile-get/' + 2).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
     await userLoginForTest(sat, ADMIN_LOGIN_FORM)
   })
   it('get user2 by admin', async () => {
-    const res = await sat.get('/api/user-update-get/' + 2).expect(200)
+    const res = await sat.get('/api/user-update-profile-get/' + 2).expect(200)
     expect(res.body).toEqual({
       user: {
-        name: 'User 2',
-        home: 'user2',
-        email: 'user2@mail.test',
-        password: '',
+        id: 2,
+        name: 'name2',
+        home: 'home2',
+        email: 'mail2@mail.test',
         profile: ''
       }
     })

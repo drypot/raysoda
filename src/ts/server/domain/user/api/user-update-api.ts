@@ -1,12 +1,12 @@
 import { newNumber, newString } from '@common/util/primitive'
 import { Express2, toCallback } from '@server/express/express2'
-import { UserUpdateForm, UserUpdatePasswordForm, UserUpdateStatusForm } from '@common/type/user-form'
+import { UserUpdatePasswordForm, UserUpdateProfileForm, UserUpdateStatusForm } from '@common/type/user-form'
 import { ErrorConst } from '@common/type/error'
 import { userGetSessionUser, userLogout } from '@server/domain/user/api/user-auth-api'
 import {
-  userGetForUpdate,
-  userUpdate,
   userUpdatePassword,
+  userUpdateProfile,
+  userUpdateProfileGet,
   userUpdateStatus
 } from '@server/domain/user/_service/user-update'
 import { omanGetObject } from '@server/oman/oman'
@@ -19,24 +19,24 @@ export async function useUserUpdateApi() {
   const web = await omanGetObject('Express2') as Express2
   const udb = await omanGetObject('UserDB') as UserDB
 
-  web.router.get('/api/user-update-get/:id([0-9]+)', toCallback(async (req, res) => {
+  web.router.get('/api/user-update-profile-get/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
     userAssertLogin(user)
 
     const id = newNumber(req.params.id)
     const err: ErrorConst[] = []
-    const user2 = await userGetForUpdate(udb, user, id, err)
+    const user2 = await userUpdateProfileGet(udb, user, id, err)
     if (!user2 || err.length) throw err
 
     renderJson(res, { user: user2 })
   }))
 
-  web.router.put('/api/user-update', toCallback(async (req, res) => {
+  web.router.put('/api/user-update-profile', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
     userAssertLogin(user)
 
     const body = req.body
-    const form: UserUpdateForm = {
+    const form: UserUpdateProfileForm = {
         id: newNumber(body.id),
         name: newString(body.name).trim(),
         home: newString(body.home).trim(),
@@ -44,7 +44,7 @@ export async function useUserUpdateApi() {
         profile: newString(body.profile).trim(),
     }
     const err: ErrorConst[] = []
-    await userUpdate(udb, user, form, err)
+    await userUpdateProfile(udb, user, form, err)
     if (err.length) throw err
 
     renderJson(res, {})

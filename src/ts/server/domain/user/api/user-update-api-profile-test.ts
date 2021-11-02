@@ -19,7 +19,7 @@ import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { UserDB } from '@server/db/user/user-db'
-import { UserUpdateForm } from '@common/type/user-form'
+import { UserUpdateProfileForm } from '@common/type/user-form'
 import { dupe } from '@common/util/object2'
 
 describe('UserUpdateApi Update', () => {
@@ -55,7 +55,7 @@ describe('UserUpdateApi Update', () => {
       id: 1,
       name: 'User 11'
     }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
 
@@ -79,10 +79,10 @@ describe('UserUpdateApi Update', () => {
     })
   })
   it('update user1', async () => {
-    const form: UserUpdateForm = {
+    const form: UserUpdateProfileForm = {
       id: 1, name: 'name11', home: 'home11', email: 'mail11@mail.test', profile: 'profile 11'
     }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body).toEqual({})
   })
   it('check db after update', async () => {
@@ -103,38 +103,38 @@ describe('UserUpdateApi Update', () => {
 
   it('duped email fails', async () => {
     const form = { id: 1, email: 'mail2@mail.test' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(EMAIL_DUPE)
   })
   it('duped case email fails', async () => {
     const form = { id: 1, email: 'MAIL2@MAIL.TEST' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(EMAIL_DUPE)
   })
 
   it('length 7 email fails', async () => {
     const form = { id: 1, email: 'x'.repeat(7) }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(EMAIL_RANGE)
   })
   it('length 8 email ok', async () => {
     const form = { id: 1, email: 'x'.repeat(8) }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).not.toContain(EMAIL_RANGE)
   })
   it('length 64 email ok', async () => {
     const form = { id: 1, email: 'x'.repeat(64) }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).not.toContain(EMAIL_RANGE)
   })
   it('length 65 email fails', async () => {
     const form = { id: 1, email: 'x'.repeat(65) }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(EMAIL_RANGE)
   })
   it('invalid email format fails', async () => {
     const form = { id: 1, email: 'x'.repeat(8) }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(EMAIL_PATTERN)
   })
 
@@ -142,33 +142,33 @@ describe('UserUpdateApi Update', () => {
 
   it('duped name fails', async () => {
     const form = { id: 1, name: 'name2' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(NAME_DUPE)
   })
   it('duped case name fails', async () => {
     const form = { id: 1, name: 'NAME2' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(NAME_DUPE)
   })
 
   it('empty name fails', async () => {
     const form = { id: 1, name: '' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(NAME_EMPTY)
   })
   it('length 1 name ok', async () => {
     const form = { id: 1, name: 'x' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).not.toContain(NAME_RANGE)
   })
   it('length 32 name ok', async () => {
     const form = { id: 1, name: 'x'.repeat(32) }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).not.toContain(NAME_RANGE)
   })
   it('length 33 name fails', async () => {
     const form = { id: 1, name: 'x'.repeat(33) }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(NAME_RANGE)
   })
 
@@ -176,33 +176,33 @@ describe('UserUpdateApi Update', () => {
 
   it('duped home fails', async () => {
     const form = { id: 1, home: 'home2' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(HOME_DUPE)
   })
   it('duped case home fails', async () => {
     const form = { id: 1, home: 'HOME2' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(HOME_DUPE)
   })
 
   it('empty home fails', async () => {
     const form = { id: 1, home: '' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(HOME_EMPTY)
   })
   it('length 1 home ok', async () => {
     const form = { id: 1, home: 'x' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).not.toContain(HOME_RANGE)
   })
   it('length 32 home ok', async () => {
     const form = { id: 1, home: 'x'.repeat(32) }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).not.toContain(HOME_RANGE)
   })
   it('length 33 home fails', async () => {
     const form = { id: 1, home: 'x'.repeat(33) }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(HOME_RANGE)
   })
 
@@ -210,17 +210,17 @@ describe('UserUpdateApi Update', () => {
 
   it('update user2 by user1 fails', async () => {
     const form = { id: 2, name: 'name22' }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
     await userLoginForTest(sat, ADMIN_LOGIN_FORM)
   })
   it('update user2 by admin works', async () => {
-    const form: UserUpdateForm = {
+    const form: UserUpdateProfileForm = {
       id: 2, name: 'name22', home: 'home22', email: 'mail22@mail.test', profile: 'profile 22'
     }
-    const res = await sat.put('/api/user-update').send(form).expect(200)
+    const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body).toEqual({})
   })
 

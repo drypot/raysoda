@@ -6,24 +6,13 @@ import {
   userCheckName,
   userCheckPassword
 } from '@server/domain/user/_service/_user-check'
-import { UserUpdateForm, UserUpdatePasswordForm, UserUpdateStatusForm } from '@common/type/user-form'
+import { UserUpdatePasswordForm, UserUpdateProfileForm, UserUpdateStatusForm } from '@common/type/user-form'
 import { ErrorConst } from '@common/type/error'
 import { userCanUpdateUser } from '@server/domain/user/_service/user-auth'
 import { makeHash } from '@common/util/hash'
 import { UserDB } from '@server/db/user/user-db'
 
-export async function userCheckUpdatable(udb: UserDB, user: User, user2: User | undefined, err: ErrorConst[]) {
-  if (!user2) {
-    err.push(USER_NOT_FOUND)
-    return
-  }
-  if (!userCanUpdateUser(user, user2.id)) {
-    err.push(NOT_AUTHORIZED)
-    return
-  }
-}
-
-export async function userGetForUpdate(
+export async function userUpdateProfileGet(
   udb: UserDB, user: User, id: number, err: ErrorConst[]) {
 
   const user2 = await udb.getCachedById(id)
@@ -32,7 +21,7 @@ export async function userGetForUpdate(
     return
   }
 
-  const user3: UserUpdateForm = {
+  const user3: UserUpdateProfileForm = {
     id: user2.id,
     name: user2.name,
     home: user2.home,
@@ -43,7 +32,7 @@ export async function userGetForUpdate(
   return user3
 }
 
-export async function userUpdate(udb: UserDB, user: User, form: UserUpdateForm, err: ErrorConst[]) {
+export async function userUpdateProfile(udb: UserDB, user: User, form: UserUpdateProfileForm, err: ErrorConst[]) {
   const { id, name, home, email, profile } = form
 
   const user2 = await udb.getCachedById(id)
@@ -106,4 +95,15 @@ export async function userUpdateStatus(udb: UserDB, user: User, form: UserUpdate
   }
 
   await udb.updateUserById(id, { status })
+}
+
+export async function userCheckUpdatable(udb: UserDB, user: User, user2: User | undefined, err: ErrorConst[]) {
+  if (!user2) {
+    err.push(USER_NOT_FOUND)
+    return
+  }
+  if (!userCanUpdateUser(user, user2.id)) {
+    err.push(NOT_AUTHORIZED)
+    return
+  }
 }
