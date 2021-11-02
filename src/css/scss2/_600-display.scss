@@ -1,5 +1,5 @@
-@use 'var' as *;
-@use 'media' as *;
+@use '000-var' as *;
+@use '010-media' as *;
 
 // display
 
@@ -10,35 +10,52 @@
 // flex
 
 .flex { display: flex; }
+
 .inline-flex { display: inline-flex; }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .flex-center {
-  display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.flex-column {
-  flex-direction: column;
+.items-center {
+  align-items: center;
 }
 
-.space-x > * {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+.flex-nowrap {
+  flex-wrap: nowrap; // default 다.
 }
 
-.space-y > * {
-  margin-top: 0.5rem;
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
-.space-y > *:first-child {
-  margin-top: 0;
+// flex Item
+
+// flex: initial -> flex: 0 1 auto; 와 같다.
+// 0 1 auto 은 각각 flex-grow, flex-shrink, flex-basis 의 의미.
+
+// flex: auto -> flex: 1 1 auto 와 같다.
+
+.flex-auto > * {
+  flex: auto
 }
 
 // grid
 
-.grid-column {
-  display:inline-grid;
+.grid {
+  display: grid;
+}
+
+.inline-grid {
+  display: inline-grid;
+}
+
+.grid-col {
   grid-auto-flow: column;
   grid-gap: 1.5em;
 }
@@ -47,3 +64,7 @@
 
 .relative { position: relative; }
 .absolute { position: absolute; }
+
+.z-0	{ z-index: 0;  }
+.z-1	{ z-index: 1; }
+.z-2	{ z-index: 2; }

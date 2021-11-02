@@ -1,0 +1,14 @@
+@use '000-var' as *;
+@use '010-media' as *;
+
+.p-0 { padding: 0;       }
+.p-1 { padding: 0.25rem;       }
+.p-2 { padding: 0.5rem;  }
+.p-3 { padding: 0.75rem;  }
+.p-4 { padding: 1rem;    }
+.p-5 { padding: 1.25rem;    }
+.p-6 { padding: 1.5rem;  }
+.p-7 { padding: 1.75rem;  }
+.p-8 { padding: 2rem;    }
+
+.px-0 { padding-left: 0; padding-right: 0; }

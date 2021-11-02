@@ -1,0 +1,29 @@
+@use '000-var' as *;
+@use '010-media' as *;
+
+// Spacer
+
+.space-x-2 {
+  & > *:not(:first-child) { margin-left: 0.5rem; }
+  & > *:not(:last-child)  { margin-right: 0.5rem; }
+}
+
+.space-x-4 {
+  & > *:not(:first-child) { margin-left: 1rem; }
+  & > *:not(:last-child)  { margin-right: 1rem; }
+}
+
+.space-x-8 {
+  & > *:not(:first-child) { margin-left: 2rem; }
+  & > *:not(:last-child)  { margin-right: 2rem; }
+}
+
+.space-x-12 {
+  & > *:not(:first-child) { margin-left: 3rem; }
+  & > *:not(:last-child)  { margin-right: 3rem; }
+}
+
+.space-y-2 > * {
+  & > *:not(:first-child) { margin-bottom: 0.5rem; }
+  & > *:not(:last-child)  { margin-top: 0.5rem; }
+}

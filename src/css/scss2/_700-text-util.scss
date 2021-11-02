@@ -1,30 +1,38 @@
-@use 'var' as *;
-@use 'media' as *;
+@use '000-var' as *;
+@use '010-media' as *;
 
 // Font Size
+
+.fs-xs	{ font-size: $font-size-xs;  }
+.fs-sm	{ font-size: $font-size-sm;  }
+.fs-md	{ font-size: $font-size-md;  }
+.fs-lg	{ font-size: $font-size-lg;  }
+.fs-xl	{ font-size: $font-size-xl;  }
+.fs-2xl	{ font-size: $font-size-2xl; }
+.fs-3xl	{ font-size: $font-size-3xl; }
+.fs-4xl	{ font-size: $font-size-4xl; }
+.fs-5xl	{ font-size: $font-size-5xl; }
+.fs-6xl	{ font-size: $font-size-6xl; }
+
+// Line Height
 
 // line-height 에는 em, rem 등 단위를 쓰지말고 가능한 수치로만 세팅한다.
 // 단위를 쓰면 다른 클래스를 적용해서 font-size 를 변경했을 때 괴랄해진다.
 
-.fs-xs	{ font-size: 0.75rem;  }
-.fs-sm	{ font-size: 0.875rem; }
-.fs-md	{ font-size: 1rem;     }
-.fs-lg	{ font-size: 1.125rem; }
-.fs-xl	{ font-size: 1.25rem;  }
-.fs-2xl	{ font-size: 1.5rem;   }
-.fs-3xl	{ font-size: 1.875rem; }
-.fs-4xl	{ font-size: 2.25rem;  }
-.fs-5xl	{ font-size: 3rem;     }
+.lh-4   { line-height: 1;  }
+.lh-5   { line-height: 1.25;  }
+.lh-6   { line-height: 1.5;  }
+.lh-7   { line-height: 1.75;  }
+.lh-8   { line-height: 2;  }
 
-// Line Height
-
-.lh-xs  { line-height: 1;   }
-.lh-sm  { line-height: 1.25;   }
-.lh-md  { line-height: 1.5; }
-.lh-lg  { line-height: 2;   }
-.lh-xl  { line-height: 2.5; }
-.lh-2xl { line-height: 3;   }
-.lh-3xl { line-height: 4;   }
+.lh-xs  { line-height: 1.3;  }
+.lh-sm  { line-height: 1.6;  }
+.lh-md  { line-height: 2;  }
+.lh-lg  { line-height: (2 * 1.3);  }
+.lh-xl  { line-height: (2 * 1.3 * 1.3);  }
+.lh-2xl { line-height: (2 * 1.3 * 1.3 * 1.3); }
+.lh-3xl { line-height: (2 * 1.3 * 1.3 * 1.3 * 1.3); }
+.lh-4xl { line-height: (2 * 1.3 * 1.3 * 1.3 * 1.3 * 1.3); }
 
 // Text Align
 
@@ -37,8 +45,14 @@
 .color-white { color: $color-white; }
 .color-black { color: $color-black; }
 
-//
+// White Space
 
-.z-0	{ z-index: 0;  }
-.z-1	{ z-index: 1; }
-.z-2	{ z-index: 2; }
+.nowrap {
+  white-space: nowrap;
+}
+
+// Cursor
+
+.cursor-pointer {
+  cursor: pointer;
+}

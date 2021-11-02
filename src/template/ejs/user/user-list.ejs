@@ -10,14 +10,14 @@
     <div class="wrapper">
         <h1>회원 목록</h1>
 
-        <form class="form-flow max-w-sm">
+        <form class="max-w-sm">
             <label class="flex-label">
                 <input type="text" name="q" autofocus>
-                <button type="submit" class="btn btn-blue ml-2">회원 검색</button>
+                <button type="submit" class="btn-blue ml-2">회원 검색</button>
             </label>
         </form>
 
-        <div class="mt-xl fs-xl lh-md">
+        <div class="mt-xl fs-lg">
             <% if (app.userList.length) { %>
                 <% for (const user of app.userList) { %>
                     <a href="/user/<%- encodeURIComponent(user.home) %>"><%= user.name %></a><br>

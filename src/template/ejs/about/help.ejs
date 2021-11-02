@@ -9,24 +9,22 @@
 
     <div class="wrapper">
         <h1>도움말</h1>
-        <div class="fs-lg child-mt-lg">
-            <p>
-                궁금하신 점은 이메일로 문의 부탁드립니다.<br>
-                <% let email = 'support+' + app.config.appNamel + '@raysoda.com' %>
-                <% let emailLink = 'mailto:' + email %>
-                <a href="<%- emailLink %>"><%- email %></a>
-            </p>
-            <p>
-                페이스북 게시판<br>
-                <a href='https://www.facebook.com/raysoda.news' target='_blank'>
-                    https://www.facebook.com/raysoda.news
-                </a>
-            </p>
-            <p>
-                회원탈퇴를 원하실 경우<br>
-                <a href="/user-deactivate"> 계정사용중지</a>
-            </p>
-        </div>
+        <p>
+            궁금하신 점은 이메일로 문의 부탁드립니다.<br>
+            <% let email = 'support+' + app.config.appNamel + '@raysoda.com' %>
+            <% let emailLink = 'mailto:' + email %>
+            <a href="<%- emailLink %>"><%- email %></a>
+        </p>
+        <p>
+            페이스북 게시판<br>
+            <a href='https://www.facebook.com/raysoda.news' target='_blank'>
+                https://www.facebook.com/raysoda.news
+            </a>
+        </p>
+        <p>
+            회원탈퇴를 원하실 경우<br>
+            <a href="/user-deactivate"> 계정사용중지</a>
+        </p>
     </div>
 
     <%- include('../_common/footer') %>

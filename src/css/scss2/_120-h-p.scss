@@ -1,0 +1,27 @@
+@use '000-var' as *;
+@use '010-media' as *;
+
+h1 { margin-top: $margin-4xl; font-size: $font-size-4xl; }
+h2 { margin-top: $margin-3xl; font-size: $font-size-3xl; }
+h3 { margin-top: $margin-2xl; font-size: $font-size-2xl; }
+h4 { margin-top: $margin-xl;  font-size: $font-size-xl; }
+h5 { margin-top: $margin-lg;  font-size: $font-size-lg; }
+h6 { margin-top: $margin-lg;  font-size: $font-size-md; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  line-height: 1.15;
+  word-break: keep-all;
+}
+
+p {
+  margin-top: $margin-lg;
+  font-size: $font-size-lg;
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}

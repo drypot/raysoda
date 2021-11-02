@@ -1,5 +1,5 @@
-@use 'var' as *;
-@use 'media' as *;
+@use '000-var' as *;
+@use '010-media' as *;
 
 #modal-bg {
   display: none;
@@ -17,8 +17,8 @@
 #modal-dialog {
   background-color: #fefefe;
   width: 90%;
-  max-width: 65ch;
-  margin: 6rem auto;
+  max-width: $width-lg;
+  margin: $margin-3xl auto;
   padding: 0.8rem 1rem;
   border: 1px solid #888;
   border-radius: 0.6rem;

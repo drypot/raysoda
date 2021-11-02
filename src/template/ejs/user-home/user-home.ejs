@@ -16,19 +16,19 @@
         </h1>
 
         <% if (!app.prev) { %>
-            <div class="fs-lg lh-lg">
+            <div class="fs-lg">
                 <div id="profile"><%= app.owner.profile %></div>
                 <% if (app.updatable) { %>
-                    <div class="mt-lg">
-                        <a href='/user-update/<%= app.owner.id %>'>개인정보수정</a><br>
-                        <a href='/user-update-password/<%= app.owner.id %>'>비밀번호수정</a><br>
+                    <div class="mt-lg flex flex-col">
+                        <a href='/user-update/<%= app.owner.id %>'>개인정보수정</a>
+                        <a href='/user-update-password/<%= app.owner.id %>'>비밀번호수정</a>
                         <% if (app.user.admin) { %>
-                            <a href='/user-update-status/<%= app.owner.id %>'>상태수정</a><br>
+                            <a href='/user-update-status/<%= app.owner.id %>'>상태수정</a>
                         <% } %>
                     </div>
                 <% } %>
                 <% if (app.owner.status === 'd') { %>
-                    <div class="mt-lg">Deactivated Account</div>
+                    <div class="mt-lg">이 계정은 사용 중지되었습니다.</div>
                 <% } %>
             </div>
         <% } %>
@@ -37,7 +37,7 @@
     <% if (app.imageList.length) { %>
         <div class="max-w-full text-center link-no-deco">
             <% for (const image of app.imageList) { %>
-                <div class="mt-deep">
+                <div class="mt-4xl">
                     <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>
                     <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
                     <div class="inline-block relative image-card">

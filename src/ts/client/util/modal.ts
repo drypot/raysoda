@@ -38,7 +38,7 @@ okBtn.onclick = () => {
 export function openBlueModal(title: string, text: string, btn:string, handler?: ModalCallback) {
   showElement(cancelBtn)
   okBtn.innerText = btn
-  okBtn.className = 'btn btn-blue'
+  okBtn.className = 'btn-blue'
   messageEl.className = 'text-center'
   openModal(title, text, handler)
 }
@@ -46,7 +46,7 @@ export function openBlueModal(title: string, text: string, btn:string, handler?:
 export function openRedModal(title: string, text: string, btn:string, handler?: ModalCallback) {
   showElement(cancelBtn)
   okBtn.innerText = btn
-  okBtn.className = 'btn btn-red'
+  okBtn.className = 'btn-red'
   messageEl.className = 'text-center'
   openModal(title, text, handler)
 }
@@ -54,7 +54,7 @@ export function openRedModal(title: string, text: string, btn:string, handler?: 
 export function openErrorModal(err: any, handler?: ModalCallback) {
   hideElement(cancelBtn)
   okBtn.innerText = '확인'
-  okBtn.className = 'btn btn-blue'
+  okBtn.className = 'btn-blue'
   messageEl.className = 'code-dump text-left'
   openModal(err.name, err.message, handler)
 }

@@ -1,0 +1,44 @@
+@use '000-var' as *;
+
+/*
+@include media-sm {
+}
+@include media-md {
+}
+@include media-lg {
+}
+@include media-xl {
+}
+@include media-2xl {
+}
+*/
+
+@mixin media-sm {
+  @media (min-width: $screen-sm) {
+    @content;
+  }
+}
+
+@mixin media-md {
+  @media (min-width: $screen-md) {
+    @content;
+  }
+}
+
+@mixin media-lg {
+  @media (min-width: $screen-lg) {
+    @content;
+  }
+}
+
+@mixin media-xl {
+  @media (min-width: $screen-xl) {
+    @content;
+  }
+}
+
+@mixin media-2xl {
+  @media (min-width: $screen-2xl) {
+    @content;
+  }
+}

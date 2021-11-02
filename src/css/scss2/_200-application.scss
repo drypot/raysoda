@@ -1,5 +1,5 @@
-@use 'var' as *;
-@use 'media' as *;
+@use '000-var' as *;
+@use '010-media' as *;
 
 // px-0 와 같은 utility 클래스로 오버라이딩하려면
 // wrapper 같은 기본 클래스들이 더 위에 올라와있어야 한다.
@@ -7,12 +7,17 @@
 // application
 
 .wrapper {
-  max-width: 40rem;
+  max-width: $width-lg;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
   text-align: center;
+
+  > h1 {
+    margin-bottom: $margin-4xl;
+  }
+
 }
 
 // Code

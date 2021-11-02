@@ -1,12 +1,12 @@
-@use 'var' as *;
-@use 'media' as *;
+@use '000-var' as *;
+@use '010-media' as *;
 
-.btn {
+button {
   position: relative;
   padding: 0.6rem 1.2rem 0.5rem;
   border-radius: 0.25rem;
   border: none;
-  height: 2.5rem; // form input 과 높이를 맞춘다.
+  height: $control-height;
 
   font-family: sans-serif;
   white-space: nowrap;
@@ -17,10 +17,10 @@
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   transition: all 0.3s;
-}
 
-.btn:hover  { background: $color-gray-dim; }
-.btn:active { background: $color-gray-dim; top: 2px; }
+  &:hover  { background: $color-gray-dim; }
+  &:active { background: $color-gray-dim; top: 2px; }
+}
 
 .btn-blue         { background: $color-blue; color: #fff; }
 .btn-blue:hover   { background: $color-blue-dim; }

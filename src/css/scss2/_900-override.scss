@@ -1,5 +1,5 @@
-@use 'var' as *;
-@use 'media' as *;
+@use '000-var' as *;
+@use '010-media' as *;
 
 button:disabled,
 button:disabled:hover {
@@ -9,5 +9,5 @@ button:disabled:hover {
 
 .link-no-deco,
 .link-no-deco a {
-  color: $color-body;
+  color: $color-text;
 }

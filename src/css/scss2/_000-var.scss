@@ -1,0 +1,70 @@
+
+// Color
+
+$color-text: #212529;
+$color-muted: #6c757d;
+$color-border: #eee;
+
+$color-white: #fff;
+$color-black: #000;
+$color-dark: #212529;
+$color-very-light: #f8f8f8;
+
+$color-blue: #3498db;
+$color-blue-dim: #2980b9;
+$color-green: #2ecc71;
+$color-green-dim: #27ae60;
+$color-red: #e74c3c;
+$color-red-dim: #c0392b;
+$color-gray: #eee;
+$color-gray-dim: #ddd;
+
+$color-disabled: #ccc;
+
+// from Bootstrap
+$color-primary: #0d6efd;
+$color-secondary: #6c757d;
+$color-success: #198754;
+$color-danger: #dc3545;
+
+// Width
+
+$screen-sm: 640px;
+$screen-md: 768px;
+$screen-lg: 1024px;
+$screen-xl: 1280px;
+$screen-2xl: 1536px;
+
+$width-2xs: 16rem;
+$width-xs:  20rem;
+$width-sm:  24rem;
+$width-md:  32rem;
+$width-lg:  40rem;
+
+// Margin
+
+$margin-xs: 1.3rem;
+$margin-sm: 1.6rem;
+$margin-md: 2rem;
+$margin-lg: (2rem * 1.3); // 2.6
+$margin-xl: (2rem * 1.3 * 1.3); // 3.38
+$margin-2xl: (2rem * 1.3 * 1.3 * 1.3); // 4.39
+$margin-3xl: (2rem * 1.3 * 1.3 * 1.3 * 1.3); // 5.7
+$margin-4xl: (2rem * 1.3 * 1.3 * 1.3 * 1.3 * 1.3); // 7.4
+
+// Font Size
+
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-md: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 2rem;
+$font-size-4xl: 3rem;
+$font-size-5xl: 4rem;
+$font-size-6xl: 5rem;
+
+// Form
+
+$control-height: 2.5rem;

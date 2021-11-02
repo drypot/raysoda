@@ -15,7 +15,7 @@
         <% if (!app.prev) { %>
 
             <!-- Home Menu -->
-            <div class="flex-center space-x">
+            <div class="flex flex-center space-x-2 fs-lg nowrap">
                 <% if (app.user.id !== -1) { %>
                     <a href='/upload-image'>사진등록</a>
                     <a href='/user/<%- encodeURIComponent(app.user.home) %>'>사용자홈</a>
@@ -29,14 +29,14 @@
                     <a href='/user-logout'>로그아웃</a>
                 <% } %>
             </div>
-            <div class="mt-sm flex-center space-x">
+            <div class="mt-2 flex flex-center space-x-2 fs-lg nowrap">
                 <a href='/about'>사이트소개</a>
                 <a href='/help'>도움말</a>
             </div>
 
             <!-- Banner List -->
             <% if (app.bannerList.length) { %>
-                <div class="mt-lg flex flex-column">
+                <div class="mt-lg flex flex-col">
                     <% for(const banner of app.bannerList) { %>
                         <a href="<%- banner.url %>" target="_blank"><%= banner.text %></a>
                     <% } %>
@@ -46,9 +46,9 @@
         <% } %>
     </div>
 
-    <div class="max-w-full text-center link-no-deco">
+    <div class="max-w-full text-center link-no-deco fs-lg">
         <% for (const image of app.imageList) { %>
-            <div class="mt-deep">
+            <div class="mt-4xl">
                 <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>
                 <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
                 <div class="inline-block relative image-card">
@@ -59,9 +59,9 @@
                     </a>
                     <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
                     <% if (c) { %>
-                        <div class="mt-xs comment"><%= c %></div>
+                        <div class="mt-3 comment"><%= c %></div>
                     <% } %>
-                    <div class="mt-xs">
+                    <div class="mt-3">
                         <a href='/user/<%- encodeURIComponent(image.owner.home) %>'><%= image.owner.name %></a>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
 
     <%- include('../_common/prev-next') %>
 
-    <div class="mt-deep flex-center space-x">
+    <div class="mt-4xl flex flex-center space-x-4 fs-lg">
         <a href='https://raysoda.com'>RaySoda</a>
         <a href='https://rapixel.com'>Rapixel</a>
         <a href='https://osoky.com'>Osoky</a>
@@ -81,7 +81,6 @@
     <script>
         app.initImageList()
     </script>
-    hhih
 </body>
 </html>
 
