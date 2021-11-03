@@ -15,18 +15,21 @@
 }
 
 #modal-dialog {
-  background-color: #fefefe;
+  margin: $margin-3xl auto;
+
   width: 90%;
   max-width: $width-lg;
-  margin: $margin-3xl auto;
+
   padding: 0.8rem 1rem;
   border: 1px solid #888;
   border-radius: 0.6rem;
+
+  background-color: #fefefe;
+  text-align: center;
 }
 
 #modal-title {
   margin-top: 0.8rem;
-  text-align: center;
   //border-bottom: 1px solid #999;
 }
 

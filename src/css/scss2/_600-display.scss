@@ -13,26 +13,15 @@
 
 .inline-flex { display: inline-flex; }
 
-.flex-col {
-  flex-direction: column;
-}
+.flex-col { flex-direction: column; }
 
-.flex-center {
-  justify-content: center;
-  align-items: center;
-}
+.content-center { justify-content: center }
 
-.items-center {
-  align-items: center;
-}
+.items-center   { align-items: center; }
+.items-baseline { align-items: baseline; }
 
-.flex-nowrap {
-  flex-wrap: nowrap; // default 다.
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
-}
+.flex-nowrap { flex-wrap: nowrap; } // default
+.flex-wrap   { flex-wrap: wrap; }
 
 // flex Item
 

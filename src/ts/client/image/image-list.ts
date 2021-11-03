@@ -1,4 +1,4 @@
-import { newElementFromHtml } from '@client/util/dom'
+import { domQueryAll, newElementFromHtml } from '@client/util/dom'
 import { tagUp } from '@common/util/tagup'
 import { fsEnabled, fsExit, fsRequest, fsWidth, fsWrapper } from '@client/util/fullscreen'
 
@@ -10,7 +10,7 @@ export function initImageList() {
 }
 
 function tagUpComments() {
-  const comments = document.querySelectorAll('.image-card .comment')
+  const comments = domQueryAll('.image-card .comment')
   Array.from(comments).forEach(comment => {
     comment.innerHTML = tagUp(comment.innerHTML)
   })
@@ -22,7 +22,7 @@ const fsIconTag = `<svg xmlns="http://www.w3.org/2000/svg" class="fs-icon" fill=
 
 function addFullscreenIcons() {
   if (!fsEnabled) return
-  const imgs = document.querySelectorAll('.image-card img')
+  const imgs = domQueryAll('.image-card img')
   Array.from(imgs).forEach(img => {
     const imgUrl = findFSImage(img)
     const icon = newElementFromHtml(fsIconTag)

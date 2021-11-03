@@ -1,5 +1,6 @@
 import { ErrorConst } from '@common/type/error'
 import { openErrorModal } from '@client/util/modal'
+import { domQuery, domQueryAll, getElementById } from '@client/util/dom'
 
 export type Form = {
   form: HTMLFormElement,
@@ -20,12 +21,11 @@ export type Form = {
   },
 }
 
-export function submitHelper(
-  formQuery: string,
+export function linkSubmitHandler(
+  form: Form,
   callFetch: (form: Form) => Promise<any>,
   handleResult: (body: any) => void
 ) {
-  const form = grabForm(formQuery)
   form.button.send.onclick = (e) => {
     submit()
     e.preventDefault()
@@ -33,11 +33,11 @@ export function submitHelper(
   return
 
   function submit() {
-    clearFormError(form)
+    clearError(form)
     disableSubmitButton(form)
     callFetch(form).then(body => {
       if (body.err) {
-        reportFormError(form, body.err)
+        reportError(form, body.err)
         enableSubmitButton(form)
         return
       }
@@ -54,43 +54,44 @@ export function submitHelper(
   }
 }
 
-export function grabForm(query: string) {
+export function grabForm(id: string) {
+  const _form = getElementById(id) as HTMLFormElement
   const form: Form = {
-    form: document.querySelector(query) as HTMLFormElement,
+    form: _form,
     all: {},
     input: {},
     text: {},
     select: {},
     button: {}
   }
-  Array.from(document.querySelectorAll(query + ' input')).forEach(el => {
+  domQueryAll('input', _form).forEach(el => {
     const name = el.getAttribute('name') as string
     form.input[name] = el as HTMLInputElement
-    form.all[name] = el as HTMLElement
+    form.all[name] = el
   })
-  Array.from(document.querySelectorAll(query + ' textarea')).forEach(el => {
+  domQueryAll('textarea', _form).forEach(el => {
     const name = el.getAttribute('name') as string
     form.text[name] = el as HTMLTextAreaElement
-    form.all[name] = el as HTMLElement
+    form.all[name] = el
   })
-  Array.from(document.querySelectorAll(query + ' select')).forEach(el => {
+  domQueryAll('select', _form).forEach(el => {
     const name = el.getAttribute('name') as string
     form.select[name] = el as HTMLSelectElement
-    form.all[name] = el as HTMLElement
+    form.all[name] = el
   })
-  Array.from(document.querySelectorAll(query + ' button')).forEach(el => {
+  domQueryAll('button', _form).forEach(el => {
     const name = el.getAttribute('name') as string
     form.button[name] = el as HTMLButtonElement
-    form.all[name] = el as HTMLElement
+    form.all[name] = el
   })
   return form
 }
 
-function reportFormError(form: Form, errs: ErrorConst[]) {
-  reportNext(form, errs, 0)
+function reportError(form: Form, errs: ErrorConst[]) {
+  reportNextError(form, errs, 0)
 }
 
-function reportNext(form: Form, errs: ErrorConst[], i: number) {
+function reportNextError(form: Form, errs: ErrorConst[], i: number) {
   if (i === errs.length)
     return
 
@@ -98,7 +99,7 @@ function reportNext(form: Form, errs: ErrorConst[], i: number) {
 
   if (err.field === '_system') {
     openErrorModal(err, () => {
-      reportNext(form, errs, i + 1)
+      reportNextError(form, errs, i + 1)
     })
     return
   }
@@ -108,9 +109,9 @@ function reportNext(form: Form, errs: ErrorConst[], i: number) {
   if (field) {
     field.parentElement?.after(error)
   } else {
-    form.form.querySelector('.error-group')?.append(error)
+    domQuery('.error-group', form.form)?.append(error)
   }
-  reportNext(form, errs, i + 1)
+  reportNextError(form, errs, i + 1)
 }
 
 function newError(message: string) {
@@ -120,9 +121,8 @@ function newError(message: string) {
   return err
 }
 
-function clearFormError(form: Form) {
-  const list = form.form.querySelectorAll('.error')
-  Array.from(list).forEach(el => el.remove())
+function clearError(form: Form) {
+  domQueryAll('.error', form.form).forEach(el => el.remove())
 }
 
 function disableSubmitButton(form: Form) {
@@ -141,3 +141,14 @@ function enableSubmitButton(form: Form) {
     btn.disabled = false
   }
 }
+
+export function getInputRadioValue(form: Form, name: string) {
+  const el = domQuery(`input[name="${name}"]:checked`, form.form) as HTMLInputElement
+  return el.value
+}
+
+export function setInputRadioChecked(form: Form, name: string, value: string) {
+  const el = domQuery(`input[name="${name}"][value="${value}"]`, form.form) as HTMLInputElement
+  el.checked = true
+}
+

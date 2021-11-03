@@ -15,7 +15,7 @@
         <% if (!app.prev) { %>
 
             <!-- Home Menu -->
-            <div class="flex flex-center space-x-2 fs-lg nowrap">
+            <div class="flex content-center space-x-4 fs-lg ws-nowrap">
                 <% if (app.user.id !== -1) { %>
                     <a href='/upload-image'>사진등록</a>
                     <a href='/user/<%- encodeURIComponent(app.user.home) %>'>사용자홈</a>
@@ -29,7 +29,7 @@
                     <a href='/user-logout'>로그아웃</a>
                 <% } %>
             </div>
-            <div class="mt-2 flex flex-center space-x-2 fs-lg nowrap">
+            <div class="mt-2 flex content-center space-x-4 fs-lg ws-nowrap">
                 <a href='/about'>사이트소개</a>
                 <a href='/help'>도움말</a>
             </div>

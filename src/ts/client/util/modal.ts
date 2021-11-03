@@ -74,7 +74,7 @@ function closeModal(result: string) {
 }
 
 function showElement(e: HTMLElement) {
-  e.style.display = 'block'
+  e.style.display = 'inline-block'
 }
 
 function hideElement(e: HTMLElement) {

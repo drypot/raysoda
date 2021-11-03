@@ -37,8 +37,17 @@ describe('UserUpdatePage', () => {
   it('login', async () => {
     await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
-  it('user-update 1', async () => {
-    await sat.get('/user-update/1').expect(200).expect(/<title>Update/)
+  it('update profile', async () => {
+    await sat.get('/user-update-profile/1').expect(200).expect(/<title>Update/)
+  })
+  it('update password', async () => {
+    await sat.get('/user-update-password/1').expect(200).expect(/<title>Update/)
+  })
+  it('update status', async () => {
+    await sat.get('/user-update-status/1').expect(200).expect(/<title>Update/)
+  })
+  it('update done', async () => {
+    await sat.get('/user-update-done/1').expect(200).expect(/<title>Update/)
   })
 
 })

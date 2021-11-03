@@ -1,11 +1,12 @@
-import { Form, submitHelper } from '@client/util/form'
+import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
 import { UserUpdateStatusForm } from '@common/type/user-form'
 import { putJson } from '@client/util/fetch'
 import { MODAL_OK, openRedModal } from '@client/util/modal'
 import { user } from '@client/util/context'
 
 export function initUserDeactivateForm() {
-  submitHelper('#deactivateForm', submit, result)
+  const form = grabForm('form')
+  linkSubmitHandler(form, submit, result)
 }
 
 function submit(form: Form) {

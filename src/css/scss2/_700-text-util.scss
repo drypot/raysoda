@@ -47,9 +47,12 @@
 
 // White Space
 
-.nowrap {
-  white-space: nowrap;
-}
+.ws-normal       { white-space: normal; }
+.ws-nowrap       { white-space: nowrap; }
+.ws-pre          { white-space: pre; }
+.ws-pre-wrap     { white-space: pre-wrap; }
+.ws-pre-line     { white-space: pre-line; }
+.ws-break-spaces { white-space: break-spaces; }
 
 // Cursor
 

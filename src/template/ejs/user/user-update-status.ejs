@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% app.title = 'Change Password' %>
+    <%- include('../_common/head') %>
+</head>
+<body>
+    <%- include('../_common/header') %>
+
+    <div class="wrapper">
+        <h1>상태 수정</h1>
+        <form id="form" class="max-w-4xs">
+            <label class="flex items-baseline">
+                <input type="radio" name="status" value="v">
+                <span>Valid</span>
+            </label>
+            <label class="flex items-baseline">
+                <input type="radio" name="status" value="d">
+                <span>Deactivated</span>
+            </label>
+            <div class="error-group"></div>
+            <div class="btn-group">
+                <button class="btn-blue" name="send">수정</button>
+            </div>
+        </form>
+    </div>
+
+    <%- include('../_common/footer') %>
+    <script type="application/json" id="formJson">
+        <%= JSON.stringify(app.form) %>
+    </script>
+    <script>
+        app.initUserUpdateStatus();
+    </script>
+</body>
+</html>

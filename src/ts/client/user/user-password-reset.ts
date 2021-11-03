@@ -1,11 +1,12 @@
-import { Form, submitHelper } from '@client/util/form'
+import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
 import { postJson } from '@client/util/fetch'
 import { pathSlice } from '@client/util/context'
 import { NewPasswordForm } from '@common/type/password'
 import { newNumber, newString } from '@common/util/primitive'
 
 export function initUserPasswordResetForm() {
-  submitHelper('#resetForm', post, result)
+  const form = grabForm('form')
+  linkSubmitHandler(form, post, result)
 }
 
 function post(form: Form) {

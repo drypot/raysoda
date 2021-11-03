@@ -1,9 +1,10 @@
-import { Form, submitHelper, } from '@client/util/form'
+import { Form, grabForm, linkSubmitHandler, } from '@client/util/form'
 import { UserRegisterForm } from '@common/type/user-form'
 import { postJson } from '@client/util/fetch'
 
 export function initUserRegisterForm() {
-  submitHelper('#registerForm', submit, result)
+  const form = grabForm('form')
+  linkSubmitHandler(form, submit, result)
 }
 
 function submit(form: Form) {

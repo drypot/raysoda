@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% app.title = 'Update Profile' %>
+    <%- include('../_common/head') %>
+</head>
+<body>
+    <%- include('../_common/header') %>
+
+    <div class="wrapper">
+        <h1>이름, 이메일 수정</h1>
+        <form id="form" class="max-w-xs">
+            <label>
+                <span>사용자 이름</span>
+                <input type="text" name="name" maxlength=32 autofocus>
+            </label>
+            <label>
+                <span><%= app.form.mainUrl %>/user/</span>
+                <input type="text" name="home" maxlength=32>
+            </label>
+            <label>
+                <span>이메일</span>
+                <input type="text" name="email" maxlength=64>
+            </label>
+            <label>
+                <span>프로필</span>
+                <textarea name="profile" rows="7"></textarea>
+            </label>
+            <div class="error-group"></div>
+            <div class="btn-group">
+                <button class="btn-blue" name="send">수정</button>
+            </div>
+        </form>
+    </div>
+
+    <%- include('../_common/footer') %>
+    <script type="application/json" id="formJson">
+        <%= JSON.stringify(app.form) %>
+    </script>
+    <script>
+        app.initUserUpdateProfile();
+    </script>
+</body>
+</html>

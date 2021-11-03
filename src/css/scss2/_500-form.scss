@@ -16,7 +16,7 @@ form {
       display: block;
     }
 
-    input:not([type="checkbox"]), textarea, select {
+    input[type=text], input[type=password], textarea, select {
       display: block;
       width: 100%;
       height: $control-height;
@@ -43,16 +43,11 @@ form {
 
   }
 
-  label.flex-label {
-    display: flex;
-    align-items: center;
-
-    input:not([type="checkbox"]), select {
-    }
-
-    input[type=checkbox] {
-      margin-right: 0.5rem;
-    }
+  input[type=checkbox] {
+    margin-right: 0.5rem;
+  }
+  input[type=radio] {
+    margin-right: 0.5rem;
   }
 
   .error {

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% app.title = 'Update Done' %>
+    <%- include('../_common/head') %>
+</head>
+<body>
+    <%- include('../_common/header') %>
+
+    <div class="wrapper">
+        <h1>수정 완료</h1>
+        <p>사용자 정보가 수정되었습니다.</p>
+        <p><a href="/user/<%- encodeURIComponent(app.form.home) %>">사용자홈</a></p>
+    </div>
+
+    <%- include('../_common/footer') %>
+</body>
+</html>

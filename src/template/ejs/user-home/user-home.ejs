@@ -16,19 +16,19 @@
         </h1>
 
         <% if (!app.prev) { %>
-            <div class="fs-lg">
-                <div id="profile"><%= app.owner.profile %></div>
+            <div class="fs-lg space-y-lg">
+                <div id="profile" class="ws-pre-line"><%= app.owner.profile %></div>
                 <% if (app.updatable) { %>
-                    <div class="mt-lg flex flex-col">
-                        <a href='/user-update/<%= app.owner.id %>'>개인정보수정</a>
-                        <a href='/user-update-password/<%= app.owner.id %>'>비밀번호수정</a>
+                    <div class="flex flex-col">
+                        <a href='/user-update-profile/<%= app.owner.id %>'>이름, 이메일 수정</a>
+                        <a href='/user-update-password/<%= app.owner.id %>'>비밀번호 수정</a>
                         <% if (app.user.admin) { %>
-                            <a href='/user-update-status/<%= app.owner.id %>'>상태수정</a>
+                            <a href='/user-update-status/<%= app.owner.id %>'>상태 수정</a>
                         <% } %>
                     </div>
                 <% } %>
                 <% if (app.owner.status === 'd') { %>
-                    <div class="mt-lg">이 계정은 사용 중지되었습니다.</div>
+                    <div>이 계정은 사용 중지되었습니다.</div>
                 <% } %>
             </div>
         <% } %>

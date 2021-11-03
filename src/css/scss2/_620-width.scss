@@ -21,6 +21,8 @@
 .max-w-1280 { max-width: 1280px; }
 .max-w-1536 { max-width: 1536px; }
 
+.max-w-4xs { max-width: $width-4xs; }
+.max-w-3xs { max-width: $width-3xs; }
 .max-w-2xs { max-width: $width-2xs; }
 .max-w-xs  { max-width: $width-xs;  }
 .max-w-sm  { max-width: $width-sm;  }

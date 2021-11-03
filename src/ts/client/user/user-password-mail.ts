@@ -1,8 +1,9 @@
-import { Form, submitHelper } from '@client/util/form'
+import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
 import { postJson } from '@client/util/fetch'
 
 export function initUserPasswordMailForm() {
-  submitHelper('#mailForm', post, result)
+  const form = grabForm('form')
+  linkSubmitHandler(form, post, result)
 }
 
 function post(form: Form) {
