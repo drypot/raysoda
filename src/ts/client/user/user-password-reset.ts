@@ -1,6 +1,6 @@
 import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
 import { sendPost } from '@client/util/fetch'
-import { pathSlice } from '@client/util/context'
+import { pathList } from '@client/util/context'
 import { NewPasswordForm } from '@common/type/password'
 import { newNumber, newString } from '@common/util/primitive'
 
@@ -11,8 +11,8 @@ export function initUserPasswordResetForm() {
 
 function post(form: Form) {
   const data: NewPasswordForm = {
-    id: newNumber(pathSlice[1]),
-    random: newString(pathSlice[2]),
+    id: newNumber(pathList[1]),
+    random: newString(pathList[2]),
     password: form.input.password.value,
   }
   return sendPost('/api/user-password-reset', data)

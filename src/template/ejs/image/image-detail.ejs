@@ -12,7 +12,7 @@
     <%- include('../_common/header') %>
 
     <div class="max-w-full text-center">
-        <div class="inline-block relative image-card">
+        <div class="inline-block relative">
             <img id="image" class="max-w-full cursor-pointer"
                  src="<%- locals.image.thumbUrl %>"
                  data-vers="<%- locals.image.vers ? locals.image.vers.join(',') : null %>">
@@ -21,7 +21,7 @@
 
     <div class="mt-xl wrapper">
         <% if (locals.image.comment) { %>
-            <p class="whitespace-pre-line">
+            <p id="comment" class="whitespace-pre-line">
                 <%= locals.image.comment %>
             </p>
         <% } %>
@@ -33,9 +33,9 @@
         </p>
 
         <% if (locals.image.updatable) { %>
-            <div class="mt-xl space-x-3">
-                <button id="btn-update" class="btn-hover-green text-sm">수정</button>
-                <button id="btn-del" class="btn-hover-red text-sm">삭제</button>
+            <div class="mt-xl space-x-4">
+                <button id="update-btn" class="btn-link">수정</button>
+                <button id="delete-btn" class="btn-red">삭제</button>
             </div>
         <% } %>
     </div>
@@ -45,9 +45,7 @@
       <%= JSON.stringify(locals.image) %>
     </script>
     <script>
-        // $(function () {
-        //     cimage.initView(getObjectById('imageJson'))
-        // })
+        page.initImageDetail()
     </script>
 </body>
 </html>

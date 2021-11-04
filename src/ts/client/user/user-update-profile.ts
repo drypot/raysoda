@@ -1,7 +1,7 @@
 import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
 import { UserUpdateProfileForm } from '@common/type/user-form'
 import { sendPut } from '@client/util/fetch'
-import { pathSlice } from '@client/util/context'
+import { pathList } from '@client/util/context'
 import { newNumber } from '@common/util/primitive'
 import { getEmbeddedJson } from '@client/util/dom'
 
@@ -17,7 +17,7 @@ export function initUserUpdateProfile() {
 
 function submit(form: Form) {
   const data: UserUpdateProfileForm = {
-    id: newNumber(pathSlice[1]),
+    id: newNumber(pathList[1]),
     name: form.input.name.value,
     home: form.input.home.value,
     email: form.input.email.value,
@@ -27,5 +27,5 @@ function submit(form: Form) {
 }
 
 function result(body: any) {
-  window.location.href = '/user-update-done/' + pathSlice[1]
+  window.location.href = '/user-update-done/' + pathList[1]
 }

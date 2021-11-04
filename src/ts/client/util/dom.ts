@@ -1,10 +1,10 @@
 
 export function getElementById(id: string) {
-  return document.getElementById(id) as HTMLElement
+  return document.getElementById(id)
 }
 
 export function domQuery(q: string, el:ParentNode = document) {
-  return el.querySelector(q) as HTMLElement | null
+  return el.querySelector(q)
 }
 
 export function domQueryAll(q: string, el:ParentNode = document) {
@@ -24,8 +24,8 @@ export function newElementListFromHtml(html: string) {
 }
 
 export function getEmbeddedJson(id: string) {
-  let raw = getElementById(id).innerText
-  return JSON.parse(decodeHtml(raw))
+  const el = getElementById(id) as HTMLElement
+  return JSON.parse(decodeHtml(el.innerText))
 }
 
 function decodeHtml(raw: string) {

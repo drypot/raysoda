@@ -20,7 +20,7 @@
         <div class="mt-xl fs-lg">
             <% if (locals.userList.length) { %>
                 <% for (const user of locals.userList) { %>
-                    <a href="/user/<%- locals.encodedUserHome %>"><%= user.name %></a><br>
+                    <a href="/user/<%- encodeURIComponent(page.user.home) %>"><%= user.name %></a><br>
                 <% } %>
             <% } else { %>
                 검색 결과가 없습니다.

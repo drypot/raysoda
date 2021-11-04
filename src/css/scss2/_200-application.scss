@@ -48,15 +48,13 @@
   height: 2rem;
 
   color: rgba(255, 255, 255, 0.2);
-
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 }
 
 #fullscreen {
   img {
     max-width: 100vw;
     max-height: 100vh;
+    cursor: pointer;
   }
 }

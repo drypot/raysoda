@@ -31,6 +31,13 @@ export function sendPut(url: string, data: any) {
   return callFetch(url, opt)
 }
 
+export function sendDelete(url: string) {
+  const opt: RequestInit = {
+    method: 'DELETE',
+  }
+  return callFetch(url, opt)
+}
+
 function callFetch(url: string, opt: RequestInit) {
   return fetch(url, opt)
     .then(res => {

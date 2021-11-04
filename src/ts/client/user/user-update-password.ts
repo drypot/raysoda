@@ -1,7 +1,7 @@
 import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
 import { UserUpdatePasswordForm } from '@common/type/user-form'
 import { sendPut } from '@client/util/fetch'
-import { pathSlice } from '@client/util/context'
+import { pathList } from '@client/util/context'
 import { newNumber } from '@common/util/primitive'
 
 export function initUserUpdatePassword() {
@@ -11,13 +11,13 @@ export function initUserUpdatePassword() {
 
 function submit(form: Form) {
   const data: UserUpdatePasswordForm = {
-    id: newNumber(pathSlice[1]),
+    id: newNumber(pathList[1]),
     password: form.input.password.value
   }
   return sendPut('/api/user-update-password', data)
 }
 
 function result(body: any) {
-  window.location.href = '/user-update-done/' + pathSlice[1]
+  window.location.href = '/user-update-done/' + pathList[1]
 }
 
