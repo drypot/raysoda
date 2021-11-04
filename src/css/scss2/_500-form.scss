@@ -18,6 +18,7 @@ form {
 
     input[type=text], input[type=password], textarea, select {
       display: block;
+
       width: 100%;
       height: $control-height;
 
@@ -36,6 +37,18 @@ form {
       }
     }
 
+    input[type=file] {
+      display: block;
+
+      width: 100%;
+      height: ($control-height + 0.5);
+
+      padding: 0.25rem 0.5rem;
+      border: 1px solid $color-border;
+      border-radius: 0.25rem;
+      outline: none;
+    }
+
     textarea {
       //resize: none;
       height: auto;
@@ -52,7 +65,7 @@ form {
 
   .error {
     margin-top: 0.5rem;
-    color: $color-red;
+    color: $btn-red;
   }
 
   .error-group {

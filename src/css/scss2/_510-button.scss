@@ -11,25 +11,25 @@ button {
   font-family: sans-serif;
   white-space: nowrap;
 
-  background: $color-gray;
+  background: $btn-gray;
   color: #444;
 
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   transition: all 0.3s;
 
-  &:hover  { background: $color-gray-dim; }
-  &:active { background: $color-gray-dim; top: 2px; }
+  &:hover  { background: $btn-gray-dim; }
+  &:active { background: $btn-gray-dim; top: 2px; }
 }
 
-.btn-blue         { background: $color-blue; color: #fff; }
-.btn-blue:hover   { background: $color-blue-dim; }
-.btn-blue:active  { background: $color-blue-dim; }
+.btn-blue         { background: $btn-blue; color: #fff; }
+.btn-blue:hover   { background: $btn-blue-dim; }
+.btn-blue:active  { background: $btn-blue-dim; }
 
-.btn-green        { background: $color-green; color: #fff; }
-.btn-green:hover  { background: $color-green-dim; }
-.btn-green:active { background: $color-green-dim; }
+.btn-green        { background: $btn-green; color: #fff; }
+.btn-green:hover  { background: $btn-green-dim; }
+.btn-green:active { background: $btn-green-dim; }
 
-.btn-red          { background: $color-red; color: #fff; }
-.btn-red:hover    { background: $color-red-dim; }
-.btn-red:active   { background: $color-red-dim; }
+.btn-red          { background: $btn-red; color: #fff; }
+.btn-red:hover    { background: $btn-red-dim; }
+.btn-red:active   { background: $btn-red-dim; }
