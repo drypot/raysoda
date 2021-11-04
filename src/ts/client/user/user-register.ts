@@ -1,6 +1,6 @@
 import { Form, grabForm, linkSubmitHandler, } from '@client/util/form'
 import { UserRegisterForm } from '@common/type/user-form'
-import { postJson } from '@client/util/fetch'
+import { sendPost } from '@client/util/fetch'
 
 export function initUserRegisterForm() {
   const form = grabForm('form')
@@ -12,7 +12,7 @@ function submit(form: Form) {
     email: form.input.email.value,
     password: form.input.password.value,
   }
-  return postJson('/api/user-register', data)
+  return sendPost('/api/user-register', data)
 }
 
 function result(body: any) {

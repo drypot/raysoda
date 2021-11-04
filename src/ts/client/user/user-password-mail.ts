@@ -1,5 +1,5 @@
 import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
-import { postJson } from '@client/util/fetch'
+import { sendPost } from '@client/util/fetch'
 
 export function initUserPasswordMailForm() {
   const form = grabForm('form')
@@ -10,7 +10,7 @@ function post(form: Form) {
   const data = {
     email: form.input.email.value
   }
-  return postJson('/api/user-password-mail', data)
+  return sendPost('/api/user-password-mail', data)
 }
 
 function result(body: any) {

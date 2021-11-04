@@ -1,6 +1,6 @@
 import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
 import { UserUpdateStatusForm } from '@common/type/user-form'
-import { putJson } from '@client/util/fetch'
+import { sendPut } from '@client/util/fetch'
 import { MODAL_OK, openRedModal } from '@client/util/modal'
 import { user } from '@client/util/context'
 
@@ -17,7 +17,7 @@ function submit(form: Form) {
           id: user.id,
           status: 'd'
         }
-        resolve(putJson('/api/user-update-status', data))
+        resolve(sendPut('/api/user-update-status', data))
       } else {
         reject()
       }

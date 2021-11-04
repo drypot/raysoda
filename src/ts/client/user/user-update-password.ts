@@ -1,6 +1,6 @@
 import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
 import { UserUpdatePasswordForm } from '@common/type/user-form'
-import { putJson } from '@client/util/fetch'
+import { sendPut } from '@client/util/fetch'
 import { pathSlice } from '@client/util/context'
 import { newNumber } from '@common/util/primitive'
 
@@ -14,7 +14,7 @@ function submit(form: Form) {
     id: newNumber(pathSlice[1]),
     password: form.input.password.value
   }
-  return putJson('/api/user-update-password', data)
+  return sendPut('/api/user-update-password', data)
 }
 
 function result(body: any) {

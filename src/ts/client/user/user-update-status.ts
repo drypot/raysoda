@@ -1,6 +1,6 @@
 import { Form, getInputRadioValue, grabForm, linkSubmitHandler, setInputRadioChecked } from '@client/util/form'
 import { UserUpdateStatusForm } from '@common/type/user-form'
-import { putJson } from '@client/util/fetch'
+import { sendPut } from '@client/util/fetch'
 import { pathSlice } from '@client/util/context'
 import { newNumber } from '@common/util/primitive'
 import { getEmbeddedJson } from '@client/util/dom'
@@ -17,7 +17,7 @@ function submit(form: Form) {
     id: newNumber(pathSlice[1]),
     status: getInputRadioValue(form, 'status') === 'v' ? 'v' : 'd'
   }
-  return putJson('/api/user-update-status', data)
+  return sendPut('/api/user-update-status', data)
 }
 
 function result(body: any) {
