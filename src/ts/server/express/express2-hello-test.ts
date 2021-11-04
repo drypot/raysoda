@@ -20,8 +20,10 @@ describe('Express2 Hello', () => {
 
   it('hello', async () => {
     const res = await sat.get('/api/hello').expect(200)
-    expect(res.type).toBe('text/plain')
-    expect(res.text).toBe('hello')
+    // expect(res.type).toBe('text/plain')
+    // expect(res.text).toBe('hello')
+    expect(res.type).toBe('application/json')
+    expect(res.body).toBe('hello')
   })
 
 })

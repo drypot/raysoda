@@ -10,6 +10,7 @@ import { Config } from '@common/type/config'
 import { inDev, inProduction } from '@common/util/env2'
 import { omanGetConfig, omanRegisterCloser, omanRegisterFactory } from '../oman/oman'
 import { INVALID_DATA, INVALID_PAGE } from '@common/type/error-const'
+import { renderJson } from '@server/express/render-json'
 
 export type ExpressCallbackHandler = (req: Request, res: Response, done: NextFunction) => void
 export type ExpressPromiseHandler = (req: Request, res: Response) => Promise<void>
@@ -181,8 +182,9 @@ export class Express2 {
 
     // 클라이언트에서 Ping 에 사용한다.
     this.express.get('/api/hello', function (req, res) {
-      res.setHeader('content-type', 'text/plain')
-      res.send('hello')
+      // res.setHeader('content-type', 'text/plain')
+      // res.send('hello')
+      renderJson(res, 'hello')
     })
 
     // 테스트용.
