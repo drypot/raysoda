@@ -20,9 +20,7 @@ export async function useImageUpdatePage() {
     const err: ErrorConst[] = []
     const image = await imageGetForUpdate(idb, user, id, err)
     if (err.length) throw err
-    renderHtml(res, 'image/image-update', {
-      image
-    })
+    renderHtml(res, 'image/image-update', { form: { image } })
   }))
 
 }

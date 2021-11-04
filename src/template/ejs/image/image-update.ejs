@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% locals.title = 'Update Image' %>
+    <%- include('../_common/head') %>
+</head>
+<body>
+    <%- include('../_common/header') %>
+
+    <div class="wrapper">
+        <h1>사진 수정</h1>
+        <form id="form" class="max-w-sm">
+            <input type="hidden" name="id">
+            <label>
+                <% if (locals.config.appNamel === 'drypot') { %>
+                    <span>SVG 파일</span>
+                    <input type="file" name="file" accept='image/svg+xml, .svg'>
+                <% } else { %>
+                    <span>사진 파일</span>
+                    <input type="file" name="file" accept='image/jpeg, image/png, image/tiff'>
+                <% } %>
+            </label>
+            <label>
+                <span>설명</span>
+                <textarea name="comment" rows="7"></textarea>
+            </label>
+            <div class="error-group"></div>
+            <div class="btn-group">
+                <button class="btn-blue" name="send">등록</button>
+            </div>
+        </form>
+        <%- include('image-upload-notice') %>
+    </div>
+
+    <%- include('../_common/footer') %>
+    <script type="application/json" id="formJson">
+        <%= JSON.stringify(locals.form) %>
+    </script>
+    <script>
+        page.initImageUpdate()
+    </script>
+</body>
+</html>
+
+
+<%
+layout('../_layout.eta')
+locals.title = ''
+%>
+
+block head-opt
+  title Update Image - <%- locals.config.appName %>
+
+block content
+
+  script.
+    $(function () {
+      cimage.initUpdate(!{JSON.stringify(image)});
+    });
+
+  .section.page-title
+    //-h1 Update Image
+    h1 수정
+
+  .section
+    form.main
+      .sub-section
+        .form-group
+          //-label.control-label Image
+          label.control-label 이미지 파일
+          input.form-control(type='file', name='file', accept='image/jpeg, image/png, image/tiff')
+          if config.appNamel == 'drypot'
+            p.help-block
+              Only SVG files.
+        .form-group
+          //-label.control-label Comment
+          label.control-label 이미지 설명
+          textarea.form-control(name='comment', rows=7) <%- image.comment %>
+      .sub-section
+        button.btn.btn-primary(name='send', data-loading-text='전송중') 수정완료
+
+  include image-new-notice
