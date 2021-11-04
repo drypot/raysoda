@@ -20,3 +20,4 @@ function submit(form: Form) {
 function result(body: any) {
   window.location.href = '/user-update-done/' + pathSlice[1]
 }
+
