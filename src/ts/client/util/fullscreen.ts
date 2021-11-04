@@ -1,7 +1,7 @@
 import { getElementById } from '@client/util/dom'
 
 export const fsWidth = window.screen.width * (window.devicePixelRatio || 1)
-export const fsWrapper = getElementById("fullscreen")
+export const fsWrapper = getElementById("fullscreen") as HTMLElement
 
 const documentAny = document as any
 
