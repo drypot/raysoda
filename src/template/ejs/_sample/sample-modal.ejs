@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = 'Sample Modal' %>
+    <% locals.title = 'Sample Modal' %>
     <%- include('../_common/head') %>
 </head>
 <body>
@@ -19,24 +19,24 @@
     <%- include('../_common/footer') %>
 
     <script>
-        app.elementById('blueModalBtn').onclick = () => {
-            app.openBlueModal(
+        locals.elementById('blueModalBtn').onclick = () => {
+            locals.openBlueModal(
                 'Hi',
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
                 '확인',
                 modalResult
             )
         }
-        app.elementById('redModalBtn').onclick = () => {
-            app.openRedModal(
+        locals.elementById('redModalBtn').onclick = () => {
+            locals.openRedModal(
                 'Warning',
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
                 '삭제',
                 modalResult
             )
         }
-        app.elementById('errModalBtn').onclick = () => {
-            app.openErrorModal(
+        locals.elementById('errModalBtn').onclick = () => {
+            locals.openErrorModal(
                 {
                     name: 'Error',
                     message: "Error: ER_BAD_FIELD_ERROR: Unknown column 'cdate' in 'field list'\n" +

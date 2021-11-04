@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = 'Change Password' %>
+    <% locals.title = 'Change Password' %>
     <%- include('../_common/head') %>
 </head>
 <body>
@@ -27,10 +27,10 @@
 
     <%- include('../_common/footer') %>
     <script type="application/json" id="formJson">
-        <%= JSON.stringify(app.form) %>
+        <%= JSON.stringify(locals.form) %>
     </script>
     <script>
-        app.initUserUpdateStatus();
+        page.initUserUpdateStatus();
     </script>
 </body>
 </html>

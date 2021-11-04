@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = 'Error' %>
+    <% locals.title = 'Error' %>
     <%- include('../_common/head') %>
 </head>
 <body>
@@ -11,7 +11,7 @@
         <h1>Error</h1>
 
         <%
-        const err = app.err[0]
+        const err = locals.err[0]
         let s = ''
         console.log(err)
         if (err) {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = 'Advertise' %>
+    <% locals.title = 'Advertise' %>
     <%- include('../_common/head') %>
 </head>
 <body>
@@ -17,7 +17,7 @@
         </p>
         <p>
             광고 신청<br>
-            <% let email = 'support+' + app.config.appNamel + '@raysoda.com' %>
+            <% let email = 'support+' + locals.config.appNamel + '@raysoda.com' %>
             <% let emailLink = 'mailto:' + email %>
             <a href="<%- emailLink %>"><%- email %></a>
         </p>

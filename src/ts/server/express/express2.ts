@@ -91,7 +91,7 @@ export class Express2 {
     this.express.set('views', 'src/template/ejs')
     this.express.set('view options', {
       _with: false,
-      localsName: 'app',
+      localsName: 'locals',
       rmWhitespace: inProduction(),
     })
   }

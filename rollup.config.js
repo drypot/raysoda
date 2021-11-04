@@ -8,7 +8,7 @@ export default defineConfig({
     file: 'public/build/client-rollup.js',
     sourcemap: true,
     format: 'iife',
-    name: 'app',
+    name: 'page',
   },
   watch: {
     include: [

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = 'Login' %>
+    <% locals.title = 'Login' %>
     <%- include('../_common/head') %>
 </head>
 <body>
@@ -35,7 +35,7 @@
 
     <%- include('../_common/footer') %>
     <script>
-        app.initUserLoginForm()
+        page.initUserLoginForm()
     </script>
 </body>
 </html>

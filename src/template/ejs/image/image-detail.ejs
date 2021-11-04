@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = 'Image ' + app.image.id %>
-    <% app.ogImage = app.image.thumbUrl %>
-    <% app.ogTitle = app.image.owner.name %>
-    <% app.ogDesc = app.image.comment %>
+    <% locals.title = 'Image ' + locals.image.id %>
+    <% locals.ogImage = locals.image.thumbUrl %>
+    <% locals.ogTitle = locals.image.owner.name %>
+    <% locals.ogDesc = locals.image.comment %>
     <%- include('../_common/head') %>
 </head>
 <body>
-    <% app.hideHeader = true %>
+    <% locals.hideHeader = true %>
     <%- include('../_common/header') %>
 
     <div class="max-w-full text-center">
         <div class="inline-block relative image-card">
             <img id="image" class="max-w-full cursor-pointer"
-                 src="<%- app.image.thumbUrl %>"
-                 data-vers="<%- app.image.vers ? app.image.vers.join(',') : null %>">
+                 src="<%- locals.image.thumbUrl %>"
+                 data-vers="<%- locals.image.vers ? locals.image.vers.join(',') : null %>">
         </div>
     </div>
 
     <div class="mt-xl wrapper">
-        <% if (app.image.comment) { %>
+        <% if (locals.image.comment) { %>
             <p class="whitespace-pre-line">
-                <%= app.image.comment %>
+                <%= locals.image.comment %>
             </p>
         <% } %>
         <p class="text-xl link-no-deco">
-            <a href='/user/<%- encodeURIComponent(app.image.owner.home) %>'><%= app.image.owner.name %></a>
+            <a href='/user/<%- encodeURIComponent(locals.image.owner.home) %>'><%= locals.image.owner.name %></a>
         </p>
         <p class="mt-xl">
-            <%- app.image.cdateStr.slice(0, 16) %>
+            <%- locals.image.cdateStr.slice(0, 16) %>
         </p>
 
-        <% if (app.image.updatable) { %>
+        <% if (locals.image.updatable) { %>
             <div class="mt-xl space-x-3">
                 <button id="btn-update" class="btn-hover-green text-sm">수정</button>
                 <button id="btn-del" class="btn-hover-red text-sm">삭제</button>
@@ -42,7 +42,7 @@
 
     <%- include('../_common/footer') %>
     <script type="application/json" id="imageJson">
-      <%= JSON.stringify(app.image) %>
+      <%= JSON.stringify(locals.image) %>
     </script>
     <script>
         // $(function () {

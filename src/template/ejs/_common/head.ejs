@@ -1,17 +1,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="<%= app.config.appDesc %>">
-<meta property="og:site_name" content="<%= app.config.appName %>">
-<% if (app.ogImage) { %>
-    <meta property="og:image" content="<%- app.ogImage %>">
+<meta name="description" content="<%= locals.config.appDesc %>">
+<meta property="og:site_name" content="<%= locals.config.appName %>">
+<% if (locals.ogImage) { %>
+    <meta property="og:image" content="<%- locals.ogImage %>">
 <% } %>
-<% if (app.ogTitle) { %>
-    <meta property="og:title" content="<%= app.ogTitle %>">
+<% if (locals.ogTitle) { %>
+    <meta property="og:title" content="<%= locals.ogTitle %>">
 <% } %>
-<% if (app.ogDesc) { %>
-    <meta property="og:description" content="<%= app.ogDesc %>">
+<% if (locals.ogDesc) { %>
+    <meta property="og:description" content="<%= locals.ogDesc %>">
 <% } %>
 
-<title><%= (app.title ? app.title + ' - ' : '') + app.config.appName %></title>
-<link rel="icon" type="image/png" href="/static/favicon/<%- app.config.appNamel %>.png?v=1.0.1">
-<link rel="stylesheet" href="/build/sass/<%- app.config.appNamel %>.css?v=1.1.0">
+<title><%= (locals.title ? locals.title + ' - ' : '') + locals.config.appName %></title>
+<link rel="icon" type="image/png" href="/static/favicon/<%- locals.config.appNamel %>.png?v=1.0.1">
+<link rel="stylesheet" href="/build/sass/<%- locals.config.appNamel %>.css?v=1.1.0">

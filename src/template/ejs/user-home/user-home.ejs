@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = app.owner.name %>
-    <% app.ogImage = app.imageList.length ? app.imageList[0].thumbUrl : '' %>
+    <% locals.title = locals.owner.name %>
+    <% locals.ogImage = locals.imageList.length ? locals.imageList[0].thumbUrl : '' %>
     <%- include('../_common/head') %>
 </head>
 <body>
@@ -10,33 +10,33 @@
 
     <div class="wrapper">
         <h1 class="link-no-deco">
-            <a href="/user/<%- encodeURIComponent(app.owner.home) %>">
-                <%= app.owner.name %>
+            <a href="/user/<%- encodeURIComponent(locals.owner.home) %>">
+                <%= locals.owner.name %>
             </a>
         </h1>
 
-        <% if (!app.prev) { %>
+        <% if (!locals.prev) { %>
             <div class="fs-lg space-y-lg">
-                <div id="profile" class="ws-pre-line"><%= app.owner.profile %></div>
-                <% if (app.updatable) { %>
+                <div id="profile" class="ws-pre-line"><%= locals.owner.profile %></div>
+                <% if (locals.updatable) { %>
                     <div class="flex flex-col">
-                        <a href='/user-update-profile/<%= app.owner.id %>'>이름, 이메일 수정</a>
-                        <a href='/user-update-password/<%= app.owner.id %>'>비밀번호 수정</a>
-                        <% if (app.user.admin) { %>
-                            <a href='/user-update-status/<%= app.owner.id %>'>상태 수정</a>
+                        <a href='/user-update-profile/<%= locals.owner.id %>'>이름, 이메일 수정</a>
+                        <a href='/user-update-password/<%= locals.owner.id %>'>비밀번호 수정</a>
+                        <% if (locals.user.admin) { %>
+                            <a href='/user-update-status/<%= locals.owner.id %>'>상태 수정</a>
                         <% } %>
                     </div>
                 <% } %>
-                <% if (app.owner.status === 'd') { %>
+                <% if (locals.owner.status === 'd') { %>
                     <div>이 계정은 사용 중지되었습니다.</div>
                 <% } %>
             </div>
         <% } %>
     </div>
 
-    <% if (app.imageList.length) { %>
+    <% if (locals.imageList.length) { %>
         <div class="max-w-full text-center link-no-deco">
-            <% for (const image of app.imageList) { %>
+            <% for (const image of locals.imageList) { %>
                 <div class="mt-4xl">
                     <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>
                     <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
@@ -59,8 +59,8 @@
 
     <%- include('../_common/footer') %>
     <script>
-        app.initUserHome()
-        app.initImageList()
+        page.initUserHome()
+        page.initImageList()
     </script>
 </body>
 </html>

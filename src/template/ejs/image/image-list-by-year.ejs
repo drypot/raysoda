@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = 'Years' %>
+    <% locals.title = 'Years' %>
     <%- include('../_common/head') %>
 </head>
 <body>
@@ -13,7 +13,7 @@
 
     <% const today = new Date() %>
     <% let sy = today.getFullYear() %>
-    <% let ey = app.firstCdate.getFullYear() %>
+    <% let ey = locals.firstCdate.getFullYear() %>
     <% let iy = sy %>
 
     <div class="section">
@@ -22,7 +22,7 @@
                 <h2><%- iy %></h2>
                 <ul class="pagination">
                     <% let sm = iy == sy ? today.getMonth() : 11 %>
-                    <% let em = iy == ey ? app.firstCdate.getMonth() : 0 %>
+                    <% let em = iy == ey ? locals.firstCdate.getMonth() : 0 %>
                     <% let im = sm %>
                     <% while (im >= em) { %>
                         <% let link = '/image-list?d=' + iy + '-' + (im < 9 ? '0' : '') + (im + 1) %>

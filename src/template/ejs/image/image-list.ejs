@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = app.config.appName %>
-    <% app.ogImage = app.imageList.length ? app.imageList[0].thumbUrl : '' %>
+    <% locals.title = locals.config.appName %>
+    <% locals.ogImage = locals.imageList.length ? locals.imageList[0].thumbUrl : '' %>
     <%- include('../_common/head') %>
 </head>
 <body>
-    <% app.hideHeader = true %>
+    <% locals.hideHeader = true %>
     <%- include('../_common/header') %>
 
     <div class="wrapper">
-        <h1 class="link-no-deco"><a href="/"><%- app.config.appName %></a></h1>
+        <h1 class="link-no-deco"><a href="/"><%- locals.config.appName %></a></h1>
 
-        <% if (!app.prev) { %>
+        <% if (!locals.prev) { %>
 
             <!-- Home Menu -->
             <div class="flex content-center space-x-4 fs-lg ws-nowrap">
-                <% if (app.user.id !== -1) { %>
+                <% if (locals.user.id !== -1) { %>
                     <a href='/upload-image'>사진등록</a>
-                    <a href='/user/<%- encodeURIComponent(app.user.home) %>'>사용자홈</a>
+                    <a href='/user/<%- encodeURIComponent(locals.user.home) %>'>사용자홈</a>
                 <% } else { %>
                     <a href='/user-login'>로그인</a>
                     <a href='/user-register'>회원가입</a>
                 <% } %>
                 <a href='/user-list'>회원목록</a>
                 <a href='/image-list-by-year'>연도별사진</a>
-                <% if (app.user.id !== -1) { %>
+                <% if (locals.user.id !== -1) { %>
                     <a href='/user-logout'>로그아웃</a>
                 <% } %>
             </div>
@@ -35,9 +35,9 @@
             </div>
 
             <!-- Banner List -->
-            <% if (app.bannerList.length) { %>
+            <% if (locals.bannerList.length) { %>
                 <div class="mt-lg flex flex-col">
-                    <% for(const banner of app.bannerList) { %>
+                    <% for(const banner of locals.bannerList) { %>
                         <a href="<%- banner.url %>" target="_blank"><%= banner.text %></a>
                     <% } %>
                 </div>
@@ -47,7 +47,7 @@
     </div>
 
     <div class="max-w-full text-center link-no-deco fs-lg">
-        <% for (const image of app.imageList) { %>
+        <% for (const image of locals.imageList) { %>
             <div class="mt-4xl">
                 <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>
                 <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
@@ -79,7 +79,7 @@
 
     <%- include('../_common/footer') %>
     <script>
-        app.initImageList()
+        page.initImageList()
     </script>
 </body>
 </html>

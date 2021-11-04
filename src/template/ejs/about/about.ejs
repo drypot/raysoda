@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = 'About' %>
+    <% locals.title = 'About' %>
     <%- include('../_common/head') %>
 </head>
 <body>
     <%- include('../_common/header') %>
 
     <div class="wrapper">
-        <h1><%= app.config.appName %></h1>
+        <h1><%= locals.config.appName %></h1>
         <p>
-            <% if (app.config.appNamel === 'raysoda') { %>
+            <% if (locals.config.appNamel === 'raysoda') { %>
                 사진 갤러리입니다.<br>
                 업로드된 사진은 2048x2048 크기로 리사이즈됩니다.<br>
             <% } %>
 
-            <% if (app.config.appNamel === 'rapixel') { %>
+            <% if (locals.config.appNamel === 'rapixel') { %>
                 4K 사진 갤러리입니다.<br>
                 업로드될 사진은 3840x2160보다 커야합니다.<br>
                 업로드된 사진은 16:9 비율로 크롭됩니다.<br>
             <% } %>
 
-            <% if (app.config.appNamel === 'osoky') { %>
+            <% if (locals.config.appNamel === 'osoky') { %>
                 사진 갤러리입니다.<br>
                 업로드된 사진은 원 모양으로 마스킹됩니다.<br>
             <% } %>
 
-            <% if (app.config.appNamel === 'drypot') { %>
+            <% if (locals.config.appNamel === 'drypot') { %>
                 SVG 이미지 갤러리입니다.<br>
             <% } %>
 

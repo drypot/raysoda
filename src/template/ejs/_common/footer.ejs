@@ -12,7 +12,7 @@
         </a>
     </div>
     <div class="mt-2 fs-xl">
-        <a href="/"><%= app.config.appName %></a>
+        <a href="/"><%= locals.config.appName %></a>
     </div>
 </div>
 
@@ -31,10 +31,10 @@
 
 <%# "...</script><script>..." 어택을 막기위해 인코딩해서 출력한다. %>
 <script type="application/json" id="configJson">
-  <%= JSON.stringify({ appNamel: app.config.appNamel }) %>
+  <%= JSON.stringify({ appNamel: locals.config.appNamel }) %>
 </script>
 <script type="application/json" id="userJson">
-  <%= app.user ? JSON.stringify({ id: app.user.id, name: app.user.name }) : 'undefined' %>
+  <%= locals.user ? JSON.stringify({ id: locals.user.id, name: locals.user.name }) : 'undefined' %>
 </script>
 
 <script src="/build/client-rollup.js?v=1.0.1"></script>

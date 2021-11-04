@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <% app.title = 'User List' %>
+    <% locals.title = 'User List' %>
     <%- include('../_common/head') %>
 </head>
 <body>
@@ -18,9 +18,9 @@
         </form>
 
         <div class="mt-xl fs-lg">
-            <% if (app.userList.length) { %>
-                <% for (const user of app.userList) { %>
-                    <a href="/user/<%- app.encodedUserHome %>"><%= user.name %></a><br>
+            <% if (locals.userList.length) { %>
+                <% for (const user of locals.userList) { %>
+                    <a href="/user/<%- locals.encodedUserHome %>"><%= user.name %></a><br>
                 <% } %>
             <% } else { %>
                 검색 결과가 없습니다.
