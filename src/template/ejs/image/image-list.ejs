@@ -17,7 +17,7 @@
             <!-- Home Menu -->
             <div class="flex content-center space-x-4 fs-lg ws-nowrap">
                 <% if (locals.user.id !== -1) { %>
-                    <a href='/upload-image'>사진등록</a>
+                    <a href='/image-upload'>사진등록</a>
                     <a href='/user/<%- encodeURIComponent(locals.user.home) %>'>사용자홈</a>
                 <% } else { %>
                     <a href='/user-login'>로그인</a>
@@ -71,7 +71,7 @@
 
     <%- include('../_common/prev-next') %>
 
-    <div class="mt-4xl flex flex-center space-x-4 fs-lg">
+    <div class="mt-4xl wrapper space-x-4 fs-lg">
         <a href='https://raysoda.com'>RaySoda</a>
         <a href='https://rapixel.com'>Rapixel</a>
         <a href='https://osoky.com'>Osoky</a>

@@ -10,11 +10,14 @@ export type Form = {
   input: {
     [key: string]: HTMLInputElement
   },
-  text: {
+  textarea: {
     [key: string]: HTMLTextAreaElement
   }
   select: {
     [key: string]: HTMLSelectElement
+  }
+  file: {
+    [key: string]: HTMLInputElement
   }
   button: {
     [key: string]: HTMLButtonElement
@@ -60,18 +63,22 @@ export function grabForm(id: string) {
     form: _form,
     all: {},
     input: {},
-    text: {},
+    textarea: {},
     select: {},
-    button: {}
+    button: {},
+    file: {}
   }
   domQueryAll('input', _form).forEach(el => {
     const name = el.getAttribute('name') as string
-    form.input[name] = el as HTMLInputElement
+    if (el.getAttribute('type') === 'file')
+      form.file[name] = el as HTMLInputElement
+    else
+      form.input[name] = el as HTMLInputElement
     form.all[name] = el
   })
   domQueryAll('textarea', _form).forEach(el => {
     const name = el.getAttribute('name') as string
-    form.text[name] = el as HTMLTextAreaElement
+    form.textarea[name] = el as HTMLTextAreaElement
     form.all[name] = el
   })
   domQueryAll('select', _form).forEach(el => {

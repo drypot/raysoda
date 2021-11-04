@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% locals.title = 'Upload Image' %>
+    <%- include('../_common/head') %>
+</head>
+<body>
+    <%- include('../_common/header') %>
+
+    <div class="wrapper">
+        <h1>사진 등록</h1>
+        <% if (locals.ticket === 0) { %>
+            <div>
+                이미지는 하루 <%- locals.ticketMax %>장 등록하실 수 있습니다.<br>
+                새 이미지는 <%- locals.hour %> 시간 후에 등록하실 수 있습니다.
+            </div>
+        <% } else { %>
+            <form id="form" class="max-w-sm">
+                <label>
+                    <% if (locals.config.appNamel === 'drypot') { %>
+                        <span>SVG 파일</span>
+                        <input type="file" name="file" accept='image/svg+xml, .svg'>
+                    <% } else { %>
+                        <span>사진 파일</span>
+                        <input type="file" name="file" accept='image/jpeg, image/png, image/tiff'>
+                    <% } %>
+                </label>
+                <label>
+                    <span>설명</span>
+                    <textarea name="comment" rows="7"></textarea>
+                </label>
+                <div class="error-group"></div>
+                <div class="btn-group">
+                    <button class="btn-blue" name="send">등록</button>
+                </div>
+            </form>
+            <%- include('image-upload-notice') %>
+        <% } %>
+    </div>
+
+    <%- include('../_common/footer') %>
+    <script>
+        page.initImageUpload()
+    </script>
+</body>
+</html>
+

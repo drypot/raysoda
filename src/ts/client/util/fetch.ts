@@ -1,17 +1,32 @@
-export function postJson(url: string, data: any) {
+export function sendGet(url: string) {
   const opt: RequestInit = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    method: 'GET',
   }
   return callFetch(url, opt)
 }
 
-export function putJson(url: string, data: any) {
+export function sendPost(url: string, data: any) {
+  const opt: RequestInit = {
+    method: 'POST'
+  }
+  if (data instanceof FormData) {
+    opt.body = data
+  } else {
+    opt.headers = { 'Content-Type': 'application/json' }
+    opt.body = JSON.stringify(data)
+  }
+  return callFetch(url, opt)
+}
+
+export function sendPut(url: string, data: any) {
   const opt: RequestInit = {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+  }
+  if (data instanceof FormData) {
+    opt.body = data
+  } else {
+    opt.headers = { 'Content-Type': 'application/json' }
+    opt.body = JSON.stringify(data)
   }
   return callFetch(url, opt)
 }

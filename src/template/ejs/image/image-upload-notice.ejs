@@ -1,0 +1,15 @@
+<div class="mt-2xl">
+    사진은 18시간마다 등록하실 수 있습니다.<br>
+    <% if (locals.config.appNamel == 'raysoda') { %>
+        업로드된 사진은 2048x2048 해상도로 리사이즈됩니다.<br>
+    <% } %>
+    <% if (locals.config.appNamel == 'rapixel') { %>
+        업로드될 사진은 3840x2160보다 커야합니다.<br>
+        권장 사이즈는 5120x2880 또는 4096x2304 입니다.<br>
+        업로드된 사진은 16:9 비율로 크롭됩니다.<br>
+    <% } %>
+    <% if (locals.config.appNamel == 'osoky') { %>
+    <% } %>
+    저작권을 소유한 사진만 등록하실 수 있습니다.<br>
+    파일 최대 사이즈는 10MB 입니다.<br>
+</div>
