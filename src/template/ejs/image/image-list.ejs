@@ -26,21 +26,21 @@
             <!-- Home Menu -->
             <div class="mt-3xl space-x-4 fs-lg ws-nowrap">
                 <% if (locals.user.id !== -1) { %>
-                    <a href='/image-upload'>사진등록</a>
-                    <a href='/user/<%- encodeURIComponent(locals.user.home) %>'>사용자홈</a>
+                    <a href='/image-upload'>사진 등록</a>
+                    <a href='/user/<%- encodeURIComponent(locals.user.home) %>'>사용자 홈</a>
                 <% } else { %>
                     <a href='/user-login'>로그인</a>
-                    <a href='/user-register'>회원가입</a>
+                    <a href='/user-register'>회원 가입</a>
                 <% } %>
-                <a href='/user-list'>회원목록</a>
-                <a href='/image-list-by-year'>연도별사진</a>
+                <a href='/user-list'>회원 목록</a>
+                <a href='/image-list-by-year'>연도별 사진</a>
+            </div>
+            <div class="mt-2 space-x-4 fs-lg ws-nowrap">
+                <a href='/about'>사이트 소개</a>
+                <a href='/help'>도움말</a>
                 <% if (locals.user.id !== -1) { %>
                     <a href='/user-logout'>로그아웃</a>
                 <% } %>
-            </div>
-            <div class="mt-2 space-x-4 fs-lg ws-nowrap">
-                <a href='/about'>사이트소개</a>
-                <a href='/help'>도움말</a>
             </div>
 
         <% } %>
