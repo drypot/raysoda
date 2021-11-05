@@ -12,14 +12,14 @@ export async function useCounterApi() {
   const web = await omanGetObject('Express2') as Express2
   const cdb = await omanGetObject('CounterDB') as CounterDB
 
-  web.router.get('/api/counter/:id', toCallback(async (req, res) => {
+  web.router.get('/api/counter-list/:id', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
     userAssertLogin(user)
     userAssertAdmin(user)
     const id = newString(req.params.id)
-    const b = newString(req.query.b)
-    const e = newString(req.query.e)
-    const r = await counterGetList(cdb, id, b, e)
+    const begin = newString(req.query.b)
+    const end = newString(req.query.e)
+    const r = await counterGetList(cdb, id, begin, end)
     renderJson(res, { counterList: r })
   }))
 

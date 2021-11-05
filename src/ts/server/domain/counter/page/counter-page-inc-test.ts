@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { newDateStringNoTime } from '@common/util/date2'
+import { dateToStringNoTime } from '@common/util/date2'
 import { useCounterPage } from '@server/domain/counter/page/counter-page'
 import { dupe } from '@common/util/object2'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
@@ -46,7 +46,7 @@ describe('CounterPage Inc', () => {
       .expect(302).expect('Location', 'http://hello.world')
   })
   it('check db 2', async () => {
-    const d = newDateStringNoTime(new Date())
+    const d = dateToStringNoTime(new Date())
     const r = await cdb.findCounter('abc', d)
     expect(dupe(r)).toEqual({ id: 'abc', d: d, c: 1 })
   })
@@ -55,7 +55,7 @@ describe('CounterPage Inc', () => {
       .expect(302).expect('Location', 'http://hello.world')
   })
   it('check db 2', async () => {
-    const d = newDateStringNoTime(new Date())
+    const d = dateToStringNoTime(new Date())
     const r = await cdb.findCounter('abc', d)
     expect(dupe(r)).toEqual({ id: 'abc', d: d, c: 2 })
   })

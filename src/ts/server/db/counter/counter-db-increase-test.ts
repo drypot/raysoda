@@ -1,5 +1,5 @@
 import { CounterDB } from '@server/db/counter/counter-db'
-import { newDateStringNoTime } from '@common/util/date2'
+import { dateToStringNoTime } from '@common/util/date2'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { dupe } from '@common/util/object2'
 
@@ -16,7 +16,7 @@ describe('CounterDB Increase', () => {
     await omanCloseAllObjects()
   })
 
-  const ds = newDateStringNoTime(new Date())
+  const ds = dateToStringNoTime(new Date())
 
   it('init table', async () => {
     await cdb.dropTable()
@@ -27,7 +27,7 @@ describe('CounterDB Increase', () => {
   })
   it('find 1', async () => {
     const c = await cdb.findCounter('cnt1', ds)
-    const d = newDateStringNoTime(new Date())
+    const d = dateToStringNoTime(new Date())
     expect(dupe(c)).toEqual({ id: 'cnt1', d: d, c: 1 })
   })
   it('increase 2', async () => {
@@ -38,7 +38,7 @@ describe('CounterDB Increase', () => {
   })
   it('find 2', async () => {
     const c = await cdb.findCounter('cnt1', ds)
-    const d = newDateStringNoTime(new Date())
+    const d = dateToStringNoTime(new Date())
     expect(dupe(c)).toEqual({ id: 'cnt1', d: d, c: 3 })
   })
 

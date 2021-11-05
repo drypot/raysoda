@@ -44,6 +44,7 @@ export function linkSubmitHandler(
         enableSubmitButton(form)
         return
       }
+      enableSubmitButton(form)
       handleResult(body)
     }).catch(err => {
       if (err) {
@@ -135,8 +136,8 @@ function clearError(form: Form) {
 function disableSubmitButton(form: Form) {
   const btn = form.button.send
   if (!btn.disabled) {
-    btn.dataset.innerText = btn.innerText
-    btn.innerText = '전송중'
+    //btn.dataset.innerText = btn.innerText
+    //btn.innerText = '전송중'
     btn.disabled = true
   }
 }
@@ -144,7 +145,7 @@ function disableSubmitButton(form: Form) {
 function enableSubmitButton(form: Form) {
   const btn = form.button.send
   if (btn.disabled) {
-    btn.innerText = btn.dataset.innerText as string
+    //btn.innerText = btn.dataset.innerText as string
     btn.disabled = false
   }
 }

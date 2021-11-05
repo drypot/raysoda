@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% locals.title = 'Counter List' %>
+    <%- include('../_common/head') %>
+</head>
+<body>
+    <%- include('../_common/header') %>
+
+    <div class="wrapper">
+        <h1>카운터 목록</h1>
+        <form id="form" class="max-w-2xs">
+            <label>
+                <span>ID</span>
+                <input type="text" name="id" autofocus>
+            </label>
+            <label>
+                <span>Begin Date</span>
+                <input type="text" name="begin" autofocus>
+            </label>
+            <label>
+                <span>End Date</span>
+                <input type="text" name="end" autofocus>
+            </label>
+            <div class="error-group"></div>
+            <div class="btn-group">
+                <button class="btn-blue" name="send">확인</button>
+            </div>
+        </form>
+        <div id="list" class="mt-xl"></div>
+    </div>
+
+    <%- include('../_common/footer') %>
+    <script>
+        page.initCounterList()
+    </script>
+</body>
+</html>

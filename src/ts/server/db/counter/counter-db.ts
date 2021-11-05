@@ -1,4 +1,4 @@
-import { newDateStringNoTime } from '@common/util/date2'
+import { dateToStringNoTime } from '@common/util/date2'
 import { Counter } from '@common/type/counter'
 import { omanGetObject, omanRegisterFactory } from '@server/oman/oman'
 import { DB } from '@server/db/_db/db'
@@ -43,7 +43,7 @@ export class CounterDB {
   }
 
   async increaseCounter(id: string) {
-    let d = newDateStringNoTime(new Date())
+    let d = dateToStringNoTime(new Date())
     await this.db.query(
       'insert into counter values(?, ?, 1) on duplicate key update c = c + 1',
       [id, d],
@@ -51,7 +51,7 @@ export class CounterDB {
   }
 
   async replaceCounter(id: string, date: Date, count: number) {
-    let d = newDateStringNoTime(date)
+    let d = dateToStringNoTime(date)
     await this.db.query(
       'replace into counter values(?, ?, ?)',
       [id, d, count],
