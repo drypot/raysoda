@@ -1,6 +1,6 @@
 import { ErrorConst } from '@common/type/error'
 import { User } from '@common/type/user'
-import { newDateString } from '@common/util/date2'
+import { dateToString } from '@common/util/date2'
 import { ImageDB } from '@server/db/image/image-db'
 import { userCanUpdateImage } from '@server/domain/image/_service/_image-service'
 import { SITE_OPEN_DATE } from '@common/type/date-const'
@@ -20,7 +20,7 @@ export function newImageDetail(ifm: ImageFileManager, user: User, image: Image, 
     },
     cdate: image.cdate,
     cdateNum: 0,
-    cdateStr: newDateString(image.cdate),
+    cdateStr: dateToString(image.cdate),
     vers: image.vers,
     comment: image.comment,
     dirUrl: ifm.getDirUrlFor(image.id),

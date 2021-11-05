@@ -1,5 +1,5 @@
 import { User } from '@common/type/user'
-import { newDateString } from '@common/util/date2'
+import { dateToString } from '@common/util/date2'
 import { ImageDB } from '@server/db/image/image-db'
 import { ImageForList } from '@common/type/image-detail'
 import { UserDB } from '@server/db/user/user-db'
@@ -17,7 +17,7 @@ async function newDecoratedImageList(udb: UserDB, ifm: ImageFileManager, list: I
           name: owner.name,
           home: owner.home
         },
-        cdateStr: newDateString(image.cdate),
+        cdateStr: dateToString(image.cdate),
         vers: image.vers,
         comment: image.comment,
         thumbUrl: ifm.getThumbUrlFor(image.id)

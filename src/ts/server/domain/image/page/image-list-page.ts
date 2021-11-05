@@ -1,5 +1,5 @@
 import { imageGetList, imageGetListByCdate } from '@server/domain/image/_service/image-list'
-import { newDate, newDateString } from '@common/util/date2'
+import { dateToString, parseDate } from '@common/util/date2'
 import { renderHtml } from '@server/express/render-html'
 import { Express2, toCallback } from '@server/express/express2'
 import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
@@ -26,8 +26,8 @@ export async function useImageListPage() {
   async function listHandler(req: Request, res: Response) {
     const p = newLimitedNumber(req.query.p, 1, 1, NaN)
     const ps = newLimitedNumber(req.query.ps, 16, 1, 128)
-    const d = newDate(req.query.d)
-    const ds = newDateString(d)
+    const d = parseDate(req.query.d)
+    const ds = dateToString(d)
     const list = d ?
       await imageGetListByCdate(udb, idb, ifm, d, p, ps) :
       await imageGetList(udb, idb, ifm, p, ps)

@@ -2,7 +2,7 @@
 // undefined 는 JSON 에 들어가지 않으므로
 // null 을 리턴하기로 했다.
 
-export function newDate(s: any) {
+export function parseDate(s: any) {
   if (!s) {
     return null
   }
@@ -13,10 +13,8 @@ export function newDate(s: any) {
   return new Date(dts)
 }
 
-export function newTimeZeroDate(s: any) {
-  const d = newDate(s)
-  if (d) d.setHours(0, 0, 0, 0)
-  return d
+export function setTimeZero(d: Date) {
+  d.setHours(0, 0, 0, 0)
 }
 
 function pad(number: number) {
@@ -27,7 +25,7 @@ function pad(number: number) {
   return r
 }
 
-export function newDateString(d: Date | null | undefined) {
+export function dateToString(d: Date | null | undefined) {
   if (!d) {
     return ''
   }
@@ -35,14 +33,14 @@ export function newDateString(d: Date | null | undefined) {
     pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds())
 }
 
-export function newDateStringNoTime(d: Date | null | undefined) {
+export function dateToStringNoTime(d: Date | null | undefined) {
   if (!d) {
     return ''
   }
   return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate())
 }
 
-export function newDateStringNoTimeNoDash(d: Date | null | undefined) {
+export function dateToStringNoTimeNoDash(d: Date | null | undefined) {
   if (!d) {
     return ''
   }
