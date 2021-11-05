@@ -24,8 +24,12 @@ export function newElementListFromHtml(html: string) {
 }
 
 export function getEmbeddedJson(id: string) {
-  const el = getElementById(id) as HTMLElement
-  return JSON.parse(decodeHtml(el.innerText))
+  try {
+    const el = getElementById(id) as HTMLElement
+    return JSON.parse(decodeHtml(el.innerText))
+  } catch(e) {
+    return {}
+  }
 }
 
 function decodeHtml(raw: string) {

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <% locals.title = 'Update Banner' %>
+    <%- include('../_common/head') %>
+</head>
+<body>
+    <%- include('../_common/header') %>
+
+    <div class="wrapper">
+        <h1>배너 수정</h1>
+        <form id="form" class="max-w-md">
+            <label>
+                <span>Banner List</span>
+                <textarea name="bannerList" rows="14" class="ff-sans-serif"></textarea>
+            </label>
+            <label>
+                <span>Sample</span>
+                <div class="ws-pre border rounded ff-sans-serif">  [ { text: "sample text", url: "http://url" }, ... ]</div>
+            </label>
+            <div class="error-group"></div>
+            <div class="btn-group">
+                <button class="btn-blue" name="send">수정</button>
+            </div>
+        </form>
+    </div>
+
+    <%- include('../_common/footer') %>
+    <script type="application/json" id="formJson">
+        <%= JSON.stringify(locals.form) %>
+    </script>
+    <script>
+        page.initBannerUpdate()
+    </script>
+</body>
+</html>

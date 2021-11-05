@@ -1,6 +1,11 @@
 @use '000-var' as *;
 @use '010-media' as *;
 
+// Font Family
+
+.ff-sans-serif { font-family: sans-serif; }
+.ff-serif      { font-family: serif; }
+
 // Font Size
 
 .fs-xs	{ font-size: $font-size-xs;  }

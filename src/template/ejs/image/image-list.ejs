@@ -14,8 +14,17 @@
 
         <% if (!locals.prev) { %>
 
+            <!-- Banner List -->
+            <% if (locals.bannerList.length) { %>
+                <div class="flex flex-col fs-lg">
+                    <% for(const banner of locals.bannerList) { %>
+                        <a href="<%- banner.url %>" target="_blank"><%= banner.text %></a>
+                    <% } %>
+                </div>
+            <% } %>
+
             <!-- Home Menu -->
-            <div class="flex content-center space-x-4 fs-lg ws-nowrap">
+            <div class="mt-3xl space-x-4 fs-lg ws-nowrap">
                 <% if (locals.user.id !== -1) { %>
                     <a href='/image-upload'>사진등록</a>
                     <a href='/user/<%- encodeURIComponent(locals.user.home) %>'>사용자홈</a>
@@ -29,19 +38,10 @@
                     <a href='/user-logout'>로그아웃</a>
                 <% } %>
             </div>
-            <div class="mt-2 flex content-center space-x-4 fs-lg ws-nowrap">
+            <div class="mt-2 space-x-4 fs-lg ws-nowrap">
                 <a href='/about'>사이트소개</a>
                 <a href='/help'>도움말</a>
             </div>
-
-            <!-- Banner List -->
-            <% if (locals.bannerList.length) { %>
-                <div class="mt-lg flex flex-col">
-                    <% for(const banner of locals.bannerList) { %>
-                        <a href="<%- banner.url %>" target="_blank"><%= banner.text %></a>
-                    <% } %>
-                </div>
-            <% } %>
 
         <% } %>
     </div>
