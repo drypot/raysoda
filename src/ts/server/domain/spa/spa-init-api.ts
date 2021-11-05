@@ -17,7 +17,7 @@ export async function useSpaInitApi() {
   web.router.get('/api/spa-init-script', function (req, res) {
     const user = userGetSessionUser(res)
     const userStr = JSON.stringify(newUserIdCard(user))
-    const bannerStr = JSON.stringify(bdb.getCached())
+    const bannerStr = JSON.stringify(bdb.getBannerListCached())
     const script =
       `const _config = ${configStr}\n` +
       `const _user = ${userStr}\n` +

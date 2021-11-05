@@ -14,8 +14,8 @@ export async function useBannerPage() {
     const user = userGetSessionUser(res)
     userAssertLogin(user)
     userAssertAdmin(user)
-    const list = bdb.getCached()
-    renderHtml(res, 'banner/banner-update', { bannerList: list })
+    const list = bdb.getBannerListCached()
+    renderHtml(res, 'banner/banner-update', { form: { bannerList: list } })
   }))
 
 }

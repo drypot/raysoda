@@ -35,7 +35,7 @@ export async function useImageListPage() {
       imageList: list,
       prev: p > 1 ? UrlMaker.from('/image-list').add('d', ds, '').add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,
       next: list.length === ps ? UrlMaker.from('/image-list').add('d', ds, '').add('p', p + 1).add('ps', ps, 16).toString() : undefined,
-      bannerList: bdb.getCached()
+      bannerList: bdb.getBannerListCached()
     })
   }
 

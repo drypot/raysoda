@@ -1,6 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
 import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
-import { ValueDB } from '@server/db/value/value-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
@@ -12,7 +11,6 @@ import { useBannerPage } from '@server/domain/banner/page/banner-page'
 describe('BannerPage', () => {
 
   let udb: UserDB
-  let vdb: ValueDB
   let bdb: BannerDB
   let web: Express2
   let sat: SuperAgentTest
@@ -20,7 +18,6 @@ describe('BannerPage', () => {
   beforeAll(async () => {
     omanNewSession('config/raysoda-test.json')
     udb = await omanGetObject('UserDB') as UserDB
-    vdb = await omanGetObject('ValueDB') as ValueDB
     bdb = await omanGetObject('BannerDB') as BannerDB
     web = await omanGetObject('Express2') as Express2
     await useUserAuthApi()
@@ -40,8 +37,8 @@ describe('BannerPage', () => {
   })
 
   it('init table', async () => {
-    await vdb.dropTable()
-    await vdb.createTable()
+    await bdb.dropTable()
+    await bdb.createTable()
     await bdb.loadCache()
   })
   it('banner-update fails if anonymous', async () => {
