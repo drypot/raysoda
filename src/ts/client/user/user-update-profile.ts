@@ -7,12 +7,16 @@ import { getEmbeddedJson } from '@client/util/dom'
 
 export function initUserUpdateProfile() {
   const form = grabForm('form')
+  fillForm(form)
+  linkSubmitHandler(form, submit, result)
+}
+
+function fillForm(form: Form) {
   const data = getEmbeddedJson('formJson')
   form.input.name.value = data.user.name
   form.input.home.value = data.user.home
   form.input.email.value = data.user.email
   form.textarea.profile.value = data.user.profile
-  linkSubmitHandler(form, submit, result)
 }
 
 function submit(form: Form) {

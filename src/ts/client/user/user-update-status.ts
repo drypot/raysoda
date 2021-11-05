@@ -7,9 +7,13 @@ import { getEmbeddedJson } from '@client/util/dom'
 
 export function initUserUpdateStatus() {
   const form = grabForm('form')
+  fillForm(form)
+  linkSubmitHandler(form, submit, result)
+}
+
+function fillForm(form: Form) {
   const data = getEmbeddedJson('formJson')
   setInputRadioChecked(form, 'status', data.status)
-  linkSubmitHandler(form, submit, result)
 }
 
 function submit(form: Form) {

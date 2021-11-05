@@ -8,12 +8,16 @@ import { setRefresh } from '@client/util/refresh'
 
 export function initImageUpdate() {
   const form = grabForm('form')
+  fillForm(form)
+  linkSubmitHandler(form, submit, result)
+  startPing()
+}
+
+function fillForm(form: Form) {
   const data = getEmbeddedJson('formJson')
   const image = data.image as ImageUpdateForm
   form.input.id.value = newString(image.id)
   form.textarea.comment.value = image.comment
-  linkSubmitHandler(form, submit, result)
-  startPing()
 }
 
 function submit(form: Form) {
