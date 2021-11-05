@@ -4,7 +4,6 @@ import { fsEnabled } from '@client/util/fullscreen'
 import { addFSIcon } from '@client/image/image-fullscreen'
 
 export function initImageList() {
-  // sessionStorage.setItem('last-list-url', location)
   tagUpComments()
   addFSIcons()
 }

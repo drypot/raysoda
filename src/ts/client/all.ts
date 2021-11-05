@@ -1,3 +1,4 @@
+export * from './util/refresh'
 export * from './util/context'
 export * from './util/dom'
 export * from './util/form'

@@ -1,9 +1,10 @@
 import { startPing } from '@client/util/ping'
 import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
-import { sendPost } from '@client/util/fetch'
+import { sendPut } from '@client/util/fetch'
 import { getEmbeddedJson } from '@client/util/dom'
 import { ImageUpdateForm } from '@common/type/image-form'
 import { newString } from '@common/util/primitive'
+import { setRefresh } from '@client/util/refresh'
 
 export function initImageUpdate() {
   const form = grabForm('form')
@@ -17,9 +18,10 @@ export function initImageUpdate() {
 
 function submit(form: Form) {
   const data = new FormData(form.form)
-  return sendPost('/api/image-update', data)
+  return sendPut('/api/image-update', data)
 }
 
 function result(body: any) {
+  setRefresh()
   window.history.back()
 }

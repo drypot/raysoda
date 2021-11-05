@@ -4,6 +4,7 @@ import { tagUp } from '@common/util/tagup'
 import { pathList } from '@client/util/context'
 import { MODAL_OK, openErrorModal, openRedModal } from '@client/util/modal'
 import { sendDelete } from '@client/util/fetch'
+import { setRefresh } from '@client/util/refresh'
 
 export function initImageDetail() {
   const img = getElementById('image') as HTMLElement
@@ -29,6 +30,7 @@ export function initImageDetail() {
       if (result === MODAL_OK) {
         sendDelete('/api/image-delete/' + pathList[1]).then(body => {
           if (body.err) throw body.err[0]
+          setRefresh()
           window.history.back()
         }).catch(openErrorModal)
       }

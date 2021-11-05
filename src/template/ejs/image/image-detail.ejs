@@ -20,11 +20,7 @@
     </div>
 
     <div class="mt-xl wrapper">
-        <% if (locals.image.comment) { %>
-            <p id="comment" class="whitespace-pre-line">
-                <%= locals.image.comment %>
-            </p>
-        <% } %>
+        <p id="comment" class="ws-pre-line"><%= locals.image.comment %></p>
         <p class="text-xl link-no-deco">
             <a href='/user/<%- encodeURIComponent(locals.image.owner.home) %>'><%= locals.image.owner.name %></a>
         </p>
