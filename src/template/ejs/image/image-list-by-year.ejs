@@ -7,32 +7,26 @@
 <body>
     <%- include('../_common/header') %>
 
-    <div class="section page-title">
+    <div class="wrapper">
         <h1>연도별</h1>
-    </div>
 
-    <% const today = new Date() %>
-    <% let sy = today.getFullYear() %>
-    <% let ey = locals.firstCdate.getFullYear() %>
-    <% let iy = sy %>
+        <% const today = new Date() %>
+        <% let sy = today.getFullYear() %>
+        <% let ey = locals.firstCdate.getFullYear() %>
+        <% let iy = sy %>
 
-    <div class="section">
         <% while (iy >= ey) { %>
-            <div class="sub-section">
-                <h2><%- iy %></h2>
-                <ul class="pagination">
-                    <% let sm = iy == sy ? today.getMonth() : 11 %>
-                    <% let em = iy == ey ? locals.firstCdate.getMonth() : 0 %>
-                    <% let im = sm %>
-                    <% while (im >= em) { %>
-                        <% let link = '/image-list?d=' + iy + '-' + (im < 9 ? '0' : '') + (im + 1) %>
-                        <li class="page-item">
-                            <a class="page-link" href="<%- link %>"><%- im + 1 %></a>
-                        </li>
-                        <% im-- %>
-                    <% } %>
-                    <% iy-- %>
-                </ul>
+            <h3><%- iy %></h3>
+            <div class="mt-3 flex content-center space-x-4 fs-lg">
+                <% let sm = iy == sy ? today.getMonth() : 11 %>
+                <% let em = iy == ey ? locals.firstCdate.getMonth() : 0 %>
+                <% let im = sm %>
+                <% while (im >= em) { %>
+                    <% let link = '/image-list?d=' + iy + '-' + (im < 9 ? '0' : '') + (im + 1) %>
+                    <a href="<%- link %>"><%- im + 1 %></a>
+                    <% im-- %>
+                <% } %>
+                <% iy-- %>
             </div>
         <% } %>
     </div>
