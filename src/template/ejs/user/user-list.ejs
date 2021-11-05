@@ -10,8 +10,8 @@
     <div class="wrapper">
         <h1>회원 목록</h1>
 
-        <form class="max-w-sm">
-            <label class="flex-label">
+        <form class="max-w-xs">
+            <label class="inline-flex max-w-full">
                 <input type="text" name="q" autofocus>
                 <button type="submit" class="btn-blue ml-2">회원 검색</button>
             </label>
@@ -20,7 +20,7 @@
         <div class="mt-xl fs-lg">
             <% if (locals.userList.length) { %>
                 <% for (const user of locals.userList) { %>
-                    <a href="/user/<%- encodeURIComponent(page.user.home) %>"><%= user.name %></a><br>
+                    <a href="/user/<%- encodeURIComponent(user.home) %>"><%= user.name %></a><br>
                 <% } %>
             <% } else { %>
                 검색 결과가 없습니다.
