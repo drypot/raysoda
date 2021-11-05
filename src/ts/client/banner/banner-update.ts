@@ -13,7 +13,6 @@ export function initBannerUpdate() {
 
 function fillForm(form: Form) {
   const data = getEmbeddedJson('formJson')
-  console.log(data)
   const bannerList = data.bannerList as Banner[]
   form.textarea.bannerList.value = JSON.stringify(bannerList, null, 2)
 }
