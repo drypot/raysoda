@@ -1,7 +1,7 @@
 import newMulter, { Multer } from 'multer'
 import { emptyDirSync, mkdirRecursiveSync } from '@common/util/fs2'
 import { ExpressCallbackHandler, ExpressPromiseHandler } from '@server/express/express2'
-import { unlinkSync } from 'fs'
+import { unlink } from 'fs'
 import { omanGetConfig, omanRegisterFactory } from '@server/oman/oman'
 
 export type Uploader = Multer
@@ -21,13 +21,25 @@ export function deleteUpload(handler: ExpressPromiseHandler): ExpressCallbackHan
   return (req, res, done) => {
     handler(req, res).catch(done).finally(() => {
       if (req.file) {
-        unlinkSync(req.file.path)
+        unlink(req.file.path, noop)
       }
       if (req.files) {
         for (const file of req.files as Express.Multer.File[]) {
-          unlinkSync(file.path)
+          unlink(file.path, noop)
         }
       }
     })
   }
 }
+
+function noop() {}
+
+
+
+
+
+
+
+
+
+
