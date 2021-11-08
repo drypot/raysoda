@@ -46,22 +46,23 @@
         <% } %>
     </div>
 
-    <div class="max-w-full text-center default-color-all fs-lg">
+    <div class="max-w-full text-center default-color-all">
         <% for (const image of locals.imageList) { %>
             <div class="mt-4xl">
                 <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>
                 <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
-                <div class="inline-block relative image-card">
+                <div class="inline-block relative">
                     <a href="/image/<%- image.id %>">
                         <img class="max-w-full max-h-screen"
                              src="<%- image.thumbUrl %>"
                              data-vers="<%- image.vers ? image.vers.join(',') : null %>">
                     </a>
+                    <div class="fs-icon"></div>
                     <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
                     <% if (c) { %>
-                        <div class="mt-3 comment"><%= c %></div>
+                        <div class="mt-2 comment"><%= c %></div>
                     <% } %>
-                    <div class="mt-3">
+                    <div class="mt-2">
                         <a href='/user/<%- encodeURIComponent(image.owner.home) %>'><%= image.owner.name %></a>
                     </div>
                 </div>
@@ -71,7 +72,7 @@
 
     <%- include('../_common/prev-next') %>
 
-    <div class="mt-4xl wrapper space-x-4 fs-lg">
+    <div class="mt-4xl wrapper space-x-4">
         <a href='https://raysoda.com'>RaySoda</a>
         <a href='https://rapixel.com'>Rapixel</a>
         <a href='https://osoky.com'>Osoky</a>

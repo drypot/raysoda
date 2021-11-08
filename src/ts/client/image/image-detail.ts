@@ -1,5 +1,5 @@
-import { getElementById } from '@client/util/dom'
-import { addFSIcon } from '@client/image/image-fullscreen'
+import { domQuery, getElementById } from '@client/util/dom'
+import { fillFSIcon } from '@client/image/image-fullscreen'
 import { tagUp } from '@common/util/tagup'
 import { pathList } from '@client/util/context'
 import { MODAL_OK, openErrorModal, openRedModal } from '@client/util/modal'
@@ -8,11 +8,12 @@ import { setRefresh } from '@client/util/refresh'
 
 export function initImageDetail() {
   const img = getElementById('image')
-  addFSIcon(img)
   img.onclick = (e) => {
     e.preventDefault()
     window.history.back()
   }
+
+  fillFSIcon(domQuery('.fs-icon') as HTMLElement)
 
   const comment = getElementById('comment')
   comment.innerHTML = tagUp(comment.innerHTML)

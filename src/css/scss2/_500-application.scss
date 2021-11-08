@@ -29,22 +29,18 @@
 
 // Image
 
-// js 에서 image 관련 엘리먼트 선택을 위해 사용하는 빈 클래스들
-.image-card {
-  .comment {}
-}
-
 .fs-icon {
   position: absolute;
   top: 0;
   right: 0;
   z-index: 10;
 
-  width: 2rem;
-  height: 2rem;
-
-  color: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
+  & > svg {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    opacity: 0.3;
+  }
 }
 
 #fullscreen {

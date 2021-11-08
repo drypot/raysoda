@@ -16,20 +16,21 @@
             <img id="image" class="max-w-full cursor-pointer"
                  src="<%- locals.image.thumbUrl %>"
                  data-vers="<%- locals.image.vers ? locals.image.vers.join(',') : null %>">
+            <div class="fs-icon"></div>
         </div>
     </div>
 
-    <div class="mt-xl wrapper">
-        <p id="comment" class="ws-pre-line"><%= locals.image.comment %></p>
-        <p class="text-xl default-color-all">
+    <div class="wrapper">
+        <div id="comment" class=" mt-2xl ws-pre-line"><%= locals.image.comment %></div>
+        <div class="mt-2xl default-color-all">
             <a href='/user/<%- encodeURIComponent(locals.image.owner.home) %>'><%= locals.image.owner.name %></a>
-        </p>
-        <p class="mt-xl">
+        </div>
+        <div class="mt-sm fs-sm">
             <%- locals.image.cdateStr.slice(0, 16) %>
-        </p>
+        </div>
 
         <% if (locals.image.updatable) { %>
-            <div class="mt-xl space-x-4">
+            <div class="mt-3xl space-x-2">
                 <button id="update-btn" class="btn-link">수정</button>
                 <button id="delete-btn" class="btn-red">삭제</button>
             </div>
