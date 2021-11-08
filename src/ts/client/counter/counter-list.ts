@@ -41,7 +41,7 @@ function result(body: any) {
   })
   html += '<br>총 ' + sum + ' 회<br>'
   html += '</pre>'
-  const el = getElementById('list') as HTMLElement
+  const el = getElementById('list')
   el.innerHTML = html
 }
 

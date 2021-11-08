@@ -2,25 +2,23 @@
 @use '010-media' as *;
 
 html {
-  font-size: 16px;
+  font-size: 18px;
   @include media-sm { font-size: 18px; }
   @include media-md { font-size: 20px; }
-  @include media-lg { font-size: (20px * 1.11); }
-  @include media-xl { font-size: (20px * 1.11 * 1.11); }
-  @include media-2xl { font-size: (20px * 1.11 * 1.11 * 1.11); }
+  @include media-lg { font-size: 20px; }
+  @include media-xl { font-size: 22px; }
+  @include media-2xl { font-size: 22px; }
 }
 
 body {
   font-family: serif;
   color: $color-text;
   background-color: white;
-  line-height: 2;
+  line-height: 1.8;
   word-break: keep-all;
   word-wrap: break-word;
 }
 
 :-webkit-full-screen, :-moz-full-screen, :-ms-fullscreen, :fullscreen {
   background: black;
-  width: 100%;
-  height: 100%;
 }

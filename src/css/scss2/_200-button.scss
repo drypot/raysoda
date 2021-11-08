@@ -3,16 +3,20 @@
 
 button {
   position: relative;
-  padding: 0.6rem 1.5rem 0.5rem;
+  padding: (($control-height - $font-size-sm) / 2) 1.0rem;
   border-radius: 0.25rem;
   border: none;
   height: $control-height;
 
   font-family: sans-serif;
+  font-size: $font-size-sm;
+  line-height: 1;
   white-space: nowrap;
 
   background: $btn-gray;
-  color: #444;
+  color: $gray-800;
+
+  cursor: pointer;
 
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
@@ -33,3 +37,13 @@ button {
 .btn-red          { background: $btn-red; color: #fff; }
 .btn-red:hover    { background: $btn-red-dim; }
 .btn-red:active   { background: $btn-red-dim; }
+
+.btn-link {
+  color: $btn-blue;
+  background-color: white;
+  &:hover  {
+    background: white;
+    text-decoration: underline;
+  }
+  &:active { background: white; }
+}

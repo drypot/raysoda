@@ -15,7 +15,7 @@
 }
 
 #modal-dialog {
-  margin: $margin-3xl auto;
+  margin: $margin-4xl auto;
 
   width: 90%;
   max-width: $width-lg;
@@ -24,13 +24,12 @@
   border: 1px solid #888;
   border-radius: 0.6rem;
 
-  background-color: #fefefe;
+  background-color: white;
   text-align: center;
 }
 
 #modal-title {
   margin-top: 0.8rem;
-  //border-bottom: 1px solid #999;
 }
 
 #modal-message {

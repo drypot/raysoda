@@ -1,6 +1,7 @@
 
+// 이 펑션에서 null 을 리턴해야할 경우는 없다고 상정한다.
 export function getElementById(id: string) {
-  return document.getElementById(id)
+  return document.getElementById(id) as HTMLElement
 }
 
 export function domQuery(q: string, el:ParentNode = document) {
@@ -25,7 +26,7 @@ export function newElementListFromHtml(html: string) {
 
 export function getEmbeddedJson(id: string) {
   try {
-    const el = getElementById(id) as HTMLElement
+    const el = getElementById(id)
     return JSON.parse(decodeHtml(el.innerText))
   } catch(e) {
     return {}

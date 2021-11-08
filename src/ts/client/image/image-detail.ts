@@ -7,23 +7,23 @@ import { sendDelete } from '@client/util/fetch'
 import { setRefresh } from '@client/util/refresh'
 
 export function initImageDetail() {
-  const img = getElementById('image') as HTMLElement
+  const img = getElementById('image')
   addFSIcon(img)
   img.onclick = (e) => {
     e.preventDefault()
     window.history.back()
   }
 
-  const comment = getElementById('comment') as HTMLElement
+  const comment = getElementById('comment')
   comment.innerHTML = tagUp(comment.innerHTML)
 
-  const updateBtn = getElementById('update-btn') as HTMLElement
+  const updateBtn = getElementById('update-btn')
   updateBtn.onclick = (e) => {
     e.preventDefault()
     window.location.href = '/image-update/' + pathList[1]
   }
 
-  const deleteBtn = getElementById('delete-btn') as HTMLElement
+  const deleteBtn = getElementById('delete-btn')
   deleteBtn.onclick = (e) => {
     e.preventDefault()
     openRedModal('사진 삭제 확인', '삭제된 사진은 복구하실 수 없습니다', '삭제', result => {

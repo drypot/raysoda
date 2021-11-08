@@ -1,0 +1,10 @@
+@use '000-var' as *;
+@use '010-media' as *;
+
+a {
+  color: $color-link;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}

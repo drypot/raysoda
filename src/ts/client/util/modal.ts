@@ -55,7 +55,7 @@ export function openErrorModal(err: any, handler?: ModalCallback) {
   hideElement(cancelBtn)
   okBtn.innerText = '확인'
   okBtn.className = 'btn-blue'
-  messageEl.className = 'code-dump text-left'
+  messageEl.className = 'code text-left'
   openModal(err.name, err.message, handler)
 }
 
