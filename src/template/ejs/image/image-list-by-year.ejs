@@ -16,8 +16,8 @@
         <% let iy = sy %>
 
         <% while (iy >= ey) { %>
-            <h3><%- iy %></h3>
-            <div class="mt-3 flex content-center space-x-4 fs-lg">
+            <h4 class="mt-2xl"><%- iy %></h4>
+            <div class="mt-3 flex content-center space-x-2">
                 <% let sm = iy == sy ? today.getMonth() : 11 %>
                 <% let em = iy == ey ? locals.firstCdate.getMonth() : 0 %>
                 <% let im = sm %>

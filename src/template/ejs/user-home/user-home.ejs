@@ -16,14 +16,14 @@
         </h1>
 
         <% if (!locals.prev) { %>
-            <div class="fs-lg space-y-lg">
+            <div class="space-y-2xl">
                 <div id="profile" class="ws-pre-line"><%= locals.owner.profile %></div>
                 <% if (locals.updatable) { %>
-                    <div class="flex flex-col">
-                        <a href='/user-update-profile/<%= locals.owner.id %>'>이름, 이메일 수정</a>
-                        <a href='/user-update-password/<%= locals.owner.id %>'>비밀번호 수정</a>
+                    <div>
+                        <a href='/user-update-profile/<%= locals.owner.id %>'>이름, 이메일 수정</a><br>
+                        <a href='/user-update-password/<%= locals.owner.id %>'>비밀번호 수정</a><br>
                         <% if (locals.user.admin) { %>
-                            <a href='/user-update-status/<%= locals.owner.id %>'>상태 수정</a>
+                            <a href='/user-update-status/<%= locals.owner.id %>'>상태 수정</a><br>
                         <% } %>
                     </div>
                 <% } %>
@@ -40,12 +40,13 @@
                 <div class="mt-4xl">
                     <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>
                     <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
-                    <div class="inline-block relative image-card">
+                    <div class="inline-block relative">
                         <a href="/image/<%- image.id %>">
                             <img class="max-w-full max-h-screen"
                                  src="<%- image.thumbUrl %>"
                                  data-vers="<%- image.vers ? image.vers.join(',') : null %>">
                         </a>
+                        <div class="fs-icon"></div>
                         <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
                         <% if (c) { %>
                             <div class="mt-xs comment"><%= c %></div>

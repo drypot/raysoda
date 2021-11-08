@@ -10,14 +10,14 @@
     <div class="wrapper">
         <h1>회원 목록</h1>
 
-        <form class="max-w-xs">
-            <label class="inline-flex max-w-full">
+        <form class="max-w-2xs">
+            <label class="flex space-x-1">
                 <input type="text" name="q" autofocus>
-                <button type="submit" class="btn-blue ml-2">회원 검색</button>
+                <button type="submit" class="btn-blue">회원 검색</button>
             </label>
         </form>
 
-        <div class="mt-xl fs-lg">
+        <div class="mt-3xl">
             <% if (locals.userList.length) { %>
                 <% for (const user of locals.userList) { %>
                     <a href="/user/<%- encodeURIComponent(user.home) %>"><%= user.name %></a><br>

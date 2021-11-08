@@ -16,15 +16,15 @@
 
             <!-- Banner List -->
             <% if (locals.bannerList.length) { %>
-                <div class="flex flex-col">
+                <div>
                     <% for(const banner of locals.bannerList) { %>
-                        <a href="<%- banner.url %>" target="_blank"><%= banner.text %></a>
+                        <a href="<%- banner.url %>" target="_blank"><%= banner.text %></a><br>
                     <% } %>
                 </div>
             <% } %>
 
             <!-- Home Menu -->
-            <div class="mt-3xl space-x-var-2 ws-nowrap-child">
+            <div class="mt-3xl space-x-var-2 ws-nowrap-all">
                 <% if (locals.user.id !== -1) { %>
                     <a href='/image-upload'>사진 등록</a>
                     <a href='/user/<%- encodeURIComponent(locals.user.home) %>'>사용자 홈</a>
@@ -35,7 +35,7 @@
                 <a href='/user-list'>회원 목록</a>
                 <a href='/image-list-by-year'>연도별 사진</a>
             </div>
-            <div class="mt-2 space-x-var-2 ws-nowrap-child">
+            <div class="mt-2 space-x-var-2 ws-nowrap-all">
                 <a href='/about'>사이트 소개</a>
                 <a href='/help'>도움말</a>
                 <% if (locals.user.id !== -1) { %>

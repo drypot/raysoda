@@ -54,5 +54,8 @@
 .ws-pre-line     { white-space: pre-line; }
 .ws-break-spaces { white-space: break-spaces; }
 
-.ws-nowrap-child > * { white-space: nowrap; }
+.ws-nowrap-all > * { white-space: nowrap; }
 
+// Fix Base Line
+
+.fix-baseline { padding-top: 0.125em; }
