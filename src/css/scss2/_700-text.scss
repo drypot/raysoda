@@ -8,16 +8,16 @@
 
 // Font Size
 
-.fs-xs	{ font-size: $font-size-xs;  }
-.fs-sm	{ font-size: $font-size-sm;  }
-.fs-md	{ font-size: $font-size-md;  }
-.fs-lg	{ font-size: $font-size-lg;  }
-.fs-xl	{ font-size: $font-size-xl;  }
-.fs-2xl	{ font-size: $font-size-2xl; }
-.fs-3xl	{ font-size: $font-size-3xl; }
-.fs-4xl	{ font-size: $font-size-4xl; }
-.fs-5xl	{ font-size: $font-size-5xl; }
-.fs-6xl	{ font-size: $font-size-6xl; }
+.fs-xs	{ font-size: $fs-xs;  }
+.fs-sm	{ font-size: $fs-sm;  }
+.fs-md	{ font-size: $fs-md;  }
+.fs-lg	{ font-size: $fs-lg;  }
+.fs-xl	{ font-size: $fs-xl;  }
+.fs-2xl	{ font-size: $fs-2xl; }
+.fs-3xl	{ font-size: $fs-3xl; }
+.fs-4xl	{ font-size: $fs-4xl; }
+.fs-5xl	{ font-size: $fs-5xl; }
+.fs-6xl	{ font-size: $fs-6xl; }
 
 // Line Height
 
@@ -45,11 +45,6 @@
 .text-left   { text-align: left; }
 .text-right  { text-align: right; }
 
-// Color
-
-.color-white { color: $white; }
-.color-black { color: $black; }
-
 // White Space
 
 .ws-normal       { white-space: normal; }
@@ -61,8 +56,3 @@
 
 .ws-nowrap-child > * { white-space: nowrap; }
 
-// Cursor
-
-.cursor-pointer {
-  cursor: pointer;
-}

@@ -10,13 +10,13 @@
     <%- include('../_common/header') %>
 
     <div class="wrapper">
-        <h1 class="link-no-deco"><a href="/"><%- locals.config.appName %></a></h1>
+        <h1 class="default-color-all"><a href="/"><%- locals.config.appName %></a></h1>
 
         <% if (!locals.prev) { %>
 
             <!-- Banner List -->
             <% if (locals.bannerList.length) { %>
-                <div class="flex flex-col fs-lg">
+                <div class="flex flex-col">
                     <% for(const banner of locals.bannerList) { %>
                         <a href="<%- banner.url %>" target="_blank"><%= banner.text %></a>
                     <% } %>
@@ -24,7 +24,7 @@
             <% } %>
 
             <!-- Home Menu -->
-            <div class="mt-3xl space-x-4 fs-lg ws-nowrap">
+            <div class="mt-3xl space-x-var-2 ws-nowrap-child">
                 <% if (locals.user.id !== -1) { %>
                     <a href='/image-upload'>사진 등록</a>
                     <a href='/user/<%- encodeURIComponent(locals.user.home) %>'>사용자 홈</a>
@@ -35,7 +35,7 @@
                 <a href='/user-list'>회원 목록</a>
                 <a href='/image-list-by-year'>연도별 사진</a>
             </div>
-            <div class="mt-2 space-x-4 fs-lg ws-nowrap">
+            <div class="mt-2 space-x-var-2 ws-nowrap-child">
                 <a href='/about'>사이트 소개</a>
                 <a href='/help'>도움말</a>
                 <% if (locals.user.id !== -1) { %>
@@ -46,7 +46,7 @@
         <% } %>
     </div>
 
-    <div class="max-w-full text-center link-no-deco fs-lg">
+    <div class="max-w-full text-center default-color-all fs-lg">
         <% for (const image of locals.imageList) { %>
             <div class="mt-4xl">
                 <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>

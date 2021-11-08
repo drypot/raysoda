@@ -17,40 +17,39 @@ $width-lg:  40rem;
 
 // Font Size
 
-$font-size-xs: 0.75rem;
-$font-size-sm: 0.875rem;
-$font-size-md: 1rem;
-$font-size-lg: 1.125rem;
-$font-size-xl: 1.25rem;
-$font-size-2xl: 1.5rem;
-$font-size-3xl: 2rem;
-$font-size-4xl: 3rem;
-$font-size-5xl: 4rem;
-$font-size-6xl: 5rem;
+$fs-xs: 0.75rem;
+$fs-sm: 0.875rem;
+$fs-md: 1rem;
+$fs-lg: 1.125rem;
+$fs-xl: 1.25rem;
+$fs-2xl: 1.5rem;
+$fs-3xl: 2rem;
+$fs-4xl: 2.5rem;
+$fs-5xl: 3rem;
+$fs-6xl: 3.5rem;
 
 // Margin
 
-$margin-xs:  $font-size-xs * 1;
-$margin-sm:  $font-size-sm * 1;
-$margin-md:  $font-size-md * 1.2;
-$margin-lg:  $font-size-lg * 1.2;
-$margin-xl:  $font-size-xl * 1.2;
-$margin-2xl: $font-size-2xl * 1.5;
-$margin-3xl: $font-size-3xl * 1.8;
-$margin-4xl: $font-size-4xl * 2;
+$margin-xs:  $fs-xs * 1;
+$margin-sm:  $fs-sm * 1;
+$margin-md:  $fs-md * 1.2;
+$margin-lg:  $fs-lg * 1.2;
+$margin-xl:  $fs-xl * 1.2;
+$margin-2xl: $fs-2xl * 1.5;
+$margin-3xl: $fs-3xl * 1.8;
+$margin-4xl: $fs-4xl * 2;
 
 // Form
 
-$control-height: 2.1rem;
-
+$control-height: 2rem;
 
 // Color
 
-$color-text: #252525;
-$color-link: #337ab7;
-$color-muted: #6c757d;
-$color-border: #ccc;
-$color-disabled: #ccc;
+$default-color: #252525;
+$link-color: #337ab7;
+$muted-color: #6c757d;
+$border-color: #ccc;
+$disabled-color: #ccc;
 
 $white: #fff;
 $black: #000;

@@ -3,11 +3,6 @@
 
 button:disabled,
 button:disabled:hover {
-  background: $color-disabled;
+  background: $disabled-color;
   color: #fff;
-}
-
-.link-no-deco,
-.link-no-deco a {
-  color: $color-text;
 }

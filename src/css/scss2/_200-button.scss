@@ -1,15 +1,16 @@
 @use '000-var' as *;
 @use '010-media' as *;
+@use "sass:math";
 
 button {
   position: relative;
-  padding: (($control-height - $font-size-sm) / 2) 1.0rem;
+  padding: math.div($control-height - $fs-sm, 2) 1.0rem;
   border-radius: 0.25rem;
   border: none;
   height: $control-height;
 
   font-family: sans-serif;
-  font-size: $font-size-sm;
+  font-size: $fs-sm;
   line-height: 1;
   white-space: nowrap;
 

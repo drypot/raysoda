@@ -1,83 +1,86 @@
 @use '000-var' as *;
 @use '010-media' as *;
+@use "sass:math";
 
 form {
-  margin-top: $margin-lg;
-  max-width: $margin-md;
+  margin-top: $margin-2xl;
+  max-width: $width-md;
   margin-left: auto;
   margin-right: auto;
   text-align: left;
+}
 
-  label {
+label {
+  display: block;
+  margin-top: $margin-md;
+
+  //font-family: sans-serif;
+  font-size: $fs-sm;
+
+  span {
     display: block;
-    margin-top: $margin-xs;
-
-    span {
-      display: block;
-    }
-
-    input[type=text], input[type=password], textarea, select {
-      display: block;
-
-      width: 100%;
-      height: $control-height;
-
-      padding: 0.25rem 0.5rem;
-      border: 1px solid $color-border;
-      border-radius: 0.25rem;
-      outline: none;
-
-      -webkit-transition: all 0.3s;
-      -moz-transition: all 0.3s;
-      transition: all 0.3s;
-
-      &:focus {
-        border-color: #3498db;
-        box-shadow: 0 0 0px 4px rgba(21, 156, 228, 0.4);
-      }
-    }
-
-    input[type=file] {
-      display: block;
-
-      width: 100%;
-      height: ($control-height + 0.5);
-
-      padding: 0.25rem 0.5rem;
-      border: 1px solid $color-border;
-      border-radius: 0.25rem;
-      outline: none;
-    }
-
-    textarea {
-      //resize: none;
-      height: auto;
-    }
-
+    padding: 0 0.5rem;
   }
+}
 
-  input[type=checkbox] {
-    margin-right: 0.5rem;
-  }
-  input[type=radio] {
-    margin-right: 0.5rem;
-  }
+input[type=text], input[type=password], input[type=email], input[type=file],
+textarea, select {
+  display: block;
 
+  width: 100%;
+  height: $control-height;
+
+  padding: 0.25rem 0.5rem;
+  border: 1px solid $border-color;
+  border-radius: 0.25rem;
+  outline: none;
+
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+
+  &:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0px 4px rgba(21, 156, 228, 0.4);
+  }
+}
+
+input[type=file] {
+  height: ($control-height + 0.5);
+}
+
+input[type=checkbox] {
+  height: $control-height;
+  margin-left: 0.5rem;
+}
+
+input[type=radio] {
+  height: $control-height;
+  margin-left: 0.5rem;
+}
+
+textarea {
+  height: auto;
+  overflow: auto;
+  line-height: 1.8;
+}
+
+form {
   .error {
+    font-size: $fs-sm;
     margin-top: 0.5rem;
+    padding-left: 0.5rem;
     color: $btn-red;
   }
 
   .error-group {
-    margin-top: $margin-sm;
+    margin-top: $margin-lg;
   }
 
   .btn-group {
-    margin-top: $margin-xl;
+    margin-top: $margin-2xl;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 }
-
-

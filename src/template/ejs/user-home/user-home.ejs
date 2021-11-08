@@ -9,7 +9,7 @@
     <%- include('../_common/header') %>
 
     <div class="wrapper">
-        <h1 class="link-no-deco">
+        <h1 class="default-color-all">
             <a href="/user/<%- encodeURIComponent(locals.owner.home) %>">
                 <%= locals.owner.name %>
             </a>
@@ -35,7 +35,7 @@
     </div>
 
     <% if (locals.imageList.length) { %>
-        <div class="max-w-full text-center link-no-deco">
+        <div class="max-w-full text-center default-color-all">
             <% for (const image of locals.imageList) { %>
                 <div class="mt-4xl">
                     <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>

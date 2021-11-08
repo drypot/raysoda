@@ -20,7 +20,7 @@
   width: 90%;
   max-width: $width-lg;
 
-  padding: 0.8rem 1rem;
+  padding: 1.3rem 1rem;
   border: 1px solid #888;
   border-radius: 0.6rem;
 
@@ -29,9 +29,14 @@
 }
 
 #modal-title {
-  margin-top: 0.8rem;
+  font-size: $fs-2xl;
+  line-height: 1.15;
 }
 
 #modal-message {
-  margin-top: 0.8rem;
+  margin: 1.1rem 0 1.3rem;
+}
+
+#modal-dialog .btn-group button {
+  margin: 0 0.3rem;
 }

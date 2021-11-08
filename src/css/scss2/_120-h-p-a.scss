@@ -1,12 +1,12 @@
 @use '000-var' as *;
 @use '010-media' as *;
 
-h1 { margin-top: $margin-4xl; font-size: $font-size-4xl; }
-h2 { margin-top: $margin-3xl; font-size: $font-size-3xl; }
-h3 { margin-top: $margin-2xl; font-size: $font-size-2xl; }
-h4 { margin-top: $margin-xl;  font-size: $font-size-xl;  }
-h5 { margin-top: $margin-lg;  font-size: $font-size-lg;  }
-h6 { margin-top: $margin-md;  font-size: $font-size-md;  }
+h1 { margin-top: $margin-4xl; font-size: $fs-4xl; }
+h2 { margin-top: $margin-3xl; font-size: $fs-3xl; }
+h3 { margin-top: $margin-2xl; font-size: $fs-2xl; }
+h4 { margin-top: $margin-xl;  font-size: $fs-xl;  }
+h5 { margin-top: $margin-lg;  font-size: $fs-lg;  }
+h6 { margin-top: $margin-md;  font-size: $fs-md;  }
 
 h1 { margin-bottom: $margin-4xl * 0.95; }
 

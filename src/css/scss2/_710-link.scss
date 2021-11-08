@@ -2,9 +2,15 @@
 @use '010-media' as *;
 
 a {
-  color: $color-link;
+  color: $link-color;
   text-decoration: none;
   &:hover {
     text-decoration: underline;
   }
+}
+
+// Cursor
+
+.cursor-pointer {
+  cursor: pointer;
 }
