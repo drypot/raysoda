@@ -31,8 +31,8 @@
 
 .fs-icon {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 0.3rem;
+  right: 0.3rem;
   z-index: 10;
 
   & > svg {
@@ -46,9 +46,9 @@
 #fullscreen {
   background-color: black;
   text-align: center;
+  cursor: pointer;
   img {
     max-width: 100vw;
     max-height: 100vh;
   }
-  cursor: pointer;
 }

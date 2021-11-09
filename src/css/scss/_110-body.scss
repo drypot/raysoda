@@ -1,6 +1,19 @@
 @use '000-media' as *;
 @use '010-var' as *;
 
+body {
+  font-family: serif;
+  font-size: 1rem;
+  //font-weight: 400;
+  color: $default-color;
+  background-color: white;
+  line-height: 1.8;
+
+  word-break: keep-all;
+  //word-break: normal;
+  word-wrap: break-word;
+}
+
 h1 { margin-top: $margin-4xl; font-size: $fs-4xl; }
 h2 { margin-top: $margin-3xl; font-size: $fs-3xl; }
 h3 { margin-top: $margin-2xl; font-size: $fs-2xl; }

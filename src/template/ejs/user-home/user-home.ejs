@@ -20,7 +20,7 @@
                 <div id="profile" class="ws-pre-line"><%= locals.owner.profile %></div>
                 <% if (locals.updatable) { %>
                     <div>
-                        <a href='/user-update-profile/<%= locals.owner.id %>'>이름, 이메일 수정</a><br>
+                        <a href='/user-update-profile/<%= locals.owner.id %>'>이름 수정</a><br>
                         <a href='/user-update-password/<%= locals.owner.id %>'>비밀번호 수정</a><br>
                         <% if (locals.user.admin) { %>
                             <a href='/user-update-status/<%= locals.owner.id %>'>상태 수정</a><br>
@@ -42,7 +42,7 @@
                     <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
                     <div class="inline-block relative">
                         <a href="/image/<%- image.id %>">
-                            <img class="block max-w-full max-h-screen"
+                            <img class="block max-w-full max-h-screen img-thumb"
                                  src="<%- image.thumbUrl %>"
                                  data-vers="<%- image.vers ? image.vers.join(',') : null %>">
                         </a>

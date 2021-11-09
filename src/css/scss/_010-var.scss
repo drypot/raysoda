@@ -23,6 +23,13 @@ $width-lg:  40rem;
   --fs-4xl: 2.5rem;
   --fs-5xl: 3rem;
   --fs-6xl: 3.5rem;
+
+  font-size: 16px;
+  @include media-sm { font-size: 18px; }
+  @include media-md { font-size: 20px; }
+  @include media-lg { font-size: 20px; }
+  @include media-xl { font-size: 22px; }
+  @include media-2xl { font-size: 22px; }
 }
 
 $fs-xs:  var(--fs-xs);
