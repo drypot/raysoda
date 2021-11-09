@@ -6,7 +6,9 @@
     
     $ npm install
 
-    $ bin/build
+    $ bin/sass
+
+    $ bin/rollup
 
     ...
 
