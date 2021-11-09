@@ -14,7 +14,7 @@
 
         <% if (!locals.prev) { %>
 
-            <!-- Banner List -->
+            <%# Banner List %>
             <% if (locals.bannerList.length) { %>
                 <div class="wb-keep-all">
                     <% for(const banner of locals.bannerList) { %>
@@ -31,7 +31,7 @@
                 </div>
             <% } %>
 
-            <!-- Home Menu -->
+            <%# Home Menu %>
             <div class="mt-3xl space-x-var-2 ws-nowrap-des">
                 <% if (locals.user.id !== -1) { %>
                     <a href='/image-upload'>사진 등록</a>
