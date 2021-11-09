@@ -19,11 +19,11 @@
             <div class="space-y-2xl">
                 <div id="profile" class="ws-pre-line"><%= locals.owner.profile %></div>
                 <% if (locals.updatable) { %>
-                    <div>
-                        <a href='/user-update-profile/<%= locals.owner.id %>'>이름 수정</a><br>
-                        <a href='/user-update-password/<%= locals.owner.id %>'>비밀번호 수정</a><br>
+                    <div class="space-x-var-2 ws-nowrap-des">
+                        <a href='/user-update-profile/<%= locals.owner.id %>'>이름 수정</a>
+                        <a href='/user-update-password/<%= locals.owner.id %>'>비밀번호 수정</a>
                         <% if (locals.user.admin) { %>
-                            <a href='/user-update-status/<%= locals.owner.id %>'>상태 수정</a><br>
+                            <a href='/user-update-status/<%= locals.owner.id %>'>상태 수정</a>
                         <% } %>
                     </div>
                 <% } %>
