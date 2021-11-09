@@ -46,9 +46,7 @@ export async function useImageListPage() {
       const image = await idb.findFirstImage()
       firstCdate = image ? image.cdate : new Date()
     }
-    renderHtml(res, 'image/image-list-by-year', {
-      firstCdate: new Date()
-    })
+    renderHtml(res, 'image/image-list-by-year', { firstCdate })
   }))
 
 }
