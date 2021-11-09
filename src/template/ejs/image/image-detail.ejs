@@ -13,7 +13,7 @@
 
     <div class="max-w-full text-center">
         <div class="inline-block relative">
-            <img id="image" class="max-w-full cursor-pointer"
+            <img id="image" class="block max-w-full cursor-pointer"
                  src="<%- locals.image.thumbUrl %>"
                  data-vers="<%- locals.image.vers ? locals.image.vers.join(',') : null %>">
             <div class="fs-icon"></div>
@@ -22,7 +22,7 @@
 
     <div class="wrapper">
         <div id="comment" class=" mt-2xl ws-pre-line"><%= locals.image.comment %></div>
-        <div class="mt-2xl default-color-all">
+        <div class="mt-2xl default-color-des">
             <a href='/user/<%- encodeURIComponent(locals.image.owner.home) %>'><%= locals.image.owner.name %></a>
         </div>
         <div class="mt-sm fs-sm">

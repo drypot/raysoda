@@ -1,5 +1,5 @@
-@use '000-var' as *;
-@use '010-media' as *;
+@use '000-media' as *;
+@use '010-var' as *;
 
 // Color
 
@@ -8,4 +8,4 @@
 .white   { color: $white; }
 .black   { color: $black; }
 
-.default-color-all * { color: $default-color; }
+.default-color-des * { color: $default-color; }

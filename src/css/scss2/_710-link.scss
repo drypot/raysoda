@@ -1,5 +1,5 @@
-@use '000-var' as *;
-@use '010-media' as *;
+@use '000-media' as *;
+@use '010-var' as *;
 
 a {
   color: $link-color;

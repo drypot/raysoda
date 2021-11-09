@@ -1,7 +1,7 @@
 import { getElementById } from '@client/util/dom'
 
 export const fsWidth = window.screen.width * (window.devicePixelRatio || 1)
-export const fsWrapper = getElementById("fullscreen")
+export const fsElement = getElementById("fullscreen")
 
 const documentAny = document as any
 
@@ -35,7 +35,7 @@ document.addEventListener('MSFullscreenChange', onChangeHandler)
 
 function onChangeHandler() {
   if (!fsInFullscreen()) {
-    fsWrapper.textContent = ''
+    fsElement.textContent = ''
   }
 }
 

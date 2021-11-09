@@ -1,5 +1,5 @@
-@use '000-var' as *;
-@use '010-media' as *;
+@use '000-media' as *;
+@use '010-var' as *;
 @use "sass:math";
 
 form {
@@ -28,9 +28,8 @@ textarea, select {
   display: block;
 
   width: 100%;
-  height: $control-height;
 
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 0.5rem 0.4rem;
   border: 1px solid $border-color;
   border-radius: 0.25rem;
   outline: none;
@@ -46,16 +45,14 @@ textarea, select {
 }
 
 input[type=file] {
-  height: ($control-height + 0.5);
+  padding: 0.5rem 0.5rem 0.5rem;
 }
 
 input[type=checkbox] {
-  height: $control-height;
   margin-left: 0.5rem;
 }
 
 input[type=radio] {
-  height: $control-height;
   margin-left: 0.5rem;
 }
 

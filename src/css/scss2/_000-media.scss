@@ -1,22 +1,14 @@
-@use '000-var' as *;
 
-/*
-@include media-sm {
-}
-@include media-md {
-}
-@include media-lg {
-}
-@include media-xl {
-}
-@include media-2xl {
-}
-*/
+$screen-sm: 576px;
+$screen-md: 768px;
+$screen-lg: 992px;
+$screen-xl: 1200px;
+$screen-2xl: 1460px;
 
 // media-sm 스타일을 media-640 스타일로 바꾸면
-// media-640 과 min-width: 640px 두 군데를 수정해야하는데
+// media-640 과 min-width: 640px 두 군데를 수정해야 한다.
 // 이때 다른 곳 수정을 빼먹어서 버그가 발생하기 쉽다.
-// 직관적이지 않아도 변수 사용하는 것으로 한다.
+// 직관적이지 않아도 변수를 사용하는 것으로 한다.
 
 @mixin media-sm {
   @media (min-width: $screen-sm) {
@@ -47,3 +39,16 @@
     @content;
   }
 }
+
+/*
+@include media-sm {
+}
+@include media-md {
+}
+@include media-lg {
+}
+@include media-xl {
+}
+@include media-2xl {
+}
+*/

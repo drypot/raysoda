@@ -1,10 +1,10 @@
-@use '000-var' as *;
-@use '010-media' as *;
+@use '000-media' as *;
+@use '010-var' as *;
 
 // Font Family
 
-.ff-sans-serif { font-family: sans-serif; }
-.ff-serif      { font-family: serif; }
+.sans-serif { font-family: sans-serif; }
+.serif      { font-family: serif; }
 
 // Font Size
 
@@ -45,6 +45,15 @@
 .text-left   { text-align: left; }
 .text-right  { text-align: right; }
 
+// Word Break
+
+.wb-normal    { word-break: normal; }
+.wb-break-all { word-break: break-all; }
+.wb-keep-all  { word-break: keep-all; }
+
+.ww-normal     { word-wrap: normal; }
+.ww-break-word { word-wrap: break-word; }
+
 // White Space
 
 .ws-normal       { white-space: normal; }
@@ -54,7 +63,7 @@
 .ws-pre-line     { white-space: pre-line; }
 .ws-break-spaces { white-space: break-spaces; }
 
-.ws-nowrap-all > * { white-space: nowrap; }
+.ws-nowrap-des * { white-space: nowrap; }
 
 // Fix Base Line
 

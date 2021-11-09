@@ -1,4 +1,4 @@
-import { fsExit, fsRequest, fsWidth, fsWrapper } from '@client/util/fullscreen'
+import { fsElement, fsExit, fsRequest, fsWidth } from '@client/util/fullscreen'
 import { newElementFromHtml } from '@client/util/dom'
 
 const fsIconTag = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white">
@@ -34,10 +34,11 @@ function findImageUrl(icon: HTMLElement) {
 
 function openImage(url: string) {
   const img = newElementFromHtml('<img src="' + url + '">')
-  img.onclick = function (e) {
+  fsElement.textContent = ''
+  fsElement.append(img)
+  fsElement.onclick = img.onclick = function (e) {
     fsExit()
     e.preventDefault()
   }
-  fsWrapper.append(img)
-  fsRequest(img)
+  fsRequest(fsElement)
 }

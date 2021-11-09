@@ -1,8 +1,8 @@
-@use '000-var' as *;
-@use '010-media' as *;
+@use '000-media' as *;
+@use '010-var' as *;
 
-html {
-  font-size: 18px;
+:root {
+  font-size: 16px;
   @include media-sm { font-size: 18px; }
   @include media-md { font-size: 20px; }
   @include media-lg { font-size: 20px; }
@@ -15,8 +15,8 @@ body {
   color: $default-color;
   background-color: white;
   line-height: 1.8;
-  //word-break: keep-all;
-  word-break: normal;
+  word-break: keep-all;
+  //word-break: normal;
   word-wrap: break-word;
 }
 

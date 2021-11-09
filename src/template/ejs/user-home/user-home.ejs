@@ -9,7 +9,7 @@
     <%- include('../_common/header') %>
 
     <div class="wrapper">
-        <h1 class="default-color-all">
+        <h1 class="default-color-des">
             <a href="/user/<%- encodeURIComponent(locals.owner.home) %>">
                 <%= locals.owner.name %>
             </a>
@@ -35,22 +35,24 @@
     </div>
 
     <% if (locals.imageList.length) { %>
-        <div class="max-w-full text-center default-color-all">
+        <div class="max-w-full text-center default-color-des">
             <% for (const image of locals.imageList) { %>
-                <div class="mt-4xl">
+                <div class="mt-5xl">
                     <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>
                     <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
                     <div class="inline-block relative">
                         <a href="/image/<%- image.id %>">
-                            <img class="max-w-full max-h-screen"
+                            <img class="block max-w-full max-h-screen"
                                  src="<%- image.thumbUrl %>"
                                  data-vers="<%- image.vers ? image.vers.join(',') : null %>">
                         </a>
                         <div class="fs-icon"></div>
-                        <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
-                        <% if (c) { %>
-                            <div class="mt-xs comment"><%= c %></div>
-                        <% } %>
+                        <div class="mt-3">
+                            <% let c = image.comment.split(/\r\n|\n/, 1)[0] %>
+                            <% if (c) { %>
+                                <div class="comment"><%= c %></div>
+                            <% } %>
+                        </div>
                     </div>
                 </div>
             <% } %>

@@ -1,8 +1,0 @@
-@use '000-var' as *;
-@use '010-media' as *;
-
-button:disabled,
-button:disabled:hover {
-  background: $disabled-color;
-  color: #fff;
-}

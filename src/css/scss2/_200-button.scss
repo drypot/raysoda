@@ -1,13 +1,12 @@
-@use '000-var' as *;
-@use '010-media' as *;
+@use '000-media' as *;
+@use '010-var' as *;
 @use "sass:math";
 
 button {
   position: relative;
-  padding: math.div($control-height - $fs-sm, 2) 1.0rem;
+  padding: 0.6rem 1.0rem 0.5rem;
   border-radius: 0.25rem;
   border: none;
-  height: $control-height;
 
   font-family: sans-serif;
   font-size: $fs-sm;
@@ -25,6 +24,12 @@ button {
 
   &:hover  { background: $btn-gray-dim; }
   &:active { background: $btn-gray-dim; top: 2px; }
+}
+
+button:disabled,
+button:disabled:hover {
+  background: $disabled-color !important;
+  color: #fff !important;
 }
 
 .btn-blue         { background: $btn-blue; color: #fff; }

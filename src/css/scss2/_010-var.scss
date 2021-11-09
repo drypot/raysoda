@@ -1,0 +1,134 @@
+@use '000-media' as *;
+
+// Width
+
+$width-4xs: 8rem;
+$width-3xs: 12rem;
+$width-2xs: 16rem;
+$width-xs:  20rem;
+$width-sm:  24rem;
+$width-md:  32rem;
+$width-lg:  40rem;
+
+// Font Size
+
+:root {
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.25rem;
+  --fs-2xl: 1.5rem;
+  --fs-3xl: 2rem;
+  --fs-4xl: 2.5rem;
+  --fs-5xl: 3rem;
+  --fs-6xl: 3.5rem;
+}
+
+$fs-xs:  var(--fs-xs);
+$fs-sm:  var(--fs-sm);
+$fs-md:  var(--fs-md);
+$fs-lg:  var(--fs-lg);
+$fs-xl:  var(--fs-xl);
+$fs-2xl: var(--fs-2xl);
+$fs-3xl: var(--fs-3xl);
+$fs-4xl: var(--fs-4xl);
+$fs-5xl: var(--fs-5xl);
+$fs-6xl: var(--fs-6xl);
+
+// Margin
+
+:root {
+  --margin-weight: 0.8;
+  @include media-sm {
+    --margin-weight: 0.9;
+  }
+  @include media-md {
+    --margin-weight: 1;
+  }
+  @include media-lg {
+    --margin-weight: 1.1;
+  }
+  @include media-xl {
+    --margin-weight: 1.2;
+  }
+  @include media-2xl {
+    --margin-weight: 1.5;
+  }
+
+  --margin-xs:  calc(var(--fs-xs) * 1 * var(--margin-weight));
+  --margin-sm:  calc(var(--fs-sm) * 1 * var(--margin-weight));
+  --margin-md:  calc(var(--fs-md) * 1.2 * var(--margin-weight));
+  --margin-lg:  calc(var(--fs-lg) * 1.2 * var(--margin-weight));
+  --margin-xl:  calc(var(--fs-xl) * 1.5 * var(--margin-weight));
+  --margin-2xl: calc(var(--fs-2xl) * 1.5 * var(--margin-weight));
+  --margin-3xl: calc(var(--fs-3xl) * 1.8 * var(--margin-weight));
+  --margin-4xl: calc(var(--fs-4xl) * 2 * var(--margin-weight));
+  --margin-5xl: calc(var(--fs-5xl) * 2.2 * var(--margin-weight));
+  --margin-6xl: calc(var(--fs-6xl) * 2.4 * var(--margin-weight));
+}
+
+$margin-xs:  var(--margin-xs);
+$margin-sm:  var(--margin-sm);
+$margin-md:  var(--margin-md);
+$margin-lg:  var(--margin-lg);
+$margin-xl:  var(--margin-xl);
+$margin-2xl: var(--margin-2xl);
+$margin-3xl: var(--margin-3xl);
+$margin-4xl: var(--margin-4xl);
+$margin-5xl: var(--margin-5xl);
+$margin-6xl: var(--margin-6xl);
+
+// Color
+
+$default-color: #252525;
+$link-color: #337ab7;
+$muted-color: #6c757d;
+$border-color: #ccc;
+$disabled-color: #ccc;
+
+$white: #fff;
+$black: #000;
+
+$gray-100: #f9f9f9;
+$gray-200: #ececec;
+$gray-300: #e2e2e2;
+$gray-400: #d4d4d4;
+$gray-500: #b5b5b5;
+$gray-600: #757575;
+$gray-700: #505050;
+$gray-800: #3a3a3a;
+$gray-900: #252525;
+
+$blue:    #0d6efd; // Bootstrap Color
+$indigo:  #6610f2;
+$purple:  #6f42c1;
+$pink:    #d63384;
+$red:     #dc3545;
+$orange:  #fd7e14;
+$yellow:  #ffc107;
+$green:   #198754;
+$teal:    #20c997;
+$cyan:    #0dcaf0;
+
+$primary:   $blue;
+$secondary: $gray-600;
+$success:   $green;
+$info:      $cyan;
+$warning:   $yellow;
+$danger:    $red;
+$light:     $gray-100;
+$dark:      $gray-900;
+
+$summer-sky: #3498db;
+$shamrock: #2ecc71;
+$cinnabar: #e74c3c;
+
+$btn-blue:      $summer-sky;
+$btn-blue-dim:  darken($btn-blue, 10%);
+$btn-green:     $shamrock;
+$btn-green-dim: darken($btn-green, 10%);
+$btn-red:       $cinnabar;
+$btn-red-dim:   darken($btn-red, 10%);
+$btn-gray:      $gray-200;
+$btn-gray-dim:  darken($btn-gray, 8%);

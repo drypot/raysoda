@@ -1,5 +1,5 @@
-@use '000-var' as *;
-@use '010-media' as *;
+@use '000-media' as *;
+@use '010-var' as *;
 
 // application
 
@@ -31,8 +31,8 @@
 
 .fs-icon {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 5px;
   z-index: 10;
 
   & > svg {
@@ -44,9 +44,11 @@
 }
 
 #fullscreen {
+  background-color: black;
+  text-align: center;
   img {
     max-width: 100vw;
     max-height: 100vh;
-    cursor: pointer;
   }
+  cursor: pointer;
 }
