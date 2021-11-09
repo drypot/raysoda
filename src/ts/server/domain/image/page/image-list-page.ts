@@ -1,5 +1,5 @@
 import { imageGetList, imageGetListByCdate } from '@server/domain/image/_service/image-list'
-import { dateToString, parseDate } from '@common/util/date2'
+import { dateToStringNoTime, parseDate } from '@common/util/date2'
 import { renderHtml } from '@server/express/render-html'
 import { Express2, toCallback } from '@server/express/express2'
 import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
@@ -10,6 +10,7 @@ import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { newLimitedNumber } from '@common/util/primitive'
 import { Request, Response } from 'express'
+import { ImageForList } from '@common/type/image-detail'
 
 export async function useImageListPage() {
 
@@ -27,10 +28,13 @@ export async function useImageListPage() {
     const p = newLimitedNumber(req.query.p, 1, 1, NaN)
     const ps = newLimitedNumber(req.query.ps, 16, 1, 128)
     const d = parseDate(req.query.d)
-    const ds = dateToString(d)
-    const list = d ?
-      await imageGetListByCdate(udb, idb, ifm, d, p, ps) :
-      await imageGetList(udb, idb, ifm, p, ps)
+    const ds = dateToStringNoTime(d)
+    let list: ImageForList[]
+    if (d) {
+      list = await imageGetListByCdate(udb, idb, ifm, d, p, ps)
+    } else {
+      list = await imageGetList(udb, idb, ifm, p, ps)
+    }
     renderHtml(res, 'image/image-list', {
       imageList: list,
       prev: p > 1 ? UrlMaker.from('/image-list').add('d', ds, '').add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,

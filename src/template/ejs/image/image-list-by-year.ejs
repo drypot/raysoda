@@ -18,11 +18,11 @@
         <% while (iy >= ey) { %>
             <h4 class="mt-2xl"><%- iy %></h4>
             <div class="mt-3 flex content-center space-x-2">
-                <% let sm = iy == sy ? today.getMonth() : 11 %>
-                <% let em = iy == ey ? locals.firstCdate.getMonth() : 0 %>
+                <% let sm = iy === sy ? today.getMonth() : 11 %>
+                <% let em = iy === ey ? locals.firstCdate.getMonth() : 0 %>
                 <% let im = sm %>
                 <% while (im >= em) { %>
-                    <% let link = '/image-list?d=' + iy + '-' + (im < 9 ? '0' : '') + (im + 1) %>
+                    <% let link = '/image-list?d=' + iy + '-' + (im < 9 ? '0' : '') + (im + 2) + '-01' %>
                     <a href="<%- link %>"><%- im + 1 %></a>
                     <% im-- %>
                 <% } %>
