@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 rm -fr public/build/sass
-node_modules/.bin/sass src/css/scss2:public/build/sass
+node_modules/.bin/sass src/css/scss:public/build/sass
