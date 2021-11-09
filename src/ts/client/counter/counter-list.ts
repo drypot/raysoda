@@ -18,7 +18,7 @@ function fillForm(form: Form) {
   end.setDate(0)
 
   form.input.id.value = 'adng'
-  end.setMonth(end.getMonth() + 1) // for test
+  //end.setMonth(end.getMonth() + 1) // for test
 
   form.input.begin.value = dateToStringNoTime(begin)
   form.input.end.value = dateToStringNoTime(end)
