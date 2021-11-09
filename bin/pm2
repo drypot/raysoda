@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function show_usage {
-    echo "pm2 [raysoda|rapixel|osoky|drypot] [dev|live]"
+    echo "bin/pm2 [raysoda|rapixel|osoky|drypot] [dev|live]"
     exit 1
 }
 
@@ -11,7 +11,7 @@ fi
 
 if [ "$2" = dev ]; then
     CONFIG_DIR=config
-    #export NODE_ENV=development
+    export NODE_ENV=development
 elif [ "$2" = live ]; then
     CONFIG_DIR=config-live
     export NODE_ENV=production
@@ -19,18 +19,20 @@ else
     show_usage
 fi
 
-export NODE_ENV=production
 export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
 export TS_NODE_PROJECT=src/ts/server/tsconfig.json
 
 args=(
     start
-    bin/pm2-runner.mjs
+    node
     --name $1
     --exp-backoff-restart-delay=2000
     --
+    src/ts/server/script/run-raysoda.ts
     ${CONFIG_DIR}/${1}-${2}.json
 )
 
+# 실행될 커맨드를 화면에 출력한다.
 set -o xtrace
+
 pm2 "${args[@]}"
