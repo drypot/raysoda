@@ -1,14 +1,6 @@
 # RaySoda
 
-RaySoda backend.
-
-## Front Repo
-
-<https://github.com/drypot/raysoda-front>
-
-## Running following sites.
-
-Running following sites.
+아래 사진 사이트들을 서비스하는 코드입니다.
 
 * <https://raysoda.com>
 * <https://rapixel.com>
@@ -16,6 +8,8 @@ Running following sites.
 * <https://drypot.com>
 
 ## History
+
+2021.11.10 TypeScript 로 리모델링을 완료, 라이브 서버에 적용.
 
 2021.10.11 프런트를 다시 합쳤다.
 
