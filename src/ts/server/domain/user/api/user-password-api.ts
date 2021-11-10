@@ -5,9 +5,9 @@ import { userPasswordMail, userPasswordReset } from '@server/domain/user/_servic
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { Mailer } from '@server/mailer/mailer2'
-import { renderJson } from '@server/express/render-json'
 import { NewPasswordForm } from '@common/type/password'
 import { newNumber, newString } from '@common/util/primitive'
+import { renderJson } from '@server/express/respose'
 
 export async function useUserPasswordApi() {
 

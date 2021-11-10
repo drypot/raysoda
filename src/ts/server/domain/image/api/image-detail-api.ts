@@ -8,7 +8,7 @@ import { imageGetDetail } from '@server/domain/image/_service/image-detail'
 import { ImageDB } from '@server/db/image/image-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { renderJson } from '@server/express/render-json'
+import { renderJson } from '@server/express/respose'
 
 export async function useImageDetailApi() {
 

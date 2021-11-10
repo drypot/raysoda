@@ -54,7 +54,7 @@ describe('BannerPage', () => {
     await userLoginForTest(sat, ADMIN_LOGIN_FORM)
   })
   it('banner-update', async () => {
-    await sat.get('/banner-update').expect(200).expect(/<title>Update Banners/)
+    await sat.get('/banner-update').expect(200).expect(/<title>Update Banner/)
   })
 
 })

@@ -40,7 +40,7 @@ describe('Express2 toCallback', () => {
   })
   it('promise err handler', async () => {
     const res = await sat.get('/api/promise-err').expect(200)
-    expect(res.body.err[0].message).toBe('fatal error')
+    expect(res.body.err[0].message).toMatch(/fatal error/)
   })
   it('setup toCallback handler', () => {
     web.router.get('/api/tocallback-ok', toCallback(async (req, res) => {
@@ -60,7 +60,7 @@ describe('Express2 toCallback', () => {
   })
   it('toCallback err handler', async () => {
     const res = await sat.get('/api/tocallback-err').expect(200)
-    expect(res.body.err[0].message).toBe('fatal error')
+    expect(res.body.err[0].message).toMatch(/fatal error/)
   })
 
 })

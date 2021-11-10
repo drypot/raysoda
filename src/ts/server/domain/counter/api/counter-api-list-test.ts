@@ -49,7 +49,7 @@ describe('Counter List Api', () => {
     await cdb.replaceCounter('cnt2', new Date(2003, 0, 17), 10)
     await cdb.replaceCounter('cnt2', new Date(2003, 0, 18), 20)
   })
-  const url1 = '/api/counter/cnt1?b=2003-01-18&e=2003-01-20'
+  const url1 = '/api/counter-list/cnt1?b=2003-01-18&e=2003-01-20'
   it('get fails if anonymous', async () => {
     const res = await sat.get(url1).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)

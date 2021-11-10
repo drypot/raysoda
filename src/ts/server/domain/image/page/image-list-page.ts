@@ -1,6 +1,6 @@
 import { imageGetList, imageGetListByCdate } from '@server/domain/image/_service/image-list'
 import { dateToStringNoTime, parseDate } from '@common/util/date2'
-import { renderHtml } from '@server/express/render-html'
+import { renderHtml } from '@server/express/respose'
 import { Express2, toCallback } from '@server/express/express2'
 import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
 import { UrlMaker } from '@common/util/url2'

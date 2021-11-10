@@ -6,11 +6,11 @@ import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { renderJson } from '@server/express/render-json'
 import { imageUpload } from '@server/domain/image/_service/image-upload'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
 import { newString } from '@common/util/primitive'
 import { ImageUploadForm } from '@common/type/image-form'
+import { renderJson } from '@server/express/respose'
 
 export async function useImageUploadApi() {
 

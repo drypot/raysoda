@@ -46,12 +46,12 @@ describe('User Home Page', () => {
       const res = await sat.get('/user-id/4').expect(200)
       // ...
     })
-    it('/user/user1', async () => {
-      const res = await sat.get('/user/user1').expect(200)
+    it('/user/home1', async () => {
+      const res = await sat.get('/user/home1').expect(200)
       // ...
     })
-    it('/user/USER1', async () => {
-      const res = await sat.get('/user/USER1').expect(200)
+    it('/user/HOME1', async () => {
+      const res = await sat.get('/user/HOME1').expect(200)
       // ...
     })
     it('/user/xman', async () => {

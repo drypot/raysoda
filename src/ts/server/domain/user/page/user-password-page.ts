@@ -1,6 +1,6 @@
 import { omanGetObject } from '@server/oman/oman'
 import { Express2 } from '@server/express/express2'
-import { renderHtml } from '@server/express/render-html'
+import { renderHtml } from '@server/express/respose'
 
 export async function useUserPwResetPage() {
 

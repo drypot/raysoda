@@ -53,10 +53,10 @@ describe('Redirect', () => {
   })
 
   it('/user1', async () => {
-    const res = await sat.get('/user1').expect(301).expect('Location', '/user/user1')
+    const res = await sat.get('/home1').expect(301).expect('Location', '/user/home1')
   })
   it('/USER1', async () => {
-    const res = await sat.get('/USER1').expect(301).expect('Location', '/user/USER1')
+    const res = await sat.get('/HOME1').expect(301).expect('Location', '/user/HOME1')
   })
   it('/xman', async () => {
     const res = await sat.get('/xman').expect(404)

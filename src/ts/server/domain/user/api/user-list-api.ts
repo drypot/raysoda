@@ -4,9 +4,9 @@ import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { UserForList } from '@common/type/user-detail'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { renderJson } from '@server/express/render-json'
 import { userIsAdmin } from '@common/type/user'
 import { newLimitedNumber, newString } from '@common/util/primitive'
+import { renderJson } from '@server/express/respose'
 
 export async function useUserListApi() {
 

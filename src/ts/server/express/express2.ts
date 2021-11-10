@@ -10,7 +10,7 @@ import { Config } from '@common/type/config'
 import { inDev, inProduction } from '@common/util/env2'
 import { omanGetConfig, omanRegisterCloser, omanRegisterFactory } from '../oman/oman'
 import { INVALID_DATA } from '@common/type/error-const'
-import { renderJson } from '@server/express/render-json'
+import { renderJson, response404 } from '@server/express/respose'
 
 export type ExpressCallbackHandler = (req: Request, res: Response, done: NextFunction) => void
 export type ExpressPromiseHandler = (req: Request, res: Response) => Promise<void>
@@ -224,50 +224,47 @@ export class Express2 {
 
     // 404 Error Handler
     this.express.use((req, res, done) => {
-      res.status(404)
-      const err = newErrorConst('INVALID_PAGE', req.path)
-      done(err)
+      response404(req, res)
     })
 
   }
 
-  public errorHandler: ErrorRequestHandler = (err, req, res, done) => {
-    if (err instanceof Error) {
-      err = [newErrorConst(err.name, /*err.message + */ err.stack, '_system')]
-    } else if (err instanceof Array) {
-      // do nothing
-    } else {
-      err = [err]
-    }
-
-    // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
-    // 각 핸들러에서 res.send(), res.json() 으로 Content-Type 을 간접적으로 명시할 수도 있지만
-    // 에러 핸들러는 공용으로 사용하기 때문에 이 방식에 의존할 수 없다.
-    //
-    // req.xhr:
-    //   node + superagent 로 테스트할 시에는 Fail.
-    //
-    // req.is('json'):
-    //   superagent 로 GET 할 경우 매번 type('json') 을 명시해야하며
-    //   그렇게 한다 하여도 Content-Length: 0 인 GET 을
-    //   type-is 가 제대로 처리하지 못하고 null 을 리턴한다. Fail.
-    //
-    // 위와 같이 클라이언트에서 보내주는 정보에 의존하는 것은 불안정하다.
-    // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
-
-    if (this.logError) {
-      console.error(err)
-    }
-    if (res.locals.api) {
-      res.json({ err })
-    } else {
-      res.render('_common/error', { err })
-    }
-  }
-
   // 4인자 에러 핸들러는 맨 마지막에 둔다.
   private setUpErrorHandler() {
-    this.express.use(this.errorHandler)
+    const handler: ErrorRequestHandler = (err, req, res, done) => {
+      if (err instanceof Error) {
+        err = [newErrorConst(err.name, /*err.message + */ err.stack, '_system')]
+      } else if (err instanceof Array) {
+        // do nothing
+      } else {
+        err = [err]
+      }
+
+      // Response 의 Content-Type 을 지정할 방법을 마련해 두어야한다.
+      // 각 핸들러에서 res.send(), res.json() 으로 Content-Type 을 간접적으로 명시할 수도 있지만
+      // 에러 핸들러는 공용으로 사용하기 때문에 이 방식에 의존할 수 없다.
+      //
+      // req.xhr:
+      //   node + superagent 로 테스트할 시에는 Fail.
+      //
+      // req.is('json'):
+      //   superagent 로 GET 할 경우 매번 type('json') 을 명시해야하며
+      //   그렇게 한다 하여도 Content-Length: 0 인 GET 을
+      //   type-is 가 제대로 처리하지 못하고 null 을 리턴한다. Fail.
+      //
+      // 위와 같이 클라이언트에서 보내주는 정보에 의존하는 것은 불안정하다.
+      // 해서 /api/ 로 들어오는 Request 에 대한 에러 Content-Type 은 일괄 json 으로 한다.
+
+      if (this.logError) {
+        console.error(err)
+      }
+      if (res.locals.api) {
+        res.json({ err })
+      } else {
+        res.render('_common/error', { err })
+      }
+    }
+    this.express.use(handler)
   }
 
   close() {

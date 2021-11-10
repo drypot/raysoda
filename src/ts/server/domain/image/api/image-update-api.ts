@@ -7,9 +7,9 @@ import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
-import { renderJson } from '@server/express/render-json'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
 import { imageGetForUpdate, imageUpdate } from '@server/domain/image/_service/image-update'
+import { renderJson } from '@server/express/respose'
 
 export async function useImageUpdateApi() {
 

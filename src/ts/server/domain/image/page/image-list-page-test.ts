@@ -8,6 +8,7 @@ import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { useImageListPage } from '@server/domain/image/page/image-list-page'
 import { DB } from '@server/db/_db/db'
+import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 
 describe('ImageListPage', () => {
 
@@ -25,6 +26,7 @@ describe('ImageListPage', () => {
     idb = await omanGetObject('ImageDB') as ImageDB
     ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
     web = await omanGetObject('Express2') as Express2
+    await useUserAuthApi()
     await useImageListPage()
     await web.start()
     sat = supertest.agent(web.server)
@@ -63,7 +65,10 @@ describe('ImageListPage', () => {
     await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
   it('p 1, ps 128', async () => {
-    const res = await sat.get('/image-list').expect(200).expect(/<title>RaySoda<\/title>/)
+    const res = await sat.get('/image-list').expect(200)
+    // supertest 에 바로 expect 연결했더니 text 가 1K 가 넘는다고 에러가 난다.
+    // 따로 Jasmine Expect 하도록 한다.
+    expect(res.text).toMatch(/<title>RaySoda<\/title>/)
   })
   it('d 20030607', async () => {
     const res = await sat.get('/image-list?d=2003-06-07').expect(200)

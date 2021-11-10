@@ -6,8 +6,8 @@ import { Express2 } from '@server/express/express2'
 import { userLoginForTest, userLogoutForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { GUEST_ID_CARD } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'
-import { renderJson } from '@server/express/render-json'
 import { DB } from '@server/db/_db/db'
+import { renderJson } from '@server/express/respose'
 
 describe('UserAuthApi Auto Login', () => {
 

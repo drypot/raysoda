@@ -1,7 +1,6 @@
 import supertest, { SuperAgentTest } from 'supertest'
 import { USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { useBannerApi } from '@server/domain/banner/api/banner-api'
-import { ValueDB } from '@server/db/value/value-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
@@ -13,7 +12,6 @@ import { UserDB } from '@server/db/user/user-db'
 describe('SpaInitScript', () => {
 
   let udb: UserDB
-  let vdb: ValueDB
   let bdb: BannerDB
   let web: Express2
   let sat: SuperAgentTest
@@ -21,7 +19,6 @@ describe('SpaInitScript', () => {
   beforeAll(async () => {
     omanNewSession('config/raysoda-test.json')
     udb = await omanGetObject('UserDB') as UserDB
-    vdb = await omanGetObject('ValueDB') as ValueDB
     bdb = await omanGetObject('BannerDB') as BannerDB
     web = await omanGetObject('Express2') as Express2
     await useUserAuthApi()
@@ -38,8 +35,8 @@ describe('SpaInitScript', () => {
   it('init table', async () => {
     await udb.dropTable()
     await udb.createTable()
-    await vdb.dropTable()
-    await vdb.createTable()
+    await bdb.dropTable()
+    await bdb.createTable()
     await bdb.loadCache()
   })
   it('fill fix', async () => {
@@ -63,7 +60,7 @@ const _banner = []
     expect(res.type).toBe('application/javascript')
     expect(res.text).toBe(
       `const _config = {"appName":"RaySoda","appNamel":"raysoda","appDesc":"One day, one photo.","mainUrl":"http://raysoda.test:8080","uploadUrl":"http://file.raysoda.test:8080"}
-const _user = {"id":1,"name":"User 1","home":"user1","admin":false}
+const _user = {"id":1,"name":"name1","home":"home1","admin":false}
 const _banner = []
 `
     )

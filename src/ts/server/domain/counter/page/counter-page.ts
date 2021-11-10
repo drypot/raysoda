@@ -2,7 +2,7 @@ import { CounterDB } from '@server/db/counter/counter-db'
 import { Express2, toCallback } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { userAssertAdmin, userAssertLogin } from '@server/domain/user/_service/user-auth'
-import { renderHtml } from '@server/express/render-html'
+import { renderHtml } from '@server/express/respose'
 import { omanGetObject } from '@server/oman/oman'
 import { counterIncrease } from '@server/domain/counter/_service/counter-service'
 

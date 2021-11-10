@@ -76,7 +76,7 @@ describe('ImageDetailApi', () => {
     unpackImageDetail(image)
     expect(image as any).toEqual({
       id: 1,
-      owner: { id: 1, name: 'User 1', home: 'user1' },
+      owner: { id: 1, name: 'name1', home: 'home1' },
       cdate: now,
       cdateNum: now.getTime(),
       cdateStr: dateToString(now),

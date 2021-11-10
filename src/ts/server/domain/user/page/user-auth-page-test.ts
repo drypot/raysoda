@@ -6,7 +6,7 @@ import { USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-f
 import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { useUserAuthPage } from '@server/domain/user/page/user-auth-page'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
-import { NOT_AUTHENTICATED } from '@common/type/error-const'
+import { GUEST_ID_CARD } from '@common/type/user'
 
 describe('UserAuthPage', () => {
 
@@ -48,11 +48,11 @@ describe('UserAuthPage', () => {
     expect(res.body.err).toBeUndefined()
   })
   it('logout', async () => {
-    await sat.get('/logout').expect(302).expect('Location', '/')
+    await sat.get('/user-logout').expect(302).expect('Location', '/')
   })
   it('login-info fails', async () => {
     const res = await sat.get('/api/user-login-info').expect(200)
-    expect(res.body.err).toContain(NOT_AUTHENTICATED)
+    expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
 
 })

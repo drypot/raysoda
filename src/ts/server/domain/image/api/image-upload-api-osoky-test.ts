@@ -65,7 +65,7 @@ describe('ImageUploadApi Osoky', () => {
     const r = await idb.findImage(1)
     if (!r) throw new Error()
     expect(r.uid).toBe(1)
-    expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
+    expect(Date.now() - r.cdate.getTime()).toBeLessThan(9900)
     expect(r.comment).toBe('c1')
   })
   it('check file', async () => {
@@ -82,7 +82,7 @@ describe('ImageUploadApi Osoky', () => {
     const r = await idb.findImage(2)
     if (!r) throw new Error()
     expect(r.uid).toBe(1)
-    expect(Date.now() - r.cdate.getTime()).toBeLessThan(4000)
+    expect(Date.now() - r.cdate.getTime()).toBeLessThan(9900)
     expect(r.comment).toBe('c2')
   })
   it('check file', async () => {

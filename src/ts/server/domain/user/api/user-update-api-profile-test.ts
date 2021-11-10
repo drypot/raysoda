@@ -53,7 +53,7 @@ describe('UserUpdateApi Update', () => {
   it('update user1 without login', async () => {
     const form = {
       id: 1,
-      name: 'User 11'
+      name: 'name11'
     }
     const res = await sat.put('/api/user-update-profile').send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)

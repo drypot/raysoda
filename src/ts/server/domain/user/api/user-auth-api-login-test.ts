@@ -15,7 +15,7 @@ import { userGetSessionUser, useUserAuthApi } from '@server/domain/user/api/user
 import { userAssertAdmin, userAssertLogin } from '@server/domain/user/_service/user-auth'
 import { GUEST_ID_CARD } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'
-import { renderJson } from '@server/express/render-json'
+import { renderJson } from '@server/express/respose'
 
 describe('UserAuthApi', () => {
 

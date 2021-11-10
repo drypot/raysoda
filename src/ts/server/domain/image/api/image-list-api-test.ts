@@ -67,7 +67,7 @@ describe('ImageListApi', () => {
     const r = res.body.list
     expect(r).toEqual([{
       id: 10,
-      owner: { id: 1, name: 'User 1', home: 'user1' },
+      owner: { id: 1, name: 'name1', home: 'home1' },
       cdateStr: '2003-10-10 00:00:00',
       comment: '10',
       vers: null,

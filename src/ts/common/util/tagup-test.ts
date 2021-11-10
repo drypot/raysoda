@@ -4,7 +4,7 @@ describe('tagUp', () => {
   it('normal string', () => {
     const org = 'hello world'
     const result = tagUp(org)
-    expect(result).toBe('hello word')
+    expect(result).toBe('hello world')
   })
   it('with link', () => {
     const org = 'aaa https://raysoda.com/abc def'

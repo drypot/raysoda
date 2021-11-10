@@ -1,7 +1,7 @@
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { USER1_LOGIN_FORM, userFixInsert1 } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
 import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
@@ -32,22 +32,28 @@ describe('UserUpdatePage', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert1(udb)
+    await userFixInsert4(udb)
   })
   it('login', async () => {
     await userLoginForTest(sat, USER1_LOGIN_FORM)
   })
   it('update profile', async () => {
-    await sat.get('/user-update-profile/1').expect(200).expect(/<title>Update/)
+    await sat.get('/user-update-profile/1').expect(200).expect(/<title>Update Profile/)
   })
   it('update password', async () => {
-    await sat.get('/user-update-password/1').expect(200).expect(/<title>Update/)
-  })
-  it('update status', async () => {
-    await sat.get('/user-update-status/1').expect(200).expect(/<title>Update/)
+    await sat.get('/user-update-password/1').expect(200).expect(/<title>Change Password/)
   })
   it('update done', async () => {
     await sat.get('/user-update-done/1').expect(200).expect(/<title>Update/)
+  })
+  it('update status redirected', async () => {
+    await sat.get('/user-update-status/1').expect(302)
+  })
+  it('login admin', async () => {
+    await userLoginForTest(sat, ADMIN_LOGIN_FORM)
+  })
+  it('update status works', async () => {
+    await sat.get('/user-update-status/1').expect(200).expect(/<title>Change Status/)
   })
 
 })

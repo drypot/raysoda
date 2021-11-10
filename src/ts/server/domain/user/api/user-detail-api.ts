@@ -5,8 +5,8 @@ import { packUserDetail } from '@common/type/user-detail'
 import { newNumber } from '@common/util/primitive'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { renderJson } from '@server/express/render-json'
 import { userGetDetail } from '@server/domain/user/_service/user-detail'
+import { renderJson } from '@server/express/respose'
 
 export async function useUserDetailApi() {
 

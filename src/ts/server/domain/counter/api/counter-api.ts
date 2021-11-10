@@ -3,9 +3,9 @@ import { Express2, toCallback } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { userAssertAdmin, userAssertLogin } from '@server/domain/user/_service/user-auth'
 import { omanGetObject } from '@server/oman/oman'
-import { renderJson } from '@server/express/render-json'
 import { counterGetList } from '@server/domain/counter/_service/counter-service'
 import { newString } from '@common/util/primitive'
+import { renderJson } from '@server/express/respose'
 
 export async function useCounterApi() {
 

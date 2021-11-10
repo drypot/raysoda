@@ -83,7 +83,7 @@ describe('ImageUploadApi RaySoda', () => {
     const r = await idb.findImage(1)
     if (!r) throw new Error()
     expect(r.uid).toBe(1)
-    expect(Date.now() - r.cdate.getTime()).toBeLessThan(2000)
+    expect(Date.now() - r.cdate.getTime()).toBeLessThan(9900)
     expect(r.comment).toBe('h')
   })
   it('check file', async () => {
@@ -103,7 +103,7 @@ describe('ImageUploadApi RaySoda', () => {
     const r = await idb.findImage(2)
     if (!r) throw new Error()
     expect(r.uid).toBe(1)
-    expect(Date.now() - r.cdate.getTime()).toBeLessThan(2000)
+    expect(Date.now() - r.cdate.getTime()).toBeLessThan(9900)
     expect(r.comment).toBe('v')
   })
   it('check file', async () => {
@@ -123,7 +123,7 @@ describe('ImageUploadApi RaySoda', () => {
     const r = await idb.findImage(3)
     if (!r) throw new Error()
     expect(r.uid).toBe(1)
-    expect(Date.now() - r.cdate.getTime()).toBeLessThan(2000)
+    expect(Date.now() - r.cdate.getTime()).toBeLessThan(9900)
     expect(r.comment).toBe('small')
   })
   it('check file', async () => {

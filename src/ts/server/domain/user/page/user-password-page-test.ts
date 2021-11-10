@@ -30,7 +30,7 @@ describe('UserPasswordPage', () => {
     await sat.get('/user-password-mail-done').expect(200).expect(/<title>Password/)
   })
   it('3', async () => {
-    await sat.get('/user-password-reset').expect(200).expect(/<title>Password/)
+    await sat.get('/user-password-reset/1/1').expect(200).expect(/<title>Password/)
   })
   it('4', async () => {
     await sat.get('/user-password-reset-done').expect(200).expect(/<title>Password/)

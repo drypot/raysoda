@@ -1,7 +1,7 @@
 import { ErrorConst } from '@common/type/error'
 import { Express2, toCallback } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
-import { renderHtml } from '@server/express/render-html'
+import { renderHtml } from '@server/express/respose'
 import { ImageDB } from '@server/db/image/image-db'
 import { newNumber } from '@common/util/primitive'
 import { omanGetObject } from '@server/oman/oman'

@@ -4,8 +4,8 @@ import { Express2, toCallback } from '@server/express/express2'
 import { userRegister } from '@server/domain/user/_service/user-register'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { renderJson } from '@server/express/render-json'
 import { newString } from '@common/util/primitive'
+import { renderJson } from '@server/express/respose'
 
 export async function useUserRegisterApi() {
 

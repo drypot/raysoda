@@ -13,8 +13,8 @@ import { newString } from '@common/util/primitive'
 import { ErrorConst } from '@common/type/error'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { renderJson } from '@server/express/render-json'
 import { Request, Response } from 'express'
+import { renderJson } from '@server/express/respose'
 
 
 export async function useUserAuthApi() {

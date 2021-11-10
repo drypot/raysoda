@@ -5,9 +5,9 @@ import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { newNumber } from '@common/util/primitive'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
-import { renderJson } from '@server/express/render-json'
 import { imageDelete } from '@server/domain/image/_service/image-delete'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
+import { renderJson } from '@server/express/respose'
 
 export async function useImageDeleteApi() {
 
