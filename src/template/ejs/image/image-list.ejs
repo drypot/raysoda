@@ -42,13 +42,13 @@
                 <% } %>
                 <a href='/user-list'>회원 목록</a>
                 <a href='/image-list-by-year'>연도별 사진</a>
+                <% if (locals.user.id !== -1) { %>
+                    <a href='/user-logout'>로그아웃</a>
+                <% } %>
             </div>
             <div class="space-x-var-2 ws-nowrap-des">
                 <a href='/about'>사이트 소개</a>
                 <a href='/help'>도움말</a>
-                <% if (locals.user.id !== -1) { %>
-                    <a href='/user-logout'>로그아웃</a>
-                <% } %>
             </div>
 
         <% } %>
