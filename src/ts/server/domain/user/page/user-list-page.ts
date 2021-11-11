@@ -17,7 +17,7 @@ export async function useUserListPage() {
   web.router.get('/user-list', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
     const p = newLimitedNumber(req.query.p, 1, 1, NaN)
-    const ps = newLimitedNumber(req.query.ps, 99, 1, 300)
+    const ps = newLimitedNumber(req.query.ps, 100, 1, 300)
     const q = newString(req.query.q)
     const admin = userIsAdmin(user)
     const list: UserForList[] =
