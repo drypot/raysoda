@@ -2,17 +2,19 @@
 
 // Width
 
-$width-4xs: 8rem;
-$width-3xs: 12rem;
-$width-2xs: 16rem;
-$width-xs:  20rem;
-$width-sm:  24rem;
-$width-md:  32rem;
-$width-lg:  40rem;
+
 
 // Font Size
 
 :root {
+  --width-4xs: 8rem;
+  --width-3xs: 12rem;
+  --width-2xs: 16rem;
+  --width-xs:  20rem;
+  --width-sm:  24rem;
+  --width-md:  32rem;
+  --width-lg:  40rem;
+
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
   --fs-md: 1rem;
@@ -31,6 +33,14 @@ $width-lg:  40rem;
   @include media-xl { font-size: 22px; }
   @include media-2xl { font-size: 22px; }
 }
+
+$width-4xs: var(--width-4xs);
+$width-3xs: var(--width-3xs);
+$width-2xs: var(--width-2xs);
+$width-xs:  var(--width-xs);
+$width-sm:  var(--width-sm);
+$width-md:  var(--width-md);
+$width-lg:  var(--width-lg);
 
 $fs-xs:  var(--fs-xs);
 $fs-sm:  var(--fs-sm);
