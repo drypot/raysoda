@@ -7,4 +7,4 @@ export NODE_ENV=development
 export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
 export TS_NODE_PROJECT=src/ts/server/tsconfig.json
 
-node src/ts/server/script/run-jasmine.ts "${@-dist}"
+node src/ts/server/script/run-jasmine.ts "${@-src/ts/server}"
