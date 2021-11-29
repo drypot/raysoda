@@ -5,7 +5,7 @@ import { userAssertAdmin, userAssertLogin } from '@server/domain/user/_service/u
 import { omanGetObject } from '@server/oman/oman'
 import { counterGetList } from '@server/domain/counter/_service/counter-service'
 import { newString } from '@common/util/primitive'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useCounterApi() {
 

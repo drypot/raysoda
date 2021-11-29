@@ -14,7 +14,7 @@ import { ErrorConst } from '@common/type/error'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { Request, Response } from 'express'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 
 export async function useUserAuthApi() {

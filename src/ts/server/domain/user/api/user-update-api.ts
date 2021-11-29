@@ -12,7 +12,7 @@ import {
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useUserUpdateApi() {
 

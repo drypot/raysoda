@@ -7,7 +7,7 @@ import { UserDB } from '@server/db/user/user-db'
 import { parseDate } from '@common/util/date2'
 import { imageGetFirstCdate } from '@server/domain/image/_service/image-detail'
 import { newLimitedNumber } from '@common/util/primitive'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useImageListApi() {
 

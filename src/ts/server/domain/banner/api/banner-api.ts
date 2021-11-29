@@ -5,7 +5,7 @@ import { BannerDB } from '@server/db/banner/banner-db'
 import { Banner } from '@common/type/banner'
 import { bannerGetList, bannerUpdateList } from '@server/domain/banner/_service/banner-service'
 import { omanGetObject } from '@server/oman/oman'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useBannerApi() {
 

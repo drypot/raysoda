@@ -7,7 +7,7 @@ import { UserDB } from '@server/db/user/user-db'
 import { Mailer } from '@server/mailer/mailer2'
 import { NewPasswordForm } from '@common/type/password'
 import { newNumber, newString } from '@common/util/primitive'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useUserPasswordApi() {
 

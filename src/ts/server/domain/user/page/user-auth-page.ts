@@ -1,7 +1,7 @@
 import { omanGetObject } from '@server/oman/oman'
 import { userLogout } from '@server/domain/user/api/user-auth-api'
 import { Express2, toCallback } from '@server/express/express2'
-import { renderHtml } from '@server/express/respose'
+import { renderHtml } from '@server/express/response'
 
 export async function useUserAuthPage() {
 

@@ -1,4 +1,4 @@
-import { renderHtml } from '@server/express/respose'
+import { renderHtml } from '@server/express/response'
 import { UserForList } from '@common/type/user-detail'
 import { Express2, toCallback } from '@server/express/express2'
 import { userIsAdmin } from '@common/type/user'

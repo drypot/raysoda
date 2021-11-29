@@ -6,7 +6,7 @@ import { newNumber } from '@common/util/primitive'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { userGetDetail } from '@server/domain/user/_service/user-detail'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useUserDetailApi() {
 

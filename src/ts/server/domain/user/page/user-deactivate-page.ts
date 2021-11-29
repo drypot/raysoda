@@ -1,6 +1,6 @@
 import { Express2, toCallback } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
-import { renderHtml } from '@server/express/respose'
+import { renderHtml } from '@server/express/response'
 import { omanGetObject } from '@server/oman/oman'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
 

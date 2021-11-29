@@ -7,7 +7,7 @@ import { userLoginForTest, userLogoutForTest } from '@server/domain/user/api/use
 import { GUEST_ID_CARD } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'
 import { DB } from '@server/db/_db/db'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 describe('UserAuthApi Auto Login', () => {
 

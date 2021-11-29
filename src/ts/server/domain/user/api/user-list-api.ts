@@ -6,7 +6,7 @@ import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { userIsAdmin } from '@common/type/user'
 import { newLimitedNumber, newString } from '@common/util/primitive'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useUserListApi() {
 

@@ -10,7 +10,7 @@ import { imageUpload } from '@server/domain/image/_service/image-upload'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
 import { newString } from '@common/util/primitive'
 import { ImageUploadForm } from '@common/type/image-form'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useImageUploadApi() {
 

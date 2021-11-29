@@ -1,5 +1,5 @@
 import { Express2 } from '@server/express/express2'
-import { renderHtml } from '@server/express/respose'
+import { renderHtml } from '@server/express/response'
 import { omanGetObject } from '@server/oman/oman'
 
 export async function useSamplePage() {

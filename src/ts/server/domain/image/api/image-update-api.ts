@@ -9,7 +9,7 @@ import { ImageDB } from '@server/db/image/image-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
 import { imageGetForUpdate, imageUpdate } from '@server/domain/image/_service/image-update'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useImageUpdateApi() {
 

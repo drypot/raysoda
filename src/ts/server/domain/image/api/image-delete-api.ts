@@ -7,7 +7,7 @@ import { newNumber } from '@common/util/primitive'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { imageDelete } from '@server/domain/image/_service/image-delete'
 import { userAssertLogin } from '@server/domain/user/_service/user-auth'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useImageDeleteApi() {
 

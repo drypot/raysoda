@@ -5,7 +5,7 @@ import { userRegister } from '@server/domain/user/_service/user-register'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { newString } from '@common/util/primitive'
-import { renderJson } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export async function useUserRegisterApi() {
 
