@@ -1,6 +1,6 @@
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { User } from '@common/type/user'
-import { renderHtml, response404 } from '@server/express/respose'
+import { renderHtml, throw404 } from '@server/express/response'
 import { newLimitedNumber, newNumber } from '@common/util/primitive'
 import { Express2, toCallback } from '@server/express/express2'
 import { userCanUpdateUser } from '@server/domain/user/_service/user-auth'
@@ -30,7 +30,7 @@ export async function useUserHomePage() {
     const home = decodeURIComponent(req.params.name)
     const owner = await udb.getCachedByHome(home)
     if (!owner) {
-      response404(req, res)
+      throw404(req, res)
       return
     }
     await renderHome(req, res, owner)

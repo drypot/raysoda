@@ -19,11 +19,14 @@ describe('Express2 Error', () => {
     await omanCloseAllObjects()
   })
 
-  it('404 if url not exist', async () => {
-    const res = await sat.get('/api/test/undefined-url').expect(404)
+  it('404 if api url not exist', async () => {
+    await sat.get('/api/test/undefined-url').expect(404)
   })
   it('404 if not handled', async () => {
-    const res = await sat.get('/api/no-action').expect(404)
+    await sat.get('/api/no-action').expect(404)
+  })
+  it('404 if page url not exist', async () => {
+    await sat.get('/undefined-page').expect(404).expect(/<title>Error/)
   })
   it('api INVALID_DATA', async () => {
     const res = await sat.get('/api/invalid-data').expect(200)

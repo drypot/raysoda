@@ -13,8 +13,7 @@ export function renderJson(res: Response, obj?: any) {
   res.json(obj)
 }
 
-export function response404(req: Request, res: Response) {
+export function throw404(req: Request, res: Response) {
   res.status(404)
-  const err = newErrorConst('INVALID_PAGE', req.path)
-  res.json([err])
+  throw newErrorConst('INVALID_PAGE', req.path)
 }

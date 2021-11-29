@@ -43,23 +43,23 @@ describe('User Home Page', () => {
 
   describe('userx view', () => {
     it('/user-id/4', async () => {
-      const res = await sat.get('/user-id/4').expect(200)
+      await sat.get('/user-id/4').expect(200)
       // ...
     })
     it('/user/home1', async () => {
-      const res = await sat.get('/user/home1').expect(200)
+      await sat.get('/user/home1').expect(200)
       // ...
     })
     it('/user/HOME1', async () => {
-      const res = await sat.get('/user/HOME1').expect(200)
+      await sat.get('/user/HOME1').expect(200)
       // ...
     })
     it('/user/xman', async () => {
-      const res = await sat.get('/user/xman').expect(404)
+      await sat.get('/user/xman').expect(404)
       // ...
     })
     it('/user/xman/yman encoded', async () => {
-      const res = await sat.get('/user/' + encodeURIComponent('xman/yman')).expect(200)
+      await sat.get('/user/' + encodeURIComponent('xman/yman')).expect(200)
       // ...
     })
   })

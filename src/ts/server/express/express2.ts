@@ -10,7 +10,7 @@ import { Config } from '@common/type/config'
 import { inDev, inProduction } from '@common/util/env2'
 import { omanGetConfig, omanRegisterCloser, omanRegisterFactory } from '../oman/oman'
 import { INVALID_DATA } from '@common/type/error-const'
-import { renderJson, response404 } from '@server/express/respose'
+import { renderJson } from '@server/express/response'
 
 export type ExpressCallbackHandler = (req: Request, res: Response, done: NextFunction) => void
 export type ExpressPromiseHandler = (req: Request, res: Response) => Promise<void>
@@ -224,7 +224,8 @@ export class Express2 {
 
     // 404 Error Handler
     this.express.use((req, res, done) => {
-      response404(req, res)
+      res.status(404)
+      done(newErrorConst('INVALID_PAGE', req.path))
     })
 
   }
