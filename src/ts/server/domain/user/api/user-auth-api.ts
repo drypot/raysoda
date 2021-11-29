@@ -53,7 +53,6 @@ export async function useUserAuthApi() {
   }))
 
   const defaultErrorHandler = web.errorHandler
-
   web.errorHandler = (err, req, res, done) => {
     if (!res.locals.api) {
       if (err.name === NOT_AUTHENTICATED.name || err.name === NOT_AUTHORIZED.name) {
@@ -63,7 +62,6 @@ export async function useUserAuthApi() {
     }
     defaultErrorHandler(err, req, res, done)
   }
-
 }
 
 export async function userLogin(
