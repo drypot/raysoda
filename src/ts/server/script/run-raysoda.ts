@@ -78,9 +78,7 @@ async function main() {
 
   await useRedirect()
 
-  if (inDev()) {
-    await useSamplePage()
-  }
+  await useSamplePage()
 
   async function closeAll() {
     await omanCloseAllObjects()
