@@ -82,9 +82,12 @@ export class ImageDB {
     return r as Image | undefined
   }
 
+  // findImageList Set 1
+
   async findImageList(offset: number = 0, ps: number = 128) {
     const r = await this.db.query(
-      'select * from image order by cdate desc limit ?, ?',
+      //'select * from image order by cdate desc limit ?, ?',
+      'select * from image order by id desc limit ?, ?',
       [offset, ps]
     )
     unpackList(r)
@@ -116,6 +119,79 @@ export class ImageDB {
     )
     return r as { id: number, cdate: Date }[]
   }
+
+  // findImageList Set 2
+
+  async findImageListStartingAt(id: number, ps: number = 128) {
+      const r = await this.db.query(
+        'select * from image where id <= ? order by id desc limit ?',
+        [id, ps]
+      )
+      unpackList(r)
+      return r as Image[]
+  }
+
+  async findImageListEndingAt(id: number, ps: number = 128) {
+      const r = await this.db.query(
+        'select * from image where id >= ? order by id limit ?',
+        [id, ps]
+      )
+      r.reverse()
+      unpackList(r)
+      return r as Image[]
+  }
+
+  async findPrevImageFrom(id: number) {
+    const r = await this.db.queryOne('select * from image where id > ? order by id limit 1', id)
+    if (r) unpack(r)
+    return r as Image | undefined
+  }
+
+  async findNextImageFrom(id: number) {
+    const r = await this.db.queryOne('select * from image where id < ? order by id desc limit 1', id)
+    if (r) unpack(r)
+    return r as Image | undefined
+  }
+
+  async findUserImageListStartingAt(uid: number, id: number, ps: number = 128) {
+    const r = await this.db.query(
+      'select * from image where uid = ? and id <= ? order by id desc limit ?',
+      [uid, id, ps]
+    )
+    unpackList(r)
+    return r as Image[]
+  }
+
+  async findUserImageListEndingAt(uid: number, id: number, ps: number = 128) {
+    const r = await this.db.query(
+      'select * from image where uid = ? and id >= ? order by id limit ?',
+      [uid, id, ps]
+    )
+    r.reverse()
+    unpackList(r)
+    return r as Image[]
+  }
+
+  async findPrevUserImageFrom(uid: number, id: number) {
+    const r = await this.db.queryOne('select * from image where uid = ? and id > ? order by id limit 1', [uid, id])
+    if (r) unpack(r)
+    return r as Image | undefined
+  }
+
+  async findNextUserImageFrom(uid: number, id: number) {
+    const r = await this.db.queryOne('select * from image where uid = ? and id < ? order by id desc limit 1', [uid, id])
+    if (r) unpack(r)
+    return r as Image | undefined
+  }
+
+  // find image from date
+
+  async findImageFromDate(d: Date) {
+    const r = await this.db.queryOne('select * from image where cdate >= ? order by cdate limit 1', d)
+    if (r) unpack(r)
+    return r as Image | undefined
+  }
+
 
   // ID
 
