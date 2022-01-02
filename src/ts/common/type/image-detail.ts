@@ -1,3 +1,5 @@
+import { Image } from '@common/type/image'
+
 export type ImageDetail = {
   id: number
   owner: {
@@ -36,3 +38,18 @@ export type ImageForList = {
   thumbUrl: string
 }
 
+export type ImagePage = {
+  list: Image[] | undefined,
+  listDecorated: ImageForList[] | undefined,
+  prev: number | null,
+  next: number | null
+}
+
+export function newImagePage() : ImagePage {
+  return {
+    list: undefined,
+    listDecorated: undefined,
+    prev: null,
+    next: null
+  }
+}
