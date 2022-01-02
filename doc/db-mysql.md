@@ -18,16 +18,3 @@
     > select * from user where name='...';
 
     > select * from user where email like 'drypot%';
-
-계정 복구
-
-    > select * from user where home='...'\G
-    > update user set status='v' where home='...';
-
-
-    > select * from user where email='...'\G
-    > update user set status='v' where email='...';
-
-    디비 수정하고 서버 재시동이 필요하다.
-    추후 user 캐쉬만 refresh 하는 기능을 만들어야;
-

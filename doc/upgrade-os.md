@@ -8,6 +8,12 @@
 
     $ sudo mysqldump -u drypot -p raysoda > backup_xxx.sql
 
+    또는
+
+    $ cd /data/mysql/mysql-conf-aws1
+    $ bin/d-shell.sh 
+    $ mysqldump -u drypot -p raysoda > /backup/xxx.sql
+
 ## Linux 업데이트
 
     ...
@@ -16,6 +22,8 @@
 
     ...
 
+## pm2 업데이트
+
 node 재설치했다면 pm2 부팅 스크립트도 재설치.
 
     $ pm2 unstartup
@@ -23,18 +31,8 @@ node 재설치했다면 pm2 부팅 스크립트도 재설치.
 
 ## 코드 업데이트
 
-    $ git pull
-    $ npm install
-
-## 설정 업데이트
-
-    config/...
-
-## 테스트 런
-
-    $ bin/app
+    ...
 
 ## 재부팅
 
     $ reboot
-

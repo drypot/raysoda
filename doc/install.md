@@ -20,7 +20,11 @@ AWS 라이브 Nginx 설정 예\
 
 실행.
 
-    $ bin/app
+    $ bin/raysoda
+
+    또는 
+
+    $ bin/raysoda-live
 
 pm2 서비스로 등록.
 
