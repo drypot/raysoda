@@ -3,7 +3,7 @@ import { Image } from '@common/type/image'
 import { DB } from '@server/db/_db/db'
 import { inProduction } from '@common/util/env2'
 import { PageParam } from '@common/type/page'
-import { ImagePage, newImagePage } from '@common/type/image-detail'
+import { ImagePage } from '@common/type/image-list'
 
 omanRegisterFactory('ImageDB', async () => {
   const idb = ImageDB.from(await omanGetObject('DB') as DB)
@@ -86,105 +86,115 @@ export class ImageDB {
 
   // image list
 
-  async getImagePage(p: PageParam) {
-    const page = newImagePage()
-    if (p.uid) {
-      page.list = await this.getImageListUser(p)
-    } else {
-      page.list = await this.getImageListPublic(p)
-    }
-    unpackList(page.list as Image[])
-    await this.fillImagePagePrevNext(page, p)
-    return page
+  async fillImagePage(page: ImagePage, param: PageParam) {
+    const list = await this.getImageList(param)
+    unpackList(list)
+    page.list = list
+    await this.fillImagePagePrevNext(page, param)
   }
 
-  private async getImageListPublic(p: PageParam): Promise<Image[]> {
-    if(p.date) {
+  // async getImagePage(p: PageParam) {
+  //   const page = newImagePage()
+  //   if (p.uid) {
+  //     page.list = await this.getImageListUser(p)
+  //   } else {
+  //     page.list = await this.getImageListPublic(p)
+  //   }
+  //   unpackList(page.list as Image[])
+  //   await this.fillImagePagePrevNext(page, p)
+  //   return page
+  // }
+
+  private async getImageList(param: PageParam): Promise<Image[]> {
+    if (param.uid) {
+      return this.getImageListUser(param)
+    }
+    if(param.date) {
       const img = await this.db.queryOne(
         'select id from image where cdate >= ? order by cdate limit 1',
-        p.date
+        param.date
       )
       if (img) {
         const r = await this.db.query(
           'select * from image where id >= ? order by id limit ?',
-          [img.id, p.size]
+          [img.id, param.size]
         )
         r.reverse()
         return r
       }
       return []
     }
-    if (p.begin) {
+    if (param.begin) {
       return this.db.query(
         'select * from image where id <= ? order by id desc limit ?',
-        [p.begin, p.size]
+        [param.begin, param.size]
       )
     }
-    if (p.end) {
+    if (param.end) {
       const r = await this.db.query(
         'select * from image where id >= ? order by id limit ?',
-        [p.end, p.size]
+        [param.end, param.size]
       )
       r.reverse()
       return r
     }
-    const offset = p.page ? (p.page - 1) * p.size : 0
+    const offset = param.page ? (param.page - 1) * param.size : 0
     return this.db.query(
       'select * from image order by id desc limit ?, ?',
-      [offset, p.size]
+      [offset, param.size]
     )
   }
 
-  private async getImageListUser(p: PageParam): Promise<Image[]> {
-    if(p.date) {
+  private async getImageListUser(param: PageParam): Promise<Image[]> {
+    if(param.date) {
       const img = await this.db.queryOne(
         'select * from image where uid = ? and cdate >= ? order by cdate limit 1',
-        [p.uid, p.date]
+        [param.uid, param.date]
       )
       if (img) {
         const r = await this.db.query(
           'select * from image where uid = ? and id >= ? order by id limit ?',
-          [p.uid, img.id, p.size]
+          [param.uid, img.id, param.size]
         )
         r.reverse()
         return r
       }
       return []
     }
-    if (p.begin) {
+    if (param.begin) {
       return this.db.query(
         'select * from image where uid = ? and id <= ? order by id desc limit ?',
-        [p.uid, p.begin, p.size]
+        [param.uid, param.begin, param.size]
       )
     }
-    if (p.end) {
+    if (param.end) {
       const r = await this.db.query(
         'select * from image where uid = ? and id >= ? order by id limit ?',
-        [p.uid, p.end, p.size]
+        [param.uid, param.end, param.size]
       )
       r.reverse()
       return r
     }
-    const offset = p.page ? (p.page - 1) * p.size : 0
+    const offset = param.page ? (param.page - 1) * param.size : 0
     return this.db.query(
       'select * from image where uid = ? order by id desc limit ?, ?',
-      [p.uid, offset, p.size]
+      [param.uid, offset, param.size]
     )
   }
 
-  private async fillImagePagePrevNext(page: ImagePage, p: PageParam) {
+  private async fillImagePagePrevNext(page: ImagePage, param: PageParam) {
     const list = page.list
     let prev: any
     let next: any
     if (list?.length) {
-      if (p.uid) {
+      if (param.uid) {
         prev = await this.db.queryOne(
           'select id from image where uid = ? and id > ? order by id limit 1',
-          [p.uid, list[0].id]
+          [param.uid, list[0].id]
         )
         next = await this.db.queryOne(
           'select id from image where uid = ? and id < ? order by id desc limit 1',
-          [p.uid, list[list.length - 1].id]
+          [param.uid, list[list.length - 1].id]
         )
       } else {
         prev = await this.db.queryOne(
