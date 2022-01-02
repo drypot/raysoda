@@ -1,8 +1,10 @@
 import { ImageDB } from '@server/db/image/image-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { DB } from '@server/db/_db/db'
+import { newPageParam } from '@common/type/page'
+import { Image } from '@common/type/image'
 
-describe('ImageDB.find*List', () => {
+describe('ImageDB getImagePage', () => {
 
   let db: DB
   let idb: ImageDB
@@ -24,8 +26,8 @@ describe('ImageDB.find*List', () => {
     await idb.createTable()
   })
   it('find first image returns nothing', async () => {
-    const r = await idb.findFirstImage()
-    expect(r).toBeUndefined()
+    const img = await idb.findFirstImage()
+    expect(img).toBeUndefined()
   })
   it('insert fix', async () => {
     const list = [
@@ -42,53 +44,284 @@ describe('ImageDB.find*List', () => {
     ]
     await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
+
   it('find first image returns image', async () => {
-    const r = await idb.findFirstImage()
-    expect(r?.id).toBe(1)
+    const img = await idb.findFirstImage()
+    expect(img?.id).toBe(1)
   })
-  it('find list 0, 128', async () => {
-    const r = await idb.findImageList(0, 128)
-    expect(r.length).toBe(10)
-    expect(r[0].id).toBe(10)
-    expect(r[1].id).toBe(9)
-    expect(r[2].id).toBe(8)
-    expect(r[9].id).toBe(1)
+
+  it('default', async () => {
+    const p = newPageParam()
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(10)
+    expect(list[0].id).toBe(10)
+    expect(list[1].id).toBe(9)
+    expect(list[2].id).toBe(8)
+    expect(list[9].id).toBe(1)
+    expect(page.prev).toBe(null)
+    expect(page.next).toBe(null)
   })
-  it('find list 0, 4', async () => {
-    const r = await idb.findImageList(0, 4)
-    expect(r.length).toBe(4)
-    expect(r[0].id).toBe(10)
-    expect(r[3].id).toBe(7)
+  it('size 3', async () => {
+    const p = newPageParam()
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(10)
+    expect(list[1].id).toBe(9)
+    expect(list[2].id).toBe(8)
+    expect(page.prev).toBe(null)
+    expect(page.next).toBe(7)
   })
-  it('find list 4, 4', async () => {
-    const r = await idb.findImageList(4, 4)
-    expect(r.length).toBe(4)
-    expect(r[0].id).toBe(6)
-    expect(r[3].id).toBe(3)
+  it('page 2, size 3', async () => {
+    const p = newPageParam()
+    p.page = 2
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(7)
+    expect(list[1].id).toBe(6)
+    expect(list[2].id).toBe(5)
+    expect(page.prev).toBe(8)
+    expect(page.next).toBe(4)
   })
-  it('find list 8, 4', async () => {
-    const r = await idb.findImageList(8, 4)
-    expect(r.length).toBe(2)
-    expect(r[0].id).toBe(2)
-    expect(r[1].id).toBe(1)
+  it('page 4, size 3', async () => {
+    const p = newPageParam()
+    p.page = 4
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(1)
+    expect(list[0].id).toBe(1)
+    expect(page.prev).toBe(2)
+    expect(page.next).toBe(null)
   })
-  it('find list by user', async () => {
-    const r = await idb.findImageListByUser(2, 0, 4)
-    expect(r.length).toBe(4)
-    expect(r[0].id).toBe(5)
-    expect(r[3].id).toBe(2)
+
+  it('begin 8, size 3', async () => {
+    const p = newPageParam()
+    p.begin = 8
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(8)
+    expect(list[1].id).toBe(7)
+    expect(list[2].id).toBe(6)
+    expect(page.prev).toBe(9)
+    expect(page.next).toBe(5)
   })
-  it('find list by cdate', async () => {
-    const r = await idb.findImageListByCdate(new Date(2003, 6, 7), 0, 4)
-    expect(r.length).toBe(4)
-    expect(r[0].id).toBe(6)
-    expect(r[3].id).toBe(3)
+  it('begin 12, size 3', async () => {
+    const p = newPageParam()
+    p.begin = 12
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(10)
+    expect(list[1].id).toBe(9)
+    expect(list[2].id).toBe(8)
+    expect(page.prev).toBe(null)
+    expect(page.next).toBe(7)
   })
-  it('find cdate list by user', async () => {
-    const r = await idb.findCdateListByUser(2, 3)
-    expect(r.length).toBe(3)
-    expect(r[0].id).toBe(5)
-    expect(r[2].id).toBe(3)
+  it('begin 1, size 3', async () => {
+    const p = newPageParam()
+    p.begin = 1
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(1)
+    expect(list[0].id).toBe(1)
+    expect(page.prev).toBe(2)
+    expect(page.next).toBe(null)
+  })
+
+  it('end 9, size 3', async () => {
+    const p = newPageParam()
+    p.end = 9
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(2)
+    expect(list[0].id).toBe(10)
+    expect(list[1].id).toBe(9)
+    expect(page.prev).toBe(null)
+    expect(page.next).toBe(8)
+  })
+  it('end 5, size 3', async () => {
+    const p = newPageParam()
+    p.end = 5
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(7)
+    expect(list[1].id).toBe(6)
+    expect(list[2].id).toBe(5)
+    expect(page.prev).toBe(8)
+    expect(page.next).toBe(4)
+  })
+
+  it('uid 2, size 3', async () => {
+    const p = newPageParam()
+    p.uid = 2
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(5)
+    expect(list[1].id).toBe(4)
+    expect(list[2].id).toBe(3)
+    expect(page.prev).toBe(null)
+    expect(page.next).toBe(2)
+  })
+
+  it('uid 2, begin 7, size 3', async () => {
+    const p = newPageParam()
+    p.uid = 2
+    p.begin = 7
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(5)
+    expect(list[1].id).toBe(4)
+    expect(list[2].id).toBe(3)
+    expect(page.prev).toBe(null)
+    expect(page.next).toBe(2)
+  })
+  it('uid 2, begin 4, size 3', async () => {
+    const p = newPageParam()
+    p.uid = 2
+    p.begin = 4
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(4)
+    expect(list[1].id).toBe(3)
+    expect(list[2].id).toBe(2)
+    expect(page.prev).toBe(5)
+    expect(page.next).toBe(1)
+  })
+  it('uid 2, begin 2, size 3', async () => {
+    const p = newPageParam()
+    p.uid = 2
+    p.begin = 2
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(2)
+    expect(list[0].id).toBe(2)
+    expect(list[1].id).toBe(1)
+    expect(page.prev).toBe(3)
+    expect(page.next).toBe(null)
+  })
+
+  it('uid 2, end 2, size 3', async () => {
+    const p = newPageParam()
+    p.uid = 2
+    p.end = 2
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(4)
+    expect(list[1].id).toBe(3)
+    expect(list[2].id).toBe(2)
+    expect(page.prev).toBe(5)
+    expect(page.next).toBe(1)
+  })
+  it('uid 2, end 4, size 3', async () => {
+    const p = newPageParam()
+    p.uid = 2
+    p.end = 4
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(2)
+    expect(list[0].id).toBe(5)
+    expect(list[1].id).toBe(4)
+    expect(page.prev).toBe(null)
+    expect(page.next).toBe(3)
+  })
+
+  it('date 2003 6 7, size 3', async () => {
+    const p = newPageParam()
+    p.date = new Date(2003, 6, 7)
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(9)
+    expect(list[1].id).toBe(8)
+    expect(list[2].id).toBe(7)
+    expect(page.prev).toBe(10)
+    expect(page.next).toBe(6)
+  })
+  it('date 1970 1 1, size 3', async () => {
+    const p = newPageParam()
+    p.date = new Date(1970, 1, 1)
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(3)
+    expect(list[1].id).toBe(2)
+    expect(list[2].id).toBe(1)
+    expect(page.prev).toBe(4)
+    expect(page.next).toBe(null)
+  })
+  it('date 2100 1 1, size 3', async () => {
+    const p = newPageParam()
+    p.date = new Date(2100, 1, 1)
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(0)
+    expect(page.prev).toBe(null)
+    expect(page.next).toBe(null)
+  })
+
+  it('uid 2, date 2003 1 2, size 3', async () => {
+    const p = newPageParam()
+    p.uid = 2
+    p.date = new Date(2003, 1, 2)
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(4)
+    expect(list[1].id).toBe(3)
+    expect(list[2].id).toBe(2)
+    expect(page.prev).toBe(5)
+    expect(page.next).toBe(1)
+  })
+  it('uid 2, date 1970 1 1, size 3', async () => {
+    const p = newPageParam()
+    p.uid = 2
+    p.date = new Date(1970, 1, 1)
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(3)
+    expect(list[1].id).toBe(2)
+    expect(list[2].id).toBe(1)
+    expect(page.prev).toBe(4)
+    expect(page.next).toBe(null)
+  })
+  it('uid 2, date 2100 1 1, size 3', async () => {
+    const p = newPageParam()
+    p.uid = 2
+    p.date = new Date(2100, 1, 1)
+    p.size = 3
+    const page = await idb.getImagePage(p)
+    const list = page.list as Image[]
+    expect(list.length).toBe(0)
+    expect(page.prev).toBe(null)
+    expect(page.next).toBe(null)
   })
 
 })
