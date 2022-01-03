@@ -18,19 +18,19 @@ describe('DB.*Database', () => {
     await db.dropDatabase()
   })
   it('database not exists', async () => {
-    expect(await db.findDatabase(db.dbName)).toBeUndefined()
+    expect(await db.getDatabase(db.dbName)).toBeUndefined()
   })
   it('create database', async () => {
     await db.createDatabase()
   })
   it('database exists', async () => {
-    expect(await db.findDatabase(db.dbName)).toBeDefined()
+    expect(await db.getDatabase(db.dbName)).toBeDefined()
   })
   it('drop database again', async () => {
     await db.dropDatabase()
   })
   it('database not exists', async () => {
-    expect(await db.findDatabase(db.dbName)).toBeUndefined()
+    expect(await db.getDatabase(db.dbName)).toBeUndefined()
   })
 
 })

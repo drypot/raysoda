@@ -1,17 +1,17 @@
 import { newNumber, newString } from '@common/util/primitive'
 import { Express2, toCallback } from '@server/express/express2'
-import { UserUpdatePasswordForm, UserUpdateProfileForm, UserUpdateStatusForm } from '@common/type/user-form'
+import { UpdateUserPasswordForm, UpdateUserProfileForm, UpdateUserStatusForm } from '@common/type/user-form'
 import { ErrorConst } from '@common/type/error'
 import { userGetSessionUser, userLogout } from '@server/domain/user/api/user-auth-api'
 import {
-  userUpdatePassword,
-  userUpdateProfile,
-  userUpdateProfileGet,
-  userUpdateStatus
+  getUserForUpdateProfile,
+  updateUserPassword,
+  updateUserProfile,
+  updateUserStatus
 } from '@server/domain/user/_service/user-update'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { userAssertLogin } from '@server/domain/user/_service/user-auth'
+import { assertLoggedIn } from '@server/domain/user/_service/user-auth'
 import { renderJson } from '@server/express/response'
 
 export async function useUserUpdateApi() {
@@ -21,11 +21,11 @@ export async function useUserUpdateApi() {
 
   web.router.get('/api/user-update-profile-get/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
 
     const id = newNumber(req.params.id)
     const err: ErrorConst[] = []
-    const user2 = await userUpdateProfileGet(udb, user, id, err)
+    const user2 = await getUserForUpdateProfile(udb, user, id, err)
     if (!user2 || err.length) throw err
 
     renderJson(res, { user: user2 })
@@ -33,10 +33,10 @@ export async function useUserUpdateApi() {
 
   web.router.put('/api/user-update-profile', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
 
     const body = req.body
-    const form: UserUpdateProfileForm = {
+    const form: UpdateUserProfileForm = {
         id: newNumber(body.id),
         name: newString(body.name).trim(),
         home: newString(body.home).trim(),
@@ -44,7 +44,7 @@ export async function useUserUpdateApi() {
         profile: newString(body.profile).trim(),
     }
     const err: ErrorConst[] = []
-    await userUpdateProfile(udb, user, form, err)
+    await updateUserProfile(udb, user, form, err)
     if (err.length) throw err
 
     renderJson(res, {})
@@ -52,15 +52,15 @@ export async function useUserUpdateApi() {
 
   web.router.put('/api/user-update-password', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
 
     const body = req.body
-    const form: UserUpdatePasswordForm = {
+    const form: UpdateUserPasswordForm = {
         id: newNumber(body.id),
         password: newString(body.password).trim()
     }
     const err: ErrorConst[] = []
-    await userUpdatePassword(udb, user, form, err)
+    await updateUserPassword(udb, user, form, err)
     if (err.length) throw err
 
     renderJson(res, {})
@@ -68,15 +68,15 @@ export async function useUserUpdateApi() {
 
   web.router.put('/api/user-update-status', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
 
     const body = req.body
-    const form: UserUpdateStatusForm = {
+    const form: UpdateUserStatusForm = {
       id: newNumber(body.id),
       status: newString(body.status) === 'v' ? 'v' : 'd'
     }
     const err: ErrorConst[] = []
-    await userUpdateStatus(udb, user, form, err)
+    await updateUserStatus(udb, user, form, err)
     if (err.length) throw err
 
     if (user.id === form.id) {

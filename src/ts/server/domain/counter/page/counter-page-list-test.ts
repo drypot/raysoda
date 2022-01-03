@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { useCounterPage } from '@server/domain/counter/page/counter-page'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { CounterDB } from '@server/db/counter/counter-db'
@@ -33,7 +33,7 @@ describe('CounterPage List', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('fails if anonymous', async () => {

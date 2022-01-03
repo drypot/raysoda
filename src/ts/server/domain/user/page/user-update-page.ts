@@ -1,12 +1,12 @@
 import { ErrorConst } from '@common/type/error'
 import { Express2, toCallback } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
-import { userUpdateProfileGet } from '@server/domain/user/_service/user-update'
+import { getUserForUpdateProfile } from '@server/domain/user/_service/user-update'
 import { renderHtml } from '@server/express/response'
 import { newNumber } from '@common/util/primitive'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { userAssertAdmin, userAssertLogin } from '@server/domain/user/_service/user-auth'
+import { assertAdmin, assertLoggedIn } from '@server/domain/user/_service/user-auth'
 
 export async function useUserUpdatePage() {
 
@@ -15,33 +15,33 @@ export async function useUserUpdatePage() {
 
   web.router.get('/user-update-profile/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
 
     const id = newNumber(req.params.id)
     const err: ErrorConst[] = []
-    const formUser = await userUpdateProfileGet(udb, user, id, err)
-    if (!formUser || err.length) throw err
+    const userForm = await getUserForUpdateProfile(udb, user, id, err)
+    if (!userForm || err.length) throw err
 
     const config = omanGetConfig()
 
     renderHtml(res, 'user/user-update-profile', {
       form: {
         mainUrl: config.mainUrl,
-        user: formUser
+        user: userForm
       }
     })
   }))
 
   web.router.get('/user-update-password/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
     renderHtml(res, 'user/user-update-password')
   }))
 
   web.router.get('/user-update-status/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
-    userAssertAdmin(user)
+    assertLoggedIn(user)
+    assertAdmin(user)
 
     const id = newNumber(req.params.id)
     const formUser = await udb.getCachedById(id)
@@ -52,7 +52,7 @@ export async function useUserUpdatePage() {
 
   web.router.get('/user-update-done/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
 
     const id = newNumber(req.params.id)
     const formUser = await udb.getCachedById(id)

@@ -5,7 +5,7 @@ import { packUserDetail } from '@common/type/user-detail'
 import { newNumber } from '@common/util/primitive'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { userGetDetail } from '@server/domain/user/_service/user-detail'
+import { getUserDetail } from '@server/domain/user/_service/user-detail'
 import { renderJson } from '@server/express/response'
 
 export async function useUserDetailApi() {
@@ -17,7 +17,7 @@ export async function useUserDetailApi() {
     const user = userGetSessionUser(res)
     const id = newNumber(req.params.id)
     const err: ErrorConst[] = []
-    const detail = await userGetDetail(udb, user, id, err)
+    const detail = await getUserDetail(udb, user, id, err)
     if (!detail || err.length) throw err
     packUserDetail(detail)
     renderJson(res, {

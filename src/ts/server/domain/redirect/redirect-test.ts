@@ -1,6 +1,6 @@
 import { Express2 } from '@server/express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useRedirect } from '@server/domain/redirect/redirect'
@@ -27,7 +27,7 @@ describe('Redirect', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('/Com/Photo/View.aspx', async () => {

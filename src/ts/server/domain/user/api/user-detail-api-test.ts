@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN_FORM, USER1, USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
@@ -34,7 +34,7 @@ describe('UserDetailApi', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
   it('get user by guest', async () => {
     const res = await sat.get('/api/user/1').expect(200)

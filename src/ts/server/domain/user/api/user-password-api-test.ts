@@ -14,7 +14,7 @@ import { NewPasswordForm, PasswordMailLog } from '@common/type/password'
 import { PwMailDB } from '@server/db/password/pwmail-db'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { USER1, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix4, USER1 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { dateNull } from '@common/type/date-const'
 
@@ -45,7 +45,7 @@ describe('UserPwResetApi', () => {
   it('init table', async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
     await rdb.dropTable()
     await rdb.createTable()
   })
@@ -65,7 +65,7 @@ describe('UserPwResetApi', () => {
   let rec: PasswordMailLog = { id: 0, email: '', random: '', cdate: dateNull }
 
   it('check db', async () => {
-    const r = await rdb.findByEmail(USER1.email)
+    const r = await rdb.getLogByEmail(USER1.email)
     if (!r) throw new Error()
     rec = r
   })
@@ -90,13 +90,13 @@ describe('UserPwResetApi', () => {
     expect(res.body).toEqual({})
   })
   it('check db', async () => {
-    const user = await udb.findUserByEmail(USER1.email)
+    const user = await udb.getUserByEmail(USER1.email)
     if (!user) throw new Error()
     expect(await checkHash('5678', user.hash)).toBe(true)
   })
   it('insert timed out record', async () => {
     rec.cdate.setMinutes(rec.cdate.getMinutes() - 5)
-    await rdb.insert(rec)
+    await rdb.insertLog(rec)
   })
   it('set password, timeout error', async () => {
     const form: NewPasswordForm = { id: rec.id, random: rec.random, password: '1234' }

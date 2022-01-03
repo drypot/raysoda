@@ -21,19 +21,19 @@ describe('PwMailDB Table', () => {
     await rdb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await db.findTable('pwmail')).toBeUndefined()
+    expect(await db.getTable('pwmail')).toBeUndefined()
   })
   it('create table', async () => {
     await rdb.createTable()
   })
   it('table exists', async () => {
-    expect(await db.findTable('pwmail')).toBeDefined()
+    expect(await db.getTable('pwmail')).toBeDefined()
   })
   it('drop table', async () => {
     await rdb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await db.findTable('pwmail')).toBeUndefined()
+    expect(await db.getTable('pwmail')).toBeUndefined()
   })
 
 })

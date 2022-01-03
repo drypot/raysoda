@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix4, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { IMAGE_SIZE } from '@common/type/error-const'
 import { getImageMetaOfFile } from '@server/fileman/magick/magick2'
 import { ImageFileManager } from '@server/fileman/_fileman'
@@ -39,7 +39,7 @@ describe('ImageUploadApi Osoky', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('init table', async () => {
@@ -62,7 +62,7 @@ describe('ImageUploadApi Osoky', () => {
     expect(res.body.id).toBe(1)
   })
   it('check db', async () => {
-    const r = await idb.findImage(1)
+    const r = await idb.getImage(1)
     if (!r) throw new Error()
     expect(r.uid).toBe(1)
     expect(Date.now() - r.cdate.getTime()).toBeLessThan(9900)
@@ -79,7 +79,7 @@ describe('ImageUploadApi Osoky', () => {
     expect(res.body.id).toBe(2)
   })
   it('check db', async () => {
-    const r = await idb.findImage(2)
+    const r = await idb.getImage(2)
     if (!r) throw new Error()
     expect(r.uid).toBe(1)
     expect(Date.now() - r.cdate.getTime()).toBeLessThan(9900)

@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, USER2_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM, USER2_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { useImageDeleteApi } from '@server/domain/image/api/image-delete-api'
 import { IMAGE_NOT_EXIST, NOT_AUTHORIZED } from '@common/type/error-const'
 import { ImageFileManager } from '@server/fileman/_fileman'
@@ -41,7 +41,7 @@ describe('ImageDeleteApi RaySoda', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('init table', async () => {

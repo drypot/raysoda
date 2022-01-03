@@ -1,8 +1,8 @@
 import { ErrorConst } from '@common/type/error'
 import { PwMailDB } from '@server/db/password/pwmail-db'
 import { logError } from '@common/util/error2'
-import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
-import { userPasswordMail } from '@server/domain/user/_service/user-password'
+import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
+import { mailUserPassword } from '@server/domain/user/_service/user-password'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { Mailer } from '@server/mailer/mailer2'
@@ -14,7 +14,7 @@ async function main() {
 
   await udb.dropTable()
   await udb.createTable()
-  await userFixInsert4(udb)
+  await insertUserFix4(udb)
 
   await rdb.dropTable()
   await rdb.createTable()
@@ -24,7 +24,7 @@ async function main() {
 
   const email = process.argv[2]
   const err: ErrorConst[] = []
-  await userPasswordMail(mailer, udb, rdb, email, err)
+  await mailUserPassword(mailer, udb, rdb, email, err)
   if (err.length) throw err
 }
 

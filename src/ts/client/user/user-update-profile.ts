@@ -1,5 +1,5 @@
 import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
-import { UserUpdateProfileForm } from '@common/type/user-form'
+import { UpdateUserProfileForm } from '@common/type/user-form'
 import { sendPut } from '@client/util/fetch'
 import { pathList } from '@client/util/context'
 import { newNumber } from '@common/util/primitive'
@@ -20,7 +20,7 @@ function fillForm(form: Form) {
 }
 
 function submit(form: Form) {
-  const data: UserUpdateProfileForm = {
+  const data: UpdateUserProfileForm = {
     id: newNumber(pathList[1]),
     name: form.input.name.value,
     home: form.input.home.value,

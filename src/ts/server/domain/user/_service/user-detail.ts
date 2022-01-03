@@ -6,7 +6,7 @@ import { User } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'
 import { dateNull } from '@common/type/date-const'
 
-export async function userGetDetail(udb: UserDB, user: User, id: number, err: ErrorConst[]) {
+export async function getUserDetail(udb: UserDB, user: User, id: number, err: ErrorConst[]) {
   const user2 = await udb.getCachedById(id)
   if (!user2) {
     err.push(USER_NOT_FOUND)

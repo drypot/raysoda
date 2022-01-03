@@ -1,6 +1,6 @@
 import supertest, { SuperAgentTest } from 'supertest'
 import { useUserUpdateApi } from '@server/domain/user/api/user-update-api'
-import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import {
   EMAIL_DUPE,
   EMAIL_PATTERN,
@@ -19,7 +19,7 @@ import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { UserDB } from '@server/db/user/user-db'
-import { UserUpdateProfileForm } from '@common/type/user-form'
+import { UpdateUserProfileForm } from '@common/type/user-form'
 import { dupe } from '@common/util/object2'
 
 describe('UserUpdateApi Update', () => {
@@ -47,7 +47,7 @@ describe('UserUpdateApi Update', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('update user1 without login', async () => {
@@ -79,7 +79,7 @@ describe('UserUpdateApi Update', () => {
     })
   })
   it('update user1', async () => {
-    const form: UserUpdateProfileForm = {
+    const form: UpdateUserProfileForm = {
       id: 1, name: 'name11', home: 'home11', email: 'mail11@mail.test', profile: 'profile 11'
     }
     const res = await sat.put('/api/user-update-profile').send(form).expect(200)
@@ -217,7 +217,7 @@ describe('UserUpdateApi Update', () => {
     await userLoginForTest(sat, ADMIN_LOGIN_FORM)
   })
   it('update user2 by admin works', async () => {
-    const form: UserUpdateProfileForm = {
+    const form: UpdateUserProfileForm = {
       id: 2, name: 'name22', home: 'home22', email: 'mail22@mail.test', profile: 'profile 22'
     }
     const res = await sat.put('/api/user-update-profile').send(form).expect(200)

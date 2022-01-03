@@ -67,20 +67,20 @@ export class PwMailDB {
     await this.db.query('drop table if exists pwmail')
   }
 
-  async insert(rec: PasswordMailLog) {
+  async insertLog(rec: PasswordMailLog) {
     return this.db.query('insert into pwmail set ?', rec)
   }
 
-  async deleteByEmail(email: string) {
+  async deleteLogByEmail(email: string) {
     return this.db.query('delete from pwmail where email = ?', email)
   }
 
-  async findById(id: number): Promise<PasswordMailLog | undefined> {
+  async getLogById(id: number): Promise<PasswordMailLog | undefined> {
     const r = await this.db.queryOne('select * from pwmail where id = ?', id)
     return r
   }
 
-  async findByEmail(email: string): Promise<PasswordMailLog | undefined> {
+  async getLogByEmail(email: string): Promise<PasswordMailLog | undefined> {
     const r = await this.db.queryOne('select * from pwmail where email = ?', email)
     return r
   }

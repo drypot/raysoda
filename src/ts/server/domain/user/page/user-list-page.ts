@@ -1,9 +1,9 @@
 import { renderHtml } from '@server/express/response'
-import { UserForList } from '@common/type/user-detail'
+import { UserListItem } from '@common/type/user-detail'
 import { Express2, toCallback } from '@server/express/express2'
 import { userIsAdmin } from '@common/type/user'
 import { newLimitedNumber, newString } from '@common/util/primitive'
-import { userGetList, userSearch } from '@server/domain/user/_service/user-list'
+import { getUserList, searchUser } from '@server/domain/user/_service/user-list'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { UrlMaker } from '@common/util/url2'
 import { omanGetObject } from '@server/oman/oman'
@@ -20,9 +20,9 @@ export async function useUserListPage() {
     const ps = newLimitedNumber(req.query.ps, 100, 1, 300)
     const q = newString(req.query.q)
     const admin = userIsAdmin(user)
-    const list: UserForList[] =
-      q.length ? await userSearch(udb, q, p, ps, admin) :
-      await userGetList(udb, p, ps)
+    const list: UserListItem[] =
+      q.length ? await searchUser(udb, q, p, ps, admin) :
+      await getUserList(udb, p, ps)
     renderHtml(res, 'user/user-list', {
       userList: list,
       prev: p > 1 ? UrlMaker.from('/user-list').add('p', p - 1, 1).add('ps', ps, 100).toString() : undefined,

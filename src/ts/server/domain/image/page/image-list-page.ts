@@ -56,7 +56,7 @@ export async function useImageListPage() {
       list: page.list,
       prev: prevUrl,
       next: nextUrl,
-      bannerList: bdb.getBannerListCached()
+      bannerList: bdb.getCachedBannerList()
     })
   }
 
@@ -64,7 +64,7 @@ export async function useImageListPage() {
 
   web.router.get('/image-list-by-year', toCallback(async (req, res) => {
     if (!firstCdate) {
-      const image = await idb.findFirstImage()
+      const image = await idb.getFirstImage()
       firstCdate = image ? image.cdate : new Date()
     }
     renderHtml(res, 'image/image-list-by-year', { firstCdate })

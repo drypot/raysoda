@@ -11,7 +11,7 @@ import {
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { Express2 } from '@server/express/express2'
 import { useUserRegisterApi } from '@server/domain/user/api/user-register-api'
-import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { checkHash } from '@common/util/hash'
 import { UserRegisterForm } from '@common/type/user-form'
@@ -40,7 +40,7 @@ describe('UserRegisterApi', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   // Register works.
@@ -51,7 +51,7 @@ describe('UserRegisterApi', () => {
     expect(res.body.user.id).toBeDefined()
   })
   it('check db', async () => {
-    const user = await udb.findUserById(5)
+    const user = await udb.getUserById(5)
     if (!user) throw new Error()
     expect(user.id).toBe(5)
     expect(user.email).toBe('userx@mail.test')
@@ -70,7 +70,7 @@ describe('UserRegisterApi', () => {
     expect(res.body.err).toBeUndefined()
   })
   it('check db', async () => {
-    const user = await udb.findUserById(6)
+    const user = await udb.getUserById(6)
     if (!user) throw new Error()
     expect(user.email).toBe('userx@mail2.test')
     expect(user.name).toMatch(/userx[0-9]/)

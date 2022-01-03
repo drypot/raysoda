@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, USER2_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM, USER2_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { NOT_AUTHORIZED } from '@common/type/error-const'
 import { ImageFileManager } from '@server/fileman/_fileman'
 import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '@server/oman/oman'
@@ -40,7 +40,7 @@ describe('ImageUpdateGetApi', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('init table', async () => {

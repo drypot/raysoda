@@ -42,7 +42,7 @@ export class BannerDB {
     return this
   }
 
-  private async findValue(id: string) {
+  private async getValue(id: string) {
     const r = await this.db.queryOne('select * from banner where id = ?', id)
     return r ? r.value : undefined
   }
@@ -57,12 +57,12 @@ export class BannerDB {
   }
 
   async loadCache() {
-    const value = await this.findValue('default')
+    const value = await this.getValue('default')
     const list: Banner[] = value ? JSON.parse(value) : []
     this.bannerList = list
   }
 
-  getBannerListCached() {
+  getCachedBannerList() {
     return this.bannerList
   }
 

@@ -1,10 +1,10 @@
 import { CounterDB } from '@server/db/counter/counter-db'
 import { Express2, toCallback } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
-import { userAssertAdmin, userAssertLogin } from '@server/domain/user/_service/user-auth'
+import { assertAdmin, assertLoggedIn } from '@server/domain/user/_service/user-auth'
 import { renderHtml } from '@server/express/response'
 import { omanGetObject } from '@server/oman/oman'
-import { counterIncrease } from '@server/domain/counter/_service/counter-service'
+import { incCounter } from '@server/domain/counter/_service/counter-service'
 
 export async function useCounterPage() {
 
@@ -12,14 +12,14 @@ export async function useCounterPage() {
   const cdb = await omanGetObject('CounterDB') as CounterDB
 
   web.router.get('/counter-inc/:id', toCallback(async (req, res) => {
-    await counterIncrease(cdb, req.params.id)
+    await incCounter(cdb, req.params.id)
     res.redirect(req.query.r as string)
   }))
 
   web.router.get('/counter-list', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
-    userAssertAdmin(user)
+    assertLoggedIn(user)
+    assertAdmin(user)
     renderHtml(res, 'counter/counter-list')
   }))
 

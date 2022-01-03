@@ -1,7 +1,7 @@
 import { ErrorConst } from '@common/type/error'
 import { UserRegisterForm } from '@common/type/user-form'
 import { Express2, toCallback } from '@server/express/express2'
-import { userRegister } from '@server/domain/user/_service/user-register'
+import { registerUser } from '@server/domain/user/_service/user-register'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { newString } from '@common/util/primitive'
@@ -19,7 +19,7 @@ export async function useUserRegisterApi() {
       password: newString(body.password).trim()
     }
     const err: ErrorConst[] = []
-    const user = await userRegister(udb, form, err)
+    const user = await registerUser(udb, form, err)
     if (!user || err.length) throw err
     renderJson(res, {
       user: {

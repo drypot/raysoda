@@ -6,7 +6,7 @@ import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman
 import { CounterDB } from '@server/db/counter/counter-db'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
-import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 
 describe('CounterPage Inc', () => {
@@ -34,7 +34,7 @@ describe('CounterPage Inc', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('init table', async () => {
@@ -47,7 +47,7 @@ describe('CounterPage Inc', () => {
   })
   it('check db 2', async () => {
     const d = dateToStringNoTime(new Date())
-    const r = await cdb.findCounter('abc', d)
+    const r = await cdb.getCounter('abc', d)
     expect(dupe(r)).toEqual({ id: 'abc', d: d, c: 1 })
   })
   it('inc 2', async () => {
@@ -56,7 +56,7 @@ describe('CounterPage Inc', () => {
   })
   it('check db 2', async () => {
     const d = dateToStringNoTime(new Date())
-    const r = await cdb.findCounter('abc', d)
+    const r = await cdb.getCounter('abc', d)
     expect(dupe(r)).toEqual({ id: 'abc', d: d, c: 2 })
   })
 

@@ -1,4 +1,4 @@
-import { ADMIN, USER1, USER2, USER3, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN, insertUserFix4, USER1, USER2, USER3 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
@@ -20,10 +20,10 @@ describe('UserDB List', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
   it('get list default opt', async () => {
-    const l = await udb.findUserList()
+    const l = await udb.getUserList()
     expect(l.length).toBe(4)
     // ordered by pdate desc
     expect(l[0].home).toBe(USER2.home)
@@ -32,7 +32,7 @@ describe('UserDB List', () => {
     expect(l[3].home).toBe(ADMIN.home)
   })
   it('get offset 0, ps 3', async () => {
-    const l = await udb.findUserList(0, 3)
+    const l = await udb.getUserList(0, 3)
     expect(l.length).toBe(3)
     // ordered by pdate desc
     expect(l[0].home).toBe(USER2.home)
@@ -40,13 +40,13 @@ describe('UserDB List', () => {
     expect(l[2].home).toBe(USER1.home)
   })
   it('get offset 3, ps 3', async () => {
-    const l = await udb.findUserList(3, 3)
+    const l = await udb.getUserList(3, 3)
     expect(l.length).toBe(1)
     // ordered by pdate desc
     expect(l[0].home).toBe(ADMIN.home)
   })
   it('get offset 6, ps 3', async () => {
-    const l = await udb.findUserList(6, 3)
+    const l = await udb.getUserList(6, 3)
     expect(l.length).toBe(0)
   })
 

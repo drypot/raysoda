@@ -5,8 +5,8 @@ import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { newNumber } from '@common/util/primitive'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
-import { imageDelete } from '@server/domain/image/_service/image-delete'
-import { userAssertLogin } from '@server/domain/user/_service/user-auth'
+import { deleteImage } from '@server/domain/image/_service/image-delete'
+import { assertLoggedIn } from '@server/domain/user/_service/user-auth'
 import { renderJson } from '@server/express/response'
 
 export async function useImageDeleteApi() {
@@ -17,10 +17,10 @@ export async function useImageDeleteApi() {
 
   web.router.delete('/api/image-delete/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
     const id = newNumber(req.params.id)
     const err: ErrorConst[] = []
-    await imageDelete(idb, ifm, user, id, err)
+    await deleteImage(idb, ifm, user, id, err)
     if (err.length) throw err
     renderJson(res, {})
   }))

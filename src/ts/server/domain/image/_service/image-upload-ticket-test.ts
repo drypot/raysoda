@@ -1,13 +1,13 @@
-import { imageGetLeftTicket } from '@server/domain/image/_service/image-upload'
+import { getLeftTicket } from '@server/domain/image/_service/image-upload'
 import { newImage } from '@common/type/image'
 import { ImageDB } from '@server/db/image/image-db'
-import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { RaySodaFileManager } from '@server/fileman/raysoda-fileman'
 import { ImageFileManager } from '@server/fileman/_fileman'
 
-describe('imageUpload leftTicket', () => {
+describe('LeftTicket', () => {
 
   let udb: UserDB
   let idb: ImageDB
@@ -27,7 +27,7 @@ describe('imageUpload leftTicket', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   async function addImage(hours: number) {
@@ -43,35 +43,35 @@ describe('imageUpload leftTicket', () => {
     await idb.createTable()
   })
   it('check ticket, when no image', async () => {
-    const { ticket, hour } = await imageGetLeftTicket(idb, 1, new Date())
+    const { ticket, hour } = await getLeftTicket(idb, 1, new Date())
     expect(ticket).toBe(3)
   })
   it('add 19 hours old image', async () => {
     await addImage(19)
   })
   it('check ticket', async () => {
-    const { ticket, hour } = await imageGetLeftTicket(idb, 1, new Date())
+    const { ticket, hour } = await getLeftTicket(idb, 1, new Date())
     expect(ticket).toBe(3)
   })
   it('add 15 hours old image', async () => {
     await addImage(15)
   })
   it('check ticket', async () => {
-    const { ticket, hour } = await imageGetLeftTicket(idb, 1, new Date())
+    const { ticket, hour } = await getLeftTicket(idb, 1, new Date())
     expect(ticket).toBe(2)
   })
   it('add 15 hours old image', async () => {
     await addImage(15)
   })
   it('check ticket', async () => {
-    const { ticket, hour } = await imageGetLeftTicket(idb, 1, new Date())
+    const { ticket, hour } = await getLeftTicket(idb, 1, new Date())
     expect(ticket).toBe(1)
   })
   it('add 15 hours old image', async () => {
     await addImage(15)
   })
   it('check ticket', async () => {
-    const { ticket, hour } = await imageGetLeftTicket(idb, 1, new Date())
+    const { ticket, hour } = await getLeftTicket(idb, 1, new Date())
     expect(ticket).toBe(0)
     expect(hour).toBe(3)
   })

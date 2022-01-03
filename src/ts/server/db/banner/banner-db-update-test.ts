@@ -23,7 +23,7 @@ describe('BannerDB', () => {
     await bdb.loadCache()
   })
   it('banner is empty', async () => {
-    const b = bdb.getBannerListCached()
+    const b = bdb.getCachedBannerList()
     expect(dupe(b)).toEqual([])
   })
   it('set banner', async () => {
@@ -32,7 +32,7 @@ describe('BannerDB', () => {
     ])
   })
   it('check banner', async () => {
-    const list = bdb.getBannerListCached()
+    const list = bdb.getCachedBannerList()
     expect(dupe(list)).toEqual([
       { text: 'text1', url: 'url1' }
     ])
@@ -44,7 +44,7 @@ describe('BannerDB', () => {
     ])
   })
   it('check banner 2', async () => {
-    const list = bdb.getBannerListCached()
+    const list = bdb.getCachedBannerList()
     expect(dupe(list)).toEqual([
       { text: 'text1', url: 'url1' },
       { text: 'text2', url: 'url2' }

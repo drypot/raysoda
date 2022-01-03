@@ -72,15 +72,15 @@ export class ImageDB {
     await this.db.query('delete from image where id = ?', id)
   }
 
-  async findImage(id: number) {
+  async getImage(id: number) {
     const r = await this.db.queryOne('select * from image where id = ?', id)
-    if (r) unpack(r)
+    if (r) unpackImage(r)
     return r as Image | undefined
   }
 
-  async findFirstImage() {
+  async getFirstImage() {
     const r = await this.db.queryOne('select * from image order by cdate limit 1')
-    if (r) unpack(r)
+    if (r) unpackImage(r)
     return r as Image | undefined
   }
 
@@ -88,14 +88,14 @@ export class ImageDB {
 
   async fillImagePage(page: ImagePage, param: PageParam) {
     const list = await this.getImageList(param)
-    unpackList(list)
+    unpackImageList(list)
     page.rawList = list
-    await this.fillImagePagePrevNext(page, param)
+    await this.fillPrevNext(page, param)
   }
 
   private async getImageList(param: PageParam): Promise<Image[]> {
     if (param.uid) {
-      return this.getImageListUser(param)
+      return this.getUserImageList(param)
     }
     if(param.date) {
       const img = await this.db.queryOne(
@@ -133,7 +133,7 @@ export class ImageDB {
     )
   }
 
-  private async getImageListUser(param: PageParam): Promise<Image[]> {
+  private async getUserImageList(param: PageParam): Promise<Image[]> {
     if(param.date) {
       const img = await this.db.queryOne(
         'select * from image where uid = ? and cdate >= ? order by cdate limit 1',
@@ -170,7 +170,7 @@ export class ImageDB {
     )
   }
 
-  private async fillImagePagePrevNext(page: ImagePage, param: PageParam) {
+  private async fillPrevNext(page: ImagePage, param: PageParam) {
     const list = page.rawList
     let prev: any
     let next: any
@@ -199,7 +199,7 @@ export class ImageDB {
     }
   }
 
-  async findCdateListByUser(uid: number, limit: number) {
+  async getCdateListByUser(uid: number, limit: number) {
     const r = await this.db.query(
       'select id, cdate from image where uid = ? order by cdate desc limit ?',
       [uid, limit]
@@ -230,12 +230,12 @@ function newPack(image: Partial<Image>) {
   return pack
 }
 
-function unpackList(list: any[]) {
+function unpackImageList(list: any[]) {
   for (const image of list) {
-    unpack(image)
+    unpackImage(image)
   }
 }
 
-function unpack(image: Image) {
+function unpackImage(image: Image) {
   image.vers = JSON.parse(image.vers as unknown as string)
 }

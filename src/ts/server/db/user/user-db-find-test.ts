@@ -1,6 +1,6 @@
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
-import { USER1, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix4, USER1 } from '@server/db/user/fixture/user-fix'
 
 describe('UserDB Find', () => {
 
@@ -20,38 +20,38 @@ describe('UserDB Find', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
   it('find by id works', async () => {
-    const user = await udb.findUserById(1)
+    const user = await udb.getUserById(1)
     expect(user?.id).toBe(1)
   })
   it('find by invalid id fails', async () => {
-    const user = await udb.findUserById(999)
+    const user = await udb.getUserById(999)
     expect(user).toBe(undefined)
   })
   it('find by email works', async () => {
-    const user = await udb.findUserByEmail(USER1.email)
+    const user = await udb.getUserByEmail(USER1.email)
     expect(user?.id).toBe(1)
   })
   it('find by invalid mail fails', async () => {
-    const user = await udb.findUserByEmail('userx@mail.test')
+    const user = await udb.getUserByEmail('userx@mail.test')
     expect(user).toBe(undefined)
   })
   it('find by name works', async () => {
-    const user = await udb.findUserByName(USER1.name)
+    const user = await udb.getUserByName(USER1.name)
     expect(user?.id).toBe(1)
   })
   it('find by invalid name fails', async () => {
-    const user = await udb.findUserByName('namex')
+    const user = await udb.getUserByName('namex')
     expect(user).toBe(undefined)
   })
   it('find by home works', async () => {
-    const user = await udb.findUserByHome(USER1.home)
+    const user = await udb.getUserByHome(USER1.home)
     expect(user?.id).toBe(1)
   })
   it('find by invalid home fails', async () => {
-    const user = await udb.findUserByHome('homex')
+    const user = await udb.getUserByHome('homex')
     expect(user).toBe(undefined)
   })
 

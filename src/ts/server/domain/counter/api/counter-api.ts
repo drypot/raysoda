@@ -1,9 +1,9 @@
 import { CounterDB } from '@server/db/counter/counter-db'
 import { Express2, toCallback } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
-import { userAssertAdmin, userAssertLogin } from '@server/domain/user/_service/user-auth'
+import { assertAdmin, assertLoggedIn } from '@server/domain/user/_service/user-auth'
 import { omanGetObject } from '@server/oman/oman'
-import { counterGetList } from '@server/domain/counter/_service/counter-service'
+import { getCounterList } from '@server/domain/counter/_service/counter-service'
 import { newString } from '@common/util/primitive'
 import { renderJson } from '@server/express/response'
 
@@ -14,12 +14,12 @@ export async function useCounterApi() {
 
   web.router.get('/api/counter-list/:id', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
-    userAssertAdmin(user)
+    assertLoggedIn(user)
+    assertAdmin(user)
     const id = newString(req.params.id)
     const begin = newString(req.query.b)
     const end = newString(req.query.e)
-    const r = await counterGetList(cdb, id, begin, end)
+    const r = await getCounterList(cdb, id, begin, end)
     renderJson(res, { counterList: r })
   }))
 

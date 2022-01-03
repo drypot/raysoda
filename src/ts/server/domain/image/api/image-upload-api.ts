@@ -6,10 +6,10 @@ import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
-import { imageUpload } from '@server/domain/image/_service/image-upload'
-import { userAssertLogin } from '@server/domain/user/_service/user-auth'
+import { uploadImage } from '@server/domain/image/_service/image-upload'
+import { assertLoggedIn } from '@server/domain/user/_service/user-auth'
 import { newString } from '@common/util/primitive'
-import { ImageUploadForm } from '@common/type/image-form'
+import { UploadImageForm } from '@common/type/image-form'
 import { renderJson } from '@server/express/response'
 
 export async function useImageUploadApi() {
@@ -22,14 +22,14 @@ export async function useImageUploadApi() {
 
   web.router.post('/api/image-upload', uploader.single('file'), deleteUpload(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
 
-    const form: ImageUploadForm = {
+    const form: UploadImageForm = {
       comment: newString(req.body.comment),
     }
     const file = newString(req.file?.path)
     const err: ErrorConst[] = []
-    const id = await imageUpload(udb, idb, ifm, user, form, file, err)
+    const id = await uploadImage(udb, idb, ifm, user, form, file, err)
     if (err.length) throw err
 
     renderJson(res, { id })

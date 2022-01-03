@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, USER2_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM, USER2_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { dateToString } from '@common/util/date2'
 import { ImageDetail, unpackImageDetail } from '@common/type/image-detail'
 import { ImageFileManager } from '@server/fileman/_fileman'
@@ -42,7 +42,7 @@ describe('ImageDetailApi', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('init table', async () => {
@@ -66,7 +66,7 @@ describe('ImageDetailApi', () => {
   let now: Date
 
   it('get now', async () => {
-    const image = await idb.findImage(1)
+    const image = await idb.getImage(1)
     if (!image) throw new Error()
     now = image.cdate
   })

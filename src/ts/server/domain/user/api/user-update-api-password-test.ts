@@ -1,6 +1,6 @@
 import supertest, { SuperAgentTest } from 'supertest'
 import { useUserUpdateApi } from '@server/domain/user/api/user-update-api'
-import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { NOT_AUTHORIZED, PASSWORD_RANGE } from '@common/type/error-const'
 import { checkHash } from '@common/util/hash'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
@@ -8,7 +8,7 @@ import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { UserDB } from '@server/db/user/user-db'
-import { UserUpdatePasswordForm } from '@common/type/user-form'
+import { UpdateUserPasswordForm } from '@common/type/user-form'
 import { dupe } from '@common/util/object2'
 
 describe('UserUpdateApi Update', () => {
@@ -36,7 +36,7 @@ describe('UserUpdateApi Update', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   // Update password
@@ -58,7 +58,7 @@ describe('UserUpdateApi Update', () => {
     })
   })
   it('update password', async () => {
-    const form: UserUpdatePasswordForm = {
+    const form: UpdateUserPasswordForm = {
       id: 1, password: '5678'
     }
     const res = await sat.put('/api/user-update-password').send(form).expect(200)

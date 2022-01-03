@@ -22,7 +22,7 @@ describe('ImageDB.*Image', () => {
     await idb.createTable()
   })
   it('find image returns nothing', async () => {
-    const image = await idb.findImage(10)
+    const image = await idb.getImage(10)
     expect(image).toBeUndefined()
   })
   it('insert image 1', async () => {
@@ -30,7 +30,7 @@ describe('ImageDB.*Image', () => {
     await idb.insertImage(image)
   })
   it('find image 1', async () => {
-    const image = await idb.findImage(1)
+    const image = await idb.getImage(1)
     expect(dupe(image)).toEqual({
       id: 1, uid: 0, cdate: dateNull, vers: null, comment: ''
     })
@@ -42,7 +42,7 @@ describe('ImageDB.*Image', () => {
     await idb.insertImage(image)
   })
   it('find image 10', async () => {
-    const image = await idb.findImage(10)
+    const image = await idb.getImage(10)
     expect(dupe(image)).toEqual({
       id: 10, uid: 100, cdate: dateNull, vers: [5120, 4096], comment: 'text1'
     })
@@ -51,7 +51,7 @@ describe('ImageDB.*Image', () => {
     await idb.updateImage(10, { comment: 'text2' })
   })
   it('find image 10 comment', async () => {
-    const image = await idb.findImage(10)
+    const image = await idb.getImage(10)
     expect(dupe(image)).toEqual({
       id: 10, uid: 100, cdate: dateNull, vers: [5120, 4096], comment: 'text2'
     })
@@ -60,7 +60,7 @@ describe('ImageDB.*Image', () => {
     await idb.updateImage(10, { vers: [4096] })
   })
   it('find image 10 vers', async () => {
-    const image = await idb.findImage(10)
+    const image = await idb.getImage(10)
     expect(dupe(image)).toEqual({
       id: 10, uid: 100, cdate: dateNull, vers: [4096], comment: 'text2'
     })
@@ -69,7 +69,7 @@ describe('ImageDB.*Image', () => {
     await idb.deleteImage(10)
   })
   it('find deleted', async () => {
-    const image = await idb.findImage(10)
+    const image = await idb.getImage(10)
     expect(image).toBeUndefined()
   })
 

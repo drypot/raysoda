@@ -22,13 +22,13 @@ describe('CounterDB Table', () => {
     await cdb.createTable()
   })
   it('table exists', async () => {
-    expect(await db.findTable('counter')).toBeDefined()
+    expect(await db.getTable('counter')).toBeDefined()
   })
   it('drop table', async () => {
     await cdb.dropTable()
   })
   it('table does not exist', async () => {
-    expect(await db.findTable('counter')).toBeUndefined()
+    expect(await db.getTable('counter')).toBeUndefined()
   })
 
 })

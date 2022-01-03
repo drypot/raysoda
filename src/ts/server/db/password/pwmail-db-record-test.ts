@@ -29,27 +29,27 @@ describe('PwMailDB Token', () => {
       random: random,
       cdate: now
     }
-    await rdb.insert(r)
+    await rdb.insertLog(r)
   })
   it('find by id', async () => {
-    const r = await rdb.findById(1)
+    const r = await rdb.getLogById(1)
     expect(r?.id).toBe(1)
     expect(r?.email).toBe('user1@mail.test')
     expect(r?.random).toBe(random)
     expect(r?.cdate).toEqual(now)
   })
   it('find by email', async () => {
-    const r = await rdb.findByEmail('user1@mail.test')
+    const r = await rdb.getLogByEmail('user1@mail.test')
     expect(r?.id).toBe(1)
     expect(r?.email).toBe('user1@mail.test')
     expect(r?.random).toBe(random)
     expect(r?.cdate).toEqual(now)
   })
   it('delete', async () => {
-    await rdb.deleteByEmail('user1@mail.test')
+    await rdb.deleteLogByEmail('user1@mail.test')
   })
   it('find returns nothing', async () => {
-    const r = await rdb.findByEmail('user1@mail.test')
+    const r = await rdb.getLogByEmail('user1@mail.test')
     expect(r).toBe(undefined)
   })
 

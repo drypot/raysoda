@@ -1,5 +1,5 @@
 import { NewPasswordForm } from '@common/type/password'
-import { userCheckPassword } from '@server/domain/user/_service/_user-check'
+import { checkUserPassword } from '@server/domain/user/_service/_user-check'
 import { Mailer } from '@server/mailer/mailer2'
 import { EMAIL_NOT_FOUND, EMAIL_PATTERN, INVALID_DATA, PASSWORD_RESET_TIMEOUT } from '@common/type/error-const'
 import { emailPatternIsOk } from '@common/util/email'
@@ -11,7 +11,7 @@ import { UserDB } from '@server/db/user/user-db'
 import { omanGetConfig } from '@server/oman/oman'
 import { dateDiffMins } from '@common/util/date2'
 
-export async function userPasswordMail(
+export async function mailUserPassword(
   mailer: Mailer, udb: UserDB, mdb: PwMailDB, email: string, err: ErrorConst[]
 ) {
   if (!emailPatternIsOk(email)) {
@@ -19,7 +19,7 @@ export async function userPasswordMail(
     return false
   }
 
-  const user = await udb.findUserByEmail(email)
+  const user = await udb.getUserByEmail(email)
   if (!user) {
     err.push(EMAIL_NOT_FOUND)
     return false
@@ -29,8 +29,8 @@ export async function userPasswordMail(
   const random = randomBytes(16).toString('hex')
   const cdate = new Date()
 
-  await mdb.deleteByEmail(email)
-  await mdb.insert({ id, email, random, cdate })
+  await mdb.deleteLogByEmail(email)
+  await mdb.insertLog({ id, email, random, cdate })
 
   const config = omanGetConfig()
   const mail = {
@@ -47,19 +47,19 @@ export async function userPasswordMail(
   return mailer.sendMail(mail)
 }
 
-export async function userPasswordReset(
+export async function resetUserPassword(
   udb: UserDB, mdb: PwMailDB, form: NewPasswordForm, err: ErrorConst[]
 ) {
   const id = form.id
   const random = form.random
   const password = form.password
 
-  userCheckPassword(password, err)
+  checkUserPassword(password, err)
   if (err.length) {
     return
   }
 
-  const r = await mdb.findById(id)
+  const r = await mdb.getLogById(id)
   if (!r) {
     err.push(INVALID_DATA)
     return
@@ -77,5 +77,5 @@ export async function userPasswordReset(
   const hash = await makeHash(password)
   await udb.updateUserByEmail(email, { hash })
 
-  await mdb.deleteByEmail(email)
+  await mdb.deleteLogByEmail(email)
 }

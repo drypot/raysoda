@@ -2,17 +2,17 @@ import supertest, { SuperAgentTest } from 'supertest'
 import {
   ADMIN,
   ADMIN_LOGIN_FORM,
+  insertUserFix4,
   USER1,
   USER1_LOGIN_FORM,
   USER2,
-  USER2_LOGIN_FORM,
-  userFixInsert4
+  USER2_LOGIN_FORM
 } from '@server/db/user/fixture/user-fix'
 import { EMAIL_NOT_FOUND, NOT_AUTHORIZED, PASSWORD_WRONG } from '@common/type/error-const'
 import { Express2, toCallback } from '@server/express/express2'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { userGetSessionUser, useUserAuthApi } from '@server/domain/user/api/user-auth-api'
-import { userAssertAdmin, userAssertLogin } from '@server/domain/user/_service/user-auth'
+import { assertAdmin, assertLoggedIn } from '@server/domain/user/_service/user-auth'
 import { GUEST_ID_CARD } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'
 import { renderJson } from '@server/express/response'
@@ -41,14 +41,14 @@ describe('UserAuthApi', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('setup should be admin', () => {
     web.router.get('/api/should-be-admin', toCallback(async function (req, res) {
       const user = userGetSessionUser(res)
-      userAssertLogin(user)
-      userAssertAdmin(user)
+      assertLoggedIn(user)
+      assertAdmin(user)
       renderJson(res, {})
     }))
   })

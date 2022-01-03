@@ -1,5 +1,5 @@
 import { Form, getInputRadioValue, grabForm, linkSubmitHandler, setInputRadioChecked } from '@client/util/form'
-import { UserUpdateStatusForm } from '@common/type/user-form'
+import { UpdateUserStatusForm } from '@common/type/user-form'
 import { sendPut } from '@client/util/fetch'
 import { pathList } from '@client/util/context'
 import { newNumber } from '@common/util/primitive'
@@ -17,7 +17,7 @@ function fillForm(form: Form) {
 }
 
 function submit(form: Form) {
-  const data: UserUpdateStatusForm = {
+  const data: UpdateUserStatusForm = {
     id: newNumber(pathList[1]),
     status: getInputRadioValue(form, 'status') === 'v' ? 'v' : 'd'
   }

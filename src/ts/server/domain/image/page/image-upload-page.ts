@@ -1,10 +1,10 @@
-import { imageGetLeftTicket } from '@server/domain/image/_service/image-upload'
+import { getLeftTicket } from '@server/domain/image/_service/image-upload'
 import { Express2, toCallback } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { renderHtml } from '@server/express/response'
 import { ImageDB } from '@server/db/image/image-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
-import { userAssertLogin } from '@server/domain/user/_service/user-auth'
+import { assertLoggedIn } from '@server/domain/user/_service/user-auth'
 
 export async function useImageUploadPage() {
 
@@ -14,8 +14,8 @@ export async function useImageUploadPage() {
 
   web.router.get('/image-upload', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
-    const { ticket, hour } = await imageGetLeftTicket(idb, user.id, new Date())
+    assertLoggedIn(user)
+    const { ticket, hour } = await getLeftTicket(idb, user.id, new Date())
     renderHtml(res, 'image/image-upload', {
       ticketMax: config.ticketMax,
       ticket,

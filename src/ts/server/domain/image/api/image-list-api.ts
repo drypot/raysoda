@@ -5,7 +5,7 @@ import { ImageDB } from '@server/db/image/image-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { parseDate } from '@common/util/date2'
-import { imageGetFirstCdate } from '@server/domain/image/_service/image-detail'
+import { getFirstImageCdate } from '@server/domain/image/_service/image-detail'
 import { newLimitedNumber } from '@common/util/primitive'
 import { renderJson } from '@server/express/response'
 import { newPageParam } from '@common/type/page'
@@ -35,7 +35,7 @@ export async function useImageListApi() {
   }))
 
   web.router.get('/api/first-image-cdate', toCallback(async (req, res) => {
-    const date = await imageGetFirstCdate(idb)
+    const date = await getFirstImageCdate(idb)
     renderJson(res, {
       todayNum: Date.now(),
       cdateNum: date.getTime()

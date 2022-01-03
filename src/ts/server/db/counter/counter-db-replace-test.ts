@@ -32,7 +32,7 @@ describe('CounterDB Replace', () => {
     })
   })
   it('find', async () => {
-    const c = await cdb.findCounter('cnt1', '2021-08-15')
+    const c = await cdb.getCounter('cnt1', '2021-08-15')
     expect(dupe(c)).toEqual({ id: 'cnt1', d: '2021-08-15', c: 10 })
   })
 

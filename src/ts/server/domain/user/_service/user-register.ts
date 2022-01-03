@@ -1,23 +1,23 @@
 import { ErrorConst } from '@common/type/error'
 import { UserRegisterForm } from '@common/type/user-form'
-import { userCheckEmail, userCheckPassword } from '@server/domain/user/_service/_user-check'
+import { checkUserEmail, checkUserPassword } from '@server/domain/user/_service/_user-check'
 import { newUser } from '@common/type/user'
 import { makeHash } from '@common/util/hash'
 import { UserDB } from '@server/db/user/user-db'
 import { emailGetUserName } from '@common/util/email'
 import { EMAIL_DUPE, HOME_RANGE, NAME_RANGE } from '@common/type/error-const'
 
-export async function userRegister(udb: UserDB, form: UserRegisterForm, err: ErrorConst[]) {
+export async function registerUser(udb: UserDB, form: UserRegisterForm, err: ErrorConst[]) {
   const { email, password } = form
 
-  userCheckEmail(email, err)
-  userCheckPassword(password, err)
+  checkUserEmail(email, err)
+  checkUserPassword(password, err)
   await checkEmailDupe(udb, email, err)
   if (err.length) return
 
   const baseName = emailGetUserName(email) as string
-  const name = await findName(udb, baseName, err)
-  const home = await findHome(udb, name, err)
+  const name = await getName(udb, baseName, err)
+  const home = await getHome(udb, name, err)
   if (err.length) return
 
   const now = new Date()
@@ -38,13 +38,13 @@ export async function userRegister(udb: UserDB, form: UserRegisterForm, err: Err
 }
 
 async function checkEmailDupe(udb: UserDB, email: string, err: ErrorConst[]) {
-  const user = await udb.findUserByEmail(email)
+  const user = await udb.getUserByEmail(email)
   if (user) err.push(EMAIL_DUPE)
 }
 
-async function findName(udb: UserDB, name: string, err: ErrorConst[]) {
+async function getName(udb: UserDB, name: string, err: ErrorConst[]) {
   while (name.length < 33) {
-    const user = await udb.findUserByName(name)
+    const user = await udb.getUserByName(name)
     if (!user) return name
     name += getRandomDigit()
   }
@@ -52,9 +52,9 @@ async function findName(udb: UserDB, name: string, err: ErrorConst[]) {
   return name
 }
 
-async function findHome(udb: UserDB, home: string, err: ErrorConst[]) {
+async function getHome(udb: UserDB, home: string, err: ErrorConst[]) {
   while (home.length < 33) {
-    const user = await udb.findUserByHome(home)
+    const user = await udb.getUserByHome(home)
     if (!user) return home
     home += getRandomDigit()
   }

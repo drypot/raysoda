@@ -1,7 +1,7 @@
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN, USER1, USER2, USER3, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN, insertUserFix4, USER1, USER2, USER3 } from '@server/db/user/fixture/user-fix'
 import { useUserListApi } from '@server/domain/user/api/user-list-api'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
@@ -31,7 +31,7 @@ describe('UserListApi', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
   it('default opt', async () => {
     const res = await sat.get('/api/user-list').expect(200)

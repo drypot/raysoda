@@ -46,7 +46,7 @@ export function unpackUserDetail(user: UserDetail) {
   user.pdate = new Date(user.pdateNum)
 }
 
-export type UserForList = {
+export type UserListItem = {
   id: number
   name: string
   home: string

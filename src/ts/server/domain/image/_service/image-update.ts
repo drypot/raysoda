@@ -2,27 +2,27 @@ import { ErrorConst } from '@common/type/error'
 import { User } from '@common/type/user'
 import { IMAGE_NOT_EXIST, NOT_AUTHORIZED } from '@common/type/error-const'
 import { ImageDB } from '@server/db/image/image-db'
-import { userCanUpdateImage } from '@server/domain/image/_service/_image-service'
-import { ImageUpdateForm } from '@common/type/image-form'
+import { UpdateImageForm } from '@common/type/image-form'
 import { ImageFileManager } from '@server/fileman/_fileman'
+import { Image } from '@common/type/image'
 
-export async function imageGetForUpdate(idb: ImageDB, user: User, id: number, err: ErrorConst[]) {
-  const image = await imageFindAndCheckUpdatable(idb, user, id, err)
+export async function getImageForUpdate(idb: ImageDB, user: User, id: number, err: ErrorConst[]) {
+  const image = await getUpdatableImage(idb, user, id, err)
   if (!image || err.length) return
 
-  const form: ImageUpdateForm = {
+  const form: UpdateImageForm = {
     id,
     comment: image.comment
   }
   return form
 }
 
-export async function imageUpdate(
-  idb: ImageDB, ifm: ImageFileManager, user: User, form: ImageUpdateForm, file: string, err: ErrorConst[]
+export async function updateImage(
+  idb: ImageDB, ifm: ImageFileManager, user: User, form: UpdateImageForm, file: string, err: ErrorConst[]
 ) {
   const { id, comment } = form
 
-  const image = await imageFindAndCheckUpdatable(idb, user, id, err)
+  const image = await getUpdatableImage(idb, user, id, err)
   if (!image || err.length) return
 
   if (!file) {
@@ -40,10 +40,10 @@ export async function imageUpdate(
   }
 }
 
-export async function imageFindAndCheckUpdatable(
+export async function getUpdatableImage(
   idb: ImageDB, user: User, id: number, err: ErrorConst[]
 ) {
-  const image = await idb.findImage(id)
+  const image = await idb.getImage(id)
   if (!image) {
     err.push(IMAGE_NOT_EXIST)
     return
@@ -53,4 +53,8 @@ export async function imageFindAndCheckUpdatable(
     return
   }
   return image
+}
+
+export function userCanUpdateImage(user: User, image: Image) {
+  return image.uid === user.id || user.admin
 }

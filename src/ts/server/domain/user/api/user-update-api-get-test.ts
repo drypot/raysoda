@@ -1,6 +1,6 @@
 import supertest, { SuperAgentTest } from 'supertest'
 import { useUserUpdateApi } from '@server/domain/user/api/user-update-api'
-import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '@common/type/error-const'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
@@ -33,7 +33,7 @@ describe('UserUpdateApi Get', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
   it('get user1 without login', async () => {
     const res = await sat.get('/api/user-update-profile-get/' + 1).expect(200)

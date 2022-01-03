@@ -1,14 +1,14 @@
 import { newNumber, newString } from '@common/util/primitive'
 import { Express2, toCallback } from '@server/express/express2'
-import { ImageUpdateForm } from '@common/type/image-form'
+import { UpdateImageForm } from '@common/type/image-form'
 import { deleteUpload, Uploader } from '@server/express/uploader'
 import { ErrorConst } from '@common/type/error'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { omanGetConfig, omanGetObject } from '@server/oman/oman'
-import { userAssertLogin } from '@server/domain/user/_service/user-auth'
-import { imageGetForUpdate, imageUpdate } from '@server/domain/image/_service/image-update'
+import { assertLoggedIn } from '@server/domain/user/_service/user-auth'
+import { getImageForUpdate, updateImage } from '@server/domain/image/_service/image-update'
 import { renderJson } from '@server/express/response'
 
 export async function useImageUpdateApi() {
@@ -20,11 +20,11 @@ export async function useImageUpdateApi() {
 
   web.router.get('/api/image-update-get/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
 
     const id = newNumber(req.params.id)
     const err: ErrorConst[] = []
-    const image = await imageGetForUpdate(idb, user, id, err)
+    const image = await getImageForUpdate(idb, user, id, err)
     if (err.length) throw err
 
     renderJson(res, { image })
@@ -32,15 +32,15 @@ export async function useImageUpdateApi() {
 
   web.router.put('/api/image-update', uploader.single('file'), deleteUpload(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
 
-    const form: ImageUpdateForm = {
+    const form: UpdateImageForm = {
       id: newNumber(req.body.id),
       comment: newString(req.body.comment),
     }
     const file = newString(req.file?.path)
     const err: ErrorConst[] = []
-    await imageUpdate(idb, ifm, user, form, file, err)
+    await updateImage(idb, ifm, user, form, file, err)
     if (err.length) throw err
 
     renderJson(res, {})

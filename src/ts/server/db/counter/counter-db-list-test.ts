@@ -28,7 +28,7 @@ describe('CounterDB List', () => {
     await cdb.replaceCounter('cnt2', new Date(2003, 0, 18), 20)
   })
   it('list 1', async () => {
-    const r = await cdb.findCounterList('cnt1', '2003-01-18', '2003-01-20')
+    const r = await cdb.getCounterList('cnt1', '2003-01-18', '2003-01-20')
     expect(dupe(r)).toEqual([
       { id: 'cnt1', d: '2003-01-18', c: 20 },
       { id: 'cnt1', d: '2003-01-19', c: 30 },
@@ -36,17 +36,17 @@ describe('CounterDB List', () => {
     ])
   })
   it('list 2', async () => {
-    const r = await cdb.findCounterList('cnt2', '2003-01-10', '2003-01-17')
+    const r = await cdb.getCounterList('cnt2', '2003-01-10', '2003-01-17')
     expect(dupe(r)).toEqual([
       { id: 'cnt2', d: '2003-01-17', c: 10 },
     ])
   })
   it('list 3', async () => {
-    const r = await cdb.findCounterList('cnt2', '2009-00-00', '2010-00-00')
+    const r = await cdb.getCounterList('cnt2', '2009-00-00', '2010-00-00')
     expect(dupe(r)).toEqual([])
   })
   it('list undefined', async () => {
-    const r = await cdb.findCounterList('cntx', '2009-00-00', '2010-00-00')
+    const r = await cdb.getCounterList('cntx', '2009-00-00', '2010-00-00')
     expect(dupe(r)).toEqual([])
   })
 

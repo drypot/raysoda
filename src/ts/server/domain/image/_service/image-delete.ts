@@ -1,13 +1,13 @@
 import { ErrorConst } from '@common/type/error'
-import { imageFindAndCheckUpdatable } from '@server/domain/image/_service/image-update'
+import { getUpdatableImage } from '@server/domain/image/_service/image-update'
 import { User } from '@common/type/user'
 import { ImageDB } from '@server/db/image/image-db'
 import { ImageFileManager } from '@server/fileman/_fileman'
 
-export async function imageDelete(
+export async function deleteImage(
   idb: ImageDB, ifm: ImageFileManager, user: User, id: number, err: ErrorConst[]
 ) {
-  const image = await imageFindAndCheckUpdatable(idb, user, id, err)
+  const image = await getUpdatableImage(idb, user, id, err)
   if (!image || err.length) return
 
   await idb.deleteImage(id)

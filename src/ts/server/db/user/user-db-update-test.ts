@@ -1,6 +1,6 @@
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
-import { userFixInsert1 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix1 } from '@server/db/user/fixture/user-fix'
 import { dupe } from '@common/util/object2'
 import { User } from '@common/type/user'
 
@@ -22,7 +22,7 @@ describe('UserDB.update', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert1(udb)
+    await insertUserFix1(udb)
   })
   it('check db before update', async () => {
     const user = await udb.getCachedById(1)

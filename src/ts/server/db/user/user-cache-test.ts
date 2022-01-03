@@ -14,7 +14,7 @@ describe('UserCache', () => {
     expect(user).toBe(undefined)
   })
   it('cache user1', () => {
-    cache.cache(USER1)
+    cache.cacheUser(USER1)
   })
   it('user1 exists', () => {
     const user = cache.getCachedById(1)

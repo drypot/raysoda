@@ -27,7 +27,7 @@ describe('ImageDB getImagePage', () => {
     await idb.createTable()
   })
   it('find first image returns nothing', async () => {
-    const img = await idb.findFirstImage()
+    const img = await idb.getFirstImage()
     expect(img).toBeUndefined()
   })
   it('insert fix', async () => {
@@ -47,7 +47,7 @@ describe('ImageDB getImagePage', () => {
   })
 
   it('find first image returns image', async () => {
-    const img = await idb.findFirstImage()
+    const img = await idb.getFirstImage()
     expect(img?.id).toBe(1)
   })
 

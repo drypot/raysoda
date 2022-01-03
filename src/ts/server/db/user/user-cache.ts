@@ -20,7 +20,7 @@ export class UserCache {
     this.homeMap = new Map
   }
 
-  cache(user: User) {
+  cacheUser(user: User) {
     this.idMap.set(user.id, user)
     this.homeMap.set(user.home.toLowerCase(), user)
   }

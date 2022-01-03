@@ -80,20 +80,20 @@ export class DB {
     if (!match) throw new Error('create index pattern not found')
     const table = match[2]
     const index = match[1]
-    if (await this.findIndex(table, index)) return
+    if (await this.getIndex(table, index)) return
     await this.query(query)
     return this
   }
 
-  async findDatabase(name: string) {
+  async getDatabase(name: string) {
     return this.queryOne('show databases like ?', name)
   }
 
-  async findTable(name: string) {
+  async getTable(name: string) {
     return this.queryOne('show tables like ?', name)
   }
 
-  async findIndex(table: string, index: string) {
+  async getIndex(table: string, index: string) {
     const q =
       'select * from information_schema.statistics ' +
       'where table_schema=database() and table_name=? and index_name=?'

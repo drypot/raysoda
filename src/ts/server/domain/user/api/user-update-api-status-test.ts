@@ -1,5 +1,5 @@
 import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN_FORM, USER1_LOGIN_FORM, USER2_LOGIN_FORM, userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM, USER2_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '@common/type/error-const'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
@@ -8,7 +8,7 @@ import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
 import { GUEST_ID_CARD } from '@common/type/user'
 import { UserDB } from '@server/db/user/user-db'
 import { useUserUpdateApi } from '@server/domain/user/api/user-update-api'
-import { UserUpdateStatusForm } from '@common/type/user-form'
+import { UpdateUserStatusForm } from '@common/type/user-form'
 
 describe('UserDeactivateApi', () => {
 
@@ -35,11 +35,11 @@ describe('UserDeactivateApi', () => {
     await udb.createTable()
   })
   it('fill fix', async () => {
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('deactivating fails before login', async () => {
-    const form: UserUpdateStatusForm = { id: 1, status: 'd' }
+    const form: UpdateUserStatusForm = { id: 1, status: 'd' }
     const res = await sat.put('/api/user-update-status').send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
@@ -52,7 +52,7 @@ describe('UserDeactivateApi', () => {
     expect(user?.status).toBe('v')
   })
   it('deactivate user1', async () => {
-    const form: UserUpdateStatusForm = { id: 1, status: 'd' }
+    const form: UpdateUserStatusForm = { id: 1, status: 'd' }
     const res = await sat.put('/api/user-update-status').send(form).expect(200)
     expect(res.body).toEqual({})
   })
@@ -61,7 +61,7 @@ describe('UserDeactivateApi', () => {
     expect(res.body.user).toEqual(GUEST_ID_CARD)
   })
   it('user1 status should be d', async () => {
-    const user = await udb.findUserById(1)
+    const user = await udb.getUserById(1)
     expect(user?.status).toBe('d')
   })
   it('user1 status should be d in cache', async () => {
@@ -73,7 +73,7 @@ describe('UserDeactivateApi', () => {
     await userLoginForTest(sat, USER2_LOGIN_FORM)
   })
   it('deactivating other fails', async () => {
-    const form: UserUpdateStatusForm = { id: 3, status: 'd' }
+    const form: UpdateUserStatusForm = { id: 3, status: 'd' }
     const res = await sat.put('/api/user-update-status').send(form).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })

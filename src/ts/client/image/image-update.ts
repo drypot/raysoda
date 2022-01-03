@@ -2,7 +2,7 @@ import { startPing } from '@client/util/ping'
 import { Form, grabForm, linkSubmitHandler } from '@client/util/form'
 import { sendPut } from '@client/util/fetch'
 import { getEmbeddedJson } from '@client/util/dom'
-import { ImageUpdateForm } from '@common/type/image-form'
+import { UpdateImageForm } from '@common/type/image-form'
 import { newString } from '@common/util/primitive'
 import { setRefresh } from '@client/util/refresh'
 
@@ -15,7 +15,7 @@ export function initImageUpdate() {
 
 function fillForm(form: Form) {
   const data = getEmbeddedJson('formJson')
-  const image = data.image as ImageUpdateForm
+  const image = data.image as UpdateImageForm
   form.input.id.value = newString(image.id)
   form.textarea.comment.value = image.comment
 }

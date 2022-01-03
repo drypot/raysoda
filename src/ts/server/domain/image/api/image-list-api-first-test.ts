@@ -5,7 +5,7 @@ import { useImageListApi } from '@server/domain/image/api/image-list-api'
 import { Express2 } from '@server/express/express2'
 import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
-import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
 import { SITE_OPEN_DATE } from '@common/type/date-const'
 import { UserDB } from '@server/db/user/user-db'
 import { DB } from '@server/db/_db/db'
@@ -38,7 +38,7 @@ describe('ImageListApi FirstImageCdate', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
   })
 
   it('init table', async () => {

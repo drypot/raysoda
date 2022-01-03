@@ -1,7 +1,7 @@
-import { userGetList, userSearch } from '@server/domain/user/_service/user-list'
+import { getUserList, searchUser } from '@server/domain/user/_service/user-list'
 import { Express2, toCallback } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
-import { UserForList } from '@common/type/user-detail'
+import { UserListItem } from '@common/type/user-detail'
 import { omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { userIsAdmin } from '@common/type/user'
@@ -19,11 +19,11 @@ export async function useUserListApi() {
     const ps = newLimitedNumber(req.query.ps, 99, 1, 300)
     const q = newString(req.query.q)
     const admin = userIsAdmin(user)
-    let list: UserForList[]
+    let list: UserListItem[]
     if (q.length) {
-      list = await userSearch(udb, q, p, ps, admin)
+      list = await searchUser(udb, q, p, ps, admin)
     } else {
-      list = await userGetList(udb, p, ps)
+      list = await getUserList(udb, p, ps)
     }
     renderJson(res, {
       userList: list

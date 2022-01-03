@@ -1,5 +1,5 @@
 import { User } from '@common/type/user'
-import { UserForList } from '@common/type/user-detail'
+import { UserListItem } from '@common/type/user-detail'
 import { omanGetObject, omanRegisterFactory } from '@server/oman/oman'
 import { UserCache } from '@server/db/user/user-cache'
 import { DB } from '@server/db/_db/db'
@@ -97,9 +97,9 @@ export class UserDB {
     if (user) {
       return user
     }
-    user = await this.findUserById(id)
+    user = await this.getUserById(id)
     if (user) {
-      this.cache.cache(user)
+      this.cache.cacheUser(user)
     }
     return user
   }
@@ -109,17 +109,17 @@ export class UserDB {
     if (user) {
       return user
     }
-    user = await this.findUserByHome(home)
+    user = await this.getUserByHome(home)
     if (user) {
-      this.cache.cache(user)
+      this.cache.cacheUser(user)
     }
     return user
   }
 
   async forceCachedByEmail(email: string) {
-    const user = await this.findUserByEmail(email)
+    const user = await this.getUserByEmail(email)
     if (user) {
-      this.cache.cache(user)
+      this.cache.cacheUser(user)
     }
     return user
   }
@@ -132,36 +132,36 @@ export class UserDB {
     return this.cache.getCachedByHome(home)
   }
 
-  async findUserById(id: number) {
+  async getUserById(id: number) {
     const r = await this.db.queryOne('select * from user where id = ?', id)
-    if (r) unpack(r)
+    if (r) unpackUser(r)
     return r as User | undefined
   }
 
-  async findUserByEmail(email: string) {
+  async getUserByEmail(email: string) {
     const r = await this.db.queryOne('select * from user where email = ?', email)
-    if (r) unpack(r)
+    if (r) unpackUser(r)
     return r as User | undefined
   }
 
-  async findUserByName(name: string) {
+  async getUserByName(name: string) {
     const r = await this.db.queryOne('select * from user where name = ?', name)
-    if (r) unpack(r)
+    if (r) unpackUser(r)
     return r as User | undefined
   }
 
-  async findUserByHome(home: string) {
+  async getUserByHome(home: string) {
     const r = await this.db.queryOne('select * from user where home = ?', home)
-    if (r) unpack(r)
+    if (r) unpackUser(r)
     return r as User | undefined
   }
 
-  async findUserList(offset: number = 0, ps: number = 100) {
+  async getUserList(offset: number = 0, ps: number = 100) {
     const r = await this.db.query(
       'select id, name, home from user order by pdate desc limit ?, ?',
       [offset, ps]
     )
-    return r as UserForList[]
+    return r as UserListItem[]
   }
 
   async searchUser(q: string, offset: number = 0, ps: number = 100, admin: boolean = false) {
@@ -175,7 +175,7 @@ export class UserDB {
       param = [q, q, offset, ps]
     }
     const r = await this.db.query(sql, param)
-    return r as UserForList[]
+    return r as UserListItem[]
   }
 
   // ID
@@ -196,7 +196,7 @@ function unpackUserList(users: User[]) {
   }
 }
 
-function unpack(user: User) {
+function unpackUser(user: User) {
   // admin 컬럼은 bool 타입이고, bool 은 실제로 tinyint(1) 다.
   // 저장할 때는 true, false 를 사용해도 되지만 읽을 때는 number 가 돌아온다.
   user.admin = user.admin as unknown === 1

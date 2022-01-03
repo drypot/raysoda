@@ -5,8 +5,8 @@ import { renderHtml } from '@server/express/response'
 import { ImageDB } from '@server/db/image/image-db'
 import { newNumber } from '@common/util/primitive'
 import { omanGetObject } from '@server/oman/oman'
-import { userAssertLogin } from '@server/domain/user/_service/user-auth'
-import { imageGetForUpdate } from '@server/domain/image/_service/image-update'
+import { assertLoggedIn } from '@server/domain/user/_service/user-auth'
+import { getImageForUpdate } from '@server/domain/image/_service/image-update'
 
 export async function useImageUpdatePage() {
 
@@ -15,10 +15,10 @@ export async function useImageUpdatePage() {
 
   web.router.get('/image-update/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
-    userAssertLogin(user)
+    assertLoggedIn(user)
     const id = newNumber(req.params.id)
     const err: ErrorConst[] = []
-    const image = await imageGetForUpdate(idb, user, id, err)
+    const image = await getImageForUpdate(idb, user, id, err)
     if (err.length) throw err
     renderHtml(res, 'image/image-update', { form: { image } })
   }))

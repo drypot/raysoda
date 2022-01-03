@@ -68,7 +68,7 @@ export async function userLogin(
   req: Request, res: Response, udb: UserDB, form: UserLoginForm, err: ErrorConst[]
 ) {
 
-  let user = await udb.findUserByEmail(form.email)
+  let user = await udb.getUserByEmail(form.email)
   if (!user) {
     err.push(EMAIL_NOT_FOUND)
     return

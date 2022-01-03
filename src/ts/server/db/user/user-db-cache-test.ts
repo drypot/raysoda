@@ -1,4 +1,4 @@
-import { USER1, userFixInsert1 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix1, USER1 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
 import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
 
@@ -18,7 +18,7 @@ describe('UserDB Cache', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert1(udb)
+    await insertUserFix1(udb)
   })
 
   describe('getCachedById', () => {

@@ -17,12 +17,12 @@ export const USER2_LOGIN_FORM = { email: 'mail2@mail.test', password: '1234', re
 export const USER3_LOGIN_FORM = { email: 'mail3@mail.test', password: '1234', remember: false }
 export const ADMIN_LOGIN_FORM = { email: 'maila@mail.test', password: '1234', remember: false }
 
-export async function userFixInsert1(udb: UserDB): Promise<void> {
+export async function insertUserFix1(udb: UserDB): Promise<void> {
   await udb.insertUser(USER1)
   udb.setNextId(2)
 }
 
-export async function userFixInsert4(udb: UserDB): Promise<void> {
+export async function insertUserFix4(udb: UserDB): Promise<void> {
   const users = [USER1, USER2, USER3, ADMIN]
   for (const user of users) {
     await udb.insertUser(user)

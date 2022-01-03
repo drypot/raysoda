@@ -6,7 +6,7 @@ import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } fro
 import { Express2 } from '@server/express/express2'
 import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
-import { userFixInsert4 } from '@server/db/user/fixture/user-fix'
+import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
 import { newUser } from '@common/type/user'
 
 describe('User Home Page', () => {
@@ -35,7 +35,7 @@ describe('User Home Page', () => {
   beforeAll(async () => {
     await udb.dropTable()
     await udb.createTable()
-    await userFixInsert4(udb)
+    await insertUserFix4(udb)
     await udb.insertUser(
       newUser({ id: 5, name: 'xman/yman', home: 'xman/yman', email: 'xmanyman@mail.test' })
     )

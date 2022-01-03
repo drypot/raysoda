@@ -12,7 +12,7 @@ import {
 import { emailPatternIsOk } from '@common/util/email'
 import { ErrorConst } from '@common/type/error'
 
-export function userCheckName(name: string, err: ErrorConst[]) {
+export function checkUserName(name: string, err: ErrorConst[]) {
   if (name.length === 0) {
     err.push(NAME_EMPTY)
   } else if (name.length > 32) {
@@ -20,7 +20,7 @@ export function userCheckName(name: string, err: ErrorConst[]) {
   }
 }
 
-export function userCheckHome(home: string, err: ErrorConst[]) {
+export function checkUserHome(home: string, err: ErrorConst[]) {
   if (home.length === 0) {
     err.push(HOME_EMPTY)
   } else if (home.length > 32) {
@@ -28,7 +28,7 @@ export function userCheckHome(home: string, err: ErrorConst[]) {
   }
 }
 
-export function userCheckEmail(email: string, err: ErrorConst[]) {
+export function checkUserEmail(email: string, err: ErrorConst[]) {
   if (email.length === 0) {
     err.push(EMAIL_EMPTY)
   } else if (email.length > 64 || email.length < 8) {
@@ -38,7 +38,7 @@ export function userCheckEmail(email: string, err: ErrorConst[]) {
   }
 }
 
-export function userCheckPassword(password: string, err: ErrorConst[]) {
+export function checkUserPassword(password: string, err: ErrorConst[]) {
   if (password.length === 0) {
     err.push(PASSWORD_EMPTY)
   } else if (password.length > 32 || password.length < 4) {

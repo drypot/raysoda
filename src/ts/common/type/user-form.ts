@@ -16,7 +16,7 @@ export type UserLoginForm = {
   remember: boolean
 }
 
-export type UserUpdateProfileForm = {
+export type UpdateUserProfileForm = {
   id: number
   name: string
   home: string
@@ -24,12 +24,12 @@ export type UserUpdateProfileForm = {
   profile: string
 }
 
-export type UserUpdatePasswordForm = {
+export type UpdateUserPasswordForm = {
   id: number
   password: string
 }
 
-export type UserUpdateStatusForm = {
+export type UpdateUserStatusForm = {
   id: number
   status: 'v' | 'd'
 }
