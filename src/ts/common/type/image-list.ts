@@ -1,6 +1,6 @@
 import { Image } from '@common/type/image'
 
-export type ImageForList = {
+export type ImageListItem = {
   id: number
   owner: {
     id: number
@@ -14,16 +14,16 @@ export type ImageForList = {
 }
 
 export type ImagePage = {
-  list: Image[] | undefined,
-  decoList: ImageForList[] | undefined,
+  rawList: Image[] | undefined,
+  list: ImageListItem[] | undefined,
   prev: number | null,
   next: number | null
 }
 
 export function newImagePage(): ImagePage {
   return {
+    rawList: undefined,
     list: undefined,
-    decoList: undefined,
     prev: null,
     next: null
   }
