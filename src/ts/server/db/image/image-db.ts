@@ -89,21 +89,9 @@ export class ImageDB {
   async fillImagePage(page: ImagePage, param: PageParam) {
     const list = await this.getImageList(param)
     unpackList(list)
-    page.list = list
+    page.rawList = list
     await this.fillImagePagePrevNext(page, param)
   }
-
-  // async getImagePage(p: PageParam) {
-  //   const page = newImagePage()
-  //   if (p.uid) {
-  //     page.list = await this.getImageListUser(p)
-  //   } else {
-  //     page.list = await this.getImageListPublic(p)
-  //   }
-  //   unpackList(page.list as Image[])
-  //   await this.fillImagePagePrevNext(page, p)
-  //   return page
-  // }
 
   private async getImageList(param: PageParam): Promise<Image[]> {
     if (param.uid) {
@@ -183,7 +171,7 @@ export class ImageDB {
   }
 
   private async fillImagePagePrevNext(page: ImagePage, param: PageParam) {
-    const list = page.list
+    const list = page.rawList
     let prev: any
     let next: any
     if (list?.length) {
@@ -209,6 +197,14 @@ export class ImageDB {
       page.prev = prev?.id ?? null
       page.next = next?.id ?? null
     }
+  }
+
+  async findCdateListByUser(uid: number, limit: number) {
+    const r = await this.db.query(
+      'select id, cdate from image where uid = ? order by cdate desc limit ?',
+      [uid, limit]
+    )
+    return r as { id: number, cdate: Date }[]
   }
 
   // ID
