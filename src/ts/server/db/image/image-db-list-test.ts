@@ -152,11 +152,12 @@ describe('ImageDB getImagePage', () => {
     param.size = 3
     await idb.fillImagePage(page, param)
     const list = page.rawList as Image[]
-    expect(list.length).toBe(2)
+    expect(list.length).toBe(3)
     expect(list[0].id).toBe(10)
     expect(list[1].id).toBe(9)
+    expect(list[2].id).toBe(8)
     expect(page.prev).toBe(null)
-    expect(page.next).toBe(8)
+    expect(page.next).toBe(7)
   })
   it('end 5, size 3', async () => {
     const page = newImagePage()
@@ -233,6 +234,21 @@ describe('ImageDB getImagePage', () => {
     expect(page.next).toBe(null)
   })
 
+  it('uid 2, end 4, size 3', async () => {
+    const page = newImagePage()
+    const param = newPageParam()
+    param.uid = 2
+    param.end = 4
+    param.size = 3
+    await idb.fillImagePage(page, param)
+    const list = page.rawList as Image[]
+    expect(list.length).toBe(3)
+    expect(list[0].id).toBe(5)
+    expect(list[1].id).toBe(4)
+    expect(list[2].id).toBe(3)
+    expect(page.prev).toBe(null)
+    expect(page.next).toBe(2)
+  })
   it('uid 2, end 2, size 3', async () => {
     const page = newImagePage()
     const param = newPageParam()
@@ -247,20 +263,6 @@ describe('ImageDB getImagePage', () => {
     expect(list[2].id).toBe(2)
     expect(page.prev).toBe(5)
     expect(page.next).toBe(1)
-  })
-  it('uid 2, end 4, size 3', async () => {
-    const page = newImagePage()
-    const param = newPageParam()
-    param.uid = 2
-    param.end = 4
-    param.size = 3
-    await idb.fillImagePage(page, param)
-    const list = page.rawList as Image[]
-    expect(list.length).toBe(2)
-    expect(list[0].id).toBe(5)
-    expect(list[1].id).toBe(4)
-    expect(page.prev).toBe(null)
-    expect(page.next).toBe(3)
   })
 
   it('date 2003 6 7, size 3', async () => {

@@ -41,6 +41,9 @@ export class ImageDB {
       'create index image_cdate on image(cdate desc)'
     )
     await this.db.createIndexIfNotExists(
+      'create index image_uid_id on image(uid, id desc)'
+    )
+    await this.db.createIndexIfNotExists(
       'create index image_uid_cdate on image(uid, cdate desc)'
     )
     this.nextId = await this.db.getMaxId('image')
@@ -119,11 +122,18 @@ export class ImageDB {
       )
     }
     if (param.end) {
-      const r = await this.db.query(
+      let r = await this.db.query(
         'select * from image where id >= ? order by id limit ?',
         [param.end, param.size]
       )
-      r.reverse()
+      if (r.length === param.size) {
+        r.reverse()
+      } else {
+        r = await this.db.query(
+          'select * from image order by id desc limit ?',
+          [param.size]
+        )
+      }
       return r
     }
     const offset = param.page ? (param.page - 1) * param.size : 0
@@ -156,11 +166,18 @@ export class ImageDB {
       )
     }
     if (param.end) {
-      const r = await this.db.query(
+      let r = await this.db.query(
         'select * from image where uid = ? and id >= ? order by id limit ?',
         [param.uid, param.end, param.size]
       )
-      r.reverse()
+      if (r.length == param.size) {
+        r.reverse()
+      } else {
+        r = await this.db.query(
+          'select * from image where uid = ? order by id desc limit ?',
+          [param.uid, param.size]
+        )
+      }
       return r
     }
     const offset = param.page ? (param.page - 1) * param.size : 0
