@@ -1,5 +1,5 @@
-import { imageGetList, imageGetListByCdate } from '@server/domain/image/_service/image-list'
-import { dateToStringNoTime, parseDate } from '@common/util/date2'
+import { fillImagePage } from '@server/domain/image/_service/image-list'
+import { parseDate } from '@common/util/date2'
 import { renderHtml } from '@server/express/response'
 import { Express2, toCallback } from '@server/express/express2'
 import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
@@ -10,7 +10,8 @@ import { omanGetConfig, omanGetObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { newLimitedNumber } from '@common/util/primitive'
 import { Request, Response } from 'express'
-import { ImageForList } from '@common/type/image-detail'
+import { newImagePage } from '@common/type/image-list'
+import { newPageParam } from '@common/type/page'
 
 export async function useImageListPage() {
 
@@ -25,25 +26,41 @@ export async function useImageListPage() {
   web.router.get('/image-list', toCallback(listHandler))
 
   async function listHandler(req: Request, res: Response) {
-    const p = newLimitedNumber(req.query.p, 1, 1, NaN)
-    const ps = newLimitedNumber(req.query.ps, 16, 1, 128)
-    const d = parseDate(req.query.d)
-    const ds = dateToStringNoTime(d)
-    let list: ImageForList[]
-    if (d) {
-      list = await imageGetListByCdate(udb, idb, ifm, d, p, ps)
-    } else {
-      list = await imageGetList(udb, idb, ifm, p, ps)
+    const page = newImagePage()
+    const param = newPageParam()
+    param.uid = newLimitedNumber(req.query.uid, 0, 0, NaN)
+    param.begin = newLimitedNumber(req.query.pb, 0, 0, NaN)
+    param.end = newLimitedNumber(req.query.pe, 0, 0, NaN)
+    param.size = newLimitedNumber(req.query.ps, 16, 1, 128)
+    param.date = parseDate(req.query.d)
+    await fillImagePage(udb, idb, ifm, page, param)
+
+    let prevUrl = ''
+    let nextUrl = ''
+    if (page.prev) {
+      const m = UrlMaker.from('/image-list')
+      m.add('uid', param.uid, 0)
+      m.add('pe', page.prev, null)
+      m.add('ps', param.size, 16)
+      prevUrl = m.toString()
     }
+    if (page.next) {
+      const m = UrlMaker.from('/image-list')
+      m.add('uid', param.uid, 0)
+      m.add('pb', page.next, null)
+      m.add('ps', param.size, 16)
+      nextUrl = m.toString()
+    }
+
     renderHtml(res, 'image/image-list', {
-      imageList: list,
-      prev: p > 1 ? UrlMaker.from('/image-list').add('d', ds, '').add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,
-      next: list.length === ps ? UrlMaker.from('/image-list').add('d', ds, '').add('p', p + 1).add('ps', ps, 16).toString() : undefined,
+      list: page.list,
+      prev: prevUrl,
+      next: nextUrl,
       bannerList: bdb.getBannerListCached()
     })
   }
 
-  let firstCdate: Date;
+  let firstCdate: Date
 
   web.router.get('/image-list-by-year', toCallback(async (req, res) => {
     if (!firstCdate) {

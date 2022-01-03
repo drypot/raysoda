@@ -9,8 +9,11 @@ import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
 import { UrlMaker } from '@common/util/url2'
 import { ImageDB } from '@server/db/image/image-db'
 import { UserDB } from '@server/db/user/user-db'
-import { imageGetListByUser } from '@server/domain/image/_service/image-list'
+import { fillImagePage } from '@server/domain/image/_service/image-list'
 import { Request, Response } from 'express'
+import { newImagePage } from '@common/type/image-list'
+import { newPageParam } from '@common/type/page'
+import { parseDate } from '@common/util/date2'
 
 export async function useUserHomePage() {
 
@@ -38,15 +41,37 @@ export async function useUserHomePage() {
 
   async function renderHome(req: Request, res: Response, owner: User) {
     const user = userGetSessionUser(res)
-    const p = newLimitedNumber(req.query.p, 1, 1, NaN)
-    const ps = newLimitedNumber(req.query.ps, 16, 1, 128)
-    const list = await imageGetListByUser(udb, idb, ifm, owner.id, p, ps)
+
+    const page = newImagePage()
+    const param = newPageParam()
+    param.uid = owner.id
+    param.begin = newLimitedNumber(req.query.pb, 0, 0, NaN)
+    param.end = newLimitedNumber(req.query.pe, 0, 0, NaN)
+    param.size = newLimitedNumber(req.query.ps, 16, 1, 128)
+    param.date = parseDate(req.query.d)
+    await fillImagePage(udb, idb, ifm, page, param)
+
+    let prevUrl = ''
+    let nextUrl = ''
+    if (page.prev) {
+      const m = UrlMaker.from(req.path)
+      m.add('pe', page.prev, null)
+      m.add('ps', param.size, 16)
+      prevUrl = m.toString()
+    }
+    if (page.next) {
+      const m = UrlMaker.from(req.path)
+      m.add('pb', page.next, null)
+      m.add('ps', param.size, 16)
+      nextUrl = m.toString()
+    }
+
     renderHtml(res, 'user-home/user-home', {
       owner: owner,
       updatable: userCanUpdateUser(user, owner.id),
-      imageList: list,
-      prev: p > 1 ? UrlMaker.from(req.path).add('p', p - 1, 1).add('ps', ps, 16).toString() : undefined,
-      next: list.length === ps ? UrlMaker.from(req.path).add('p', p + 1).add('ps', ps, 16).toString() : undefined,
+      list: page.list,
+      prev: prevUrl,
+      next: nextUrl,
       path: req.path,
     })
   }

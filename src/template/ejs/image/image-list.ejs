@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <% locals.title = '' %>
-    <% locals.ogImage = locals.imageList.length ? locals.imageList[0].thumbUrl : '' %>
+    <% locals.ogImage = locals.list.length ? locals.list[0].thumbUrl : '' %>
     <%- include('../_common/head') %>
 </head>
 <body>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="max-w-full text-center default-color-des">
-        <% for (const image of locals.imageList) { %>
+        <% for (const image of locals.list) { %>
             <div class="mt-5xl">
                 <%# 이미지 우상단에 FullScreen 아이콘을 넣기 위해 inline-block 을 한다. %>
                 <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>

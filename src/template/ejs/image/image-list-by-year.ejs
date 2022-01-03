@@ -22,8 +22,9 @@
                 <% let em = iy === ey ? locals.firstCdate.getMonth() : 0 %>
                 <% let im = sm %>
                 <% while (im >= em) { %>
-                    <% let link = '/image-list?d=' + iy + '-' + (im < 9 ? '0' : '') + (im + 2) + '-01' %>
-                    <a href="<%- link %>"><%- im + 1 %></a>
+                    <% let dm = im + 1 %>
+                    <% let link = '/image-list?d=' + iy + '-' + (dm < 10 ? '0' : '') + (dm) + '-01' %>
+                    <a href="<%- link %>"><%- dm %></a>
                     <% im-- %>
                 <% } %>
                 <% iy-- %>

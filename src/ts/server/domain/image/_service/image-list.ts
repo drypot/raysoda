@@ -1,14 +1,26 @@
 import { User } from '@common/type/user'
 import { dateToString } from '@common/util/date2'
 import { ImageDB } from '@server/db/image/image-db'
-import { ImageForList } from '@common/type/image-detail'
 import { UserDB } from '@server/db/user/user-db'
 import { Image } from '@common/type/image'
 import { ImageFileManager } from '@server/fileman/_fileman'
+import { PageParam } from '@common/type/page'
+import { ImageListItem, ImagePage } from '@common/type/image-list'
 
-async function newDecoratedImageList(udb: UserDB, ifm: ImageFileManager, list: Image[]) {
-  return await Promise.all(
-    list.map(async (image): Promise<ImageForList> => {
+export async function fillImagePage(
+  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, page: ImagePage, param: PageParam
+)
+{
+  await idb.fillImagePage(page, param)
+  await fillImagePageDecoList(udb, ifm, page)
+}
+
+async function fillImagePageDecoList(
+  udb: UserDB, ifm: ImageFileManager, page: ImagePage
+) {
+  const list = page.rawList as Image[]
+  page.list = await Promise.all(
+    list.map(async (image): Promise<ImageListItem> => {
       const owner = await udb.getCachedById(image.uid) as User
       return {
         id: image.id,
@@ -24,25 +36,4 @@ async function newDecoratedImageList(udb: UserDB, ifm: ImageFileManager, list: I
       }
     })
   )
-}
-
-export async function imageGetList(
-  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, p: number, ps: number
-) {
-  const il = await idb.findImageList((p - 1) * ps, ps)
-  return newDecoratedImageList(udb, ifm, il)
-}
-
-export async function imageGetListByCdate(
-  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, d: Date, p: number, ps: number
-) {
-  const il = await idb.findImageListByCdate(d, (p - 1) * ps, ps)
-  return newDecoratedImageList(udb, ifm, il)
-}
-
-export async function imageGetListByUser(
-  udb: UserDB, idb: ImageDB, ifm: ImageFileManager, uid: number, p: number, ps: number
-) {
-  const il = await idb.findImageListByUser(uid, (p - 1) * ps, ps)
-  return await newDecoratedImageList(udb, ifm, il)
 }

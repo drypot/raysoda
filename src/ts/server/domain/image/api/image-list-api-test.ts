@@ -62,10 +62,17 @@ describe('ImageListApi', () => {
     ]
     await db.query('insert into image(id, uid, cdate, comment) values ?', [list])
   })
-  it('p 1, ps 1', async () => {
-    const res = await sat.get('/api/image-list?p=1&ps=1').expect(200)
-    const r = res.body.list
-    expect(r).toEqual([{
+
+  it('default', async () => {
+    const res = await sat.get('/api/image-list').expect(200)
+    expect(res.body.list.length).toBe(10)
+    expect(res.body.prev).toBe(null)
+    expect(res.body.next).toBe(null)
+  })
+
+  it('ps 1', async () => {
+    const res = await sat.get('/api/image-list?ps=1').expect(200)
+    expect(res.body.list).toEqual([{
       id: 10,
       owner: { id: 1, name: 'name1', home: 'home1' },
       cdateStr: '2003-10-10 00:00:00',
@@ -73,52 +80,48 @@ describe('ImageListApi', () => {
       vers: null,
       thumbUrl: 'http://file.raysoda.test:8080/images/0/0/10.jpg'
     }])
+    expect(res.body.prev).toBe(null)
+    expect(res.body.next).toBe(9)
   })
-  it('p 1, ps 128', async () => {
-    const res = await sat.get('/api/image-list').expect(200)
-    const r = res.body.list
-    expect(r.length).toBe(10)
-    expect(r[0].id).toBe(10)
-    expect(r[1].id).toBe(9)
-    expect(r[2].id).toBe(8)
-    expect(r[9].id).toBe(1)
+
+  it('pb 8, ps 3', async () => {
+    const res = await sat.get('/api/image-list?pb=8&ps=3').expect(200)
+    expect(res.body.list.length).toBe(3)
+    expect(res.body.list[0].id).toBe(8)
+    expect(res.body.list[1].id).toBe(7)
+    expect(res.body.list[2].id).toBe(6)
+    expect(res.body.prev).toBe(9)
+    expect(res.body.next).toBe(5)
   })
-  it('p 1, ps 4', async () => {
-    const res = await sat.get('/api/image-list?p=1&ps=4').expect(200)
-    const r = res.body.list
-    expect(r.length).toBe(4)
-    expect(r[0].id).toBe(10)
-    expect(r[3].id).toBe(7)
+
+  it('pe 5, ps 3', async () => {
+    const res = await sat.get('/api/image-list?pe=5&ps=3').expect(200)
+    expect(res.body.list.length).toBe(3)
+    expect(res.body.list[0].id).toBe(7)
+    expect(res.body.list[1].id).toBe(6)
+    expect(res.body.list[2].id).toBe(5)
+    expect(res.body.prev).toBe(8)
+    expect(res.body.next).toBe(4)
   })
-  it('p 2, ps 4', async () => {
-    const res = await sat.get('/api/image-list?p=2&ps=4').expect(200)
-    const r = res.body.list
-    expect(r.length).toBe(4)
-    expect(r[0].id).toBe(6)
-    expect(r[3].id).toBe(3)
+
+  it('uid 2, ps 3', async () => {
+    const res = await sat.get('/api/image-list?uid=2&ps=3').expect(200)
+    expect(res.body.list.length).toBe(3)
+    expect(res.body.list[0].id).toBe(5)
+    expect(res.body.list[1].id).toBe(4)
+    expect(res.body.list[2].id).toBe(3)
+    expect(res.body.prev).toBe(null)
+    expect(res.body.next).toBe(2)
   })
-  it('p 3, ps 4', async () => {
-    const res = await sat.get('/api/image-list?p=3&ps=4').expect(200)
-    const r = res.body.list
-    expect(r.length).toBe(2)
-    expect(r[0].id).toBe(2)
-    expect(r[1].id).toBe(1)
-  })
-  it('d 20030607, ps 4', async () => {
-    const res = await sat.get('/api/image-list?d=2003-06-07&ps=4').expect(200)
-    const r = res.body.list
-    expect(r.length).toBe(4)
-    expect(r[0].id).toBe(6)
-    expect(r[3].id).toBe(3)
-  })
-  it('d null', async () => {
-    const res = await sat.get('/api/image-list?d=null').expect(200)
-    const r = res.body.list
-    expect(r.length).toBe(10)
-    expect(r[0].id).toBe(10)
-    expect(r[1].id).toBe(9)
-    expect(r[2].id).toBe(8)
-    expect(r[9].id).toBe(1)
+
+  it('d 2003 6 7, ps 3', async () => {
+    const res = await sat.get('/api/image-list?d=2003-6-7&ps=3').expect(200)
+    expect(res.body.list.length).toBe(3)
+    expect(res.body.list[0].id).toBe(9)
+    expect(res.body.list[1].id).toBe(8)
+    expect(res.body.list[2].id).toBe(7)
+    expect(res.body.prev).toBe(10)
+    expect(res.body.next).toBe(6)
   })
 
 })
