@@ -6,7 +6,7 @@ import { IMAGE_SIZE, IMAGE_TYPE } from '@common/type/error-const'
 import { ImageMeta, WidthHeight } from '@common/type/image-meta'
 import { ImageFileManager } from '@server/fileman/_fileman'
 import { newDeepPath } from '@common/util/deeppath'
-import { omanGetConfig, omanRegisterFactory } from '@server/oman/oman'
+import { getConfig, registerObjectFactory } from '@server/oman/oman'
 import { inProduction } from '@common/util/env2'
 import { ErrorConst } from '@common/type/error'
 
@@ -31,8 +31,8 @@ const _vers: WidthHeight[] = [
   //{ width: 640 , height: 360 }
 ]
 
-omanRegisterFactory('RapixelFileManager', async () => {
-  return RapixelFileManager.from(omanGetConfig())
+registerObjectFactory('RapixelFileManager', async () => {
+  return RapixelFileManager.from(getConfig())
 })
 
 export class RapixelFileManager implements ImageFileManager {

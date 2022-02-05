@@ -4,15 +4,15 @@ import { OsokyFileManager } from '@server/fileman/osoky-fileman'
 import { DrypotFileManager } from '@server/fileman/drypot-fileman'
 import { RaySodaFileManager } from '@server/fileman/raysoda-fileman'
 
-import { omanGetObject } from '@server/oman/oman'
+import { getObject } from '@server/oman/oman'
 import { ImageFileManager } from '@server/fileman/_fileman'
 
-export async function omanGetImageFileManager(name: string): Promise<ImageFileManager> {
+export async function getImageFileManager(name: string): Promise<ImageFileManager> {
   const map: any = {
     raysoda: 'RaySodaFileManager',
     rapixel: 'RapixelFileManager',
     osoky: 'OsokyFileManager',
     drypot: 'DrypotFileManager',
   }
-  return await omanGetObject(map[name])
+  return await getObject(map[name])
 }

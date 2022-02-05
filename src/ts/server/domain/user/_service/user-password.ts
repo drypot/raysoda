@@ -8,7 +8,7 @@ import { ErrorConst } from '@common/type/error'
 import { PwMailDB } from '@server/db/password/pwmail-db'
 import { makeHash } from '@common/util/hash'
 import { UserDB } from '@server/db/user/user-db'
-import { omanGetConfig } from '@server/oman/oman'
+import { getConfig } from '@server/oman/oman'
 import { dateDiffMins } from '@common/util/date2'
 
 export async function mailUserPassword(
@@ -32,7 +32,7 @@ export async function mailUserPassword(
   await mdb.deleteLogByEmail(email)
   await mdb.insertLog({ id, email, random, cdate })
 
-  const config = omanGetConfig()
+  const config = getConfig()
   const mail = {
     from: 'no-reply@raysoda.com',
     to: email,

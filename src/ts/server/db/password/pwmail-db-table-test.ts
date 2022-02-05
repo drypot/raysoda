@@ -1,5 +1,5 @@
 import { PwMailDB } from '@server/db/password/pwmail-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { DB } from '@server/db/_db/db'
 
 describe('PwMailDB Table', () => {
@@ -8,13 +8,13 @@ describe('PwMailDB Table', () => {
   let rdb: PwMailDB
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    db = await omanGetObject('DB') as DB
-    rdb = await omanGetObject('PwMailDB') as PwMailDB
+    initObjectContext('config/raysoda-test.json')
+    db = await getObject('DB') as DB
+    rdb = await getObject('PwMailDB') as PwMailDB
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('drop table', async () => {

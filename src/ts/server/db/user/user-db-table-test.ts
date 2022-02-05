@@ -1,5 +1,5 @@
 import { UserDB } from '@server/db/user/user-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { DB } from '@server/db/_db/db'
 
 describe('UserDB Table', () => {
@@ -8,13 +8,13 @@ describe('UserDB Table', () => {
   let udb: UserDB
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    db = await omanGetObject('DB') as DB
-    udb = await omanGetObject('UserDB') as UserDB
+    initObjectContext('config/raysoda-test.json')
+    db = await getObject('DB') as DB
+    udb = await getObject('UserDB') as UserDB
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('drop table', async () => {

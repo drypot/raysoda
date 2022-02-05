@@ -1,5 +1,5 @@
 import { CounterDB } from '@server/db/counter/counter-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { dupe } from '@common/util/object2'
 
 describe('CounterDB List', () => {
@@ -7,12 +7,12 @@ describe('CounterDB List', () => {
   let cdb: CounterDB
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    cdb = await omanGetObject('CounterDB') as CounterDB
+    initObjectContext('config/raysoda-test.json')
+    cdb = await getObject('CounterDB') as CounterDB
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('init table', async () => {

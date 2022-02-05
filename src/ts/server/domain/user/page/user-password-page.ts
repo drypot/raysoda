@@ -1,10 +1,10 @@
-import { omanGetObject } from '@server/oman/oman'
+import { getObject } from '@server/oman/oman'
 import { Express2 } from '@server/express/express2'
 import { renderHtml } from '@server/express/response'
 
 export async function useUserPwResetPage() {
 
-  const web = await omanGetObject('Express2') as Express2
+  const web = await getObject('Express2') as Express2
 
   web.router.get('/user-password-mail', function (req, res, done) {
     renderHtml(res, 'user/user-password-mail')

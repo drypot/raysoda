@@ -1,4 +1,4 @@
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { DB } from '@server/db/_db/db'
 
 describe('DB.queryOne', () => {
@@ -6,12 +6,12 @@ describe('DB.queryOne', () => {
   let db: DB
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    db = await omanGetObject('DB') as DB
+    initObjectContext('config/raysoda-test.json')
+    db = await getObject('DB') as DB
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('when there is something', async () => {

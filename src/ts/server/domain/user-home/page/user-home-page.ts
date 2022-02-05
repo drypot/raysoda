@@ -1,11 +1,11 @@
-import { omanGetConfig, omanGetObject } from '@server/oman/oman'
+import { getConfig, getObject } from '@server/oman/oman'
 import { User } from '@common/type/user'
 import { renderHtml, throw404 } from '@server/express/response'
 import { newLimitedNumber, newNumber } from '@common/util/primitive'
 import { Express2, toCallback } from '@server/express/express2'
 import { userCanUpdateUser } from '@server/domain/user/_service/user-auth'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
-import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
+import { getImageFileManager } from '@server/fileman/_fileman-loader'
 import { UrlMaker } from '@common/util/url2'
 import { ImageDB } from '@server/db/image/image-db'
 import { UserDB } from '@server/db/user/user-db'
@@ -17,10 +17,10 @@ import { parseDate } from '@common/util/date2'
 
 export async function useUserHomePage() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const udb = await omanGetObject('UserDB') as UserDB
-  const idb = await omanGetObject('ImageDB') as ImageDB
-  const ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
+  const web = await getObject('Express2') as Express2
+  const udb = await getObject('UserDB') as UserDB
+  const idb = await getObject('ImageDB') as ImageDB
+  const ifm = await getImageFileManager(getConfig().appNamel)
 
   web.router.get('/user-id/:id([0-9]+)', toCallback(async (req, res) => {
     const id = newNumber(req.params.id)

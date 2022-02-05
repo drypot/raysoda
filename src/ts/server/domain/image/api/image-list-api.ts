@@ -1,8 +1,8 @@
 import { fillImagePage } from '@server/domain/image/_service/image-list'
 import { Express2, toCallback } from '@server/express/express2'
-import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
+import { getImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
-import { omanGetConfig, omanGetObject } from '@server/oman/oman'
+import { getConfig, getObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { parseDate } from '@common/util/date2'
 import { getFirstImageCdate } from '@server/domain/image/_service/image-detail'
@@ -13,10 +13,10 @@ import { newImagePage } from '@common/type/image-list'
 
 export async function useImageListApi() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const udb = await omanGetObject('UserDB') as UserDB
-  const idb = await omanGetObject('ImageDB') as ImageDB
-  const ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
+  const web = await getObject('Express2') as Express2
+  const udb = await getObject('UserDB') as UserDB
+  const idb = await getObject('ImageDB') as ImageDB
+  const ifm = await getImageFileManager(getConfig().appNamel)
 
   web.router.get('/api/image-list', toCallback(async (req, res) => {
     const page = newImagePage()

@@ -4,13 +4,13 @@ import { assertAdmin, assertLoggedIn } from '@server/domain/user/_service/user-a
 import { BannerDB } from '@server/db/banner/banner-db'
 import { Banner } from '@common/type/banner'
 import { getBannerList, updateBannerList } from '@server/domain/banner/_service/banner-service'
-import { omanGetObject } from '@server/oman/oman'
+import { getObject } from '@server/oman/oman'
 import { renderJson } from '@server/express/response'
 
 export async function useBannerApi() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const bdb = await omanGetObject('BannerDB') as BannerDB
+  const web = await getObject('Express2') as Express2
+  const bdb = await getObject('BannerDB') as BannerDB
 
   web.router.get('/api/banner-list', toCallback(async (req, res) => {
     const list = getBannerList(bdb)

@@ -1,5 +1,5 @@
 import { UserDB } from '@server/db/user/user-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { insertUserFix1 } from '@server/db/user/fixture/user-fix'
 import { dupe } from '@common/util/object2'
 import { User } from '@common/type/user'
@@ -9,12 +9,12 @@ describe('UserDB.update', () => {
   let udb: UserDB
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    udb = await omanGetObject('UserDB') as UserDB
+    initObjectContext('config/raysoda-test.json')
+    udb = await getObject('UserDB') as UserDB
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('init table', async () => {

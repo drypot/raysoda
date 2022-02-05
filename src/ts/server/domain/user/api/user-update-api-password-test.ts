@@ -3,7 +3,7 @@ import { useUserUpdateApi } from '@server/domain/user/api/user-update-api'
 import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { NOT_AUTHORIZED, PASSWORD_RANGE } from '@common/type/error-const'
 import { checkHash } from '@common/util/hash'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
@@ -18,9 +18,9 @@ describe('UserUpdateApi Update', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    udb = await omanGetObject('UserDB') as UserDB
-    web = await omanGetObject('Express2') as Express2
+    initObjectContext('config/raysoda-test.json')
+    udb = await getObject('UserDB') as UserDB
+    web = await getObject('Express2') as Express2
     await useUserAuthApi()
     await useUserUpdateApi()
     await web.start()
@@ -28,7 +28,7 @@ describe('UserUpdateApi Update', () => {
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('init table', async () => {

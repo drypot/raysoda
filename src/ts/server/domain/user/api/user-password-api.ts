@@ -2,7 +2,7 @@ import { ErrorConst } from '@common/type/error'
 import { PwMailDB } from '@server/db/password/pwmail-db'
 import { Express2, toCallback } from '@server/express/express2'
 import { mailUserPassword, resetUserPassword } from '@server/domain/user/_service/user-password'
-import { omanGetObject } from '@server/oman/oman'
+import { getObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { Mailer } from '@server/mailer/mailer2'
 import { NewPasswordForm } from '@common/type/password'
@@ -11,10 +11,10 @@ import { renderJson } from '@server/express/response'
 
 export async function useUserPasswordApi() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const udb = await omanGetObject('UserDB') as UserDB
-  const rdb = await omanGetObject('PwMailDB') as PwMailDB
-  const mailer = await omanGetObject('Mailer') as Mailer
+  const web = await getObject('Express2') as Express2
+  const udb = await getObject('UserDB') as UserDB
+  const rdb = await getObject('PwMailDB') as PwMailDB
+  const mailer = await getObject('Mailer') as Mailer
 
   web.router.post('/api/user-password-mail', toCallback(async (req, res) => {
     const email = newString(req.body.email).trim()

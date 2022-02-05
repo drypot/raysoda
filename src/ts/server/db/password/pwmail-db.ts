@@ -1,10 +1,10 @@
 import { PasswordMailLog } from '@common/type/password'
-import { omanGetObject, omanRegisterFactory } from '@server/oman/oman'
+import { getObject, registerObjectFactory } from '@server/oman/oman'
 import { DB } from '@server/db/_db/db'
 import { inProduction } from '@common/util/env2'
 
-omanRegisterFactory('PwMailDB', async () => {
-  const rdb = PwMailDB.from(await omanGetObject('DB') as DB)
+registerObjectFactory('PwMailDB', async () => {
+  const rdb = PwMailDB.from(await getObject('DB') as DB)
   await rdb.createTable()
   return rdb
 })

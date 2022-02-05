@@ -4,14 +4,14 @@ import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { getUserForUpdateProfile } from '@server/domain/user/_service/user-update'
 import { renderHtml } from '@server/express/response'
 import { newNumber } from '@common/util/primitive'
-import { omanGetConfig, omanGetObject } from '@server/oman/oman'
+import { getConfig, getObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { assertAdmin, assertLoggedIn } from '@server/domain/user/_service/user-auth'
 
 export async function useUserUpdatePage() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const udb = await omanGetObject('UserDB') as UserDB
+  const web = await getObject('Express2') as Express2
+  const udb = await getObject('UserDB') as UserDB
 
   web.router.get('/user-update-profile/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)
@@ -22,7 +22,7 @@ export async function useUserUpdatePage() {
     const userForm = await getUserForUpdateProfile(udb, user, id, err)
     if (!userForm || err.length) throw err
 
-    const config = omanGetConfig()
+    const config = getConfig()
 
     renderHtml(res, 'user/user-update-profile', {
       form: {

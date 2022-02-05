@@ -1,12 +1,12 @@
 import mysql, { Connection, QueryOptions } from 'mysql'
 import { Config } from '@common/type/config'
 import { inProduction } from '@common/util/env2'
-import { omanGetConfig, omanRegisterCloser, omanRegisterFactory } from '../../oman/oman'
+import { getConfig, registerObjectCloser, registerObjectFactory } from '../../oman/oman'
 
-omanRegisterFactory('DB', async () => {
-  const db = DB.from(omanGetConfig())
+registerObjectFactory('DB', async () => {
+  const db = DB.from(getConfig())
   await db.createDatabase()
-  omanRegisterCloser(async () => {
+  registerObjectCloser(async () => {
     await db.close()
   })
   return db

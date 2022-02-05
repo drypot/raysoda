@@ -11,7 +11,7 @@ import { checkHash } from '@common/util/hash'
 import { UserLoginForm } from '@common/type/user-form'
 import { newString } from '@common/util/primitive'
 import { ErrorConst } from '@common/type/error'
-import { omanGetObject } from '@server/oman/oman'
+import { getObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { Request, Response } from 'express'
 import { renderJson } from '@server/express/response'
@@ -19,8 +19,8 @@ import { renderJson } from '@server/express/response'
 
 export async function useUserAuthApi() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const udb = await omanGetObject('UserDB') as UserDB
+  const web = await getObject('Express2') as Express2
+  const udb = await getObject('UserDB') as UserDB
 
   web.router.get('/api/user-login-info', toCallback(async function (req, res) {
     const user = userGetSessionUser(res)

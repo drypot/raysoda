@@ -1,7 +1,7 @@
 import { ErrorConst } from '@common/type/error'
 import { existsSync } from 'fs'
 import { IMAGE_SIZE } from '@common/type/error-const'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { RapixelFileManager } from '@server/fileman/rapixel-fileman'
 import { newImageMeta } from '@common/type/image-meta'
 import { getImageMetaOfFile } from '@server/fileman/magick/magick2'
@@ -12,12 +12,12 @@ describe('RapixelFileManager', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    omanNewSession('config/rapixel-test.json')
-    ifm = await omanGetObject('RapixelFileManager') as RapixelFileManager
+    initObjectContext('config/rapixel-test.json')
+    ifm = await getObject('RapixelFileManager') as RapixelFileManager
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   describe('path', () => {

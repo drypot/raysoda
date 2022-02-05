@@ -1,12 +1,12 @@
-import { omanGetObject, omanRegisterFactory } from '@server/oman/oman'
+import { getObject, registerObjectFactory } from '@server/oman/oman'
 import { Image } from '@common/type/image'
 import { DB } from '@server/db/_db/db'
 import { inProduction } from '@common/util/env2'
 import { PageParam } from '@common/type/page'
 import { ImagePage } from '@common/type/image-list'
 
-omanRegisterFactory('ImageDB', async () => {
-  const idb = ImageDB.from(await omanGetObject('DB') as DB)
+registerObjectFactory('ImageDB', async () => {
+  const idb = ImageDB.from(await getObject('DB') as DB)
   await idb.createTable()
   return idb
 })

@@ -4,19 +4,19 @@ import { UpdateImageForm } from '@common/type/image-form'
 import { deleteUpload, Uploader } from '@server/express/uploader'
 import { ErrorConst } from '@common/type/error'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
-import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
+import { getImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
-import { omanGetConfig, omanGetObject } from '@server/oman/oman'
+import { getConfig, getObject } from '@server/oman/oman'
 import { assertLoggedIn } from '@server/domain/user/_service/user-auth'
 import { getImageForUpdate, updateImage } from '@server/domain/image/_service/image-update'
 import { renderJson } from '@server/express/response'
 
 export async function useImageUpdateApi() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const uploader = await omanGetObject('Uploader') as Uploader
-  const idb = await omanGetObject('ImageDB') as ImageDB
-  const ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
+  const web = await getObject('Express2') as Express2
+  const uploader = await getObject('Uploader') as Uploader
+  const idb = await getObject('ImageDB') as ImageDB
+  const ifm = await getImageFileManager(getConfig().appNamel)
 
   web.router.get('/api/image-update-get/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)

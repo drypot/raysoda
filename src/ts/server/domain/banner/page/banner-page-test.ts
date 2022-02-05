@@ -1,6 +1,6 @@
 import supertest, { SuperAgentTest } from 'supertest'
 import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
@@ -16,10 +16,10 @@ describe('BannerPage', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    udb = await omanGetObject('UserDB') as UserDB
-    bdb = await omanGetObject('BannerDB') as BannerDB
-    web = await omanGetObject('Express2') as Express2
+    initObjectContext('config/raysoda-test.json')
+    udb = await getObject('UserDB') as UserDB
+    bdb = await getObject('BannerDB') as BannerDB
+    web = await getObject('Express2') as Express2
     await useUserAuthApi()
     await useBannerPage()
     await web.start()
@@ -27,7 +27,7 @@ describe('BannerPage', () => {
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   beforeAll(async () => {

@@ -2,14 +2,14 @@ import { Express2 } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { newUserIdCard } from '@common/type/user'
 import { BannerDB } from '@server/db/banner/banner-db'
-import { omanGetConfig, omanGetObject } from '@server/oman/oman'
+import { getConfig, getObject } from '@server/oman/oman'
 import { newConfigForClient } from '@common/type/config'
 
 export async function useSpaInitApi() {
 
-  const config = omanGetConfig()
-  const web = await omanGetObject('Express2') as Express2
-  const bdb = await omanGetObject('BannerDB') as BannerDB
+  const config = getConfig()
+  const web = await getObject('Express2') as Express2
+  const bdb = await getObject('BannerDB') as BannerDB
 
   const configStr = JSON.stringify(newConfigForClient(config))
 

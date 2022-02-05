@@ -2,7 +2,7 @@ import { OsokyFileManager } from '@server/fileman/osoky-fileman'
 import { ErrorConst } from '@common/type/error'
 import { existsSync } from 'fs'
 import { IMAGE_SIZE } from '@common/type/error-const'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { newImageMeta } from '@common/type/image-meta'
 import { getImageMetaOfFile } from '@server/fileman/magick/magick2'
 import { ImageFileManager } from '@server/fileman/_fileman'
@@ -12,12 +12,12 @@ describe('OsokyFileManager', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    omanNewSession('config/osoky-test.json')
-    ifm = await omanGetObject('OsokyFileManager') as OsokyFileManager
+    initObjectContext('config/osoky-test.json')
+    ifm = await getObject('OsokyFileManager') as OsokyFileManager
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   describe('path', () => {

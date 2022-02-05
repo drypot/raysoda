@@ -1,4 +1,4 @@
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '../../oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman'
 import { DB } from '../_db/db'
 import { BannerDB } from '@server/db/banner/banner-db'
 
@@ -8,13 +8,13 @@ describe('ValueDB Table', () => {
   let bdb: BannerDB
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    db = await omanGetObject('DB') as DB
-    bdb = await omanGetObject('BannerDB') as BannerDB
+    initObjectContext('config/raysoda-test.json')
+    db = await getObject('DB') as DB
+    bdb = await getObject('BannerDB') as BannerDB
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('init table', async () => {

@@ -3,7 +3,7 @@ import { newImage } from '@common/type/image'
 import { ImageDB } from '@server/db/image/image-db'
 import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
 import { UserDB } from '@server/db/user/user-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { RaySodaFileManager } from '@server/fileman/raysoda-fileman'
 import { ImageFileManager } from '@server/fileman/_fileman'
 
@@ -14,14 +14,14 @@ describe('LeftTicket', () => {
   let ifm: ImageFileManager
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    udb = await omanGetObject('UserDB') as UserDB
-    idb = await omanGetObject('ImageDB') as ImageDB
-    ifm = await omanGetObject('RaySodaFileManager') as RaySodaFileManager
+    initObjectContext('config/raysoda-test.json')
+    udb = await getObject('UserDB') as UserDB
+    idb = await getObject('ImageDB') as ImageDB
+    ifm = await getObject('RaySodaFileManager') as RaySodaFileManager
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   beforeAll(async () => {

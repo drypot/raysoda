@@ -7,11 +7,11 @@ import { ImageMeta } from '@common/type/image-meta'
 import { getImageMetaOfFile } from '@server/fileman/magick/magick2'
 import { ImageFileManager } from '@server/fileman/_fileman'
 import { newDeepPath } from '@common/util/deeppath'
-import { omanGetConfig, omanRegisterFactory } from '@server/oman/oman'
+import { getConfig, registerObjectFactory } from '@server/oman/oman'
 import { inProduction } from '@common/util/env2'
 
-omanRegisterFactory('DrypotFileManager', async () => {
-  return DrypotFileManager.from(omanGetConfig())
+registerObjectFactory('DrypotFileManager', async () => {
+  return DrypotFileManager.from(getConfig())
 })
 
 export class DrypotFileManager implements ImageFileManager {

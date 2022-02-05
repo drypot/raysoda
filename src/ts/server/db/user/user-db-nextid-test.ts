@@ -1,17 +1,17 @@
 import { UserDB } from '@server/db/user/user-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 
 describe('UserDB NextId', () => {
 
   let udb: UserDB
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    udb = await omanGetObject('UserDB') as UserDB
+    initObjectContext('config/raysoda-test.json')
+    udb = await getObject('UserDB') as UserDB
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('init table', async () => {

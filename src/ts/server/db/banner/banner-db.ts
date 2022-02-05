@@ -1,10 +1,10 @@
 import { Banner } from '@common/type/banner'
-import { omanGetObject, omanRegisterFactory } from '@server/oman/oman'
+import { getObject, registerObjectFactory } from '@server/oman/oman'
 import { DB } from '@server/db/_db/db'
 import { inProduction } from '@common/util/env2'
 
-omanRegisterFactory('BannerDB', async () => {
-  const bdb = BannerDB.from(await omanGetObject('DB') as DB)
+registerObjectFactory('BannerDB', async () => {
+  const bdb = BannerDB.from(await getObject('DB') as DB)
   await bdb.createTable()
   await bdb.loadCache()
   return bdb

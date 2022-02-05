@@ -2,11 +2,11 @@ import { fillImagePage } from '@server/domain/image/_service/image-list'
 import { parseDate } from '@common/util/date2'
 import { renderHtml } from '@server/express/response'
 import { Express2, toCallback } from '@server/express/express2'
-import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
+import { getImageFileManager } from '@server/fileman/_fileman-loader'
 import { UrlMaker } from '@common/util/url2'
 import { BannerDB } from '@server/db/banner/banner-db'
 import { ImageDB } from '@server/db/image/image-db'
-import { omanGetConfig, omanGetObject } from '@server/oman/oman'
+import { getConfig, getObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { newLimitedNumber } from '@common/util/primitive'
 import { Request, Response } from 'express'
@@ -15,11 +15,11 @@ import { newPageParam } from '@common/type/page'
 
 export async function useImageListPage() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const udb = await omanGetObject('UserDB') as UserDB
-  const idb = await omanGetObject('ImageDB') as ImageDB
-  const ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
-  const bdb = await omanGetObject('BannerDB') as BannerDB
+  const web = await getObject('Express2') as Express2
+  const udb = await getObject('UserDB') as UserDB
+  const idb = await getObject('ImageDB') as ImageDB
+  const ifm = await getImageFileManager(getConfig().appNamel)
+  const bdb = await getObject('BannerDB') as BannerDB
 
   web.router.get('/', toCallback(listHandler))
 

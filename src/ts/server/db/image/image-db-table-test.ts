@@ -1,5 +1,5 @@
 import { ImageDB } from '@server/db/image/image-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { DB } from '@server/db/_db/db'
 
 describe('ImageDB.*Table', () => {
@@ -8,13 +8,13 @@ describe('ImageDB.*Table', () => {
   let idb: ImageDB
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    db = await omanGetObject('DB') as DB
-    idb = await omanGetObject('ImageDB') as ImageDB
+    initObjectContext('config/raysoda-test.json')
+    db = await getObject('DB') as DB
+    idb = await getObject('ImageDB') as ImageDB
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('drop table', async () => {

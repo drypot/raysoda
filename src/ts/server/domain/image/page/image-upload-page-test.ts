@@ -1,12 +1,12 @@
 import supertest, { SuperAgentTest } from 'supertest'
 import { insertUserFix4, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { ImageFileManager } from '@server/fileman/_fileman'
-import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getConfig, getObject, initObjectContext } from '@server/oman/oman'
 import { useImageUploadPage } from '@server/domain/image/page/image-upload-page'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
 import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
-import { omanGetImageFileManager } from '@server/fileman/_fileman-loader'
+import { getImageFileManager } from '@server/fileman/_fileman-loader'
 import { ImageDB } from '@server/db/image/image-db'
 import { UserDB } from '@server/db/user/user-db'
 
@@ -19,11 +19,11 @@ describe('ImageUploadPage', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    udb = await omanGetObject('UserDB') as UserDB
-    idb = await omanGetObject('ImageDB') as ImageDB
-    ifm = await omanGetImageFileManager(omanGetConfig().appNamel)
-    web = await omanGetObject('Express2') as Express2
+    initObjectContext('config/raysoda-test.json')
+    udb = await getObject('UserDB') as UserDB
+    idb = await getObject('ImageDB') as ImageDB
+    ifm = await getImageFileManager(getConfig().appNamel)
+    web = await getObject('Express2') as Express2
     await useUserAuthApi()
     await useImageUploadPage()
     await web.start()
@@ -31,7 +31,7 @@ describe('ImageUploadPage', () => {
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   beforeAll(async () => {

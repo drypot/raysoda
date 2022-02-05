@@ -9,15 +9,15 @@ import {
   updateUserProfile,
   updateUserStatus
 } from '@server/domain/user/_service/user-update'
-import { omanGetObject } from '@server/oman/oman'
+import { getObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { assertLoggedIn } from '@server/domain/user/_service/user-auth'
 import { renderJson } from '@server/express/response'
 
 export async function useUserUpdateApi() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const udb = await omanGetObject('UserDB') as UserDB
+  const web = await getObject('Express2') as Express2
+  const udb = await getObject('UserDB') as UserDB
 
   web.router.get('/api/user-update-profile-get/:id([0-9]+)', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)

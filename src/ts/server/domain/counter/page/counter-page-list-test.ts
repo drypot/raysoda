@@ -1,7 +1,7 @@
 import supertest, { SuperAgentTest } from 'supertest'
 import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
 import { useCounterPage } from '@server/domain/counter/page/counter-page'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { CounterDB } from '@server/db/counter/counter-db'
 import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
 import { Express2 } from '@server/express/express2'
@@ -16,10 +16,10 @@ describe('CounterPage List', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    udb = await omanGetObject('UserDB') as UserDB
-    cdb = await omanGetObject('CounterDB') as CounterDB
-    web = await omanGetObject('Express2') as Express2
+    initObjectContext('config/raysoda-test.json')
+    udb = await getObject('UserDB') as UserDB
+    cdb = await getObject('CounterDB') as CounterDB
+    web = await getObject('Express2') as Express2
     await useUserAuthApi()
     await useCounterPage()
     await web.start()
@@ -27,7 +27,7 @@ describe('CounterPage List', () => {
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   beforeAll(async () => {

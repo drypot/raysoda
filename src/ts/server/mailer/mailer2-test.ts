@@ -1,17 +1,17 @@
 import { Mailer } from '@server/mailer/mailer2'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 
 describe('Mailer', () => {
 
   let mailer: Mailer
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    mailer = await omanGetObject('Mailer') as Mailer
+    initObjectContext('config/raysoda-test.json')
+    mailer = await getObject('Mailer') as Mailer
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   describe('sendMail', () => {

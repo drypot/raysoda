@@ -1,4 +1,4 @@
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import supertest, { SuperAgentTest } from 'supertest'
 import { useUserPasswordApi } from '@server/domain/user/api/user-password-api'
 import { Mailer } from '@server/mailer/mailer2'
@@ -27,11 +27,11 @@ describe('UserPwResetApi', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    udb = await omanGetObject('UserDB') as UserDB
-    rdb = await omanGetObject('PwMailDB') as PwMailDB
-    mailer = await omanGetObject('Mailer') as Mailer
-    web = await omanGetObject('Express2') as Express2
+    initObjectContext('config/raysoda-test.json')
+    udb = await getObject('UserDB') as UserDB
+    rdb = await getObject('PwMailDB') as PwMailDB
+    mailer = await getObject('Mailer') as Mailer
+    web = await getObject('Express2') as Express2
     await useUserAuthApi()
     await useUserPasswordApi()
     await web.start()
@@ -39,7 +39,7 @@ describe('UserPwResetApi', () => {
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('init table', async () => {

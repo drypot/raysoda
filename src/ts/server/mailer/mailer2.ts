@@ -1,10 +1,10 @@
 import * as fs from 'fs'
 import nodemailer, { Transporter } from 'nodemailer'
 import Mail from 'nodemailer/lib/mailer'
-import { omanGetConfig, omanRegisterFactory } from '@server/oman/oman'
+import { getConfig, registerObjectFactory } from '@server/oman/oman'
 
-omanRegisterFactory('Mailer', async () => {
-  return Mailer.from(omanGetConfig().mailServerConfigPath)
+registerObjectFactory('Mailer', async () => {
+  return Mailer.from(getConfig().mailServerConfigPath)
 })
 
 export class Mailer {

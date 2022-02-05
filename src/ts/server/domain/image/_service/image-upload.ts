@@ -5,7 +5,7 @@ import { UserDB } from '@server/db/user/user-db'
 import { IMAGE_NO_FILE } from '@common/type/error-const'
 import { Image } from '@common/type/image'
 import { ImageFileManager } from '@server/fileman/_fileman'
-import { omanGetConfig } from '@server/oman/oman'
+import { getConfig } from '@server/oman/oman'
 import { User } from '@common/type/user'
 
 export async function uploadImage(
@@ -53,7 +53,7 @@ export async function uploadImage(
 }
 
 export async function getLeftTicket(idb: ImageDB, uid: number, now: Date) {
-  const config = omanGetConfig()
+  const config = getConfig()
   let ticket = config.ticketMax  // 한번에 받게 되는 티켓 갯수
   let hour = 0  // 새 티켓을 받을 때까지 남은 시간
   const r = await idb.getCdateListByUser(uid, ticket)

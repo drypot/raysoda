@@ -16,7 +16,7 @@ import { useUserAuthPage } from '@server/domain/user/page/user-auth-page'
 import { useUserListApi } from '@server/domain/user/api/user-list-api'
 import { useSpaInitApi } from '@server/domain/spa/spa-init-api'
 import { useImageDetailPage } from '@server/domain/image/page/image-detail-page'
-import { omanCloseAllObjects, omanGetConfig, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getConfig, getObject, initObjectContext } from '@server/oman/oman'
 import { useRedirect } from '@server/domain/redirect/redirect'
 import { useUserUpdatePage } from '@server/domain/user/page/user-update-page'
 import { useImageUpdatePage } from '@server/domain/image/page/image-update-page'
@@ -36,9 +36,9 @@ import { useSamplePage } from '@server/domain/_sample/page/sample-page'
 async function main() {
   const configPath = process.argv[2]
 
-  omanNewSession(configPath)
+  initObjectContext(configPath)
 
-  const web = await omanGetObject('Express2') as Express2
+  const web = await getObject('Express2') as Express2
   web.logError = inDev()
 
   await useImageListApi()
@@ -81,7 +81,7 @@ async function main() {
   await useSamplePage()
 
   async function closeAll() {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   }
 
   process.on('uncaughtException', function (err) {
@@ -99,7 +99,7 @@ async function main() {
   })
 
   web.start().then(() => {
-    const config = omanGetConfig()
+    const config = getConfig()
     //console.log(config)
     console.log('server started.')
     console.log('http://localhost:' + config.port)

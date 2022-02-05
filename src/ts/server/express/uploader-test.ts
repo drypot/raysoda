@@ -1,7 +1,7 @@
 import { Express2 } from '@server/express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
 import { existsSync, unlinkSync } from 'fs'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { deleteUpload, Uploader } from '@server/express/uploader'
 import { timeout } from '@common/util/async2'
 
@@ -12,15 +12,15 @@ describe('Express2 Upload', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    web = await omanGetObject('Express2') as Express2
-    uploader = await omanGetObject('Uploader') as Uploader
+    initObjectContext('config/raysoda-test.json')
+    web = await getObject('Express2') as Express2
+    uploader = await getObject('Uploader') as Uploader
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   const f1 = 'sample/text1.txt'

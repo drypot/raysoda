@@ -3,14 +3,14 @@ import { PwMailDB } from '@server/db/password/pwmail-db'
 import { logError } from '@common/util/error2'
 import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
 import { mailUserPassword } from '@server/domain/user/_service/user-password'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { Mailer } from '@server/mailer/mailer2'
 
 async function main() {
-  omanNewSession('config/raysoda-test.json')
-  const udb = await omanGetObject('UserDB') as UserDB
-  const rdb = await omanGetObject('PwMailDB') as PwMailDB
+  initObjectContext('config/raysoda-test.json')
+  const udb = await getObject('UserDB') as UserDB
+  const rdb = await getObject('PwMailDB') as PwMailDB
 
   await udb.dropTable()
   await udb.createTable()
@@ -19,7 +19,7 @@ async function main() {
   await rdb.dropTable()
   await rdb.createTable()
 
-  const mailer = await omanGetObject('Mailer') as Mailer
+  const mailer = await getObject('Mailer') as Mailer
   mailer.loadConfig('config/mail-dev.json')
 
   const email = process.argv[2]
@@ -30,7 +30,7 @@ async function main() {
 
 main().then(() => {
   console.log('mail sent.')
-  return omanCloseAllObjects()
+  return closeAllObjects()
 }).catch((err) => {
   logError(err)
 })

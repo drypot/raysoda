@@ -2,12 +2,12 @@ import newMulter, { Multer } from 'multer'
 import { emptyDirSync, mkdirRecursiveSync } from '@common/util/fs2'
 import { ExpressCallbackHandler, ExpressPromiseHandler } from '@server/express/express2'
 import { unlink } from 'fs'
-import { omanGetConfig, omanRegisterFactory } from '@server/oman/oman'
+import { getConfig, registerObjectFactory } from '@server/oman/oman'
 
 export type Uploader = Multer
 
-omanRegisterFactory('Uploader', async() => {
-  const config = omanGetConfig()
+registerObjectFactory('Uploader', async() => {
+  const config = getConfig()
   if (!config.uploadDir) {
     throw new Error('config.uploadDir should be defined')
   }

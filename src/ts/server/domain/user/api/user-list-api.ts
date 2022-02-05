@@ -2,7 +2,7 @@ import { getUserList, searchUser } from '@server/domain/user/_service/user-list'
 import { Express2, toCallback } from '@server/express/express2'
 import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { UserListItem } from '@common/type/user-detail'
-import { omanGetObject } from '@server/oman/oman'
+import { getObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 import { userIsAdmin } from '@common/type/user'
 import { newLimitedNumber, newString } from '@common/util/primitive'
@@ -10,8 +10,8 @@ import { renderJson } from '@server/express/response'
 
 export async function useUserListApi() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const udb = await omanGetObject('UserDB') as UserDB
+  const web = await getObject('Express2') as Express2
+  const udb = await getObject('UserDB') as UserDB
 
   web.router.get('/api/user-list', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)

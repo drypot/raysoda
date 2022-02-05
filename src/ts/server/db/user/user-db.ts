@@ -1,12 +1,12 @@
 import { User } from '@common/type/user'
 import { UserListItem } from '@common/type/user-detail'
-import { omanGetObject, omanRegisterFactory } from '@server/oman/oman'
+import { getObject, registerObjectFactory } from '@server/oman/oman'
 import { UserCache } from '@server/db/user/user-cache'
 import { DB } from '@server/db/_db/db'
 import { inProduction } from '@common/util/env2'
 
-omanRegisterFactory('UserDB', async () => {
-  const udb = UserDB.from(await omanGetObject('DB') as DB)
+registerObjectFactory('UserDB', async () => {
+  const udb = UserDB.from(await getObject('DB') as DB)
   await udb.createTable()
   return udb
 })

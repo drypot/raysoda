@@ -1,11 +1,11 @@
 import { Express2 } from '@server/express/express2'
-import { omanGetObject } from '@server/oman/oman'
+import { getObject } from '@server/oman/oman'
 import { UserDB } from '@server/db/user/user-db'
 
 export async function useRedirect() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const udb = await omanGetObject('UserDB') as UserDB
+  const web = await getObject('Express2') as Express2
+  const udb = await getObject('UserDB') as UserDB
 
   web.router.get('/Com/Photo/View.aspx', function (req, res) {
     res.redirect(301, '/image/' + req.query.p)

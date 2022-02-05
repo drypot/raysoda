@@ -1,17 +1,17 @@
 import { ImageDB } from '@server/db/image/image-db'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 
 describe('ImageDB.*NextId', () => {
 
   let idb: ImageDB
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    idb = await omanGetObject('ImageDB') as ImageDB
+    initObjectContext('config/raysoda-test.json')
+    idb = await getObject('ImageDB') as ImageDB
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('init table', async () => {

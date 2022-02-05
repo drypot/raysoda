@@ -1,18 +1,18 @@
 import { PwMailDB } from '@server/db/password/pwmail-db'
 import { PasswordMailLog } from '@common/type/password'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 
 describe('PwMailDB Token', () => {
 
   let rdb: PwMailDB
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    rdb = await omanGetObject('PwMailDB') as PwMailDB
+    initObjectContext('config/raysoda-test.json')
+    rdb = await getObject('PwMailDB') as PwMailDB
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   const random = 'x'.repeat(32)

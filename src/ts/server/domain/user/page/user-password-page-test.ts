@@ -1,7 +1,7 @@
 import { UserDB } from '@server/db/user/user-db'
 import { Express2 } from '@server/express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 import { useUserPwResetPage } from '@server/domain/user/page/user-password-page'
 
 describe('UserPasswordPage', () => {
@@ -11,16 +11,16 @@ describe('UserPasswordPage', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    udb = await omanGetObject('UserDB') as UserDB
-    web = await omanGetObject('Express2') as Express2
+    initObjectContext('config/raysoda-test.json')
+    udb = await getObject('UserDB') as UserDB
+    web = await getObject('Express2') as Express2
     await useUserPwResetPage()
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('1', async () => {

@@ -1,11 +1,11 @@
 import { dateToStringNoTime } from '@common/util/date2'
 import { Counter } from '@common/type/counter'
-import { omanGetObject, omanRegisterFactory } from '@server/oman/oman'
+import { getObject, registerObjectFactory } from '@server/oman/oman'
 import { DB } from '@server/db/_db/db'
 import { inProduction } from '@common/util/env2'
 
-omanRegisterFactory('CounterDB', async () => {
-  const cdb = CounterDB.from(await omanGetObject('DB') as DB)
+registerObjectFactory('CounterDB', async () => {
+  const cdb = CounterDB.from(await getObject('DB') as DB)
   await cdb.createTable()
   return cdb
 })

@@ -3,12 +3,12 @@ import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
 import { assertAdmin, assertLoggedIn } from '@server/domain/user/_service/user-auth'
 import { BannerDB } from '@server/db/banner/banner-db'
 import { renderHtml } from '@server/express/response'
-import { omanGetObject } from '@server/oman/oman'
+import { getObject } from '@server/oman/oman'
 
 export async function useBannerPage() {
 
-  const web = await omanGetObject('Express2') as Express2
-  const bdb = await omanGetObject('BannerDB') as BannerDB
+  const web = await getObject('Express2') as Express2
+  const bdb = await getObject('BannerDB') as BannerDB
 
   web.router.get('/banner-update', toCallback(async (req, res) => {
     const user = userGetSessionUser(res)

@@ -1,6 +1,6 @@
 import { Express2, toCallback } from '@server/express/express2'
 import supertest, { SuperAgentTest } from 'supertest'
-import { omanCloseAllObjects, omanGetObject, omanNewSession } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
 
 describe('Express2 toCallback', () => {
 
@@ -8,14 +8,14 @@ describe('Express2 toCallback', () => {
   let sat: SuperAgentTest
 
   beforeAll(async () => {
-    omanNewSession('config/raysoda-test.json')
-    web = await omanGetObject('Express2') as Express2
+    initObjectContext('config/raysoda-test.json')
+    web = await getObject('Express2') as Express2
     await web.start()
     sat = supertest.agent(web.server)
   })
 
   afterAll(async () => {
-    await omanCloseAllObjects()
+    await closeAllObjects()
   })
 
   it('setup promise handler', () => {

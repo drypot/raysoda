@@ -8,7 +8,7 @@ import * as http from 'http'
 import { newErrorConst } from '@common/util/error2'
 import { Config } from '@common/type/config'
 import { inDev, inProduction } from '@common/util/env2'
-import { omanGetConfig, omanRegisterCloser, omanRegisterFactory } from '../oman/oman'
+import { getConfig, registerObjectCloser, registerObjectFactory } from '../oman/oman'
 import { INVALID_DATA } from '@common/type/error-const'
 import { renderJson } from '@server/express/response'
 
@@ -21,9 +21,9 @@ declare module 'express-session' {
   }
 }
 
-omanRegisterFactory('Express2', async () => {
-  const web = Express2.from(omanGetConfig())
-  omanRegisterCloser(async () => {
+registerObjectFactory('Express2', async () => {
+  const web = Express2.from(getConfig())
+  registerObjectCloser(async () => {
     await web.close()
   })
   return web

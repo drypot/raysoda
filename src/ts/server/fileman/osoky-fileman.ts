@@ -6,15 +6,15 @@ import { IMAGE_SIZE, IMAGE_TYPE } from '@common/type/error-const'
 import { getImageMetaOfFile } from '@server/fileman/magick/magick2'
 import { ImageFileManager } from '@server/fileman/_fileman'
 import { newDeepPath } from '@common/util/deeppath'
-import { omanGetConfig, omanRegisterFactory } from '@server/oman/oman'
+import { getConfig, registerObjectFactory } from '@server/oman/oman'
 import { inProduction } from '@common/util/env2'
 import { ErrorConst } from '@common/type/error'
 import { ImageMeta } from '@common/type/image-meta'
 
 const maxWidth = 2048
 
-omanRegisterFactory('OsokyFileManager', async () => {
-  return OsokyFileManager.from(omanGetConfig())
+registerObjectFactory('OsokyFileManager', async () => {
+  return OsokyFileManager.from(getConfig())
 })
 
 export class OsokyFileManager implements ImageFileManager {
