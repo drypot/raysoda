@@ -6,13 +6,13 @@
     <%- include('../_common/head') %>
 </head>
 <body>
-    <% locals.hideHeader = true %>
+    <% const isFirstPage = !locals.prev %>
+    <% locals.hideHeader = isFirstPage %>
     <%- include('../_common/header') %>
 
     <div class="wrapper">
-        <h1 class="default-color-des"><a href="/"><%- locals.config.appName %></a></h1>
-
-        <% if (!locals.prev) { %>
+        <% if (isFirstPage) { %>
+            <h1 class="default-color-des"><a href="/"><%- locals.config.appName %></a></h1>
 
             <%# Banner List %>
             <% if (locals.bannerList.length) { %>
@@ -32,7 +32,7 @@
             <% } %>
 
             <%# Home Menu %>
-            <div class="mt-3xl space-x-var-2 ws-nowrap-des">
+            <div class="mt-2xl space-x-var-2 ws-nowrap-des">
                 <% if (locals.user.id !== -1) { %>
                     <a href='/image-upload'>사진 등록</a>
                     <a href='/user/<%- encodeURIComponent(locals.user.home) %>'>사용자 홈</a>
