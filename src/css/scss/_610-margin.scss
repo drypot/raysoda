@@ -16,6 +16,19 @@
 .mt-7xl { margin-top: $margin-7xl !important; }
 .mt-8xl { margin-top: $margin-8xl !important; }
 
+.first\:mt-xs:first-child  { margin-top: $margin-xs  !important; }
+.first\:mt-sm:first-child  { margin-top: $margin-sm  !important; }
+.first\:mt-md:first-child  { margin-top: $margin-md  !important; }
+.first\:mt-lg:first-child  { margin-top: $margin-lg  !important; }
+.first\:mt-xl:first-child  { margin-top: $margin-xl  !important; }
+.first\:mt-2xl:first-child { margin-top: $margin-2xl !important; }
+.first\:mt-3xl:first-child { margin-top: $margin-3xl !important; }
+.first\:mt-4xl:first-child { margin-top: $margin-4xl !important; }
+.first\:mt-5xl:first-child { margin-top: $margin-5xl !important; }
+.first\:mt-6xl:first-child { margin-top: $margin-6xl !important; }
+.first\:mt-7xl:first-child { margin-top: $margin-7xl !important; }
+.first\:mt-8xl:first-child { margin-top: $margin-8xl !important; }
+
 .mb-xs  { margin-bottom: $margin-xs  !important; }
 .mb-sm  { margin-bottom: $margin-sm  !important; }
 .mb-md  { margin-bottom: $margin-md  !important; }
