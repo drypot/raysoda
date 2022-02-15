@@ -99,6 +99,8 @@ $fs-6xl: var(--fs-6xl);
   --margin-4xl: calc(var(--fs-4xl) * 3);
   --margin-5xl: calc(var(--fs-5xl) * 3.6);
   --margin-6xl: calc(var(--fs-6xl) * 4.2);
+  --margin-7xl: calc(var(--fs-6xl) * 5);
+  --margin-8xl: calc(var(--fs-6xl) * 6);
 }
 
 $margin-xs:  var(--margin-xs);
@@ -111,6 +113,8 @@ $margin-3xl: var(--margin-3xl);
 $margin-4xl: var(--margin-4xl);
 $margin-5xl: var(--margin-5xl);
 $margin-6xl: var(--margin-6xl);
+$margin-7xl: var(--margin-7xl);
+$margin-8xl: var(--margin-8xl);
 
 // Color
 
