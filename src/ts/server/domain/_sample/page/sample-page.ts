@@ -18,5 +18,9 @@ export async function useSamplePage() {
     renderHtml(res, '_sample/sample-modal')
   })
 
+  web.router.get('/sample-margin', function (req, res) {
+    renderHtml(res, '_sample/sample-margin')
+  })
+
 }
 

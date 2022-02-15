@@ -56,6 +56,7 @@ $fs-6xl: var(--fs-6xl);
 // Margin
 
 :root {
+  /*
   --margin-weight: 0.8;
   @include media-sm {
     --margin-weight: 0.9;
@@ -83,6 +84,21 @@ $fs-6xl: var(--fs-6xl);
   --margin-4xl: calc(var(--fs-4xl) * 2 * var(--margin-weight));
   --margin-5xl: calc(var(--fs-5xl) * 2.2 * var(--margin-weight));
   --margin-6xl: calc(var(--fs-6xl) * 2.4 * var(--margin-weight));
+
+  */
+
+  --margin-weight: 1;
+
+  --margin-xs:  calc(var(--fs-xs) * 1);
+  --margin-sm:  calc(var(--fs-sm) * 1.2);
+  --margin-md:  calc(var(--fs-md) * 1.5);
+  --margin-lg:  calc(var(--fs-lg) * 1.8);
+  --margin-xl:  calc(var(--fs-xl) * 2);
+  --margin-2xl: calc(var(--fs-2xl) * 2.2);
+  --margin-3xl: calc(var(--fs-3xl) * 2.4);
+  --margin-4xl: calc(var(--fs-4xl) * 3);
+  --margin-5xl: calc(var(--fs-5xl) * 3.6);
+  --margin-6xl: calc(var(--fs-6xl) * 4.2);
 }
 
 $margin-xs:  var(--margin-xs);

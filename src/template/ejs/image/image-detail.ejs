@@ -25,12 +25,12 @@
         <div class="mt-2xl default-color-des">
             <a href='/user/<%- encodeURIComponent(locals.image.owner.home) %>'><%= locals.image.owner.name %></a>
         </div>
-        <div class="mt-sm fs-sm">
+        <div class="mt-xs fs-xs">
             <%- locals.image.cdateStr.slice(0, 16) %>
         </div>
 
         <% if (locals.image.updatable) { %>
-            <div class="mt-3xl space-x-1">
+            <div class="mt-2xl space-x-1">
                 <button id="update-btn" class="">수정</button>
                 <button id="delete-btn" class="btn-red">삭제</button>
             </div>
