@@ -1,5 +1,6 @@
-@use '000-media' as *;
-@use '010-var' as *;
+@use '200-media' as *;
+@use '210-font-size' as *;
+@use '270-color' as *;
 
 .border   { border: 1px solid $border-color; }
 .border-t { border-top: 1px solid $border-color; }

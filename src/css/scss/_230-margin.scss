@@ -1,0 +1,191 @@
+@use '200-media' as *;
+
+/*
+:root {
+  --margin-weight: 0.8;
+  @include media-sm {
+    --margin-weight: 0.9;
+  }
+  @include media-md {
+    --margin-weight: 1;
+  }
+  @include media-lg {
+    --margin-weight: 1.1;
+  }
+  @include media-xl {
+    --margin-weight: 1.2;
+  }
+  @include media-2xl {
+    --margin-weight: 1.5;
+  }
+
+  --margin-xs:  calc(var(--fs-xs) * 1 * var(--margin-weight));
+  --margin-sm:  calc(var(--fs-sm) * 1 * var(--margin-weight));
+  --margin-md:  calc(var(--fs-md) * 1.2 * var(--margin-weight));
+  --margin-lg:  calc(var(--fs-lg) * 1.2 * var(--margin-weight));
+  --margin-xl:  calc(var(--fs-xl) * 1.5 * var(--margin-weight));
+  --margin-2xl: calc(var(--fs-2xl) * 1.5 * var(--margin-weight));
+  --margin-3xl: calc(var(--fs-3xl) * 1.8 * var(--margin-weight));
+  --margin-4xl: calc(var(--fs-4xl) * 2 * var(--margin-weight));
+  --margin-5xl: calc(var(--fs-5xl) * 2.2 * var(--margin-weight));
+  --margin-6xl: calc(var(--fs-6xl) * 2.4 * var(--margin-weight));
+}
+*/
+
+:root {
+  --margin-weight: 1;
+
+  --margin-xs:  calc(var(--fs-xs) * 1);
+  --margin-sm:  calc(var(--fs-sm) * 1.2);
+  --margin-md:  calc(var(--fs-md) * 1.5);
+  --margin-lg:  calc(var(--fs-lg) * 1.8);
+  --margin-xl:  calc(var(--fs-xl) * 2);
+  --margin-2xl: calc(var(--fs-2xl) * 2.2);
+  --margin-3xl: calc(var(--fs-3xl) * 2.4);
+  --margin-4xl: calc(var(--fs-4xl) * 3);
+  --margin-5xl: calc(var(--fs-5xl) * 3.6);
+  --margin-6xl: calc(var(--fs-6xl) * 4.2);
+  --margin-7xl: calc(var(--fs-6xl) * 5);
+  --margin-8xl: calc(var(--fs-6xl) * 6);
+}
+
+$margin-xs:  var(--margin-xs);
+$margin-sm:  var(--margin-sm);
+$margin-md:  var(--margin-md);
+$margin-lg:  var(--margin-lg);
+$margin-xl:  var(--margin-xl);
+$margin-2xl: var(--margin-2xl);
+$margin-3xl: var(--margin-3xl);
+$margin-4xl: var(--margin-4xl);
+$margin-5xl: var(--margin-5xl);
+$margin-6xl: var(--margin-6xl);
+$margin-7xl: var(--margin-7xl);
+$margin-8xl: var(--margin-8xl);
+
+// Margin Mnemonic
+
+.mt-xs  { margin-top: $margin-xs  !important; }
+.mt-sm  { margin-top: $margin-sm  !important; }
+.mt-md  { margin-top: $margin-md  !important; }
+.mt-lg  { margin-top: $margin-lg  !important; }
+.mt-xl  { margin-top: $margin-xl  !important; }
+.mt-2xl { margin-top: $margin-2xl !important; }
+.mt-3xl { margin-top: $margin-3xl !important; }
+.mt-4xl { margin-top: $margin-4xl !important; }
+.mt-5xl { margin-top: $margin-5xl !important; }
+.mt-6xl { margin-top: $margin-6xl !important; }
+.mt-7xl { margin-top: $margin-7xl !important; }
+.mt-8xl { margin-top: $margin-8xl !important; }
+
+.first\:mt-xs:first-child  { margin-top: $margin-xs  !important; }
+.first\:mt-sm:first-child  { margin-top: $margin-sm  !important; }
+.first\:mt-md:first-child  { margin-top: $margin-md  !important; }
+.first\:mt-lg:first-child  { margin-top: $margin-lg  !important; }
+.first\:mt-xl:first-child  { margin-top: $margin-xl  !important; }
+.first\:mt-2xl:first-child { margin-top: $margin-2xl !important; }
+.first\:mt-3xl:first-child { margin-top: $margin-3xl !important; }
+.first\:mt-4xl:first-child { margin-top: $margin-4xl !important; }
+.first\:mt-5xl:first-child { margin-top: $margin-5xl !important; }
+.first\:mt-6xl:first-child { margin-top: $margin-6xl !important; }
+.first\:mt-7xl:first-child { margin-top: $margin-7xl !important; }
+.first\:mt-8xl:first-child { margin-top: $margin-8xl !important; }
+
+.mb-xs  { margin-bottom: $margin-xs  !important; }
+.mb-sm  { margin-bottom: $margin-sm  !important; }
+.mb-md  { margin-bottom: $margin-md  !important; }
+.mb-lg  { margin-bottom: $margin-lg  !important; }
+.mb-xl  { margin-bottom: $margin-xl  !important; }
+.mb-2xl { margin-bottom: $margin-2xl !important; }
+.mb-3xl { margin-bottom: $margin-3xl !important; }
+.mb-4xl { margin-bottom: $margin-4xl !important; }
+.mb-5xl { margin-bottom: $margin-5xl !important; }
+.mb-6xl { margin-bottom: $margin-6xl !important; }
+.mb-7xl { margin-bottom: $margin-7xl !important; }
+.mb-8xl { margin-bottom: $margin-8xl !important; }
+
+.my-xs  { margin-top: $margin-xs  !important; margin-bottom: $margin-xs  !important; }
+.my-sm  { margin-top: $margin-sm  !important; margin-bottom: $margin-sm  !important; }
+.my-md  { margin-top: $margin-md  !important; margin-bottom: $margin-md  !important; }
+.my-lg  { margin-top: $margin-lg  !important; margin-bottom: $margin-lg  !important; }
+.my-xl  { margin-top: $margin-xl  !important; margin-bottom: $margin-xl  !important; }
+.my-2xl { margin-top: $margin-2xl !important; margin-bottom: $margin-2xl !important; }
+.my-3xl { margin-top: $margin-3xl !important; margin-bottom: $margin-3xl !important; }
+.my-4xl { margin-top: $margin-4xl !important; margin-bottom: $margin-4xl !important; }
+
+// Margin Digit
+
+.m-0 { margin: 0; }
+
+.mt-0   { margin-top: 0        !important; }
+.mt-1   { margin-top: 0.25rem  !important; }
+.mt-2   { margin-top: 0.5rem   !important; }
+.mt-3   { margin-top: 0.75rem  !important; }
+.mt-4   { margin-top: 1rem     !important; }
+.mt-5   { margin-top: 1.25rem  !important; }
+.mt-6   { margin-top: 1.5rem   !important; }
+.mt-7   { margin-top: 1.75rem  !important; }
+.mt-8   { margin-top: 2rem     !important; }
+
+.mb-0   { margin-bottom: 0       !important; }
+.mb-1   { margin-bottom: 0.25rem !important; }
+.mb-2   { margin-bottom: 0.5rem  !important; }
+.mb-3   { margin-bottom: 0.75rem !important; }
+.mb-4   { margin-bottom: 1rem    !important; }
+.mb-5   { margin-bottom: 1.25rem !important; }
+.mb-6   { margin-bottom: 1.5rem  !important; }
+.mb-7   { margin-bottom: 1.75rem !important; }
+.mb-8   { margin-bottom: 2rem    !important; }
+
+.my-0   { margin-top: 0       !important; margin-bottom: 0       !important; }
+.my-1   { margin-top: 0.25rem !important; margin-bottom: 0.25rem !important; }
+.my-2   { margin-top: 0.5rem  !important; margin-bottom: 0.5rem  !important; }
+.my-3   { margin-top: 0.75rem !important; margin-bottom: 0.75rem !important; }
+.my-4   { margin-top: 1rem    !important; margin-bottom: 1rem    !important; }
+.my-5   { margin-top: 1.25rem !important; margin-bottom: 1.25rem !important; }
+.my-6   { margin-top: 1.5rem  !important; margin-bottom: 1.5rem  !important; }
+.my-7   { margin-top: 1.75rem !important; margin-bottom: 1.75rem !important; }
+.my-8   { margin-top: 2rem    !important; margin-bottom: 2rem    !important; }
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ml-1  { margin-left: 0.25rem !important; }
+.ml-2  { margin-left: 0.5rem  !important; }
+.ml-3  { margin-left: 0.75rem !important; }
+.ml-4  { margin-left: 1rem    !important; }
+.ml-5  { margin-left: 1.25rem !important; }
+.ml-6  { margin-left: 1.5rem  !important; }
+.ml-7  { margin-left: 1.75rem !important; }
+.ml-8  { margin-left: 2rem    !important; }
+.ml-9  { margin-left: 2.25rem !important; }
+.ml-10 { margin-left: 2.5rem  !important; }
+.ml-11 { margin-left: 2.75rem !important; }
+.ml-12 { margin-left: 3rem    !important; }
+
+.mr-1  { margin-right: 0.25rem !important; }
+.mr-2  { margin-right: 0.5rem  !important; }
+.mr-3  { margin-right: 0.75rem !important; }
+.mr-4  { margin-right: 1rem    !important; }
+.mr-5  { margin-right: 1.25rem !important; }
+.mr-6  { margin-right: 1.5rem  !important; }
+.mr-7  { margin-right: 1.75rem !important; }
+.mr-8  { margin-right: 2rem    !important; }
+.mr-9  { margin-right: 2.25rem !important; }
+.mr-10 { margin-right: 2.5rem  !important; }
+.mr-11 { margin-right: 2.75rem !important; }
+.mr-12 { margin-right: 3rem    !important; }
+
+.mx-1  { margin-left: 0.25rem !important; margin-right: 0.25rem !important; }
+.mx-2  { margin-left: 0.5rem  !important; margin-right: 0.5rem  !important; }
+.mx-3  { margin-left: 0.75rem !important; margin-right: 0.75rem !important; }
+.mx-4  { margin-left: 1rem    !important; margin-right: 1rem    !important; }
+.mx-5  { margin-left: 1.25rem !important; margin-right: 1.25rem !important; }
+.mx-6  { margin-left: 1.5rem  !important; margin-right: 1.5rem  !important; }
+.mx-7  { margin-left: 1.75rem !important; margin-right: 1.75rem !important; }
+.mx-8  { margin-left: 2rem    !important; margin-right: 2rem    !important; }
+.mx-9  { margin-left: 2.25rem !important; margin-right: 2.25rem !important; }
+.mx-10 { margin-left: 2.5rem  !important; margin-right: 2.5rem  !important; }
+.mx-11 { margin-left: 2.75rem !important; margin-right: 2.75rem !important; }
+.mx-12 { margin-left: 3rem    !important; margin-right: 3rem    !important; }

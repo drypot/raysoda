@@ -1,0 +1,32 @@
+@use '200-media' as *;
+
+:root {
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.25rem;
+  --fs-2xl: 1.5rem;
+  --fs-3xl: 2rem;
+  --fs-4xl: 2.5rem;
+  --fs-5xl: 3rem;
+  --fs-6xl: 3.5rem;
+
+  font-size: 16px;
+  @include media-sm { font-size: 18px; }
+  @include media-md { font-size: 20px; }
+  @include media-lg { font-size: 20px; }
+  @include media-xl { font-size: 22px; }
+  @include media-2xl { font-size: 22px; }
+}
+
+$fs-xs:  var(--fs-xs);
+$fs-sm:  var(--fs-sm);
+$fs-md:  var(--fs-md);
+$fs-lg:  var(--fs-lg);
+$fs-xl:  var(--fs-xl);
+$fs-2xl: var(--fs-2xl);
+$fs-3xl: var(--fs-3xl);
+$fs-4xl: var(--fs-4xl);
+$fs-5xl: var(--fs-5xl);
+$fs-6xl: var(--fs-6xl);
