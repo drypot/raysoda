@@ -75,7 +75,7 @@ describe('ImageUploadApi RaySoda', () => {
     // resize 기능 테스트를 위해 2048 보다 큰 이미지를 업로드한다.
     const res = await sat.post('/api/image-upload')
       .field('comment', 'h')
-      .attach('file', 'sample/2560x1440.jpg')
+      .attach('file', 'sample/4096x2304.jpg')
       .expect(200)
     expect(res.body.id).toBe(1)
   })
@@ -88,8 +88,8 @@ describe('ImageUploadApi RaySoda', () => {
   })
   it('check file', async () => {
     const meta = await getImageMetaOfFile(ifm.getPathFor(1))
-    expect(meta.width).toBe(2048)
-    expect(meta.height).toBe(1152)
+    expect(meta.width).toBe(3840)
+    expect(meta.height).toBe(2160)
   })
 
   it('upload vertical image', async () => {
@@ -108,8 +108,8 @@ describe('ImageUploadApi RaySoda', () => {
   })
   it('check file', async () => {
     const meta = await getImageMetaOfFile(ifm.getPathFor(2))
-    expect(meta.width).toBe(1152)
-    expect(meta.height).toBe(2048)
+    expect(meta.width).toBe(1215)
+    expect(meta.height).toBe(2160)
   })
 
   it('upload small image', async () => {

@@ -11,7 +11,8 @@ import { inProduction } from '@common/util/env2'
 import { ErrorConst } from '@common/type/error'
 import { ImageMeta } from '@common/type/image-meta'
 
-const maxWidth = 2048
+const maxWidth = 3840
+const maxHeight = 2160
 
 registerObjectFactory('RaySodaFileManager', async () => {
   return RaySodaFileManager.from(getConfig())
@@ -48,7 +49,7 @@ export class RaySodaFileManager implements ImageFileManager {
     let cmd = 'convert ' + src
     cmd += ' -quality 92'
     cmd += ' -auto-orient'
-    cmd += ' -resize ' + maxWidth + 'x' + maxWidth + '\\>'
+    cmd += ' -resize ' + maxWidth + 'x' + maxHeight + '\\>'
     cmd += ' ' + this.getPathFor(id)
     await exec2(cmd)
     return null

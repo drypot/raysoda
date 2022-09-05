@@ -33,7 +33,7 @@ describe('RaySodaFileManager', () => {
       expect(ifm.getPathFor(1)).toBe(ifm.dir + '0/0/1.jpg')
       expect(ifm.getPathFor(1_234_567)).toBe(ifm.dir + '1/234/1234567.jpg')
     })
-    it('get dir rul', () => {
+    it('get dir url', () => {
       expect(ifm.getDirUrlFor(1)).toBe(ifm.url + '0/0')
       expect(ifm.getDirUrlFor(1_234_567)).toBe(ifm.url + '1/234')
     })
@@ -79,17 +79,29 @@ describe('RaySodaFileManager', () => {
       expect(meta.width).toBe(360)
       expect(meta.height).toBe(240)
     })
-    it('save large image', async () => {
-      const meta = await ifm.getImageMeta('sample/2560x1440.jpg')
-      await ifm.saveImage(1, 'sample/2560x1440.jpg', meta)
+    it('save large h image', async () => {
+      const meta = await ifm.getImageMeta('sample/4096x2304.jpg')
+      await ifm.saveImage(1, 'sample/4096x2304.jpg', meta)
     })
     it('file exists', () => {
       expect(existsSync(ifm.getPathFor(1))).toBe(true)
     })
     it('check meta', async () => {
       const meta = await getImageMetaOfFile(ifm.getPathFor(1))
-      expect(meta.width).toBe(2048)
-      expect(meta.height).toBe(1152)
+      expect(meta.width).toBe(3840)
+      expect(meta.height).toBe(2160)
+    })
+    it('save large v image', async () => {
+      const meta = await ifm.getImageMeta('sample/2160x3840.jpg')
+      await ifm.saveImage(2, 'sample/2160x3840.jpg', meta)
+    })
+    it('file exists', () => {
+      expect(existsSync(ifm.getPathFor(2))).toBe(true)
+    })
+    it('check meta', async () => {
+      const meta = await getImageMetaOfFile(ifm.getPathFor(2))
+      expect(meta.width).toBe(1215)
+      expect(meta.height).toBe(2160)
     })
     it('delete image', async () => {
       await ifm.deleteImage(1)

@@ -57,13 +57,13 @@ describe('ImageUpdateApi RaySoda', () => {
   })
   it('upload', async () => {
     const res = await sat.post('/api/image-upload')
-      .field('id', 1).field('comment', 'c1').attach('file', 'sample/2560x1440.jpg').expect(200)
+      .field('id', 1).field('comment', 'c1').attach('file', 'sample/4096x2304.jpg').expect(200)
     expect(res.body.id).toEqual(1)
   })
   it('check file', async () => {
     const meta = await getImageMetaOfFile(ifm.getPathFor(1))
-    expect(meta.width).toBe(2048)
-    expect(meta.height).toBe(1152)
+    expect(meta.width).toBe(3840)
+    expect(meta.height).toBe(2160)
   })
   it('update', async () => {
     const res = await sat.put('/api/image-update')
@@ -79,8 +79,8 @@ describe('ImageUpdateApi RaySoda', () => {
   })
   it('check file', async () => {
     const meta = await getImageMetaOfFile(ifm.getPathFor(1))
-    expect(meta.width).toBe(1152)
-    expect(meta.height).toBe(2048)
+    expect(meta.width).toBe(1215)
+    expect(meta.height).toBe(2160)
   })
 
   it('update comment only', async () => {
@@ -95,8 +95,8 @@ describe('ImageUpdateApi RaySoda', () => {
   })
   it('check file', async () => {
     const meta = await getImageMetaOfFile(ifm.getPathFor(1))
-    expect(meta.width).toBe(1152)
-    expect(meta.height).toBe(2048)
+    expect(meta.width).toBe(1215)
+    expect(meta.height).toBe(2160)
   })
 
   it('update fails if image too small', async () => {
