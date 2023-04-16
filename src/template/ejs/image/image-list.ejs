@@ -35,13 +35,13 @@
             <div class="mt-2xl space-x-var-2 ws-nowrap-des">
                 <% if (locals.user.id !== -1) { %>
                     <a href='/image-upload'>사진 등록</a>
-                    <a href='/user/<%- encodeURIComponent(locals.user.home) %>'>사용자 홈</a>
+                    <a href='/user/<%- encodeURIComponent(locals.user.home) %>'>내 사진</a>
                 <% } else { %>
                     <a href='/user-login'>로그인</a>
                     <a href='/user-register'>회원 가입</a>
                 <% } %>
-                <a href='/user-list'>회원 목록</a>
                 <a href='/image-list-by-year'>연도별 사진</a>
+                <a href='/user-list'>회원 목록</a>
                 <% if (locals.user.id !== -1) { %>
                     <a href='/user-logout'>로그아웃</a>
                 <% } %>

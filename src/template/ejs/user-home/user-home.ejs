@@ -21,7 +21,7 @@
                 <div id="profile" class="ws-pre-line"><%= locals.owner.profile %></div>
                 <% if (locals.updatable) { %>
                     <div class="space-x-var-2 ws-nowrap-des">
-                        <a href='/user-update-profile/<%= locals.owner.id %>'>이름 수정</a>
+                        <a href='/user-update-profile/<%= locals.owner.id %>'>기본정보 수정</a>
                         <a href='/user-update-password/<%= locals.owner.id %>'>비밀번호 수정</a>
                         <% if (locals.user.admin) { %>
                             <a href='/user-update-status/<%= locals.owner.id %>'>상태 수정</a>
