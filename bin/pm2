@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function show_usage {
-    echo "bin/pm2 [raysoda|rapixel|osoky|drypot] [dev|live]"
+    echo "bin/pm2 [raysoda|rapixel|osoky|drypot|sobeaut] [dev|live]"
     exit 1
 }
 
