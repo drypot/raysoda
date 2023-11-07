@@ -1,0 +1,23 @@
+{
+  "appName": "SoBeaut",
+  "appNamel": "sobeaut",
+  "appDesc": "Square photos",
+
+  "port": 2400,
+  "cookieSecret": "o;iejf832ndvs",
+  "uploadDir": "upload/sobeaut",
+
+  "mainUrl": "http://sobeaut.test:8080",
+  "uploadUrl": "http://file.sobeaut.test:8080",
+
+  "mysqlServer": "localhost",
+  "mysqlDatabase": "sobeaut",
+  "mysqlUser": "drypot",
+  "mysqlPassword": "",
+
+  "mailServerConfigPath": "config/mail-dev.json",
+
+  "ticketGenInterval": 18,
+  "ticketMax": 99
+}
+
