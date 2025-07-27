@@ -29,12 +29,12 @@ nginx-conf-aws1 프로젝트 열어서 nginx 세팅을 준비해야 한다.
 로컬에서 스크립트 만들고 서버로 푸쉬하든지,
 서버에서 만들어 다 작업하고 커밋, 푸쉬하든지,
 
-bin/d-certbot-new-***.sh 생성.
+`bin/d-certbot-new-***.sh` 생성.
 위 스크립트를 실행해서 인증서를 생성한다.
 
-sites/***.conf 를 생성한다.
+`sites/***.conf` 를 생성한다.
 
-sites/enalbed 폴더로 링크를 생성한다.
+`sites/enalbed` 폴더로 링크를 생성한다.
 
     $ ln -s ../abc.conf sites/enabled
 
@@ -52,11 +52,11 @@ nginx 설정을 리로딩한다.
 
 nginx-conf-mac 프로젝트로 이동.
 
-/etc/hosts 에 ***.test 주소를 등록한다.
+`/etc/hosts` 에 `***.test` 주소를 등록한다.
 
-sites/***.conf 를 생성한다.
+`sites/***.conf` 를 생성한다.
 
-sites/enalbed 폴더로 링크를 생성한다.
+`sites/enalbed` 폴더로 링크를 생성한다.
 
     $ ln -s ../abc.conf sites/enabled
 
@@ -76,8 +76,9 @@ nginx 설정 리로딩.
 
 <https://github.com/drypot/mysql-conf-aws1>
 
-서비스에 필요한 디비는 node.js web app server 가 실행될 때 자동 생성한다.
-config 에 정의된 이름을 가지고 디비와 테이블들이 자동 생성된다.
+서비스에 필요한 디비는 자동 생성된다.
+node.js web app server 가 실행될 때 
+config 에 정의된 이름을 가지고 디비와 테이블들을 자동생성한다.
 
 ## PM2 설치
 
@@ -85,7 +86,7 @@ config 에 정의된 이름을 가지고 디비와 테이블들이 자동 생성
 
 ## Node 코드 설치
 
-클론.
+Node 코드 클론.
 
     $ git clone https://github.com/drypot/raysoda.git
     $ cd raysoda
