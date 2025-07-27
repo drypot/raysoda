@@ -22,19 +22,30 @@ node, imagemagick 등은 host os 에 바로 설치해서 쓰고 있다.
 
 ### AWS 라이브 Nginx 설정
 
-<https://github.com/drypot/nginx-conf-aws1>
+#### nginx 설정 파일들 클론
 
-nginx-conf-aws1 프로젝트 열어서 nginx 세팅을 준비해야 한다.
+    $ cd /data/nginx
+    $ git clone https://github.com/drypot/nginx-conf-aws1
 
-로컬에서 스크립트 만들고 서버로 푸쉬하든지,
-서버에서 만들어 다 작업하고 커밋, 푸쉬하든지,
+#### 인증서 생성
 
-`bin/d-certbot-new-***.sh` 생성.
+디렉토리 이동.
+
+    $ cd /data/nginx/nginx-conf-aws1/
+
+어플리케이션별 `bin/d-certbot-new-***.sh` 생성.
+
 위 스크립트를 실행해서 인증서를 생성한다.
 
-`sites/***.conf` 를 생성한다.
+#### nginx.conf 생성
 
-`sites/enalbed` 폴더로 링크를 생성한다.
+디렉토리 이동.
+
+    $ cd sites
+
+어플리케이션별 `***.conf` 를 생성한다.
+
+사이트를 활성화하려면 `sites/enalbed` 폴더에 링크를 생성.
 
     $ ln -s ../abc.conf sites/enabled
 
