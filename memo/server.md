@@ -18,26 +18,21 @@ nginx, mysql, redis,
 node, imagemagick 등은 host os 에 바로 설치해서 쓰고 있다.
 나중에 container 로 만들어야;
 
-## Nginx
+## Nginx / AWS Live
 
-### AWS 라이브 Nginx 설정
+### 인증서
 
-#### nginx 설정 파일들 클론
+nginx 설정 파일들 클론.
 
     $ cd /data/nginx
     $ git clone https://github.com/drypot/nginx-conf-aws1
-
-#### 인증서 생성
-
-디렉토리 이동.
-
-    $ cd /data/nginx/nginx-conf-aws1/
+    $ cd nginx-conf-aws1
 
 어플리케이션별 `bin/d-certbot-new-***.sh` 생성.
 
 위 스크립트를 실행해서 인증서를 생성한다.
 
-#### nginx.conf 생성
+### nginx.conf
 
 디렉토리 이동.
 
@@ -57,7 +52,7 @@ nginx 설정을 리로딩한다.
 
 웹사이트 접근해 보고 정상적으로 Bad Gateway 오류 뜨는지 확인한다.
 
-### Mac 개발환경용 Nginx 설정
+### Nginx / Mac 개발환경
 
 <https://github.com/drypot/nginx-conf-mac>
 
