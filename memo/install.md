@@ -1,3 +1,4 @@
+
 # Install
 
 mysql, redis, imagemagick 등 설치.
@@ -10,7 +11,12 @@ Mac 개발환경용 Nginx 설정 예\
 AWS 라이브 Nginx 설정 예\
 <https://github.com/drypot/nginx-conf-aws1>
 
-## 코드 설치, 실행
+## Redis
+
+Redis 설정 예\
+<https://github.com/drypot/redis-conf>
+
+## Node 코드 설치
 
 클론.
 
