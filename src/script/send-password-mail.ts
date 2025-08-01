@@ -1,11 +1,11 @@
-import { ErrorConst } from '@common/type/error'
-import { PwMailDB } from '@server/db/password/pwmail-db'
-import { logError } from '@common/util/error2'
-import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
-import { mailUserPassword } from '@server/domain/user/_service/user-password'
-import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
-import { UserDB } from '@server/db/user/user-db'
-import { Mailer } from '@server/mailer/mailer2'
+import type { ErrorConst } from '../common/type/error.js'
+import { PwMailDB } from '../db/password/pwmail-db.js'
+import { logError } from '../common/util/error2.js'
+import { insertUserFix4 } from '../db/user/fixture/user-fix.js'
+import { mailUserPassword } from '../domain/user/_service/user-password.js'
+import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
+import { UserDB } from '../db/user/user-db.js'
+import { Mailer } from '../mailer/mailer2.js'
 
 async function main() {
   initObjectContext('config/raysoda-test.json')

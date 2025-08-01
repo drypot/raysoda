@@ -1,5 +1,5 @@
-import { Express2 } from '@server/express/express2'
-import { loadConfigSync } from '@common/util/config-loader'
+import { loadConfigSync } from '../common/util/config-loader.js'
+import { Express2 } from '../express/express2.js'
 
 const config = loadConfigSync('config/app-dev.json')
 const web = Express2.from(config)

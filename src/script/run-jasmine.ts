@@ -4,7 +4,7 @@ import Jasmine from 'jasmine'
 const jasmine = new Jasmine({})
 
 jasmine.loadConfig({
-  "spec_dir": "src/ts/server",
+  "spec_dir": "src",
   "spec_files": [
     "**/*-test.ts"
   ],
