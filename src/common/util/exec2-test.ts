@@ -1,4 +1,4 @@
-import { exec2 } from '@common/util/exec2'
+import { exec2 } from './exec2.js'
 
 describe('exec', () => {
   it('printf', async () => {

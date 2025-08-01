@@ -1,4 +1,4 @@
-import { checkHash, makeHash } from '@common/util/hash'
+import { checkHash, makeHash } from './hash.js'
 
 describe('hash', () => {
 

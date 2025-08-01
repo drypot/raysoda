@@ -1,4 +1,4 @@
-import { newErrorConst } from '@common/util/error2'
+import { newErrorConst } from './error2.js'
 
 describe('newErrorConst', () => {
   it('1', () => {

@@ -9,7 +9,7 @@ import {
   dateToStringNoTimeNoDash,
   parseDate,
   setTimeZero
-} from '@common/util/date2'
+} from './date2.js'
 
 describe('newDate', () => {
   it('should work', () => {

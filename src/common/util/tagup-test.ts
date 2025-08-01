@@ -1,4 +1,4 @@
-import { tagUp } from '@common/util/tagup'
+import { tagUp } from './tagup.js'
 
 describe('tagUp', () => {
   it('normal string', () => {

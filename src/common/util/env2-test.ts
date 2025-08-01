@@ -1,4 +1,4 @@
-import { inDev, inProduction } from '@common/util/env2'
+import { inDev, inProduction } from './env2.js'
 
 describe('inDev', () => {
   it('1', () => {

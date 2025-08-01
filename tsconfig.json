@@ -6,21 +6,26 @@
   // server, client, 각 파트 서브 디렉토리에 둬야한다.
 
   "compilerOptions": {
-    "outDir": "../../../build/server",
-    "rootDir": ".",
-
-    // paths 를 쓰려면 baseUrl 을 설정해야 한다.
-    // baseUrl 은 tsconfig.json 파일 위치가 기준이다.
-    "baseUrl": ".",
-    "paths": {
-      "@server/*": ["./*"],
-      "@common/*": ["../common/*"]
-    },
-
-    "target": "esnext",
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "target": "esnext",
     "lib": ["esnext"],
+
+    // baseUrl 은 import 에 절대 경로를 사용할 수 있게 한다.
+    // baseUrl 은 절대 경로의 베이스 디렉토리가 된다.
+    // 하지만 node, ts-node 는 이 패스를 모르기 때문에
+    // tsconfig-paths 같은 플러그인이 또 필요해 진다.
+    // 2025-08-01, Node 24 로 업그레이드하는데 여러가지 문제를 일으키는 중.
+    // 해서 절대 경로 사용은 피해볼까 한다.
+
+//    "baseUrl": "./src",
+//    "paths": {
+//          "@server/*": ["./*"],
+//          "@common/*": ["./common/*"],
+//    },
+
+    "outDir": "build",
+    "rootDir": "src",
 
     // ObjectMaker 자동 등록을 위해 preserve 로 해야한다.
     "verbatimModuleSyntax": true,
@@ -32,13 +37,13 @@
     "sourceMap": true
   },
   "include": [
-    "./**/*"
+    "src/**/*"
   ],
   "exclude": [
   ],
-  "references": [
-    { "path": "../common/tsconfig.json"}
-  ],
+  //  "references": [
+  //    { "path": "../common/tsconfig.json"}
+  //  ],
   "ts-node": {
     "transpileOnly": true
   }

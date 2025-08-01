@@ -1,4 +1,4 @@
-import { emailGetUserName, emailPatternIsOk } from './email'
+import { emailGetUserName, emailPatternIsOk } from './email.js'
 
 describe('emailPatternIsOk', () => {
   it('normal ok', () => {

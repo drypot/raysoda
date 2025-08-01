@@ -1,4 +1,4 @@
-import { loadConfigSync } from '@common/util/config-loader'
+import { loadConfigSync } from './config-loader.js'
 
 describe('readConfigSync', () => {
   it('1', () => {

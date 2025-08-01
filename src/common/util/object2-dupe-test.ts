@@ -1,4 +1,4 @@
-import { dupe } from '@common/util/object2'
+import { dupe } from './object2.js'
 
 describe('dupe', () => {
   it('object', () => {

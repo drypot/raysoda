@@ -1,4 +1,4 @@
-import { limitNumber, newLimitedNumber, newNumber, newString } from '@common/util/primitive'
+import { limitNumber, newLimitedNumber, newNumber, newString } from './primitive.js'
 
 describe('limitNumber', () => {
   it('1', () => {
