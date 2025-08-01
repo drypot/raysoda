@@ -1,5 +1,6 @@
-import { ObjManFix1 } from '@server/oman/fixture/oman-fix1'
-import { closeAllObjects, getConfig, getObject, initObjectContext } from '@server/oman/oman'
+import './fixture/oman-fix1.js'
+import type { ObjManFix1 } from './fixture/oman-fix1.js'
+import { closeAllObjects, getConfig, getObject, initObjectContext } from './oman.js'
 
 describe('Oman', () => {
   it('new session fails if config not exists', () => {
