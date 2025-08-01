@@ -1,5 +1,5 @@
-import { Mailer } from '@server/mailer/mailer2'
-import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
+import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
+import { Mailer } from './mailer2.js'
 
 describe('Mailer', () => {
 
