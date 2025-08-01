@@ -1,4 +1,4 @@
-import { Image } from '@common/type/image'
+import { type Image } from './image.js'
 
 export type ImageListItem = {
   id: number

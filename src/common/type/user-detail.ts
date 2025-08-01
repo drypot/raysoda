@@ -1,4 +1,4 @@
-import { User } from '@common/type/user'
+import { type User } from './user.js'
 
 export type UserDetail = {
   id: number

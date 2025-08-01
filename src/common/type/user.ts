@@ -1,4 +1,4 @@
-import { dateNull } from '@common/type/date-const'
+import { dateNull } from './date-const.js'
 
 export type User = {
   id: number
