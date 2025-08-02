@@ -11,12 +11,12 @@ import { useUserListPage } from '../domain/user/page/user-list-page.js'
 import { useImageListApi } from '../domain/image/api/image-list-api.js'
 import { useImageUpdateApi } from '../domain/image/api/image-update-api.js'
 import { useImageUploadPage } from '../domain/image/page/image-upload-page.js'
-import { Express2 } from '../express/express2.js'
+import { getExpress2 } from '../express/express2.js'
 import { useUserAuthPage } from '../domain/user/page/user-auth-page.js'
 import { useUserListApi } from '../domain/user/api/user-list-api.js'
 import { useSpaInitApi } from '../domain/spa/spa-init-api.js'
 import { useImageDetailPage } from '../domain/image/page/image-detail-page.js'
-import { closeAllObjects, getConfig, getObject, initObjectContext } from '../oman/oman.js'
+import { closeAllObjects, getConfig, initObjectContext } from '../oman/oman.js'
 import { useRedirect } from '../domain/redirect/redirect.js'
 import { useUserUpdatePage } from '../domain/user/page/user-update-page.js'
 import { useImageUpdatePage } from '../domain/image/page/image-update-page.js'
@@ -31,15 +31,15 @@ import { useImageUploadApi } from '../domain/image/api/image-upload-api.js'
 import { useBannerPage } from '../domain/banner/page/banner-page.js'
 import { useImageListPage } from '../domain/image/page/image-list-page.js'
 import { useCounterApi } from '../domain/counter/api/counter-api.js'
-import { useSamplePage } from '../domain/_sample/page/sample-page.js'
+import { useSamplePage } from '../domain/sample/page/sample-page.js'
 
 async function main() {
   const configPath = process.argv[2]
 
   initObjectContext(configPath)
 
-  const web = await getObject('Express2') as Express2
-  web.logError = inDev()
+  const express2 = await getExpress2()
+  express2.logError = inDev()
 
   await useImageListApi()
   await useImageDetailApi()
@@ -98,7 +98,7 @@ async function main() {
     })
   })
 
-  web.start().then(() => {
+  express2.start().then(() => {
     const config = getConfig()
     //console.log(config)
     console.log('server started.')
