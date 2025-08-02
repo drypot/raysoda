@@ -1,5 +1,5 @@
-import { ImageMeta } from '@common/type/image-meta'
-import { ErrorConst } from '@common/type/error'
+import { ImageMeta } from '../common/type/image-meta.js'
+import { ErrorConst } from '../common/type/error.js'
 
 export interface ImageFileManager {
 

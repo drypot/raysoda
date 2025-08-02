@@ -1,9 +1,9 @@
-import { OsokyFileManager } from '@server/fileman/osoky-fileman'
-import { getImageFileManager } from '@server/fileman/_fileman-loader'
-import { DrypotFileManager } from '@server/fileman/drypot-fileman'
-import { RaySodaFileManager } from '@server/fileman/raysoda-fileman'
-import { RapixelFileManager } from '@server/fileman/rapixel-fileman'
-import { initObjectContext } from '@server/oman/oman'
+import { OsokyFileManager } from './osoky-fileman.js'
+import { getImageFileManager } from './fileman-loader.js'
+import { DrypotFileManager } from './drypot-fileman.js'
+import { RaySodaFileManager } from './raysoda-fileman.js'
+import { RapixelFileManager } from './rapixel-fileman.js'
+import { initObjectContext } from '../oman/oman.js'
 
 describe('getImageFileManager', () => {
   beforeAll(() => {
