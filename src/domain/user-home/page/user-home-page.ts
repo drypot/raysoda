@@ -1,35 +1,35 @@
-import { getConfig, getObject } from '@server/oman/oman'
-import { User } from '@common/type/user'
-import { renderHtml, throw404 } from '@server/express/response'
-import { newLimitedNumber, newNumber } from '@common/util/primitive'
-import { Express2, toCallback } from '@server/express/express2'
-import { userCanUpdateUser } from '@server/domain/user/_service/user-auth'
-import { userGetSessionUser } from '@server/domain/user/api/user-auth-api'
-import { getImageFileManager } from '@server/fileman/_fileman-loader'
-import { UrlMaker } from '@common/util/url2'
-import { ImageDB } from '@server/db/image/image-db'
-import { UserDB } from '@server/db/user/user-db'
-import { fillImagePage } from '@server/domain/image/_service/image-list'
+import { getExpress2, toCallback } from '../../../express/express2.js'
+import { getUserDB } from '../../../db/user/user-db.js'
+import { getImageDB } from '../../../db/image/image-db.js'
+import { getImageFileManager } from '../../../fileman/fileman-loader.js'
+import { getConfig } from '../../../oman/oman.js'
+import { newLimitedNumber, newNumber } from '../../../common/util/primitive.js'
+import { renderHtml, throw404 } from '../../../express/response.js'
+import { User } from '../../../common/type/user.js'
+import { userGetSessionUser } from '../../user/api/user-auth-api.js'
+import { newImagePage } from '../../../common/type/image-list.js'
+import { newPageParam } from '../../../common/type/page.js'
+import { parseDate } from '../../../common/util/date2.js'
+import { fillImagePage } from '../../image/service/image-list.js'
+import { UrlMaker } from '../../../common/util/url2.js'
+import { userCanUpdateUser } from '../../user/service/user-auth.js'
 import { Request, Response } from 'express'
-import { newImagePage } from '@common/type/image-list'
-import { newPageParam } from '@common/type/page'
-import { parseDate } from '@common/util/date2'
 
 export async function useUserHomePage() {
 
-  const web = await getObject('Express2') as Express2
-  const udb = await getObject('UserDB') as UserDB
-  const idb = await getObject('ImageDB') as ImageDB
+  const express2 = await getExpress2()
+  const udb = await getUserDB()
+  const idb = await getImageDB()
   const ifm = await getImageFileManager(getConfig().appNamel)
 
-  web.router.get('/user-id/:id([0-9]+)', toCallback(async (req, res) => {
+  express2.router.get('/user-id/:id', toCallback(async (req, res) => {
     const id = newNumber(req.params.id)
     const owner = await udb.getCachedById(id)
     if (!owner) return
     await renderHome(req, res, owner)
   }))
 
-  web.router.get('/user/:name([^/]+)', toCallback(async (req, res) => {
+  express2.router.get('/user/:name', toCallback(async (req, res) => {
     const home = decodeURIComponent(req.params.name)
     const owner = await udb.getCachedByHome(home)
     if (!owner) {
