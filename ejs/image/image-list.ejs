@@ -3,12 +3,12 @@
 <head>
     <% locals.title = '' %>
     <% locals.ogImage = locals.list.length ? locals.list[0].thumbUrl : '' %>
-    <%- include('../_common/head') %>
+    <%- include('../common/head') %>
 </head>
 <body>
     <% const isFirstPage = !locals.prev %>
     <% locals.hideHeader = isFirstPage %>
-    <%- include('../_common/header') %>
+    <%- include('../common/header') %>
 
     <div class="wrapper">
         <% if (isFirstPage) { %>
@@ -84,9 +84,9 @@
         <% } %>
     </div>
 
-    <%- include('../_common/prev-next') %>
+    <%- include('../common/prev-next') %>
 
-    <%- include('../_common/footer') %>
+    <%- include('../common/footer') %>
     <script>
         page.initImageList()
     </script>

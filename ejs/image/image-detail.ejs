@@ -5,11 +5,11 @@
     <% locals.ogImage = locals.image.thumbUrl %>
     <% locals.ogTitle = locals.image.owner.name %>
     <% locals.ogDesc = locals.image.comment %>
-    <%- include('../_common/head') %>
+    <%- include('../common/head') %>
 </head>
 <body>
     <% locals.hideHeader = true %>
-    <%- include('../_common/header') %>
+    <%- include('../common/header') %>
 
     <div class="max-w-full text-center">
         <div class="inline-block relative">
@@ -37,7 +37,7 @@
         <% } %>
     </div>
 
-    <%- include('../_common/footer') %>
+    <%- include('../common/footer') %>
     <script type="application/json" id="imageJson">
       <%= JSON.stringify(locals.image) %>
     </script>

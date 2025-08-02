@@ -2,10 +2,10 @@
 <html lang="ko">
 <head>
     <% locals.title = 'Update Profile' %>
-    <%- include('../_common/head') %>
+    <%- include('../common/head') %>
 </head>
 <body>
-    <%- include('../_common/header') %>
+    <%- include('../common/header') %>
 
     <div class="wrapper">
         <h1>기본정보 수정</h1>
@@ -33,7 +33,7 @@
         </form>
     </div>
 
-    <%- include('../_common/footer') %>
+    <%- include('../common/footer') %>
     <script type="application/json" id="formJson">
         <%= JSON.stringify(locals.form) %>
     </script>

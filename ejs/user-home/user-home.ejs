@@ -3,10 +3,10 @@
 <head>
     <% locals.title = locals.owner.name %>
     <% locals.ogImage = locals.list.length ? locals.list[0].thumbUrl : '' %>
-    <%- include('../_common/head') %>
+    <%- include('../common/head') %>
 </head>
 <body>
-    <%- include('../_common/header') %>
+    <%- include('../common/header') %>
 
     <div class="wrapper">
         <%# 갑자기그친구가왜생각났는지는모르겠는데알방법이없네, 사용자 이름을 이렇게 사용하는 분들도 계셔서 wb-normal 을 주었다. %>
@@ -58,10 +58,10 @@
                 </div>
             <% } %>
         </div>
-        <%- include('../_common/prev-next') %>
+        <%- include('../common/prev-next') %>
     <% } %>
 
-    <%- include('../_common/footer') %>
+    <%- include('../common/footer') %>
     <script>
         page.initUserHome()
         page.initImageList()

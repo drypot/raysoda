@@ -2,10 +2,10 @@
 <html lang="ko">
 <head>
     <% locals.title = 'Counter List' %>
-    <%- include('../_common/head') %>
+    <%- include('../common/head') %>
 </head>
 <body>
-    <%- include('../_common/header') %>
+    <%- include('../common/header') %>
 
     <div class="wrapper">
         <h1>카운터 목록</h1>
@@ -30,7 +30,7 @@
         <div id="list" class="mt-2xl"></div>
     </div>
 
-    <%- include('../_common/footer') %>
+    <%- include('../common/footer') %>
     <script>
         page.initCounterList()
     </script>
