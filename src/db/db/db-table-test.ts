@@ -19,13 +19,13 @@ describe('DB.*Table', () => {
     await db.query('create table table1(id int)')
   })
   it('find table returns table', async () => {
-    expect(await db.getTable('table1')).toBeDefined()
+    expect(await db.tableExists('table1')).toBeTrue()
   })
   it('drop table', async () => {
     await db.query('drop table if exists table1')
   })
   it('find table returns nothing', async () => {
-    expect(await db.getTable('table1')).toBeUndefined()
+    expect(await db.tableExists('table1')).toBeFalse()
   })
 
 })

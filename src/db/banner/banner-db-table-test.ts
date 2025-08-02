@@ -22,13 +22,13 @@ describe('ValueDB Table', () => {
     await bdb.createTable()
   })
   it('table exists', async () => {
-    expect(await db.getTable('banner')).toBeDefined()
+    expect(await db.tableExists('banner')).toBeTrue()
   })
   it('drop table', async () => {
     await bdb.dropTable()
   })
   it('table does not exist', async () => {
-    expect(await db.getTable('banner')).toBeUndefined()
+    expect(await db.tableExists('banner')).toBeFalse()
   })
 
 })

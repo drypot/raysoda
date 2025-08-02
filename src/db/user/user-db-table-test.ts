@@ -24,13 +24,13 @@ describe('UserDB Table', () => {
     await udb.createTable()
   })
   it('table exists', async () => {
-    expect(await db.getTable('user')).toBeDefined()
+    expect(await db.tableExists('user')).toBeTrue()
   })
   it('drop table', async () => {
     await udb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await db.getTable('user')).toBeUndefined()
+    expect(await db.tableExists('user')).toBeFalse()
   })
 
 })

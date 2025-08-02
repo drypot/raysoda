@@ -1,12 +1,14 @@
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
+import { closeAllObjects, getConfig, initObjectContext } from '../../oman/oman.js'
 import { DB, getDatabase } from './db.js'
 
-describe('DB.*Database', () => {
+describe('DB', () => {
 
   let db: DB
+  let dbName: string
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
+    dbName = getConfig().mysqlDatabase
     db = await getDatabase()
   })
 
@@ -14,23 +16,26 @@ describe('DB.*Database', () => {
     await closeAllObjects()
   })
 
-  it('drop database', async () => {
+  it('database should exists 1', async () => {
+    expect(await db.databaseExists(dbName)).toBeTrue()
+  })
+  it('drop database 1', async () => {
     await db.dropDatabase()
   })
-  it('database not exists', async () => {
-    expect(await db.getDatabase(db.dbName)).toBeUndefined()
+  it('database should not exists 1', async () => {
+    expect(await db.databaseExists(dbName)).toBeFalse()
   })
-  it('create database', async () => {
+  it('create database 2', async () => {
     await db.createDatabase()
   })
-  it('database exists', async () => {
-    expect(await db.getDatabase(db.dbName)).toBeDefined()
+  it('database exists 2', async () => {
+    expect(await db.databaseExists(dbName)).toBeTrue()
   })
-  it('drop database again', async () => {
+  it('drop database 2', async () => {
     await db.dropDatabase()
   })
-  it('database not exists', async () => {
-    expect(await db.getDatabase(db.dbName)).toBeUndefined()
+  it('database should not exists 2', async () => {
+    expect(await db.databaseExists(dbName)).toBeFalse()
   })
 
 })

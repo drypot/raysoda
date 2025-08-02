@@ -1,11 +1,14 @@
-import mysql, { Pool, ResultSetHeader } from 'mysql2/promise'
+import mysql, { ResultSetHeader } from 'mysql2/promise'
 import { getConfig, getObject, registerObjectCloser, registerObjectFactory } from '../../oman/oman.js'
 import { Config } from '../../common/type/config.js'
 import { inProduction } from '../../common/util/env2.js'
 
 registerObjectFactory('DB', async () => {
-  const db = DB.from(getConfig())
+  const config = getConfig()
+  const db = DB.from(config)
+  await db.connect0()
   await db.createDatabase()
+  await db.connect()
   registerObjectCloser(async () => {
     await db.close()
   })
@@ -18,26 +21,67 @@ export async function getDatabase() {
 
 export class DB {
 
-  readonly dbName: string
-  readonly conn: Pool
+  readonly config: Config
+  conn0!: mysql.Connection
+  conn!: mysql.Pool
 
   static from(config: Config) {
     return new DB(config)
   }
 
   private constructor(config: Config) {
-    this.dbName = config.mysqlDatabase
-    this.conn = mysql.createPool({
+    this.config = config
+  }
+
+  // Pool 은 초기화할 때 database 를 넣어줘야 한다.
+  // 넣지 않으면 연결이 다중으로 만들어질 때 db 를 못찾는다고 나온다;
+  // 근데 아직 db 가 없는 상황에서 database 를 지정하면 오류가 나는 것 같다;
+
+  // conn1 을 별도로 만들어서 디비 생성과 드롭에만 따로 써보기로 한다;
+
+  async connect0() {
+    const config = this.config
+    this.conn0 = await mysql.createConnection({
       host: config.mysqlServer,
       user: config.mysqlUser,
       password: config.mysqlPassword,
       charset: 'utf8mb4',
       multipleStatements: true,
-      // 광역 typeCast 는 안 하기로 한다.
-      // JSON 이 JSON 으로 오지 않고 BLOB 으로 온다.
-      // 다른 정보가 BLOB 으로 오면 구분할 수가 없다.
-      // typeCast: typeCast,
     })
+  }
+
+  async connect() {
+    const config = this.config
+    this.conn = mysql.createPool({
+      host: config.mysqlServer,
+      user: config.mysqlUser,
+      password: config.mysqlPassword,
+      database: config.mysqlDatabase,
+      charset: 'utf8mb4',
+      multipleStatements: true,
+    })
+  }
+
+  async createDatabase() {
+    await this.conn0.query(
+      'create database if not exists ?? character set utf8mb4',
+      this.config.mysqlDatabase
+    )
+  }
+
+  async dropDatabase() {
+    if (inProduction()) {
+      throw (new Error('only available in development mode'))
+    }
+    await this.conn0.query(
+      'drop database if exists ??',
+      this.config.mysqlDatabase
+    )
+  }
+
+  async close() {
+    await this.conn0.end()
+    await this.conn.end()
   }
 
   async query(sql: string, values?: any) {
@@ -55,29 +99,12 @@ export class DB {
     return rows as ResultSetHeader
   }
 
-  async createDatabase() {
-    await this.conn.query(
-      `create database if not exists ?? character set utf8mb4`,
-      this.dbName,
+  async getMaxId(table: string): Promise<number> {
+    const row = await this.queryOne(
+      'select coalesce(max(id), 0) as maxId from ??',
+      table
     )
-    await this.changeCurrentDatabase()
-    return this
-  }
-
-  async changeCurrentDatabase() {
-    await this.conn.query('use ??', this.dbName)
-  }
-
-  async dropDatabase() {
-    if (inProduction()) {
-      throw (new Error('only available in development mode'))
-    }
-    await this.conn.query('drop database if exists ??', this.dbName)
-    return this
-  }
-
-  async close() {
-    await this.conn.end()
+    return row.maxId
   }
 
   private static indexPattern = /create\s+(?:unique\s+)?index\s+(\w+)\s+on\s+(\w+)/i
@@ -87,29 +114,28 @@ export class DB {
     if (!match) throw new Error('create index pattern not found')
     const table = match[2]
     const index = match[1]
-    if (await this.getIndex(table, index)) return
+    if (await this.indexExists(table, index)) return
     await this.conn.query(query)
     return this
   }
 
-  async getDatabase(name: string) {
-    return this.queryOne('show databases like ?', name)
+  async databaseExists(name: string) {
+    const [rows] = await this.conn0.query('show databases like ?', name)
+    return (rows as any[]).length > 0
   }
 
-  async getTable(name: string) {
-    return this.queryOne('show tables like ?', name)
+  async tableExists(name: string) {
+    const [rows] = await this.conn.query('show tables like ?', name)
+    return (rows as any[]).length > 0
   }
 
-  async getIndex(table: string, index: string) {
-    const q =
-      'select * from information_schema.statistics ' +
-      'where table_schema=database() and table_name=? and index_name=?'
-    return this.queryOne(q, [table, index])
-  }
-
-  async getMaxId(table: string): Promise<number> {
-    const r = await this.queryOne('select coalesce(max(id), 0) as maxId from ??', table)
-    return r.maxId
+  async indexExists(table: string, index: string) {
+    const q = `
+      select * from information_schema.statistics
+      where table_schema=database() and table_name=? and index_name=?
+    `
+    const [rows] = await this.conn.query(q, [table, index])
+    return (rows as any[]).length > 0
   }
 
 }

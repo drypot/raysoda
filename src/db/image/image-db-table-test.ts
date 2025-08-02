@@ -24,19 +24,19 @@ describe('ImageDB.*Table', () => {
     await idb.createTable()
   })
   it('table exists', async () => {
-    expect(await db.getTable('image')).toBeDefined()
+    expect(await db.tableExists('image')).toBeTrue()
   })
   it('index exists', async () => {
-    expect(await db.getIndex('image', 'image_cdate')).toBeDefined()
+    expect(await db.indexExists('image', 'image_cdate')).toBeTrue()
   })
   it('index exists 2', async () => {
-    expect(await db.getIndex('image', 'image_uid_cdate')).toBeDefined()
+    expect(await db.indexExists('image', 'image_uid_cdate')).toBeTrue()
   })
   it('drop table', async () => {
     await idb.dropTable()
   })
   it('table not exists', async () => {
-    expect(await db.getTable('image')).toBeUndefined()
+    expect(await db.tableExists('image')).toBeFalse()
   })
 
 })
