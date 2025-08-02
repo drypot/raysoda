@@ -13,3 +13,5 @@ registerObjectFactory('ObjManFix1', async () => {
   })
   return obj
 })
+
+export function registerObjManFixture() { }
