@@ -1,5 +1,5 @@
-import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
-import { Mailer } from './mailer2.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.js'
+import { getMailer, Mailer } from './mailer2.js'
 
 describe('Mailer', () => {
 
@@ -7,7 +7,7 @@ describe('Mailer', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    mailer = await getObject('Mailer') as Mailer
+    mailer = await getMailer()
   })
 
   afterAll(async () => {
