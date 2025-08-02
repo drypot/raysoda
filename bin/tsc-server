@@ -1,3 +1,12 @@
 #!/usr/bin/env bash
 
-node_modules/.bin/tsc -b src/ts/server/tsconfig.json
+#!/usr/bin/env bash
+
+args=(
+#  --build tsconfig.json
+  --project tsconfig.json
+)
+
+set -x # enable debugging output
+
+node_modules/.bin/tsc "${args[@]}" "$@"

@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
 #export NODE_ENV=development
-export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-export TS_NODE_PROJECT=src/ts/server/tsconfig.json
+#export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
+#export TS_NODE_PROJECT=src/ts/server/tsconfig.json
 
-# 실행될 커맨드를 화면에 출력한다.
-set -o xtrace
+args=(
+  --loader ts-node/esm
+)
 
-node "${@}"
+set -x # enable debugging output
+
+node "${args[@]}" "$@"
+
+
