@@ -295,7 +295,7 @@ function defaultErrorHandler(err: any, req: Request, res:Response, done:NextFunc
   if (res.locals.api) {
     res.json({ err })
   } else {
-    res.render('_common/error', { err })
+    res.render('common/error', { err })
   }
 }
 
