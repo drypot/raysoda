@@ -3,14 +3,14 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import redis from 'redis'
 import expressSession from 'express-session'
-import connectRedis from 'connect-redis'
 import * as http from 'http'
-import { newErrorConst } from '@common/util/error2'
-import { Config } from '@common/type/config'
-import { inDev, inProduction } from '@common/util/env2'
-import { getConfig, registerObjectCloser, registerObjectFactory } from '../oman/oman'
-import { INVALID_DATA } from '@common/type/error-const'
-import { renderJson } from '@server/express/response'
+import { newErrorConst } from '../common/util/error2.js'
+import { Config } from '../common/type/config.js'
+import { inDev, inProduction } from '../common/util/env2.js'
+import { getConfig, registerObjectCloser, registerObjectFactory } from '../oman/oman.js'
+import { INVALID_DATA } from '../common/type/error-const.js'
+import { renderJson } from './response.js'
+import { RedisStore } from 'connect-redis'
 
 export type ExpressCallbackHandler = (req: Request, res: Response, done: NextFunction) => void
 export type ExpressPromiseHandler = (req: Request, res: Response) => Promise<void>
@@ -91,7 +91,7 @@ export class Express2 {
 
   private useEjs() {
     this.express.set('view engine', 'ejs')
-    this.express.set('views', 'src/template/ejs')
+    this.express.set('views', 'ejs')
     this.express.set('view options', {
       _with: false,
       localsName: 'locals',
@@ -101,7 +101,7 @@ export class Express2 {
 
   private usePug() {
     this.express.set('view engine', 'pug')
-    this.express.set('views', 'src/template/pug')
+    this.express.set('views', 'pug')
   }
 
   // Start & Close
@@ -131,18 +131,26 @@ export class Express2 {
   private setUpSessionHandler() {
     this.express.use(cookieParser())
 
-    const redisClient = redis.createClient({
-      host: 'localhost',
-      port: 6379,
-      db: 1,
+    const redisClient = redis.createClient( {
+      socket: {
+        host: 'localhost',
+        port: 6379,
+      },
+      database: 1,
     })
     redisClient.unref()
     redisClient.on('error', console.log)
 
-    const RedisStore = connectRedis(expressSession)
+    // connect-redis 9.0.0 설치후 괴상한 오류들이 났는데
+    // @types/connect-redis 를 언인스톨 하고사라졌다.
+
+    let redisStore = new RedisStore({
+      client: redisClient,
+      prefix: "raysoda:",
+    })
 
     this.express.use(expressSession({
-      store: new RedisStore({ client: redisClient }),
+      store: redisStore,
       resave: false,
       saveUninitialized: false,
       secret: this.config.cookieSecret

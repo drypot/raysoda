@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { newErrorConst } from '@common/util/error2'
+import { newErrorConst } from '../common/util/error2.js'
 
 // 공통 프로퍼티를 추가해야할 수도 있으므로
 // express 폴더 안에 두지 않고 어플리케이션 폴더 근처에 둔다.

@@ -1,11 +1,13 @@
-import { Express2 } from '@server/express/express2'
-import supertest, { SuperAgentTest } from 'supertest'
-import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
+import { Express2 } from './express2.js'
+import supertest from 'supertest'
+import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
+
+import './express2.js'
 
 describe('Express2 Json', () => {
 
   let web: Express2
-  let sat: SuperAgentTest
+  let sat: supertest.Agent
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')

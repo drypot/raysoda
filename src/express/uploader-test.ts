@@ -1,15 +1,17 @@
-import { Express2 } from '@server/express/express2'
-import supertest, { SuperAgentTest } from 'supertest'
+import { Express2 } from './express2.js'
+import supertest from 'supertest'
 import { existsSync, unlinkSync } from 'fs'
-import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
-import { deleteUpload, Uploader } from '@server/express/uploader'
-import { timeout } from '@common/util/async2'
+import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
+import { deleteUpload, Uploader } from './uploader.js'
+import { timeout } from '../common/util/async2.js'
+
+import './express2.js'
 
 describe('Express2 Upload', () => {
 
   let web: Express2
   let uploader: Uploader
-  let sat: SuperAgentTest
+  let sat: supertest.Agent
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')

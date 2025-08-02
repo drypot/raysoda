@@ -1,8 +1,8 @@
 import newMulter, { Multer } from 'multer'
-import { emptyDirSync, mkdirRecursiveSync } from '@common/util/fs2'
-import { ExpressCallbackHandler, ExpressPromiseHandler } from '@server/express/express2'
+import { emptyDirSync, mkdirRecursiveSync } from '../common/util/fs2.js'
+import { ExpressCallbackHandler, ExpressPromiseHandler } from './express2.js'
 import { unlink } from 'fs'
-import { getConfig, registerObjectFactory } from '@server/oman/oman'
+import { getConfig, registerObjectFactory } from '../oman/oman.js'
 
 export type Uploader = Multer
 
