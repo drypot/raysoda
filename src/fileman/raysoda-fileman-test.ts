@@ -1,13 +1,11 @@
 import { ErrorConst } from '../common/type/error.js'
 import { existsSync } from 'fs'
 import { IMAGE_SIZE } from '../common/type/error-const.js'
-import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
-import { RaySodaFileManager } from './raysoda-fileman.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.js'
+import { getRaySodaFileManager } from './raysoda-fileman.js'
 import { newImageMeta } from '../common/type/image-meta.js'
 import { getImageMetaOfFile } from './magick/magick2.js'
 import { ImageFileManager } from './fileman.js'
-
-import './raysoda-fileman.js'
 
 describe('RaySodaFileManager', () => {
 
@@ -15,7 +13,7 @@ describe('RaySodaFileManager', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    ifm = await getObject('RaySodaFileManager') as RaySodaFileManager
+    ifm = await getRaySodaFileManager()
   })
 
   afterAll(async () => {

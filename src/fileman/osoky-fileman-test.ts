@@ -1,13 +1,11 @@
-import { OsokyFileManager } from './osoky-fileman.js'
+import { getOsokyFileManaer } from './osoky-fileman.js'
 import { ErrorConst } from '../common/type/error.js'
 import { existsSync } from 'fs'
 import { IMAGE_SIZE } from '../common/type/error-const.js'
-import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.js'
 import { newImageMeta } from '../common/type/image-meta.js'
 import { getImageMetaOfFile } from './magick/magick2.js'
 import { ImageFileManager } from './fileman.js'
-
-import './osoky-fileman.js'
 
 describe('OsokyFileManager', () => {
 
@@ -15,7 +13,7 @@ describe('OsokyFileManager', () => {
 
   beforeAll(async () => {
     initObjectContext('config/osoky-test.json')
-    ifm = await getObject('OsokyFileManager') as OsokyFileManager
+    ifm = await getOsokyFileManaer()
   })
 
   afterAll(async () => {

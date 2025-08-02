@@ -6,7 +6,7 @@ import { IMAGE_SIZE, IMAGE_TYPE } from '../common/type/error-const.js'
 import { getImageMetaOfFile } from './magick/magick2.js'
 import { ImageFileManager } from './fileman.js'
 import { newDeepPath } from '../common/util/deeppath.js'
-import { getConfig, registerObjectFactory } from '../oman/oman.js'
+import { getConfig, getObject, registerObjectFactory } from '../oman/oman.js'
 import { inProduction } from '../common/util/env2.js'
 import { ErrorConst } from '../common/type/error.js'
 import { ImageMeta } from '../common/type/image-meta.js'
@@ -16,6 +16,10 @@ const maxWidth = 2048
 registerObjectFactory('OsokyFileManager', async () => {
   return OsokyFileManager.from(getConfig())
 })
+
+export async function getOsokyFileManaer() {
+  return await getObject('OsokyFileManager') as OsokyFileManager
+}
 
 export class OsokyFileManager implements ImageFileManager {
 

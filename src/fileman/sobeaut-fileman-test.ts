@@ -1,8 +1,8 @@
-import { SobeautFileManager } from './sobeaut-fileman.js'
+import { getSobeautFileManager } from './sobeaut-fileman.js'
 import { ErrorConst } from '../common/type/error.js'
 import { existsSync } from 'fs'
 import { IMAGE_SIZE } from '../common/type/error-const.js'
-import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.js'
 import { newImageMeta } from '../common/type/image-meta.js'
 import { getImageMetaOfFile } from './magick/magick2.js'
 import { ImageFileManager } from './fileman.js'
@@ -15,7 +15,7 @@ describe('SobeautFileManager', () => {
 
   beforeAll(async () => {
     initObjectContext('config/sobeaut-test.json')
-    ifm = await getObject('SobeautFileManager') as SobeautFileManager
+    ifm = await getSobeautFileManager()
   })
 
   afterAll(async () => {

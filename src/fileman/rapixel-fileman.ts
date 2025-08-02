@@ -6,7 +6,7 @@ import { IMAGE_SIZE, IMAGE_TYPE } from '../common/type/error-const.js'
 import { ImageMeta, WidthHeight } from '../common/type/image-meta.js'
 import { ImageFileManager } from './fileman.js'
 import { newDeepPath } from '../common/util/deeppath.js'
-import { getConfig, registerObjectFactory } from '../oman/oman.js'
+import { getConfig, getObject, registerObjectFactory } from '../oman/oman.js'
 import { inProduction } from '../common/util/env2.js'
 import { ErrorConst } from '../common/type/error.js'
 
@@ -35,6 +35,9 @@ registerObjectFactory('RapixelFileManager', async () => {
   return RapixelFileManager.from(getConfig())
 })
 
+export async function getRapixelFileManaer() {
+  return await getObject('RapixelFileManager') as RapixelFileManager
+}
 export class RapixelFileManager implements ImageFileManager {
 
   readonly dir: string

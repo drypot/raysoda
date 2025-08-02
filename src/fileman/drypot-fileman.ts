@@ -6,13 +6,17 @@ import { Config } from '../common/type/config.js'
 import { ImageMeta } from '../common/type/image-meta.js'
 import { ImageFileManager } from './fileman.js'
 import { newDeepPath } from '../common/util/deeppath.js'
-import { getConfig, registerObjectFactory } from '../oman/oman.js'
+import { getConfig, getObject, registerObjectFactory } from '../oman/oman.js'
 import { inProduction } from '../common/util/env2.js'
 import { getImageMetaOfFile } from './magick/magick2.js'
 
 registerObjectFactory('DrypotFileManager', async () => {
   return DrypotFileManager.from(getConfig())
 })
+
+export async function getDrypotFileManaer() {
+  return await getObject('DrypotFileManager') as DrypotFileManager
+}
 
 export class DrypotFileManager implements ImageFileManager {
 

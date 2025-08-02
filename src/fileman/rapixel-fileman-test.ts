@@ -1,13 +1,11 @@
 import { ErrorConst } from '../common/type/error.js'
 import { existsSync } from 'fs'
 import { IMAGE_SIZE } from '../common/type/error-const.js'
-import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
-import { RapixelFileManager } from './rapixel-fileman.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.js'
+import { getRapixelFileManaer } from './rapixel-fileman.js'
 import { newImageMeta } from '../common/type/image-meta.js'
 import { getImageMetaOfFile } from './magick/magick2.js'
 import { ImageFileManager } from './fileman.js'
-
-import './rapixel-fileman.js'
 
 describe('RapixelFileManager', () => {
 
@@ -15,7 +13,7 @@ describe('RapixelFileManager', () => {
 
   beforeAll(async () => {
     initObjectContext('config/rapixel-test.json')
-    ifm = await getObject('RapixelFileManager') as RapixelFileManager
+    ifm = await getRapixelFileManaer()
   })
 
   afterAll(async () => {

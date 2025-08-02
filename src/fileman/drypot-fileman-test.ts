@@ -1,12 +1,10 @@
 import { ErrorConst } from '../common/type/error.js'
 import { IMAGE_TYPE } from '../common/type/error-const.js'
 import { existsSync } from 'fs'
-import { DrypotFileManager } from './drypot-fileman.js'
-import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
+import { getDrypotFileManaer } from './drypot-fileman.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.js'
 import { newImageMeta } from '../common/type/image-meta.js'
 import { ImageFileManager } from './fileman.js'
-
-import './drypot-fileman.js'
 
 describe('DrypotFileManager', () => {
 
@@ -14,7 +12,7 @@ describe('DrypotFileManager', () => {
 
   beforeAll(async () => {
     initObjectContext('config/drypot-test.json')
-    ifm = await getObject('DrypotFileManager') as DrypotFileManager
+    ifm = await getDrypotFileManaer()
   })
 
   afterAll(async () => {
