@@ -6,39 +6,90 @@
   // server, client, 각 파트 서브 디렉토리에 둬야한다.
 
   "compilerOptions": {
+
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "target": "esnext",
+
+    "target": "esnext", // async iterators ...
+
+    // 컴파일러가 기본 제공하는 타입셋.
+
     "lib": ["esnext"],
+
+    // tsc 결과 파일이 출력될 디렉토리.
+
+    "outDir": "build",
+
+    // 소스 파일의 루트를 어디로 볼 것인가를 결정한다.
+    // outDir 디렉토리에 사용할 서브 패스에 영향을 준다.
+    // rootDir 이 "src"일 경우 src/a.ts -> build/a.js 가 된다.
+    // rootDir 이 "."일 경우 src/a.ts -> build/src/a.js 가 된다.
+
+    // 보통 "src" 정도를 쓰는데 WebStorm 에서 문제가 생겼다.
+    // Run Config 에서 $FileDirPathFromParent(src)$ 매크로가 작동하지 않는다.
+    // Jasmine 테스트 런을 편하게 하기위해 할 수 없이 rooDir 을 "." 으로 세팅하고
+    // build/src/.../*.js 를 실행하도록 했다.
+
+    // 위에 문제는 예전 문제인 듯.
+    // 지금 WebStorm -> Run 설정을 보면
+    // ts-node 로 ts 를 바로 실행하는 것으로 되어 있다.
+
+    "rootDir": ".",
 
     // baseUrl 은 import 에 절대 경로를 사용할 수 있게 한다.
     // baseUrl 은 절대 경로의 베이스 디렉토리가 된다.
     // 하지만 node, ts-node 는 이 패스를 모르기 때문에
     // tsconfig-paths 같은 플러그인이 또 필요해 진다.
+
     // 2025-08-01, Node 24 로 업그레이드하는데 여러가지 문제를 일으키는 중.
     // 해서 절대 경로 사용은 피해볼까 한다.
 
-//    "baseUrl": "./src",
-//    "paths": {
-//          "@server/*": ["./*"],
-//          "@common/*": ["./common/*"],
-//    },
+    //    "baseUrl": "./src",
+    //    "paths": {
+    //          "@server/*": ["./*"],
+    //          "@common/*": ["./common/*"],
+    //    },
 
-    "outDir": "build",
-    "rootDir": "src",
+    //
 
-    // ObjectMaker 자동 등록을 위해 preserve 로 해야한다.
-    "verbatimModuleSyntax": true,
+    // TypeScript 는 import 구문을 자동으로 최적화 한다.
+    // 최적화 되서 import 가 사라졌을 때 side effect 를 사용하는 모듈은 실행이 안 된다.
+
+    // "verbatimModuleSyntax": true 로 하면 빈 import {} 가 유지된다.
+    // import type { A } from "a";     이렇게 쓰면 import 가 모두 삭제된다.
+    // import { type xyz } from "xyz"; 이렇게 쓰면 import {} from ... 이 남는다.
+
+    // 이것도 기본값으로 돌리고 흑마술을 줄여볼까 한다.
+    // 사이드 이펙트 필요한 모듈들은 수동으로 import "" 해주는 것으로.
+
+    // "verbatimModuleSyntax": true,
+
+    //
+
+    // CommonJS 형식으로 작성된 대부분 기본 모듈들은 다음과 같이 import 해야 한다.
+    // import * as fs from 'fs'
+    // "esModuleInterop": true 해주면 다음과 같이 import 할 수 있게 된다.
+    // import fs from 'fs'
+
+    // 전에는 true 로 썼었는데 기본값 false 로 돌아가고자 한다.
+    // 흑마술을 줄이자.
+
+    // "esModuleInterop": true
 
     "strict": true,
-    "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "sourceMap": true
+    "sourceMap": true,
   },
+
+  // 컴파일할 파일들을 지정한다.
+  // 컴파일할 파일이 몇 개 없으면 "files": [] 을 사용.
+  // 컴파일할 파일이 많으면 "include": [] 을 사용.
+
   "include": [
     "src/**/*"
   ],
+
   "exclude": [
   ],
   //  "references": [
