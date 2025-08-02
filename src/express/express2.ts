@@ -7,7 +7,7 @@ import * as http from 'http'
 import { newErrorConst } from '../common/util/error2.js'
 import { Config } from '../common/type/config.js'
 import { inDev, inProduction } from '../common/util/env2.js'
-import { getConfig, registerObjectCloser, registerObjectFactory } from '../oman/oman.js'
+import { getConfig, getObject, registerObjectCloser, registerObjectFactory } from '../oman/oman.js'
 import { INVALID_DATA } from '../common/type/error-const.js'
 import { renderJson } from './response.js'
 import { RedisStore } from 'connect-redis'
@@ -28,6 +28,10 @@ registerObjectFactory('Express2', async () => {
   })
   return web
 })
+
+export async function getExpress2() {
+  return await getObject('Express2') as Express2
+}
 
 export class Express2 {
 
@@ -114,7 +118,7 @@ export class Express2 {
       res.locals.api = Express2.apiPattern.test(req.path)
       done()
     })
-    this.setUpSessionHandler()
+    await this.setUpSessionHandler()
     this.setUpBodyParser()
     this.setUpCacheControl()
     this.setUpAutoLoginHandler()
@@ -128,7 +132,7 @@ export class Express2 {
     })
   }
 
-  private setUpSessionHandler() {
+  private async setUpSessionHandler() {
     this.express.use(cookieParser())
 
     const redisClient = redis.createClient( {
@@ -138,8 +142,8 @@ export class Express2 {
       },
       database: 1,
     })
-    redisClient.unref()
     redisClient.on('error', console.log)
+    await redisClient.connect()
 
     // connect-redis 9.0.0 설치후 괴상한 오류들이 났는데
     // @types/connect-redis 를 언인스톨 하고사라졌다.

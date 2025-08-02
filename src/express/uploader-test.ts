@@ -1,24 +1,22 @@
-import { Express2 } from './express2.js'
+import { Express2, getExpress2 } from './express2.js'
 import supertest from 'supertest'
 import { existsSync, unlinkSync } from 'fs'
-import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
-import { deleteUpload, Uploader } from './uploader.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.js'
+import { deleteUpload, getUploader, Uploader } from './uploader.js'
 import { timeout } from '../common/util/async2.js'
-
-import './express2.js'
 
 describe('Express2 Upload', () => {
 
-  let web: Express2
+  let express2: Express2
   let uploader: Uploader
-  let sat: supertest.Agent
+  let agent: supertest.Agent
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    web = await getObject('Express2') as Express2
-    uploader = await getObject('Uploader') as Uploader
-    await web.start()
-    sat = supertest.agent(web.server)
+    express2 = await getExpress2()
+    uploader = await getUploader()
+    await express2.start()
+    agent = supertest.agent(express2.server)
   })
 
   afterAll(async () => {
@@ -29,7 +27,7 @@ describe('Express2 Upload', () => {
   const f2 = 'sample/text2.txt'
 
   it('setup', () => {
-    web.router.post('/api/echo-file',
+    express2.router.post('/api/echo-file',
       uploader.single('file'),
       deleteUpload(async (req, res) => {
         res.json({
@@ -37,7 +35,7 @@ describe('Express2 Upload', () => {
           file: req.file
         })
       }))
-    web.router.post('/api/echo-files',
+    express2.router.post('/api/echo-files',
       uploader.array('files', 12),
       deleteUpload(async (req, res) => {
         res.json({
@@ -45,7 +43,7 @@ describe('Express2 Upload', () => {
           files: req.files
         })
       }))
-    web.router.post('/api/echo-file-after-delete',
+    express2.router.post('/api/echo-file-after-delete',
       uploader.single('file'),
       deleteUpload(async (req, res) => {
         res.json({
@@ -57,13 +55,13 @@ describe('Express2 Upload', () => {
       }))
   })
   it('posting json works', async () => {
-    const res = await sat.post('/api/echo-files').send({ 'p1': 'v1' }).expect(200)
+    const res = await agent.post('/api/echo-files').send({ 'p1': 'v1' }).expect(200)
     expect(res.body).toEqual({
       p1: 'v1'
     })
   })
   it('posting multipart/form-data works', async () => {
-    const res = await sat.post('/api/echo-files').field('p1', 'v1').field('p2', 'v2').field('p2', 'v3')
+    const res = await agent.post('/api/echo-files').field('p1', 'v1').field('p2', 'v2').field('p2', 'v3')
     expect(res.body).toEqual({
       p1: 'v1',
       p2: ['v2', 'v3'],
@@ -72,14 +70,14 @@ describe('Express2 Upload', () => {
   })
   it('posting multipart/form-data works 2', async () => {
     const form = { p1: 'v1', p2: 'v2', p3: ['v3', 'v4'] }
-    const res = await sat.post('/api/echo-files').field(form)
+    const res = await agent.post('/api/echo-files').field(form)
     expect(res.body).toEqual({
       ...form,
       files: []
     })
   })
   it('posting one file works', async () => {
-    const res = await sat.post('/api/echo-file').field('p1', 'v1').attach('file', f1)
+    const res = await agent.post('/api/echo-file').field('p1', 'v1').attach('file', f1)
     expect(res.body.err).toBeFalsy()
     expect(res.body.p1).toBe('v1')
     //
@@ -98,7 +96,7 @@ describe('Express2 Upload', () => {
     expect(existsSync(res.body.file.path)).toBe(false)
   })
   it('posting files works', async () => {
-    const res = await sat.post('/api/echo-files').field('p1', 'v1').attach('files', f1).attach('files', f2)
+    const res = await agent.post('/api/echo-files').field('p1', 'v1').attach('files', f1).attach('files', f2)
     expect(res.body.err).toBeFalsy()
     expect(res.body.p1).toBe('v1')
     expect(res.body.files.length).toBe(2)
@@ -109,11 +107,11 @@ describe('Express2 Upload', () => {
     expect(existsSync(res.body.files[1].path)).toBe(false)
   })
   it('posting file with irregular name works', async () => {
-    const res = await sat.post('/api/echo-files').attach('files', f1, 'file<>()[]_-=.txt.%$#@!&.txt')
+    const res = await agent.post('/api/echo-files').attach('files', f1, 'file<>()[]_-=.txt.%$#@!&.txt')
     expect(res.body.err).toBeFalsy()
   })
   it('moving posted file works', async () => {
-    const res = await sat.post('/api/echo-file-after-delete').field('p1', 'v1').attach('file', f1)
+    const res = await agent.post('/api/echo-file-after-delete').field('p1', 'v1').attach('file', f1)
     expect(res.body.err).toBeFalsy()
     await timeout(100)
     expect(existsSync(res.body.file.path)).toBe(false)

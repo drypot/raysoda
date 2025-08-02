@@ -1,19 +1,17 @@
-import { Express2 } from './express2.js'
+import { Express2, getExpress2 } from './express2.js'
 import supertest from 'supertest'
-import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
-
-import './express2.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.js'
 
 describe('Express2 Html', () => {
 
-  let web: Express2
-  let sat: supertest.Agent
+  let express2: Express2
+  let agent: supertest.Agent
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    web = await getObject('Express2') as Express2
-    await web.start()
-    sat = supertest.agent(web.server)
+    express2 = await getExpress2()
+    await express2.start()
+    agent = supertest.agent(express2.server)
   })
 
   afterAll(async () => {
@@ -21,12 +19,12 @@ describe('Express2 Html', () => {
   })
 
   it('setup', () => {
-    web.router.get('/html', (req, res) => {
+    express2.router.get('/html', (req, res) => {
       res.send('<p>some text</p>')
     })
   })
   it('can return html', async () => {
-    const res = await sat.get('/html').expect(200)
+    const res = await agent.get('/html').expect(200)
     expect(res.type).toBe('text/html')
     expect(res.text).toBe('<p>some text</p>')
   })

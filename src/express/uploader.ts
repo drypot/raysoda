@@ -2,7 +2,7 @@ import newMulter, { Multer } from 'multer'
 import { emptyDirSync, mkdirRecursiveSync } from '../common/util/fs2.js'
 import { ExpressCallbackHandler, ExpressPromiseHandler } from './express2.js'
 import { unlink } from 'fs'
-import { getConfig, registerObjectFactory } from '../oman/oman.js'
+import { getConfig, getObject, registerObjectFactory } from '../oman/oman.js'
 
 export type Uploader = Multer
 
@@ -16,6 +16,10 @@ registerObjectFactory('Uploader', async() => {
   emptyDirSync(tmpDir)
   return newMulter({ dest: tmpDir })
 })
+
+export async function getUploader() {
+  return await getObject('Uploader') as Uploader
+}
 
 export function deleteUpload(handler: ExpressPromiseHandler): ExpressCallbackHandler {
   return (req, res, done) => {
