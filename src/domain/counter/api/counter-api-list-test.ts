@@ -1,30 +1,30 @@
-import supertest, { SuperAgentTest } from 'supertest'
-import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '@server/db/user/fixture/user-fix'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '@common/type/error-const'
-import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
-import { CounterDB } from '@server/db/counter/counter-db'
-import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
-import { Express2 } from '@server/express/express2'
-import { userLoginForTest } from '@server/domain/user/api/user-auth-api-fixture'
-import { UserDB } from '@server/db/user/user-db'
-import { useCounterApi } from '@server/domain/counter/api/counter-api'
+import { getUserDB, UserDB } from '../../../db/user/user-db.js'
+import { CounterDB, getCounterDB } from '../../../db/counter/counter-db.js'
+import { Express2, getExpress2 } from '../../../express/express2.js'
+import supertest from 'supertest'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
+import { useUserAuthApi } from '../../user/api/user-auth-api.js'
+import { useCounterApi } from './counter-api.js'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.js'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../common/type/error-const.js'
+import { userLoginForTest } from '../../user/api/user-auth-api-fixture.js'
 
 describe('Counter List Api', () => {
 
   let udb: UserDB
   let cdb: CounterDB
-  let web: Express2
-  let sat: SuperAgentTest
+  let express2: Express2
+  let agent: supertest.Agent
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    udb = await getObject('UserDB') as UserDB
-    cdb = await getObject('CounterDB') as CounterDB
-    web = await getObject('Express2') as Express2
+    udb = await getUserDB()
+    cdb = await getCounterDB()
+    express2 = await getExpress2()
     await useUserAuthApi()
     await useCounterApi()
-    await web.start()
-    sat = supertest.agent(web.server)
+    await express2.start()
+    agent = supertest.agent(express2.server)
   })
 
   afterAll(async () => {
@@ -51,21 +51,21 @@ describe('Counter List Api', () => {
   })
   const url1 = '/api/counter-list/cnt1?b=2003-01-18&e=2003-01-20'
   it('get fails if anonymous', async () => {
-    const res = await sat.get(url1).expect(200)
+    const res = await agent.get(url1).expect(200)
     expect(res.body.err).toContain(NOT_AUTHENTICATED)
   })
   it('login as user', async () => {
-    await userLoginForTest(sat, USER1_LOGIN_FORM)
+    await userLoginForTest(agent, USER1_LOGIN_FORM)
   })
   it('get fails if user', async () => {
-    const res = await sat.get(url1).expect(200)
+    const res = await agent.get(url1).expect(200)
     expect(res.body.err).toContain(NOT_AUTHORIZED)
   })
   it('login as admin', async () => {
-    await userLoginForTest(sat, ADMIN_LOGIN_FORM)
+    await userLoginForTest(agent, ADMIN_LOGIN_FORM)
   })
   it('get counter', async () => {
-    const res = await sat.get(url1).expect(200)
+    const res = await agent.get(url1).expect(200)
     expect(res.body.counterList).toEqual([
       { id: 'cnt1', d: '2003-01-18', c: 20 },
       { id: 'cnt1', d: '2003-01-19', c: 30 },

@@ -1,30 +1,30 @@
-import supertest, { SuperAgentTest } from 'supertest'
-import { dateToStringNoTime } from '@common/util/date2'
-import { useCounterPage } from '@server/domain/counter/page/counter-page'
-import { dupe } from '@common/util/object2'
-import { closeAllObjects, getObject, initObjectContext } from '@server/oman/oman'
-import { CounterDB } from '@server/db/counter/counter-db'
-import { useUserAuthApi } from '@server/domain/user/api/user-auth-api'
-import { Express2 } from '@server/express/express2'
-import { insertUserFix4 } from '@server/db/user/fixture/user-fix'
-import { UserDB } from '@server/db/user/user-db'
+import { getUserDB, UserDB } from '../../../db/user/user-db.js'
+import { CounterDB, getCounterDB } from '../../../db/counter/counter-db.js'
+import { Express2, getExpress2 } from '../../../express/express2.js'
+import supertest from 'supertest'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
+import { useUserAuthApi } from '../../user/api/user-auth-api.js'
+import { useCounterPage } from './counter-page.js'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { dateToStringNoTime } from '../../../common/util/date2.js'
+import { dupe } from '../../../common/util/object2.js'
 
 describe('CounterPage Inc', () => {
 
   let udb: UserDB
   let cdb: CounterDB
-  let web: Express2
-  let sat: SuperAgentTest
+  let express2: Express2
+  let agent: supertest.Agent
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    udb = await getObject('UserDB') as UserDB
-    cdb = await getObject('CounterDB') as CounterDB
-    web = await getObject('Express2') as Express2
+    udb = await getUserDB()
+    cdb = await getCounterDB()
+    express2 = await getExpress2()
     await useUserAuthApi()
     await useCounterPage()
-    await web.start()
-    sat = supertest.agent(web.server)
+    await express2.start()
+    agent = supertest.agent(express2.server)
   })
 
   afterAll(async () => {
@@ -42,7 +42,7 @@ describe('CounterPage Inc', () => {
     await cdb.createTable()
   })
   it('inc 1', async () => {
-    await sat.get('/counter-inc/abc?r=http://hello.world')
+    await agent.get('/counter-inc/abc?r=http://hello.world')
       .expect(302).expect('Location', 'http://hello.world')
   })
   it('check db 2', async () => {
@@ -51,7 +51,7 @@ describe('CounterPage Inc', () => {
     expect(dupe(r)).toEqual({ id: 'abc', d: d, c: 1 })
   })
   it('inc 2', async () => {
-    await sat.get('/counter-inc/abc?r=http://hello.world')
+    await agent.get('/counter-inc/abc?r=http://hello.world')
       .expect(302).expect('Location', 'http://hello.world')
   })
   it('check db 2', async () => {
