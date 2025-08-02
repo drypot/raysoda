@@ -1,6 +1,8 @@
 import { UserDB } from './user-db.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 
+import './user-db.js'
+
 describe('UserDB NextId', () => {
 
   let udb: UserDB

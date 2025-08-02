@@ -2,6 +2,8 @@ import { BannerDB } from './banner-db.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 import { dupe } from '../../common/util/object2.js'
 
+import './banner-db.js'
+
 describe('BannerDB', () => {
 
   let bdb: BannerDB

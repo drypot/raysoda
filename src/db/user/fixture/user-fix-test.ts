@@ -2,6 +2,8 @@ import { ADMIN, insertUserFix1, insertUserFix4, USER1, USER3 } from './user-fix.
 import { closeAllObjects, getObject, initObjectContext } from '../../../oman/oman.js'
 import { UserDB } from '../user-db.js'
 
+import '../user-db.js'
+
 describe('User Fixture', () => {
 
   let udb: UserDB

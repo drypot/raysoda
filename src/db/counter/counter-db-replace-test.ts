@@ -3,6 +3,8 @@ import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.j
 import { dupe } from '../../common/util/object2.js'
 import { DB } from '../db/db.js'
 
+import './counter-db.js'
+
 describe('CounterDB Replace', () => {
 
   let db: DB

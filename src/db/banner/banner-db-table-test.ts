@@ -2,6 +2,8 @@ import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.j
 import { DB } from '../db/db.js'
 import { BannerDB } from './banner-db.js'
 
+import './banner-db.js'
+
 describe('ValueDB Table', () => {
 
   let db: DB

@@ -1,6 +1,8 @@
 import { ImageDB } from './image-db.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 
+import './image-db.js'
+
 describe('ImageDB.*NextId', () => {
 
   let idb: ImageDB

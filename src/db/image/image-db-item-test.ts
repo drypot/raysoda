@@ -4,6 +4,8 @@ import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.j
 import { dupe } from '../../common/util/object2.js'
 import { dateNull } from '../../common/type/date-const.js'
 
+import './image-db.js'
+
 describe('ImageDB.*Image', () => {
 
   let idb: ImageDB

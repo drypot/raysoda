@@ -2,6 +2,8 @@ import { CounterDB } from './counter-db.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 import { DB } from '../db/db.js'
 
+import './counter-db.js'
+
 describe('CounterDB Table', () => {
 
   let db: DB

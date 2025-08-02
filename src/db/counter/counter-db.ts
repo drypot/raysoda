@@ -4,6 +4,8 @@ import { getObject, registerObjectFactory } from '../../oman/oman.js'
 import { DB } from '../db/db.js'
 import { inProduction } from '../../common/util/env2.js'
 
+import '../db/db.js'
+
 registerObjectFactory('CounterDB', async () => {
   const cdb = CounterDB.from(await getObject('DB') as DB)
   await cdb.createTable()

@@ -1,6 +1,8 @@
 import { PwMailDB } from './pwmail-db.js'
-import { type PasswordMailLog } from '../../common/type/password.js'
+import { PasswordMailLog } from '../../common/type/password.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
+
+import './pwmail-db.js'
 
 describe('PwMailDB Token', () => {
 

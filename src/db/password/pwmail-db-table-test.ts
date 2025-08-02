@@ -2,6 +2,8 @@ import { PwMailDB } from './pwmail-db.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 import { DB } from '../db/db.js'
 
+import './pwmail-db.js'
+
 describe('PwMailDB Table', () => {
 
   let db: DB

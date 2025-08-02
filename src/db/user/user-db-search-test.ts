@@ -2,6 +2,8 @@ import { insertUserFix4, USER1 } from './fixture/user-fix.js'
 import { UserDB } from './user-db.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 
+import './user-db.js'
+
 describe('UserDB Search', () => {
 
   let udb: UserDB

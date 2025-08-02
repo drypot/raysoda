@@ -2,6 +2,8 @@ import { ImageDB } from './image-db.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 import { DB } from '../db/db.js'
 
+import './image-db.js'
+
 describe('ImageDB.*Table', () => {
 
   let db: DB

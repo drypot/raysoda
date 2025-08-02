@@ -1,6 +1,6 @@
-import mysql, { type Pool, type ResultSetHeader } from 'mysql2/promise'
+import mysql, { Pool, ResultSetHeader } from 'mysql2/promise'
 import { getConfig, registerObjectCloser, registerObjectFactory } from '../../oman/oman.js'
-import type { Config } from '../../common/type/config.js'
+import { Config } from '../../common/type/config.js'
 import { inProduction } from '../../common/util/env2.js'
 
 registerObjectFactory('DB', async () => {

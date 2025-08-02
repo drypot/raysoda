@@ -1,6 +1,8 @@
 import { getObject, initObjectContext } from '../../oman/oman.js'
 import { DB } from './db.js'
 
+import './db.js'
+
 describe('DB.close', () => {
 
   let db: DB

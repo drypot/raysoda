@@ -1,9 +1,11 @@
-import { type User } from '../../common/type/user.js'
-import { type UserListItem } from '../../common/type/user-detail.js'
+import { User } from '../../common/type/user.js'
+import { UserListItem } from '../../common/type/user-detail.js'
 import { getObject, registerObjectFactory } from '../../oman/oman.js'
 import { UserCache } from './user-cache.js'
 import { DB } from '../db/db.js'
 import { inProduction } from '../../common/util/env2.js'
+
+import '../db/db.js'
 
 registerObjectFactory('UserDB', async () => {
   const udb = UserDB.from(await getObject('DB') as DB)

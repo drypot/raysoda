@@ -2,8 +2,10 @@ import { ImageDB } from './image-db.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 import { DB } from '../db/db.js'
 import { newPageParam } from '../../common/type/page.js'
-import { type Image } from '../../common/type/image.js'
+import { Image } from '../../common/type/image.js'
 import { newImagePage } from '../../common/type/image-list.js'
+
+import './image-db.js'
 
 describe('ImageDB getImagePage', () => {
 

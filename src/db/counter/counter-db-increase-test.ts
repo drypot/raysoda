@@ -3,6 +3,8 @@ import { dateToStringNoTime } from '../../common/util/date2.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 import { dupe } from '../../common/util/object2.js'
 
+import './counter-db.js'
+
 describe('CounterDB Increase', () => {
 
   let cdb: CounterDB

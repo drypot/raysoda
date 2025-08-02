@@ -1,6 +1,8 @@
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 import { DB } from './db.js'
 
+import './db.js'
+
 describe('DB.createIndexIfNotExists', () => {
 
   let db: DB

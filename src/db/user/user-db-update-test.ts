@@ -2,7 +2,7 @@ import { UserDB } from './user-db.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 import { insertUserFix1 } from './fixture/user-fix.js'
 import { dupe } from '../../common/util/object2.js'
-import { type User } from '../../common/type/user.js'
+import { User } from '../../common/type/user.js'
 
 describe('UserDB.update', () => {
 

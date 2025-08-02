@@ -2,6 +2,8 @@ import { UserDB } from './user-db.js'
 import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
 import { DB } from '../db/db.js'
 
+import './user-db.js'
+
 describe('UserDB Table', () => {
 
   let db: DB

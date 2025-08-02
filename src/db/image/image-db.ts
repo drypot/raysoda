@@ -1,9 +1,11 @@
 import { getObject, registerObjectFactory } from '../../oman/oman.js'
-import { type Image } from '../../common/type/image.js'
+import { Image } from '../../common/type/image.js'
 import { DB } from '../db/db.js'
 import { inProduction } from '../../common/util/env2.js'
-import { type PageParam } from '../../common/type/page.js'
-import { type ImagePage } from '../../common/type/image-list.js'
+import { PageParam } from '../../common/type/page.js'
+import { ImagePage } from '../../common/type/image-list.js'
+
+import '../db/db.js'
 
 registerObjectFactory('ImageDB', async () => {
   const idb = ImageDB.from(await getObject('DB') as DB)
