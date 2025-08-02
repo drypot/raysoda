@@ -1,8 +1,6 @@
-import { UserDB } from './user-db.js'
-import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
-import { DB } from '../db/db.js'
-
-import './user-db.js'
+import { getUserDB, UserDB } from './user-db.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
+import { DB, getDatabase } from '../db/db.js'
 
 describe('UserDB Table', () => {
 
@@ -11,8 +9,8 @@ describe('UserDB Table', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    db = await getObject('DB') as DB
-    udb = await getObject('UserDB') as UserDB
+    db = await getDatabase()
+    udb = await getUserDB()
   })
 
   afterAll(async () => {

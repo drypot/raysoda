@@ -1,8 +1,6 @@
 import { ADMIN, insertUserFix1, insertUserFix4, USER1, USER3 } from './user-fix.js'
-import { closeAllObjects, getObject, initObjectContext } from '../../../oman/oman.js'
-import { UserDB } from '../user-db.js'
-
-import '../user-db.js'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
+import { getUserDB, UserDB } from '../user-db.js'
 
 describe('User Fixture', () => {
 
@@ -10,7 +8,7 @@ describe('User Fixture', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    udb = await getObject('UserDB') as UserDB
+    udb = await getUserDB()
   })
 
   afterAll(async () => {

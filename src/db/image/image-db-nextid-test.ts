@@ -1,7 +1,5 @@
-import { ImageDB } from './image-db.js'
-import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
-
-import './image-db.js'
+import { getImageDB, ImageDB } from './image-db.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
 
 describe('ImageDB.*NextId', () => {
 
@@ -9,7 +7,7 @@ describe('ImageDB.*NextId', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    idb = await getObject('ImageDB') as ImageDB
+    idb = await getImageDB()
   })
 
   afterAll(async () => {

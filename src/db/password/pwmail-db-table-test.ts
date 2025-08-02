@@ -1,8 +1,6 @@
-import { PwMailDB } from './pwmail-db.js'
-import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
-import { DB } from '../db/db.js'
-
-import './pwmail-db.js'
+import { getPwMailDB, PwMailDB } from './pwmail-db.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
+import { DB, getDatabase } from '../db/db.js'
 
 describe('PwMailDB Table', () => {
 
@@ -11,8 +9,8 @@ describe('PwMailDB Table', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    db = await getObject('DB') as DB
-    rdb = await getObject('PwMailDB') as PwMailDB
+    db = await getDatabase()
+    rdb = await getPwMailDB()
   })
 
   afterAll(async () => {

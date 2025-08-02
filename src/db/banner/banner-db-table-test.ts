@@ -1,8 +1,6 @@
-import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
-import { DB } from '../db/db.js'
-import { BannerDB } from './banner-db.js'
-
-import './banner-db.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
+import { DB, getDatabase } from '../db/db.js'
+import { BannerDB, getBannerDB } from './banner-db.js'
 
 describe('ValueDB Table', () => {
 
@@ -11,8 +9,8 @@ describe('ValueDB Table', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    db = await getObject('DB') as DB
-    bdb = await getObject('BannerDB') as BannerDB
+    db = await getDatabase()
+    bdb = await getBannerDB()
   })
 
   afterAll(async () => {

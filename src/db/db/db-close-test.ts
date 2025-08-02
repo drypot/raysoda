@@ -1,7 +1,5 @@
-import { getObject, initObjectContext } from '../../oman/oman.js'
-import { DB } from './db.js'
-
-import './db.js'
+import { initObjectContext } from '../../oman/oman.js'
+import { DB, getDatabase } from './db.js'
 
 describe('DB.close', () => {
 
@@ -9,7 +7,7 @@ describe('DB.close', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    db = await getObject('DB') as DB
+    db = await getDatabase()
   })
 
   afterAll(async () => {

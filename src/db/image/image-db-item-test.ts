@@ -1,10 +1,8 @@
 import { newImage } from '../../common/type/image.js'
-import { ImageDB } from './image-db.js'
-import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
+import { getImageDB, ImageDB } from './image-db.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
 import { dupe } from '../../common/util/object2.js'
 import { dateNull } from '../../common/type/date-const.js'
-
-import './image-db.js'
 
 describe('ImageDB.*Image', () => {
 
@@ -12,7 +10,7 @@ describe('ImageDB.*Image', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    idb = await getObject('ImageDB') as ImageDB
+    idb = await getImageDB()
   })
 
   afterAll(async () => {

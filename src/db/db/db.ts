@@ -1,5 +1,5 @@
 import mysql, { Pool, ResultSetHeader } from 'mysql2/promise'
-import { getConfig, registerObjectCloser, registerObjectFactory } from '../../oman/oman.js'
+import { getConfig, getObject, registerObjectCloser, registerObjectFactory } from '../../oman/oman.js'
 import { Config } from '../../common/type/config.js'
 import { inProduction } from '../../common/util/env2.js'
 
@@ -11,6 +11,10 @@ registerObjectFactory('DB', async () => {
   })
   return db
 })
+
+export async function getDatabase() {
+  return await getObject('DB') as DB
+}
 
 export class DB {
 

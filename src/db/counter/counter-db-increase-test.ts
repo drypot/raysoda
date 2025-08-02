@@ -1,9 +1,7 @@
-import { CounterDB } from './counter-db.js'
+import { CounterDB, getCounterDB } from './counter-db.js'
 import { dateToStringNoTime } from '../../common/util/date2.js'
-import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
 import { dupe } from '../../common/util/object2.js'
-
-import './counter-db.js'
 
 describe('CounterDB Increase', () => {
 
@@ -11,7 +9,7 @@ describe('CounterDB Increase', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    cdb = await getObject('CounterDB') as CounterDB
+    cdb = await getCounterDB()
   })
 
   afterAll(async () => {

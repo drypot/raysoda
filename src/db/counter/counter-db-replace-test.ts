@@ -1,9 +1,7 @@
-import { CounterDB } from './counter-db.js'
-import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
+import { CounterDB, getCounterDB } from './counter-db.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
 import { dupe } from '../../common/util/object2.js'
-import { DB } from '../db/db.js'
-
-import './counter-db.js'
+import { DB, getDatabase } from '../db/db.js'
 
 describe('CounterDB Replace', () => {
 
@@ -12,8 +10,8 @@ describe('CounterDB Replace', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    db = await getObject('DB') as DB
-    cdb = await getObject('CounterDB') as CounterDB
+    db = await getDatabase()
+    cdb = await getCounterDB()
   })
 
   afterAll(async () => {

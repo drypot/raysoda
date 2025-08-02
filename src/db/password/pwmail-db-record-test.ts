@@ -1,8 +1,6 @@
-import { PwMailDB } from './pwmail-db.js'
+import { getPwMailDB, PwMailDB } from './pwmail-db.js'
 import { PasswordMailLog } from '../../common/type/password.js'
-import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
-
-import './pwmail-db.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
 
 describe('PwMailDB Token', () => {
 
@@ -10,7 +8,7 @@ describe('PwMailDB Token', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    rdb = await getObject('PwMailDB') as PwMailDB
+    rdb = await getPwMailDB()
   })
 
   afterAll(async () => {

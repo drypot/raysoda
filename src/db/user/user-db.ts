@@ -2,16 +2,18 @@ import { User } from '../../common/type/user.js'
 import { UserListItem } from '../../common/type/user-detail.js'
 import { getObject, registerObjectFactory } from '../../oman/oman.js'
 import { UserCache } from './user-cache.js'
-import { DB } from '../db/db.js'
+import { DB, getDatabase } from '../db/db.js'
 import { inProduction } from '../../common/util/env2.js'
 
-import '../db/db.js'
-
 registerObjectFactory('UserDB', async () => {
-  const udb = UserDB.from(await getObject('DB') as DB)
+  const udb = UserDB.from(await getDatabase())
   await udb.createTable()
   return udb
 })
+
+export async function getUserDB() {
+  return await getObject('UserDB') as UserDB
+}
 
 export class UserDB {
 

@@ -1,11 +1,9 @@
-import { ImageDB } from './image-db.js'
-import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
-import { DB } from '../db/db.js'
+import { getImageDB, ImageDB } from './image-db.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
+import { DB, getDatabase } from '../db/db.js'
 import { newPageParam } from '../../common/type/page.js'
 import { Image } from '../../common/type/image.js'
 import { newImagePage } from '../../common/type/image-list.js'
-
-import './image-db.js'
 
 describe('ImageDB getImagePage', () => {
 
@@ -14,8 +12,8 @@ describe('ImageDB getImagePage', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    db = await getObject('DB') as DB
-    idb = await getObject('ImageDB') as ImageDB
+    db = await getDatabase()
+    idb = idb = await getImageDB()
   })
 
   afterAll(async () => {

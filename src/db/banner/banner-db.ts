@@ -1,16 +1,18 @@
 import type { Banner } from '../../common/type/banner.js'
 import { getObject, registerObjectFactory } from '../../oman/oman.js'
-import { DB } from '../db/db.js'
+import { DB, getDatabase } from '../db/db.js'
 import { inProduction } from '../../common/util/env2.js'
 
-import '../db/db.js'
-
 registerObjectFactory('BannerDB', async () => {
-  const bdb = BannerDB.from(await getObject('DB') as DB)
+  const bdb = BannerDB.from(await getDatabase())
   await bdb.createTable()
   await bdb.loadCache()
   return bdb
 })
+
+export async function getBannerDB() {
+  return await getObject('BannerDB') as BannerDB
+}
 
 export class BannerDB {
 

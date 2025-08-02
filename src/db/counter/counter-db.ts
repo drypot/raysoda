@@ -1,16 +1,18 @@
 import { dateToStringNoTime } from '../../common/util/date2.js'
 import { type Counter } from '../../common/type/counter.js'
 import { getObject, registerObjectFactory } from '../../oman/oman.js'
-import { DB } from '../db/db.js'
+import { DB, getDatabase } from '../db/db.js'
 import { inProduction } from '../../common/util/env2.js'
 
-import '../db/db.js'
-
 registerObjectFactory('CounterDB', async () => {
-  const cdb = CounterDB.from(await getObject('DB') as DB)
+  const cdb = CounterDB.from(await getDatabase())
   await cdb.createTable()
   return cdb
 })
+
+export async function getCounterDB() {
+  return await getObject('CounterDB') as CounterDB
+}
 
 export class CounterDB {
 

@@ -1,8 +1,6 @@
-import { BannerDB } from './banner-db.js'
-import { closeAllObjects, getObject, initObjectContext } from '../../oman/oman.js'
+import { BannerDB, getBannerDB } from './banner-db.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
 import { dupe } from '../../common/util/object2.js'
-
-import './banner-db.js'
 
 describe('BannerDB', () => {
 
@@ -10,7 +8,7 @@ describe('BannerDB', () => {
 
   beforeAll(async () => {
     initObjectContext('config/raysoda-test.json')
-    bdb = await getObject('BannerDB') as BannerDB
+    bdb = await getBannerDB()
   })
 
   afterAll(async () => {
