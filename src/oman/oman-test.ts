@@ -1,5 +1,5 @@
-import { ObjManFix1, registerObjManFixture } from './fixture/oman-fix1.js'
-import { closeAllObjects, getConfig, getObject, initObjectContext } from './oman.js'
+import { registerObjManFixture, type ObjManFix1 } from "./fixture/oman-fix1.ts"
+import { initObjectContext, getConfig, getObject, closeAllObjects } from "./oman.ts"
 
 registerObjManFixture()
 

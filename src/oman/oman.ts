@@ -1,5 +1,5 @@
-import { loadConfigSync } from '../common/util/config-loader.js'
-import type { Config } from '../common/type/config.js'
+import { loadConfigSync } from '../common/util/config-loader.ts'
+import type { Config } from '../common/type/config.ts'
 
 export type ObjectFactory = () => Promise<any>
 export type ObjectCloser = () => Promise<any>

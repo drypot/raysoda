@@ -1,4 +1,4 @@
-import { registerObjectCloser, registerObjectFactory } from '../oman.js'
+import { registerObjectCloser, registerObjectFactory } from '../oman.ts'
 
 export type ObjManFix1 = {
   message: string
