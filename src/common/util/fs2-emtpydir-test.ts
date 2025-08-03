@@ -1,6 +1,6 @@
 import { existsSync, writeFileSync } from 'fs'
 import { writeFile } from 'fs/promises'
-import { emptyDir, emptyDirSync, mkdirRecursive, mkdirRecursiveSync, rmRecursive, rmRecursiveSync } from './fs2.js'
+import { emptyDir, emptyDirSync, mkdirRecursive, mkdirRecursiveSync, rmRecursive, rmRecursiveSync } from './fs2.ts'
 
 // exists 는 deprecated 되었지만 existsSync 는 계속 유효하다.
 // exists 대신 access 가 권장되기도 하는데

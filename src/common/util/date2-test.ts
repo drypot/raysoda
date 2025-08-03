@@ -1,15 +1,4 @@
-import {
-  dateDiffDays,
-  dateDiffHours,
-  dateDiffMins,
-  dateDiffMs,
-  dateDiffSecond,
-  dateToString,
-  dateToStringNoTime,
-  dateToStringNoTimeNoDash,
-  parseDate,
-  setTimeZero
-} from './date2.js'
+import { parseDate, setTimeZero, dateToString, dateToStringNoTime, dateToStringNoTimeNoDash, dateDiffMs, dateDiffSecond, dateDiffMins, dateDiffHours, dateDiffDays } from "./date2.ts"
 
 describe('newDate', () => {
   it('should work', () => {

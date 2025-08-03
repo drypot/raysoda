@@ -1,4 +1,4 @@
-import { checkHash, makeHash } from './hash.js'
+import { checkHash, makeHash } from './hash.ts'
 
 describe('hash', () => {
 

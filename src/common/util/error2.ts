@@ -1,4 +1,4 @@
-import type { ErrorConst } from '../type/error.js'
+import type { ErrorConst } from '../type/error.ts'
 
 export function newErrorConst(name: string, message: string = '', field: string = ''): ErrorConst {
   return {

@@ -1,4 +1,4 @@
-import { newErrorConst } from '../util/error2.js'
+import { newErrorConst } from '../util/error2.ts'
 
 // Base
 export const INVALID_DATA = newErrorConst('INVALID_DATA', '비정상적인 값이 입력되었습니다.')

@@ -1,4 +1,4 @@
-import { waterfall } from './async2.js'
+import { waterfall } from './async2.ts'
 
 describe('waterfall', () => {
 

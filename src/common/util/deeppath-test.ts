@@ -1,4 +1,4 @@
-import { newDeepPath } from './deeppath.js'
+import { newDeepPath } from './deeppath.ts'
 
 describe('newDeepPath', () => {
   it('1', () => {

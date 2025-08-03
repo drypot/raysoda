@@ -1,4 +1,4 @@
-import { type Image } from './image.js'
+import { type Image } from './image.ts'
 
 export type ImageListItem = {
   id: number

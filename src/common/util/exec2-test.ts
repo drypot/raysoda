@@ -1,4 +1,4 @@
-import { exec2 } from './exec2.js'
+import { exec2 } from './exec2.ts'
 
 describe('exec', () => {
   it('printf', async () => {
