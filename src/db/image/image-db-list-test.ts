@@ -1,9 +1,9 @@
-import { getImageDB, ImageDB } from './image-db.js'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
-import { DB, getDatabase } from '../db/db.js'
-import { newPageParam } from '../../common/type/page.js'
-import { Image } from '../../common/type/image.js'
-import { newImagePage } from '../../common/type/image-list.js'
+import { getImageDB, ImageDB } from './image-db.ts'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
+import { DB, getDatabase } from '../db/db.ts'
+import { newPageParam } from '../../common/type/page.ts'
+import { type Image } from '../../common/type/image.ts'
+import { newImagePage } from '../../common/type/image-list.ts'
 
 describe('ImageDB getImagePage', () => {
 

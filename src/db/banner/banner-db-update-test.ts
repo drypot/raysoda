@@ -1,6 +1,6 @@
-import { BannerDB, getBannerDB } from './banner-db.js'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
-import { dupe } from '../../common/util/object2.js'
+import { BannerDB, getBannerDB } from './banner-db.ts'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
+import { dupe } from '../../common/util/object2.ts'
 
 describe('BannerDB', () => {
 

@@ -1,5 +1,5 @@
-import { closeAllObjects, getConfig, initObjectContext } from '../../oman/oman.js'
-import { DB, getDatabase } from './db.js'
+import { closeAllObjects, getConfig, initObjectContext } from '../../oman/oman.ts'
+import { DB, getDatabase } from './db.ts'
 
 describe('DB', () => {
 

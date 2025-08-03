@@ -1,7 +1,7 @@
-import type { Banner } from '../../common/type/banner.js'
-import { getObject, registerObjectFactory } from '../../oman/oman.js'
-import { DB, getDatabase } from '../db/db.js'
-import { inProduction } from '../../common/util/env2.js'
+import type { Banner } from '../../common/type/banner.ts'
+import { getObject, registerObjectFactory } from '../../oman/oman.ts'
+import { DB, getDatabase } from '../db/db.ts'
+import { inProduction } from '../../common/util/env2.ts'
 
 registerObjectFactory('BannerDB', async () => {
   const bdb = BannerDB.from(await getDatabase())

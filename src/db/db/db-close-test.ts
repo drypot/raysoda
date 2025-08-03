@@ -1,5 +1,5 @@
-import { initObjectContext } from '../../oman/oman.js'
-import { DB, getDatabase } from './db.js'
+import { initObjectContext } from '../../oman/oman.ts'
+import { DB, getDatabase } from './db.ts'
 
 describe('DB.close', () => {
 

@@ -1,8 +1,8 @@
-import { newImage } from '../../common/type/image.js'
-import { getImageDB, ImageDB } from './image-db.js'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
-import { dupe } from '../../common/util/object2.js'
-import { dateNull } from '../../common/type/date-const.js'
+import { newImage } from '../../common/type/image.ts'
+import { getImageDB, ImageDB } from './image-db.ts'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
+import { dupe } from '../../common/util/object2.ts'
+import { dateNull } from '../../common/type/date-const.ts'
 
 describe('ImageDB.*Image', () => {
 

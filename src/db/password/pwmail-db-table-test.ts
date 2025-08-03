@@ -1,6 +1,6 @@
-import { getPwMailDB, PwMailDB } from './pwmail-db.js'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
-import { DB, getDatabase } from '../db/db.js'
+import { getPwMailDB, PwMailDB } from './pwmail-db.ts'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
+import { DB, getDatabase } from '../db/db.ts'
 
 describe('PwMailDB Table', () => {
 

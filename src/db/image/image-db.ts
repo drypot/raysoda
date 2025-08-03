@@ -1,9 +1,9 @@
-import { getObject, registerObjectFactory } from '../../oman/oman.js'
-import { Image } from '../../common/type/image.js'
-import { DB, getDatabase } from '../db/db.js'
-import { inProduction } from '../../common/util/env2.js'
-import { PageParam } from '../../common/type/page.js'
-import { ImagePage } from '../../common/type/image-list.js'
+import { getObject, registerObjectFactory } from '../../oman/oman.ts'
+import type { Image } from '../../common/type/image.ts'
+import { DB, getDatabase } from '../db/db.ts'
+import { inProduction } from '../../common/util/env2.ts'
+import type { PageParam } from '../../common/type/page.ts'
+import type { ImagePage } from '../../common/type/image-list.ts'
 
 registerObjectFactory('ImageDB', async () => {
   const idb = ImageDB.from(await getDatabase())

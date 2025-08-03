@@ -1,8 +1,8 @@
-import { getUserDB, UserDB } from './user-db.js'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
-import { insertUserFix1 } from './fixture/user-fix.js'
-import { dupe } from '../../common/util/object2.js'
-import { User } from '../../common/type/user.js'
+import { getUserDB, UserDB } from './user-db.ts'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
+import { insertUserFix1 } from './fixture/user-fix.ts'
+import { dupe } from '../../common/util/object2.ts'
+import type { User } from '../../common/type/user.ts'
 
 describe('UserDB.update', () => {
 

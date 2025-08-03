@@ -1,5 +1,5 @@
-import { newUser } from '../../../common/type/user.js'
-import { UserDB } from '../user-db.js'
+import { newUser } from '../../../common/type/user.ts'
+import { UserDB } from '../user-db.ts'
 
 const hash1 = '$2a$10$bP0BJpAzAUNFZ2Ejo57Gruhg8LkIQ9./EvfUjjyYqwCf3ZDhQZC1K' /* 1234 */
 

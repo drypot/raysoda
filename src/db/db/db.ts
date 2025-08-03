@@ -1,7 +1,7 @@
-import mysql, { ResultSetHeader } from 'mysql2/promise'
-import { getConfig, getObject, registerObjectCloser, registerObjectFactory } from '../../oman/oman.js'
-import { Config } from '../../common/type/config.js'
-import { inProduction } from '../../common/util/env2.js'
+import mysql, { type ResultSetHeader } from 'mysql2/promise'
+import { getConfig, getObject, registerObjectCloser, registerObjectFactory } from '../../oman/oman.ts'
+import type { Config } from '../../common/type/config.ts'
+import { inProduction } from '../../common/util/env2.ts'
 
 registerObjectFactory('DB', async () => {
   const config = getConfig()

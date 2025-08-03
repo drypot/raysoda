@@ -1,5 +1,5 @@
-import { getImageDB, ImageDB } from './image-db.js'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
+import { getImageDB, ImageDB } from './image-db.ts'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
 
 describe('ImageDB.*NextId', () => {
 

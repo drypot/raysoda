@@ -1,6 +1,6 @@
-import { ADMIN, insertUserFix1, insertUserFix4, USER1, USER3 } from './user-fix.js'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { getUserDB, UserDB } from '../user-db.js'
+import { ADMIN, insertUserFix1, insertUserFix4, USER1, USER3 } from './user-fix.ts'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { getUserDB, UserDB } from '../user-db.ts'
 
 describe('User Fixture', () => {
 

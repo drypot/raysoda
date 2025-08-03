@@ -1,6 +1,6 @@
-import { CounterDB, getCounterDB } from './counter-db.js'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
-import { dupe } from '../../common/util/object2.js'
+import { CounterDB, getCounterDB } from './counter-db.ts'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
+import { dupe } from '../../common/util/object2.ts'
 
 describe('CounterDB List', () => {
 

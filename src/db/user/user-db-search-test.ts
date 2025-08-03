@@ -1,6 +1,6 @@
-import { insertUserFix4, USER1 } from './fixture/user-fix.js'
-import { getUserDB, UserDB } from './user-db.js'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
+import { insertUserFix4, USER1 } from './fixture/user-fix.ts'
+import { getUserDB, UserDB } from './user-db.ts'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
 
 describe('UserDB Search', () => {
 

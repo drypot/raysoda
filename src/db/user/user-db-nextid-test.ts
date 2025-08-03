@@ -1,5 +1,5 @@
-import { getUserDB, UserDB } from './user-db.js'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
+import { getUserDB, UserDB } from './user-db.ts'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
 
 describe('UserDB NextId', () => {
 

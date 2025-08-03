@@ -1,7 +1,7 @@
-import { PasswordMailLog } from '../../common/type/password.js'
-import { getObject, registerObjectFactory } from '../../oman/oman.js'
-import { DB, getDatabase } from '../db/db.js'
-import { inProduction } from '../../common/util/env2.js'
+import { type PasswordMailLog } from '../../common/type/password.ts'
+import { getObject, registerObjectFactory } from '../../oman/oman.ts'
+import { DB, getDatabase } from '../db/db.ts'
+import { inProduction } from '../../common/util/env2.ts'
 
 registerObjectFactory('PwMailDB', async () => {
   const rdb = PwMailDB.from(await getDatabase())

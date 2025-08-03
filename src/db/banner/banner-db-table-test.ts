@@ -1,6 +1,6 @@
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
-import { DB, getDatabase } from '../db/db.js'
-import { BannerDB, getBannerDB } from './banner-db.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
+import { DB, getDatabase } from '../db/db.ts'
+import { BannerDB, getBannerDB } from './banner-db.ts'
 
 describe('ValueDB Table', () => {
 

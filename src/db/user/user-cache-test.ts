@@ -1,5 +1,5 @@
-import { USER1 } from './fixture/user-fix.js'
-import { UserCache } from './user-cache.js'
+import { USER1 } from './fixture/user-fix.ts'
+import { UserCache } from './user-cache.ts'
 
 describe('UserCache', () => {
 

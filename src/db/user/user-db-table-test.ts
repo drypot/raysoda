@@ -1,6 +1,6 @@
-import { getUserDB, UserDB } from './user-db.js'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
-import { DB, getDatabase } from '../db/db.js'
+import { getUserDB, UserDB } from './user-db.ts'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
+import { DB, getDatabase } from '../db/db.ts'
 
 describe('UserDB Table', () => {
 
