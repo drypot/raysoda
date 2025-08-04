@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function show_usage {
-    echo "bin/raysoda-live [raysoda|rapixel|osoky|drypot]"
+    echo "bin/raysoda-live [raysoda|rapixel|osoky|drypot|sobeaut]"
     exit 1
 }
 
@@ -10,10 +10,10 @@ if [ $# -lt 1 ]; then
 fi
 
 export NODE_ENV=production
-export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-export TS_NODE_PROJECT=src/ts/server/tsconfig.json
 
-# 실행될 커맨드를 화면에 출력한다.
-set -o xtrace
+#export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
+#export TS_NODE_PROJECT=src/ts/server/tsconfig.json
 
-node src/ts/server/script/run-raysoda.ts config-live/${1}-live.json
+set -x # enable debugging output
+
+node src/script/run-raysoda.ts config-live/${1}-live.json
