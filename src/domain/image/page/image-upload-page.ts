@@ -1,10 +1,10 @@
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { getConfig } from '../../../oman/oman.js'
-import { getImageDB } from '../../../db/image/image-db.js'
-import { userGetSessionUser } from '../../user/api/user-auth-api.js'
-import { assertLoggedIn } from '../../user/service/user-auth.js'
-import { getLeftTicket } from '../service/image-upload.js'
-import { renderHtml } from '../../../express/response.js'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { getConfig } from '../../../oman/oman.ts'
+import { getImageDB } from '../../../db/image/image-db.ts'
+import { userGetSessionUser } from '../../user/api/user-auth-api.ts'
+import { assertLoggedIn } from '../../user/service/user-auth.ts'
+import { getLeftTicket } from '../service/image-upload.ts'
+import { renderHtml } from '../../../express/response.ts'
 
 export async function useImageUploadPage() {
 

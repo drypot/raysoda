@@ -1,13 +1,13 @@
-import { DB, getDatabase } from '../../../db/db/db.js'
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { getImageDB, ImageDB } from '../../../db/image/image-db.js'
-import { ImageFileManager } from '../../../fileman/fileman.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
+import { DB, getDatabase } from '../../../db/db/db.ts'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { getImageDB, ImageDB } from '../../../db/image/image-db.ts'
+import type { ImageFileManager } from '../../../fileman/fileman.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, getConfig, initObjectContext } from '../../../oman/oman.js'
-import { getImageFileManager } from '../../../fileman/fileman-loader.js'
-import { useImageListApi } from './image-list-api.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { closeAllObjects, getConfig, initObjectContext } from '../../../oman/oman.ts'
+import { getImageFileManager } from '../../../fileman/fileman-loader.ts'
+import { useImageListApi } from './image-list-api.ts'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.ts'
 
 describe('ImageListApi', () => {
 

@@ -1,8 +1,8 @@
-import { ImageDB } from '../../../db/image/image-db.js'
-import { ImageFileManager } from '../../../fileman/fileman.js'
-import { User } from '../../../common/type/user.js'
-import { ErrorConst } from '../../../common/type/error.js'
-import { getUpdatableImage } from './image-update.js'
+import { ImageDB } from '../../../db/image/image-db.ts'
+import type { ImageFileManager } from '../../../fileman/fileman.ts'
+import type { User } from '../../../common/type/user.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
+import { getUpdatableImage } from './image-update.ts'
 
 export async function deleteImage(
   idb: ImageDB, ifm: ImageFileManager, user: User, id: number, err: ErrorConst[]

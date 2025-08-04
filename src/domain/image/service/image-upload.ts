@@ -1,12 +1,12 @@
-import { UserDB } from '../../../db/user/user-db.js'
-import { ImageDB } from '../../../db/image/image-db.js'
-import { ImageFileManager } from '../../../fileman/fileman.js'
-import { User } from '../../../common/type/user.js'
-import { UploadImageForm } from '../../../common/type/image-form.js'
-import { ErrorConst } from '../../../common/type/error.js'
-import { IMAGE_NO_FILE } from '../../../common/type/error-const.js'
-import { Image } from '../../../common/type/image.js'
-import { getConfig } from '../../../oman/oman.js'
+import { UserDB } from '../../../db/user/user-db.ts'
+import { ImageDB } from '../../../db/image/image-db.ts'
+import type { ImageFileManager } from '../../../fileman/fileman.ts'
+import type { User } from '../../../common/type/user.ts'
+import type { UploadImageForm } from '../../../common/type/image-form.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
+import { IMAGE_NO_FILE } from '../../../common/type/error-const.ts'
+import type { Image } from '../../../common/type/image.ts'
+import { getConfig } from '../../../oman/oman.ts'
 
 export async function uploadImage(
   udb: UserDB, idb: ImageDB, ifm: ImageFileManager,

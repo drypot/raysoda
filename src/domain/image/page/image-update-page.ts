@@ -1,11 +1,11 @@
-import { getImageDB } from '../../../db/image/image-db.js'
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { userGetSessionUser } from '../../user/api/user-auth-api.js'
-import { assertLoggedIn } from '../../user/service/user-auth.js'
-import { newNumber } from '../../../common/util/primitive.js'
-import { ErrorConst } from '../../../common/type/error.js'
-import { getImageForUpdate } from '../service/image-update.js'
-import { renderHtml } from '../../../express/response.js'
+import { getImageDB } from '../../../db/image/image-db.ts'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { userGetSessionUser } from '../../user/api/user-auth-api.ts'
+import { assertLoggedIn } from '../../user/service/user-auth.ts'
+import { newNumber } from '../../../common/util/primitive.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
+import { getImageForUpdate } from '../service/image-update.ts'
+import { renderHtml } from '../../../express/response.ts'
 
 export async function useImageUpdatePage() {
 

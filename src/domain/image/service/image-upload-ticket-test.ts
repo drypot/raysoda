@@ -1,11 +1,11 @@
-import { ImageFileManager } from '../../../fileman/fileman.js'
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { getImageDB, ImageDB } from '../../../db/image/image-db.js'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { getRaySodaFileManager } from '../../../fileman/raysoda-fileman.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
-import { newImage } from '../../../common/type/image.js'
-import { getLeftTicket } from './image-upload.js'
+import type { ImageFileManager } from '../../../fileman/fileman.ts'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { getImageDB, ImageDB } from '../../../db/image/image-db.ts'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { getRaySodaFileManager } from '../../../fileman/raysoda-fileman.ts'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.ts'
+import { newImage } from '../../../common/type/image.ts'
+import { getLeftTicket } from './image-upload.ts'
 
 describe('LeftTicket', () => {
 

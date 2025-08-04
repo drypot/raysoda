@@ -1,13 +1,13 @@
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { getImageDB } from '../../../db/image/image-db.js'
-import { getImageFileManager } from '../../../fileman/fileman-loader.js'
-import { getConfig } from '../../../oman/oman.js'
-import { userGetSessionUser } from '../../user/api/user-auth-api.js'
-import { assertLoggedIn } from '../../user/service/user-auth.js'
-import { newNumber } from '../../../common/util/primitive.js'
-import { ErrorConst } from '../../../common/type/error.js'
-import { deleteImage } from '../service/image-delete.js'
-import { renderJson } from '../../../express/response.js'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { getImageDB } from '../../../db/image/image-db.ts'
+import { getImageFileManager } from '../../../fileman/fileman-loader.ts'
+import { getConfig } from '../../../oman/oman.ts'
+import { userGetSessionUser } from '../../user/api/user-auth-api.ts'
+import { assertLoggedIn } from '../../user/service/user-auth.ts'
+import { newNumber } from '../../../common/util/primitive.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
+import { deleteImage } from '../service/image-delete.ts'
+import { renderJson } from '../../../express/response.ts'
 
 export async function useImageDeleteApi() {
 

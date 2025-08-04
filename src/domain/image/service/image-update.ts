@@ -1,10 +1,10 @@
-import { UpdateImageForm } from '../../../common/type/image-form.js'
-import { ImageDB } from '../../../db/image/image-db.js'
-import { User } from '../../../common/type/user.js'
-import { ErrorConst } from '../../../common/type/error.js'
-import { ImageFileManager } from '../../../fileman/fileman.js'
-import { IMAGE_NOT_EXIST, NOT_AUTHORIZED } from '../../../common/type/error-const.js'
-import { Image } from '../../../common/type/image.js'
+import type { UpdateImageForm } from '../../../common/type/image-form.ts'
+import { ImageDB } from '../../../db/image/image-db.ts'
+import type { User } from '../../../common/type/user.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
+import type { ImageFileManager } from '../../../fileman/fileman.ts'
+import { IMAGE_NOT_EXIST, NOT_AUTHORIZED } from '../../../common/type/error-const.ts'
+import type { Image } from '../../../common/type/image.ts'
 
 export async function getImageForUpdate(idb: ImageDB, user: User, id: number, err: ErrorConst[]) {
   const image = await getUpdatableImage(idb, user, id, err)

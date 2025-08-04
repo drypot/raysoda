@@ -1,11 +1,11 @@
-import { UserDB } from '../../../db/user/user-db.js'
-import { ImageDB } from '../../../db/image/image-db.js'
-import { ImageFileManager } from '../../../fileman/fileman.js'
-import { ImageListItem, ImagePage } from '../../../common/type/image-list.js'
-import { PageParam } from '../../../common/type/page.js'
-import { Image } from '../../../common/type/image.js'
-import { User } from '../../../common/type/user.js'
-import { dateToString } from '../../../common/util/date2.js'
+import { UserDB } from '../../../db/user/user-db.ts'
+import { ImageDB } from '../../../db/image/image-db.ts'
+import type { ImageFileManager } from '../../../fileman/fileman.ts'
+import type { ImageListItem, ImagePage } from '../../../common/type/image-list.ts'
+import type { PageParam } from '../../../common/type/page.ts'
+import type { Image } from '../../../common/type/image.ts'
+import type { User } from '../../../common/type/user.ts'
+import { dateToString } from '../../../common/util/date2.ts'
 
 export async function fillImagePage(
   udb: UserDB, idb: ImageDB, ifm: ImageFileManager, page: ImagePage, param: PageParam

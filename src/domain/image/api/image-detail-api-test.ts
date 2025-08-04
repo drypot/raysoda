@@ -1,23 +1,23 @@
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { getImageDB, ImageDB } from '../../../db/image/image-db.js'
-import { ImageFileManager } from '../../../fileman/fileman.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { getImageDB, ImageDB } from '../../../db/image/image-db.ts'
+import type { ImageFileManager } from '../../../fileman/fileman.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, getConfig, initObjectContext } from '../../../oman/oman.js'
-import { getImageFileManager } from '../../../fileman/fileman-loader.js'
-import { useUserAuthApi } from '../../user/api/user-auth-api.js'
-import { useImageUploadApi } from './image-upload-api.js'
-import { useImageDetailApi } from './image-detail-api.js'
+import { closeAllObjects, getConfig, initObjectContext } from '../../../oman/oman.ts'
+import { getImageFileManager } from '../../../fileman/fileman-loader.ts'
+import { useUserAuthApi } from '../../user/api/user-auth-api.ts'
+import { useImageUploadApi } from './image-upload-api.ts'
+import { useImageDetailApi } from './image-detail-api.ts'
 import {
   ADMIN_LOGIN_FORM,
   insertUserFix4,
   USER1_LOGIN_FORM,
   USER2_LOGIN_FORM
-} from '../../../db/user/fixture/user-fix.js'
-import { userLoginForTest, userLogoutForTest } from '../../user/api/user-auth-api-fixture.js'
-import { ImageDetail, unpackImageDetail } from '../../../common/type/image-detail.js'
-import { dateToString } from '../../../common/util/date2.js'
-import { IMAGE_NOT_EXIST } from '../../../common/type/error-const.js'
+} from '../../../db/user/fixture/user-fix.ts'
+import { userLoginForTest, userLogoutForTest } from '../../user/api/user-auth-api-fixture.ts'
+import { type ImageDetail, unpackImageDetail } from '../../../common/type/image-detail.ts'
+import { dateToString } from '../../../common/util/date2.ts'
+import { IMAGE_NOT_EXIST } from '../../../common/type/error-const.ts'
 
 describe('ImageDetailApi', () => {
 
