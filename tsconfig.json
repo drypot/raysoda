@@ -8,6 +8,14 @@
   "compilerOptions": {
 
     "module": "nodenext",
+
+    // node --loader ts-node/esm 로 실행할 경우
+    // "moduleResolution": "nodenext",
+
+    // node_modules/.bin/ts-node 로 실행할 경우
+    //"moduleResolution": "bundler",
+
+    // node 로 ts 를 실행할 경우
     "moduleResolution": "nodenext",
 
     "target": "esnext", // async iterators ...
@@ -50,7 +58,22 @@
     //          "@common/*": ["./common/*"],
     //    },
 
-    //
+
+    // tsc 는 import *.js 를 요구한다.
+    // node 는 import *.ts 를 요구한다;
+    // ts-node 는 import ts 확장자가 가능하다.
+    // node --loader ts-node/esm
+    // 여기서 또 문제는
+    // 헬이다.
+
+    // "allowImportingTsExtensions": true,
+    // "noEmit": true,
+
+
+    // TypeScript 5.7 부터 상대 경로에 대해서는 import *.ts 를 쓸 수 있게 되었다.
+
+    "rewriteRelativeImportExtensions" :true,
+
 
     // TypeScript 는 import 구문을 자동으로 최적화 한다.
     // 최적화 되서 import 가 사라졌을 때 side effect 를 사용하는 모듈은 실행이 안 된다.
@@ -59,12 +82,11 @@
     // import type { A } from "a";     이렇게 쓰면 import 가 모두 삭제된다.
     // import { type xyz } from "xyz"; 이렇게 쓰면 import {} from ... 이 남는다.
 
-    // 이것도 기본값으로 돌리고 흑마술을 줄여볼까 한다.
-    // 사이드 이펙트 필요한 모듈들은 수동으로 import "" 해주는 것으로.
+    // 이것도 기본값으로 돌리고 흑마술을 없앴다.
+    // 사이드 이펙트 필요한 모듈들은 펑션들을 명시적으로 콜하도록 바꾸었다.
 
     // "verbatimModuleSyntax": true,
 
-    //
 
     // CommonJS 형식으로 작성된 대부분 기본 모듈들은 다음과 같이 import 해야 한다.
     // import * as fs from 'fs'
@@ -74,12 +96,15 @@
     // 전에는 true 로 썼었는데 기본값 false 로 돌아가고자 한다.
     // 흑마술을 줄이자.
 
-    // "esModuleInterop": true
+    // 2025-08-04, nodemailer ^7.0.5 import 하는데 tsc 가 이 옵션을 써야 한다고 오류를 낸다. 다시 켰다.
+
+    "esModuleInterop": true,
+
 
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "sourceMap": true,
+    "sourceMap": true
   },
 
   // 컴파일할 파일들을 지정한다.
@@ -96,6 +121,13 @@
   //    { "path": "../common/tsconfig.json"}
   //  ],
   "ts-node": {
-    "transpileOnly": true
+      // 타입 검사를 패스하고 트랜스파일만 하고 실행한다.
+      // 타입 검사는 개발할 때 다 하니까 다시 할 필요가 없다.
+      "transpileOnly": true,
+
+      // 아래 옵션 보다 말았다.
+      // 나중에 다시 확인.
+      "esm": true,
+      "experimentalSpecifierResolution": "node",
   }
 }
