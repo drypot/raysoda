@@ -1,0 +1,82 @@
+{
+  // https://www.typescriptlang.org/tsconfig
+  // https://github.com/tsconfig/bases/tree/main/bases
+
+  // WebStorm 에 tsconfig.js 를 인식시켜야 하기 때문에 프로젝트 루트에 두지 못한다.
+  // server, client, 각 파트 서브 디렉토리에 둬야한다.
+
+  "compilerOptions": {
+
+    // nodenext 를 해야 vscode auto import 에서 확장자 .ts 를 붙여준다.
+    // "module": "esnext",
+    "module": "nodenext",
+
+    // "moduleResolution": "bundler",
+    "moduleResolution": "nodenext",
+
+    "target": "es2017", // async, await
+
+    "lib": ["dom", "esnext"],
+
+    // tsc 결과 파일이 출력될 디렉토리.
+    // outDir 루트에 build meta data 들이 생성되므로 여러 빌드간 공유되면 안 된다.
+    // tsconfig.json 파일 위치가 기준이다.
+
+    "outDir": "../build/client",
+
+    // incremental 옵션에서 사용할 tsbuildinfo 파일 위치.
+    // outDir/rootDir 설정이 복잡하게 들어가면 예상치 못한 곳에 파일이 생성된다.
+    // 가능하면 명시적으로 지정해 놓는다.
+
+    "tsBuildInfoFile" : "build/client/tsconfig.tsbuildinfo",
+
+    // 소스 파일들의 공통 루트를 어디로 볼 것인가를 결정한다.
+    // src 와 src-client 를 모두 써야해서 공통 루트를 rootDir 로 잡았다.
+    // outDir 디렉토리에 사용할 서브 패스에도 영향을 준다.
+
+    "rootDir": "../",
+
+    // baseUrl + paths 는 import 에 절대 경로를 사용할 수 있게 한다.
+
+    // 2025-08-01, Node 24 로 업그레이드하는데 절대경로가 여러가지 문제를 일으키는 중.
+    // 특히 import 에서 *.ts 확장자 사용에 문제가 생긴다.
+    // 절대경로 사용은 금지하기로 한다.
+
+    // "baseUrl": ".",
+    // "paths": { },
+
+
+    // tsc 에서는 import.ts 를 사용할 수 없지만, 아래 두 옵션을 다 주면 사용이 가능하다.
+    // 하지만 코드를 생성하지 못한다.
+
+    // rollup 에선 어떻게 될까;
+
+    // "allowImportingTsExtensions": true,
+    // "noEmit": true,
+
+
+    // TypeScript 5.7 부터 상대 경로에 대해서는 import *.ts 를 쓸 수 있게 되었다.
+
+    "rewriteRelativeImportExtensions" :true,
+
+
+    // CommonJS 형식으로 작성된 대부분 기본 모듈들은 다음과 같이 import 해야 한다.
+    // import * as fs from 'fs'
+    // "esModuleInterop": true 해주면 다음과 같이 import 할 수 있게 된다.
+    // import fs from 'fs'
+
+    // "esModuleInterop": true,
+
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true
+  },
+  "include": [
+    "./**/*",
+    "../src/common/**/*",
+  ],
+  "exclude": [
+    // "./main.ts",
+  ],
+}
