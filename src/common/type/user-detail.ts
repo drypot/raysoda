@@ -1,4 +1,4 @@
-import { User } from './user.ts'
+import type { User } from './user.ts'
 
 export type UserDetail = {
   id: number
