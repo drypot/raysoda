@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+args=(
+    src-client/main.ts
+    --bundle
+    --outfile=./public/build/client-bundle.js
+    --sourcemap
+    --target=es2017
+    --format=iife
+    --global-name=page
+    # --watch
+)
+
+set -x # enable debugging output
+
+node_modules/.bin/esbuild "${args[@]}" "$@"

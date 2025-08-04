@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-rm -fr public/build/sass
-node_modules/.bin/sass --watch scss:public/build/sass

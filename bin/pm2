@@ -19,8 +19,8 @@ else
     show_usage
 fi
 
-export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-export TS_NODE_PROJECT=src/ts/server/tsconfig.json
+#export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
+#export TS_NODE_PROJECT=src/ts/server/tsconfig.json
 
 args=(
     start
@@ -28,11 +28,10 @@ args=(
     --name $1
     --exp-backoff-restart-delay=2000
     --
-    src/ts/server/script/run-raysoda.ts
+    src/script/run-raysoda.ts
     ${CONFIG_DIR}/${1}-${2}.json
 )
 
-# 실행될 커맨드를 화면에 출력한다.
-set -o xtrace
+set -x # enable debugging output
 
 pm2 "${args[@]}"

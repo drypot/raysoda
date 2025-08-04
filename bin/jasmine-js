@@ -16,4 +16,4 @@ exit
 
 export NODE_ENV=development
 
-node src/script/run-jasmine.ts "${@-build/src}"  # ${@-src} 에서 src 는 디폴트 값을 의미
+node src/script/run-jasmine.ts "${@-build/server}"  # ${@-src} 에서 src 는 디폴트 값을 의미
