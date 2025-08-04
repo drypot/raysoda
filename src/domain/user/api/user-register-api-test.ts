@@ -1,11 +1,11 @@
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { useUserRegisterApi } from './user-register-api.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
-import { UserRegisterForm } from '../../../common/type/user-form.js'
-import { checkHash } from '../../../common/util/hash.js'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { useUserRegisterApi } from './user-register-api.ts'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.ts'
+import type { UserRegisterForm } from '../../../common/type/user-form.ts'
+import { checkHash } from '../../../common/util/hash.ts'
 import {
   EMAIL_DUPE,
   EMAIL_PATTERN,
@@ -14,7 +14,7 @@ import {
   NAME_RANGE,
   PASSWORD_EMPTY,
   PASSWORD_RANGE
-} from '../../../common/type/error-const.js'
+} from '../../../common/type/error-const.ts'
 
 describe('UserRegisterApi', () => {
 

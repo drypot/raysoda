@@ -1,5 +1,5 @@
-import { getExpress2 } from '../../../express/express2.js'
-import { renderHtml } from '../../../express/response.js'
+import { getExpress2 } from '../../../express/express2.ts'
+import { renderHtml } from '../../../express/response.ts'
 
 export async function useSamplePage() {
 

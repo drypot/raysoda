@@ -8,9 +8,9 @@ import {
   NAME_RANGE,
   PASSWORD_EMPTY,
   PASSWORD_RANGE
-} from '../../../common/type/error-const.js'
-import { ErrorConst } from '../../../common/type/error.js'
-import { emailPatternIsOk } from '../../../common/util/email.js'
+} from '../../../common/type/error-const.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
+import { emailPatternIsOk } from '../../../common/util/email.ts'
 
 export function checkUserName(name: string, err: ErrorConst[]) {
   if (name.length === 0) {

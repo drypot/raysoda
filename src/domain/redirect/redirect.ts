@@ -1,5 +1,5 @@
-import { getExpress2 } from '../../express/express2.js'
-import { getUserDB } from '../../db/user/user-db.js'
+import { getExpress2 } from '../../express/express2.ts'
+import { getUserDB } from '../../db/user/user-db.ts'
 
 export async function useRedirect() {
 

@@ -1,22 +1,22 @@
 import supertest from 'supertest'
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { getPwMailDB, PwMailDB } from '../../../db/password/pwmail-db.js'
-import { getMailer, Mailer } from '../../../mailer/mailer2.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { useUserAuthApi } from './user-auth-api.js'
-import { useUserPasswordApi } from './user-password-api.js'
-import { insertUserFix4, USER1 } from '../../../db/user/fixture/user-fix.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { getPwMailDB, PwMailDB } from '../../../db/password/pwmail-db.ts'
+import { getMailer, Mailer } from '../../../mailer/mailer2.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { useUserAuthApi } from './user-auth-api.ts'
+import { useUserPasswordApi } from './user-password-api.ts'
+import { insertUserFix4, USER1 } from '../../../db/user/fixture/user-fix.ts'
 import {
   EMAIL_NOT_FOUND,
   EMAIL_PATTERN,
   INVALID_DATA,
   PASSWORD_RANGE,
   PASSWORD_RESET_TIMEOUT
-} from '../../../common/type/error-const.js'
-import { NewPasswordForm, PasswordMailLog } from '../../../common/type/password.js'
-import { dateNull } from '../../../common/type/date-const.js'
-import { checkHash } from '../../../common/util/hash.js'
+} from '../../../common/type/error-const.ts'
+import type { NewPasswordForm, PasswordMailLog } from '../../../common/type/password.ts'
+import { dateNull } from '../../../common/type/date-const.ts'
+import { checkHash } from '../../../common/util/hash.ts'
 
 describe('UserPwResetApi', () => {
 

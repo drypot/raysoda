@@ -1,13 +1,13 @@
 import supertest from 'supertest'
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { useUserAuthApi } from './user-auth-api.js'
-import { useUserDetailApi } from './user-detail-api.js'
-import { ADMIN_LOGIN_FORM, insertUserFix4, USER1, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.js'
-import { unpackUserDetail } from '../../../common/type/user-detail.js'
-import { dateNull } from '../../../common/type/date-const.js'
-import { userLoginForTest } from './user-auth-api-fixture.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { useUserAuthApi } from './user-auth-api.ts'
+import { useUserDetailApi } from './user-detail-api.ts'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.ts'
+import { unpackUserDetail } from '../../../common/type/user-detail.ts'
+import { dateNull } from '../../../common/type/date-const.ts'
+import { userLoginForTest } from './user-auth-api-fixture.ts'
 
 describe('UserDetailApi', () => {
 

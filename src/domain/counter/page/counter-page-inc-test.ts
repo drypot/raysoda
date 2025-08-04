@@ -1,13 +1,13 @@
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { CounterDB, getCounterDB } from '../../../db/counter/counter-db.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { CounterDB, getCounterDB } from '../../../db/counter/counter-db.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { useUserAuthApi } from '../../user/api/user-auth-api.js'
-import { useCounterPage } from './counter-page.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
-import { dateToStringNoTime } from '../../../common/util/date2.js'
-import { dupe } from '../../../common/util/object2.js'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { useUserAuthApi } from '../../user/api/user-auth-api.ts'
+import { useCounterPage } from './counter-page.ts'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.ts'
+import { dateToStringNoTime } from '../../../common/util/date2.ts'
+import { dupe } from '../../../common/util/object2.ts'
 
 describe('CounterPage Inc', () => {
 

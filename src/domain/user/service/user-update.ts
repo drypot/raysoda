@@ -1,11 +1,11 @@
-import { UserDB } from '../../../db/user/user-db.js'
-import { User } from '../../../common/type/user.js'
-import { ErrorConst } from '../../../common/type/error.js'
-import { UpdateUserPasswordForm, UpdateUserProfileForm, UpdateUserStatusForm } from '../../../common/type/user-form.js'
-import { checkUserEmail, checkUserHome, checkUserName, checkUserPassword } from './user-check.js'
-import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE, NOT_AUTHORIZED, USER_NOT_FOUND } from '../../../common/type/error-const.js'
-import { makeHash } from '../../../common/util/hash.js'
-import { userCanUpdateUser } from './user-auth.js'
+import { UserDB } from '../../../db/user/user-db.ts'
+import type { User } from '../../../common/type/user.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
+import type { UpdateUserPasswordForm, UpdateUserProfileForm, UpdateUserStatusForm } from '../../../common/type/user-form.ts'
+import { checkUserEmail, checkUserHome, checkUserName, checkUserPassword } from './user-check.ts'
+import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE, NOT_AUTHORIZED, USER_NOT_FOUND } from '../../../common/type/error-const.ts'
+import { makeHash } from '../../../common/util/hash.ts'
+import { userCanUpdateUser } from './user-auth.ts'
 
 export async function getUserForUpdateProfile(
   udb: UserDB, user: User, id: number, err: ErrorConst[]) {

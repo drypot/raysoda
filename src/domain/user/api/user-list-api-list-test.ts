@@ -1,10 +1,10 @@
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { useUserAuthApi } from './user-auth-api.js'
-import { useUserListApi } from './user-list-api.js'
-import { ADMIN, insertUserFix4, USER1, USER2, USER3 } from '../../../db/user/fixture/user-fix.js'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { useUserAuthApi } from './user-auth-api.ts'
+import { useUserListApi } from './user-list-api.ts'
+import { ADMIN, insertUserFix4, USER1, USER2, USER3 } from '../../../db/user/fixture/user-fix.ts'
 
 describe('UserListApi', () => {
 

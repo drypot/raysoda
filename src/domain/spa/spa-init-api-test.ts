@@ -1,13 +1,13 @@
-import { getUserDB, UserDB } from '../../db/user/user-db.js'
-import { BannerDB, getBannerDB } from '../../db/banner/banner-db.js'
-import { Express2, getExpress2 } from '../../express/express2.js'
+import { getUserDB, UserDB } from '../../db/user/user-db.ts'
+import { BannerDB, getBannerDB } from '../../db/banner/banner-db.ts'
+import { Express2, getExpress2 } from '../../express/express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../../oman/oman.js'
-import { useUserAuthApi } from '../user/api/user-auth-api.js'
-import { useBannerApi } from '../banner/api/banner-api.js'
-import { useSpaInitApi } from './spa-init-api.js'
-import { insertUserFix4, USER1_LOGIN_FORM } from '../../db/user/fixture/user-fix.js'
-import { userLoginForTest, userLogoutForTest } from '../user/api/user-auth-api-fixture.js'
+import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
+import { useUserAuthApi } from '../user/api/user-auth-api.ts'
+import { useBannerApi } from '../banner/api/banner-api.ts'
+import { useSpaInitApi } from './spa-init-api.ts'
+import { insertUserFix4, USER1_LOGIN_FORM } from '../../db/user/fixture/user-fix.ts'
+import { userLoginForTest, userLogoutForTest } from '../user/api/user-auth-api-fixture.ts'
 
 describe('SpaInitScript', () => {
 

@@ -1,10 +1,10 @@
-import { getBannerDB } from '../../../db/banner/banner-db.js'
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { getBannerList, updateBannerList } from '../service/banner-service.js'
-import { renderJson } from '../../../express/response.js'
-import { userGetSessionUser } from '../../user/api/user-auth-api.js'
-import { assertAdmin, assertLoggedIn } from '../../user/service/user-auth.js'
-import { Banner } from '../../../common/type/banner.js'
+import { getBannerDB } from '../../../db/banner/banner-db.ts'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { getBannerList, updateBannerList } from '../service/banner-service.ts'
+import { renderJson } from '../../../express/response.ts'
+import { userGetSessionUser } from '../../user/api/user-auth-api.ts'
+import { assertAdmin, assertLoggedIn } from '../../user/service/user-auth.ts'
+import type { Banner } from '../../../common/type/banner.ts'
 
 export async function useBannerApi() {
 

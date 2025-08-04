@@ -1,9 +1,9 @@
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { getCounterDB } from '../../../db/counter/counter-db.js'
-import { incCounter } from '../service/counter-service.js'
-import { userGetSessionUser } from '../../user/api/user-auth-api.js'
-import { assertAdmin, assertLoggedIn } from '../../user/service/user-auth.js'
-import { renderHtml } from '../../../express/response.js'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { getCounterDB } from '../../../db/counter/counter-db.ts'
+import { incCounter } from '../service/counter-service.ts'
+import { userGetSessionUser } from '../../user/api/user-auth-api.ts'
+import { assertAdmin, assertLoggedIn } from '../../user/service/user-auth.ts'
+import { renderHtml } from '../../../express/response.ts'
 
 export async function useCounterPage() {
 

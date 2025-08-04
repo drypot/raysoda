@@ -1,9 +1,9 @@
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { getObject } from '../../../oman/oman.js'
-import { BannerDB } from '../../../db/banner/banner-db.js'
-import { userGetSessionUser } from '../../user/api/user-auth-api.js'
-import { assertAdmin, assertLoggedIn } from '../../user/service/user-auth.js'
-import { renderHtml } from '../../../express/response.js'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { getObject } from '../../../oman/oman.ts'
+import { BannerDB } from '../../../db/banner/banner-db.ts'
+import { userGetSessionUser } from '../../user/api/user-auth-api.ts'
+import { assertAdmin, assertLoggedIn } from '../../user/service/user-auth.ts'
+import { renderHtml } from '../../../express/response.ts'
 
 export async function useBannerPage() {
 

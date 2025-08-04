@@ -1,13 +1,13 @@
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { getImageDB, ImageDB } from '../../../db/image/image-db.js'
-import { ImageFileManager } from '../../../fileman/fileman.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { getImageDB, ImageDB } from '../../../db/image/image-db.ts'
+import type { ImageFileManager } from '../../../fileman/fileman.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, getConfig, initObjectContext } from '../../../oman/oman.js'
-import { getImageFileManager } from '../../../fileman/fileman-loader.js'
-import { useUserHomePage } from './user-home-page.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
-import { newUser } from '../../../common/type/user.js'
+import { closeAllObjects, getConfig, initObjectContext } from '../../../oman/oman.ts'
+import { getImageFileManager } from '../../../fileman/fileman-loader.ts'
+import { useUserHomePage } from './user-home-page.ts'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.ts'
+import { newUser } from '../../../common/type/user.ts'
 
 describe('User Home Page', () => {
 

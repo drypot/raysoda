@@ -1,10 +1,10 @@
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { useUserAuthApi } from './user-auth-api.js'
-import { useUserUpdateApi } from './user-update-api.js'
-import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.js'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { useUserAuthApi } from './user-auth-api.ts'
+import { useUserUpdateApi } from './user-update-api.ts'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.ts'
 import {
   EMAIL_DUPE,
   EMAIL_PATTERN,
@@ -17,10 +17,10 @@ import {
   NAME_RANGE,
   NOT_AUTHENTICATED,
   NOT_AUTHORIZED
-} from '../../../common/type/error-const.js'
-import { userLoginForTest } from './user-auth-api-fixture.js'
-import { dupe } from '../../../common/util/object2.js'
-import { UpdateUserProfileForm } from '../../../common/type/user-form.js'
+} from '../../../common/type/error-const.ts'
+import { userLoginForTest } from './user-auth-api-fixture.ts'
+import { dupe } from '../../../common/util/object2.ts'
+import type { UpdateUserProfileForm } from '../../../common/type/user-form.ts'
 
 describe('UserUpdateApi Update', () => {
 

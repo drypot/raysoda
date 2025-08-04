@@ -1,17 +1,17 @@
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { getUserDB } from '../../../db/user/user-db.js'
-import { userGetSessionUser, userLogout } from './user-auth-api.js'
-import { assertLoggedIn } from '../service/user-auth.js'
-import { newNumber, newString } from '../../../common/util/primitive.js'
-import { ErrorConst } from '../../../common/type/error.js'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { getUserDB } from '../../../db/user/user-db.ts'
+import { userGetSessionUser, userLogout } from './user-auth-api.ts'
+import { assertLoggedIn } from '../service/user-auth.ts'
+import { newNumber, newString } from '../../../common/util/primitive.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
 import {
   getUserForUpdateProfile,
   updateUserPassword,
   updateUserProfile,
   updateUserStatus
-} from '../service/user-update.js'
-import { renderJson } from '../../../express/response.js'
-import { UpdateUserPasswordForm, UpdateUserProfileForm, UpdateUserStatusForm } from '../../../common/type/user-form.js'
+} from '../service/user-update.ts'
+import { renderJson } from '../../../express/response.ts'
+import type { UpdateUserPasswordForm, UpdateUserProfileForm, UpdateUserStatusForm } from '../../../common/type/user-form.ts'
 
 export async function useUserUpdateApi() {
 

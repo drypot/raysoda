@@ -1,11 +1,11 @@
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { getUserDB } from '../../../db/user/user-db.js'
-import { userGetSessionUser } from './user-auth-api.js'
-import { newNumber } from '../../../common/util/primitive.js'
-import { ErrorConst } from '../../../common/type/error.js'
-import { getUserDetail } from '../service/user-detail.js'
-import { packUserDetail } from '../../../common/type/user-detail.js'
-import { renderJson } from '../../../express/response.js'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { getUserDB } from '../../../db/user/user-db.ts'
+import { userGetSessionUser } from './user-auth-api.ts'
+import { newNumber } from '../../../common/util/primitive.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
+import { getUserDetail } from '../service/user-detail.ts'
+import { packUserDetail } from '../../../common/type/user-detail.ts'
+import { renderJson } from '../../../express/response.ts'
 
 export async function useUserDetailApi() {
 

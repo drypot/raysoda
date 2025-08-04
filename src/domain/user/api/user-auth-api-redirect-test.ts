@@ -1,10 +1,10 @@
 import supertest from 'supertest'
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { Express2, getExpress2, toCallback } from '../../../express/express2.js'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { userGetSessionUser, useUserAuthApi } from './user-auth-api.js'
-import { assertLoggedIn } from '../service/user-auth.js'
-import { insertUserFix4 } from '../../../db/user/fixture/user-fix.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { Express2, getExpress2, toCallback } from '../../../express/express2.ts'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { userGetSessionUser, useUserAuthApi } from './user-auth-api.ts'
+import { assertLoggedIn } from '../service/user-auth.ts'
+import { insertUserFix4 } from '../../../db/user/fixture/user-fix.ts'
 
 describe('UserAuthApi Redirect To Login', () => {
 

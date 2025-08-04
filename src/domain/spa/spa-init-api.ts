@@ -1,9 +1,9 @@
-import { getConfig } from '../../oman/oman.js'
-import { getExpress2 } from '../../express/express2.js'
-import { getBannerDB } from '../../db/banner/banner-db.js'
-import { newConfigForClient } from '../../common/type/config.js'
-import { userGetSessionUser } from '../user/api/user-auth-api.js'
-import { newUserIdCard } from '../../common/type/user.js'
+import { getConfig } from '../../oman/oman.ts'
+import { getExpress2 } from '../../express/express2.ts'
+import { getBannerDB } from '../../db/banner/banner-db.ts'
+import { newConfigForClient } from '../../common/type/config.ts'
+import { userGetSessionUser } from '../user/api/user-auth-api.ts'
+import { newUserIdCard } from '../../common/type/user.ts'
 
 export async function useSpaInitApi() {
 

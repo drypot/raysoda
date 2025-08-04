@@ -1,8 +1,8 @@
 import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { Express2, getExpress2, toCallback } from '../../../express/express2.js'
-import { userGetSessionUser, useUserAuthApi } from './user-auth-api.js'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { Express2, getExpress2, toCallback } from '../../../express/express2.ts'
+import { userGetSessionUser, useUserAuthApi } from './user-auth-api.ts'
 import {
   ADMIN,
   ADMIN_LOGIN_FORM,
@@ -11,11 +11,11 @@ import {
   USER1_LOGIN_FORM,
   USER2,
   USER2_LOGIN_FORM
-} from '../../../db/user/fixture/user-fix.js'
-import { assertAdmin, assertLoggedIn } from '../service/user-auth.js'
-import { renderJson } from '../../../express/response.js'
-import { GUEST_ID_CARD } from '../../../common/type/user.js'
-import { EMAIL_NOT_FOUND, NOT_AUTHORIZED, PASSWORD_WRONG } from '../../../common/type/error-const.js'
+} from '../../../db/user/fixture/user-fix.ts'
+import { assertAdmin, assertLoggedIn } from '../service/user-auth.ts'
+import { renderJson } from '../../../express/response.ts'
+import { GUEST_ID_CARD } from '../../../common/type/user.ts'
+import { EMAIL_NOT_FOUND, NOT_AUTHORIZED, PASSWORD_WRONG } from '../../../common/type/error-const.ts'
 
 describe('UserAuthApi', () => {
 

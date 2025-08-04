@@ -1,19 +1,19 @@
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { renderJson } from '../../../express/response.js'
-import { GUEST, newUserIdCard, User } from '../../../common/type/user.js'
-import { UserLoginForm } from '../../../common/type/user-form.js'
-import { newString } from '../../../common/util/primitive.js'
-import { ErrorConst } from '../../../common/type/error.js'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { renderJson } from '../../../express/response.ts'
+import { GUEST, newUserIdCard, type User } from '../../../common/type/user.ts'
+import type { UserLoginForm } from '../../../common/type/user-form.ts'
+import { newString } from '../../../common/util/primitive.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
 import {
   ACCOUNT_DEACTIVATED,
   EMAIL_NOT_FOUND,
   NOT_AUTHENTICATED,
   NOT_AUTHORIZED,
   PASSWORD_WRONG
-} from '../../../common/type/error-const.js'
-import { checkHash } from '../../../common/util/hash.js'
-import { Request, Response } from 'express'
+} from '../../../common/type/error-const.ts'
+import { checkHash } from '../../../common/util/hash.ts'
+import type { Request, Response } from 'express'
 
 export async function useUserAuthApi() {
 

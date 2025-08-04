@@ -1,5 +1,5 @@
-import { User, userIsAdmin, userIsUser } from '../../../common/type/user.js'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../common/type/error-const.js'
+import { type User, userIsAdmin, userIsUser } from '../../../common/type/user.ts'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../common/type/error-const.ts'
 
 export function assertLoggedIn(user: User) {
     if (!userIsUser(user)) throw NOT_AUTHENTICATED

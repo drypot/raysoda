@@ -1,7 +1,7 @@
 import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
-import { useAboutPage } from './about-page.js'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
+import { useAboutPage } from './about-page.ts'
 
 describe('AboutPage', () => {
 

@@ -1,13 +1,13 @@
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { CounterDB, getCounterDB } from '../../../db/counter/counter-db.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { CounterDB, getCounterDB } from '../../../db/counter/counter-db.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { useUserAuthApi } from '../../user/api/user-auth-api.js'
-import { useCounterApi } from './counter-api.js'
-import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.js'
-import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../common/type/error-const.js'
-import { userLoginForTest } from '../../user/api/user-auth-api-fixture.js'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { useUserAuthApi } from '../../user/api/user-auth-api.ts'
+import { useCounterApi } from './counter-api.ts'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.ts'
+import { NOT_AUTHENTICATED, NOT_AUTHORIZED } from '../../../common/type/error-const.ts'
+import { userLoginForTest } from '../../user/api/user-auth-api-fixture.ts'
 
 describe('Counter List Api', () => {
 

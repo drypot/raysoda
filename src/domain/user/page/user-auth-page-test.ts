@@ -1,12 +1,12 @@
 import supertest from 'supertest'
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { useUserAuthApi } from '../api/user-auth-api.js'
-import { useUserAuthPage } from './user-auth-page.js'
-import { insertUserFix4, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.js'
-import { userLoginForTest } from '../api/user-auth-api-fixture.js'
-import { GUEST_ID_CARD } from '../../../common/type/user.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { useUserAuthApi } from '../api/user-auth-api.ts'
+import { useUserAuthPage } from './user-auth-page.ts'
+import { insertUserFix4, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.ts'
+import { userLoginForTest } from '../api/user-auth-api-fixture.ts'
+import { GUEST_ID_CARD } from '../../../common/type/user.ts'
 
 describe('UserAuthPage', () => {
 

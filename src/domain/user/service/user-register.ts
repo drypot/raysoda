@@ -1,11 +1,11 @@
-import { UserDB } from '../../../db/user/user-db.js'
-import { UserRegisterForm } from '../../../common/type/user-form.js'
-import { ErrorConst } from '../../../common/type/error.js'
-import { checkUserEmail, checkUserPassword } from './user-check.js'
-import { emailGetUserName } from '../../../common/util/email.js'
-import { newUser } from '../../../common/type/user.js'
-import { makeHash } from '../../../common/util/hash.js'
-import { EMAIL_DUPE, HOME_RANGE, NAME_RANGE } from '../../../common/type/error-const.js'
+import { UserDB } from '../../../db/user/user-db.ts'
+import type { UserRegisterForm } from '../../../common/type/user-form.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
+import { checkUserEmail, checkUserPassword } from './user-check.ts'
+import { emailGetUserName } from '../../../common/util/email.ts'
+import { newUser } from '../../../common/type/user.ts'
+import { makeHash } from '../../../common/util/hash.ts'
+import { EMAIL_DUPE, HOME_RANGE, NAME_RANGE } from '../../../common/type/error-const.ts'
 
 export async function registerUser(udb: UserDB, form: UserRegisterForm, err: ErrorConst[]) {
   const { email, password } = form

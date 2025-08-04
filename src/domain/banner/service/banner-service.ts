@@ -1,5 +1,5 @@
-import { BannerDB } from '../../../db/banner/banner-db.js'
-import { Banner } from '../../../common/type/banner.js'
+import { BannerDB } from '../../../db/banner/banner-db.ts'
+import type { Banner } from '../../../common/type/banner.ts'
 
 export function getBannerList(bdb: BannerDB) {
   return bdb.getCachedBannerList()

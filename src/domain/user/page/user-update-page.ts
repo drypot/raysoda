@@ -1,12 +1,12 @@
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { getUserDB } from '../../../db/user/user-db.js'
-import { userGetSessionUser } from '../api/user-auth-api.js'
-import { assertAdmin, assertLoggedIn } from '../service/user-auth.js'
-import { newNumber } from '../../../common/util/primitive.js'
-import { ErrorConst } from '../../../common/type/error.js'
-import { getUserForUpdateProfile } from '../service/user-update.js'
-import { getConfig } from '../../../oman/oman.js'
-import { renderHtml } from '../../../express/response.js'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { getUserDB } from '../../../db/user/user-db.ts'
+import { userGetSessionUser } from '../api/user-auth-api.ts'
+import { assertAdmin, assertLoggedIn } from '../service/user-auth.ts'
+import { newNumber } from '../../../common/util/primitive.ts'
+import type { ErrorConst } from '../../../common/type/error.ts'
+import { getUserForUpdateProfile } from '../service/user-update.ts'
+import { getConfig } from '../../../oman/oman.ts'
+import { renderHtml } from '../../../express/response.ts'
 
 export async function useUserUpdatePage() {
 

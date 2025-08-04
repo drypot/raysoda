@@ -1,6 +1,6 @@
-import { getExpress2, toCallback } from '../../../express/express2.js'
-import { renderHtml } from '../../../express/response.js'
-import { userLogout } from '../api/user-auth-api.js'
+import { getExpress2, toCallback } from '../../../express/express2.ts'
+import { renderHtml } from '../../../express/response.ts'
+import { userLogout } from '../api/user-auth-api.ts'
 
 
 export async function useUserAuthPage() {

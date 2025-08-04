@@ -1,13 +1,13 @@
 import supertest from 'supertest'
-import { Express2, getExpress2 } from '../../../express/express2.js'
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { BannerDB, getBannerDB } from '../../../db/banner/banner-db.js'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { useUserAuthApi } from '../../user/api/user-auth-api.js'
-import { useBannerApi } from './banner-api.js'
-import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.js'
-import { userLoginForTest, userLogoutForTest } from '../../user/api/user-auth-api-fixture.js'
-import { NOT_AUTHORIZED } from '../../../common/type/error-const.js'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { BannerDB, getBannerDB } from '../../../db/banner/banner-db.ts'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { useUserAuthApi } from '../../user/api/user-auth-api.ts'
+import { useBannerApi } from './banner-api.ts'
+import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '../../../db/user/fixture/user-fix.ts'
+import { userLoginForTest, userLogoutForTest } from '../../user/api/user-auth-api-fixture.ts'
+import { NOT_AUTHORIZED } from '../../../common/type/error-const.ts'
 
 describe('Banner Api', () => {
 

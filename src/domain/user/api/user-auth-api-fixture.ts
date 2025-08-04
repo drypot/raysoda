@@ -1,5 +1,5 @@
 import supertest from 'supertest'
-import { UserLoginForm } from '../../../common/type/user-form.js'
+import type { UserLoginForm } from '../../../common/type/user-form.ts'
 
 export async function userLoginForTest(agent: supertest.Agent, _form: UserLoginForm, remember: boolean = false) {
   const form = { ..._form, remember }

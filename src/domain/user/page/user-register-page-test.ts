@@ -1,8 +1,8 @@
-import { getUserDB, UserDB } from '../../../db/user/user-db.js'
-import { Express2, getExpress2 } from '../../../express/express2.js'
+import { getUserDB, UserDB } from '../../../db/user/user-db.ts'
+import { Express2, getExpress2 } from '../../../express/express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../../../oman/oman.js'
-import { useUserRegisterPage } from './user-register-page.js'
+import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
+import { useUserRegisterPage } from './user-register-page.ts'
 
 describe('UserRegisterPage', () => {
 
