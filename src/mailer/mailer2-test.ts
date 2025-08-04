@@ -1,5 +1,5 @@
-import { closeAllObjects, initObjectContext } from '../oman/oman.js'
-import { getMailer, Mailer } from './mailer2.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.ts'
+import { getMailer, Mailer } from './mailer2.ts'
 
 describe('Mailer', () => {
 

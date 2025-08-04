@@ -1,7 +1,8 @@
-import * as fs from 'fs'
-import nodemailer, { type Transporter } from 'nodemailer'
-import { getConfig, getObject, registerObjectFactory } from '../oman/oman.js'
-import Mail from 'nodemailer/lib/mailer/index.js'
+import * as fs from "fs"
+import * as nodemailer from "nodemailer"
+import type { Transporter } from "nodemailer"
+import type Mail from "nodemailer/lib/mailer/index.js"
+import { registerObjectFactory, getConfig, getObject } from "../oman/oman.ts"
 
 registerObjectFactory('Mailer', async () => {
   return Mailer.from(getConfig().mailServerConfigPath)
