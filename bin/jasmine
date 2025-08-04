@@ -1,10 +1,1 @@
-#!/usr/bin/env bash
-
-# 아래 코드는 한 프로세스에서 모든 테스트를 모아 돌린다.
-# 각각 새 프로세스에서 실행되는 것을 전제로 만들어진 테스트는 jasmine2 로 실행한다.
-
-export NODE_ENV=development
-export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-export TS_NODE_PROJECT=src/ts/server/tsconfig.json
-
-node src/ts/server/script/run-jasmine.ts "${@-src/ts/server}"
+./jasmine-node

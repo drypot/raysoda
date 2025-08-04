@@ -1,5 +1,5 @@
 import { exec } from 'child_process'
-import { logError } from '../common/util/error2.js'
+import { logError } from '../common/util/error2.ts'
 
 /*
   $ node sample/make-sample.js

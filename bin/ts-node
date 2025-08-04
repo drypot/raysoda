@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 
-#export NODE_ENV=development
-#export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-#export TS_NODE_PROJECT=src/ts/server/tsconfig.json
-
-args=(
-  --loader ts-node/esm
-)
+export NODE_ENV=development
+export TS_NODE_PROJECT=tsconfig.json
 
 set -x # enable debugging output
 
-node "${args[@]}" "$@"
-
-
+node_modules/.bin/ts-node "$@"

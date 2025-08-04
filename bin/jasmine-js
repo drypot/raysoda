@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# 만들다 말았다.
+# 나중에 필요해 지면 다시 만들고 테스트.
+
+exit
+
+# build/src/**/*.js 를 대상으로하는 jasmine 스크립트
+
+# 한 프로세스에서 모든 테스트를 모아 돌린다.
+# 각각 새 프로세스에서 실행되어야 하는 테스트는 jasmine2 를 사용한다.
+
+# 사용 예
+# $ bin/jasmine-ts-node src/common/util/date2-test.ts
+# $ bin/jasmine-ts-node  <-- src 아래 모든 테스트 코드를 실행
+
+export NODE_ENV=development
+
+node src/script/run-jasmine.ts "${@-build/src}"  # ${@-src} 에서 src 는 디폴트 값을 의미

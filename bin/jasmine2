@@ -2,6 +2,8 @@
 
 # 업데이트 중지. 다시 사용하려면 많이 고쳐야한다.
 
+exit
+
 jasmine="node src/script/jasmine-runner.mjs"
 
 for arg in "${@-build}"; do

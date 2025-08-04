@@ -1,5 +1,5 @@
-import { logError } from '../common/util/error2.js'
-import { Mailer } from '../mailer/mailer2.js'
+import { logError } from '../common/util/error2.ts'
+import { Mailer } from '../mailer/mailer2.ts'
 
 async function main() {
   const mailer = Mailer.from(process.argv[2])

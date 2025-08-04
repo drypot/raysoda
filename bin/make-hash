@@ -9,15 +9,12 @@ if [ $# -lt 1 ]; then
     show_usage
 fi
 
-#export NODE_ENV=development
-#export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-#export TS_NODE_PROJECT=src/ts/server/tsconfig.json
+export NODE_ENV=development
 
-args=(
-  --loader ts-node/esm
-  src/script/make-hash.ts
-)
+#export TS_NODE_PROJECT=tsconfig.json
+#export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
+#export NODE_OPTIONS='--loader ts-node/esm'
 
 set -x # enable debugging output
 
-node "${args[@]}" "$@"
+node src/script/make-hash.ts "$@"

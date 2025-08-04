@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 export NODE_ENV=development
-export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-export TS_NODE_PROJECT=src/ts/server/tsconfig.json
 
-node src/ts/server/script/make-sample.ts
+# export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
+# export TS_NODE_PROJECT=src/ts/server/tsconfig.json
+
+node src/script/make-sample.ts

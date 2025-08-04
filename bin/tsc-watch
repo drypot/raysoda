@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# 만들다 말았다. 나중에 테스트
+
+exit
+
+args=(
+    # --build tsconfig.json
+    --project tsconfig.json
+    # --listEmittedFiles    # 새로 생성되는 파일 목록을 출력한다.
+    # --incremental         # 변경된 파일만 컴파일한다.
+    --watch
+)
+
+set -x # enable debugging output
+
+node_modules/.bin/tsc "${args[@]}" "$@"

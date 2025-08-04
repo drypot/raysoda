@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# src/**/*.ts 를 대상으로하는 jasmine 스크립트
+# node 로 바로 실행한다.
+
+# 사용 예
+# $ bin/jasmine-node src/common/util/date2-test.ts
+# $ bin/jasmine-node  <-- src 아래 모든 테스트 코드를 실행
+
+export NODE_ENV=development
+
+node src/script/run-jasmine.ts "${@-build/src}"  # ${@-src} 에서 src 는 디폴트 값을 의미

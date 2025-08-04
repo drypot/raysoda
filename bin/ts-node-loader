@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 export NODE_ENV=development
+export TS_NODE_PROJECT=tsconfig.json
 
-#export TS_NODE_PROJECT=tsconfig.json
 #export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-#export NODE_OPTIONS='--loader ts-node/esm'
+export NODE_OPTIONS='--loader ts-node/esm'
 
 set -x # enable debugging output
 
-node src/script/run-express2.ts "$@"
+node "$@"

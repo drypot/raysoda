@@ -1,16 +1,16 @@
-import { getUserDB } from '../db/user/user-db.js'
-import { closeAllObjects, getObject, initObjectContext } from '../oman/oman.js'
-import { PwMailDB } from '../db/password/pwmail-db.js'
-import { insertUserFix4 } from '../db/user/fixture/user-fix.js'
-import { Mailer } from '../mailer/mailer2.js'
-import { ErrorConst } from '../common/type/error.js'
-import { mailUserPassword } from '../domain/user/service/user-password.js'
-import { logError } from '../common/util/error2.js'
+import { getUserDB } from '../db/user/user-db.ts'
+import { closeAllObjects, initObjectContext } from '../oman/oman.ts'
+import { getPwMailDB } from '../db/password/pwmail-db.ts'
+import { insertUserFix4 } from '../db/user/fixture/user-fix.ts'
+import { getMailer } from '../mailer/mailer2.ts'
+import type { ErrorConst } from '../common/type/error.ts'
+import { mailUserPassword } from '../domain/user/service/user-password.ts'
+import { logError } from '../common/util/error2.ts'
 
 async function main() {
   initObjectContext('config/raysoda-test.json')
   const udb = await getUserDB()
-  const rdb = await getObject('PwMailDB') as PwMailDB
+  const rdb = await getPwMailDB()
 
   await udb.dropTable()
   await udb.createTable()
@@ -19,7 +19,7 @@ async function main() {
   await rdb.dropTable()
   await rdb.createTable()
 
-  const mailer = await getObject('Mailer') as Mailer
+  const mailer = await getMailer()
   mailer.loadConfig('config/mail-dev.json')
 
   const email = process.argv[2]

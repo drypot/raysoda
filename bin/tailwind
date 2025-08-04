@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-#node_modules/.bin/postcss src/css/tailwind/base.css -o public/build/tailwind.css -c src/css/tailwind
-
-./node_modules/.bin/tailwindcss -c tailwind.config.js -i src/css/tailwind/tailwind.css -o public/build/tailwind.css

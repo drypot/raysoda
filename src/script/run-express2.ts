@@ -1,8 +1,8 @@
-import { loadConfigSync } from '../common/util/config-loader.js'
-import { Express2 } from '../express/express2.js'
+import { loadConfigSync } from '../common/util/config-loader.ts'
+import { Express2 } from '../express/express2.ts'
 
-const config = loadConfigSync('config/app-dev.json')
-const web = Express2.from(config)
+const config = loadConfigSync('config/raysoda-dev.json')
+const express2 = Express2.from(config)
 
 process.on('uncaughtException', function (err) {
   console.error(err.stack)
@@ -14,7 +14,7 @@ process.on('SIGINT', function () {
   process.exit(1)
 })
 
-web.start().then(() => {
+express2.start().then(() => {
   console.log('express: listening ' + config.port)
   const mainUrl = config.mainUrl
   console.log(mainUrl + '/hello')

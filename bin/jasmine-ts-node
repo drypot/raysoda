@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# src/**/*.ts 파일들을 대상으로하는 jasmine 스크립트
+# ts-node loader 를 사용한다.
+
+# 한 프로세스에서 모든 테스트를 모아 돌린다.
+# 각각 새 프로세스에서 실행되어야 하는 테스트는 jasmine2 를 사용한다.
+
+# 사용 예
+# $ bin/jasmine-ts-node src/common/util/date2-test.ts
+# $ bin/jasmine-ts-node  <-- src 아래 모든 테스트 코드를 실행
+
+export NODE_ENV=development
+
+export TS_NODE_PROJECT=tsconfig.json
+#export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
+export NODE_OPTIONS='--loader ts-node/esm'
+
+node src/script/run-jasmine.ts "${@-src}"  # ${@-src} 에서 src 는 디폴트 값을 의미
