@@ -1,7 +1,7 @@
-import { Express2, getExpress2 } from './express2.js'
+import { Express2, getExpress2 } from './express2.ts'
 import supertest from 'supertest'
-import { INVALID_DATA } from '../common/type/error-const.js'
-import { closeAllObjects, initObjectContext } from '../oman/oman.js'
+import { INVALID_DATA } from '../common/type/error-const.ts'
+import { closeAllObjects, initObjectContext } from '../oman/oman.ts'
 
 describe('Express2 Error', () => {
 

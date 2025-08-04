@@ -1,9 +1,9 @@
-import { Express2, getExpress2 } from './express2.js'
+import { Express2, getExpress2 } from './express2.ts'
 import supertest from 'supertest'
 import { existsSync, unlinkSync } from 'fs'
-import { closeAllObjects, initObjectContext } from '../oman/oman.js'
-import { deleteUpload, getUploader, Uploader } from './uploader.js'
-import { timeout } from '../common/util/async2.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.ts'
+import { deleteUpload, getUploader, type Uploader } from './uploader.ts'
+import { timeout } from '../common/util/async2.ts'
 
 describe('Express2 Upload', () => {
 

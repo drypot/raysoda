@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from 'express'
-import { Express2, getExpress2 } from './express2.js'
+import type { NextFunction, Request, Response } from 'express'
+import { Express2, getExpress2 } from './express2.ts'
 import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../oman/oman.js'
+import { closeAllObjects, initObjectContext } from '../oman/oman.ts'
 
 describe('Express2 Middleware', () => {
 

@@ -1,8 +1,8 @@
-import newMulter, { Multer } from 'multer'
-import { emptyDirSync, mkdirRecursiveSync } from '../common/util/fs2.js'
-import { ExpressCallbackHandler, ExpressPromiseHandler } from './express2.js'
+import newMulter, { type Multer } from 'multer'
+import { emptyDirSync, mkdirRecursiveSync } from '../common/util/fs2.ts'
+import type { ExpressCallbackHandler, ExpressPromiseHandler } from './express2.ts'
 import { unlink } from 'fs'
-import { getConfig, getObject, registerObjectFactory } from '../oman/oman.js'
+import { getConfig, getObject, registerObjectFactory } from '../oman/oman.ts'
 
 export type Uploader = Multer
 
@@ -37,13 +37,3 @@ export function deleteUpload(handler: ExpressPromiseHandler): ExpressCallbackHan
 }
 
 function noop() {}
-
-
-
-
-
-
-
-
-
-

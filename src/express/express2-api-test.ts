@@ -1,6 +1,6 @@
-import { Express2, getExpress2 } from './express2.js'
-import supertest from 'supertest'
-import { closeAllObjects, initObjectContext } from '../oman/oman.js'
+import supertest from "supertest"
+import { initObjectContext, closeAllObjects } from "../oman/oman.ts"
+import { type Express2, getExpress2 } from "./express2.ts"
 
 describe('Express2 res.locals.api', () => {
 
