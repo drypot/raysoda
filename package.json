@@ -31,8 +31,6 @@
     "redis": "^5.7.0"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-typescript": "^12.1.4",
     "@tsconfig/node24": "^24.0.1",
     "@types/cookie-parser": "^1.4.9",
     "@types/express": "^5.0.3",
@@ -42,12 +40,11 @@
     "@types/node": "^24.1.0",
     "@types/nodemailer": "^6.4.17",
     "@types/supertest": "^6.0.3",
+    "esbuild": "^0.25.8",
     "jasmine": "^5.9.0",
-    "rollup": "^4.46.2",
     "sass": "^1.89.2",
     "superagent": "^10.2.3",
     "supertest": "^7.1.4",
-    "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }
 }

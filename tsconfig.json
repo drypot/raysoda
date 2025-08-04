@@ -15,7 +15,7 @@
     // node_modules/.bin/ts-node 로 실행할 경우
     //"moduleResolution": "bundler",
 
-    // node 로 ts 를 실행할 경우
+    // node 22+ 로 ts 를 실행할 경우
     "moduleResolution": "nodenext",
 
     "target": "esnext", // async iterators ...
@@ -25,54 +25,63 @@
     "lib": ["esnext"],
 
     // tsc 결과 파일이 출력될 디렉토리.
+    // outDir 루트에 build meta data 들이 생성되므로 여러 빌드간 공유되면 안 된다.
+    // tsconfig.json 파일 위치가 기준이다.
 
-    "outDir": "build",
+    "outDir": "build/server",
 
-    // 소스 파일의 루트를 어디로 볼 것인가를 결정한다.
+    // incremental 옵션에서 사용할 tsbuildinfo 파일 위치.
+    // outDir/rootDir 설정이 복잡하게 들어가면 예상치 못한 곳에 파일이 생성된다.
+    // 가능하면 명시적으로 지정해 놓는다.
+
+    "tsBuildInfoFile" : "build/server/tsconfig.tsbuildinfo",
+
+    // 소스 파일들의 공통 루트를 어디로 볼 것인가를 결정한다.
     // outDir 디렉토리에 사용할 서브 패스에 영향을 준다.
-    // rootDir 이 "src"일 경우 src/a.ts -> build/a.js 가 된다.
-    // rootDir 이 "."일 경우 src/a.ts -> build/src/a.js 가 된다.
+    // rootDir 을 "src"로 잡으면 src/a.ts -> {outDir}/a.js
+    // rootDir 을 "."으로 잡으면 src/a.ts -> {outDir}/src/a.js
 
     // 보통 "src" 정도를 쓰는데 WebStorm 에서 문제가 생겼다.
     // Run Config 에서 $FileDirPathFromParent(src)$ 매크로가 작동하지 않는다.
     // Jasmine 테스트 런을 편하게 하기위해 할 수 없이 rooDir 을 "." 으로 세팅하고
     // build/src/.../*.js 를 실행하도록 했다.
 
+    // 2025-08-01, WebStorm 2024.2.3 에서
     // 위에 문제는 예전 문제인 듯.
     // 지금 WebStorm -> Run 설정을 보면
     // ts-node 로 ts 를 바로 실행하는 것으로 되어 있다.
 
-    "rootDir": ".",
+    "rootDir": "src",
 
-    // baseUrl 은 import 에 절대 경로를 사용할 수 있게 한다.
-    // baseUrl 은 절대 경로의 베이스 디렉토리가 된다.
-    // 하지만 node, ts-node 는 이 패스를 모르기 때문에
-    // tsconfig-paths 같은 플러그인이 또 필요해 진다.
 
-    // 2025-08-01, Node 24 로 업그레이드하는데 여러가지 문제를 일으키는 중.
-    // 해서 절대 경로 사용은 피해볼까 한다.
+    // baseUrl + paths 는 import 에 절대 경로를 사용할 수 있게 한다.
 
-    //    "baseUrl": "./src",
-    //    "paths": {
-    //          "@server/*": ["./*"],
-    //          "@common/*": ["./common/*"],
-    //    },
+    // 2025-08-01, Node 24 로 업그레이드하는데 절대경로가 여러가지 문제를 일으키는 중.
+    // 특히 import 에서 *.ts 확장자 사용에 문제가 생긴다.
+    // 절대경로 사용은 금지하기로 한다.
+
+    // "baseUrl": ".",
+    // "paths": { },
 
 
     // tsc 는 import *.js 를 요구한다.
     // node 는 import *.ts 를 요구한다;
-    // ts-node 는 import ts 확장자가 가능하다.
-    // node --loader ts-node/esm
-    // 여기서 또 문제는
-    // 헬이다.
+    // ts-node 는 import *.ts 를 요구한다.
+    // node --loader ts-node/esm 는 *.js, *.ts 모두 가능하다.
+
+    // tsc 에서는 import.ts 를 사용할 수 없지만, 아래 두 옵션을 다 주면 사용이 가능하다.
+    // 하지만 코드를 생성하지 못한다.
+
+    // ts-node 를 사용할 때 쓸 필요가 있을 수 있다.
 
     // "allowImportingTsExtensions": true,
     // "noEmit": true,
 
 
     // TypeScript 5.7 부터 상대 경로에 대해서는 import *.ts 를 쓸 수 있게 되었다.
+    // 이 옵션을 주고 import 시 상대경로만 사용하면 tsc, node, ts-node 모두 에서 import *.ts 를 쓸 수 있다.
 
-    "rewriteRelativeImportExtensions" :true,
+    "rewriteRelativeImportExtensions" : true,
 
 
     // TypeScript 는 import 구문을 자동으로 최적화 한다.
@@ -117,17 +126,18 @@
 
   "exclude": [
   ],
-  //  "references": [
-  //    { "path": "../common/tsconfig.json"}
-  //  ],
   "ts-node": {
-      // 타입 검사를 패스하고 트랜스파일만 하고 실행한다.
-      // 타입 검사는 개발할 때 다 하니까 다시 할 필요가 없다.
-      "transpileOnly": true,
 
-      // 아래 옵션 보다 말았다.
-      // 나중에 다시 확인.
-      "esm": true,
-      "experimentalSpecifierResolution": "node",
+    // 2025-08-05
+    // 이제 ts-node 안 쓰지만, 일단 그냥 둔다.
+
+    // 타입 검사를 패스하고 트랜스파일만 하고 실행한다.
+    // 타입 검사는 개발할 때 다 하니까 다시 할 필요가 없다.
+    "transpileOnly": true,
+
+    // 아래 옵션 보다 말았다.
+    // 나중에 다시 확인.
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
   }
 }
