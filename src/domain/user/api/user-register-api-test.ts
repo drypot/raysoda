@@ -5,7 +5,7 @@ import { closeAllObjects, initObjectContext } from '../../../oman/oman.ts'
 import { useUserRegisterApi } from './user-register-api.ts'
 import { insertUserFix4 } from '../../../db/user/fixture/user-fix.ts'
 import type { UserRegisterForm } from '../../../common/type/user-form.ts'
-import { checkHash } from '../../../common/util/hash.ts'
+import { checkHash } from '../../../util/hash.ts'
 import {
   EMAIL_DUPE,
   EMAIL_PATTERN,

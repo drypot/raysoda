@@ -12,7 +12,7 @@ import {
   NOT_AUTHORIZED,
   PASSWORD_WRONG
 } from '../../../common/type/error-const.ts'
-import { checkHash } from '../../../common/util/hash.ts'
+import { checkHash } from '../../../util/hash.ts'
 import type { Request, Response } from 'express'
 
 export async function useUserAuthApi() {

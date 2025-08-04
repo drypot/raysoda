@@ -8,7 +8,7 @@ import { ADMIN_LOGIN_FORM, insertUserFix4, USER1_LOGIN_FORM } from '../../../db/
 import { userLoginForTest } from './user-auth-api-fixture.ts'
 import { dupe } from '../../../common/util/object2.ts'
 import type { UpdateUserPasswordForm } from '../../../common/type/user-form.ts'
-import { checkHash } from '../../../common/util/hash.ts'
+import { checkHash } from '../../../util/hash.ts'
 import { NOT_AUTHORIZED, PASSWORD_RANGE } from '../../../common/type/error-const.ts'
 
 describe('UserUpdateApi Update', () => {

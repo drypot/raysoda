@@ -14,7 +14,7 @@ import { getConfig } from '../../../oman/oman.ts'
 import type { NewPasswordForm } from '../../../common/type/password.ts'
 import { checkUserPassword } from './user-check.ts'
 import { dateDiffMins } from '../../../common/util/date2.ts'
-import { makeHash } from '../../../common/util/hash.ts'
+import { makeHash } from '../../../util/hash.ts'
 
 export async function mailUserPassword(
   mailer: Mailer, udb: UserDB, mdb: PwMailDB, email: string, err: ErrorConst[]

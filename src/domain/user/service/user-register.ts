@@ -4,7 +4,7 @@ import type { ErrorConst } from '../../../common/type/error.ts'
 import { checkUserEmail, checkUserPassword } from './user-check.ts'
 import { emailGetUserName } from '../../../common/util/email.ts'
 import { newUser } from '../../../common/type/user.ts'
-import { makeHash } from '../../../common/util/hash.ts'
+import { makeHash } from '../../../util/hash.ts'
 import { EMAIL_DUPE, HOME_RANGE, NAME_RANGE } from '../../../common/type/error-const.ts'
 
 export async function registerUser(udb: UserDB, form: UserRegisterForm, err: ErrorConst[]) {

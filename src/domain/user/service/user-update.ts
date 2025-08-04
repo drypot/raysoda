@@ -4,7 +4,7 @@ import type { ErrorConst } from '../../../common/type/error.ts'
 import type { UpdateUserPasswordForm, UpdateUserProfileForm, UpdateUserStatusForm } from '../../../common/type/user-form.ts'
 import { checkUserEmail, checkUserHome, checkUserName, checkUserPassword } from './user-check.ts'
 import { EMAIL_DUPE, HOME_DUPE, NAME_DUPE, NOT_AUTHORIZED, USER_NOT_FOUND } from '../../../common/type/error-const.ts'
-import { makeHash } from '../../../common/util/hash.ts'
+import { makeHash } from '../../../util/hash.ts'
 import { userCanUpdateUser } from './user-auth.ts'
 
 export async function getUserForUpdateProfile(

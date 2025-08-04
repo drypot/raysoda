@@ -16,7 +16,7 @@ import {
 } from '../../../common/type/error-const.ts'
 import type { NewPasswordForm, PasswordMailLog } from '../../../common/type/password.ts'
 import { dateNull } from '../../../common/type/date-const.ts'
-import { checkHash } from '../../../common/util/hash.ts'
+import { checkHash } from '../../../util/hash.ts'
 
 describe('UserPwResetApi', () => {
 
