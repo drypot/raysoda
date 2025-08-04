@@ -1,11 +1,11 @@
-import { ErrorConst } from '../common/type/error.js'
+import type { ErrorConst } from '../common/type/error.ts'
 import { existsSync } from 'fs'
-import { IMAGE_SIZE } from '../common/type/error-const.js'
-import { closeAllObjects, initObjectContext } from '../oman/oman.js'
-import { getRapixelFileManaer } from './rapixel-fileman.js'
-import { newImageMeta } from '../common/type/image-meta.js'
-import { getImageMetaOfFile } from './magick/magick2.js'
-import { ImageFileManager } from './fileman.js'
+import { IMAGE_SIZE } from '../common/type/error-const.ts'
+import { closeAllObjects, initObjectContext } from '../oman/oman.ts'
+import { getRapixelFileManaer } from './rapixel-fileman.ts'
+import { newImageMeta } from '../common/type/image-meta.ts'
+import { getImageMetaOfFile } from './magick/magick2.ts'
+import type { ImageFileManager } from './fileman.ts'
 
 describe('RapixelFileManager', () => {
 

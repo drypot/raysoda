@@ -1,14 +1,15 @@
-import { copyFile, unlink } from 'fs/promises'
-import { ErrorConst } from '../common/type/error.js'
-import { IMAGE_TYPE } from '../common/type/error-const.js'
-import { mkdirRecursive, rmRecursive } from '../common/util/fs2.js'
-import { Config } from '../common/type/config.js'
-import { ImageMeta } from '../common/type/image-meta.js'
-import { ImageFileManager } from './fileman.js'
-import { newDeepPath } from '../common/util/deeppath.js'
-import { getConfig, getObject, registerObjectFactory } from '../oman/oman.js'
-import { inProduction } from '../common/util/env2.js'
-import { getImageMetaOfFile } from './magick/magick2.js'
+import { copyFile, unlink } from "fs/promises"
+import type { Config } from "../common/type/config.ts"
+import { IMAGE_TYPE } from "../common/type/error-const.ts"
+import type { ErrorConst } from "../common/type/error.ts"
+import type { ImageMeta } from "../common/type/image-meta.ts"
+import { newDeepPath } from "../common/util/deeppath.ts"
+import { inProduction } from "../common/util/env2.ts"
+import { rmRecursive, mkdirRecursive } from "../common/util/fs2.ts"
+import { registerObjectFactory, getConfig, getObject } from "../oman/oman.ts"
+import type { ImageFileManager } from "./fileman.ts"
+import { getImageMetaOfFile } from "./magick/magick2.ts"
+
 
 registerObjectFactory('DrypotFileManager', async () => {
   return DrypotFileManager.from(getConfig())

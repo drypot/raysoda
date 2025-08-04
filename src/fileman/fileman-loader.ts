@@ -1,11 +1,11 @@
-import { getObject } from '../oman/oman.js'
-import { ImageFileManager } from './fileman.js'
+import { getObject } from '../oman/oman.ts'
+import type { ImageFileManager } from './fileman.ts'
 
-import './rapixel-fileman.js'
-import './osoky-fileman.js'
-import './drypot-fileman.js'
-import './raysoda-fileman.js'
-import './sobeaut-fileman.js'
+import './rapixel-fileman.ts'
+import './osoky-fileman.ts'
+import './drypot-fileman.ts'
+import './raysoda-fileman.ts'
+import './sobeaut-fileman.ts'
 
 export async function getImageFileManager(name: string): Promise<ImageFileManager> {
   const map: any = {

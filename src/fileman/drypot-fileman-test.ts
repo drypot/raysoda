@@ -1,10 +1,10 @@
-import { ErrorConst } from '../common/type/error.js'
-import { IMAGE_TYPE } from '../common/type/error-const.js'
-import { existsSync } from 'fs'
-import { getDrypotFileManaer } from './drypot-fileman.js'
-import { closeAllObjects, initObjectContext } from '../oman/oman.js'
-import { newImageMeta } from '../common/type/image-meta.js'
-import { ImageFileManager } from './fileman.js'
+import { existsSync } from "fs"
+import { IMAGE_TYPE } from "../common/type/error-const.ts"
+import type { ErrorConst } from "../common/type/error.ts"
+import { newImageMeta } from "../common/type/image-meta.ts"
+import { initObjectContext, closeAllObjects } from "../oman/oman.ts"
+import { getDrypotFileManaer } from "./drypot-fileman.ts"
+import type { ImageFileManager } from "./fileman.ts"
 
 describe('DrypotFileManager', () => {
 

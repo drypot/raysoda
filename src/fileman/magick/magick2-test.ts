@@ -1,4 +1,4 @@
-import { getImageMetaOfFile } from './magick2.js'
+import { getImageMetaOfFile } from './magick2.ts'
 
 describe('getImageMetaOfFile', () => {
 
