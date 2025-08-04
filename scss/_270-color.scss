@@ -1,3 +1,4 @@
+@use "sass:color";
 
 $default-color: #252525;
 $link-color: #337ab7;
@@ -43,13 +44,13 @@ $shamrock: #2ecc71;
 $cinnabar: #e74c3c;
 
 $btn-blue:      $summer-sky;
-$btn-blue-dim:  darken($btn-blue, 10%);
+$btn-blue-dim:  color.scale($btn-blue, $lightness: -10%);
 $btn-green:     $shamrock;
-$btn-green-dim: darken($btn-green, 10%);
+$btn-green-dim:  color.scale($btn-green, $lightness: -10%);
 $btn-red:       $cinnabar;
-$btn-red-dim:   darken($btn-red, 10%);
+$btn-red-dim:  color.scale($btn-red, $lightness: -10%);
 $btn-gray:      $gray-200;
-$btn-gray-dim:  darken($btn-gray, 8%);
+$btn-gray-dim:  color.scale($btn-gray, $lightness: -10%);
 
 .default-color { color: $default-color !important; }
 .default-color-des * { color: $default-color !important; }
