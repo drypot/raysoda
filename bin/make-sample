@@ -3,6 +3,6 @@
 export NODE_ENV=development
 
 # export NODE_OPTIONS='-r ts-node/register -r tsconfig-paths/register'
-# export TS_NODE_PROJECT=src/ts/server/tsconfig.json
+# export TS_NODE_PROJECT=src/tsconfig.json
 
 node src/script/make-sample.ts
