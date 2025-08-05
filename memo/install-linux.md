@@ -1,4 +1,6 @@
-# Server
+# Install Linux
+
+AWS 서비스 환경 설정에 관한 메모들.
 
 ## Domain Name
 
@@ -54,7 +56,7 @@ nginx 설정을 리로딩한다.
 
 ### Nginx / Mac 개발환경
 
-<https://github.com/drypot/nginx-conf-mac>
+https://github.com/drypot/nginx-conf-mac
 
 nginx-conf-mac 프로젝트로 이동.
 
@@ -76,11 +78,11 @@ nginx 설정 리로딩.
 
 ## Redis
 
-<https://github.com/drypot/redis-conf>
+https://github.com/drypot/redis-conf
 
 ## MySQL
 
-<https://github.com/drypot/mysql-conf-aws1>
+https://github.com/drypot/mysql-conf-aws1
 
 서비스에 필요한 디비는 자동 생성된다.
 node.js web app server 가 실행될 때 
@@ -88,7 +90,7 @@ config 에 정의된 이름을 가지고 디비와 테이블들을 자동생성�
 
 ## PM2 설치
 
-[pm2.md](pm2.md) 참고
+pm2.md 문서 참고.
 
 ## Node 코드 설치
 
@@ -140,7 +142,7 @@ CSS 빌드. 필요하면.
 
 클라이언트 JS 빌드. 필요하면.
 
-    $ bin/rollup
+    $ bin/esbuild
 
 config 업데이트. 필요하면.
 
@@ -201,4 +203,5 @@ node 재설치했다면 pm2 부팅 스크립트도 재설치.
 
 cron 으로 정기적으로 인증서를 업데이트할 수 있다.
 
-[cron.md](cron.md) 참고.
+cron.md 참고.
+

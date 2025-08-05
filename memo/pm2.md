@@ -1,15 +1,31 @@
+# Node PM2
 
-# PM2
+https://pm2.keymetrics.io
 
 ## Install PM2
 
 PM2 설치.
 
-    $ npm install pm2 -g
+    $ npm install -g pm2
 
 PM2 업그레이드.
 
-    $ npm install pm2@latest -g
+    $ npm install -g pm2@latest
+
+## nvm
+
+nvm은 Node.js를 사용자 디렉터리에 설치하고 
+npm 역시 Node.js 버전마다 따로 관리한다. 
+
+따라서 pm2도 Node 버전별로 따로 설치해야 한다.
+
+    $ nvm use 20
+    $ npm install -g pm2
+
+Node 를 업데이트하면 pm2 스타트업 스크립트도 업데이트해야 한다.
+
+    $ pm2 unstartup
+    $ pm2 startup
 
 ## Run My Code
 
@@ -75,12 +91,6 @@ Node 를 업데이트하면 pm2 스타트업 스크립트도 업데이트해야 
 save 된 프로세스들을 수동으로 재기동할 수 있다.
 
     $ pm2 resurrect
-
-### uninstall
-
-systemd 세팅을 언인스톨.
-
-    $ pm2 unstartup systemd
 
 ### systemd 확인
 
