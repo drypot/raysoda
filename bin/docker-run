@@ -24,7 +24,10 @@ args=(
     --network=host
     --env NODE_ENV=production
     --env TZ=Asia/Seoul
-    --mount type=bind,source="$(pwd)",target="/usr/src/app",readonly
+    --mount type=bind,source="$(pwd)/bin",target="/usr/src/app/bin",readonly
+    --mount type=bind,source="$(pwd)/config-live",target="/usr/src/app/config-live",readonly
+    --mount type=bind,source="$(pwd)/src",target="/usr/src/app/src",readonly
+    --mount type=bind,source="$(pwd)/ejs",target="/usr/src/app/ejs",readonly
     --mount type=bind,source="/data/upload/${APP_ID}",target="/data/upload/${APP_ID}"
     raysoda-runtime
     node

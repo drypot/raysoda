@@ -11,12 +11,16 @@ RUN set -eux; \
 
 # imagemagick 설치할 때 --no-install-recommends 옵션 주면 svg 파일을 처리하지 못한다.
 
-RUN set -eux; \
-    apt-get update; \
-    apt-get install --yes imagemagick; \
-    rm -rf /var/lib/apt/lists/*
+#RUN set -eux; \
+#    apt-get update; \
+#    apt-get install --yes imagemagick; \
+#    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
+
+COPY package.json .
+RUN --mount=type=cache,target=/root/.npm \
+    npm install --omit=dev
 
 USER apprunner
 

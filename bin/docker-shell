@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+function show_usage {
+    echo "bin/docker-shell [raysoda|rapixel|osoky|sobeaut|drypot]"
+    exit 1
+}
+
+if [ $# -lt 1 ]; then
+    show_usage
+fi
+
+APP_ID=${1}
+
+set -x # enable debugging output
+
+docker exec -it ${APP_ID} bash
