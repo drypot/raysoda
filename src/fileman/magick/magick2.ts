@@ -1,11 +1,10 @@
 import { type ImageMeta, newImageMeta } from "../../common/type/image-meta.ts"
 import sharp from 'sharp';
-import { exec2 } from "../../common/util/exec2.ts"
 import { newNumber } from "../../common/util/primitive.ts"
 
-export async function mogrifyAutoOrient(path: string) {
-  await exec2('mogrify -auto-orient ' + path)
-}
+// export async function mogrifyAutoOrient(path: string) {
+//   await exec2('mogrify -auto-orient ' + path)
+// }
 
 export async function getImageMetaOfFile(path: string): Promise<ImageMeta> {
   try {
@@ -21,11 +20,9 @@ export async function getImageMetaOfFile(path: string): Promise<ImageMeta> {
     const width = newNumber(metadata.width)
     const height = newNumber(metadata.height)
 
-    const shorter = width > height ? height : width
-
-    return {
-      format, width, height, shorter
-    }
+    return newImageMeta({
+      format, width, height
+    })
   } catch {
   }
   return newImageMeta({})

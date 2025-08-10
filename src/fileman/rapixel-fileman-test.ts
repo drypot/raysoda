@@ -50,6 +50,12 @@ describe('RapixelFileManager', () => {
       ifm.checkMeta(meta, err)
       expect(err).toContain(IMAGE_SIZE)
     })
+    it('if vertical', () => {
+      const meta = newImageMeta({ format: 'jpeg', width: 2160, height: 3840 })
+      const err: ErrorConst[] = []
+      ifm.checkMeta(meta, err)
+      expect(err.length).toBe(0)
+    })
     it('if size valid', () => {
       const meta = newImageMeta({ format: 'jpeg', width: 3840, height: 2160 })
       const err: ErrorConst[] = []
@@ -65,7 +71,8 @@ describe('RapixelFileManager', () => {
     it('file not exist', () => {
       expect(existsSync(ifm.getPathFor(1, 2560))).toBe(false)
     })
-    it('save 5120 image', async () => {
+
+    it('save 5120x2880 image', async () => {
       const meta = await getImageMetaOfFile('sample/5120x2880.jpg')
       const vers = await ifm.saveImage(1, 'sample/5120x2880.jpg', meta)
       expect(vers).toEqual([5120, 4096, 2560, 1280])
@@ -81,7 +88,8 @@ describe('RapixelFileManager', () => {
       expect(meta.width).toBe(2560)
       expect(meta.height).toBe(1440)
     })
-    it('save 4096 image', async () => {
+
+    it('save 4096x2304 image', async () => {
       const meta = await getImageMetaOfFile('sample/4096x2304.jpg')
       const vers = await ifm.saveImage(2, 'sample/4096x2304.jpg', meta)
       expect(vers).toEqual([4096, 2560, 1280])
@@ -92,6 +100,23 @@ describe('RapixelFileManager', () => {
       expect(existsSync(ifm.getPathFor(2, 4096))).toBe(true)
       expect(existsSync(ifm.getPathFor(2, 5120))).toBe(false)
     })
+
+    it('save 2160x3840 image', async () => {
+      const meta = await getImageMetaOfFile('sample/2160x3840.jpg')
+      const vers = await ifm.saveImage(3, 'sample/2160x3840.jpg', meta)
+      expect(vers).toEqual([4096, 2560, 1280])
+    })
+    it('file exists', () => {
+      expect(existsSync(ifm.getPathFor(3, 1280))).toBe(true)
+      expect(existsSync(ifm.getPathFor(3, 2560))).toBe(true)
+      expect(existsSync(ifm.getPathFor(3, 4096))).toBe(true)
+    })
+    it('check meta', async () => {
+      const meta = await getImageMetaOfFile(ifm.getPathFor(3, 2560))
+      expect(meta.width).toBe(2560)
+      expect(meta.height).toBe(1440)
+    })
+
     it('delete image', async () => {
       await ifm.deleteImage(2)
     })

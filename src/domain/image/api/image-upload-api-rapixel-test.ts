@@ -58,10 +58,7 @@ describe('ImageUploadApi Rapixel', () => {
     const res = await agent.post('/api/image-upload').attach('file', 'sample/2560x1440.jpg').expect(200)
     expect(res.body.err).toContain(IMAGE_SIZE)
   })
-  it('upload fails if image is vertical', async () => {
-    const res = await agent.post('/api/image-upload').attach('file', 'sample/2160x3840.jpg').expect(200)
-    expect(res.body.err).toContain(IMAGE_SIZE)
-  })
+
   it('upload 5120x2880', async () => {
     const res = await agent.post('/api/image-upload').field('comment', 'c1')
       .attach('file', 'sample/5120x2880.jpg').expect(200)
@@ -81,6 +78,7 @@ describe('ImageUploadApi Rapixel', () => {
     expect((await getImageMetaOfFile(ifm.getPathFor(1, 2560))).width).toBe(2560)
     expect((await getImageMetaOfFile(ifm.getPathFor(1, 1280))).width).toBe(1280)
   })
+
   it('upload 3840x2160', async () => {
     const res = await agent.post('/api/image-upload').field('comment', 'c2')
       .attach('file', 'sample/3840x2160.jpg').expect(200)
@@ -100,6 +98,27 @@ describe('ImageUploadApi Rapixel', () => {
     expect((await getImageMetaOfFile(ifm.getPathFor(2, 2560))).width).toBe(2560)
     expect((await getImageMetaOfFile(ifm.getPathFor(2, 1280))).width).toBe(1280)
   })
+
+  it('upload vertical', async () => {
+    const res = await agent.post('/api/image-upload').field('comment', 'c3')
+      .attach('file', 'sample/2160x3840.jpg').expect(200)
+    expect(res.body.id).toBe(3)
+  })
+  it('check db', async () => {
+    const r = await idb.getImage(3)
+    if (!r) throw new Error()
+    expect(r.uid).toBe(1)
+    expect(Date.now() - r.cdate.getTime()).toBeLessThan(9900)
+    expect(r.comment).toBe('c3')
+    expect(r.vers).toEqual([4096, 2560, 1280])
+  })
+  it('check file', async () => {
+    expect((await getImageMetaOfFile(ifm.getPathFor(3, 5120))).width).toBe(0)
+    expect((await getImageMetaOfFile(ifm.getPathFor(3, 4096))).width).toBe(4096)
+    expect((await getImageMetaOfFile(ifm.getPathFor(3, 2560))).width).toBe(2560)
+    expect((await getImageMetaOfFile(ifm.getPathFor(3, 1280))).width).toBe(1280)
+  })
+
 
 })
 

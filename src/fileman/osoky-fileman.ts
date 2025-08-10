@@ -1,7 +1,6 @@
 import { unlink } from 'fs/promises'
 import { mkdirRecursive, rmRecursive } from '../common/util/fs2.ts'
 import type { Config } from '../common/type/config.ts'
-import { exec2 } from '../common/util/exec2.ts'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../common/type/error-const.ts'
 import { getImageMetaOfFile } from './magick/magick2.ts'
 import type { ImageFileManager } from './fileman.ts'
@@ -10,6 +9,7 @@ import { getConfig, getObject, registerObjectFactory } from '../oman/oman.ts'
 import { inProduction } from '../common/util/env2.ts'
 import type { ErrorConst } from '../common/type/error.ts'
 import type { ImageMeta } from '../common/type/image-meta.ts'
+import sharp from 'sharp'
 
 const maxWidth = 2048
 
@@ -44,28 +44,58 @@ export class OsokyFileManager implements ImageFileManager {
 
   async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
     await mkdirRecursive(this.getDirFor(id))
+
     const shorter = meta.shorter
-    const max = shorter < maxWidth ? shorter : maxWidth
-    const r = (max - 1) / 2
-    let cmd = 'convert ' + src
-    cmd += ' -quality 92'
-    cmd += ' -gravity center'
-    cmd += ' -auto-orient'
-    cmd += ' -crop ' + shorter + 'x' + shorter + '+0+0'
-    cmd += ' +repage' // gif 등에 버추얼 캔버스 개념이 있는데 jpeg 으로 출력하더라고 메타 데이터 소거를 위해 crop 후 repage 하는 것이 좋다.
-    cmd += ' -resize ' + max + 'x' + max + '\\>'
-    cmd += ' \\( -size ' + max + 'x' + max + ' xc:black -fill white -draw "circle ' + r + ',' + r + ' ' + r + ',0" \\)'
-    cmd += ' -alpha off -compose CopyOpacity -composite'
-    //cmd += ' \\( +clone -alpha opaque -fill white -colorize 100% \\)'
-    //cmd += ' +swap -geometry +0+0 -compose Over -composite -alpha off'
-    cmd += ' -background white -alpha remove -alpha off' // alpha remove need IM 6.7.5 or above
-    cmd += ' ' + this.getPathFor(id)
-    await exec2(cmd)
+    const target = Math.min(maxWidth, shorter)
+    const r = (target - 1) / 2   // Math.floor((target - 1) / 2)
+
+    // let cmd = 'convert ' + src
+    // cmd += ' -quality 92'
+    // cmd += ' -gravity center'
+    // cmd += ' -auto-orient'
+    // cmd += ' -crop ' + shorter + 'x' + shorter + '+0+0'
+    // cmd += ' +repage' // gif 등에 버추얼 캔버스 개념이 있는데 jpeg 으로 출력하더라고 메타 데이터 소거를 위해 crop 후 repage 하는 것이 좋다.
+    // cmd += ' -resize ' + target + 'x' + target + '\\>'
+    // cmd += ' \\( -size ' + target + 'x' + target + ' xc:black -fill white -draw "circle ' + r + ',' + r + ' ' + r + ',0" \\)'
+    // cmd += ' -alpha off -compose CopyOpacity -composite'
+    // //cmd += ' \\( +clone -alpha opaque -fill white -colorize 100% \\)'
+    // //cmd += ' +swap -geometry +0+0 -compose Over -composite -alpha off'
+    // cmd += ' -background white -alpha remove -alpha off' // alpha remove need IM 6.7.5 or above
+    // cmd += ' ' + this.getPathFor(id)
+    // await exec2(cmd)
+
+    const maskBuffer = Buffer.from(`<svg><circle cx="${r}" cy="${r}" r="${r}" /></svg>`)
+
+    const tmpBuffer = await sharp(src)
+      .autoOrient()
+      .resize({
+        width: target,
+        height: target,
+        fit: 'cover',
+      })
+      .composite([{ input: maskBuffer, blend: 'dest-in' }])
+      .png()
+      .toBuffer()
+
+    // Sharp 에서 js 코드의 체이닝은 libvips 로의 체이닝이 아니다. 인자만 빌딩하는 것이다.
+    // 그래서 composition 을 하면 중간에 한번 끊어줘야 추가 작업을 붙일 수 있다.
+
+    // .png() 같은 알파채널이 있는 이미지 포멧으로 타입을 정하고 버퍼를 만들어야
+    // 이어지는 작업에서 알파채널을 쓸 수 있다.
+
+    await sharp(tmpBuffer)
+      .flatten({ background: '#ffffff'})
+      .jpeg({ quality: 92 })
+      .toFile(this.getPathFor(id))
+
     return null
   }
 
   async deleteImage(id: number) {
-    return unlink(this.getPathFor(id))
+    try {
+      return await unlink(this.getPathFor(id))
+    } catch {
+    }
   }
 
   getDirFor(id: number) {

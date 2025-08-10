@@ -1,7 +1,6 @@
 import { unlink } from 'fs/promises'
 import { mkdirRecursive, rmRecursive } from '../common/util/fs2.ts'
 import type { Config } from '../common/type/config.ts'
-import { exec2 } from '../common/util/exec2.ts'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../common/type/error-const.ts'
 import { getImageMetaOfFile } from './magick/magick2.ts'
 import type { ImageFileManager } from './fileman.ts'
@@ -10,6 +9,7 @@ import { getConfig, getObject, registerObjectFactory } from '../oman/oman.ts'
 import { inProduction } from '../common/util/env2.ts'
 import type { ErrorConst } from '../common/type/error.ts'
 import type { ImageMeta } from '../common/type/image-meta.ts'
+import sharp from 'sharp'
 
 const maxWidth = 3840
 const maxHeight = 2160
@@ -50,17 +50,31 @@ export class RaySodaFileManager implements ImageFileManager {
 
   async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
     await mkdirRecursive(this.getDirFor(id))
-    let cmd = 'convert ' + src
-    cmd += ' -quality 92'
-    cmd += ' -auto-orient'
-    cmd += ' -resize ' + maxWidth + 'x' + maxHeight + '\\>'
-    cmd += ' ' + this.getPathFor(id)
-    await exec2(cmd)
+
+    // let cmd = 'convert ' + src
+    // cmd += ' -quality 92'
+    // cmd += ' -auto-orient'
+    // cmd += ' -resize ' + maxWidth + 'x' + maxHeight + '\\>'
+    // cmd += ' ' + this.getPathFor(id)
+    // await exec2(cmd)
+
+    await sharp(src)
+      .autoOrient()
+      .resize(maxWidth, maxHeight, {
+        fit: "inside",
+        withoutEnlargement: true,
+      })
+      .jpeg({ quality: 92 })
+      .toFile(this.getPathFor(id));
+
     return null
   }
 
   async deleteImage(id: number) {
-    return unlink(this.getPathFor(id))
+    try {
+      return await unlink(this.getPathFor(id))
+    } catch {
+    }
   }
 
   getDirFor(id: number) {

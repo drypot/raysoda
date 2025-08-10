@@ -47,7 +47,10 @@ export class DrypotFileManager implements ImageFileManager {
   }
 
   async deleteImage(id: number) {
-    return unlink(this.getPathFor(id))
+    try {
+      return await unlink(this.getPathFor(id))
+    } catch {
+    }
   }
 
   getDirFor(id: number) {

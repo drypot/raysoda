@@ -2,7 +2,7 @@ import { closeAllObjects, initObjectContext } from '../../oman/oman.ts'
 import { DB, getDatabase } from '../db/db.ts'
 import { BannerDB, getBannerDB } from './banner-db.ts'
 
-describe('ValueDB Table', () => {
+describe('BannerDB Table', () => {
 
   let db: DB
   let bdb: BannerDB

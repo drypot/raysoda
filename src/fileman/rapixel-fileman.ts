@@ -1,7 +1,6 @@
 import { emptyDir, mkdirRecursive, rmRecursive } from '../common/util/fs2.ts'
 import { type Config } from '../common/type/config.ts'
-import { exec2 } from '../common/util/exec2.ts'
-import { getImageMetaOfFile, mogrifyAutoOrient } from './magick/magick2.ts'
+import { getImageMetaOfFile } from './magick/magick2.ts'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../common/type/error-const.ts'
 import { type ImageMeta, type WidthHeight } from '../common/type/image-meta.ts'
 import { type ImageFileManager } from './fileman.ts'
@@ -9,6 +8,7 @@ import { newDeepPath } from '../common/util/deeppath.ts'
 import { getConfig, getObject, registerObjectFactory } from '../oman/oman.ts'
 import { inProduction } from '../common/util/env2.ts'
 import { type ErrorConst } from '../common/type/error.ts'
+import sharp from 'sharp'
 
 const _minWidth = 3840
 const _minHeight = 2160
@@ -62,31 +62,58 @@ export class RapixelFileManager implements ImageFileManager {
   async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
     await mkdirRecursive(this.getDirFor(id))
 
-    let cmd = 'convert ' + src
-    cmd += ' -quality 92'
-    cmd += ' -gravity center'
+    // let cmd = 'convert ' + src
+    // cmd += ' -quality 92'
+    // cmd += ' -gravity center'
+
+    let srcImage = sharp(src).autoOrient()
+
+    if (meta.height > meta.width) {
+      srcImage = srcImage.rotate(-90)
+    }
+
+    const tasks: Promise<sharp.OutputInfo>[] = []
 
     let i = 0
     const vers: number[] = []
+
     for (; i < _vers.length; i++) {
-      if (_vers[i].width < meta.width + (_vers[i].width - _vers[i + 1].width) / 2) {
+      if (meta.longer + (_vers[i].width - _vers[i + 1].width) / 2 > _vers[i].width) {
         break
       }
     }
+
     for (; i < _vers.length; i++) {
       const ver = _vers[i]
       vers.push(ver.width)
-      // '^' : 최소값이라는 의미
-      cmd += ' -resize ' + ver.width + 'x' + ver.height + '^'
-      cmd += ' -crop ' + ver.width + 'x' + ver.height + '+0+0'
-      cmd += ' +repage'
-      if (i === _vers.length - 1) {
-        cmd += ' ' + this.getPathFor(id, ver.width)
-      } else {
-        cmd += ' -write ' + this.getPathFor(id, ver.width)
-      }
+
+      // // '^' : 최소값이라는 의미
+      // cmd += ' -resize ' + ver.width + 'x' + ver.height + '^'
+      // cmd += ' -crop ' + ver.width + 'x' + ver.height + '+0+0'
+      // cmd += ' +repage'
+      // if (i === _vers.length - 1) {
+      //   cmd += ' ' + this.getPathFor(id, ver.width)
+      // } else {
+      //   cmd += ' -write ' + this.getPathFor(id, ver.width)
+      // }
+
+      const pipeline = srcImage.clone()
+        .resize({
+            width: ver.width,
+            height: ver.height,
+            fit: "cover",
+            withoutEnlargement: false,
+        })
+        .jpeg({ quality: 92 })
+        .toFile(this.getPathFor(id, ver.width))
+
+      tasks.push(pipeline);
     }
-    await exec2(cmd)
+
+    // await exec2(cmd)
+
+    await Promise.all(tasks)
+
     return vers
   }
 
@@ -111,7 +138,8 @@ export class RapixelFileManager implements ImageFileManager {
   }
 
   async beforeIdentify(path: string) {
-    return mogrifyAutoOrient(path)
+    // return mogrifyAutoOrient(path)
+    return Promise.resolve()
   }
 
   async getImageMeta(path: string) {
@@ -123,7 +151,7 @@ export class RapixelFileManager implements ImageFileManager {
       err.push(IMAGE_TYPE)
       return
     }
-    if (meta.width < _minWidth - 15 || meta.height < _minHeight - 15) {
+    if (meta.longer < _minWidth - 15 || meta.shorter < _minHeight - 15) {
       err.push(IMAGE_SIZE)
     }
   }

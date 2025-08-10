@@ -1,7 +1,6 @@
 import { unlink } from 'fs/promises'
 import { mkdirRecursive, rmRecursive } from '../common/util/fs2.ts'
 import type { Config } from '../common/type/config.ts'
-import { exec2 } from '../common/util/exec2.ts'
 import { IMAGE_SIZE, IMAGE_TYPE } from '../common/type/error-const.ts'
 import { getImageMetaOfFile } from './magick/magick2.ts'
 import type { ImageFileManager } from './fileman.ts'
@@ -10,6 +9,7 @@ import { getConfig, getObject, registerObjectFactory } from '../oman/oman.ts'
 import { inProduction } from '../common/util/env2.ts'
 import type { ErrorConst } from '../common/type/error.ts'
 import type { ImageMeta } from '../common/type/image-meta.ts'
+import sharp from 'sharp'
 
 const maxWidth = 2160
 
@@ -45,21 +45,35 @@ export class SobeautFileManager implements ImageFileManager {
   async saveImage(id: number, src: string, meta: ImageMeta): Promise<number[] | null> {
     await mkdirRecursive(this.getDirFor(id))
     const shorter = meta.shorter
-    const max = shorter < maxWidth ? shorter : maxWidth
+    const max = shorter > maxWidth ? maxWidth : shorter
     const r = (max - 1) / 2
-    let cmd = 'convert ' + src
-    cmd += ' -quality 92'
-    cmd += ' -gravity center'
-    cmd += ' -auto-orient'
-    cmd += ' -crop ' + shorter + 'x' + shorter + '+0+0'
-    cmd += ' -resize ' + max + 'x' + max + '\\>'
-    cmd += ' ' + this.getPathFor(id)
-    await exec2(cmd)
+
+    // let cmd = 'convert ' + src
+    // cmd += ' -quality 92'
+    // cmd += ' -gravity center'
+    // cmd += ' -auto-orient'
+    // cmd += ' -crop ' + shorter + 'x' + shorter + '+0+0'
+    // cmd += ' -resize ' + max + 'x' + max + '\\>'
+    // cmd += ' ' + this.getPathFor(id)
+    // await exec2(cmd)
+
+    await sharp(src)
+          .autoOrient()
+          .resize(max, max, {
+            fit: "cover",
+            withoutEnlargement: true,
+          })
+          .jpeg({ quality: 92 })
+          .toFile(this.getPathFor(id));
+
     return null
   }
 
   async deleteImage(id: number) {
-    return unlink(this.getPathFor(id))
+    try {
+      return await unlink(this.getPathFor(id))
+    } catch {
+    }
   }
 
   getDirFor(id: number) {
