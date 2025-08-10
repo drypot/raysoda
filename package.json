@@ -28,7 +28,8 @@
     "multer": "^2.0.2",
     "mysql2": "^3.14.3",
     "nodemailer": "^7.0.5",
-    "redis": "^5.7.0"
+    "redis": "^5.7.0",
+    "sharp": "^0.34.3"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.1",
@@ -39,6 +40,7 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^24.1.0",
     "@types/nodemailer": "^6.4.17",
+    "@types/sharp": "^0.31.1",
     "@types/supertest": "^6.0.3",
     "esbuild": "^0.25.8",
     "jasmine": "^5.9.0",
