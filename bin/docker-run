@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+function show_usage {
+    echo "bin/docker-run [raysoda|rapixel|osoky|sobeaut|drypot]"
+    exit 1
+}
+
+if [ $# -lt 1 ]; then
+    show_usage
+fi
+
+APP_ID=${1}
+
+# /etc/localtime 마운트로는 타임존을 맞출 수 없었다. 이유는 모르겠음.
+# --mount type=bind,source="/etc/localtime",target="/etc/localtime",readonly
+
+# 환경변수 TZ 로 타임존을 지정했다.
+
+args=(
+    # --rm -it
+    --detach
+    --restart unless-stopped
+    --name ${APP_ID}
+    --network=host
+    --env NODE_ENV=production
+    --env TZ=Asia/Seoul
+    --mount type=bind,source="$(pwd)",target="/usr/src/app",readonly
+    --mount type=bind,source="/data/upload/${APP_ID}",target="/data/upload/${APP_ID}"
+    raysoda-runtime
+    node
+    src/script/run-raysoda.ts
+    config-live/${1}-live.json
+)
+
+set -x # enable debugging output
+
+docker run "${args[@]}"

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -eu # 에러시 종료, 미정의 변수 사용시 종료
+
+# for appid in drypot; do
+for app_id in raysoda rapixel osoky sobeaut drypot; do
+    docker restart ${appid}
+done

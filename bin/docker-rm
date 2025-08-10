@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+function show_usage {
+    echo "bin/docker-rm [raysoda|rapixel|osoky|sobeaut|drypot]"
+    exit 1
+}
+
+if [ $# -lt 1 ]; then
+    show_usage
+fi
+
+APP_ID=${1}
+
+set -x # enable debugging output
+
+docker stop ${APP_ID}
+docker rm ${APP_ID}

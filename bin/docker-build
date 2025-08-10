@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+args=(
+    -t raysoda-runtime
+    --build-arg UID=$(id -u)
+    --build-arg GID=$(id -g)
+    .
+)
+
+set -x # enable debugging output
+
+docker build "${args[@]}" "$@"
