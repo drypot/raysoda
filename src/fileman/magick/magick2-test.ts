@@ -22,14 +22,16 @@ describe('getImageMetaOfFile', () => {
   // 귀찮으니 다음에 하기로 한다;
   // Mac brew ImageMagick 에선 heic 처리가 그냥 된다.
 
-  // describe('identify heic', () => {
-  //   it('heic', async () => {
-  //     const meta = await identify('sample/IMG_4395.HEIC')
-  //     expect(meta.format).toBe('heic')
-  //     expect(meta.width).toBe(4032)
-  //     expect(meta.height).toBe(3024)
-  //   })
-  // })
+  // 2025-08-10 ImageMagick 대신 sharp 를 쓰면서 테스트를 다시 사용해본다.
+
+  describe('identify heic', () => {
+    it('heic', async () => {
+      const meta = await getImageMetaOfFile('sample/IMG_4395.HEIC')
+      expect(meta.format).toBe('heif') // heic 대신 heif 가 돌아온다.
+      expect(meta.width).toBe(4032)
+      expect(meta.height).toBe(3024)
+    })
+  })
 
   it('if file not exist', async () => {
     const meta = await getImageMetaOfFile('xxx')
