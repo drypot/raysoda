@@ -32,7 +32,6 @@
     "sharp": "^0.34.3"
   },
   "devDependencies": {
-    "@tsconfig/node24": "^24.0.1",
     "@types/cookie-parser": "^1.4.9",
     "@types/express": "^5.0.3",
     "@types/express-session": "^1.18.2",
