@@ -66,7 +66,7 @@ export class OsokyFileManager implements ImageFileManager {
 
     const maskBuffer = Buffer.from(`<svg><circle cx="${r}" cy="${r}" r="${r}" /></svg>`)
 
-    const tmpBuffer = await sharp(src)
+    const { data: rawBuffer, info: rawInfo }  = await sharp(src)
       .autoOrient()
       .resize({
         width: target,
@@ -74,19 +74,22 @@ export class OsokyFileManager implements ImageFileManager {
         fit: 'cover',
       })
       .composite([{ input: maskBuffer, blend: 'dest-in' }])
-      .png()
-      .toBuffer()
+      .raw()
+      .toBuffer({ resolveWithObject: true })
 
     // Sharp 에서 js 코드의 체이닝은 libvips 로의 체이닝이 아니다. 인자만 빌딩하는 것이다.
     // 그래서 composition 을 하면 중간에 한번 끊어줘야 추가 작업을 붙일 수 있다.
 
-    // .png() 같은 알파채널이 있는 이미지 포멧으로 타입을 정하고 버퍼를 만들어야
-    // 이어지는 작업에서 알파채널을 쓸 수 있다.
+    // 이어지는 단계에서 알파채널을 쓰려면 .png() 같은 포멧으로 버퍼를 만든다.
 
-    await sharp(tmpBuffer)
+    // 2025-08-11
+    // 제미나이 딥리서치에 따르면 raw 포멧으로 넘기면 png 보다 오버헤드가 줄어든다고 한다.
+
+    await sharp(rawBuffer, { raw: rawInfo })
       .flatten({ background: '#ffffff'})
       .jpeg({ quality: 92 })
       .toFile(this.getPathFor(id))
+      // .toFile('tmp/test.jpg')
 
     return null
   }
