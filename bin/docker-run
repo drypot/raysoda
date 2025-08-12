@@ -32,7 +32,7 @@ args=(
     raysoda-runtime
     node
     src/script/run-raysoda.ts
-    config-live/${1}-live.json
+    config-live/${APP_ID}-live.json
 )
 
 set -x # enable debugging output
