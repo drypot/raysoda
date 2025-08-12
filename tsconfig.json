@@ -9,50 +9,40 @@
 
     "module": "nodenext",
 
-    // node --loader ts-node/esm 로 실행할 경우
     // "moduleResolution": "nodenext",
+    // node --loader ts-node/esm 로 실행할 경우
 
-    // node_modules/.bin/ts-node 로 실행할 경우
     //"moduleResolution": "bundler",
+    // node_modules/.bin/ts-node 로 실행할 경우
 
-    // node 22+ 로 ts 를 실행할 경우
     "moduleResolution": "nodenext",
+    // node 22+ 로 ts 를 실행할 경우
 
     "target": "esnext", // async iterators ...
 
+    "lib": ["esnext"],
     // 컴파일러가 기본 제공하는 타입셋.
 
-    "lib": ["esnext"],
-
+    "outDir": "build/server",
     // tsc 결과 파일이 출력될 디렉토리.
     // outDir 루트에 build meta data 들이 생성되므로 여러 빌드간 공유되면 안 된다.
     // tsconfig.json 파일 위치가 기준이다.
 
-    "outDir": "build/server",
-
+    "tsBuildInfoFile" : "build/server/tsconfig.tsbuildinfo",
     // incremental 옵션에서 사용할 tsbuildinfo 파일 위치.
     // outDir/rootDir 설정이 복잡하게 들어가면 예상치 못한 곳에 파일이 생성된다.
     // 가능하면 명시적으로 지정해 놓는다.
 
-    "tsBuildInfoFile" : "build/server/tsconfig.tsbuildinfo",
-
+    "rootDir": "src",
     // 소스 파일들의 공통 루트를 어디로 볼 것인가를 결정한다.
     // outDir 디렉토리에 사용할 서브 패스에 영향을 준다.
+
     // rootDir 을 "src"로 잡으면 src/a.ts -> {outDir}/a.js
     // rootDir 을 "."으로 잡으면 src/a.ts -> {outDir}/src/a.js
 
-    // 보통 "src" 정도를 쓰는데 WebStorm 에서 문제가 생겼다.
-    // Run Config 에서 $FileDirPathFromParent(src)$ 매크로가 작동하지 않는다.
-    // Jasmine 테스트 런을 편하게 하기위해 할 수 없이 rooDir 을 "." 으로 세팅하고
-    // build/src/.../*.js 를 실행하도록 했다.
 
-    // 2025-08-01, WebStorm 2024.2.3 에서
-    // 위에 문제는 예전 문제인 듯.
-    // 지금 WebStorm -> Run 설정을 보면
-    // ts-node 로 ts 를 바로 실행하는 것으로 되어 있다.
-
-    "rootDir": "src",
-
+    // "baseUrl": ".",
+    // "paths": { },
 
     // baseUrl + paths 는 import 에 절대 경로를 사용할 수 있게 한다.
 
@@ -60,42 +50,40 @@
     // 특히 import 에서 *.ts 확장자 사용에 문제가 생긴다.
     // 절대경로 사용은 금지하기로 한다.
 
-    // "baseUrl": ".",
-    // "paths": { },
 
+    // "allowImportingTsExtensions": true,
+    // "noEmit": true,
 
     // tsc 는 import *.js 를 요구한다.
     // node 는 import *.ts 를 요구한다;
     // ts-node 는 import *.ts 를 요구한다.
     // node --loader ts-node/esm 는 *.js, *.ts 모두 가능하다.
 
-    // tsc 에서는 import.ts 를 사용할 수 없지만, 아래 두 옵션을 다 주면 사용이 가능하다.
+    // tsc 에서는 import.ts 를 사용할 수 없지만, 두 옵션을 다 주면 사용이 가능하다.
     // 하지만 코드를 생성하지 못한다.
 
     // ts-node 를 사용할 때 쓸 필요가 있을 수 있다.
 
-    // "allowImportingTsExtensions": true,
-    // "noEmit": true,
 
-
+    "rewriteRelativeImportExtensions" : true,
     // TypeScript 5.7 부터 상대 경로에 대해서는 import *.ts 를 쓸 수 있게 되었다.
     // 이 옵션을 주고 import 시 상대경로만 사용하면 tsc, node, ts-node 모두 에서 import *.ts 를 쓸 수 있다.
 
-    "rewriteRelativeImportExtensions" : true,
 
+    // "verbatimModuleSyntax": true,
 
     // TypeScript 는 import 구문을 자동으로 최적화 한다.
     // 최적화 되서 import 가 사라졌을 때 side effect 를 사용하는 모듈은 실행이 안 된다.
 
     // "verbatimModuleSyntax": true 로 하면 빈 import {} 가 유지된다.
-    // import type { A } from "a";     이렇게 쓰면 import 가 모두 삭제된다.
-    // import { type xyz } from "xyz"; 이렇게 쓰면 import {} from ... 이 남는다.
+    // import type { A } from "a";  --> import 가 모두 삭제된다.
+    // import { type xyz } from "xyz";  --> import {} from ... 이 남는다.
 
     // 이것도 기본값으로 돌리고 흑마술을 없앴다.
     // 사이드 이펙트 필요한 모듈들은 펑션들을 명시적으로 콜하도록 바꾸었다.
 
-    // "verbatimModuleSyntax": true,
 
+    "esModuleInterop": true,
 
     // CommonJS 형식으로 작성된 대부분 기본 모듈들은 다음과 같이 import 해야 한다.
     // import * as fs from 'fs'
@@ -107,37 +95,32 @@
 
     // 2025-08-04, nodemailer ^7.0.5 import 하는데 tsc 가 이 옵션을 써야 한다고 오류를 낸다. 다시 켰다.
 
-    "esModuleInterop": true,
-
 
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true
   },
-
-  // 컴파일할 파일들을 지정한다.
-  // 컴파일할 파일이 몇 개 없으면 "files": [] 을 사용.
-  // 컴파일할 파일이 많으면 "include": [] 을 사용.
-
   "include": [
-    "src/**/*"
-  ],
+    "src/**/*",
 
+    // 컴파일할 파일들을 지정한다.
+    // 컴파일할 파일이 몇 개 없으면 "files": [] 을 사용.
+    // 컴파일할 파일이 많으면 "include": [] 을 사용.
+  ],
   "exclude": [
   ],
   "ts-node": {
-
     // 2025-08-05
     // 이제 ts-node 안 쓰지만, 일단 그냥 둔다.
 
+    "transpileOnly": true,
     // 타입 검사를 패스하고 트랜스파일만 하고 실행한다.
     // 타입 검사는 개발할 때 다 하니까 다시 할 필요가 없다.
-    "transpileOnly": true,
 
-    // 아래 옵션 보다 말았다.
-    // 나중에 다시 확인.
     "esm": true,
     "experimentalSpecifierResolution": "node",
+    // 위 옵션들은 보다 말았다.
+    // 나중에 다시 확인.
   }
 }
