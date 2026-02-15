@@ -1,7 +1,9 @@
 
 .img-thumb {
   width: 100vw; // width 를 지정해야 svg 가 늘어난다.
-  //height: 100vh; // height 100vh 를 지정해 놓지 않으면 ie 에서 찌그러진다.
+  // height: 100vh; // height 100vh 를 지정해 놓지 않으면 ie 에서 찌그러진다.
+  max-width: 100% !important;
+  // max-height: 100vh !important;
 }
 
 .img-full {

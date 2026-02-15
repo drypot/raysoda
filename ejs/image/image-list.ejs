@@ -65,7 +65,7 @@
                 <%# inline-block 을 하면 div 크기가 내부 이미지 크기와 같아진다. %>
                 <div class="inline-block relative img-thumb-holder">
                     <a href="/image/<%- image.id %>">
-                        <img class="block max-w-full max-h-screen img-thumb"
+                        <img class="block img-thumb"
                              src="<%- image.thumbUrl %>"
                              data-vers="<%- image.vers ? image.vers.join(',') : null %>">
                     </a>
