@@ -1,4 +1,4 @@
-# Install Linux
+# Server Setup
 
 AWS 서비스 환경 설정에 관한 메모들.
 
@@ -36,7 +36,7 @@ https://github.com/drypot/mysql-conf-aws1
 
 https://github.com/drypot/redis-conf
 
-## RaySoda 설치
+## RaySoda Code 설치
 
 RaySoda 코드 클론.
 
@@ -69,74 +69,3 @@ RaySoda 컨테이너 실행.
 서비스에 필요한 디비는 자동 생성된다.
 node.js web app server 가 실행될 때 
 config 에 정의된 이름을 가지고 디비와 테이블들을 자동생성한다.
-
-## 코드 업데이트
-
-서버에 접속.
-
-    $ ssh aws1
-    $ cd /data/service/raysoda
-    
-서버 종료.
-
-    $ bin/docker-stop-all
-
-런타임 이미지 다시 만들 것이면.
-
-    $ bin/docker-rm-all
-
-코드 풀.
-
-    $ git pull
-
-호스트 라이브러리 업데이트. 필요하면.
-
-    $ npm install
-
-도커 런타임 이미지 빌드 필요하면.
-
-    $ bin/docker-build
-
-CSS 빌드. 필요하면.
-
-    $ bin/sass
-
-클라이언트 JS 빌드 필요하면.
-
-    $ bin/esbuild
-
-config 업데이트. 필요하면.
-
-    config-live/...
-
-테스트 런.
-
-    $ bin/raysoda
-
-    ^C
-
-서비스 기동.
-
-    $ bin/docker-restart ...
-
-런타임 이미지 다시 만들었으면
-
-    $ bin/docker-run-all
-
-상태확인.
-
-    $ docker ps
-
-## OS 업데이트
-
-서비스 중지.
-
-디비 백업.
-
-Linux 업데이트.
-
-코드 업데이트. 위에 코드 업데이트 참고.
-
-재부팅.
-
-    $ reboot
