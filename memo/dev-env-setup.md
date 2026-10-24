@@ -2,23 +2,17 @@
 
 Mac 개발환경 설정에 관한 메모들.
 
+## 기동에 필요한 서버 설정들
+
+https://github.com/drypot/mysql-conf-mac
+https://github.com/drypot/redis-conf
+https://github.com/drypot/nginx-conf-mac
+
 ## 서버를 띄우는 코드들
 
 https://github.com/drypot/dotfiles
 
     bin/bin/start-*
-
-## MySQL
-
-https://github.com/drypot/mysql-conf-mac
-
-## Redis
-
-https://github.com/drypot/redis-conf
-
-## Nginx
-
-https://github.com/drypot/nginx-conf-mac
 
 ## IDE
 
@@ -69,4 +63,3 @@ client script 작업할 때는 번들러.
     $ bin/esbuild --watch
 
 클라이언트 코드 수정, 저장, 브라우저에서 리로드 반복.
-
