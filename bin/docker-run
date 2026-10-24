@@ -17,9 +17,6 @@ APP_ID=${1}
 # 환경변수 TZ 로 타임존을 지정했다.
 
 args=(
-    # --rm -it
-    --detach
-    --restart unless-stopped
     --name ${APP_ID}
     --network=host
     --env NODE_ENV=production
@@ -29,6 +26,10 @@ args=(
     --mount type=bind,source="$(pwd)/src",target="/usr/src/app/src",readonly
     --mount type=bind,source="$(pwd)/ejs",target="/usr/src/app/ejs",readonly
     --mount type=bind,source="/data/upload/${APP_ID}",target="/data/upload/${APP_ID}"
+    --restart unless-stopped
+    --detach
+    #--interactive --tty
+    #--rm
     raysoda-runtime
     node
     src/script/run-raysoda.ts
